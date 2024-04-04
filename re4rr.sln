@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "re4rr", "re4rr.csproj", "{0083424B-E514-454B-AFD5-1E212347A21F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RszTool", "..\RszTool\RszTool\RszTool.csproj", "{151E640B-775F-4784-91A7-AAEE23188635}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0083424B-E514-454B-AFD5-1E212347A21F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0083424B-E514-454B-AFD5-1E212347A21F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0083424B-E514-454B-AFD5-1E212347A21F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0083424B-E514-454B-AFD5-1E212347A21F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{151E640B-775F-4784-91A7-AAEE23188635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{151E640B-775F-4784-91A7-AAEE23188635}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{151E640B-775F-4784-91A7-AAEE23188635}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{151E640B-775F-4784-91A7-AAEE23188635}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5780D5E9-A2CD-4CCE-AF3A-F785EC19D2AB}
+	EndGlobalSection
+EndGlobal
