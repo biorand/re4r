@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using RszTool;
@@ -12,25 +13,65 @@ namespace MyNamespace
 
         public static void Main(string[] args)
         {
-            var originalFile = @"M:\git\REE.PAK.Tool\REE.Unpacker\REE.Unpacker\bin\Release\out\natives\stm\_chainsaw\leveldesign\chapter\cp10_chp1_1\level_cp10_chp1_1_010.scn.20";
-            // var originalFile = @"C:\Users\Ted\Desktop\backup\level_cp10_chp1_1_010.scn.20";
-            // var targetFile = @"F:\games\re4r\fluffy\Games\RE4R\Mods\orca_test\natives\STM\_Chainsaw\leveldesign\chapter\cp10_chp1_1\level_cp10_chp1_1_010.scn.20";
-            var targetFile = @"F:\games\steamapps\common\RESIDENT EVIL 4  BIOHAZARD RE4\natives\STM\_Chainsaw\leveldesign\chapter\cp10_chp1_1\level_cp10_chp1_1_010.scn.20";
-
             Console.OutputEncoding = Encoding.UTF8;
 
-            var scn = new ScnFile(new RszFileOption(GameName.re4), new FileHandler(originalFile));
-            scn.Read();
-            scn.SetupGameObjects();
+            // var originalFile = @"M:\git\REE.PAK.Tool\REE.Unpacker\REE.Unpacker\bin\Release\out\natives\stm\_chainsaw\leveldesign\chapter\cp10_chp1_1\level_cp10_chp1_1_010.scn.20";
+            // var originalFile = @"C:\Users\Ted\Desktop\backup\level_cp10_chp1_1_010.scn.20";
+            // var targetFile = @"F:\games\re4r\fluffy\Games\RE4R\Mods\orca_test\natives\STM\_Chainsaw\leveldesign\chapter\cp10_chp1_1\level_cp10_chp1_1_010.scn.20";
+            // var targetFile = @"F:\games\steamapps\common\RESIDENT EVIL 4  BIOHAZARD RE4\natives\STM\_Chainsaw\leveldesign\chapter\cp10_chp1_1\level_cp10_chp1_1_010.scn.20";
 
-            var area = new Area(scn);
-            LogEnemies(area);
-            Console.WriteLine("----------------------------------");
+            var areas = new[] {
+                // Chapter 1
+                "natives\\stm\\_chainsaw\\leveldesign\\chapter\\cp10_chp1_1\\level_cp10_chp1_1_010.scn.20",
+                "natives\\stm\\_chainsaw\\leveldesign\\chapter\\cp10_chp1_1\\level_cp10_chp1_1_020.scn.20",
+                "natives\\stm\\_chainsaw\\leveldesign\\chapter\\cp10_chp1_1\\level_cp10_chp1_1_030.scn.20",
 
+                // Chapter 2
+                "natives\\stm\\_chainsaw\\leveldesign\\chapter\\cp10_chp1_2\\level_cp10_chp1_2.scn.20",
+                "natives\\stm\\_chainsaw\\leveldesign\\location\\loc44\\level_loc44.scn.20",
+
+                // Chapter 3
+                "natives\\stm\\_chainsaw\\leveldesign\\chapter\\cp10_chp1_3\\level_cp10_chp1_3.scn.20",
+                "natives\\stm\\_chainsaw\\leveldesign\\chapter\\cp10_chp1_3\\level_cp10_chp1_3_000.scn.20",
+            };
+
+            for (var i = 0; i < areas.Length; i++)
+            {
+                var src = FindFile(areas[i]);
+                var dst = GetOutputPath(areas[i]);
+                Directory.CreateDirectory(Path.GetDirectoryName(dst));
+
+                var area = new Area(src);
+                RandomizeArea(area);
+                Console.WriteLine($"Writing {dst}...");
+                area.Save(dst);
+            }
+        }
+
+        private static string FindFile(string fileName)
+        {
+            var basePath = @"G:\re4r\extract\patch_003";
+            var path = Path.Combine(basePath, fileName);
+            if (File.Exists(path))
+            {
+                return path;
+            }
+            return null;
+        }
+
+        private static string GetOutputPath(string fileName)
+        {
+            var basePath = @"F:\games\steamapps\common\RESIDENT EVIL 4  BIOHAZARD RE4";
+            return Path.Combine(basePath, fileName);
+        }
+
+        private static void RandomizeArea(Area area)
+        {
+            // LogEnemies(area);
+            // Console.WriteLine("----------------------------------");
             foreach (var enemy in area.Enemies)
             {
-                // var count = _random.Next(0, 10);
-                var count = 10;
+                var count = _random.Next(0, 4);
                 for (var i = 0; i <= count; i++)
                 {
                     var e = enemy;
@@ -63,8 +104,7 @@ namespace MyNamespace
                     }
                 }
             }
-            LogEnemies(area);
-            scn.SaveAs(targetFile);
+            // LogEnemies(area);
         }
 
         private static void LogEnemies(Area area)
@@ -162,9 +202,21 @@ namespace MyNamespace
 
         public ScnFile ScnFile { get; }
 
+        public Area(string path)
+        {
+            ScnFile = new ScnFile(new RszFileOption(GameName.re4), new FileHandler(path));
+            ScnFile.Read();
+            ScnFile.SetupGameObjects();
+        }
+
         public Area(ScnFile scnFile)
         {
             ScnFile = scnFile;
+        }
+
+        public void Save(string path)
+        {
+            ScnFile.SaveAs(path);
         }
 
         public Enemy[] Enemies
