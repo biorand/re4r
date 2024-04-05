@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using RszTool;
 
-namespace MyNamespace
+namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     class Program
     {
+        private static EnemyClassFactory _enemyClassFactory = EnemyClassFactory.Create();
         private static Random _random = new Random(0);
 
         public static void Main(string[] args)
@@ -96,79 +97,144 @@ namespace MyNamespace
 
         private static void RandomizeArea(Area area)
         {
+            var oldEnemies = area.Enemies.Select(GetEnemySummary).ToArray();
+
             // LogEnemies(area);
             // Console.WriteLine("----------------------------------");
-            foreach (var enemy in area.Enemies)
+            var multiplier = 1.5;
+            var enemies = area.Enemies;
+            var newEnemyCount = (int)enemies.Length * multiplier;
+            var delta = (int)Math.Round(newEnemyCount - enemies.Length);
+            if (delta != 0)
             {
-                var count = _random.Next(0, 4);
-                for (var i = 0; i <= count; i++)
+                var bag = new EndlessBag<Enemy>(_random, enemies);
+                var enemiesToCopy = bag.Next(delta);
+                foreach (var e in enemiesToCopy)
                 {
-                    var e = enemy;
-                    if (i != 0)
-                        e = area.Duplicate(enemy);
-
-                    if (true)
-                    {
-                        e = area.ConvertTo(e, EnemyKind.Ch1d6z0);
-                        e.Health = _random.Next(400, 1000);
-                    }
-                    else if (_random.Next(0, 4) == 0)
-                    {
-                        e = area.ConvertTo(e, EnemyKind.Zealot);
-                        e.Health = _random.Next(400, 2000);
-                        e.MontageId = _random.NextOf(_zealotMontageIds);
-                        e.Weapon = 5807;
-                        e.SecondaryWeapon = 5808;
-                        break;
-                    }
-                    else if (_random.Next(0, 8) == 0)
-                    {
-                        e = area.ConvertTo(e, EnemyKind.Dog);
-                        e.Health = _random.Next(400, 2000);
-                        e.MontageId = _random.NextOf(_dogMontageIds);
-                        e.ItemDrop = new Item(120830400, 1);
-                        e.ShouldDropItemAtRandom = false;
-                        break;
-                    }
-                    else if (_random.Next(0, 4) == 0)
-                    {
-                        e = area.ConvertTo(e, EnemyKind.Chainsaw);
-                        e.Health = _random.Next(1000, 8000);
-                        e.MontageId = _random.NextOf(_chainsawMontageIds);
-                        e.ItemDrop = new Item(120830400, 1);
-                        e.ShouldDropItemAtRandom = false;
-                        break;
-                    }
-                    else if (enemy.MainComponent.Name.Contains("Ch1c0SpawnParam"))
-                    {
-                        e.Health = _random.Next(500, 2000);
-                        e.Weapon = _random.NextOf(new[] { 5801, 5802, 5803, 5804, 5805, 5806, 5810, 5814, 5815, 5817, 5821, 5822 });
-                        e.MontageId = _random.NextOf(_villagerMontageIds);
-
-                        if (_random.Next(0, 2) == 0)
-                        {
-                            e.ItemDrop = new Item(114416000, 1);
-                            e.ShouldDropItemAtRandom = false;
-                        }
-                        e.IsLeftHanded = _random.Next(0, 10) == 0;
-                    }
+                    area.Duplicate(e);
                 }
             }
+
+            foreach (var enemy in area.Enemies)
+            {
+                var e = enemy;
+                var ecd = _enemyClassFactory.Next(_random);
+                e = area.ConvertTo(e, ecd.Kind.ComponentName);
+
+                if (ecd.Weapon.Length == 0)
+                {
+                    e.Weapon = 0;
+                    e.SecondaryWeapon = 0;
+                }
+                else
+                {
+                    var weaponChoice = _random.NextOf(ecd.Weapon);
+                    e.Weapon = weaponChoice.Primary?.Id ?? 0;
+                    e.SecondaryWeapon = weaponChoice.Secondary?.Id ?? 0;
+                }
+
+                foreach (var fd in ecd.Fields)
+                {
+                    var fieldValue = _random.NextOf(fd.Values);
+                    e.MainComponent.SetFieldValue(fd.Name, fieldValue);
+                }
+
+                e.Health = _random.Next(400, 1000);
+
+                // var count = _random.Next(0, 4);
+                // for (var i = 0; i <= count; i++)
+                // {
+                //     var e = enemy;
+                //     if (i != 0)
+                //         e = area.Duplicate(enemy);
+                // 
+                //     if (true)
+                //     {
+                //         e = area.ConvertTo(e, EnemyKind.Knight);
+                //         e.Health = _random.Next(400, 1000);
+                //     }
+                //     else if (_random.Next(0, 4) == 0)
+                //     {
+                //         e = area.ConvertTo(e, EnemyKind.Zealot);
+                //         e.Health = _random.Next(400, 2000);
+                //         e.MontageId = _random.NextOf(_zealotMontageIds);
+                //         e.Weapon = 5807;
+                //         e.SecondaryWeapon = 5808;
+                //         break;
+                //     }
+                //     else if (_random.Next(0, 8) == 0)
+                //     {
+                //         e = area.ConvertTo(e, EnemyKind.Dog);
+                //         e.Health = _random.Next(400, 2000);
+                //         e.MontageId = _random.NextOf(_dogMontageIds);
+                //         e.ItemDrop = new Item(120830400, 1);
+                //         e.ShouldDropItemAtRandom = false;
+                //         break;
+                //     }
+                //     else if (_random.Next(0, 4) == 0)
+                //     {
+                //         e = area.ConvertTo(e, EnemyKind.Chainsaw);
+                //         e.Health = _random.Next(1000, 8000);
+                //         e.MontageId = _random.NextOf(_chainsawMontageIds);
+                //         e.ItemDrop = new Item(120830400, 1);
+                //         e.ShouldDropItemAtRandom = false;
+                //         break;
+                //     }
+                //     else if (enemy.MainComponent.Name.Contains("Ch1c0SpawnParam"))
+                //     {
+                //         e.Health = _random.Next(500, 2000);
+                //         e.Weapon = _random.NextOf(new[] { 5801, 5802, 5803, 5804, 5805, 5806, 5810, 5814, 5815, 5817, 5821, 5822 });
+                //         e.MontageId = _random.NextOf(_villagerMontageIds);
+                // 
+                //         if (_random.Next(0, 2) == 0)
+                //         {
+                //             e.ItemDrop = new Item(114416000, 1);
+                //             e.ShouldDropItemAtRandom = false;
+                //         }
+                //         e.IsLeftHanded = _random.Next(0, 10) == 0;
+                //     }
+                // }
+            }
             LogEnemies(area);
+
+            var newEnemies = area.Enemies.Select(GetEnemySummary).ToArray();
+
+            var enemyCount = Math.Max(oldEnemies.Length, newEnemies.Length);
+            if (enemyCount != 0)
+            {
+                var lhColumn = oldEnemies.Max(x => x.Length);
+                var rhColumn = newEnemies.Max(x => x.Length);
+                Console.WriteLine($"------------------------------------------------------");
+                Console.WriteLine($"Area: {area.FileName}");
+                Console.WriteLine($"------------------------------------------------------");
+                for (var i = 0; i < enemyCount; i++)
+                {
+                    var oldE = i < oldEnemies.Length ? oldEnemies[i] : "";
+                    var newE = i < newEnemies.Length ? newEnemies[i] : "";
+                    Console.WriteLine($"| {oldE.PadRight(lhColumn)} | {newE.PadRight(rhColumn)} |");
+                }
+                Console.WriteLine($"------------------------------------------------------");
+                Console.WriteLine();
+            }
         }
 
         private static void LogEnemies(Area area)
         {
             foreach (var enemy in area.Enemies)
             {
-                Console.WriteLine($"Enemy: {enemy}");
-                Console.WriteLine($"  Health: {enemy.Health}");
-                Console.WriteLine($"  Montage ID: {enemy.MontageId}");
-                Console.WriteLine($"  Weapon: {GetWeaponName(enemy.Weapon)}");
-                Console.WriteLine($"  Item drop: {enemy.ItemDrop}");
-                Console.WriteLine($"  Should drop item at random: {enemy.ShouldDropItemAtRandom}");
-                Console.WriteLine($"  Is left handed: {enemy.IsLeftHanded}");
+                // Console.WriteLine($"Enemy: {enemy}");
+                // Console.WriteLine($"  Health: {enemy.Health}");
+                // Console.WriteLine($"  Montage ID: {enemy.MontageId}");
+                // Console.WriteLine($"  Weapon: {GetWeaponName(enemy.Weapon)}");
+                // Console.WriteLine($"  Item drop: {enemy.ItemDrop}");
+                // Console.WriteLine($"  Should drop item at random: {enemy.ShouldDropItemAtRandom}");
+                // Console.WriteLine($"  Is left handed: {enemy.IsLeftHanded}");
             }
+        }
+
+        private static string GetEnemySummary(Enemy enemy)
+        {
+            return $"{enemy.Kind} ({enemy.Health})";
         }
 
         private static string GetWeaponName(int id)
@@ -359,24 +425,16 @@ namespace MyNamespace
         };
     }
 
-    public static class Extensions
-    {
-        public static T NextOf<T>(this Random random, IEnumerable<T> items)
-        {
-            var count = items.Count();
-            var index = random.Next(0, count);
-            return items.ElementAt(index);
-        }
-    }
-
     public class Area
     {
         private static int _ctxIdIndex = 5000;
 
+        public string FileName { get; }
         public ScnFile ScnFile { get; }
 
         public Area(string path)
         {
+            FileName = Path.GetFileName(path);
             ScnFile = new ScnFile(new RszFileOption(GameName.re4), new FileHandler(path));
             ScnFile.Read();
             ScnFile.SetupGameObjects();
@@ -415,17 +473,20 @@ namespace MyNamespace
             return gameObject.Components.FirstOrDefault(Enemy.IsEnemyComponent);
         }
 
-        private Enemy ConvertTo(Enemy enemy, string type)
+        public Enemy ConvertTo(Enemy enemy, string type)
         {
             var gameObject = enemy.GameObject;
             var oldComponent = enemy.MainComponent;
+            if (oldComponent.Name == type)
+                return enemy;
 
             ScnFile.AddComponent(gameObject, type);
             gameObject.Components.Remove(oldComponent);
             var newComponent = gameObject.Components.Last();
             foreach (var f in oldComponent.Fields)
             {
-                newComponent.SetFieldValue(f.name, oldComponent.GetFieldValue(f.name));
+                var oldValue = oldComponent.GetFieldValue(f.name);
+                newComponent.SetFieldValue(f.name, oldValue!);
             }
 
             return new Enemy(gameObject, newComponent);
@@ -477,7 +538,7 @@ namespace MyNamespace
                     newEnemy.RolePatternHash = 3727710285;
                     newEnemy.PreFirstForceMovePatternHash = 2180083513;
                     break;
-                case EnemyKind.Ch1d6z0:
+                case EnemyKind.Knight:
                     newEnemy.MontageId = 3367147326;
                     newEnemy.RolePatternHash = 2910380095;
                     newEnemy.PreFirstForceMovePatternHash = 2180083513;
@@ -702,7 +763,7 @@ namespace MyNamespace
                 EnemyKind.Militia => "Ch1c0z2",
                 EnemyKind.Garrador => "Ch1d0z0",
                 EnemyKind.Regenerador => "Ch1d4z0",
-                EnemyKind.Ch1d6z0 => "Ch1d6z0",
+                EnemyKind.Knight => "Ch1d6z0",
                 EnemyKind.Sadler => "Ch1f8z0",
                 _ => throw new Exception(),
             };
@@ -720,47 +781,8 @@ namespace MyNamespace
             EnemyKind.Militia,
             EnemyKind.Garrador,
             EnemyKind.Regenerador,
-            EnemyKind.Ch1d6z0,
+            EnemyKind.Knight,
             EnemyKind.Sadler
         };
-    }
-
-    public readonly struct Item(int id, int count)
-    {
-        public int Id { get; } = id;
-        public int Count { get; } = count;
-
-        public override string ToString() => Id == -1 ? "(automatic)" : $"{Id} x{Count}";
-    }
-
-    public readonly struct ContextId(sbyte category, byte kind, int group, int index)
-    {
-        public sbyte Category { get; } = category;
-        public byte Kind { get; } = kind;
-        public int Group { get; } = group;
-        public int Index { get; } = index;
-
-        public ContextId WithIndex(int value) => new ContextId(Category, Kind, Group, value);
-
-        public override string ToString() => $"{Category},{Kind},{Group},{Index}";
-    }
-
-    public enum EnemyKind
-    {
-        Unknown,
-        Villager,
-        BruteWithGun,
-        PlagasSpider,
-        Zealot,
-        Dog,
-        Novistador,
-        Chainsaw,
-        Militia,
-        Garrador,
-        Regenerador,
-        Ch1d6z0,
-        Sadler,
-
-        // Ch8g2z0 - viper
     }
 }
