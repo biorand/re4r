@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.IO.Compression;
-using System.Reflection;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -15,13 +14,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public IChainsawRandomizer Create()
         {
-            var dataPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "data");
-
-            // var originalFile = @"M:\git\REE.PAK.Tool\REE.Unpacker\REE.Unpacker\bin\Release\out\natives\stm\_chainsaw\leveldesign\chapter\cp10_chp1_1\level_cp10_chp1_1_010.scn.20";
-            // var originalFile = @"C:\Users\Ted\Desktop\backup\level_cp10_chp1_1_010.scn.20";
-            // var targetFile = @"F:\games\re4r\fluffy\Games\RE4R\Mods\orca_test\natives\STM\_Chainsaw\leveldesign\chapter\cp10_chp1_1\level_cp10_chp1_1_010.scn.20";
-            // var targetFile = @"F:\games\steamapps\common\RESIDENT EVIL 4  BIOHAZARD RE4\natives\STM\_Chainsaw\leveldesign\chapter\cp10_chp1_1\level_cp10_chp1_1_010.scn.20";
-
             var gamePath = @"F:\games\steamapps\common\RESIDENT EVIL 4  BIOHAZARD RE4";
             var inputGameData = @$"{gamePath}\re_chunk_000.pak.patch_003.pak";
             var outputFile = @$"{gamePath}\re_chunk_000.pak.patch_004.pak";
@@ -31,7 +23,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var fileRepository = new FileRepository(@"G:\re4r\extract\patch_003");
 
             var enemyClassFactory = EnemyClassFactory.Create();
-            var rszFileOption = CreateRszFileOption(dataPath);
+            var rszFileOption = CreateRszFileOption();
             var randomizer = new ChainsawRandomizer(fileRepository, enemyClassFactory, rszFileOption);
             return randomizer;
 
@@ -53,7 +45,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // }
         }
 
-        private static RszFileOption CreateRszFileOption(string dataPath)
+        private static RszFileOption CreateRszFileOption()
         {
             var gameName = GameName.re4;
 
