@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "biorand-re4r", "src\biorand-re4r\biorand-re4r.csproj", "{2693B039-0FDF-4F19-9B4C-9604BB67B6A6}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RszTool", "src\rsztool\RszTool\RszTool.csproj", "{D7BE368B-A7E9-4A3D-B089-2C11B6A7D13B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C63AE2CF-8873-4DD8-9E14-01E099F90870}"
@@ -10,8 +12,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "REE", "src\REE\REE.csproj", "{94AE718B-F351-49CF-9089-A68B3A0CC5DD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntelOrca.Biohazard.BioRand.RE4R", "src\IntelOrca.Biohazard.BioRand.RE4R\IntelOrca.Biohazard.BioRand.RE4R.csproj", "{CCCDB04C-7D3B-425F-AC0E-C2EEC5A0C7BB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "biorand-rer4", "src\biorand-rer4\biorand-rer4.csproj", "{2693B039-0FDF-4F19-9B4C-9604BB67B6A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

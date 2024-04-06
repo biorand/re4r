@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using REE;
-
-namespace IntelOrca.Biohazard.BioRand.RE4R.FileSystem.Package
+﻿namespace REE
 {
     internal class PakFile : IDisposable
     {

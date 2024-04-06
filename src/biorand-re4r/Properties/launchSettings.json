@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "biorand-re4r": {
+      "commandName": "Project",
+      "commandLineArgs": "generate -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\""
+    }
+  }
+}

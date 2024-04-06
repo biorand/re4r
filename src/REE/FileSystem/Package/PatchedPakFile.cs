@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace IntelOrca.Biohazard.BioRand.RE4R.FileSystem.Package
+namespace REE
 {
     public class PatchedPakFile
     {

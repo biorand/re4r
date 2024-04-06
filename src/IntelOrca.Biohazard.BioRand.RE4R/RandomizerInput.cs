@@ -2,6 +2,7 @@
 {
     public class RandomizerInput
     {
+        public string? GamePath { get; set; }
         public int Seed { get; set; }
     }
 }

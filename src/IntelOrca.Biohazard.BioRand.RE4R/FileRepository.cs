@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using IntelOrca.Biohazard.BioRand.RE4R.FileSystem.Package;
+using REE;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {

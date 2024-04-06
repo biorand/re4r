@@ -1,6 +1,4 @@
-﻿using REE;
-
-namespace IntelOrca.Biohazard.BioRand.RE4R.FileSystem.Package
+﻿namespace REE
 {
     public class PakFileBuilder
     {
