@@ -11,6 +11,12 @@
 
         public void Save(string path, PakFlags compressionType)
         {
+            using var stream = File.OpenWrite(path);
+            Save(stream, compressionType);
+        }
+
+        public void Save(Stream stream, PakFlags compressionType)
+        {
             var header = new PakHeader();
             header.dwMagic = 0x414B504B;
             header.bMajorVersion = 4;
@@ -18,7 +24,7 @@
             header.dwHash = 0xDEC0ADDE;
 
             var pakEntries = new PakEntry[header.dwTotalFiles];
-            using var bw = new BinaryWriter(File.Open(path, FileMode.Create));
+            using var bw = new BinaryWriter(stream);
 
             // Write pak header
             bw.Write(header.dwMagic);

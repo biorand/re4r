@@ -5,6 +5,37 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 </head>
 <body>
-    This is biorand. 2
+    <div>This is biorand for RE4R.</div>
+    <div><input id="btn-generate" type="button" value="Generate" /></div>
+    <div><a id="a-download" href="#" style="display: none;">Download rando</a></div>
+    <script>
+        var elGenerate = document.getElementById('btn-generate');
+        var elDownloadLink = document.getElementById('a-download');
+        if (elGenerate) {
+            elGenerate.addEventListener('click', function () {
+                elGenerate.disabled = true;
+                var baseUrl = new URL(document.URL).origin;
+                var url = baseUrl + "/api/generate";
+                fetch(url)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error("Request failed");
+                        }
+                    })
+                    .then(data => {
+                        elGenerate.disabled = false;
+                        elDownloadLink.style.display = 'inline';
+                        elDownloadLink.href = data.downloadUrl;
+                    })
+                    .catch(error => {
+                        elGenerate.disabled = false;
+                        elDownloadLink.style.display = 'none';
+                        alert(error.message);
+                    })
+            });
+        }
+    </script>
 </body>
 </html>

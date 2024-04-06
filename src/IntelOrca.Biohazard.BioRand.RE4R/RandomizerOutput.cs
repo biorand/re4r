@@ -9,6 +9,11 @@
             _fileRepository = fileRepository;
         }
 
+        public byte[] GetOutputPakFile()
+        {
+            return _fileRepository.GetOutputPakFile();
+        }
+
         public void WriteOutputPakFile(string path)
         {
             _fileRepository.WriteOutputPakFile(path);

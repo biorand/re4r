@@ -52,6 +52,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             builder.Save(path, REE.PakFlags.ZSTD);
         }
 
+        public byte[] GetOutputPakFile()
+        {
+            var builder = new PakFileBuilder();
+            foreach (var outputFile in _outputFiles)
+            {
+                builder.AddEntry(outputFile.Key, outputFile.Value);
+            }
+
+            var ms = new MemoryStream();
+            builder.Save(ms, REE.PakFlags.ZSTD);
+            return ms.ToArray();
+        }
+
         public void WriteOutputFolder(string path)
         {
             foreach (var outputFile in _outputFiles)

@@ -47,24 +47,43 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         private WebServer CreateWebServer(string url)
         {
             var version = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
+            var randomizerService = new RandomizerService();
             var server = new WebServer(o => o
                 .WithUrlPrefix(url)
                 .WithMode(HttpListenerMode.EmbedIO))
                 // First, we will configure our web server by adding Modules.
                 .WithLocalSessionManager()
+                .WithWebApi("/api", m => m.WithController(() => new MainController(randomizerService)))
                 .WithRouting("/", c =>
                 {
                     c.OnGet("/", (c, _) => StringContent(c, MimeType.Html, GetString("index.html")));
+                    c.OnGet("/download", (c, _) => OnDownloadRando(randomizerService, c));
                     c.OnGet("/favicon.ico", (c, _) => BinaryContent(c, "image/x-icon", Resources.favicon));
                     c.OnGet("/version", (c, _) => StringContent(c, MimeType.PlainText, version));
                 })
-                // .WithWebApi("/api", m => m.WithController<MainController>())
                 .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));
 
             // Listen for state changes.
             server.StateChanged += (s, e) => $"WebServer New State - {e.NewState}".Info();
-
             return server;
+        }
+
+        private async Task OnDownloadRando(RandomizerService randomizerService, IHttpContext context)
+        {
+            ulong.TryParse(context.Request.QueryString["id"], out var id);
+            var result = randomizerService.Find(id);
+            if (result == null)
+            {
+                context.Response.StatusCode = 404;
+                return;
+            }
+
+            var contentName = "re_chunk_000.pak.patch_004.pak";
+            context.Response.ContentType = MimeType.Default;
+            context.Response.ContentEncoding = null;
+            context.Response.Headers["Content-Disposition"] = $"attachment; filename=\"{contentName}";
+            using var writer = context.OpenResponseStream();
+            await writer.WriteAsync(result.PakFile);
         }
 
         private async Task StringContent(IHttpContext context, string contentType, string content)
@@ -93,13 +112,72 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 #endif
         }
 
+        private class RandomizerService
+        {
+            private readonly Random _random = new Random();
+            private readonly Dictionary<ulong, GenerateResult> _randos = new();
+
+            public Task<GenerateResult> GenerateAsync(int seed)
+            {
+                var biorandConfig = Re4rConfiguration.GetDefault();
+                var chainsawRandomizerFactory = ChainsawRandomizerFactory.Default;
+                var randomizer = chainsawRandomizerFactory.Create();
+                var input = new RandomizerInput();
+                input.GamePath = biorandConfig.GamePath;
+                var output = randomizer.Randomize(input);
+                var outputFile = output.GetOutputPakFile();
+                var id = (ulong)_random.NextInt64();
+                var result = new GenerateResult(id, seed, outputFile);
+                _randos[id] = result;
+                return Task.FromResult(result);
+            }
+
+            public GenerateResult? Find(ulong id)
+            {
+                _randos.TryGetValue(id, out var result);
+                return result;
+            }
+        }
+
+        private class GenerateResult
+        {
+            public ulong Id { get; }
+            public int Seed { get; }
+            public byte[] PakFile { get; }
+
+            public GenerateResult(ulong id, int seed, byte[] pakFile)
+            {
+                Id = id;
+                PakFile = pakFile;
+            }
+        }
+
         private class MainController : WebApiController
         {
-            [Route(HttpVerbs.Get, "/ping")]
-            public async Task<string> TableTennisAsync()
+            private readonly RandomizerService _randomizer;
+
+            public MainController(RandomizerService randomizer)
             {
-                await Task.Delay(500);
-                return "pong";
+                _randomizer = randomizer;
+            }
+
+            [Route(HttpVerbs.Get, "/generate")]
+            public async Task<object> GenerateAsync([QueryField] int seed)
+            {
+                var result = await _randomizer.GenerateAsync(seed);
+                return new
+                {
+                    result = "success",
+                    seed = result.Seed,
+                    downloadUrl = CreateUrl($"/download?id={result.Id}"),
+                    downloadUrlMod = CreateUrl($"/download?id={result.Id}&mod=true")
+                };
+            }
+
+            private string CreateUrl(string path)
+            {
+                var authority = Request.Url.GetLeftPart(UriPartial.Authority) ?? "/";
+                return new Uri(new Uri(authority), path).AbsoluteUri;
             }
         }
     }
