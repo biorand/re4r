@@ -1,18 +1,20 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 using System.Reflection;
-using System.Text;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    class Program
+    public class ChainsawRandomizerFactory
     {
-        public static void Main(string[] args)
-        {
-            Console.OutputEncoding = Encoding.UTF8;
+        public static ChainsawRandomizerFactory Default => new ChainsawRandomizerFactory();
 
+        private ChainsawRandomizerFactory()
+        {
+        }
+
+        public IChainsawRandomizer Create()
+        {
             var dataPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "data");
 
             // var originalFile = @"M:\git\REE.PAK.Tool\REE.Unpacker\REE.Unpacker\bin\Release\out\natives\stm\_chainsaw\leveldesign\chapter\cp10_chp1_1\level_cp10_chp1_1_010.scn.20";
@@ -28,13 +30,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // var fileRepository = new FileRepository(ogPakFile);
             var fileRepository = new FileRepository(@"G:\re4r\extract\patch_003");
 
-            var enemyClassFactory = EnemyClassFactory.Create(Path.Combine(dataPath, "enemies.json"));
+            var enemyClassFactory = EnemyClassFactory.Create();
             var rszFileOption = CreateRszFileOption(dataPath);
             var randomizer = new ChainsawRandomizer(fileRepository, enemyClassFactory, rszFileOption);
-            randomizer.Randomize(0);
-
-            // fileRepository.WriteOutputPakFile(outputFile);
-            fileRepository.WriteOutputFolder(gamePath);
+            return randomizer;
 
             // LogRoomEnemies(enemyClassFactory);
             // 
@@ -64,9 +63,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var tempPath = Path.Combine(Path.GetTempPath(), "re4rr");
             Directory.CreateDirectory(tempPath);
-            Ungzip(Path.Combine(dataPath, dataFile + ".gz"), Path.Combine(tempPath, dataFile));
-            CopyFile(Path.Combine(dataPath, enumFile), Path.Combine(tempPath, "Data", enumFile));
-            CopyFile(Path.Combine(dataPath, pathFile), Path.Combine(tempPath, "Data", pathFile));
+            Ungzip(Resources.rszre4_json, Path.Combine(tempPath, dataFile));
+            CopyFile(Resources.re4_enum, Path.Combine(tempPath, "Data", enumFile));
+            CopyFile(Resources.rszre4_patch, Path.Combine(tempPath, "Data", pathFile));
 
             var cwd = Directory.GetCurrentDirectory();
             try
@@ -80,18 +79,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        private static void Ungzip(string sourcePath, string targetPath)
+        private static void Ungzip(byte[] input, string targetPath)
         {
-            using var inputStream = File.OpenRead(sourcePath);
+            using var inputStream = new MemoryStream(input);
             using var outputStream = File.OpenWrite(targetPath);
             using var deflateStream = new GZipStream(inputStream, CompressionMode.Decompress);
             deflateStream.CopyTo(outputStream);
         }
 
-        private static void CopyFile(string sourcePath, string targetPath)
+        private static void CopyFile(byte[] input, string targetPath)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(targetPath)!);
-            File.Copy(sourcePath, targetPath, overwrite: true);
+            File.WriteAllBytes(targetPath, input);
         }
     }
 }

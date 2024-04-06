@@ -100,13 +100,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return Classes[index];
         }
 
-        public static EnemyClassFactory Create(string dataPath)
+        public static EnemyClassFactory Create()
         {
             var kindDefinitions = new List<EnemyKindDefinition>();
             var weaponDefinitions = new List<WeaponDefinition>();
             var classDefinitions = new List<EnemyClassDefinition>();
 
-            var jsonDocument = JsonDocument.Parse(File.ReadAllText(dataPath));
+            var jsonDocument = JsonDocument.Parse(Resources.enemies);
 
             var kinds = jsonDocument.RootElement.GetProperty("kinds");
             foreach (var k in kinds.EnumerateArray())

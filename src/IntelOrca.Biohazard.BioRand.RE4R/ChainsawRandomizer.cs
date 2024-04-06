@@ -6,7 +6,7 @@ using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal class ChainsawRandomizer
+    internal class ChainsawRandomizer : IChainsawRandomizer
     {
         private readonly FileRepository _fileRepository;
         private readonly EnemyClassFactory _enemyClassFactory;
@@ -79,9 +79,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return Path.Combine(basePath, fileName);
         }
 
-        public void Randomize(int seed)
+        public RandomizerOutput Randomize(RandomizerInput input)
         {
-            var random = new Random(seed);
+            var random = new Random(input.Seed);
             foreach (var areaPath in _areaPaths)
             {
                 var areaData = _fileRepository.GetGameFileData(areaPath);
@@ -92,6 +92,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 RandomizeArea(area, random);
                 _fileRepository.SetGameFileData(areaPath, area.SaveData());
             }
+            return new RandomizerOutput(_fileRepository);
         }
 
         private void RandomizeArea(Area area, Random random)
