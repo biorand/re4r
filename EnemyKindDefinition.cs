@@ -75,11 +75,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
     internal class EnemyClassFactory
     {
-        private ImmutableArray<EnemyClassDefinition> Classes { get; }
+        public ImmutableArray<EnemyKindDefinition> EnemyKinds { get; }
+        public ImmutableArray<WeaponDefinition> Weapons { get; }
+        public ImmutableArray<EnemyClassDefinition> Classes { get; }
 
-        private EnemyClassFactory(ImmutableArray<EnemyClassDefinition> classes)
+        private EnemyClassFactory(
+            ImmutableArray<EnemyKindDefinition> enemyKinds,
+            ImmutableArray<WeaponDefinition> weapons,
+            ImmutableArray<EnemyClassDefinition> classes)
         {
+            EnemyKinds = enemyKinds;
+            Weapons = weapons;
             Classes = classes;
+        }
+
+        public EnemyKindDefinition? FindEnemyKind(string componentName)
+        {
+            return EnemyKinds.FirstOrDefault(x => componentName.Contains(x.ComponentName));
         }
 
         public EnemyClassDefinition Next(Random rng)
@@ -160,7 +172,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 classDefinitions.Add(new EnemyClassDefinition(name, kind, weaponChoices.ToImmutableArray(), fields));
             }
 
-            return new EnemyClassFactory(classDefinitions.ToImmutableArray());
+            return new EnemyClassFactory(
+                kindDefinitions.ToImmutableArray(),
+                weaponDefinitions.ToImmutableArray(),
+                classDefinitions.ToImmutableArray());
         }
     }
 

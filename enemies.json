@@ -19,6 +19,34 @@
     {
       "name": "chainsaw",
       "componentName": "chainsaw.Ch1d1z1SpawnParamMercenaries"
+    },
+    {
+      "name": "dog",
+      "componentName": "chainsaw.Ch1d2z0SpawnParam"
+    },
+    {
+      "name": "novistador",
+      "componentName": "chainsaw.Ch1d3z0SpawnParam"
+    },
+    {
+      "name": "garrador",
+      "componentName": "chainsaw.Ch1d0z0SpawnParam"
+    },
+    {
+      "name": "regenerador",
+      "componentName": "chainsaw.Ch1d4z0SpawnParam"
+    },
+    {
+      "name": "knight",
+      "componentName": "chainsaw.Ch1d6z0SpawnParam"
+    },
+    {
+      "name": "brute_with_gun",
+      "componentName": "chainsaw.Ch1c8z0SpawnParam"
+    },
+    {
+      "name": "sadler",
+      "componentName": "chainsaw.Ch1f8z0SpawnParam"
     }
   ],
   "weapons": [
@@ -31,7 +59,7 @@
     { "id": 5807, "name": "morning_star" },
     { "id": 5808, "name": "wooden_shield" },
     { "id": 5809, "name": "scythe" },
-    { "id": 5810, "name": "brute_hammer" },
+    { "id": 5810, "name": "hammer" },
     { "id": 5811, "name": "shock_baton" },
     { "id": 5813, "name": "iron_shield" },
     { "id": 5814, "name": "molotov" },
@@ -58,7 +86,7 @@
         { "primary": "pitchfork" },
         { "primary": "torch" },
         { "primary": "dynamite" },
-        { "primary": "brute_hammer" },
+        { "primary": "hammer" },
         { "primary": "molotov" },
         { "primary": "crossbow" },
         { "primary": "axe" },
@@ -98,8 +126,7 @@
         { "primary": "morning_star" },
         { "primary": "wooden_shield" },
         { "primary": "scythe" },
-        { "primary": "crossbow" },
-        { "primary": "rpg" }
+        { "primary": "crossbow" }
       ],
       "field:_Ch1c0z1MontageID": [
         1002902302,
@@ -233,9 +260,59 @@
       ]
     },
     {
+      "name": "dog",
+      "kind": "dog",
+      "field:_MontageID": [
+        1106175613,
+        842441658
+      ],
+      "field:_RolePatternHash": 4266714029,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "name": "novistador",
+      "kind": "novistador",
+      "field:_RolePatternHash": 1965048383,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
       "name": "spider",
       "kind": "spider",
       "field:_MontageID": 1106175613
+    },
+    {
+      "name": "brute",
+      "kind": "villager",
+      "field:_MontageID": 2366387651
+    },
+    {
+      "name": "brute_with_hammer",
+      "kind": "villager",
+      "weapon": [
+        { "primary": "hammer" }
+      ],
+      "field:_MontageID": 2366387651
+    },
+    {
+      "name": "brute_with_gun",
+      "kind": "brute_with_gun"
+    },
+    {
+      "name": "knight",
+      "kind": "knight",
+      "field:_MontageID": [
+        1106175613,
+        2950129067,
+        4155224435,
+        3367147326,
+        1249222792,
+        1688266482,
+        3189794135,
+        1828801925
+      ],
+      "field:_WeakPointType": [ 0, 1 ],
+      "field:_RolePatternHash": 2910380095,
+      "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
       "name": "chainsaw",
@@ -245,6 +322,37 @@
         3313117636,
         2693883502
       ],
+      "field:_RolePatternHash": 2180083513,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "name": "garrador",
+      "kind": "garrador",
+      "field:_IdentifyType": [0, 1],
+      "field:_RolePatternHash": 3727710285,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "name": "regenerador",
+      "kind": "regenerador",
+      "field:_MontageID": 1948795948,
+      "field:_TransformType": 2,
+      "field:_RolePatternHash": 2180083513,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "name": "iron_maiden",
+      "kind": "regenerador",
+      "field:_MontageID": 1948795948,
+      "field:_TransformType": 0,
+      "field:_RolePatternHash": 2180083513,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "name": "super_iron_maiden",
+      "kind": "regenerador",
+      "field:_MontageID": 363312158,
+      "field:_TransformType": 0,
       "field:_RolePatternHash": 2180083513,
       "field:_PreFirstForceMovePatternHash": 2180083513
     }

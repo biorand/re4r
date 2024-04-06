@@ -8,4 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RszTool\RszTool\RszTool.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Zstandard.Net" Version="1.1.7" />
+  </ItemGroup>
 </Project>
