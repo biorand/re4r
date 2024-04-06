@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.FileSystem.Package
 {
-    internal class PatchedPakFile
+    public class PatchedPakFile
     {
         private readonly PakFile[] _files;
 

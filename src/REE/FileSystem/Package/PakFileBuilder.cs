@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using REE;
+﻿using REE;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.FileSystem.Package
 {
-    internal class PakFileBuilder
+    public class PakFileBuilder
     {
         private readonly Dictionary<string, byte[]> _entries = new(StringComparer.OrdinalIgnoreCase);
 

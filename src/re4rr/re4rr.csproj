@@ -6,10 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\REE\REE.csproj" />
     <ProjectReference Include="..\RszTool\RszTool\RszTool.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Zstandard.Net" Version="1.1.7" />
   </ItemGroup>
   <ItemGroup>
     <None Update="data\**\*">

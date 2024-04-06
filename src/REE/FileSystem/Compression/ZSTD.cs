@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
-using Zstandard.Net;
+using ZstdSharp;
 
 namespace REE
 {
@@ -11,7 +10,7 @@ namespace REE
         {
             var TInputMemoryStream = new MemoryStream(lpBuffer);
             using (var TOutputMemoryStream = new MemoryStream())
-            using (var TZstandardStream = new ZstandardStream(TOutputMemoryStream, CompressionMode.Compress))
+            using (var TZstandardStream = new CompressionStream(TOutputMemoryStream))
             {
                 TInputMemoryStream.CopyTo(TZstandardStream);
                 TZstandardStream.Close();
@@ -24,7 +23,7 @@ namespace REE
             Byte[] lpDstBuffer;
             using (MemoryStream TSrcStream = new MemoryStream(lpSrcBuffer))
             {
-                using (var TZstandardStream = new ZstandardStream(TSrcStream, CompressionMode.Decompress))
+                using (var TZstandardStream = new DecompressionStream(TSrcStream))
                 using (var TDstStream = new MemoryStream())
                 {
                     TZstandardStream.CopyTo(TDstStream);
