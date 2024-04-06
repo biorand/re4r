@@ -152,7 +152,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.FileSystem.Package
                 ct.ThrowIfCancellationRequested();
 
                 var fileName = PakList.iGetNameFromHashList((ulong)entry.dwHashNameUpper << 32 | entry.dwHashNameLower);
-                var fullPath = System.IO.Path.Combine(destinationPath, fileName);
+                var fullPath = System.IO.Path.Combine(destinationPath, fileName!);
 
                 Utils.iCreateDirectory(fullPath);
 

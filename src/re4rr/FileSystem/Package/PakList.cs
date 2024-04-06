@@ -12,7 +12,7 @@ namespace REE
 
         public static void iLoadProject(String m_ProjectFile)
         {
-            String m_Line = null;
+            String? m_Line = null;
             m_ProjectFile = m_ProjectFile + ".list";
             if (!File.Exists(m_Path + m_ProjectFile))
             {
@@ -31,7 +31,7 @@ namespace REE
 
                 if (m_HashList.ContainsKey(dwHash))
                 {
-                    String m_Collision = null;
+                    String? m_Collision = null;
                     m_HashList.TryGetValue(dwHash, out m_Collision);
                     Utils.iSetError("[COLLISION]: " + m_Collision + " <-> " + m_Line);
                 }
@@ -45,9 +45,9 @@ namespace REE
             Console.WriteLine();
         }
 
-        public static String iGetNameFromHashList(UInt64 dwHash)
+        public static String? iGetNameFromHashList(UInt64 dwHash)
         {
-            String m_FileName = null;
+            String? m_FileName = null;
 
             if (m_HashList.ContainsKey(dwHash))
             {

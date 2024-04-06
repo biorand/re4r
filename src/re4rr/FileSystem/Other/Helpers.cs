@@ -74,14 +74,14 @@ namespace REE
             return Encoding.ASCII.GetString(result);
         }
 
-        public static string ReadString(this Stream stream, int length, Encoding encoding = null, bool trim = true)
+        public static string ReadString(this Stream stream, int length, Encoding? encoding = null, bool trim = true)
         {
             encoding = encoding ?? Encoding.ASCII;
             var result = encoding.GetString(stream.ReadBytes(length));
             return trim ? result.Trim() : result;
         }
 
-        public static string ReadString(this Stream stream, Encoding encoding = null, bool trim = true)
+        public static string ReadString(this Stream stream, Encoding? encoding = null, bool trim = true)
         {
             encoding = encoding ?? Encoding.ASCII;
 
@@ -100,13 +100,13 @@ namespace REE
             return trim ? result.Trim() : result;
         }
 
-        public static string ReadStringByOffset(this Stream stream, uint offset, Encoding encoding = null, bool trim = true)
+        public static string ReadStringByOffset(this Stream stream, uint offset, Encoding? encoding = null, bool trim = true)
         {
             stream.Position = offset;
             return ReadString(stream, encoding, trim);
         }
 
-        public static string[] ReadStringList(this Stream stream, Encoding encoding = null, bool trim = true)
+        public static string[] ReadStringList(this Stream stream, Encoding? encoding = null, bool trim = true)
         {
             var result = new List<string>();
             while (stream.Position < stream.Length)
@@ -180,7 +180,7 @@ namespace REE
             return BitConverter.ToSingle(data, startIndex);
         }
 
-        private static string ReadStringInternal(this byte[] data, ref int startIndex, Encoding encoding, bool trim)
+        private static string ReadStringInternal(this byte[] data, ref int startIndex, Encoding? encoding, bool trim)
         {
             encoding = encoding ?? Encoding.ASCII;
 
@@ -192,12 +192,12 @@ namespace REE
             return trim ? result.Trim() : result;
         }
 
-        public static string ReadString(this byte[] data, int startIndex = 0, Encoding encoding = null, bool trim = true)
+        public static string ReadString(this byte[] data, int startIndex = 0, Encoding? encoding = null, bool trim = true)
         {
             return ReadStringInternal(data, ref startIndex, encoding, trim);
         }
 
-        public static string[] ReadStringList(this byte[] data, int startIndex = 0, Encoding encoding = null, bool trim = true)
+        public static string[] ReadStringList(this byte[] data, int startIndex = 0, Encoding? encoding = null, bool trim = true)
         {
             var result = new List<string>();
             while (startIndex < data.Length)

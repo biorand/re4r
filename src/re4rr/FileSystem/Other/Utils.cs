@@ -8,12 +8,12 @@ namespace REE
     {
         public static String iGetApplicationPath()
         {
-            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
         }
 
         public static String iGetApplicationVersion()
         {
-            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            return Assembly.GetExecutingAssembly().GetName().Version!.ToString();
         }
 
         public static void iSetInfo(String m_String)
@@ -50,7 +50,7 @@ namespace REE
         {
             if (!Directory.Exists(Path.GetDirectoryName(m_Directory)))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(m_Directory));
+                Directory.CreateDirectory(Path.GetDirectoryName(m_Directory)!);
             }
         }
     }
