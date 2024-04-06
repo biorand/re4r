@@ -1,8 +1,12 @@
 {
   "profiles": {
-    "biorand-re4r": {
+    "generate": {
       "commandName": "Project",
       "commandLineArgs": "generate -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\""
+    },
+    "web-server": {
+      "commandName": "Project",
+      "commandLineArgs": "web-server"
     }
   }
 }
