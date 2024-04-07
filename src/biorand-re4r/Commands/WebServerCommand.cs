@@ -84,7 +84,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             context.Response.ContentEncoding = new UTF8Encoding(false);
             context.Response.ContentType = MimeType.Json;
 
-            using var stream = context.OpenResponseStream();
+            using var stream = context.OpenResponseStream(preferCompression: false);
             await stream.WriteAsync(content).ConfigureAwait(false);
         }
 
@@ -105,7 +105,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 context.Response.ContentType = "application/zip";
                 context.Response.ContentEncoding = null;
                 context.Response.Headers["Content-Disposition"] = $"attachment; filename=\"{contentName}";
-                using var writer = context.OpenResponseStream();
+                using var writer = context.OpenResponseStream(preferCompression: false);
                 await writer.WriteAsync(result.ModFile);
             }
             else
@@ -114,7 +114,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 context.Response.ContentType = MimeType.Default;
                 context.Response.ContentEncoding = null;
                 context.Response.Headers["Content-Disposition"] = $"attachment; filename=\"{contentName}";
-                using var writer = context.OpenResponseStream();
+                using var writer = context.OpenResponseStream(preferCompression: false);
                 await writer.WriteAsync(result.PakFile);
             }
         }
@@ -122,7 +122,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         private async Task StringContent(IHttpContext context, string contentType, string content)
         {
             context.Response.ContentType = contentType;
-            using var writer = context.OpenResponseText();
+            using var writer = context.OpenResponseText(preferCompression: false);
             await writer.WriteAsync(content);
         }
 
@@ -130,7 +130,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         {
             context.Response.ContentType = contentType;
             context.Response.ContentEncoding = null;
-            using var writer = context.OpenResponseStream();
+            using var writer = context.OpenResponseStream(preferCompression: false);
             await writer.WriteAsync(content);
         }
 
