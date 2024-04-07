@@ -280,8 +280,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
             private string CreateUrl(string path)
             {
-                var authority = Request.Url.GetLeftPart(UriPartial.Authority) ?? "/";
-                return new Uri(new Uri(authority), path).AbsoluteUri;
+                return path;
             }
 
             private Dictionary<string, object> ProcessConfig(Dictionary<string, object>? config)
