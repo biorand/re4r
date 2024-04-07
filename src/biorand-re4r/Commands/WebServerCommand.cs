@@ -76,12 +76,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
         public static async Task SerializationCallback(IHttpContext context, object? data)
         {
-            using var text = context.OpenResponseText(new UTF8Encoding(false));
-            await text.WriteAsync(JsonSerializer.Serialize(data,
+            var content = JsonSerializer.SerializeToUtf8Bytes(data,
                 new JsonSerializerOptions()
                 {
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                })).ConfigureAwait(false);
+                });
+            context.Response.ContentEncoding = new UTF8Encoding(false);
+            context.Response.ContentType = MimeType.Json;
+
+            using var stream = context.OpenResponseStream();
+            await stream.WriteAsync(content).ConfigureAwait(false);
         }
 
         private async Task OnDownloadRando(RandomizerService randomizerService, IHttpContext context)
