@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using EmbedIO;
 using EmbedIO.Actions;
+using EmbedIO.Net;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
 using Spectre.Console;
@@ -30,7 +31,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
         public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
-            var url = $"http://localhost:{settings.Port}/";
+            var url = $"http://*:{settings.Port}/";
             using var server = CreateWebServer(url);
             await server.RunAsync();
 
@@ -48,6 +49,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
         private WebServer CreateWebServer(string url)
         {
+            EndPointManager.UseIpv6 = false;
+
             var version = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
             var randomizerService = new RandomizerService();
             var server = new WebServer(o => o
