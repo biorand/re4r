@@ -57,6 +57,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 .WithRouting("/", c =>
                 {
                     c.OnGet("/", (c, _) => StringContent(c, MimeType.Html, GetString("index.html")));
+                    c.OnGet("/re4rr.js", (c, _) => StringContent(c, "text/javascript", GetString("re4rr.js")));
                     c.OnGet("/download", (c, _) => OnDownloadRando(randomizerService, c));
                     c.OnGet("/favicon.ico", (c, _) => BinaryContent(c, "image/x-icon", Resources.favicon));
                     c.OnGet("/version", (c, _) => StringContent(c, MimeType.PlainText, version));
