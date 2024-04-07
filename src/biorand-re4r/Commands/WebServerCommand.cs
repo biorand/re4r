@@ -91,12 +91,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 return;
             }
 
-            var contentName = "re_chunk_000.pak.patch_004.pak";
-            context.Response.ContentType = MimeType.Default;
-            context.Response.ContentEncoding = null;
-            context.Response.Headers["Content-Disposition"] = $"attachment; filename=\"{contentName}";
-            using var writer = context.OpenResponseStream();
-            await writer.WriteAsync(result.PakFile);
+            var isMod = "true".Equals(context.Request.QueryString["mod"], StringComparison.OrdinalIgnoreCase);
+            if (isMod)
+            {
+                var contentName = $"biorand-re4r-{result.Seed}.zip";
+                context.Response.ContentType = "application/zip";
+                context.Response.ContentEncoding = null;
+                context.Response.Headers["Content-Disposition"] = $"attachment; filename=\"{contentName}";
+                using var writer = context.OpenResponseStream();
+                await writer.WriteAsync(result.ModFile);
+            }
+            else
+            {
+                var contentName = "re_chunk_000.pak.patch_004.pak";
+                context.Response.ContentType = MimeType.Default;
+                context.Response.ContentEncoding = null;
+                context.Response.Headers["Content-Disposition"] = $"attachment; filename=\"{contentName}";
+                using var writer = context.OpenResponseStream();
+                await writer.WriteAsync(result.PakFile);
+            }
         }
 
         private async Task StringContent(IHttpContext context, string contentType, string content)
@@ -176,8 +189,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                     };
                     var output = randomizer.Randomize(input);
                     var outputFile = output.GetOutputPakFile();
+                    var outputFileMod = output.GetOutputMod();
                     var id = (ulong)_random.NextInt64();
-                    var result = new GenerateResult(id, seed, outputFile);
+                    var result = new GenerateResult(id, seed, outputFile, outputFileMod);
                     _randos[id] = result;
                     return result;
                 }
@@ -199,12 +213,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             public ulong Id { get; }
             public int Seed { get; }
             public byte[] PakFile { get; }
+            public byte[] ModFile { get; }
             public DateTime CreatedAt { get; }
 
-            public GenerateResult(ulong id, int seed, byte[] pakFile)
+            public GenerateResult(ulong id, int seed, byte[] pakFile, byte[] modFile)
             {
                 Id = id;
+                Seed = seed;
                 PakFile = pakFile;
+                ModFile = modFile;
                 CreatedAt = DateTime.UtcNow;
             }
         }

@@ -121,6 +121,9 @@
   <data name="enemies" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>data\enemies.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="modimage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>data\modimage.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="re4_enum" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\rsztool\RszTool\Data\Enums\re4_enum.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
