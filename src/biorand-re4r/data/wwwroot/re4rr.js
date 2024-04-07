@@ -1,6 +1,39 @@
 (function () {
     const configDefMap = {};
 
+    function loadLocalData(key) {
+        return JSON.parse(localStorage.getItem(key));
+    }
+
+    function saveLocalData(key, value) {
+        return localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function getApiUrl(url) {
+        var baseUrl = new URL(document.URL).origin;
+        var url = baseUrl + `/api/${url}`;
+        return url;
+    }
+
+    function getConfigDefinition() {
+        return new Promise((resolve, reject) => {
+            fetch(getApiUrl('config'))
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error("Request failed");
+                    }
+                })
+                .then(data => {
+                    resolve(data);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+    }
+
     function getConfig() {
         const config = {};
         for (key in configDefMap) {
@@ -35,10 +68,15 @@
         elSwitchTheme.addEventListener('change', refreshTheme);
         refreshTheme();
 
+        var elPassword = document.getElementById('input-password');
+        elPassword.value = loadLocalData('password');
+
         var elSeed = document.getElementById('input-seed');
         var elShuffleSeed = document.getElementById('btn-shuffle-seed');
         elShuffleSeed.addEventListener('click', () => {
-            elSeed.value = rng(100000, 1000000);
+            const seed = rng(100000, 1000000);
+            elSeed.value = seed;
+            saveLocalData('seed', seed);
         });
 
         var elGenerate = document.getElementById('btn-generate');
@@ -46,14 +84,31 @@
         var elDownloadPak = document.getElementById('btn-download-pak');
         var elDownloadMod = document.getElementById('btn-download-mod');
         var elSuccessContainer = document.getElementById('container-generate-success');
+        var elFailureContainer = document.getElementById('container-generate-failure');
+        var elFailureMessage = document.getElementById('generate-failure-message');
         if (elGenerate) {
             elGenerate.addEventListener('click', function () {
+                const password = elPassword.value;
+                saveLocalData('password', password);
+
+                const seed = parseInt(elSeed.value);
+
                 elSpinner.classList.remove('invisible');
                 elSuccessContainer.classList.add('invisible');
+                elSuccessContainer.classList.remove('d-none');
+                elFailureContainer.classList.add('d-none');
                 elGenerate.disabled = true;
-                var baseUrl = new URL(document.URL).origin;
-                var url = baseUrl + "/api/generate";
-                fetch(url)
+                fetch(getApiUrl('generate'), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        seed: seed,
+                        password: password,
+                        config: getConfig()
+                    })
+                })
                     .then(response => {
                         if (response.ok) {
                             return response.json();
@@ -63,18 +118,33 @@
                     })
                     .then(data => {
                         elSpinner.classList.add('invisible');
-                        elSuccessContainer.classList.remove('invisible');
                         elGenerate.disabled = false;
-                        elDownloadPak.href = data.downloadUrl;
-                        elDownloadMod.href = data.downloadUrlMod;
+                        if (data.result === 'success') {
+                            elSuccessContainer.classList.remove('invisible');
+                            elDownloadPak.href = data.downloadUrl;
+                            elDownloadMod.href = data.downloadUrlMod;
+                        } else {
+                            elSuccessContainer.classList.add('d-none');
+                            elFailureContainer.classList.remove('d-none');
+                            elFailureMessage.innerText = data.message;
+                        }
                     })
                     .catch(error => {
                         elSpinner.classList.add('invisible');
                         elGenerate.disabled = false;
-                        alert(error.message);
+                        elSuccessContainer.classList.add('d-none');
+                        elFailureContainer.classList.remove('d-none');
+                        elFailureMessage.innerText = error.message;
                     })
             });
         }
+
+        getConfigDefinition()
+            .then(configDefinition => {
+                setConfigDefinition(configDefinition);
+                setConfig(loadLocalData('config'));
+                setSeed(loadLocalData('seed'));
+            })
     }
 
     function createWidgets(def) {
@@ -111,7 +181,7 @@
                 widgetHtml = '<input id="' + inputId + '" type="text" class="form-control form-control-sm">';
                 break;
             case 'range':
-                widgetHtml = '<input id="' + inputId + '" type="range" class="form-range" min="0" max="1" step="0.01">';
+                widgetHtml = `<input id="${inputId}" type="range" class="form-range" min="${groupItem.min}" max="${groupItem.max}" step="${groupItem.step}">`;
                 break;
         }
         const colClass = groupItem.size ? `col-${groupItem.size}` : 'col-6';
@@ -127,21 +197,30 @@
         return html;
     }
 
-    function setConfigDefinition(configDef) {
+    function setConfigDefinition(configDefinition) {
         const configContainerEl = document.getElementById('config-container');
         configContainerEl.innerHTML = createWidgets(configDefinition);
+
+        for (const key in configDefMap) {
+            const inputEl = document.getElementById(`cfg-${key}`);
+            inputEl.addEventListener('change', () => {
+                const config = getConfig();
+                saveLocalData('config', config);
+            });
+        }
     }
 
     function setConfig(config) {
         for (const key in config) {
             const value = config[key];
             const def = configDefMap[key];
-
-            const inputEl = document.getElementById(`cfg-${key}`);
-            if (def.type == "switch") {
-                inputEl.checked = value;
-            } else {
-                inputEl.value = value;
+            if (def) {
+                const inputEl = document.getElementById(`cfg-${key}`);
+                if (def.type == "switch") {
+                    inputEl.checked = value;
+                } else {
+                    inputEl.value = value;
+                }
             }
         }
     }
@@ -151,50 +230,5 @@
         el.value = seed;
     }
 
-    const configDefinition = {
-        groups: [
-            {
-                "label": "General",
-                "items": [
-                    {
-                        "label": "Enemy Multiplier",
-                        "id": "enemy-multiplier",
-                        "type": "range"
-                    },
-                    {
-                        "label": "Progressive Difficulty",
-                        "id": "progressive-difficulty",
-                        "type": "switch"
-                    }
-                ]
-            },
-            {
-                "label": "Enemies",
-                "items": [
-                    {
-                        "label": "Brute",
-                        "id": "enemy-ratio-brute",
-                        "type": "range"
-                    },
-                    {
-                        "label": "Regenerador",
-                        "id": "enemy-ratio-regenerador",
-                        "type": "range"
-                    }
-                ]
-            }
-        ]
-    };
-
-    const config = {
-        "enemy-multiplier": 1,
-        "progressive-difficulty": true,
-        "enemy-ratio-brute": 0.3,
-        "enemy-ratio-regenerador": 0.7
-    };
-
     setupPage();
-    setConfigDefinition(configDefinition);
-    setConfig(config);
-    setSeed(23857523);
 })();

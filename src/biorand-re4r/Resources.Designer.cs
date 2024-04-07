@@ -71,20 +71,47 @@ namespace IntelOrca.Biohazard.BioRand.RE4R {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///&lt;html&gt;
+        ///   Looks up a localized string similar to &lt;!doctype html&gt;
+        ///&lt;html lang=&quot;en&quot; data-bs-theme=&quot;light&quot;&gt;
         ///&lt;head&gt;
-        ///    &lt;title&gt;Biorand&lt;/title&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot;&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+        ///    &lt;title&gt;Bootstrap demo&lt;/title&gt;
+        ///    &lt;link href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;
+        ///          integrity=&quot;sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN&quot; crossorigin=&quot;anonymous&quot;&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
-        ///    This is biorand.
-        ///&lt;/body&gt;
-        ///&lt;/html&gt;
-        ///.
+        ///    &lt;div class=&quot;container my-3&quot;&gt;
+        ///        &lt;div class=&quot;card&quot;&gt;
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string index {
             get {
                 return ResourceManager.GetString("index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (function () {
+        ///    const configDefMap = {};
+        ///
+        ///    function getConfig() {
+        ///        const config = {};
+        ///        for (key in configDefMap) {
+        ///            const def = configDefMap[key];
+        ///            const el = document.getElementById(`cfg-${key}`);
+        ///            switch (def.type) {
+        ///                case &apos;switch&apos;:
+        ///                    config[key] = el.checked;
+        ///                    break;
+        ///                case &apos;number&apos;:
+        ///                case &apos;range&apos;:
+        ///                    config[key] = parseFloat(el.value);
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string re4rr {
+            get {
+                return ResourceManager.GetString("re4rr", resourceCulture);
             }
         }
     }

@@ -2,6 +2,8 @@
 {
     public interface IChainsawRandomizer
     {
+        EnemyClassFactory EnemyClassFactory { get; }
+
         RandomizerOutput Randomize(RandomizerInput input);
     }
 }

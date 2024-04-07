@@ -9,13 +9,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     internal class ChainsawRandomizer : IChainsawRandomizer
     {
         private readonly FileRepository _fileRepository;
-        private readonly EnemyClassFactory _enemyClassFactory;
         private readonly RszFileOption _rszFileOption;
+
+        public EnemyClassFactory EnemyClassFactory { get; }
 
         public ChainsawRandomizer(FileRepository fileRepository, EnemyClassFactory enemyClassFactory, RszFileOption rszFileOption)
         {
             _fileRepository = fileRepository;
-            _enemyClassFactory = enemyClassFactory;
+            EnemyClassFactory = enemyClassFactory;
             _rszFileOption = rszFileOption;
         }
 
@@ -88,7 +89,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 if (areaData == null)
                     continue;
 
-                var area = new Area(_enemyClassFactory, _rszFileOption, areaPath, areaData);
+                var area = new Area(EnemyClassFactory, _rszFileOption, areaPath, areaData);
                 RandomizeArea(area, random);
                 _fileRepository.SetGameFileData(areaPath, area.SaveData());
             }

@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
+using System.Text;
+using System.Text.Json;
 using EmbedIO;
 using EmbedIO.Actions;
 using EmbedIO.Routing;
@@ -53,7 +55,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 .WithMode(HttpListenerMode.EmbedIO))
                 // First, we will configure our web server by adding Modules.
                 .WithLocalSessionManager()
-                .WithWebApi("/api", m => m.WithController(() => new MainController(randomizerService)))
+                .WithWebApi("/api", SerializationCallback, m => m.WithController(() => new MainController(randomizerService)))
                 .WithRouting("/", c =>
                 {
                     c.OnGet("/", (c, _) => StringContent(c, MimeType.Html, GetString("index.html")));
@@ -67,6 +69,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             // Listen for state changes.
             server.StateChanged += (s, e) => $"WebServer New State - {e.NewState}".Info();
             return server;
+        }
+
+        public static async Task SerializationCallback(IHttpContext context, object? data)
+        {
+            using var text = context.OpenResponseText(new UTF8Encoding(false));
+            await text.WriteAsync(JsonSerializer.Serialize(data,
+                new JsonSerializerOptions()
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                })).ConfigureAwait(false);
         }
 
         private async Task OnDownloadRando(RandomizerService randomizerService, IHttpContext context)
@@ -117,20 +129,62 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         {
             private readonly Random _random = new Random();
             private readonly Dictionary<ulong, GenerateResult> _randos = new();
+            private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
 
-            public Task<GenerateResult> GenerateAsync(int seed)
+            private void ExpireOldRandos()
             {
-                var biorandConfig = Re4rConfiguration.GetDefault();
+                var now = DateTime.UtcNow;
+                foreach (var kvp in _randos.ToArray())
+                {
+                    var age = now - kvp.Value.CreatedAt;
+                    if (age.TotalHours > 6)
+                    {
+                        _randos.Remove(kvp.Key);
+                    }
+                }
+            }
+
+            private IChainsawRandomizer GetRandomizer()
+            {
                 var chainsawRandomizerFactory = ChainsawRandomizerFactory.Default;
                 var randomizer = chainsawRandomizerFactory.Create();
-                var input = new RandomizerInput();
-                input.GamePath = biorandConfig.GamePath;
-                var output = randomizer.Randomize(input);
-                var outputFile = output.GetOutputPakFile();
-                var id = (ulong)_random.NextInt64();
-                var result = new GenerateResult(id, seed, outputFile);
-                _randos[id] = result;
-                return Task.FromResult(result);
+                return randomizer;
+            }
+
+            public Task<RandomizerConfigurationDefinition> GetConfigAsync()
+            {
+                var randomizer = GetRandomizer();
+                var enemyClassFactory = randomizer.EnemyClassFactory;
+                var configDefinition = RandomizerConfigurationDefinition.Create(enemyClassFactory);
+                return Task.FromResult(configDefinition);
+            }
+
+            public async Task<GenerateResult> GenerateAsync(int seed, Dictionary<string, object> config)
+            {
+                await _mutex.WaitAsync();
+                try
+                {
+                    ExpireOldRandos();
+
+                    var biorandConfig = Re4rConfiguration.GetDefault();
+                    var randomizer = GetRandomizer();
+                    var input = new RandomizerInput
+                    {
+                        GamePath = biorandConfig.GamePath,
+                        Seed = seed,
+                        Configuration = config
+                    };
+                    var output = randomizer.Randomize(input);
+                    var outputFile = output.GetOutputPakFile();
+                    var id = (ulong)_random.NextInt64();
+                    var result = new GenerateResult(id, seed, outputFile);
+                    _randos[id] = result;
+                    return result;
+                }
+                finally
+                {
+                    _mutex.Release();
+                }
             }
 
             public GenerateResult? Find(ulong id)
@@ -145,11 +199,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             public ulong Id { get; }
             public int Seed { get; }
             public byte[] PakFile { get; }
+            public DateTime CreatedAt { get; }
 
             public GenerateResult(ulong id, int seed, byte[] pakFile)
             {
                 Id = id;
                 PakFile = pakFile;
+                CreatedAt = DateTime.UtcNow;
             }
         }
 
@@ -162,10 +218,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 _randomizer = randomizer;
             }
 
-            [Route(HttpVerbs.Get, "/generate")]
-            public async Task<object> GenerateAsync([QueryField] int seed)
+            [Route(HttpVerbs.Get, "/config")]
+            public Task<RandomizerConfigurationDefinition> GetConfigAsync()
             {
-                var result = await _randomizer.GenerateAsync(seed);
+                return _randomizer.GetConfigAsync();
+            }
+
+            [Route(HttpVerbs.Post, "/generate")]
+            public async Task<object> GenerateAsync([MyJsonData] GenerateRequest request)
+            {
+                if (request.Password != "test")
+                {
+                    return new
+                    {
+                        result = "failure",
+                        message = "Incorrect password"
+                    };
+                }
+
+                var result = await _randomizer.GenerateAsync(request.Seed, ProcessConfig(request.Config));
                 return new
                 {
                     result = "success",
@@ -180,6 +251,70 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 var authority = Request.Url.GetLeftPart(UriPartial.Authority) ?? "/";
                 return new Uri(new Uri(authority), path).AbsoluteUri;
             }
+
+            private Dictionary<string, object> ProcessConfig(Dictionary<string, object>? config)
+            {
+                var result = new Dictionary<string, object>();
+                if (config != null)
+                {
+                    foreach (var kvp in config)
+                    {
+                        var value = ProcessConfigValue(kvp.Value);
+                        if (value is not null)
+                            result[kvp.Key] = value;
+                    }
+                }
+                return result;
+            }
+
+            private object? ProcessConfigValue(object? value)
+            {
+                if (value is JsonElement element)
+                {
+                    return element.ValueKind switch
+                    {
+                        JsonValueKind.Null => null,
+                        JsonValueKind.True => true,
+                        JsonValueKind.False => false,
+                        JsonValueKind.Number => ProcessNumber(element.GetDouble()),
+                        JsonValueKind.String => element.GetString(),
+                        _ => null
+                    };
+                }
+                return value;
+            }
+
+            private object? ProcessNumber(double d)
+            {
+                var l = (long)d;
+                if (l == d)
+                {
+                    int i = (int)l;
+                    return i == l ? i : (object)l;
+                }
+                return d;
+            }
+        }
+    }
+
+    public class GenerateRequest
+    {
+        public int Seed { get; set; }
+        public string? Password { get; set; }
+        public Dictionary<string, object>? Config { get; set; }
+    }
+
+    [AttributeUsage(AttributeTargets.Parameter)]
+    public class MyJsonDataAttribute : Attribute, IRequestDataAttribute<WebApiController>
+    {
+        public async Task<object?> GetRequestDataAsync(WebApiController controller, Type type, string parameterName)
+        {
+            using var req = controller.HttpContext.OpenRequestText();
+            var content = await req.ReadToEndAsync();
+            return JsonSerializer.Deserialize(content, type, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
         }
     }
 }
