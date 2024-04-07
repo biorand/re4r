@@ -6,7 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\REE\REE.csproj" />
-    <ProjectReference Include="..\RszTool\RszTool\RszTool.csproj">
+    <ProjectReference Include="..\rsztool\RszTool\RszTool.csproj">
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
