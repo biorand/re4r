@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -31,6 +33,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var random = new Random(input.Seed);
             var areaRepo = AreaDefinitionRepository.Default;
+            var areas = new List<Area>();
             foreach (var areaDef in areaRepo.Areas)
             {
                 var areaPath = areaDef.Path;
@@ -38,13 +41,35 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 if (areaData == null)
                     continue;
 
-                var area = new Area(EnemyClassFactory, _rszFileOption, areaPath, areaData);
-                RandomizeArea(areaDef, area, random);
-                _fileRepository.SetGameFileData(areaPath, area.SaveData());
+                var area = new Area(areaDef, EnemyClassFactory, _rszFileOption, areaPath, areaData);
+                areas.Add(area);
             }
+
+            LogAreas(_loggerInput, areas);
+            foreach (var area in areas)
+            {
+                RandomizeArea(area, random);
+            };
+            Parallel.ForEach(areas, area =>
+            {
+                _fileRepository.SetGameFileData(area.FileName, area.SaveData());
+            });
+            LogAreas(_loggerOutput, areas);
 
             var logFiles = new LogFiles(_loggerInput.Output, _loggerProcess.Output, _loggerOutput.Output);
             return new RandomizerOutput(_fileRepository.GetOutputPakFile(), logFiles);
+        }
+
+        private void LogAreas(RandomizerLogger logger, List<Area> areas)
+        {
+            foreach (var area in areas)
+            {
+                logger.LogArea(area);
+                foreach (var enemy in area.Enemies)
+                {
+                    logger.LogEnemy(enemy);
+                }
+            }
         }
 
         private T? GetConfigOption<T>(string key, T? defaultValue = default)
@@ -59,17 +84,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        private void RandomizeArea(AreaDefinition def, Area area, Random random)
+        private void RandomizeArea(Area area, Random random)
         {
-            _loggerInput.LogArea(area);
-            _loggerOutput.LogArea(area);
-
             var oldEnemies = area.Enemies;
-            foreach (var enemy in oldEnemies)
-            {
-                _loggerInput.LogEnemy(enemy);
-            }
-
+            var def = area.Definition;
             if (def.Exclude is string[] exclude)
             {
                 var excludeGuidArray = exclude.Select(x => new Guid(x)).ToHashSet();
@@ -118,13 +136,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
                 e.Health = random.Next(400, 1000);
             }
-
-            foreach (var enemy in area.Enemies)
-            {
-                _loggerOutput.LogEnemy(enemy);
-            }
-
-            LogEnemyTable(area, oldEnemiesSummary);
         }
 
         private void LogEnemyTable(Area area, string[] oldEnemies)

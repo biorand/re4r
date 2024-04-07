@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.IO;
 using REE;
 
@@ -8,7 +8,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         private readonly PatchedPakFile? _inputPakFile;
         private readonly string? _inputGamePath;
-        private Dictionary<string, byte[]> _outputFiles = new Dictionary<string, byte[]>();
+        private ConcurrentDictionary<string, byte[]> _outputFiles = new ConcurrentDictionary<string, byte[]>();
 
         public FileRepository()
         {

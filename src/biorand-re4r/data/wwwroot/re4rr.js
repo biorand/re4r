@@ -57,6 +57,13 @@
         return low + Math.round(Math.random() * range);
     }
 
+    function randomizeSeed() {
+        var elSeed = document.getElementById('input-seed');
+        const seed = rng(100000, 1000000);
+        elSeed.value = seed;
+        saveLocalData('seed', seed);
+    }
+
     function refreshTheme() {
         var elSwitchTheme = document.getElementById('switch-theme');
         const theme = elSwitchTheme.checked ? 'dark' : 'light;'
@@ -74,9 +81,7 @@
         var elSeed = document.getElementById('input-seed');
         var elShuffleSeed = document.getElementById('btn-shuffle-seed');
         elShuffleSeed.addEventListener('click', () => {
-            const seed = rng(100000, 1000000);
-            elSeed.value = seed;
-            saveLocalData('seed', seed);
+            randomizeSeed();
         });
 
         var elGenerate = document.getElementById('btn-generate');
@@ -226,8 +231,12 @@
     }
 
     function setSeed(seed) {
-        const el = document.getElementById('input-seed');
-        el.value = seed;
+        if (seed) {
+            const el = document.getElementById('input-seed');
+            el.value = seed;
+        } else {
+            randomizeSeed();
+        }
     }
 
     setupPage();

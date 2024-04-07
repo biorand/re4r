@@ -10,17 +10,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         private static int _ctxIdIndex = 5000;
 
+        public AreaDefinition Definition { get; }
         public EnemyClassFactory EnemyClassFactory { get; }
         public string FileName { get; }
         public ScnFile ScnFile { get; }
 
-        public Area(EnemyClassFactory enemyClassFactory, string path)
-            : this(enemyClassFactory, new RszFileOption(GameName.re4), path, File.ReadAllBytes(path))
+        public Area(AreaDefinition definition, EnemyClassFactory enemyClassFactory, RszFileOption rszFileOption, string path, byte[] data)
         {
-        }
-
-        public Area(EnemyClassFactory enemyClassFactory, RszFileOption rszFileOption, string path, byte[] data)
-        {
+            Definition = definition;
             EnemyClassFactory = enemyClassFactory;
             FileName = Path.GetFileName(path);
             ScnFile = new ScnFile(rszFileOption, new FileHandler(new MemoryStream(data)));

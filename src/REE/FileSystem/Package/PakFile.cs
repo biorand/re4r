@@ -155,6 +155,9 @@
                 ct.ThrowIfCancellationRequested();
 
                 var fileName = list.GetPath(entry.dwHashName);
+                if (fileName == null)
+                    continue;
+
                 var fullPath = System.IO.Path.Combine(destinationPath, fileName!);
 
                 Utils.iCreateDirectory(fullPath);
