@@ -10,6 +10,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly string? _inputGamePath;
         private Dictionary<string, byte[]> _outputFiles = new Dictionary<string, byte[]>();
 
+        public FileRepository()
+        {
+        }
+
         public FileRepository(PatchedPakFile inputPakFile)
         {
             _inputPakFile = inputPakFile;
@@ -17,14 +21,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public FileRepository(string inputGamePath)
         {
-            _inputGamePath = inputGamePath;
+            if (inputGamePath.EndsWith(".pak", System.StringComparison.OrdinalIgnoreCase))
+            {
+                _inputPakFile = new PatchedPakFile(inputGamePath);
+            }
+            else
+            {
+                _inputGamePath = inputGamePath;
+            }
         }
 
         public byte[]? GetGameFileData(string path)
         {
             if (_inputGamePath == null)
             {
-                return _inputPakFile!.GetFileData(path);
+                return _inputPakFile?.GetFileData(path);
             }
             else
             {

@@ -14,35 +14,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public IChainsawRandomizer Create()
         {
-            var gamePath = @"F:\games\steamapps\common\RESIDENT EVIL 4  BIOHAZARD RE4";
-            var inputGameData = @$"{gamePath}\re_chunk_000.pak.patch_003.pak";
-            var outputFile = @$"{gamePath}\re_chunk_000.pak.patch_004.pak";
-
-            // var ogPakFile = new PatchedPakFile(inputGameData);
-            // var fileRepository = new FileRepository(ogPakFile);
-            var fileRepository = new FileRepository(@"G:\re4r\extract\patch_003");
-
             var enemyClassFactory = EnemyClassFactory.Create();
             var rszFileOption = CreateRszFileOption();
-            var randomizer = new ChainsawRandomizer(fileRepository, enemyClassFactory, rszFileOption);
+            var randomizer = new ChainsawRandomizer(enemyClassFactory, rszFileOption);
             return randomizer;
-
-            // LogRoomEnemies(enemyClassFactory);
-            // 
-            // for (var i = 0; i < areas.Length; i++)
-            // {
-            //     var src = FindFile(areas[i]);
-            //     if (src == null)
-            //         continue;
-            // 
-            //     var dst = GetOutputPath(areas[i]);
-            //     Directory.CreateDirectory(Path.GetDirectoryName(dst)!);
-            // 
-            //     var area = new Area(enemyClassFactory, src);
-            //     RandomizeArea(area, random);
-            //     Console.WriteLine($"Writing {dst}...");
-            //     area.Save(dst);
-            // }
         }
 
         private static RszFileOption CreateRszFileOption()

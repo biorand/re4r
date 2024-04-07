@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using RszTool;
 
@@ -8,80 +6,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class ChainsawRandomizer : IChainsawRandomizer
     {
-        private readonly FileRepository _fileRepository;
+        private FileRepository _fileRepository = new FileRepository();
         private readonly RszFileOption _rszFileOption;
 
         public EnemyClassFactory EnemyClassFactory { get; }
 
-        public ChainsawRandomizer(FileRepository fileRepository, EnemyClassFactory enemyClassFactory, RszFileOption rszFileOption)
+        public ChainsawRandomizer(EnemyClassFactory enemyClassFactory, RszFileOption rszFileOption)
         {
-            _fileRepository = fileRepository;
             EnemyClassFactory = enemyClassFactory;
             _rszFileOption = rszFileOption;
         }
 
-        private void LogRoomEnemies(EnemyClassFactory enemyClassFactory)
-        {
-            var files = Directory.GetFiles(@"G:\re4r\extract\patch_003\natives\stm\_chainsaw\leveldesign", "*.scn.20", SearchOption.AllDirectories);
-            var map = new Dictionary<string, string[]>();
-            foreach (var file in files)
-            {
-                try
-                {
-                    var area = new Area(enemyClassFactory, file);
-                    var enemyNames = new List<string>();
-                    foreach (var go in area.ScnFile.IterAllGameObjects(true))
-                    {
-                        foreach (var component in go.Components)
-                        {
-                            var enemyKind = enemyClassFactory.FindEnemyKind(component.Name);
-                            if (enemyKind != null)
-                            {
-                                enemyNames.Add(enemyKind.Name);
-                            }
-                        }
-                    }
-                    if (enemyNames.Count != 0)
-                    {
-                        map[file] = enemyNames.ToArray();
-                    }
-                }
-                catch
-                {
-                }
-            }
-            foreach (var m in map)
-            {
-                Console.WriteLine("---------------------------------------");
-                Console.WriteLine($"{m.Key}:");
-                Console.WriteLine("---------------------------------------");
-                foreach (var e in m.Value)
-                {
-                    Console.WriteLine(e);
-                }
-                Console.WriteLine();
-            }
-        }
-
-        private string? FindFile(string fileName)
-        {
-            var basePath = @"G:\re4r\extract\patch_003";
-            var path = Path.Combine(basePath, fileName);
-            if (File.Exists(path))
-            {
-                return path;
-            }
-            return null;
-        }
-
-        private string GetOutputPath(string fileName)
-        {
-            var basePath = @"F:\games\steamapps\common\RESIDENT EVIL 4  BIOHAZARD RE4";
-            return Path.Combine(basePath, fileName);
-        }
-
         public RandomizerOutput Randomize(RandomizerInput input)
         {
+            if (input.GamePath != null)
+            {
+                _fileRepository = new FileRepository(input.GamePath);
+            }
+
             var random = new Random(input.Seed);
             foreach (var areaPath in _areaPaths)
             {
