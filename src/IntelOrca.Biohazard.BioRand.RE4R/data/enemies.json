@@ -42,7 +42,8 @@
     },
     {
       "name": "brute_with_gun",
-      "componentName": "chainsaw.Ch1c8z0SpawnParam"
+      "componentName": "chainsaw.Ch1c8z0SpawnParam",
+      "category": "boss"
     },
     {
       "name": "sadler",

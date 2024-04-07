@@ -269,7 +269,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                     };
                 }
 
-                var result = await _randomizer.GenerateAsync(request.Seed, ProcessConfig(request.Config));
+                var result = await _randomizer.GenerateAsync(
+                    request.Seed,
+                    RandomizerConfigurationDefinition.ProcessConfig(request.Config));
                 return new
                 {
                     result = "success",
@@ -282,49 +284,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             private string CreateUrl(string path)
             {
                 return path;
-            }
-
-            private Dictionary<string, object> ProcessConfig(Dictionary<string, object>? config)
-            {
-                var result = new Dictionary<string, object>();
-                if (config != null)
-                {
-                    foreach (var kvp in config)
-                    {
-                        var value = ProcessConfigValue(kvp.Value);
-                        if (value is not null)
-                            result[kvp.Key] = value;
-                    }
-                }
-                return result;
-            }
-
-            private object? ProcessConfigValue(object? value)
-            {
-                if (value is JsonElement element)
-                {
-                    return element.ValueKind switch
-                    {
-                        JsonValueKind.Null => null,
-                        JsonValueKind.True => true,
-                        JsonValueKind.False => false,
-                        JsonValueKind.Number => ProcessNumber(element.GetDouble()),
-                        JsonValueKind.String => element.GetString(),
-                        _ => null
-                    };
-                }
-                return value;
-            }
-
-            private object? ProcessNumber(double d)
-            {
-                var l = (long)d;
-                if (l == d)
-                {
-                    int i = (int)l;
-                    return i == l ? i : (object)l;
-                }
-                return d;
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+﻿using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -19,13 +19,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public static Re4rConfiguration FromFile(string path)
         {
-            var content = File.ReadAllText(path);
-            var options = new JsonSerializerOptions()
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                ReadCommentHandling = JsonCommentHandling.Skip
-            };
-            return JsonSerializer.Deserialize<Re4rConfiguration>(content, options) ?? new Re4rConfiguration();
+            return File.ReadAllText(path).DeserializeJson<Re4rConfiguration>();
         }
     }
 }

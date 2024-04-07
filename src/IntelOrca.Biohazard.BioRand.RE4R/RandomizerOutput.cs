@@ -4,16 +4,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public sealed class RandomizerOutput
     {
-        private readonly LogFiles _logFiles;
         private byte[]? _zipFile;
         private byte[]? _modFile;
 
         public byte[] PakFile { get; }
+        public LogFiles LogFiles { get; }
 
         internal RandomizerOutput(byte[] pakFile, LogFiles logFiles)
         {
             PakFile = pakFile;
-            _logFiles = logFiles;
+            LogFiles = logFiles;
         }
 
         public byte[] GetOutputZip()
@@ -43,9 +43,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             return new ZipFileBuilder()
                 .AddEntry($"{prefix}re_chunk_000.pak.patch_004.pak", PakFile)
-                .AddEntry($"{prefix}input.log", Encoding.UTF8.GetBytes(_logFiles.Input))
-                .AddEntry($"{prefix}process.log", Encoding.UTF8.GetBytes(_logFiles.Process))
-                .AddEntry($"{prefix}output.log", Encoding.UTF8.GetBytes(_logFiles.Output));
+                .AddEntry($"{prefix}input.log", Encoding.UTF8.GetBytes(LogFiles.Input))
+                .AddEntry($"{prefix}process.log", Encoding.UTF8.GetBytes(LogFiles.Process))
+                .AddEntry($"{prefix}output.log", Encoding.UTF8.GetBytes(LogFiles.Output));
         }
     }
 }

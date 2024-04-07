@@ -1,4 +1,7 @@
-﻿namespace IntelOrca.Biohazard.BioRand.RE4R
+﻿using System.Text.Json;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+
+namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public class RandomizerConfigurationDefinition
     {
@@ -61,6 +64,55 @@
             configDefinition.Groups.Add(enemyGroup);
 
             return configDefinition;
+        }
+
+        public static Dictionary<string, object> ProcessConfig(string configJson)
+        {
+            var deserialized = configJson.DeserializeJson<Dictionary<string, object>>();
+            return ProcessConfig(deserialized);
+        }
+
+        public static Dictionary<string, object> ProcessConfig(Dictionary<string, object>? config)
+        {
+            var result = new Dictionary<string, object>();
+            if (config != null)
+            {
+                foreach (var kvp in config)
+                {
+                    var value = ProcessConfigValue(kvp.Value);
+                    if (value is not null)
+                        result[kvp.Key] = value;
+                }
+            }
+            return result;
+        }
+
+        private static object? ProcessConfigValue(object? value)
+        {
+            if (value is JsonElement element)
+            {
+                return element.ValueKind switch
+                {
+                    JsonValueKind.Null => null,
+                    JsonValueKind.True => true,
+                    JsonValueKind.False => false,
+                    JsonValueKind.Number => ProcessNumber(element.GetDouble()),
+                    JsonValueKind.String => element.GetString(),
+                    _ => null
+                };
+            }
+            return value;
+        }
+
+        private static object? ProcessNumber(double d)
+        {
+            var l = (long)d;
+            if (l == d)
+            {
+                int i = (int)l;
+                return i == l ? i : (object)l;
+            }
+            return d;
         }
     }
 }

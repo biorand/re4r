@@ -8,6 +8,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         private FileRepository _fileRepository = new FileRepository();
         private readonly RszFileOption _rszFileOption;
+        private readonly RandomizerLogger _loggerInput = new RandomizerLogger();
+        private readonly RandomizerLogger _loggerProcess = new RandomizerLogger();
+        private readonly RandomizerLogger _loggerOutput = new RandomizerLogger();
+        private RandomizerInput _input = new RandomizerInput();
 
         public EnemyClassFactory EnemyClassFactory { get; }
 
@@ -19,37 +23,68 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public RandomizerOutput Randomize(RandomizerInput input)
         {
+            _input = input;
             if (input.GamePath != null)
             {
                 _fileRepository = new FileRepository(input.GamePath);
             }
 
             var random = new Random(input.Seed);
-            foreach (var areaPath in _areaPaths)
+            var areaRepo = AreaDefinitionRepository.Default;
+            foreach (var areaDef in areaRepo.Areas)
             {
+                var areaPath = areaDef.Path;
                 var areaData = _fileRepository.GetGameFileData(areaPath);
                 if (areaData == null)
                     continue;
 
                 var area = new Area(EnemyClassFactory, _rszFileOption, areaPath, areaData);
-                RandomizeArea(area, random);
+                RandomizeArea(areaDef, area, random);
                 _fileRepository.SetGameFileData(areaPath, area.SaveData());
             }
 
-            var logFiles = new LogFiles("", "", "");
+            var logFiles = new LogFiles(_loggerInput.Output, _loggerProcess.Output, _loggerOutput.Output);
             return new RandomizerOutput(_fileRepository.GetOutputPakFile(), logFiles);
         }
 
-        private void RandomizeArea(Area area, Random random)
+        private T? GetConfigOption<T>(string key, T? defaultValue = default)
         {
-            var oldEnemies = area.Enemies.Select(GetEnemySummary).ToArray();
-            var multiplier = 1.5;
-            var enemies = area.Enemies;
-            var newEnemyCount = (int)enemies.Length * multiplier;
-            var delta = (int)Math.Round(newEnemyCount - enemies.Length);
+            if (_input.Configuration != null && _input.Configuration.TryGetValue(key, out var value))
+            {
+                return (T)Convert.ChangeType(value, typeof(T));
+            }
+            else
+            {
+                return defaultValue;
+            }
+        }
+
+        private void RandomizeArea(AreaDefinition def, Area area, Random random)
+        {
+            _loggerInput.LogArea(area);
+            _loggerOutput.LogArea(area);
+
+            var oldEnemies = area.Enemies;
+            foreach (var enemy in oldEnemies)
+            {
+                _loggerInput.LogEnemy(enemy);
+            }
+
+            if (def.Exclude is string[] exclude)
+            {
+                var excludeGuidArray = exclude.Select(x => new Guid(x)).ToHashSet();
+                oldEnemies = oldEnemies
+                    .Where(x => !excludeGuidArray.Contains(x.Guid))
+                    .ToArray();
+            }
+
+            var oldEnemiesSummary = area.Enemies.Select(GetEnemySummary).ToArray();
+            var multiplier = GetConfigOption<double>("enemy-multiplier", 1);
+            var newEnemyCount = (int)oldEnemies.Length * multiplier;
+            var delta = (int)Math.Round(newEnemyCount - oldEnemies.Length);
             if (delta != 0)
             {
-                var bag = new EndlessBag<Enemy>(random, enemies);
+                var bag = new EndlessBag<Enemy>(random, oldEnemies);
                 var enemiesToCopy = bag.Next(delta);
                 foreach (var e in enemiesToCopy)
                 {
@@ -57,7 +92,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 }
             }
 
-            foreach (var enemy in area.Enemies)
+            foreach (var enemy in oldEnemies)
             {
                 var e = enemy;
                 var ecd = area.EnemyClassFactory.Next(random);
@@ -84,7 +119,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 e.Health = random.Next(400, 1000);
             }
 
-            LogEnemyTable(area, oldEnemies);
+            foreach (var enemy in area.Enemies)
+            {
+                _loggerOutput.LogEnemy(enemy);
+            }
+
+            LogEnemyTable(area, oldEnemiesSummary);
         }
 
         private void LogEnemyTable(Area area, string[] oldEnemies)
@@ -113,20 +153,5 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             return $"{enemy.Kind} ({enemy.Health})";
         }
-
-        private static string[] _areaPaths = new[] {
-            // Chapter 1
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_010.scn.20",
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_020.scn.20",
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_030.scn.20",
-
-            // Chapter 2
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/level_cp10_chp1_2.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc44/level_loc44.scn.20",
-
-            // Chapter 3
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_3/level_cp10_chp1_3.scn.20",
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_3/level_cp10_chp1_3_000.scn.20",
-        };
     }
 }

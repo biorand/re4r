@@ -5,6 +5,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
 {
     public static class MemoryExtensions
     {
+        public static void WriteToFile(this string data, string path)
+        {
+            File.WriteAllText(path, data);
+        }
+
         public static void WriteToFile(this byte[] data, string path)
             => data.AsSpan().WriteToFile(path);
 

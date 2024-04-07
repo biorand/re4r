@@ -16,7 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
             [Description("Configuration to use")]
             [CommandOption("-c|--config")]
-            public string? Configuration { get; init; }
+            public string? ConfigPath { get; init; }
 
             [CommandOption("-o|--output")]
             public string? OutputPath { get; init; }
@@ -39,7 +39,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             var randomizer = chainsawRandomizerFactory.Create();
             var input = new RandomizerInput();
             input.GamePath = biorandConfig.GamePath;
+            if (!string.IsNullOrEmpty(settings.ConfigPath))
+            {
+                var configJson = File.ReadAllText(settings.ConfigPath);
+                input.Configuration = RandomizerConfigurationDefinition.ProcessConfig(configJson);
+            }
             var output = randomizer.Randomize(input);
+
+            // Create log files
+            output.LogFiles.Input.WriteToFile("input.log");
+            output.LogFiles.Process.WriteToFile("process.log");
+            output.LogFiles.Output.WriteToFile("output.log");
 
             var outputPath = settings.OutputPath!;
             if (outputPath.EndsWith(".pak"))
