@@ -83,6 +83,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 });
             context.Response.ContentEncoding = new UTF8Encoding(false);
             context.Response.ContentType = MimeType.Json;
+            context.Response.ContentLength64 = content.LongLength;
 
             using var stream = context.OpenResponseStream(preferCompression: false);
             await stream.WriteAsync(content).ConfigureAwait(false);
@@ -103,6 +104,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             {
                 var contentName = $"biorand-re4r-{result.Seed}.zip";
                 context.Response.ContentType = "application/zip";
+                context.Response.ContentLength64 = result.ModFile.LongLength;
                 context.Response.ContentEncoding = null;
                 context.Response.Headers["Content-Disposition"] = $"attachment; filename=\"{contentName}";
                 using var writer = context.OpenResponseStream(preferCompression: false);
@@ -112,6 +114,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             {
                 var contentName = "re_chunk_000.pak.patch_004.pak";
                 context.Response.ContentType = MimeType.Default;
+                context.Response.ContentLength64 = result.PakFile.LongLength;
                 context.Response.ContentEncoding = null;
                 context.Response.Headers["Content-Disposition"] = $"attachment; filename=\"{contentName}";
                 using var writer = context.OpenResponseStream(preferCompression: false);
@@ -121,15 +124,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
         private async Task StringContent(IHttpContext context, string contentType, string content)
         {
+            var encoding = new UTF8Encoding(false);
+            var contentBytes = encoding.GetBytes(content);
+
             context.Response.ContentType = contentType;
-            using var writer = context.OpenResponseText(preferCompression: false);
-            await writer.WriteAsync(content);
+            context.Response.ContentLength64 = contentBytes.LongLength;
+            using var writer = context.OpenResponseStream(preferCompression: false);
+            await writer.WriteAsync(contentBytes);
         }
 
         private async Task BinaryContent(IHttpContext context, string contentType, byte[] content)
         {
             context.Response.ContentType = contentType;
             context.Response.ContentEncoding = null;
+            context.Response.ContentLength64 = content.LongLength;
             using var writer = context.OpenResponseStream(preferCompression: false);
             await writer.WriteAsync(content);
         }
