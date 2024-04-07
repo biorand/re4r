@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
+using System.Text;
+using REE;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -10,6 +12,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private ChainsawRandomizerFactory()
         {
+        }
+
+        public PakList GetDefaultPakList()
+        {
+            var pakListBytes = Ungzip(Resources.pakcontents_txt);
+            var pakListText = Encoding.UTF8.GetString(pakListBytes);
+            return new PakList(pakListText);
         }
 
         public IChainsawRandomizer Create()
@@ -52,6 +61,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             using var outputStream = File.OpenWrite(targetPath);
             using var deflateStream = new GZipStream(inputStream, CompressionMode.Decompress);
             deflateStream.CopyTo(outputStream);
+        }
+
+        private static byte[] Ungzip(byte[] input)
+        {
+            using var inputStream = new MemoryStream(input);
+            using var outputStream = new MemoryStream();
+            using var deflateStream = new GZipStream(inputStream, CompressionMode.Decompress);
+            deflateStream.CopyTo(outputStream);
+            return outputStream.ToArray();
         }
 
         private static void CopyFile(byte[] input, string targetPath)

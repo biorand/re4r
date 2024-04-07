@@ -1,64 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace REE
+﻿namespace REE
 {
-    class PakList
+    public sealed class PakList
     {
-        private static String m_Path = Utils.iGetApplicationPath() + @"\Projects\";
+        private readonly Dictionary<ulong, string> _map = [];
 
-        private static Dictionary<UInt64, String> m_HashList = new Dictionary<UInt64, String>();
-
-        public static void iLoadProject(String m_ProjectFile)
+        public PakList(string contents)
+            : this(contents.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
         {
-            String? m_Line = null;
-            m_ProjectFile = m_ProjectFile + ".list";
-            if (!File.Exists(m_Path + m_ProjectFile))
-            {
-                Utils.iSetWarning("[WARNING]: Unable to load project file " + m_ProjectFile);
-            }
-
-            Int32 i = 0;
-            m_HashList.Clear();
-
-            StreamReader TProjectFile = new StreamReader(m_Path + m_ProjectFile);
-            while ((m_Line = TProjectFile.ReadLine()) != null)
-            {
-                UInt32 dwHashLower = PakHash.iGetHash(m_Line.ToLower());
-                UInt32 dwHashUpper = PakHash.iGetHash(m_Line.ToUpper());
-                UInt64 dwHash = (UInt64)dwHashUpper << 32 | dwHashLower;
-
-                if (m_HashList.ContainsKey(dwHash))
-                {
-                    String? m_Collision = null;
-                    m_HashList.TryGetValue(dwHash, out m_Collision);
-                    Utils.iSetError("[COLLISION]: " + m_Collision + " <-> " + m_Line);
-                }
-
-                m_HashList.Add(dwHash, m_Line);
-                i++;
-            }
-
-            TProjectFile.Close();
-            Utils.iSetInfo("[INFO]: Project File Loaded: " + i.ToString());
-            Console.WriteLine();
         }
 
-        public static String? iGetNameFromHashList(UInt64 dwHash)
+        public PakList(string[] files)
         {
-            String? m_FileName = null;
-
-            if (m_HashList.ContainsKey(dwHash))
+            foreach (var line in files)
             {
-                m_HashList.TryGetValue(dwHash, out m_FileName);
+                var path = line.Trim();
+                if (!string.IsNullOrEmpty(line))
+                {
+                    _map[GetHash(path)] = path;
+                }
             }
-            else
-            {
-                m_FileName = @"__Unknown/" + dwHash.ToString("X16");
-            }
+        }
 
-            return m_FileName;
+        public string? GetPath(ulong hash)
+        {
+            _map.TryGetValue(hash, out var path);
+            return path;
+        }
+
+        private static ulong GetHash(string path)
+        {
+            var dwHashLower = (ulong)PakHash.iGetHash(path.ToLower());
+            var dwHashUpper = (ulong)PakHash.iGetHash(path.ToUpper());
+            return dwHashLower | (dwHashUpper << 32);
         }
     }
 }

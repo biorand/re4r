@@ -35,7 +35,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 RandomizeArea(area, random);
                 _fileRepository.SetGameFileData(areaPath, area.SaveData());
             }
-            return new RandomizerOutput(_fileRepository);
+
+            var logFiles = new LogFiles("", "", "");
+            return new RandomizerOutput(_fileRepository.GetOutputPakFile(), logFiles);
         }
 
         private void RandomizeArea(Area area, Random random)

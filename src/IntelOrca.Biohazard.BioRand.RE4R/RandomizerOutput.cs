@@ -1,24 +1,29 @@
-﻿using System.IO;
-using System.IO.Compression;
+﻿using System.Text;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public sealed class RandomizerOutput
     {
-        private readonly FileRepository _fileRepository;
-        private byte[]? _pakFile;
+        private readonly LogFiles _logFiles;
+        private byte[]? _zipFile;
         private byte[]? _modFile;
 
-        internal RandomizerOutput(FileRepository fileRepository)
+        public byte[] PakFile { get; }
+
+        internal RandomizerOutput(byte[] pakFile, LogFiles logFiles)
         {
-            _fileRepository = fileRepository;
+            PakFile = pakFile;
+            _logFiles = logFiles;
         }
 
-        public byte[] GetOutputPakFile()
+        public byte[] GetOutputZip()
         {
-            if (_pakFile == null)
-                _pakFile = _fileRepository.GetOutputPakFile();
-            return _pakFile;
+            if (_zipFile != null)
+                return _zipFile;
+
+            _zipFile = BuildZipFile()
+                .Build();
+            return _zipFile;
         }
 
         public byte[] GetOutputMod()
@@ -26,35 +31,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             if (_modFile != null)
                 return _modFile;
 
-            var pakFile = _fileRepository.GetOutputPakFile();
-            var tempDir = Directory.CreateTempSubdirectory()!;
-            try
-            {
-                var subdir = tempDir.CreateSubdirectory("Biorand");
-                File.WriteAllBytes(Path.Combine(subdir.FullName, "re_chunk_000.pak.patch_004.pak"), pakFile);
-                File.WriteAllBytes(Path.Combine(subdir.FullName, "pic.jpg"), Resources.modimage);
-                File.WriteAllText(Path.Combine(subdir.FullName, "modinfo.ini"),
-                    "name=Biorand\nversion=1.5\ndescription=RE4R randomizer\nscreenshot=pic.jpg\nauthor=IntelOrca\ncategory=!Other > Misc");
-
-                var ms = new MemoryStream();
-                ZipFile.CreateFromDirectory(tempDir.FullName, ms);
-                _modFile = ms.ToArray();
-                return _modFile;
-            }
-            finally
-            {
-                tempDir.Delete(recursive: true);
-            }
+            _modFile = BuildZipFile("Biorand/")
+                .AddEntry("Biorand/pic.jpg", Resources.modimage)
+                .AddEntry("Biorand/modinfo.ini",
+                    Encoding.UTF8.GetBytes("name=Biorand\nversion=1.5\ndescription=RE4R randomizer\nscreenshot=pic.jpg\nauthor=IntelOrca\ncategory=!Other > Misc\n"))
+                .Build();
+            return _modFile;
         }
 
-        public void WriteOutputPakFile(string path)
+        private ZipFileBuilder BuildZipFile(string prefix = "")
         {
-            _fileRepository.WriteOutputPakFile(path);
-        }
-
-        public void WriteOutputFolder(string path)
-        {
-            _fileRepository.WriteOutputFolder(path);
+            return new ZipFileBuilder()
+                .AddEntry($"{prefix}re_chunk_000.pak.patch_004.pak", PakFile)
+                .AddEntry($"{prefix}input.log", Encoding.UTF8.GetBytes(_logFiles.Input))
+                .AddEntry($"{prefix}process.log", Encoding.UTF8.GetBytes(_logFiles.Process))
+                .AddEntry($"{prefix}output.log", Encoding.UTF8.GetBytes(_logFiles.Output));
         }
     }
 }

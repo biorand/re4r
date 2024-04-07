@@ -5,6 +5,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     public class Re4rConfiguration
     {
         public string? GamePath { get; set; }
+        public string[]? Passwords { get; set; }
 
         public static Re4rConfiguration GetDefault()
         {

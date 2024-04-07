@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using REE;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 {
-    internal sealed class GenerateCommand : Command<GenerateCommand.Settings>
+    internal sealed class GenerateCommand : AsyncCommand<GenerateCommand.Settings>
     {
         public sealed class Settings : CommandSettings
         {
@@ -29,7 +31,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             return base.Validate(context, settings);
         }
 
-        public override int Execute(CommandContext context, Settings settings)
+
+        public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
             var biorandConfig = Re4rConfiguration.GetDefault();
             var chainsawRandomizerFactory = ChainsawRandomizerFactory.Default;
@@ -42,11 +45,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             if (outputPath.EndsWith(".pak"))
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
-                output.WriteOutputPakFile(outputPath);
+                output.PakFile.WriteToFile(outputPath);
             }
             else
             {
-                output.WriteOutputFolder(outputPath);
+                var pakList = chainsawRandomizerFactory.GetDefaultPakList();
+                await new PakFile(output.PakFile).ExtractAllAsync(pakList, outputPath);
             }
             return 0;
         }

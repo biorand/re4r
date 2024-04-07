@@ -102,7 +102,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             var isMod = "true".Equals(context.Request.QueryString["mod"], StringComparison.OrdinalIgnoreCase);
             if (isMod)
             {
-                var contentName = $"biorand-re4r-{result.Seed}.zip";
+                var contentName = $"biorand-re4r-{result.Seed}-mod.zip";
                 context.Response.ContentType = "application/zip";
                 context.Response.ContentLength64 = result.ModFile.LongLength;
                 context.Response.ContentEncoding = null;
@@ -112,13 +112,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             }
             else
             {
-                var contentName = "re_chunk_000.pak.patch_004.pak";
+                var contentName = $"biorand-re4r-{result.Seed}-mod.zip";
                 context.Response.ContentType = MimeType.Default;
-                context.Response.ContentLength64 = result.PakFile.LongLength;
+                context.Response.ContentLength64 = result.ZipFile.LongLength;
                 context.Response.ContentEncoding = null;
                 context.Response.Headers["Content-Disposition"] = $"attachment; filename=\"{contentName}";
                 using var writer = context.OpenResponseStream(preferCompression: false);
-                await writer.WriteAsync(result.PakFile);
+                await writer.WriteAsync(result.ZipFile);
             }
         }
 
@@ -203,7 +203,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                         Configuration = config
                     };
                     var output = randomizer.Randomize(input);
-                    var outputFile = output.GetOutputPakFile();
+                    var outputFile = output.GetOutputZip();
                     var outputFileMod = output.GetOutputMod();
                     var id = (ulong)_random.NextInt64();
                     var result = new GenerateResult(id, seed, outputFile, outputFileMod);
@@ -227,15 +227,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         {
             public ulong Id { get; }
             public int Seed { get; }
-            public byte[] PakFile { get; }
+            public byte[] ZipFile { get; }
             public byte[] ModFile { get; }
             public DateTime CreatedAt { get; }
 
-            public GenerateResult(ulong id, int seed, byte[] pakFile, byte[] modFile)
+            public GenerateResult(ulong id, int seed, byte[] zipFile, byte[] modFile)
             {
                 Id = id;
                 Seed = seed;
-                PakFile = pakFile;
+                ZipFile = zipFile;
                 ModFile = modFile;
                 CreatedAt = DateTime.UtcNow;
             }
@@ -259,7 +259,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             [Route(HttpVerbs.Post, "/generate")]
             public async Task<object> GenerateAsync([MyJsonData] GenerateRequest request)
             {
-                if (request.Password != "test")
+                var webConfig = Re4rConfiguration.GetDefault();
+                if (webConfig.Passwords != null && !webConfig.Passwords.Contains(request.Password))
                 {
                     return new
                     {

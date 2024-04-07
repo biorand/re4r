@@ -1,17 +1,24 @@
 ﻿namespace REE
 {
-    internal class PakFile : IDisposable
+    public class PakFile : IDisposable
     {
-        private readonly FileStream _fileStream;
+        private readonly Stream _stream;
         private readonly List<PakEntry> _entries = new List<PakEntry>();
 
-        public string Path { get; }
         public int NumEntries => _entries.Count;
 
         public PakFile(string path)
+            : this(File.OpenRead(path))
         {
-            Path = path;
-            var stream = File.OpenRead(path);
+        }
+
+        public PakFile(byte[] bytes)
+            : this(new MemoryStream(bytes))
+        {
+        }
+
+        public PakFile(Stream stream)
+        {
             try
             {
                 if (stream.Length <= 16)
@@ -84,7 +91,7 @@
                         _entries.Add(entry);
                     }
                 }
-                _fileStream = stream;
+                _stream = stream;
             }
             catch
             {
@@ -95,7 +102,7 @@
 
         public void Dispose()
         {
-            _fileStream?.Dispose();
+            _stream?.Dispose();
         }
 
         public byte[]? GetFileData(string path)
@@ -138,13 +145,16 @@
             return -1;
         }
 
-        public async Task ExtractAllAsync(string destinationPath, CancellationToken ct)
+        public async Task ExtractAllAsync(
+            PakList list,
+            string destinationPath,
+            CancellationToken ct = default)
         {
             foreach (var entry in _entries)
             {
                 ct.ThrowIfCancellationRequested();
 
-                var fileName = PakList.iGetNameFromHashList((ulong)entry.dwHashNameUpper << 32 | entry.dwHashNameLower);
+                var fileName = list.GetPath(entry.dwHashName);
                 var fullPath = System.IO.Path.Combine(destinationPath, fileName!);
 
                 Utils.iCreateDirectory(fullPath);
@@ -157,14 +167,14 @@
 
         private byte[] GetEntryData(in PakEntry entry)
         {
-            _fileStream.Seek(entry.dwOffset, SeekOrigin.Begin);
+            _stream.Seek(entry.dwOffset, SeekOrigin.Begin);
             if (entry.wCompressionType == PakFlags.NONE)
             {
-                return _fileStream.ReadBytes(PakUtils.iGetSize(entry.dwCompressedSize, entry.dwDecompressedSize));
+                return _stream.ReadBytes(PakUtils.iGetSize(entry.dwCompressedSize, entry.dwDecompressedSize));
             }
             else if (entry.wCompressionType == PakFlags.DEFLATE || entry.wCompressionType == PakFlags.ZSTD)
             {
-                var lpSrcBuffer = _fileStream.ReadBytes((int)entry.dwCompressedSize);
+                var lpSrcBuffer = _stream.ReadBytes((int)entry.dwCompressedSize);
                 var lpDstBuffer = Array.Empty<byte>();
                 switch (entry.wCompressionType)
                 {
