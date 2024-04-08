@@ -2,7 +2,7 @@
   "profiles": {
     "generate": {
       "commandName": "Project",
-      "commandLineArgs": "generate -c \"C:\\Users\\Ted\\.biorand\\default.json\" -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\"",
+      "commandLineArgs": "generate -s 10 -c \"C:\\Users\\Ted\\.biorand\\default.json\" -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\"",
       "workingDirectory": "C:\\Users\\Ted\\.biorand\\logs"
     },
     "web-server": {

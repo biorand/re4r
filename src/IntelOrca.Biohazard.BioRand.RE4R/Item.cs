@@ -4,7 +4,8 @@
     {
         public int Id { get; } = id;
         public int Count { get; } = count;
+        public bool IsAutomatic => Id == -1;
 
-        public override string ToString() => Id == -1 ? "(automatic)" : $"{Id} x{Count}";
+        public override string ToString() => IsAutomatic ? "(automatic)" : $"{Id} x{Count}";
     }
 }

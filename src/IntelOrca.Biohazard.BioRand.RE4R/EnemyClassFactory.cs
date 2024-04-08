@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
@@ -10,6 +9,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public class EnemyClassFactory
     {
+        public static EnemyClassFactory Default { get; } = Create();
+
         public ImmutableArray<EnemyKindDefinition> EnemyKinds { get; }
         public ImmutableArray<WeaponDefinition> Weapons { get; }
         public ImmutableArray<EnemyClassDefinition> Classes { get; }
@@ -29,7 +30,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return EnemyKinds.FirstOrDefault(x => componentName.Contains(x.ComponentName));
         }
 
-        public EnemyClassDefinition Next(Random rng)
+        public EnemyClassDefinition Next(Rng rng)
         {
             var index = rng.Next(0, Classes.Length);
             return Classes[index];
@@ -41,7 +42,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var weaponDefinitions = new List<WeaponDefinition>();
             var classDefinitions = new List<EnemyClassDefinition>();
 
-            var jsonDocument = JsonDocument.Parse(Resources.enemies);
+            var jsonDocument = JsonDocument.Parse(Resources.enemies, new JsonDocumentOptions()
+            {
+                CommentHandling = JsonCommentHandling.Skip
+            });
 
             var kinds = jsonDocument.RootElement.GetProperty("kinds");
             foreach (var k in kinds.EnumerateArray())

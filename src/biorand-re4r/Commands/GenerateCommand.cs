@@ -38,6 +38,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             var chainsawRandomizerFactory = ChainsawRandomizerFactory.Default;
             var randomizer = chainsawRandomizerFactory.Create();
             var input = new RandomizerInput();
+            input.Seed = settings.Seed;
             input.GamePath = biorandConfig.GamePath;
             if (!string.IsNullOrEmpty(settings.ConfigPath))
             {

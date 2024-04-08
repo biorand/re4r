@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -24,7 +25,38 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public void LogEnemy(Enemy enemy)
         {
-            LogLine(enemy.Guid, enemy.Kind.Name, enemy.Health?.ToString() ?? "*");
+            var weapons = "";
+            foreach (var w in new[] { enemy.Weapon, enemy.SecondaryWeapon })
+            {
+                if (w != 0)
+                {
+                    var ecf = EnemyClassFactory.Default;
+                    var weaponDef = ecf.Weapons.FirstOrDefault(x => x.Id == w);
+                    if (weaponDef != null)
+                    {
+                        if (weapons.Length != 0)
+                            weapons += " | ";
+                        weapons += weaponDef.Name;
+                    }
+                }
+            }
+
+            var itemDrop = ".";
+            if (enemy.ItemDrop is Item drop)
+            {
+                itemDrop = "*";
+                if (!drop.IsAutomatic)
+                {
+                    var itemRepo = ItemDefinitionRepository.Default;
+                    var itemDef = itemRepo.Find(drop.Id);
+                    if (itemDef != null)
+                    {
+                        itemDrop = itemDef.Name ?? itemDef.Id.ToString();
+                        itemDrop += $" x{drop.Count}";
+                    }
+                }
+            }
+            LogLine(enemy.Guid, enemy.Kind.Name, weapons, enemy.Health?.ToString() ?? "*", itemDrop);
         }
 
         private void LogLine(params object[] columns)

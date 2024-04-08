@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntelOrca.Biohazard.BioRand.RE4R;
 
 namespace IntelOrca.Biohazard.BioRand
 {
     internal class EndlessBag<T>
     {
-        private readonly Random _rng = new Random();
+        private readonly Rng _rng = new Rng();
         private readonly List<T> _allItems = new List<T>();
         private readonly Queue<T> _items = new Queue<T>();
 
@@ -15,7 +16,7 @@ namespace IntelOrca.Biohazard.BioRand
         {
         }
 
-        public EndlessBag(Random rng, IEnumerable<T> items)
+        public EndlessBag(Rng rng, IEnumerable<T> items)
         {
             _rng = rng;
             _allItems.AddRange(items);

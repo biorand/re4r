@@ -5,6 +5,10 @@
       "componentName": "chainsaw.Ch1c0SpawnParamCommon"
     },
     {
+      "name": "villager 2",
+      "componentName": "chainsaw.Ch1c0z0SpawnParam"
+    },
+    {
       "name": "zealot",
       "componentName": "chainsaw.Ch1c0z1SpawnParam"
     },
@@ -41,9 +45,8 @@
       "componentName": "chainsaw.Ch1d6z0SpawnParam"
     },
     {
-      "name": "brute_with_gun",
-      "componentName": "chainsaw.Ch1c8z0SpawnParam",
-      "category": "boss"
+      "name": "brute",
+      "componentName": "chainsaw.Ch1c8z0SpawnParam"
     },
     {
       "name": "sadler",
@@ -283,8 +286,10 @@
     },
     {
       "name": "brute",
-      "kind": "villager",
-      "field:_MontageID": 2366387651
+      "kind": "brute",
+      "field:_MontageID": [ 1225801474, 4017450965 ],
+      "field:_RolePatternHash": 3727710285,
+      "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
       "name": "brute_with_hammer",
@@ -296,7 +301,10 @@
     },
     {
       "name": "brute_with_gun",
-      "kind": "brute_with_gun"
+      "kind": "brute",
+      "field:_MontageID": 1106175613,
+      "field:_RolePatternHash": 3727710285,
+      "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
       "name": "knight",
@@ -329,7 +337,7 @@
     {
       "name": "garrador",
       "kind": "garrador",
-      "field:_IdentifyType": [0, 1],
+      "field:_IdentifyType": [ 0, 1 ],
       "field:_RolePatternHash": 3727710285,
       "field:_PreFirstForceMovePatternHash": 2180083513
     },

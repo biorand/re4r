@@ -49,6 +49,7 @@
     {
       "name": "SW - Blast Arrows",
       "kind": "ammo",
+      "mode": "sw",
       "id": 112480000
     },
     {
@@ -58,11 +59,13 @@
     {
       "name": "Mercenaries Explosive Arrows",
       "kind": "ammo",
+      "mode": "mercenaries",
       "id": 112320000
     },
     {
       "name": "SW - Lord of the Waterway",
       "kind": "fish",
+      "mode": "sw",
       "id": 114080000
     },
     {
@@ -457,16 +460,19 @@
     {
       "name": "SW - Red Ink",
       "kind": "key",
+      "mode": "sw",
       "id": 118888000
     },
     {
       "name": "SW - Gold Bottle",
       "kind": "key",
+      "mode": "sw",
       "id": 118889600
     },
     {
       "name": "SW - Blue Butterfly",
       "kind": "key",
+      "mode": "sw",
       "id": 118891200
     },
     {
@@ -500,16 +506,19 @@
     {
       "name": "SW - Rocket Launcher Special",
       "kind": "key",
+      "mode": "sw",
       "id": 118904000
     },
     {
       "name": "SW - Boat Key",
       "kind": "key",
+      "mode": "sw",
       "id": 118905600
     },
     {
       "name": "SW - Silver Bottle",
       "kind": "key",
+      "mode": "sw",
       "id": 118907200
     },
     {
@@ -523,21 +532,25 @@
     {
       "name": "SW - Lithographic Stone A",
       "kind": "key",
+      "mode": "sw",
       "id": 118912000
     },
     {
       "name": "SW - Lithographic Stone B",
       "kind": "key",
+      "mode": "sw",
       "id": 118913600
     },
     {
       "name": "SW - Lithographic Stone C",
       "kind": "key",
+      "mode": "sw",
       "id": 118915200
     },
     {
       "name": "SW - Lithographic Stone D",
       "kind": "key",
+      "mode": "sw",
       "id": 118916800
     },
     {
@@ -547,21 +560,25 @@
     {
       "name": "SW - Hidden Key",
       "kind": "key",
+      "mode": "sw",
       "id": 118920000
     },
     {
       "name": "SW - Blue Moonstone",
       "kind": "key",
+      "mode": "sw",
       "id": 118921600
     },
     {
       "name": "SW - Power Unit",
       "kind": "key",
+      "mode": "sw",
       "id": 118923200
     },
     {
       "name": "SW - Jacket",
       "kind": "key",
+      "mode": "sw",
       "id": 120480000
     },
     {
@@ -571,16 +588,19 @@
     {
       "name": "SW - Beret",
       "kind": "key",
+      "mode": "sw",
       "id": 120483200
     },
     {
       "name": "SW - Housekeeper's Barrette",
       "kind": "key",
+      "mode": "sw",
       "id": 120484800
     },
     {
       "name": "SW - Glasses",
       "kind": "key",
+      "mode": "sw",
       "id": 120486400
     },
     {
@@ -723,7 +743,7 @@
       "id": 120851200
     },
     {
-      "name": "Méndez's False Eye",
+      "name": "MÃ©ndez's False Eye",
       "kind": "treasure",
       "id": 120852800
     },
@@ -871,27 +891,27 @@
       "id": 124166400
     },
     {
-      "name": "Attaché Case: Silver",
+      "name": "AttachÃ© Case: Silver",
       "kind": "case-perk",
       "id": 124176000
     },
     {
-      "name": "Attaché Case: Black",
+      "name": "AttachÃ© Case: Black",
       "kind": "case-perk",
       "id": 124177600
     },
     {
-      "name": "Attaché Case: Leather",
+      "name": "AttachÃ© Case: Leather",
       "kind": "case-perk",
       "id": 124179200
     },
     {
-      "name": "Attaché Case: Gold",
+      "name": "AttachÃ© Case: Gold",
       "kind": "case-perk",
       "id": 124192000
     },
     {
-      "name": "Attaché Case: Classic",
+      "name": "AttachÃ© Case: Classic",
       "kind": "case-perk",
       "id": 124193600
     },
@@ -950,73 +970,77 @@
       "id": 124337600
     },
     {
-      "name": "G+G",
-      "kind": "health",
+      "name": "Recipe: G+G",
+      "kind": "recipe",
       "id": 124353600
     },
     {
-      "name": "G+R",
-      "kind": "health",
+      "name": "Recipe: G+R",
+      "kind": "recipe",
       "id": 124355200
     },
     {
-      "name": "G+Y",
-      "kind": "health",
+      "name": "Recipe: G+Y",
+      "kind": "recipe",
       "id": 124356800
     },
     {
-      "name": "R+Y",
-      "kind": "health",
+      "name": "Recipe: R+Y",
+      "kind": "recipe",
       "id": 124358400
     },
     {
-      "name": "G+G+G",
-      "kind": "health",
+      "name": "Recipe: G+G+G",
+      "kind": "recipe",
       "id": 124360000
     },
     {
-      "name": "G+G+Y",
-      "kind": "health",
+      "name": "Recipe: G+G+Y",
+      "kind": "recipe",
       "id": 124361600
     },
     {
-      "name": "G+G+Y",
-      "kind": "health",
+      "name": "Recipe: G+G+Y",
+      "kind": "recipe",
       "id": 124363200
     },
     {
-      "name": "G+R+Y",
-      "kind": "health",
+      "name": "Recipe: G+R+Y",
+      "kind": "recipe",
       "id": 124364800
     },
     {
-      "name": "G+R+Y",
-      "kind": "health",
+      "name": "Recipe: G+R+Y",
+      "kind": "recipe",
       "id": 124366400
     },
     {
-      "name": "G+R+Y",
-      "kind": "health",
+      "name": "Recipe: G+R+Y",
+      "kind": "recipe",
       "id": 124368000
     },
     {
       "name": "SW - Recipe: Blast Arrows",
       "kind": "recipe",
+      "mode": "sw",
       "id": 123683200
     },
     {
-      "name": "SW - Attaché Case: Carbon",
+      "name": "SW - AttachÃ© Case: Carbon",
       "kind": "case-perk",
+      "mode": "sw",
       "id": 123684800
     },
     {
-      "name": "SW - Attaché Case: Vintage",
+      "name": "SW - AttachÃ© Case: Vintage",
       "kind": "case-perk",
+      "mode": "sw",
       "id": 123686400
     },
     {
       "name": "SW - Treasure Maps: All",
       "kind": "map",
+      "mode": "sw",
       "id": 123688000
     },
     {
@@ -1361,12 +1385,12 @@
     },
     {
       "name": "Kitchen Knife",
-      "kind": "weapon",
+      "kind": "knife",
       "id": 276438656
     },
     {
       "name": "Boot Knife",
-      "kind": "weapon",
+      "kind": "knife",
       "id": 276440256
     },
     {
@@ -1460,16 +1484,19 @@
     {
       "name": "SW - Sawed-off W-870",
       "kind": "weapon",
+      "mode": "sw",
       "id": 278195456
     },
     {
       "name": "SW - Chicago Sweeper",
       "kind": "weapon",
+      "mode": "sw",
       "id": 278197056
     },
     {
       "name": "SW - Blast Crossbow",
       "kind": "weapon",
+      "mode": "sw",
       "id": 278198656
     },
     {
@@ -1479,31 +1506,37 @@
     {
       "name": "SW - Blacktail AC",
       "kind": "weapon",
+      "mode": "sw",
       "id": 278200256
     },
     {
       "name": "SW - TMP",
       "kind": "weapon",
+      "mode": "sw",
       "id": 278201856
     },
     {
       "name": "SW - Stingray",
       "kind": "weapon",
+      "mode": "sw",
       "id": 278203456
     },
     {
       "name": "SW - Rocket Launcher",
       "kind": "weapon",
+      "mode": "sw",
       "id": 278205056
     },
     {
       "name": "SW - Tactical Knife",
       "kind": "weapon",
+      "mode": "sw",
       "id": 278206656
     },
     {
       "name": "SW - Elite Knife",
       "kind": "weapon",
+      "mode": "sw",
       "id": 278208256
     },
     {
@@ -1513,21 +1546,25 @@
     {
       "name": "SW - Infinite Rocket Launcher",
       "kind": "weapon",
+      "mode": "sw",
       "id": 278213056
     },
     {
       "name": "SW - Punisher MC",
       "kind": "weapon",
+      "mode": "sw",
       "id": 278214656
     },
     {
       "name": "SW - Red9",
       "kind": "weapon",
+      "mode": "sw",
       "id": 278216256
     },
     {
       "name": "SW - SR M1903",
       "kind": "weapon",
+      "mode": "sw",
       "id": 278217856
     },
     {

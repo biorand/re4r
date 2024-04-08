@@ -43,6 +43,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             generalGroup.Items.Add(new GroupItem()
             {
+                Id = $"ammo-quantity",
+                Label = "Ammo quantity",
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.1
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
                 Id = $"progressive-difficulty",
                 Label = "Progressive Difficulty",
                 Type = "switch"
@@ -50,6 +59,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             configDefinition.Groups.Add(generalGroup);
 
             var dropGroup = new Group("General Drops");
+            dropGroup.Items.Add(new GroupItem()
+            {
+                Id = $"drop-ratio-none",
+                Label = "None",
+                Description = "No item is dropped.",
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01
+            });
             dropGroup.Items.Add(new GroupItem()
             {
                 Id = $"drop-ratio-automatic",
