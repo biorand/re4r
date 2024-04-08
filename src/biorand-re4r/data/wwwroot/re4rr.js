@@ -164,8 +164,20 @@
         let html = '<div>';
         html += '<hr>';
         html += '<h4>' + group.label + '</h4>';
-        for (const item of group.items) {
-            html += getGroupItemHtml(item);
+        const itemHtml = group.items.map(getGroupItemHtml);
+        for (let i = 0; i < itemHtml.length; i += 2) {
+            const left = itemHtml[i + 0];
+            const right = itemHtml[i + 1];
+            html += '<div class="row">';
+            html += '<div class="col-md-6">';
+            html += left;
+            html += '</div>';
+            if (right) {
+                html += '<div class="col-md-6">';
+                html += right;
+                html += '</div>';
+            }
+            html += '</div>';
         }
         html += '</div>';
         return html;
@@ -174,6 +186,12 @@
     function getGroupItemHtml(groupItem) {
         configDefMap[groupItem.id] = groupItem;
         const inputId = `cfg-${groupItem.id}`;
+
+        let tooltipHtml = '';
+        if (groupItem.description) {
+            tooltipHtml = `data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="${groupItem.description}"`;
+        }
+
         let widgetHtml = '';
         switch (groupItem.type) {
             case 'checkbox':
@@ -189,11 +207,11 @@
                 widgetHtml = `<input id="${inputId}" type="range" class="form-range" min="${groupItem.min}" max="${groupItem.max}" step="${groupItem.step}">`;
                 break;
         }
-        const colClass = groupItem.size ? `col-${groupItem.size}` : 'col-6';
+        const colClass = groupItem.size ? `col-${groupItem.size}` : 'col-8';
         let html =
             '<div class="row g-3 align-items-center">' +
-            '    <div class="col-sm-2">' +
-            '        <label for="' + inputId + '" class="form-label">' + groupItem.label + '</label>' +
+            '    <div class="col-4">' +
+            '        <label for="' + inputId + '" class="form-label"' + tooltipHtml + '>' + groupItem.label + '</label>' +
             '    </div>' +
             '    <div class="' + colClass + '">' +
             widgetHtml +
@@ -213,6 +231,10 @@
                 saveLocalData('config', config);
             });
         }
+
+        // Enable tooltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     }
 
     function setConfig(config) {
