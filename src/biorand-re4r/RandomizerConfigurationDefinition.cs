@@ -179,7 +179,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 enemyGroup.Items.Add(new GroupItem()
                 {
-                    Id = $"enemy-ratio-{enemyClass.Name}",
+                    Id = $"enemy-ratio-{enemyClass.Key}",
                     Label = enemyClass.Name,
                     Type = "range",
                     Min = 0,

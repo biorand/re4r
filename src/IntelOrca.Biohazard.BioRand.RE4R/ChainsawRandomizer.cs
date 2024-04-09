@@ -97,6 +97,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     .ToArray();
             }
 
+            oldEnemies = oldEnemies
+                .Where(x => !x.Kind.Closed)
+                .ToArray();
+
             var oldEnemiesSummary = area.Enemies.Select(GetEnemySummary).ToArray();
             var multiplier = GetConfigOption<double>("enemy-multiplier", 1);
             var newEnemyCount = (int)oldEnemies.Length * multiplier;
@@ -114,6 +118,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             foreach (var enemy in area.Enemies)
             {
                 var e = enemy;
+                if (e.Kind.Closed)
+                    continue;
+
                 var ecd = GetRandomEnemyClass(rng);
                 e = area.ConvertTo(e, ecd.Kind.ComponentName);
 
@@ -205,7 +212,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var table = rng.CreateProbabilityTable<EnemyClassDefinition>();
                 foreach (var enemyClass in EnemyClassFactory.Classes)
                 {
-                    var ratio = GetConfigOption<double>($"enemy-ratio-{enemyClass.Name}");
+                    var ratio = GetConfigOption<double>($"enemy-ratio-{enemyClass.Key}");
                     if (ratio != 0)
                     {
                         table.Add(enemyClass, ratio);

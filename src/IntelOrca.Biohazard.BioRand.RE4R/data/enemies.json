@@ -1,89 +1,210 @@
 {
   "kinds": [
     {
-      "name": "villager",
+      "key": "villager",
       "componentName": "chainsaw.Ch1c0SpawnParamCommon"
     },
     {
-      "name": "villager 2",
+      "key": "villager_2",
       "componentName": "chainsaw.Ch1c0z0SpawnParam"
     },
     {
-      "name": "zealot",
+      "key": "zealot",
       "componentName": "chainsaw.Ch1c0z1SpawnParam"
     },
     {
-      "name": "militia",
+      "key": "soldier",
       "componentName": "chainsaw.Ch1c0z2SpawnParam"
     },
     {
-      "name": "spider",
+      "key": "arana",
       "componentName": "chainsaw.Ch1e0z0SpawnParam"
     },
     {
-      "name": "chainsaw",
+      "key": "chainsaw",
+      "componentName": "chainsaw.Ch1d1z1SpawnParam"
+    },
+    {
+      "key": "chainsaw_mercenaries",
       "componentName": "chainsaw.Ch1d1z1SpawnParamMercenaries"
     },
     {
-      "name": "dog",
+      "key": "chainsaw_mad",
+      "componentName": "chainsaw.Ch7k0z0SpawnParam"
+    },
+    {
+      "key": "colmillos",
       "componentName": "chainsaw.Ch1d2z0SpawnParam"
     },
     {
-      "name": "novistador",
+      "key": "novistador",
       "componentName": "chainsaw.Ch1d3z0SpawnParam"
     },
     {
-      "name": "garrador",
+      "key": "garrador",
       "componentName": "chainsaw.Ch1d0z0SpawnParam"
     },
     {
-      "name": "regenerador",
+      "key": "regenerador",
       "componentName": "chainsaw.Ch1d4z0SpawnParam"
     },
     {
-      "name": "knight",
+      "key": "armadura",
       "componentName": "chainsaw.Ch1d6z0SpawnParam"
     },
     {
-      "name": "brute",
+      "key": "brute",
       "componentName": "chainsaw.Ch1c8z0SpawnParam"
     },
     {
-      "name": "sadler",
-      "componentName": "chainsaw.Ch1f8z0SpawnParam"
+      "key": "sadler_1",
+      "componentName": "chainsaw.Ch1f8z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "mendez_1",
+      "componentName": "chainsaw.Ch1b5z1SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "krauser_1",
+      "componentName": "chainsaw.Ch1b7z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "el_gigante",
+      "componentName": "chainsaw.Ch1f0z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "dellago",
+      "componentName": "chainsaw.Ch1f1z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "verdugo",
+      "componentName": "chainsaw.Ch1f2z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "mendez_2",
+      "componentName": "chainsaw.Ch1f4z1SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "mendez_3",
+      "componentName": "chainsaw.Ch1f5z1SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "salazar",
+      "componentName": "chainsaw.Ch1f6z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "krauser_2",
+      "componentName": "chainsaw.Ch1f7z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "sadler_2",
+      "componentName": "chainsaw.Ch1fcz0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "sadler_3",
+      "componentName": "chainsaw.Ch1fdz0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "ashley_1",
+      "componentName": "chainsaw.Ch2a1z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "ashley_2",
+      "componentName": "chainsaw.Ch2a3z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "ch2a3z1",
+      "componentName": "chainsaw.Ch2a3z1SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "police",
+      "componentName": "chainsaw.Ch2b0z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "ch2b1z0",
+      "componentName": "chainsaw.Ch2b1z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "dead_cloak",
+      "componentName": "chainsaw.Ch2bd00SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "wolf",
+      "componentName": "chainsaw.Ch8g0z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "ch8g1z0",
+      "componentName": "chainsaw.Ch8g1z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "viper",
+      "componentName": "chainsaw.Ch8g2z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "cow",
+      "componentName": "chainsaw.Ch8g3z0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "pig",
+      "componentName": "chainsaw.Ch8gaz0SpawnParam",
+      "closed": true
     }
   ],
   "weapons": [
-    { "id": 5801, "name": "hatchet" },
-    { "id": 5802, "name": "knife" },
-    { "id": 5803, "name": "hoe" },
-    { "id": 5804, "name": "pitchfork" },
-    { "id": 5805, "name": "torch" },
-    { "id": 5806, "name": "dynamite" },
-    { "id": 5807, "name": "morning_star" },
-    { "id": 5808, "name": "wooden_shield" },
-    { "id": 5809, "name": "scythe" },
-    { "id": 5810, "name": "hammer" },
-    { "id": 5811, "name": "shock_baton" },
-    { "id": 5813, "name": "iron_shield" },
-    { "id": 5814, "name": "molotov" },
-    { "id": 5815, "name": "crossbow" },
-    { "id": 5816, "name": "machete" },
-    { "id": 5817, "name": "axe" },
-    { "id": 5818, "name": "sword" },
-    { "id": 5821, "name": "shovel" },
-    { "id": 5822, "name": "crowbar" },
-    { "id": 5823, "name": "spiked_bat" },
-    { "id": 5824, "name": "rpg" },
-    { "id": 5825, "name": "krauser_bow" },
-    { "id": 5826, "name": "staff" },
-    { "id": 5830, "name": "wrist_gun" }
+    { "id": 5801, "key": "hatchet" },
+    { "id": 5802, "key": "knife" },
+    { "id": 5803, "key": "hoe" },
+    { "id": 5804, "key": "pitchfork" },
+    { "id": 5805, "key": "torch" },
+    { "id": 5806, "key": "dynamite" },
+    { "id": 5807, "key": "morning_star" },
+    { "id": 5808, "key": "wooden_shield" },
+    { "id": 5809, "key": "scythe" },
+    { "id": 5810, "key": "hammer" },
+    { "id": 5811, "key": "shock_baton" },
+    { "id": 5813, "key": "iron_shield" },
+    { "id": 5814, "key": "molotov" },
+    { "id": 5815, "key": "crossbow" },
+    { "id": 5816, "key": "machete" },
+    { "id": 5817, "key": "axe" },
+    { "id": 5818, "key": "sword" },
+    { "id": 5821, "key": "shovel" },
+    { "id": 5822, "key": "crowbar" },
+    { "id": 5823, "key": "spiked_bat" },
+    { "id": 5824, "key": "rpg" },
+    { "id": 5825, "key": "krauser_bow" },
+    { "id": 5826, "key": "staff" },
+    { "id": 5830, "key": "wrist_gun" }
   ],
   "classes": [
     {
-      "name": "villager",
+      "key": "villager",
       "kind": "villager",
+      "name": "Villager",
       "weapon": [
+        {},
         { "primary": "hatchet" },
         { "primary": "knife" },
         { "primary": "hoe" },
@@ -120,9 +241,11 @@
       "field:_IsLeftHanded": [ true, false, false, false, false, false, false, false, false, false ]
     },
     {
-      "name": "zealot",
+      "key": "zealot",
       "kind": "zealot",
+      "name": "Zealot",
       "weapon": [
+        {},
         {
           "primary": "morning_star",
           "secondary": "wooden_shield"
@@ -195,7 +318,6 @@
         711204927,
         720240351,
         72376362,
-        763052872,
         784358110,
         852951712,
         897984333,
@@ -203,9 +325,22 @@
       ]
     },
     {
-      "name": "militia",
-      "kind": "militia",
+      "key": "zealot_red",
+      "kind": "zealot",
+      "name": "Gloria a Las Plagas",
       "weapon": [
+        {
+          "primary": "staff"
+        }
+      ],
+      "field:_Ch1c0z1MontageID": 763052872
+    },
+    {
+      "key": "soldier",
+      "kind": "soldier",
+      "name": "Soldier",
+      "weapon": [
+        {},
         {
           "primary": "shock_baton",
           "secondary": "iron_shield"
@@ -264,8 +399,9 @@
       ]
     },
     {
-      "name": "dog",
-      "kind": "dog",
+      "key": "colmillos",
+      "kind": "colmillos",
+      "name": "Colmillos",
       "field:_MontageID": [
         1106175613,
         842441658
@@ -274,41 +410,47 @@
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
-      "name": "novistador",
+      "key": "novistador",
       "kind": "novistador",
+      "name": "Novistador",
       "field:_RolePatternHash": 1965048383,
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
-      "name": "spider",
-      "kind": "spider",
+      "key": "arana",
+      "kind": "arana",
+      "name": "Plaga Araña",
       "field:_MontageID": 1106175613
     },
     {
-      "name": "brute",
+      "key": "brute",
       "kind": "brute",
+      "name": "Brute (Unarmed)",
       "field:_MontageID": [ 1225801474, 4017450965 ],
       "field:_RolePatternHash": 3727710285,
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
-      "name": "brute_with_hammer",
+      "key": "brute_hammer",
       "kind": "villager",
+      "name": "Brute (Hammer)",
       "weapon": [
         { "primary": "hammer" }
       ],
       "field:_MontageID": 2366387651
     },
     {
-      "name": "brute_with_gun",
+      "key": "brute_crossbow",
       "kind": "brute",
+      "name": "Brute (Crossbow)",
       "field:_MontageID": 1106175613,
       "field:_RolePatternHash": 3727710285,
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
-      "name": "knight",
-      "kind": "knight",
+      "key": "armadura",
+      "kind": "armadura",
+      "name": "Armadura",
       "field:_MontageID": [
         1106175613,
         2950129067,
@@ -324,8 +466,9 @@
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
-      "name": "chainsaw",
-      "kind": "chainsaw",
+      "key": "chainsaw_mercenaries",
+      "kind": "chainsaw_mercenaries",
+      "name": "Chainsaw (Mercenaries)",
       "field:_MontageID": [
         1106175613,
         3313117636,
@@ -335,33 +478,94 @@
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
-      "name": "garrador",
+      "key": "chainsaw",
+      "kind": "chainsaw",
+      "name": "Chainsaw (Normal)",
+      "field:_MontageID": [
+        1106175613,
+        3313117636,
+        2693883502
+      ],
+      "field:_RolePatternHash": 2180083513,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "key": "chainsaw_mad",
+      "kind": "chainsaw_mad",
+      "name": "Chainsaw (Mad)",
+      "field:_MontageID": [
+        1106175613,
+        3313117636,
+        2693883502
+      ],
+      "field:_RolePatternHash": 2180083513,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "key": "garrador",
       "kind": "garrador",
+      "name": "Garrador",
       "field:_IdentifyType": [ 0, 1 ],
       "field:_RolePatternHash": 3727710285,
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
-      "name": "regenerador",
+      "key": "regenerador",
       "kind": "regenerador",
+      "name": "Regenerador",
       "field:_MontageID": 1948795948,
       "field:_TransformType": 2,
       "field:_RolePatternHash": 2180083513,
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
-      "name": "iron_maiden",
+      "key": "iron_maiden",
       "kind": "regenerador",
+      "name": "Iron Maiden",
       "field:_MontageID": 1948795948,
       "field:_TransformType": 0,
       "field:_RolePatternHash": 2180083513,
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
-      "name": "super_iron_maiden",
+      "key": "super_iron_maiden",
       "kind": "regenerador",
+      "name": "Super Iron Maiden",
       "field:_MontageID": 363312158,
       "field:_TransformType": 0,
+      "field:_RolePatternHash": 2180083513,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "key": "mendez_1",
+      "kind": "mendez_1",
+      "name": "Mendez (Chase)",
+      "field:_MontageID": 1106175613
+    },
+    {
+      "key": "verdugo",
+      "kind": "verdugo",
+      "name": "Verdugo"
+    },
+    {
+      "key": "mendez_2",
+      "kind": "mendez_2",
+      "name": "Mendez (Phase 1)",
+      "field:_MontageID": 1106175613
+    },
+    {
+      "key": "cow",
+      "kind": "cow",
+      "name": "Cow",
+      "field:_MontageID": 1948795948,
+      "field:_RolePatternHash": 2180083513,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "key": "pig",
+      "kind": "pig",
+      "name": "Pig",
+      "field:_MontageID": [ 1948795948, 1197009770 ],
       "field:_RolePatternHash": 2180083513,
       "field:_PreFirstForceMovePatternHash": 2180083513
     }

@@ -50,25 +50,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var kinds = jsonDocument.RootElement.GetProperty("kinds");
             foreach (var k in kinds.EnumerateArray())
             {
-                var name = k.GetProperty("name").GetString() ?? throw new InvalidDataException();
+                var key = k.GetProperty("key").GetString() ?? throw new InvalidDataException();
                 var componentName = k.GetProperty("componentName").GetString() ?? throw new InvalidDataException();
-                kindDefinitions.Add(new EnemyKindDefinition(name, componentName));
+                var closed = k.GetBooleanProperty("closed") ?? false;
+                kindDefinitions.Add(new EnemyKindDefinition(key, componentName, closed));
             }
 
             var weapons = jsonDocument.RootElement.GetProperty("weapons");
             foreach (var w in weapons.EnumerateArray())
             {
-                var name = w.GetProperty("name").GetString() ?? throw new InvalidDataException();
+                var key = w.GetProperty("key").GetString() ?? throw new InvalidDataException();
                 var id = w.GetProperty("id").GetInt32();
-                weaponDefinitions.Add(new WeaponDefinition(name, id));
+                weaponDefinitions.Add(new WeaponDefinition(key, id));
             }
 
             var classes = jsonDocument.RootElement.GetProperty("classes");
             foreach (var c in classes.EnumerateArray())
             {
+                var key = c.GetProperty("key").GetString() ?? throw new InvalidDataException();
+                var kindKey = c.GetProperty("kind").GetString() ?? throw new InvalidDataException();
+                var kind = kindDefinitions.First(x => x.Key == kindKey);
                 var name = c.GetProperty("name").GetString() ?? throw new InvalidDataException();
-                var kindName = c.GetProperty("kind").GetString() ?? throw new InvalidDataException();
-                var kind = kindDefinitions.First(x => x.Name == kindName);
 
                 var weaponChoices = new List<WeaponChoice>();
                 if (c.TryGetProperty("weapon", out var weapon))
@@ -79,10 +81,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                         var secondary = w.GetStringProperty("secondary");
                         var primaryWeaponDef = primary == null
                             ? null
-                            : weaponDefinitions.First(x => x.Name == primary);
+                            : weaponDefinitions.First(x => x.Key == primary);
                         var secondaryWeaponDef = secondary == null
                             ? null
-                            : weaponDefinitions.First(x => x.Name == secondary);
+                            : weaponDefinitions.First(x => x.Key == secondary);
                         weaponChoices.Add(new WeaponChoice(primaryWeaponDef, secondaryWeaponDef));
                     }
                 }
@@ -107,7 +109,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     }
                 }
 
-                classDefinitions.Add(new EnemyClassDefinition(name, kind, weaponChoices.ToImmutableArray(), fields));
+                classDefinitions.Add(new EnemyClassDefinition(key, name, kind, weaponChoices.ToImmutableArray(), fields));
             }
 
             return new EnemyClassFactory(

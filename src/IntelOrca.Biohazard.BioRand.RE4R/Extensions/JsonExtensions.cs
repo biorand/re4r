@@ -25,6 +25,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
                 })!;
         }
 
+        public static bool? GetBooleanProperty(this JsonElement element, string name)
+        {
+            return element.TryGetProperty(name, out var value) ? value.GetBoolean() : null;
+        }
+
         public static string? GetStringProperty(this JsonElement element, string name)
         {
             return element.TryGetProperty(name, out var value) ? value.GetString() : null;

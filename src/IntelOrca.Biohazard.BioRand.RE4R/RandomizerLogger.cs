@@ -36,7 +36,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     {
                         if (weapons.Length != 0)
                             weapons += " | ";
-                        weapons += weaponDef.Name;
+                        weapons += weaponDef.Key;
                     }
                 }
             }
@@ -56,7 +56,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     }
                 }
             }
-            LogLine(enemy.Guid, enemy.Kind.Name, weapons, enemy.Health?.ToString() ?? "*", itemDrop);
+            LogLine(enemy.Guid, enemy.Kind.Key, weapons, enemy.Health?.ToString() ?? "*", itemDrop);
         }
 
         private void LogLine(params object[] columns)

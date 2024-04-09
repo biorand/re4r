@@ -1,10 +1,11 @@
 ﻿namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    public class EnemyKindDefinition(string name, string componentName)
+    public class EnemyKindDefinition(string key, string componentName, bool closed)
     {
-        public string Name { get; set; } = name;
+        public string Key { get; set; } = key;
         public string ComponentName { get; } = componentName;
+        public bool Closed { get; } = closed;
 
-        public override string ToString() => Name;
+        public override string ToString() => Key;
     }
 }
