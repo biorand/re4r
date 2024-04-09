@@ -57,7 +57,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 }
             }
 
-            var parasite = $"{enemy.ParasiteKind},{enemy.ForceParasiteAppearance},{enemy.ParasiteAppearanceProbability}";
+            var parasite = "";
+            if ((enemy.ParasiteKind ?? 0) != 0)
+            {
+                if (enemy.ParasiteKind == 1)
+                    parasite = "pA(";
+                else if (enemy.ParasiteKind == 2)
+                    parasite = "pB(";
+                else if (enemy.ParasiteKind == 3)
+                    parasite = "pC(";
+                if (enemy.ForceParasiteAppearance)
+                    parasite += "100%)";
+                else
+                    parasite += $"{enemy.ParasiteAppearanceProbability}%)";
+            }
+
             LogLine(enemy.Guid, enemy.Kind.Key, weapons, enemy.Health?.ToString() ?? "*", parasite, itemDrop);
         }
 

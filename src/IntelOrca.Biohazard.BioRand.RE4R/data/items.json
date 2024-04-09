@@ -3,32 +3,38 @@
     {
       "name": "Handgun Ammo",
       "kind": "ammo",
-      "id": 112800000
+      "id": 112800000,
+      "value": 100
     },
     {
       "name": "Magnum Ammo",
       "kind": "ammo",
-      "id": 112801600
+      "id": 112801600,
+      "value": 1000
     },
     {
       "name": "Shotgun Shells",
       "kind": "ammo",
-      "id": 112803200
+      "id": 112803200,
+      "value": 500
     },
     {
       "name": "Rifle Ammo",
       "kind": "ammo",
-      "id": 112804800
+      "id": 112804800,
+      "value": 500
     },
     {
       "name": "Submachine Gun Ammo",
       "kind": "ammo",
-      "id": 112806400
+      "id": 112806400,
+      "value": 10
     },
     {
       "name": "Bolts",
       "kind": "ammo",
-      "id": 112808000
+      "id": 112808000,
+      "value": 250
     },
     {
       "name": "it_sm70_506_00_0",
@@ -71,7 +77,8 @@
     {
       "name": "Green Herb",
       "kind": "health",
-      "id": 114400000
+      "id": 114400000,
+      "value": 500
     },
     {
       "name": "it_sm71_500_10_0",
@@ -80,7 +87,8 @@
     {
       "name": "Red Herb",
       "kind": "health",
-      "id": 114401600
+      "id": 114401600,
+      "value": 1000
     },
     {
       "name": "it_sm71_501_10_0",
@@ -89,57 +97,68 @@
     {
       "name": "Yellow Herb",
       "kind": "health",
-      "id": 114403200
+      "id": 114403200,
+      "value": 5000
     },
     {
       "name": "G+G",
       "kind": "health",
-      "id": 114404800
+      "id": 114404800,
+      "value": 1000
     },
     {
       "name": "G+G+G",
       "kind": "health",
-      "id": 114406400
+      "id": 114406400,
+      "value": 3000
     },
     {
       "name": "G+R",
       "kind": "health",
-      "id": 114408000
+      "id": 114408000,
+      "value": 3000
     },
     {
       "name": "G+Y",
       "kind": "health",
-      "id": 114409600
+      "id": 114409600,
+      "value": 6000
     },
     {
       "name": "R+Y",
       "kind": "health",
-      "id": 114411200
+      "id": 114411200,
+      "value": 7000
     },
     {
       "name": "G+R+Y",
       "kind": "health",
-      "id": 114412800
+      "id": 114412800,
+      "value": 10000
     },
     {
       "name": "G+G+Y",
       "kind": "health",
-      "id": 114414400
+      "id": 114414400,
+      "value": 4000
     },
     {
       "name": "First Aid Spray",
       "kind": "health",
-      "id": 114416000
+      "id": 114416000,
+      "value": 5000
     },
     {
       "name": "Black Bass",
       "kind": "fish",
-      "id": 114417600
+      "id": 114417600,
+      "value": 1000
     },
     {
       "name": "Lunker Bass",
       "kind": "fish",
-      "id": 114419200
+      "id": 114419200,
+      "value": 5000
     },
     {
       "name": "L",
@@ -148,12 +167,14 @@
     {
       "name": "Viper",
       "kind": "fish",
-      "id": 114422400
+      "id": 114422400,
+      "value": 1000
     },
     {
       "name": "Rhinoceros Beetle",
       "kind": "treasure",
-      "id": 114424000
+      "id": 114424000,
+      "value": 12000
     },
     {
       "name": "Scope",
@@ -606,107 +627,128 @@
     {
       "name": "Spinel",
       "kind": "treasure",
-      "id": 120800000
+      "id": 120800000,
+      "value": 3000
     },
     {
       "name": "Pearl Pendant",
       "kind": "treasure",
-      "id": 120801600
+      "id": 120801600,
+      "value": 5000
     },
     {
       "name": "Dirty Pearl Pendant",
       "kind": "treasure",
-      "id": 120803200
+      "id": 120803200,
+      "value": 2500
     },
     {
       "name": "Brass Pocket Watch",
       "kind": "treasure",
-      "id": 120809600
+      "id": 120809600,
+      "value": 8000
     },
     {
       "name": "Elegant Headdress",
       "kind": "treasure",
-      "id": 120812800
+      "id": 120812800,
+      "value": 7000
     },
     {
       "name": "Antique Pipe",
       "kind": "treasure",
-      "id": 120814400
+      "id": 120814400,
+      "value": 7000
     },
     {
       "name": "Pearl Bangle",
       "kind": "treasure",
-      "id": 120816000
+      "id": 120816000,
+      "value": 12000
     },
     {
       "name": "Red Gemstone Ring",
       "kind": "treasure",
-      "id": 120817600
+      "id": 120817600,
+      "value": 6000
     },
     {
       "name": "Gold Bangle",
       "kind": "treasure",
-      "id": 120819200
+      "id": 120819200,
+      "value": 8000
     },
     {
       "name": "Iluminados Pendant",
       "kind": "treasure",
-      "id": 120820800
+      "id": 120820800,
+      "value": 18000
     },
     {
       "name": "Mirror with Pearls & Rubies",
       "kind": "treasure",
-      "id": 120822400
+      "id": 120822400,
+      "value": 10000
     },
     {
       "name": "Golden Hourglass",
       "kind": "treasure",
-      "id": 120824000
+      "id": 120824000,
+      "value": 10000
     },
     {
       "name": "Elegant Perfume Bottle",
       "kind": "treasure",
-      "id": 120825600
+      "id": 120825600,
+      "value": 10000
     },
     {
       "name": "Elegant Chessboard",
       "kind": "treasure",
-      "id": 120827200
+      "id": 120827200,
+      "value": 13000
     },
     {
       "name": "Staff of Royalty",
       "kind": "treasure",
-      "id": 120828800
+      "id": 120828800,
+      "value": 25000
     },
     {
       "name": "Ruby",
       "kind": "treasure",
-      "id": 120830400
+      "id": 120830400,
+      "value": 3000
     },
     {
       "name": "Emerald",
       "kind": "treasure",
-      "id": 120832000
+      "id": 120832000,
+      "value": 5000
     },
     {
       "name": "Sapphire",
       "kind": "treasure",
-      "id": 120833600
+      "id": 120833600,
+      "value": 4000
     },
     {
       "name": "Yellow Diamond",
       "kind": "treasure",
-      "id": 120835200
+      "id": 120835200,
+      "value": 7000
     },
     {
       "name": "Alexandrite",
       "kind": "treasure",
-      "id": 120838400
+      "id": 120838400,
+      "value": 6000
     },
     {
       "name": "Gold Bar",
       "kind": "treasure",
-      "id": 120840000
+      "id": 120840000,
+      "value": 10000
     },
     {
       "name": "L",
@@ -715,72 +757,86 @@
     {
       "name": "Gold Ingot",
       "kind": "treasure",
-      "id": 120843200
+      "id": 120843200,
+      "value": 20000
     },
     {
       "name": "Depraved Idol",
       "kind": "treasure",
-      "id": 120844800
+      "id": 120844800,
+      "value": 15000
     },
     {
       "name": "Vintage Compass",
       "kind": "treasure",
-      "id": 120846400
+      "id": 120846400,
+      "value": 8000
     },
     {
       "name": "Justitia Statue",
       "kind": "treasure",
-      "id": 120848000
+      "id": 120848000,
+      "value": 12000
     },
     {
       "name": "Crystal Ore",
       "kind": "treasure",
-      "id": 120849600
+      "id": 120849600,
+      "value": 14000
     },
     {
       "name": "Ornate Beetle",
       "kind": "treasure",
-      "id": 120851200
+      "id": 120851200,
+      "value": 11000
     },
     {
       "name": "Méndez's False Eye",
       "kind": "treasure",
-      "id": 120852800
+      "id": 120852800,
+      "value": 12000
     },
     {
       "name": "Gold Monocle",
       "kind": "treasure",
-      "id": 120854400
+      "id": 120854400,
+      "value": 30000
     },
     {
       "name": "Lip Rouge",
       "kind": "treasure",
-      "id": 120856000
+      "id": 120856000,
+      "value": 24000
     },
     {
       "name": "Red Beryl",
       "kind": "treasure",
-      "id": 120857600
+      "id": 120857600,
+      "value": 9000
     },
     {
       "name": "Antique Camera",
       "kind": "treasure",
-      "id": 120860800
+      "id": 120860800,
+      "value": 10000
     },
     {
       "name": "Velvet Blue",
       "kind": "treasure",
-      "id": 120864000
+      "id": 120864000,
+      "value": 2500
     },
     {
       "name": "Scratched Emerald",
       "kind": "treasure",
-      "id": 120865600
+      "id": 120865600,
+      "value": 5000
     },
     {
       "name": "Exclusive Upgrade Ticket",
       "kind": "special",
-      "id": 120867200
+      "id": 120867200,
+      "value": 100000
     },
     {
       "name": "it_sm75_600_00_0",
@@ -789,52 +845,62 @@
     {
       "name": "Elegant Mask",
       "kind": "treasure",
-      "id": 122400000
+      "id": 122400000,
+      "value": 5000
     },
     {
       "name": "Flagon",
       "kind": "treasure",
-      "id": 122401600
+      "id": 122401600,
+      "value": 4000
     },
     {
       "name": "Butterfly Lamp",
       "kind": "treasure",
-      "id": 122403200
+      "id": 122403200,
+      "value": 6000
     },
     {
       "name": "Elegant Crown",
       "kind": "treasure",
-      "id": 122404800
+      "id": 122404800,
+      "value": 19000
     },
     {
       "name": "Golden Lynx",
       "kind": "treasure",
-      "id": 122406400
+      "id": 122406400,
+      "value": 15000
     },
     {
       "name": "Extravagant Clock",
       "kind": "treasure",
-      "id": 122408000
+      "id": 122408000,
+      "value": 9000
     },
     {
       "name": "Splendid Bangle",
       "kind": "treasure",
-      "id": 122409600
+      "id": 122409600,
+      "value": 4000
     },
     {
       "name": "Chalice of Atonement",
       "kind": "treasure",
-      "id": 122411200
+      "id": 122411200,
+      "value": 7000
     },
     {
       "name": "Ornate Necklace",
       "kind": "treasure",
-      "id": 122412800
+      "id": 122412800,
+      "value": 11000
     },
     {
       "name": "Elegant Bangle",
       "kind": "treasure",
-      "id": 122416000
+      "id": 122416000,
+      "value": 4000
     },
     {
       "name": "Pesetas",

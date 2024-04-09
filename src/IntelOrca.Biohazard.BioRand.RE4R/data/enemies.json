@@ -203,6 +203,7 @@
       "key": "villager",
       "kind": "villager",
       "name": "Villager",
+      "class": 6,
       "weapon": [
         {},
         { "primary": "hatchet" },
@@ -244,6 +245,7 @@
       "key": "zealot",
       "kind": "zealot",
       "name": "Zealot",
+      "class": 6,
       "weapon": [
         {},
         {
@@ -328,6 +330,7 @@
       "key": "zealot_red",
       "kind": "zealot",
       "name": "Gloria a Las Plagas",
+      "class": 5,
       "weapon": [
         {
           "primary": "staff"
@@ -339,6 +342,7 @@
       "key": "soldier",
       "kind": "soldier",
       "name": "Soldier",
+      "class": 6,
       "weapon": [
         {},
         {
@@ -402,6 +406,7 @@
       "key": "colmillos",
       "kind": "colmillos",
       "name": "Colmillos",
+      "class": 6,
       "field:_MontageID": [
         1106175613,
         842441658
@@ -413,12 +418,14 @@
       "key": "novistador",
       "kind": "novistador",
       "name": "Novistador",
+      "class": 6,
       "field:_RolePatternHash": 1965048383,
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
       "key": "arana",
       "kind": "arana",
+      "class": 6,
       "name": "Plaga Araña",
       "field:_MontageID": 1106175613
     },
@@ -426,6 +433,7 @@
       "key": "brute",
       "kind": "brute",
       "name": "Brute (Unarmed)",
+      "class": 5,
       "field:_MontageID": [ 1225801474, 4017450965 ],
       "field:_RolePatternHash": 3727710285,
       "field:_PreFirstForceMovePatternHash": 2180083513
@@ -434,6 +442,7 @@
       "key": "brute_hammer",
       "kind": "villager",
       "name": "Brute (Hammer)",
+      "class": 5,
       "weapon": [
         { "primary": "hammer" }
       ],
@@ -443,6 +452,7 @@
       "key": "brute_crossbow",
       "kind": "brute",
       "name": "Brute (Crossbow)",
+      "class": 5,
       "field:_MontageID": 1106175613,
       "field:_RolePatternHash": 3727710285,
       "field:_PreFirstForceMovePatternHash": 2180083513
@@ -451,6 +461,7 @@
       "key": "armadura",
       "kind": "armadura",
       "name": "Armadura",
+      "class": 5,
       "field:_MontageID": [
         1106175613,
         2950129067,
@@ -469,6 +480,7 @@
       "key": "chainsaw_mercenaries",
       "kind": "chainsaw_mercenaries",
       "name": "Chainsaw (Mercenaries)",
+      "class": 5,
       "field:_MontageID": [
         1106175613,
         3313117636,
@@ -481,6 +493,7 @@
       "key": "chainsaw",
       "kind": "chainsaw",
       "name": "Chainsaw (Normal)",
+      "class": 4,
       "field:_MontageID": [
         1106175613,
         3313117636,
@@ -493,6 +506,7 @@
       "key": "chainsaw_mad",
       "kind": "chainsaw_mad",
       "name": "Chainsaw (Mad)",
+      "class": 3,
       "field:_MontageID": [
         1106175613,
         3313117636,
@@ -505,6 +519,7 @@
       "key": "garrador",
       "kind": "garrador",
       "name": "Garrador",
+      "class": 4,
       "field:_IdentifyType": [ 0, 1 ],
       "field:_RolePatternHash": 3727710285,
       "field:_PreFirstForceMovePatternHash": 2180083513
@@ -513,6 +528,7 @@
       "key": "regenerador",
       "kind": "regenerador",
       "name": "Regenerador",
+      "class": 4,
       "field:_MontageID": 1948795948,
       "field:_TransformType": 2,
       "field:_RolePatternHash": 2180083513,
@@ -522,6 +538,7 @@
       "key": "iron_maiden",
       "kind": "regenerador",
       "name": "Iron Maiden",
+      "class": 4,
       "field:_MontageID": 1948795948,
       "field:_TransformType": 0,
       "field:_RolePatternHash": 2180083513,
@@ -531,6 +548,7 @@
       "key": "super_iron_maiden",
       "kind": "regenerador",
       "name": "Super Iron Maiden",
+      "class": 3,
       "field:_MontageID": 363312158,
       "field:_TransformType": 0,
       "field:_RolePatternHash": 2180083513,
@@ -540,23 +558,27 @@
       "key": "mendez_1",
       "kind": "mendez_1",
       "name": "Mendez (Chase)",
+      "class": 2,
       "field:_MontageID": 1106175613
     },
     {
       "key": "verdugo",
       "kind": "verdugo",
-      "name": "Verdugo"
+      "name": "Verdugo",
+      "class": 2
     },
     {
       "key": "mendez_2",
       "kind": "mendez_2",
       "name": "Mendez (Phase 1)",
+      "class": 1,
       "field:_MontageID": 1106175613
     },
     {
       "key": "cow",
       "kind": "cow",
       "name": "Cow",
+      "class": 9,
       "field:_MontageID": 1948795948,
       "field:_RolePatternHash": 2180083513,
       "field:_PreFirstForceMovePatternHash": 2180083513
@@ -565,6 +587,7 @@
       "key": "pig",
       "kind": "pig",
       "name": "Pig",
+      "class": 9,
       "field:_MontageID": [ 1948795948, 1197009770 ],
       "field:_RolePatternHash": 2180083513,
       "field:_PreFirstForceMovePatternHash": 2180083513

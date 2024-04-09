@@ -61,6 +61,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public const string Treasure = "treasure";
         public const string Attachment = "attachment";
         public const string Gunpowder = "gunpowder";
+        public const string Resource = "resource";
         public const string Weapon = "weapon";
         public const string Knife = "weapon";
         public const string Key = "key";

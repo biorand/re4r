@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using RszTool;
@@ -17,6 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private Rng.Table<EnemyClassDefinition>? _enemyRngTable;
         private Rng.Table<ItemDefinition?>? _itemRngTable;
         private Rng.Table<int>? _parasiteRngTable;
+        private Queue<EnemyClassDefinition> _enemyClassQueue = new Queue<EnemyClassDefinition>();
 
         public EnemyClassFactory EnemyClassFactory { get; }
 
@@ -144,7 +146,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 }
 
                 RandomizeHealth(e, rng);
-                RandomizeDrop(e, rng);
+                RandomizeDrop(e, ecd, rng);
                 RandomizeParasite(e, rng);
             }
         }
@@ -191,7 +193,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        private void RandomizeDrop(Enemy enemy, Rng rng)
+        private void RandomizeDrop(Enemy enemy, EnemyClassDefinition ecd, Rng rng)
         {
             var repo = ItemDefinitionRepository.Default;
             if (enemy.ItemDrop is Item drop && !drop.IsAutomatic)
@@ -205,7 +207,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 }
             }
 
-            enemy.ItemDrop = GetRandomItem(rng);
+            if (ecd.Class < 6)
+                enemy.ItemDrop = GetRandomValuableItem(enemy, ecd, rng);
+            else
+                enemy.ItemDrop = GetRandomItem(enemy, rng);
         }
 
         private void LogEnemyTable(Area area, string[] oldEnemies)
@@ -250,10 +255,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 }
                 _enemyRngTable = table;
             }
-            return _enemyRngTable.Next();
+
+            if (_enemyClassQueue.Count == 0)
+            {
+                var ecd = _enemyRngTable.Next();
+                var packCount = GetPackCount(ecd, rng);
+                for (var i = 0; i < packCount; i++)
+                {
+                    _enemyClassQueue.Enqueue(ecd);
+                }
+            }
+            return _enemyClassQueue.Dequeue();
         }
 
-        private Item? GetRandomItem(Rng rng)
+        private int GetPackCount(EnemyClassDefinition ecd, Rng rng)
+        {
+            return rng.Next(1, ecd.Class);
+        }
+
+        private Item? GetRandomItem(Enemy enemy, Rng rng)
         {
             if (_itemRngTable == null)
             {
@@ -306,8 +326,53 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
             else
             {
-                var item = new Item(def.Id, 1);
+                var amount = 1;
+                if (def.Kind == ItemKinds.Money)
+                {
+                    var multiplier = GetConfigOption<double>("money-quantity");
+                    amount = Math.Max(1, (int)(rng.Next(100, 2000) * multiplier));
+                }
+                else if (def.Kind == ItemKinds.Ammo)
+                {
+                    var multiplier = GetConfigOption<double>("ammo-quantity");
+                    amount = Math.Max(1, (int)(rng.Next(10, 50) * multiplier));
+                }
+                else if (def.Kind == ItemKinds.Gunpowder)
+                {
+                    amount = Math.Max(1, 10);
+                }
+                var item = new Item(def.Id, amount);
                 return item;
+            }
+        }
+
+        private Item? GetRandomValuableItem(Enemy enemy, EnemyClassDefinition ecd, Rng rng)
+        {
+            var itemRepo = ItemDefinitionRepository.Default;
+            var kinds = itemRepo.Kinds
+                .Where(x => GetConfigOption<bool>($"drop-valuable-{x}"))
+                .ToArray();
+            var kind = rng.Next(kinds);
+            var itemPool = itemRepo.KindToItemMap[kind];
+
+            var minValue = (10 - ecd.Class) * 800;
+            var maxValue = minValue * 3;
+            if (kind == ItemKinds.Money)
+            {
+                var amount = rng.Next(minValue, maxValue + 1);
+                return new Item(itemPool[0].Id, amount);
+            }
+            else
+            {
+                var filteredItems = itemPool
+                    .Where(x => x.Value >= minValue && x.Value <= maxValue)
+                    .ToImmutableArray();
+
+                if (filteredItems.Length == 0)
+                    filteredItems = itemPool;
+
+                var chosenItem = rng.Next(filteredItems);
+                return new Item(chosenItem.Id, 1);
             }
         }
     }

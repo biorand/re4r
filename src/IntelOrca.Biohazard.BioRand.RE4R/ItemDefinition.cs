@@ -8,6 +8,7 @@
         public string? Name { get; set; }
         public string? Kind { get; set; }
         public string? Mode { get; set; }
+        public int Value { get; set; }
 
         public bool IsAutomatic => Id == -1;
 

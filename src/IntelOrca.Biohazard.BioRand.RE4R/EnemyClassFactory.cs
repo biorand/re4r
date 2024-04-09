@@ -71,6 +71,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var kindKey = c.GetProperty("kind").GetString() ?? throw new InvalidDataException();
                 var kind = kindDefinitions.First(x => x.Key == kindKey);
                 var name = c.GetProperty("name").GetString() ?? throw new InvalidDataException();
+                var classification = c.GetProperty("class").GetInt32();
 
                 var weaponChoices = new List<WeaponChoice>();
                 if (c.TryGetProperty("weapon", out var weapon))
@@ -109,7 +110,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     }
                 }
 
-                classDefinitions.Add(new EnemyClassDefinition(key, name, kind, weaponChoices.ToImmutableArray(), fields));
+                classDefinitions.Add(new EnemyClassDefinition(key, name, classification, kind, weaponChoices.ToImmutableArray(), fields));
             }
 
             return new EnemyClassFactory(
