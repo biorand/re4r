@@ -145,19 +145,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     e.SetFieldValue(fd.Name, fieldValue);
                 }
 
-                RandomizeHealth(e, rng);
+                RandomizeHealth(e, ecd, rng);
                 RandomizeDrop(e, ecd, rng);
                 RandomizeParasite(e, rng);
             }
         }
 
-        private void RandomizeHealth(Enemy enemy, Rng rng)
+        private void RandomizeHealth(Enemy enemy, EnemyClassDefinition ecd, Rng rng)
         {
-            var randomHealth = GetConfigOption<bool>("enemy-random-health");
+            var randomHealth = GetConfigOption<bool>("enemy-custom-health");
             if (randomHealth)
             {
-                // enemy.Health = rng.Next(400, 1000);
-                enemy.Health = 100;
+                var minHealth = GetConfigOption<int>($"enemy-health-min-{ecd.Key}");
+                var maxHealth = GetConfigOption<int>($"enemy-health-max-{ecd.Key}");
+                minHealth = Math.Clamp(minHealth, 1, 100000);
+                maxHealth = Math.Clamp(maxHealth, minHealth, 100000);
+                enemy.Health = rng.Next(minHealth, maxHealth + 1);
             }
             else
             {

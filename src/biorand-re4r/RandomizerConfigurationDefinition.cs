@@ -65,6 +65,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Label = "Progressive Difficulty",
                 Type = "switch"
             });
+            generalGroup.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-custom-health",
+                Label = "Custom Enemy Health",
+                Description = "Let Biorand randomize the enemy health between a custom range.",
+                Type = "switch"
+            });
             configDefinition.Groups.Add(generalGroup);
 
             var dropGroup = new Group("General Drops");
@@ -247,6 +254,30 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.01
             });
             configDefinition.Groups.Add(parasiteGroup);
+
+            var enemyHealthGroup = new Group("Custom Enemy Health");
+            foreach (var enemyClass in enemyClassFactory.Classes)
+            {
+                enemyHealthGroup.Items.Add(new GroupItem()
+                {
+                    Id = $"enemy-health-min-{enemyClass.Key}",
+                    Label = $"Min. {enemyClass.Name} HP",
+                    Type = "range",
+                    Min = 1,
+                    Max = 100000,
+                    Step = 1
+                });
+                enemyHealthGroup.Items.Add(new GroupItem()
+                {
+                    Id = $"enemy-health-max-{enemyClass.Key}",
+                    Label = $"Max. {enemyClass.Name} HP",
+                    Type = "range",
+                    Min = 1,
+                    Max = 100000,
+                    Step = 1
+                });
+            }
+            configDefinition.Groups.Add(enemyHealthGroup);
 
             return configDefinition;
         }
