@@ -204,7 +204,12 @@
                 widgetHtml = '<input id="' + inputId + '" type="text" class="form-control form-control-sm">';
                 break;
             case 'range':
-                widgetHtml = `<input id="${inputId}" type="range" class="form-range" min="${groupItem.min}" max="${groupItem.max}" step="${groupItem.step}">`;
+                widgetHtml += `<div class="row">`;
+                widgetHtml += `<div class="col-auto">`;
+                widgetHtml += `<input id="${inputId}" type="range" class="form-range" min="${groupItem.min}" max="${groupItem.max}" step="${groupItem.step}">`;
+                widgetHtml += `</div>`;
+                widgetHtml += `<div id="${inputId}-display" class="col-auto"></div>`;
+                widgetHtml += `</div>`;
                 break;
         }
         const colClass = groupItem.size ? `col-${groupItem.size}` : 'col-8';
@@ -225,8 +230,16 @@
         configContainerEl.innerHTML = createWidgets(configDefinition);
 
         for (const key in configDefMap) {
+            const outputEl = document.getElementById(`cfg-${key}-display`);
             const inputEl = document.getElementById(`cfg-${key}`);
+            if (outputEl) {
+                outputEl.innerText = inputEl.value;
+                inputEl.addEventListener('input', () => {
+                    outputEl.innerText = parseFloat(inputEl.value).toFixed(2);
+                });
+            }
             inputEl.addEventListener('change', () => {
+                outputEl.innerText = parseFloat(inputEl.value).toFixed(2);
                 const config = getConfig();
                 saveLocalData('config', config);
             });
@@ -243,10 +256,14 @@
             const def = configDefMap[key];
             if (def) {
                 const inputEl = document.getElementById(`cfg-${key}`);
+                const outputEl = document.getElementById(`cfg-${key}-display`);
                 if (def.type == "switch") {
                     inputEl.checked = value;
                 } else {
                     inputEl.value = value;
+                    if (outputEl) {
+                        outputEl.innerText = value.toFixed(2);
+                    }
                 }
             }
         }

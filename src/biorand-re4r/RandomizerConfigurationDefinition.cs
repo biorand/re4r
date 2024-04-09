@@ -52,6 +52,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             generalGroup.Items.Add(new GroupItem()
             {
+                Id = $"money-quantity",
+                Label = "Money quantity",
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.1
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
                 Id = $"progressive-difficulty",
                 Label = "Progressive Difficulty",
                 Type = "switch"
@@ -119,9 +128,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             dropGroup.Items.Add(new GroupItem()
             {
-                Id = $"drop-ratio-other",
-                Label = "Other",
-                Description = "Knives, Resources, Gunpowder",
+                Id = $"drop-ratio-knife",
+                Label = "Knife",
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01
+            });
+            dropGroup.Items.Add(new GroupItem()
+            {
+                Id = $"drop-ratio-gunpowder",
+                Label = "Gunpowder",
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01
+            });
+            dropGroup.Items.Add(new GroupItem()
+            {
+                Id = $"drop-ratio-resource",
+                Label = "Resource",
                 Type = "range",
                 Min = 0,
                 Max = 1,
