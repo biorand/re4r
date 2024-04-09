@@ -23,6 +23,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             public double? Min { get; set; }
             public double? Max { get; set; }
             public double? Step { get; set; }
+            public object? Default { get; set; }
         }
 
         public static RandomizerConfigurationDefinition Create(EnemyClassFactory enemyClassFactory)
@@ -39,7 +40,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0.25,
                 Max = 10,
-                Step = 0.05
+                Step = 0.05,
+                Default = 1
             });
             generalGroup.Items.Add(new GroupItem()
             {
@@ -48,7 +50,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.1
+                Step = 0.1,
+                Default = 0.5
             });
             generalGroup.Items.Add(new GroupItem()
             {
@@ -57,20 +60,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.1
+                Step = 0.1,
+                Default = 0.5
             });
-            generalGroup.Items.Add(new GroupItem()
-            {
-                Id = $"progressive-difficulty",
-                Label = "Progressive Difficulty",
-                Type = "switch"
-            });
+            // generalGroup.Items.Add(new GroupItem()
+            // {
+            //     Id = $"progressive-difficulty",
+            //     Label = "Progressive Difficulty",
+            //     Type = "switch",
+            //     Default = false
+            // });
             generalGroup.Items.Add(new GroupItem()
             {
                 Id = $"enemy-custom-health",
                 Label = "Custom Enemy Health",
                 Description = "Let Biorand randomize the enemy health between a custom range.",
-                Type = "switch"
+                Type = "switch",
+                Default = false
             });
             configDefinition.Groups.Add(generalGroup);
 
@@ -83,7 +89,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.01
+                Step = 0.01,
+                Default = 0.5
             });
             dropGroup.Items.Add(new GroupItem()
             {
@@ -93,7 +100,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.01
+                Step = 0.01,
+                Default = 0.5
             });
             dropGroup.Items.Add(new GroupItem()
             {
@@ -102,7 +110,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.01
+                Step = 0.01,
+                Default = 0.5
             });
             dropGroup.Items.Add(new GroupItem()
             {
@@ -112,7 +121,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.01
+                Step = 0.01,
+                Default = 0.5
             });
             dropGroup.Items.Add(new GroupItem()
             {
@@ -122,7 +132,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.01
+                Step = 0.01,
+                Default = 0.5
             });
             dropGroup.Items.Add(new GroupItem()
             {
@@ -131,7 +142,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.01
+                Step = 0.01,
+                Default = 0.5
             });
             dropGroup.Items.Add(new GroupItem()
             {
@@ -140,7 +152,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.01
+                Step = 0.01,
+                Default = 0.5
             });
             dropGroup.Items.Add(new GroupItem()
             {
@@ -149,7 +162,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.01
+                Step = 0.01,
+                Default = 0.5
             });
             dropGroup.Items.Add(new GroupItem()
             {
@@ -158,7 +172,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.01
+                Step = 0.01,
+                Default = 0.5
             });
             configDefinition.Groups.Add(dropGroup);
 
@@ -168,42 +183,40 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Id = $"drop-valuable-ammo",
                 Label = "Ammo",
                 Description = "A more generous portion of ammo.",
-                Type = "switch"
+                Type = "switch",
+                Default = true
             });
             dropValuableGroup.Items.Add(new GroupItem()
             {
                 Id = $"drop-valuable-health",
                 Label = "Health",
                 Description = "First-Aid-Spray, Yellow Herbs, Fish, Golden Eggs",
-                Type = "switch"
+                Type = "switch",
+                Default = true
             });
             dropValuableGroup.Items.Add(new GroupItem()
             {
                 Id = $"drop-valuable-treasure",
                 Label = "Treasure",
                 Description = "Spinels, Velvet Blue, Gemstones etc.",
-                Type = "switch"
+                Type = "switch",
+                Default = true
             });
             dropValuableGroup.Items.Add(new GroupItem()
             {
                 Id = $"drop-valuable-weapon",
                 Label = "Weapon",
                 Description = "A weapon will be dropped, if not already in possession.",
-                Type = "switch"
+                Type = "switch",
+                Default = true
             });
             dropValuableGroup.Items.Add(new GroupItem()
             {
                 Id = $"drop-valuable-attachment",
                 Label = "Weapon Attachment",
                 Description = "A weapon attachment will be dropped, if not already in possession.",
-                Type = "switch"
-            });
-            dropValuableGroup.Items.Add(new GroupItem()
-            {
-                Id = $"drop-valuable-other",
-                Label = "Other",
-                Description = "Small keys / Recipes / Charms / Tokens",
-                Type = "switch"
+                Type = "switch",
+                Default = true
             });
             configDefinition.Groups.Add(dropValuableGroup);
 
@@ -217,7 +230,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Type = "range",
                     Min = 0,
                     Max = 1,
-                    Step = 0.01
+                    Step = 0.01,
+                    Default = 0.5
                 });
             }
             configDefinition.Groups.Add(enemyGroup);
@@ -231,7 +245,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.01
+                Step = 0.01,
+                Default = 0.75
             });
             parasiteGroup.Items.Add(new GroupItem()
             {
@@ -241,7 +256,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.01
+                Step = 0.01,
+                Default = 0.25 / 4 * 3
             });
             parasiteGroup.Items.Add(new GroupItem()
             {
@@ -251,7 +267,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1,
-                Step = 0.01
+                Step = 0.01,
+                Default = 0.25 / 4
             });
             configDefinition.Groups.Add(parasiteGroup);
 
@@ -265,7 +282,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Type = "range",
                     Min = 1,
                     Max = 100000,
-                    Step = 1
+                    Step = 1,
+                    Default = enemyClass.MinHealth
                 });
                 enemyHealthGroup.Items.Add(new GroupItem()
                 {
@@ -274,7 +292,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Type = "range",
                     Min = 1,
                     Max = 100000,
-                    Step = 1
+                    Step = 1,
+                    Default = enemyClass.MaxHealth
                 });
             }
             configDefinition.Groups.Add(enemyHealthGroup);

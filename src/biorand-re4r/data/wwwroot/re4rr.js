@@ -64,10 +64,13 @@
         saveLocalData('seed', seed);
     }
 
-    function refreshTheme() {
-        var elSwitchTheme = document.getElementById('switch-theme');
-        const theme = elSwitchTheme.checked ? 'dark' : 'light;'
+    function refreshTheme(theme) {
+        if (!theme) {
+            var elSwitchTheme = document.getElementById('switch-theme');
+            theme = elSwitchTheme.checked ? 'dark' : 'light';
+        }
         document.documentElement.setAttribute('data-bs-theme', theme);
+        saveLocalData('theme', theme);
     }
 
 
@@ -96,6 +99,14 @@
             return this.profiles[name];
         }
 
+        update(name, config) {
+            this.profiles[name] = {
+                name: name,
+                config: config
+            }
+            this.saveToStorage();
+        }
+
         loadFromStorage() {
             const profiles = loadLocalData('profiles');
             if (profiles) {
@@ -119,15 +130,12 @@
         const elProfileExport = document.getElementById('btn-profile-export');
         const elProfileImport = document.getElementById('btn-profile-import');
 
-        function initProfilesDropdown(name) {
+        initProfilesDropdown = (name) => {
             const profiles = profileManager.getAll();
-            if (profiles.length == 0)
-                return;
-
             let options = '';
             let index = 0;
             let i = 0;
-            for (const profile of profileManager.getAll()) {
+            for (const profile of profiles) {
                 options += `<option>${profile.name}</option>`
                 if (profile.name === name) {
                     index = i;
@@ -135,10 +143,10 @@
                 i++;
             }
             elProfileSelect.innerHTML = options;
-            elProfileSelect.selectedIndex = index;
+            elProfileSelect.selectedIndex = profiles.length === 0 ? -1 : index;
         }
 
-        function getSelectedProfile() {
+        getSelectedProfile = () => {
             const profiles = profileManager.getAll();
             return profiles[elProfileSelect.selectedIndex];
         }
@@ -184,8 +192,8 @@
 
     function setupPage() {
         var elSwitchTheme = document.getElementById('switch-theme');
-        elSwitchTheme.addEventListener('change', refreshTheme);
-        refreshTheme();
+        elSwitchTheme.addEventListener('change', () => refreshTheme());
+        refreshTheme(loadLocalData('theme'));
 
         initProfileWidgets();
 
@@ -343,7 +351,11 @@
         const configContainerEl = document.getElementById('config-container');
         configContainerEl.innerHTML = createWidgets(configDefinition);
 
+        const defaultConfig = {};
         for (const key in configDefMap) {
+            const def = configDefMap[key];
+            defaultConfig[key] = def.default;
+
             const outputEl = document.getElementById(`cfg-${key}-display`);
             const inputEl = document.getElementById(`cfg-${key}`);
             if (outputEl) {
@@ -359,25 +371,36 @@
             });
         }
 
+        profileManager.update('Default', defaultConfig);
+
+        const selectedProfile = getSelectedProfile();
+        if (selectedProfile) {
+            initProfilesDropdown(selectedProfile.name);
+        } else {
+            initProfilesDropdown();
+        }
+
         // Enable tooltips
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     }
 
     function setConfig(config) {
-        for (const key in config) {
-            const value = config[key];
+        for (const key in configDefMap) {
             const def = configDefMap[key];
-            if (def) {
-                const inputEl = document.getElementById(`cfg-${key}`);
-                const outputEl = document.getElementById(`cfg-${key}-display`);
-                if (def.type == "switch") {
-                    inputEl.checked = value;
-                } else {
-                    inputEl.value = value;
-                    if (outputEl) {
-                        outputEl.innerText = value.toFixed(2);
-                    }
+            let value = def.default;
+            if (config && key in config) {
+                value = config[key];
+            }
+
+            const inputEl = document.getElementById(`cfg-${key}`);
+            const outputEl = document.getElementById(`cfg-${key}-display`);
+            if (def.type == "switch") {
+                inputEl.checked = value;
+            } else {
+                inputEl.value = value;
+                if (outputEl) {
+                    outputEl.innerText = value.toFixed(2);
                 }
             }
         }

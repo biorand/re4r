@@ -204,6 +204,8 @@
       "kind": "villager",
       "name": "Villager",
       "class": 6,
+      "minHealth": 500,
+      "maxHealth": 2000,
       "weapon": [
         {},
         { "primary": "hatchet" },
@@ -246,6 +248,8 @@
       "kind": "zealot",
       "name": "Zealot",
       "class": 6,
+      "minHealth": 500,
+      "maxHealth": 2000,
       "weapon": [
         {},
         {
@@ -331,6 +335,8 @@
       "kind": "zealot",
       "name": "Gloria a Las Plagas",
       "class": 5,
+      "minHealth": 1000,
+      "maxHealth": 5000,
       "weapon": [
         {
           "primary": "staff"
@@ -343,6 +349,8 @@
       "kind": "soldier",
       "name": "Soldier",
       "class": 6,
+      "minHealth": 2000,
+      "maxHealth": 7000,
       "weapon": [
         {},
         {
@@ -407,6 +415,8 @@
       "kind": "colmillos",
       "name": "Colmillos",
       "class": 6,
+      "minHealth": 500,
+      "maxHealth": 2000,
       "field:_MontageID": [
         1106175613,
         842441658
@@ -419,6 +429,8 @@
       "kind": "novistador",
       "name": "Novistador",
       "class": 6,
+      "minHealth": 500,
+      "maxHealth": 1500,
       "field:_RolePatternHash": 1965048383,
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
@@ -426,6 +438,8 @@
       "key": "arana",
       "kind": "arana",
       "class": 6,
+      "minHealth": 500,
+      "maxHealth": 2000,
       "name": "Plaga Araña",
       "field:_MontageID": 1106175613
     },
@@ -434,6 +448,8 @@
       "kind": "brute",
       "name": "Brute (Unarmed)",
       "class": 5,
+      "minHealth": 5000,
+      "maxHealth": 10000,
       "field:_MontageID": [ 1225801474, 4017450965 ],
       "field:_RolePatternHash": 3727710285,
       "field:_PreFirstForceMovePatternHash": 2180083513
@@ -443,6 +459,8 @@
       "kind": "villager",
       "name": "Brute (Hammer)",
       "class": 5,
+      "minHealth": 5000,
+      "maxHealth": 10000,
       "weapon": [
         { "primary": "hammer" }
       ],
@@ -453,6 +471,8 @@
       "kind": "brute",
       "name": "Brute (Crossbow)",
       "class": 5,
+      "minHealth": 5000,
+      "maxHealth": 10000,
       "field:_MontageID": 1106175613,
       "field:_RolePatternHash": 3727710285,
       "field:_PreFirstForceMovePatternHash": 2180083513
@@ -462,6 +482,8 @@
       "kind": "armadura",
       "name": "Armadura",
       "class": 5,
+      "minHealth": 2000,
+      "maxHealth": 60000,
       "field:_MontageID": [
         1106175613,
         2950129067,
@@ -481,6 +503,8 @@
       "kind": "chainsaw_mercenaries",
       "name": "Chainsaw (Mercenaries)",
       "class": 5,
+      "minHealth": 5000,
+      "maxHealth": 10000,
       "field:_MontageID": [
         1106175613,
         3313117636,
@@ -494,6 +518,8 @@
       "kind": "chainsaw",
       "name": "Chainsaw (Normal)",
       "class": 4,
+      "minHealth": 5000,
+      "maxHealth": 15000,
       "field:_MontageID": [
         1106175613,
         3313117636,
@@ -507,6 +533,8 @@
       "kind": "chainsaw_mad",
       "name": "Chainsaw (Mad)",
       "class": 3,
+      "minHealth": 10000,
+      "maxHealth": 20000,
       "field:_MontageID": [
         1106175613,
         3313117636,
@@ -520,6 +548,8 @@
       "kind": "garrador",
       "name": "Garrador",
       "class": 4,
+      "minHealth": 5000,
+      "maxHealth": 10000,
       "field:_IdentifyType": [ 0, 1 ],
       "field:_RolePatternHash": 3727710285,
       "field:_PreFirstForceMovePatternHash": 2180083513
@@ -529,6 +559,8 @@
       "kind": "regenerador",
       "name": "Regenerador",
       "class": 4,
+      "minHealth": 15000,
+      "maxHealth": 35000,
       "field:_MontageID": 1948795948,
       "field:_TransformType": 2,
       "field:_RolePatternHash": 2180083513,
@@ -539,6 +571,8 @@
       "kind": "regenerador",
       "name": "Iron Maiden",
       "class": 4,
+      "minHealth": 8000,
+      "maxHealth": 40000,
       "field:_MontageID": 1948795948,
       "field:_TransformType": 0,
       "field:_RolePatternHash": 2180083513,
@@ -549,6 +583,8 @@
       "kind": "regenerador",
       "name": "Super Iron Maiden",
       "class": 3,
+      "minHealth": 10000,
+      "maxHealth": 50000,
       "field:_MontageID": 363312158,
       "field:_TransformType": 0,
       "field:_RolePatternHash": 2180083513,
@@ -559,19 +595,25 @@
       "kind": "mendez_1",
       "name": "Mendez (Chase)",
       "class": 2,
+      "minHealth": 10000,
+      "maxHealth": 50000,
       "field:_MontageID": 1106175613
     },
     {
       "key": "verdugo",
       "kind": "verdugo",
       "name": "Verdugo",
-      "class": 2
+      "class": 2,
+      "minHealth": 20000,
+      "maxHealth": 60000
     },
     {
       "key": "mendez_2",
       "kind": "mendez_2",
       "name": "Mendez (Phase 1)",
       "class": 1,
+      "minHealth": 10000,
+      "maxHealth": 15000,
       "field:_MontageID": 1106175613
     },
     {
@@ -579,6 +621,8 @@
       "kind": "cow",
       "name": "Cow",
       "class": 9,
+      "minHealth": 500,
+      "maxHealth": 5000,
       "field:_MontageID": 1948795948,
       "field:_RolePatternHash": 2180083513,
       "field:_PreFirstForceMovePatternHash": 2180083513
@@ -588,6 +632,8 @@
       "kind": "pig",
       "name": "Pig",
       "class": 9,
+      "minHealth": 500,
+      "maxHealth": 5000,
       "field:_MontageID": [ 1948795948, 1197009770 ],
       "field:_RolePatternHash": 2180083513,
       "field:_PreFirstForceMovePatternHash": 2180083513
