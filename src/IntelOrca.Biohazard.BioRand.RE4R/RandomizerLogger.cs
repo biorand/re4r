@@ -56,7 +56,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     }
                 }
             }
-            LogLine(enemy.Guid, enemy.Kind.Key, weapons, enemy.Health?.ToString() ?? "*", itemDrop);
+
+            var parasite = $"{enemy.ParasiteKind},{enemy.ForceParasiteAppearance},{enemy.ParasiteAppearanceProbability}";
+            LogLine(enemy.Guid, enemy.Kind.Key, weapons, enemy.Health?.ToString() ?? "*", parasite, itemDrop);
         }
 
         private void LogLine(params object[] columns)

@@ -142,6 +142,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             set => SetFieldValue("_PreFirstForceMovePatternHash", value);
         }
 
+        public int? ParasiteKind
+        {
+            get => GetFieldValue<int?>("_ParasiteSetting");
+            set => SetFieldValue("_ParasiteSetting", value);
+        }
+
+        public bool ForceParasiteAppearance
+        {
+            get => GetFieldValue<bool?>("_ForceParasiteAppearance") ?? false;
+            set => SetFieldValue("_ForceParasiteAppearance", value);
+        }
+
+        public float ParasiteAppearanceProbability
+        {
+            get => GetFieldValue<float?>("_ParasiteAppearanceProbability") ?? 0;
+            set => SetFieldValue("_ParasiteAppearanceProbability", value);
+        }
+
         public object? GetFieldValue(string name)
         {
             return MainComponent.GetFieldValue(name);

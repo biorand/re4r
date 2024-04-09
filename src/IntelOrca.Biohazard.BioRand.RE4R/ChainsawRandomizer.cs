@@ -16,6 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private RandomizerInput _input = new RandomizerInput();
         private Rng.Table<EnemyClassDefinition>? _enemyRngTable;
         private Rng.Table<ItemDefinition?>? _itemRngTable;
+        private Rng.Table<int>? _parasiteRngTable;
 
         public EnemyClassFactory EnemyClassFactory { get; }
 
@@ -144,6 +145,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
                 RandomizeHealth(e, rng);
                 RandomizeDrop(e, rng);
+                RandomizeParasite(e, rng);
             }
         }
 
@@ -158,6 +160,34 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             else
             {
                 enemy.Health = null;
+            }
+        }
+
+        private void RandomizeParasite(Enemy enemy, Rng rng)
+        {
+            if (_parasiteRngTable == null)
+            {
+                var table = rng.CreateProbabilityTable<int>();
+                table.Add(0, GetConfigOption<double>("parasite-ratio-none"));
+                table.Add(1, GetConfigOption<double>("parasite-ratio-a"));
+                table.Add(2, GetConfigOption<double>("parasite-ratio-b"));
+                _parasiteRngTable = table;
+            }
+            if (enemy.ParasiteKind != null)
+            {
+                var kind = _parasiteRngTable.Next();
+                if (kind == 0)
+                {
+                    enemy.ParasiteKind = 0;
+                    enemy.ForceParasiteAppearance = false;
+                    enemy.ParasiteAppearanceProbability = 0;
+                }
+                else
+                {
+                    enemy.ParasiteKind = kind;
+                    enemy.ForceParasiteAppearance = true;
+                    enemy.ParasiteAppearanceProbability = 100;
+                }
             }
         }
 

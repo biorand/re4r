@@ -215,6 +215,39 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
             configDefinition.Groups.Add(enemyGroup);
 
+            var parasiteGroup = new Group("Parasite");
+            parasiteGroup.Items.Add(new GroupItem()
+            {
+                Id = $"parasite-ratio-none",
+                Label = "None",
+                Description = "No Plaga",
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01
+            });
+            parasiteGroup.Items.Add(new GroupItem()
+            {
+                Id = $"parasite-ratio-a",
+                Label = "Plaga Guadaña",
+                Description = "Tenticle Plaga that slice you",
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01
+            });
+            parasiteGroup.Items.Add(new GroupItem()
+            {
+                Id = $"parasite-ratio-b",
+                Label = "Plaga Mandíbula",
+                Description = "Hungry Plaga that eat your head",
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01
+            });
+            configDefinition.Groups.Add(parasiteGroup);
+
             return configDefinition;
         }
 
