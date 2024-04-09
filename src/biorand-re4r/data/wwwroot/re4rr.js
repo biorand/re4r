@@ -70,10 +70,124 @@
         document.documentElement.setAttribute('data-bs-theme', theme);
     }
 
+
+    class ProfileManager {
+        constructor() {
+            this.profiles = {};
+            this.id = 0;
+        }
+
+        create(name, config) {
+            this.profiles[name] = { name: name, config: config };
+            this.saveToStorage();
+            return this.profiles[name];
+        }
+
+        delete(name) {
+            delete this.profiles[name];
+            this.saveToStorage();
+        }
+
+        getAll() {
+            return Object.values(this.profiles);
+        }
+
+        get(name) {
+            return this.profiles[name];
+        }
+
+        loadFromStorage() {
+            const profiles = loadLocalData('profiles');
+            if (profiles) {
+                for (const p of profiles) {
+                    this.profiles[p.name] = p;
+                }
+            }
+        }
+
+        saveToStorage() {
+            saveLocalData('profiles', this.getAll());
+        }
+    }
+    const profileManager = new ProfileManager();
+
+    function initProfileWidgets() {
+        const elProfileSelect = document.getElementById('select-profile');
+        const elProfileNewName = document.getElementById('btn-profile-new-name');
+        const elProfileCreate = document.getElementById('btn-profile-create');
+        const elProfileDelete = document.getElementById('btn-profile-delete');
+        const elProfileExport = document.getElementById('btn-profile-export');
+        const elProfileImport = document.getElementById('btn-profile-import');
+
+        function initProfilesDropdown(name) {
+            const profiles = profileManager.getAll();
+            if (profiles.length == 0)
+                return;
+
+            let options = '';
+            let index = 0;
+            let i = 0;
+            for (const profile of profileManager.getAll()) {
+                options += `<option>${profile.name}</option>`
+                if (profile.name === name) {
+                    index = i;
+                }
+                i++;
+            }
+            elProfileSelect.innerHTML = options;
+            elProfileSelect.selectedIndex = index;
+        }
+
+        function getSelectedProfile() {
+            const profiles = profileManager.getAll();
+            return profiles[elProfileSelect.selectedIndex];
+        }
+
+        profileManager.loadFromStorage();
+        initProfilesDropdown();
+
+        const selectedProfile = loadLocalData('selectedProfile');
+        const profiles = profileManager.getAll();
+        if (typeof selectedProfile === "number" && selectedProfile >= 0 && selectedProfile < profiles.length) {
+            elProfileSelect.selectedIndex = selectedProfile;
+        }
+
+        elProfileSelect.addEventListener('change', () => {
+            const profile = getSelectedProfile();
+            if (profile) {
+                setConfig(profile.config);
+                saveLocalData('selectedProfile', elProfileSelect.selectedIndex);
+            }
+        });
+        elProfileCreate.addEventListener('click', () => {
+            const name = elProfileNewName.value.trim();
+            if (!name) {
+                elProfileNewName.focus();
+            } else {
+                if (profileManager.get(name)) {
+                    elProfileNewName.focus();
+                } else {
+                    const profile = profileManager.create(name, getConfig());
+                    initProfilesDropdown(profile.name);
+                    elProfileNewName.value = '';
+                }
+            }
+        });
+        elProfileDelete.addEventListener('click', () => {
+            const profile = getSelectedProfile();
+            if (profile) {
+                profileManager.delete(profile.name);
+                initProfilesDropdown();
+            }
+        });
+    }
+
     function setupPage() {
         var elSwitchTheme = document.getElementById('switch-theme');
         elSwitchTheme.addEventListener('change', refreshTheme);
         refreshTheme();
+
+        initProfileWidgets();
 
         var elPassword = document.getElementById('input-password');
         elPassword.value = loadLocalData('password');
