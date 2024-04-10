@@ -244,6 +244,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         private class MainController : WebApiController
         {
             private readonly RandomizerService _randomizer;
+            private readonly ILogger _logger;
 
             public MainController(RandomizerService randomizer)
             {
@@ -259,6 +260,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             [Route(HttpVerbs.Post, "/generate")]
             public async Task<object> GenerateAsync([MyJsonData] GenerateRequest request)
             {
+                var ipAddress = Request.Headers["X-Forwarded-For"];
+                if (string.IsNullOrEmpty(ipAddress))
+                    ipAddress = Request.RemoteEndPoint.ToString();
+
+                var configJson = JsonSerializer.Serialize(request.Config);
+                Logger.Log(
+                    $"Generate [{ipAddress}] [{request.Password}] Seed = {request.Seed} Config = {configJson}",
+                    nameof(MainController),
+                    LogLevel.Trace);
+
                 var webConfig = Re4rConfiguration.GetDefault();
                 if (webConfig.Passwords != null && !webConfig.Passwords.Contains(request.Password))
                 {
