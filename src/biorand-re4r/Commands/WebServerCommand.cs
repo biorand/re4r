@@ -244,7 +244,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         private class MainController : WebApiController
         {
             private readonly RandomizerService _randomizer;
-            private readonly ILogger _logger;
 
             public MainController(RandomizerService randomizer)
             {
@@ -268,7 +267,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 Logger.Log(
                     $"Generate [{ipAddress}] [{request.Password}] Seed = {request.Seed} Config = {configJson}",
                     nameof(MainController),
-                    LogLevel.Trace);
+                    LogLevel.Info);
 
                 var webConfig = Re4rConfiguration.GetDefault();
                 if (webConfig.Passwords != null && !webConfig.Passwords.Contains(request.Password))
