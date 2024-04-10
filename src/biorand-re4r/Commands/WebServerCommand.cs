@@ -259,6 +259,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             [Route(HttpVerbs.Post, "/generate")]
             public async Task<object> GenerateAsync([MyJsonData] GenerateRequest request)
             {
+                var isValidPassword = IsMatchingPassword(request.Password);
+                var logLevel = isValidPassword ? LogLevel.Info : LogLevel.Warning;
+
                 var ipAddress = Request.Headers["X-Forwarded-For"];
                 if (string.IsNullOrEmpty(ipAddress))
                     ipAddress = Request.RemoteEndPoint.ToString();
@@ -266,11 +269,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 var configJson = JsonSerializer.Serialize(request.Config);
                 Logger.Log(
                     $"Generate [{ipAddress}] [{request.Password}] Seed = {request.Seed} Config = {configJson}",
-                    nameof(MainController),
-                    LogLevel.Info);
+                    typeof(MainController),
+                    logLevel);
 
-                var webConfig = Re4rConfiguration.GetDefault();
-                if (webConfig.Passwords != null && !webConfig.Passwords.Contains(request.Password))
+                if (!isValidPassword)
                 {
                     return new
                     {
@@ -289,6 +291,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                     downloadUrl = CreateUrl($"/download?id={result.Id}"),
                     downloadUrlMod = CreateUrl($"/download?id={result.Id}&mod=true")
                 };
+            }
+
+            private bool IsMatchingPassword(string? password)
+            {
+                try
+                {
+                    var webConfig = Re4rConfiguration.GetDefault();
+                    return webConfig.Passwords != null && webConfig.Passwords.Contains(password);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log(ex, typeof(MainController));
+                    return false;
+                }
             }
 
             private string CreateUrl(string path)
