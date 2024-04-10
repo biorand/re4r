@@ -39,13 +39,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return _modFile;
         }
 
-        private ZipFileBuilder BuildZipFile(string prefix = "")
+        private ZipFileBuilder BuildZipFile(string pakPrefix = "", string logPrefix = "")
         {
             return new ZipFileBuilder()
-                .AddEntry($"{prefix}re_chunk_000.pak.patch_004.pak", PakFile)
-                .AddEntry($"{prefix}input.log", Encoding.UTF8.GetBytes(LogFiles.Input))
-                .AddEntry($"{prefix}process.log", Encoding.UTF8.GetBytes(LogFiles.Process))
-                .AddEntry($"{prefix}output.log", Encoding.UTF8.GetBytes(LogFiles.Output));
+                .AddEntry($"{pakPrefix}re_chunk_000.pak.patch_004.pak", PakFile)
+                .AddEntry($"{logPrefix}input.log", Encoding.UTF8.GetBytes(LogFiles.Input))
+                .AddEntry($"{logPrefix}process.log", Encoding.UTF8.GetBytes(LogFiles.Process))
+                .AddEntry($"{logPrefix}output.log", Encoding.UTF8.GetBytes(LogFiles.Output));
         }
     }
 }
