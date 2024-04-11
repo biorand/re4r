@@ -23,6 +23,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 config.AddCommand<PackCommand>("pack")
                     .WithDescription("Creates a .pak file from the given input files")
                     .WithExample("pack", "-o", "output.pak", "natives");
+                config.AddCommand<UnpackCommand>("unpack")
+                    .WithDescription("Extracts a .pak file to a directory")
+                    .WithExample("unpack", "-o", "output", "input.pak");
             });
             return app.Run(args);
         }

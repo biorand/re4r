@@ -80,6 +80,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             configDefinition.Groups.Add(generalGroup);
 
+            var debugGroup = new Group("Debug");
+            debugGroup.Items.Add(new GroupItem()
+            {
+                Id = $"debug-unique-enemy-hp",
+                Label = "Unique Enemy HP",
+                Type = "switch",
+                Default = false
+            });
+            configDefinition.Groups.Add(debugGroup);
+
             var dropGroup = new Group("General Drops");
             dropGroup.Items.Add(new GroupItem()
             {

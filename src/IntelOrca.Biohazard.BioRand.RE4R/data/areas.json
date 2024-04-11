@@ -70,6 +70,7 @@
 
     // Chapter 11 (mine, nest, krauser 1)
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_2/level_cp10_chp4_2.scn.20" },
+    // { "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_001.scn.20" }, // Mine cart section
 
     // Chapter 12 (clock tower, salazar)
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3.scn.20" },
@@ -147,7 +148,6 @@
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_004.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_999.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_001.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_002.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_003.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_004.scn.20" },

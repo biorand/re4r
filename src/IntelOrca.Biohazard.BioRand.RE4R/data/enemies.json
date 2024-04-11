@@ -440,8 +440,11 @@
       "class": 6,
       "minHealth": 500,
       "maxHealth": 1500,
-      "field:_RolePatternHash": 1965048383,
-      "field:_PreFirstForceMovePatternHash": 2180083513
+      "field:_RolePatternHash": [ 1850100208, 2180083513 ],
+      "field:_PreFirstForceMovePatternHash": 2180083513,
+      "field:_RoleMoveSpeed": 3,
+      "field:_RoleMoveRate": 1,
+      "field:_InitialMode": [ 0, 1 ]
     },
     {
       "key": "arana",
