@@ -185,10 +185,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 e = area.ConvertTo(e, ecd.Kind.ComponentName);
 
                 // Reset various fields
-                enemy.SetFieldValue("_RandamizeMontageID", false);
-                enemy.SetFieldValue("_RandomMontageID", 0);
-                enemy.SetFieldValue("_MontageID", 0);
-                enemy.SetFieldValue("_FixedVoiceID", 0);
+                e.SetFieldValue("_RandamizeMontageID", false);
+                e.SetFieldValue("_RandomMontageID", 0);
+                e.SetFieldValue("_MontageID", 0);
+                e.SetFieldValue("_FixedVoiceID", 0);
 
                 if (ecd.Weapon.Length == 0)
                 {
