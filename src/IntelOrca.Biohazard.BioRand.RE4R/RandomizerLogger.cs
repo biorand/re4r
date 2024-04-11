@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -9,6 +10,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly string _hr = new string('-', 80);
 
         public string Output => _sb.ToString();
+
+        public void LogVersion()
+        {
+            var crf = ChainsawRandomizerFactory.Default;
+
+            _sb.AppendLine(crf.CurrentVersionInfo);
+            _sb.AppendLine("by IntelOrca");
+            _sb.AppendLine($"Generated at {DateTime.Now}");
+        }
 
         public void LogHr()
         {

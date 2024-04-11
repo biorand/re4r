@@ -123,6 +123,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private void LogAreas(RandomizerLogger logger, List<Area> areas)
         {
+            logger.LogHr();
+            logger.LogVersion();
+            logger.LogHr();
             foreach (var area in areas)
             {
                 logger.LogArea(area);
