@@ -4,6 +4,8 @@
     {
         private readonly Dictionary<string, byte[]> _entries = new(StringComparer.OrdinalIgnoreCase);
 
+        public Dictionary<string, byte[]> Entries => _entries;
+
         public void AddEntry(string path, byte[] data)
         {
             _entries[path] = data;
@@ -115,6 +117,13 @@
                 bw.Write((ulong)pakEntry.wCompressionType);
                 bw.Write(pakEntry.dwChecksum);
             }
+        }
+
+        public byte[] ToByteArray()
+        {
+            var ms = new MemoryStream();
+            Save(ms, REE.PakFlags.ZSTD);
+            return ms.ToArray();
         }
     }
 }

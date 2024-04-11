@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using REE;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -7,10 +8,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private byte[]? _zipFile;
         private byte[]? _modFile;
 
-        public byte[] PakFile { get; }
+        public PakFileBuilder PakFile { get; }
         public LogFiles LogFiles { get; }
 
-        internal RandomizerOutput(byte[] pakFile, LogFiles logFiles)
+        internal RandomizerOutput(PakFileBuilder pakFile, LogFiles logFiles)
         {
             PakFile = pakFile;
             LogFiles = logFiles;
@@ -22,6 +23,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 return _zipFile;
 
             _zipFile = BuildZipFile()
+                .AddEntry($"re_chunk_000.pak.patch_004.pak", PakFile.ToByteArray())
                 .Build();
             return _zipFile;
         }
@@ -31,7 +33,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             if (_modFile != null)
                 return _modFile;
 
-            _modFile = BuildZipFile("Biorand/")
+            var zipFile = BuildZipFile();
+            foreach (var entry in PakFile.Entries)
+            {
+                zipFile.AddEntry($"Biorand/{entry.Key}", entry.Value);
+            }
+            _modFile = zipFile
                 .AddEntry("Biorand/pic.jpg", Resources.modimage)
                 .AddEntry("Biorand/modinfo.ini",
                     Encoding.UTF8.GetBytes("name=Biorand\nversion=1.5\ndescription=RE4R randomizer\nscreenshot=pic.jpg\nauthor=IntelOrca\ncategory=!Other > Misc\n"))
@@ -39,10 +46,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return _modFile;
         }
 
-        private ZipFileBuilder BuildZipFile(string pakPrefix = "", string logPrefix = "")
+        private ZipFileBuilder BuildZipFile(string logPrefix = "")
         {
             return new ZipFileBuilder()
-                .AddEntry($"{pakPrefix}re_chunk_000.pak.patch_004.pak", PakFile)
                 .AddEntry($"{logPrefix}input.log", Encoding.UTF8.GetBytes(LogFiles.Input))
                 .AddEntry($"{logPrefix}process.log", Encoding.UTF8.GetBytes(LogFiles.Process))
                 .AddEntry($"{logPrefix}output.log", Encoding.UTF8.GetBytes(LogFiles.Output));

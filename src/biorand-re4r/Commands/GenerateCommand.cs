@@ -56,12 +56,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             if (outputPath.EndsWith(".pak"))
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
-                output.PakFile.WriteToFile(outputPath);
+                output.PakFile.ToByteArray().WriteToFile(outputPath);
             }
             else
             {
                 var pakList = chainsawRandomizerFactory.GetDefaultPakList();
-                await new PakFile(output.PakFile).ExtractAllAsync(pakList, outputPath);
+                await new PakFile(output.PakFile.ToByteArray()).ExtractAllAsync(pakList, outputPath);
             }
             return 0;
         }
