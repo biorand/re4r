@@ -180,13 +180,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var enemies = area.Enemies;
             var numEnemies = enemies.Length;
+            var enemyClasses = new HashSet<EnemyClassDefinition>();
             foreach (var enemy in enemies)
             {
                 var e = enemy;
                 if (e.Kind.Closed)
                     continue;
 
-                var ecd = GetRandomEnemyClass(rng);
+                var ecd = GetRandomEnemyClass(enemyClasses, rng);
                 e = area.ConvertTo(e, ecd.Kind.ComponentName);
 
                 // Reset various fields
@@ -330,7 +331,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return $"{enemy.Kind} ({enemy.Health})";
         }
 
-        private EnemyClassDefinition GetRandomEnemyClass(Rng rng)
+        private EnemyClassDefinition GetRandomEnemyClass(HashSet<EnemyClassDefinition> enemyClasses, Rng rng)
         {
             if (_enemyRngTable == null)
             {
@@ -348,7 +349,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             if (_enemyClassQueue.Count == 0)
             {
-                var ecd = _enemyRngTable.Next();
+                EnemyClassDefinition ecd;
+                var variety = GetConfigOption<int>($"enemy-variety");
+                if (variety != 0 && enemyClasses.Count >= variety)
+                {
+                    ecd = enemyClasses.Shuffle(rng).First();
+                }
+                else
+                {
+                    ecd = _enemyRngTable.Next();
+                    enemyClasses.Add(ecd);
+                }
+
                 var packCount = GetPackCount(ecd, rng);
                 for (var i = 0; i < packCount; i++)
                 {

@@ -45,6 +45,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             generalGroup.Items.Add(new GroupItem()
             {
+                Id = $"enemy-variety",
+                Label = "Enemy Variety",
+                Description = "Controls how many different enemy types you can have in a single area.",
+                Type = "range",
+                Min = 0,
+                Max = 10,
+                Step = 1,
+                Default = 0
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
                 Id = $"ammo-quantity",
                 Label = "Ammo quantity",
                 Type = "range",
