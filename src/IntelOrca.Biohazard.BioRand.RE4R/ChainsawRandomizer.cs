@@ -171,6 +171,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var ecd = GetRandomEnemyClass(rng);
                 e = area.ConvertTo(e, ecd.Kind.ComponentName);
 
+                // Reset various fields
+                enemy.SetFieldValue("_RandamizeMontageID", false);
+                enemy.SetFieldValue("_RandomMontageID", 0);
+                enemy.SetFieldValue("_MontageID", 0);
+                enemy.SetFieldValue("_FixedVoiceID", 0);
+
                 if (ecd.Weapon.Length == 0)
                 {
                     e.Weapon = 0;
@@ -188,12 +194,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     var fieldValue = rng.Next(fd.Values);
                     e.SetFieldValue(fd.Name, fieldValue);
                 }
-
-                // if (e.MainComponent.GetFieldValue("_BodyScale") is RszInstance bodyScale)
-                // {
-                //     bodyScale.SetFieldValue("_IsFixedScale", true);
-                //     bodyScale.SetFieldValue("_FixedScale", 2.0f);
-                // }
 
                 RandomizeHealth(e, ecd, rng);
                 RandomizeDrop(e, ecd, rng);
