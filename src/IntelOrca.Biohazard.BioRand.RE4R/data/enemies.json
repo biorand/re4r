@@ -562,11 +562,7 @@
       "class": 3,
       "minHealth": 10000,
       "maxHealth": 20000,
-      "field:_MontageID": [
-        1106175613,
-        3313117636,
-        2693883502
-      ],
+      "field:_MontageID": 1106175613,
       "field:_RolePatternHash": 2180083513,
       "field:_PreFirstForceMovePatternHash": 2180083513
     },

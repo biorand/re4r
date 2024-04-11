@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -38,6 +40,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             if (input.GamePath != null)
             {
                 _fileRepository = new FileRepository(input.GamePath);
+            }
+
+            // Supplement files
+            var supplementZip = new ZipArchive(new MemoryStream(Resources.supplement));
+            foreach (var entry in supplementZip.Entries)
+            {
+                if (entry.Length == 0)
+                    continue;
+
+                var data = entry.GetData();
+                _fileRepository.SetGameFileData(entry.FullName, data);
             }
 
             var rng = new Rng(input.Seed);
