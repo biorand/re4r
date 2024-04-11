@@ -1427,17 +1427,20 @@
     {
       "name": "Rocket Launcher",
       "kind": "weapon",
-      "id": 276275456
+      "id": 276275456,
+      "mode": "disabled"
     },
     {
-      "name": "Special",
+      "name": "Special Rocket Launcher",
       "kind": "weapon",
-      "id": 276277056
+      "id": 276277056,
+      "mode": "disabled"
     },
     {
       "name": "Infinite Rocket Launcher",
       "kind": "weapon",
-      "id": 276278656
+      "id": 276278656,
+      "mode": "disabled"
     },
     {
       "name": "Combat Knife",

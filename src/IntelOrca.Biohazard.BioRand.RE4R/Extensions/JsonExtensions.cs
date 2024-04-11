@@ -41,7 +41,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
             {
                 JsonValueKind.True => true,
                 JsonValueKind.False => true,
-                JsonValueKind.Number => element.GetUInt32(),
+                JsonValueKind.Number => element.GetDouble(),
                 JsonValueKind.Null => null,
                 _ => throw new NotSupportedException()
             };

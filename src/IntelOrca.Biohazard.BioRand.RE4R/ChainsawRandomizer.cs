@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -19,6 +21,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private Rng.Table<ItemDefinition?>? _itemRngTable;
         private Rng.Table<int>? _parasiteRngTable;
         private Queue<EnemyClassDefinition> _enemyClassQueue = new Queue<EnemyClassDefinition>();
+        private int _uniqueHp = 1;
+        private int _contextId = 5000;
 
         public EnemyClassFactory EnemyClassFactory { get; }
 
@@ -49,6 +53,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 areas.Add(area);
             }
 
+#if DEBUG
+            LogAllEnemies(areas, e => e.Kind.Key == "armadura");
+#endif
             LogAreas(_loggerInput, areas);
             foreach (var area in areas)
             {
@@ -62,6 +69,43 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var logFiles = new LogFiles(_loggerInput.Output, _loggerProcess.Output, _loggerOutput.Output);
             return new RandomizerOutput(_fileRepository.GetOutputPakFile(), logFiles);
+        }
+
+        private void LogAllEnemies(List<Area> areas, Predicate<Enemy> predicate)
+        {
+            var all = new List<Dictionary<string, object?>>();
+            foreach (var area in areas)
+            {
+                foreach (var enemy in area.Enemies)
+                {
+                    if (!predicate(enemy)) continue;
+
+                    var enemyDict = GetRszDictionary(enemy.MainComponent);
+                    enemyDict["area"] = area.FileName;
+                    enemyDict["guid"] = enemy.Guid;
+                    all.Add(enemyDict);
+                }
+            }
+            var jsonOutput = JsonSerializer.Serialize(all, new JsonSerializerOptions()
+            {
+                WriteIndented = true
+            });
+            jsonOutput.WriteToFile(@"C:\Users\Ted\.biorand\logs\enemy_attributes.json");
+        }
+
+        private Dictionary<string, object?> GetRszDictionary(RszInstance instance)
+        {
+            var dict = new Dictionary<string, object?>();
+            foreach (var field in instance.Fields)
+            {
+                var value = instance.GetFieldValue(field.name);
+                if (value is RszInstance child)
+                {
+                    value = GetRszDictionary(child);
+                }
+                dict[field.name] = value;
+            }
+            return dict;
         }
 
         private void LogAreas(RandomizerLogger logger, List<Area> areas)
@@ -114,7 +158,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var enemiesToCopy = bag.Next(delta);
                 foreach (var e in enemiesToCopy)
                 {
-                    area.Duplicate(e);
+                    area.Duplicate(e, GetNextContextId());
                 }
             }
 
@@ -145,26 +189,45 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     e.SetFieldValue(fd.Name, fieldValue);
                 }
 
+                // if (e.MainComponent.GetFieldValue("_BodyScale") is RszInstance bodyScale)
+                // {
+                //     bodyScale.SetFieldValue("_IsFixedScale", true);
+                //     bodyScale.SetFieldValue("_FixedScale", 2.0f);
+                // }
+
                 RandomizeHealth(e, ecd, rng);
                 RandomizeDrop(e, ecd, rng);
                 RandomizeParasite(e, rng);
             }
         }
 
+        private int GetNextContextId()
+        {
+            return _contextId++;
+        }
+
         private void RandomizeHealth(Enemy enemy, EnemyClassDefinition ecd, Rng rng)
         {
-            var randomHealth = GetConfigOption<bool>("enemy-custom-health");
-            if (randomHealth)
+            var debugUniqueHp = GetConfigOption<bool>("debug-unique-enemy-hp");
+            if (debugUniqueHp)
             {
-                var minHealth = GetConfigOption<int>($"enemy-health-min-{ecd.Key}");
-                var maxHealth = GetConfigOption<int>($"enemy-health-max-{ecd.Key}");
-                minHealth = Math.Clamp(minHealth, 1, 100000);
-                maxHealth = Math.Clamp(maxHealth, minHealth, 100000);
-                enemy.Health = rng.Next(minHealth, maxHealth + 1);
+                enemy.Health = _uniqueHp++;
             }
             else
             {
-                enemy.Health = null;
+                var randomHealth = GetConfigOption<bool>("enemy-custom-health");
+                if (randomHealth)
+                {
+                    var minHealth = GetConfigOption<int>($"enemy-health-min-{ecd.Key}");
+                    var maxHealth = GetConfigOption<int>($"enemy-health-max-{ecd.Key}");
+                    minHealth = Math.Clamp(minHealth, 1, 100000);
+                    maxHealth = Math.Clamp(maxHealth, minHealth, 100000);
+                    enemy.Health = rng.Next(minHealth, maxHealth + 1);
+                }
+                else
+                {
+                    enemy.Health = null;
+                }
             }
         }
 
@@ -313,9 +376,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 {
                     var itemsForThisKind = repo.KindToItemMap[kind];
                     var p = (ratio / total) / itemsForThisKind.Length;
-                    foreach (var id in itemsForThisKind)
+                    foreach (var itemDef in itemsForThisKind)
                     {
-                        table.Add(id, p);
+                        if (string.IsNullOrEmpty(itemDef.Mode))
+                        {
+                            table.Add(itemDef, p);
+                        }
                     }
                 }
 
@@ -355,6 +421,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var kinds = itemRepo.Kinds
                 .Where(x => GetConfigOption<bool>($"drop-valuable-{x}"))
                 .ToArray();
+
+            if (kinds.Length == 0)
+                return GetRandomItem(enemy, rng);
+
             var kind = rng.Next(kinds);
             var itemPool = itemRepo.KindToItemMap[kind];
 
@@ -368,6 +438,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             else
             {
                 var filteredItems = itemPool
+                    .Where(x => string.IsNullOrEmpty(x.Mode))
                     .Where(x => x.Value >= minValue && x.Value <= maxValue)
                     .ToImmutableArray();
 

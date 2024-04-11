@@ -417,11 +417,20 @@
       "class": 6,
       "minHealth": 500,
       "maxHealth": 2000,
-      "field:_MontageID": [
-        1106175613,
-        842441658
-      ],
-      "field:_RolePatternHash": 4266714029,
+      "field:_MontageID": 1106175613,
+      "field:_RolePatternHash": 2676630377,
+      "field:_PreFirstForceMovePatternHash": 2180083513,
+      "field:_FormRestriction": [ 0, 1, 2 ]
+    },
+    {
+      "key": "super-colmillos",
+      "kind": "colmillos",
+      "name": "Savage Mutt",
+      "class": 4,
+      "minHealth": 5000,
+      "maxHealth": 15000,
+      "field:_MontageID": 842441658,
+      "field:_RolePatternHash": 2676630377,
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
@@ -483,20 +492,35 @@
       "name": "Armadura",
       "class": 5,
       "minHealth": 2000,
-      "maxHealth": 60000,
+      "maxHealth": 4000,
       "field:_MontageID": [
         1106175613,
         2950129067,
         4155224435,
-        3367147326,
+        3367147326
+      ],
+      "field:_WeakPointType": [ 0, 1 ],
+      "field:_RolePatternHash": 2180083513,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "key": "gold-armadura",
+      "kind": "armadura",
+      "name": "Gold Armadura",
+      "class": 4,
+      "minHealth": 10000,
+      "maxHealth": 20000,
+      "field:_MontageID": [
         1249222792,
         1688266482,
         3189794135,
         1828801925
       ],
       "field:_WeakPointType": [ 0, 1 ],
-      "field:_RolePatternHash": 2910380095,
-      "field:_PreFirstForceMovePatternHash": 2180083513
+      "field:_RolePatternHash": 2180083513,
+      "field:_PreFirstForceMovePatternHash": 2180083513,
+      "field:_BodyScale._IsFixedScale": true,
+      "field:_BodyScale._FixedScale": 1.4
     },
     {
       "key": "chainsaw_mercenaries",

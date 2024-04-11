@@ -8,8 +8,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class Area
     {
-        private static int _ctxIdIndex = 5000;
-
         public AreaDefinition Definition { get; }
         public EnemyClassFactory EnemyClassFactory { get; }
         public string Path => Definition.Path;
@@ -85,12 +83,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return Reset(newEnemy);
         }
 
-        public Enemy Duplicate(Enemy enemy)
+        public Enemy Duplicate(Enemy enemy, int contextId)
         {
             var newGameObject = ScnFile.DuplicateGameObject(enemy.GameObject);
             var newComponent = GetMainEnemyComponent(newGameObject) ?? throw new Exception("Unable to find new enemy component for duplicated enemy.");
             var newEnemy = new Enemy(this, newGameObject, newComponent);
-            newEnemy.ContextId = newEnemy.ContextId.WithIndex(_ctxIdIndex++);
+            newEnemy.ContextId = newEnemy.ContextId.WithIndex(contextId);
             return Reset(newEnemy);
         }
 

@@ -172,17 +172,33 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public void SetFieldValue<T>(string name, T value)
         {
-            var originalValue = MainComponent.GetFieldValue(name);
+            var parts = name.Split('.');
+            var instance = MainComponent;
+            for (var i = 0; i < parts.Length - 1; i++)
+            {
+                if (instance.GetFieldValue(parts[i]) is RszInstance child)
+                {
+                    instance = child;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            name = parts[parts.Length - 1];
+            var originalValue = instance.GetFieldValue(name);
             if (value is not null && originalValue is not null)
             {
                 var originalValueType = originalValue.GetType();
                 if (value.GetType() != originalValueType)
                 {
-                    MainComponent.SetFieldValue(name, Convert.ChangeType(value, originalValueType)!);
+                    var convertedValue = Convert.ChangeType(value, originalValueType)!;
+                    instance.SetFieldValue(name, convertedValue);
                     return;
                 }
             }
-            MainComponent.SetFieldValue(name, value!);
+            instance.SetFieldValue(name, value!);
         }
 
         public override string ToString()
