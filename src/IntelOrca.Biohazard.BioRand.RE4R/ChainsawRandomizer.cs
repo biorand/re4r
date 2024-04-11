@@ -175,7 +175,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 }
             }
 
-            foreach (var enemy in area.Enemies)
+            var enemies = area.Enemies;
+            var numEnemies = enemies.Length;
+            foreach (var enemy in enemies)
             {
                 var e = enemy;
                 if (e.Kind.Closed)
@@ -210,7 +212,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
                 RandomizeHealth(e, ecd, rng);
                 RandomizeDrop(e, ecd, rng);
-                RandomizeParasite(e, rng);
+
+                // If there are a lot of enemies, plaga seems to randomly crash the game
+                // E.g. village, 360 zealots, 25 plaga will crash
+                if (numEnemies < 100)
+                {
+                    RandomizeParasite(e, rng);
+                }
             }
         }
 
