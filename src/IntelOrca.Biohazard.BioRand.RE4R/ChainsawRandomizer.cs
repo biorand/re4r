@@ -100,55 +100,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private void RandomizeMerchantShop()
         {
-            var itemIds = new[] { 114416000, 117606400, 114403200, 275155456, 114404800 };
-            {
-                var path = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopstockadditionsettinguserdata.user.2";
-                var data = _fileRepository.GetGameFileData(path);
-                if (data == null)
-                    return;
-
-                var userFile = ChainsawRandomizerFactory.Default.ReadUserFile(data);
-                var rsz = userFile.RSZ;
-                var lst = (List<object>?)rsz!.ObjectList[0].Get("_Settings[0]._Settings[0]._Datas");
-
-                foreach (var itemId in itemIds)
-                {
-                    var inst = rsz.CreateInstance("chainsaw.InGameShopStockAdditionSingleSetting.Data");
-                    inst.SetFieldValue("_AddItemId", itemId);
-                    inst.SetFieldValue("_AddCount", 3);
-                    lst!.Add(inst);
-                }
-
-                _fileRepository.SetGameFileData(path, userFile.ToByteArray());
-            }
-            {
-                var path = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopitemsettinguserdata.user.2";
-                var data = _fileRepository.GetGameFileData(path);
-                if (data == null)
-                    return;
-
-                var userFile = ChainsawRandomizerFactory.Default.ReadUserFile(data);
-                var rsz = userFile.RSZ;
-                var lst = (List<object>?)rsz!.ObjectList[0].Get("_Datas");
-                for (var i = 0; i < lst!.Count; i++)
-                {
-                    var instance = (RszInstance)lst[i];
-                    var itemId = (int)instance.GetFieldValue("_ItemId")!;
-                    if (itemIds.Contains(itemId))
-                    {
-                        var unlock = (RszInstance)instance.Get("_UnlockSetting");
-                        unlock.SetFieldValue("_UnlockTiming", 0);
-                        unlock.SetFieldValue("_SpCondition", 0U);
-
-                        var stock = (RszInstance)instance.Get("_StockSetting");
-                        stock.SetFieldValue("_EnableStockSetting", true);
-                        stock.SetFieldValue("_EnableSelectCount", false);
-                        stock.SetFieldValue("_MaxStock", 30);
-                        stock.SetFieldValue("_DefaultStock", 0);
-                    }
-                }
-                _fileRepository.SetGameFileData(path, userFile.ToByteArray());
-            }
+            var merchantShop = MerchantShop.FromData(_fileRepository);
+            var items = merchantShop.ShopItems;
+            var stocks = merchantShop.StockAdditions;
+            var rewards = merchantShop.Rewards;
         }
 
         private void LogAllEnemies(List<Area> areas, Predicate<Enemy> predicate)

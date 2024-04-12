@@ -217,7 +217,8 @@
       "id": 117600000
     },
     {
-      "name": "L",
+      "name": "Resource (Large)",
+      "kind": "resource",
       "id": 117601600
     },
     {
@@ -231,7 +232,8 @@
       "id": 117604800
     },
     {
-      "name": "S",
+      "name": "Resources (Small)",
+      "kind": "resource",
       "id": 117606400
     },
     {

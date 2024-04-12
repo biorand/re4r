@@ -51,6 +51,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             IdToItemMap.TryGetValue(id, out var item);
             return item;
         }
+
+        public string GetName(int id)
+        {
+            return Find(id)?.Name ?? id.ToString();
+        }
     }
 
     public static class ItemKinds

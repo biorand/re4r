@@ -22,6 +22,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
                 scnFile.RemoveGameObject(obj);
         }
 
+        public static List<object?> GetList(this RszInstance instance, string xpath)
+        {
+            return Get<List<object>?>(instance, xpath)!;
+        }
+
+        public static T? Get<T>(this RszInstance instance, string xpath)
+        {
+            return (T?)Get(instance, xpath);
+        }
+
         public static object? Get(this RszInstance instance, string xpath)
         {
             var value = (object?)instance;
