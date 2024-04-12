@@ -14,7 +14,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     internal class ChainsawRandomizer : IChainsawRandomizer
     {
         private FileRepository _fileRepository = new FileRepository();
-        private readonly RszFileOption _rszFileOption;
         private readonly RandomizerLogger _loggerInput = new RandomizerLogger();
         private readonly RandomizerLogger _loggerProcess = new RandomizerLogger();
         private readonly RandomizerLogger _loggerOutput = new RandomizerLogger();
@@ -28,10 +27,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public EnemyClassFactory EnemyClassFactory { get; }
 
-        public ChainsawRandomizer(EnemyClassFactory enemyClassFactory, RszFileOption rszFileOption)
+        public ChainsawRandomizer(EnemyClassFactory enemyClassFactory)
         {
             EnemyClassFactory = enemyClassFactory;
-            _rszFileOption = rszFileOption;
         }
 
         public RandomizerOutput Randomize(RandomizerInput input)
@@ -53,6 +51,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 _fileRepository.SetGameFileData(entry.FullName, data);
             }
 
+            StaticChanges();
+            RandomizeMerchantShop();
+
             var rng = new Rng(input.Seed);
             var areaRepo = AreaDefinitionRepository.Default;
             var areas = new List<Area>();
@@ -62,7 +63,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 if (areaData == null)
                     continue;
 
-                var area = new Area(areaDef, EnemyClassFactory, _rszFileOption, areaData);
+                var area = new Area(areaDef, EnemyClassFactory, areaData);
                 areas.Add(area);
             }
 
@@ -82,6 +83,72 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var logFiles = new LogFiles(_loggerInput.Output, _loggerProcess.Output, _loggerOutput.Output);
             return new RandomizerOutput(_fileRepository.GetOutputPakFile(), logFiles);
+        }
+
+        private void StaticChanges()
+        {
+            var path = "natives/stm/_chainsaw/environment/scene/gimmick/st40/gimmick_st40_502_p000.scn.20";
+            var data = _fileRepository.GetGameFileData(path);
+            if (data == null)
+                return;
+
+            var scn = ChainsawRandomizerFactory.Default.ReadScnFile(data);
+            scn.RemoveGameObject(new Guid("ca0ac85f-1238-49d9-a0fb-0d58a42487a1"));
+            scn.RemoveGameObject(new Guid("4a975fc1-2e1c-4fd3-a49a-1f35d6a30f0f"));
+            _fileRepository.SetGameFileData(path, scn.ToByteArray());
+        }
+
+        private void RandomizeMerchantShop()
+        {
+            var itemIds = new[] { 114416000, 117606400, 114403200, 275155456, 114404800 };
+            {
+                var path = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopstockadditionsettinguserdata.user.2";
+                var data = _fileRepository.GetGameFileData(path);
+                if (data == null)
+                    return;
+
+                var userFile = ChainsawRandomizerFactory.Default.ReadUserFile(data);
+                var rsz = userFile.RSZ;
+                var lst = (List<object>?)rsz!.ObjectList[0].Get("_Settings[0]._Settings[0]._Datas");
+
+                foreach (var itemId in itemIds)
+                {
+                    var inst = rsz.CreateInstance("chainsaw.InGameShopStockAdditionSingleSetting.Data");
+                    inst.SetFieldValue("_AddItemId", itemId);
+                    inst.SetFieldValue("_AddCount", 3);
+                    lst!.Add(inst);
+                }
+
+                _fileRepository.SetGameFileData(path, userFile.ToByteArray());
+            }
+            {
+                var path = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopitemsettinguserdata.user.2";
+                var data = _fileRepository.GetGameFileData(path);
+                if (data == null)
+                    return;
+
+                var userFile = ChainsawRandomizerFactory.Default.ReadUserFile(data);
+                var rsz = userFile.RSZ;
+                var lst = (List<object>?)rsz!.ObjectList[0].Get("_Datas");
+                for (var i = 0; i < lst!.Count; i++)
+                {
+                    var instance = (RszInstance)lst[i];
+                    var itemId = (int)instance.GetFieldValue("_ItemId")!;
+                    if (itemIds.Contains(itemId))
+                    {
+                        var unlock = (RszInstance)instance.Get("_UnlockSetting");
+                        unlock.SetFieldValue("_UnlockTiming", 0);
+                        unlock.SetFieldValue("_SpCondition", 0U);
+
+                        var stock = (RszInstance)instance.Get("_StockSetting");
+                        stock.SetFieldValue("_EnableStockSetting", true);
+                        stock.SetFieldValue("_EnableSelectCount", false);
+                        stock.SetFieldValue("_MaxStock", 30);
+                        stock.SetFieldValue("_DefaultStock", 0);
+                    }
+                }
+                _fileRepository.SetGameFileData(path, userFile.ToByteArray());
+            }
         }
 
         private void LogAllEnemies(List<Area> areas, Predicate<Enemy> predicate)

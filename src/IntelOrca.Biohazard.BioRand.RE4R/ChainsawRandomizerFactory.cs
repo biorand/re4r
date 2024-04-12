@@ -11,13 +11,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public class ChainsawRandomizerFactory
     {
-        public static ChainsawRandomizerFactory Default => new ChainsawRandomizerFactory();
+        public static ChainsawRandomizerFactory Default { get; } = new ChainsawRandomizerFactory();
 
         private static Assembly CurrentAssembly => Assembly.GetExecutingAssembly();
         public Version CurrentVersion { get; } = GetCurrentVersion();
         public string CurrentVersionNumber => $"{CurrentVersion.Major}.{CurrentVersion.Minor}.{CurrentVersion.Build}";
         public string CurrentVersionInfo => $"BioRand for RE4R {CurrentVersion.Major}.{CurrentVersion.Minor}.{CurrentVersion.Build} ({GitHash})";
         public string GitHash { get; } = GetGitHash();
+        public RszFileOption RszFileOption { get; } = CreateRszFileOption();
 
         private ChainsawRandomizerFactory()
         {
@@ -33,9 +34,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public IChainsawRandomizer Create()
         {
             var enemyClassFactory = EnemyClassFactory.Create();
-            var rszFileOption = CreateRszFileOption();
-            var randomizer = new ChainsawRandomizer(enemyClassFactory, rszFileOption);
+            var randomizer = new ChainsawRandomizer(enemyClassFactory);
             return randomizer;
+        }
+
+        public ScnFile ReadScnFile(byte[] data)
+        {
+            var scnFile = new ScnFile(RszFileOption, new FileHandler(new MemoryStream(data)));
+            scnFile.Read();
+            scnFile.SetupGameObjects();
+            return scnFile;
+        }
+
+        public UserFile ReadUserFile(byte[] data)
+        {
+            var userFile = new UserFile(RszFileOption, new FileHandler(new MemoryStream(data)));
+            userFile.Read();
+            return userFile;
         }
 
         private static RszFileOption CreateRszFileOption()

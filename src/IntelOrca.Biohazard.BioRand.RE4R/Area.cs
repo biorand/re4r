@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -14,13 +14,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public string FileName => System.IO.Path.GetFileName(Path);
         public ScnFile ScnFile { get; }
 
-        public Area(AreaDefinition definition, EnemyClassFactory enemyClassFactory, RszFileOption rszFileOption, byte[] data)
+        public Area(AreaDefinition definition, EnemyClassFactory enemyClassFactory, byte[] data)
         {
             Definition = definition;
             EnemyClassFactory = enemyClassFactory;
-            ScnFile = new ScnFile(rszFileOption, new FileHandler(new MemoryStream(data)));
-            ScnFile.Read();
-            ScnFile.SetupGameObjects();
+            ScnFile = ChainsawRandomizerFactory.Default.ReadScnFile(data);
         }
 
         public void Save(string path)
@@ -28,13 +26,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             ScnFile.SaveAs(path);
         }
 
-        public byte[] SaveData()
-        {
-            var ms = new MemoryStream();
-            var fileHandler = new FileHandler(ms);
-            ScnFile.WriteTo(fileHandler);
-            return ms.ToArray();
-        }
+        public byte[] SaveData() => ScnFile.ToByteArray();
 
         public Enemy[] Enemies
         {

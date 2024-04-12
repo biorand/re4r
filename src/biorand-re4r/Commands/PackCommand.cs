@@ -38,10 +38,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             var builder = new PakFileBuilder();
             foreach (var inputPath in settings.InputPaths)
             {
-                var basePath = Path.GetDirectoryName(inputPath)!;
-                if (Directory.Exists(inputPath))
+                var fullInputPath = Path.GetFullPath(inputPath);
+                var basePath = Path.GetDirectoryName(fullInputPath)!;
+                if (Directory.Exists(fullInputPath))
                 {
-                    var files = Directory.GetFiles(inputPath, "*", SearchOption.AllDirectories);
+                    var files = Directory.GetFiles(fullInputPath, "*", SearchOption.AllDirectories);
                     foreach (var file in files)
                     {
                         var relativePath = Path.GetRelativePath(basePath, file);
@@ -51,8 +52,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 }
                 else
                 {
-                    var relativePath = Path.GetFileName(inputPath);
-                    builder.AddEntry(relativePath, File.ReadAllBytes(inputPath));
+                    var relativePath = Path.GetFileName(fullInputPath);
+                    builder.AddEntry(relativePath, File.ReadAllBytes(fullInputPath));
                     AnsiConsole.WriteLine(relativePath);
                 }
             }

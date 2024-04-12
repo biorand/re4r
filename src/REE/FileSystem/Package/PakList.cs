@@ -1,8 +1,12 @@
-﻿namespace REE
+﻿using System.Collections.Immutable;
+
+namespace REE
 {
     public sealed class PakList
     {
         private readonly Dictionary<ulong, string> _map = [];
+
+        public ImmutableArray<string> Entries { get; }
 
         public PakList(string contents)
             : this(contents.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
@@ -19,6 +23,7 @@
                     _map[GetHash(path)] = path;
                 }
             }
+            Entries = _map.Values.OrderBy(x => x).ToImmutableArray();
         }
 
         public string? GetPath(ulong hash)

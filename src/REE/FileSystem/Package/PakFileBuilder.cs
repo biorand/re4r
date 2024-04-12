@@ -8,6 +8,9 @@
 
         public void AddEntry(string path, byte[] data)
         {
+            ArgumentNullException.ThrowIfNull(path);
+            ArgumentNullException.ThrowIfNull(data);
+
             _entries[path] = data;
         }
 
