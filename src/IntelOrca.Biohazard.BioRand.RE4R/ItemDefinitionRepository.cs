@@ -56,6 +56,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             return Find(id)?.Name ?? id.ToString();
         }
+
+        public ItemDefinition[] GetAll(string kind, string? classification = null)
+        {
+            var items = KindToItemMap[kind].ToArray();
+            if (classification != null)
+                items = items.Where(x => x.Class == classification).ToArray();
+            return items;
+        }
     }
 
     public static class ItemKinds

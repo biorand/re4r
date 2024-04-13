@@ -8,9 +8,13 @@
         public string? Name { get; set; }
         public string? Kind { get; set; }
         public string? Mode { get; set; }
+        public string? Size { get; set; }
+        public string? Class { get; set; }
         public int Value { get; set; }
 
         public bool IsAutomatic => Id == -1;
+        public int Width => int.Parse((Size ?? "2x2").Split('x')[0]);
+        public int Height => int.Parse((Size ?? "2x2").Split('x')[1]);
 
         public override string ToString() => Name ?? Id.ToString();
     }

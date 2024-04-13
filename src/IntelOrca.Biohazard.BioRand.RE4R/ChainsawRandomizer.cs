@@ -51,10 +51,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 _fileRepository.SetGameFileData(entry.FullName, data);
             }
 
-            StaticChanges();
-            RandomizeMerchantShop();
-
             var rng = new Rng(input.Seed);
+
+            StaticChanges();
+            RandomizeInventory(rng);
+            RandomizeMerchantShop(rng);
+
             var areaRepo = AreaDefinitionRepository.Default;
             var areas = new List<Area>();
             foreach (var areaDef in areaRepo.Areas)
@@ -98,12 +100,45 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             _fileRepository.SetGameFileData(path, scn.ToByteArray());
         }
 
-        private void RandomizeMerchantShop()
+        private void RandomizeInventory(Rng rng)
+        {
+            var inventory = PlayerInventory.FromData(_fileRepository);
+            inventory.PTAS = rng.Next(0, 200) * 100;
+            inventory.SpinelCount = rng.Next(0, 5);
+
+            var itemRepo = ItemDefinitionRepository.Default;
+            var items = new List<ItemDefinition>();
+            items.Add(itemRepo.GetAll(ItemKinds.Weapon, ItemClasses.Knife).Shuffle(rng).First());
+            items.Add(itemRepo.GetAll(ItemKinds.Weapon, ItemClasses.Handgun).Shuffle(rng).First());
+            items.Add(itemRepo.GetAll(ItemKinds.Health).Shuffle(rng).First());
+            items.Add(itemRepo.GetAll(ItemKinds.Health).Shuffle(rng).First());
+            items.Add(itemRepo.GetAll(ItemKinds.Grenade).Shuffle(rng).First());
+            items.Add(itemRepo.GetAll(ItemKinds.Grenade).Shuffle(rng).First());
+            items.Add(itemRepo.GetAll(ItemKinds.Fish).Shuffle(rng).First());
+            inventory.Data[0].CharacterMaxHp += 500;
+            inventory.Data[0].InventorySize++;
+            // inventory.SetItems(items.ToArray());
+            inventory.AddItem(new Item(114416000, 1));
+            inventory.Save(_fileRepository);
+        }
+
+        private void RandomizeMerchantShop(Rng rng)
         {
             var merchantShop = MerchantShop.FromData(_fileRepository);
             var items = merchantShop.ShopItems;
             var stocks = merchantShop.StockAdditions;
-            var rewards = merchantShop.Rewards;
+            var rewards = merchantShop.Rewards.ToList();
+            rewards[0].ItemId = 275637056;
+            rewards[0].SpinelCount = rng.Next(10, 20);
+            rewards[2].RecieveType = 0;
+            rewards[1].ItemId = 114401600;
+            rewards[1].SpinelCount = rng.Next(1, 6);
+            rewards[1].RecieveType = 1;
+            rewards[2].ItemId = 120864000;
+            rewards[2].SpinelCount = rng.Next(1, 6);
+            rewards[2].RecieveType = 1;
+            merchantShop.Rewards = rewards.Take(3).ToArray();
+            merchantShop.Save(_fileRepository);
         }
 
         private void LogAllEnemies(List<Area> areas, Predicate<Enemy> predicate)

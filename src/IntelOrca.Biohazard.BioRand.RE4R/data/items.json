@@ -4,31 +4,36 @@
       "name": "Handgun Ammo",
       "kind": "ammo",
       "id": 112800000,
-      "value": 100
+      "value": 100,
+      "size": "2x1"
     },
     {
       "name": "Magnum Ammo",
       "kind": "ammo",
       "id": 112801600,
-      "value": 1000
+      "value": 1000,
+      "size": "2x1"
     },
     {
       "name": "Shotgun Shells",
       "kind": "ammo",
       "id": 112803200,
-      "value": 500
+      "value": 500,
+      "size": "2x1"
     },
     {
       "name": "Rifle Ammo",
       "kind": "ammo",
       "id": 112804800,
-      "value": 500
+      "value": 500,
+      "size": "2x1"
     },
     {
       "name": "Submachine Gun Ammo",
       "kind": "ammo",
       "id": 112806400,
-      "value": 10
+      "value": 10,
+      "size": "2x1"
     },
     {
       "name": "Bolts",
@@ -1314,97 +1319,133 @@
     {
       "name": "SG-09 R",
       "kind": "weapon",
-      "id": 274835456
+      "id": 274835456,
+      "size": "3x2",
+      "class": "handgun"
     },
     {
       "name": "Punisher",
       "kind": "weapon",
-      "id": 274837056
+      "id": 274837056,
+      "size": "3x2",
+      "class": "handgun"
     },
     {
       "name": "Red9",
       "kind": "weapon",
-      "id": 274838656
+      "id": 274838656,
+      "size": "3x2",
+      "class": "handgun"
     },
     {
       "name": "Blacktail",
       "kind": "weapon",
-      "id": 274840256
+      "id": 274840256,
+      "size": "2x2",
+      "class": "handgun"
     },
     {
       "name": "Matilda",
       "kind": "weapon",
-      "id": 274841856
+      "id": 274841856,
+      "size": "3x2",
+      "class": "handgun"
     },
     {
       "name": "Minecart Handgun",
       "kind": "weapon",
-      "id": 274843456
+      "id": 274843456,
+      "mode": "disabled",
+      "class": "handgun"
     },
     {
       "name": "W-870",
       "kind": "weapon",
-      "id": 274995456
+      "id": 274995456,
+      "size": "8x2",
+      "class": "shotgun"
     },
     {
       "name": "Riot Gun",
       "kind": "weapon",
-      "id": 274997056
+      "id": 274997056,
+      "size": "8x2",
+      "class": "shotgun"
     },
     {
       "name": "Striker",
       "kind": "weapon",
-      "id": 274998656
+      "id": 274998656,
+      "size": "4x2",
+      "class": "shotgun"
     },
     {
       "name": "TMP",
       "kind": "weapon",
-      "id": 275155456
+      "id": 275155456,
+      "size": "3x2",
+      "class": "smg"
     },
     {
       "name": "Chicago Sweeper",
       "kind": "weapon",
-      "id": 275157056
+      "id": 275157056,
+      "class": "smg"
     },
     {
       "name": "LE 5",
       "kind": "weapon",
-      "id": 275158656
+      "id": 275158656,
+      "size": "6x2",
+      "class": "smg"
     },
     {
       "name": "SR M1903",
       "kind": "weapon",
-      "id": 275475456
+      "id": 275475456,
+      "size": "9x1",
+      "class": "rifle"
     },
     {
       "name": "Stingray",
       "kind": "weapon",
-      "id": 275477056
+      "id": 275477056,
+      "size": "7x2",
+      "class": "rifle"
     },
     {
       "name": "CQBR Assault Rifle",
       "kind": "weapon",
-      "id": 275478656
+      "id": 275478656,
+      "size": "7x2",
+      "class": "rifle"
     },
     {
       "name": "Broken Butterfly",
       "kind": "weapon",
-      "id": 275635456
+      "id": 275635456,
+      "size": "3x2",
+      "class": "magnum"
     },
     {
       "name": "Killer7",
       "kind": "weapon",
-      "id": 275637056
+      "id": 275637056,
+      "size": "3x2",
+      "class": "magnum"
     },
     {
       "name": "Handcannon",
       "kind": "weapon",
-      "id": 275638656
+      "id": 275638656,
+      "class": "magnum"
     },
     {
       "name": "Bolt Thrower",
       "kind": "weapon",
-      "id": 275795456
+      "id": 275795456,
+      "size": "4x2",
+      "class": "special"
     },
     {
       "name": "it_wp4600_10_0",
@@ -1430,29 +1471,37 @@
       "name": "Rocket Launcher",
       "kind": "weapon",
       "id": 276275456,
-      "mode": "disabled"
+      "mode": "disabled",
+      "size": "8x2",
+      "class": "special"
     },
     {
       "name": "Special Rocket Launcher",
       "kind": "weapon",
       "id": 276277056,
-      "mode": "disabled"
+      "mode": "disabled",
+      "class": "special"
     },
     {
       "name": "Infinite Rocket Launcher",
       "kind": "weapon",
       "id": 276278656,
-      "mode": "disabled"
+      "mode": "disabled",
+      "class": "special"
     },
     {
       "name": "Combat Knife",
       "kind": "weapon",
-      "id": 276435456
+      "id": 276435456,
+      "size": "1x3",
+      "class": "knife"
     },
     {
       "name": "Fighting Knife",
       "kind": "weapon",
-      "id": 276437056
+      "id": 276437056,
+      "size": "1x4",
+      "class": "knife"
     },
     {
       "name": "Kitchen Knife",
@@ -1474,7 +1523,9 @@
     },
     {
       "name": "Primal Knife",
-      "id": 276445056
+      "kind": "weapon",
+      "id": 276445056,
+      "class": "knife"
     },
     {
       "name": "it_wp5300_00_0",
@@ -1545,12 +1596,14 @@
     {
       "name": "Sentinel Nine",
       "kind": "weapon",
-      "id": 278035456
+      "id": 278035456,
+      "size": "3x2"
     },
     {
       "name": "Skull Shaker",
       "kind": "weapon",
-      "id": 278037056
+      "id": 278037056,
+      "size": "5x1"
     },
     {
       "name": "SW - Sawed-off W-870",

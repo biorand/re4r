@@ -37,6 +37,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 : ChainsawRandomizerFactory.Default.ReadUserFile(data);
         }
 
+        public void Save(FileRepository fileRepository)
+        {
+            fileRepository.SetGameFileData(ItemSettingsPath, _itemSettings.ToByteArray());
+            fileRepository.SetGameFileData(StockAdditionSettingsPath, _stockAdditionSettings.ToByteArray());
+            fileRepository.SetGameFileData(RewardSettingsPath, _rewardSettings.ToByteArray());
+        }
+
         public ShopItem[] ShopItems
         {
             get => _itemSettings.RSZ!.ObjectList[0].GetList("_Datas")
@@ -53,9 +60,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public Reward[] Rewards
         {
-            get => _rewardSettings.RSZ!.ObjectList[0].GetList("_Settings")
-                .Select(x => new Reward((RszInstance)x!))
-                .ToArray();
+            get
+            {
+                return _rewardSettings.RSZ!.ObjectList[0].GetList("_Settings")
+                    .Select(x => new Reward((RszInstance)x!))
+                    .ToArray();
+            }
+            set
+            {
+                var list = _rewardSettings.RSZ!.ObjectList[0].GetList("_Settings");
+                list.Clear();
+                list.AddRange(value.Select(x => x.Instance));
+            }
         }
 
         public sealed class ShopItem(RszInstance _instance)
@@ -163,13 +179,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public sealed class Reward(RszInstance _instance)
         {
+            public RszInstance Instance => _instance;
+
             public bool Enable => _instance.Get<bool>("_Enable");
             public int RewardId => _instance.Get<int>("_RewardId");
-            public int SpinelCount => _instance.Get<int>("_SpinelCount");
-            public int ItemId => _instance.Get<int>("_RewardItemId");
+
+            public int SpinelCount
+            {
+                get => _instance.Get<int>("_SpinelCount");
+                set => _instance.Set("_SpinelCount", value);
+            }
+
+            public int ItemId
+            {
+                get => _instance.Get<int>("_RewardItemId");
+                set => _instance.Set("_RewardItemId", value);
+            }
+
             public int ItemCount => _instance.Get<int>("_ItemCount");
             public int Progress => _instance.Get<int>("_Progress");
-            public int RecieveType => _instance.Get<int>("_RecieveType");
+
+            public int RecieveType
+            {
+                get => _instance.Get<int>("_RecieveType");
+                set => _instance.Set("_RecieveType", value);
+            }
+
             public int Mode => _instance.Get<int>("_DisplaySetting._Mode");
             public int StartChapter => _instance.Get<int>("_DisplaySetting._StartTiming");
             public int EndChapter => _instance.Get<int>("_DisplaySetting._EndTiming");

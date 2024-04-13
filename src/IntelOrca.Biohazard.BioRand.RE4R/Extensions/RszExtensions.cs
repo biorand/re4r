@@ -60,6 +60,43 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
             return value;
         }
 
+        public static void Set(this RszInstance instance, string xpath, object newValue)
+        {
+            var value = (object?)instance;
+            var parts = xpath.Split('.');
+            for (var i = 0; i < parts.Length; i++)
+            {
+                var lastPart = i == parts.Length - 1;
+                string? part = parts[i];
+                var arrayStartIndex = part.IndexOf('[');
+                if (arrayStartIndex == -1)
+                {
+                    var instance2 = ((RszInstance)value!);
+                    if (lastPart)
+                        instance2.SetFieldValue(part, newValue);
+                    else
+                        value = instance2.GetFieldValue(part);
+                }
+                else
+                {
+                    if (arrayStartIndex != 0)
+                    {
+                        var name = part[..arrayStartIndex];
+                        value = ((RszInstance)value!).GetFieldValue(name);
+                    }
+                    arrayStartIndex++;
+                    var arrayEndIndex = part.IndexOf("]");
+                    var szArrayIndex = part[arrayStartIndex..arrayEndIndex];
+                    var arrayIndex = int.Parse(szArrayIndex);
+                    var lst = ((List<object>)value!);
+                    if (lastPart)
+                        lst[arrayIndex] = newValue;
+                    else
+                        value = lst[arrayIndex];
+                }
+            }
+        }
+
         public static byte[] ToByteArray(this BaseRszFile scnFile)
         {
             var ms = new MemoryStream();
