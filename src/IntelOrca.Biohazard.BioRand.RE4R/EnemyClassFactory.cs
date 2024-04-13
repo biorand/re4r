@@ -74,6 +74,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var classification = c.GetProperty("class").GetInt32();
                 var minHealth = c.GetProperty("minHealth").GetInt32();
                 var maxHealth = c.GetProperty("maxHealth").GetInt32();
+                var plaga = c.GetBooleanProperty("plaga") ?? false;
 
                 var weaponChoices = new List<WeaponChoice>();
                 if (c.TryGetProperty("weapon", out var weapon))
@@ -118,6 +119,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     classification,
                     minHealth,
                     maxHealth,
+                    plaga,
                     kind,
                     weaponChoices.ToImmutableArray(),
                     fields));

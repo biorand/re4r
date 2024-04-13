@@ -53,12 +53,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
 
             var rng = new Rng(input.Seed);
+            var inventoryRng = rng.NextFork();
+            var merchantRng = rng.NextFork();
+            var enemyRng = rng.NextFork();
+
             var itemData = ChainsawItemData.FromData(_fileRepository);
 
             StaticChanges();
             if (GetConfigOption<bool>("random-inventory"))
             {
-                RandomizeInventory(itemData, rng);
+                RandomizeInventory(itemData, inventoryRng);
             }
             else
             {
@@ -67,7 +71,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
             if (GetConfigOption<bool>("random-merchant"))
             {
-                RandomizeMerchantShop(rng);
+                RandomizeMerchantShop(merchantRng);
             }
 
             var areaRepo = AreaDefinitionRepository.Default;
@@ -85,7 +89,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             DisableFirstAreaInhibitor(areas);
             if (GetConfigOption<bool>("random-enemies"))
             {
-                RandomizeEnemies(rng, areas);
+                RandomizeEnemies(enemyRng, areas);
             }
 
             var logFiles = new LogFiles(_loggerInput.Output, _loggerProcess.Output, _loggerOutput.Output);
@@ -174,6 +178,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private void RandomizeMerchantShop(Rng rng)
         {
+            var rewardsRng = rng.NextFork();
+            var shopRng = rng.NextFork();
+            var priceRng = rng.NextFork();
+
             _loggerProcess.LogHeader("Randomizing merchant");
 
             var itemRepo = ItemDefinitionRepository.Default;
@@ -185,96 +193,96 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             merchantShop.ClearRewards();
 
             // * Weapon attachments
-            for (var i = 0; i < rng.Next(0, 4); i++)
+            for (var i = 0; i < rewardsRng.Next(0, 4); i++)
             {
-                var attachment = _itemRandomizer.GetRandomAttachment(rng, allowReoccurance: false);
+                var attachment = _itemRandomizer.GetRandomAttachment(rewardsRng, allowReoccurance: false);
                 if (attachment != null)
-                    AddReward(attachment.Id, spinel: rng.Next(2, 7));
+                    AddReward(attachment.Id, spinel: rewardsRng.Next(2, 7));
             }
 
             // * Weapons
-            for (var i = 0; i < rng.Next(0, 4); i++)
+            for (var i = 0; i < rewardsRng.Next(0, 4); i++)
             {
-                var weapon = _itemRandomizer.GetRandomWeapon(rng, allowReoccurance: false);
+                var weapon = _itemRandomizer.GetRandomWeapon(rewardsRng, allowReoccurance: false);
                 if (weapon != null)
-                    AddReward(weapon.Id, spinel: rng.Next(4, 13));
+                    AddReward(weapon.Id, spinel: rewardsRng.Next(4, 13));
             }
 
             // * Recipes
-            for (var i = 0; i < rng.Next(0, 4); i++)
+            for (var i = 0; i < rewardsRng.Next(0, 4); i++)
             {
-                var recipe = _itemRandomizer.GetRandomItem(rng, ItemKinds.Recipe, allowReoccurance: false);
+                var recipe = _itemRandomizer.GetRandomItem(rewardsRng, ItemKinds.Recipe, allowReoccurance: false);
                 if (recipe != null)
-                    AddReward(recipe.Id, spinel: rng.Next(4, 9));
+                    AddReward(recipe.Id, spinel: rewardsRng.Next(4, 9));
             }
 
             // * Exclusive upgrades
-            var ticketSpinel = rng.Next(15, 35);
-            for (var i = 0; i < rng.Next(0, 3); i++)
+            var ticketSpinel = rewardsRng.Next(15, 35);
+            for (var i = 0; i < rewardsRng.Next(0, 3); i++)
             {
                 AddReward(ItemIds.ExclusiveUpgradeTicket, spinel: ticketSpinel, unlimited: true);
-                ticketSpinel += rng.Next(1, 5);
+                ticketSpinel += rewardsRng.Next(1, 5);
             }
 
             // * Health (unlimited)
             var itemIds = new[] { ItemIds.FirstAidSpray, ItemIds.GreenHerb, ItemIds.ChickenEgg };
-            var healthItem = rng.Next(itemIds);
-            AddReward(healthItem, spinel: rng.Next(1, 4), unlimited: true);
+            var healthItem = rewardsRng.Next(itemIds);
+            AddReward(healthItem, spinel: rewardsRng.Next(1, 4), unlimited: true);
 
             // * Health (single)
-            for (var i = 0; i < rng.Next(0, 4); i++)
+            for (var i = 0; i < rewardsRng.Next(0, 4); i++)
             {
-                var item = _itemRandomizer.GetRandomItem(rng, ItemKinds.Health);
+                var item = _itemRandomizer.GetRandomItem(rewardsRng, ItemKinds.Health);
                 if (item != null)
-                    AddReward(item.Id, spinel: rng.Next(1, 4));
+                    AddReward(item.Id, spinel: rewardsRng.Next(1, 4));
             }
 
             // * Velvet blue
             AddReward(ItemIds.VelvetBlue, spinel: 1, unlimited: true);
 
-            if (rng.NextProbability(50))
-                AddReward(ItemIds.BodyArmor, spinel: rng.Next(5, 20), unlimited: true);
+            if (rewardsRng.NextProbability(50))
+                AddReward(ItemIds.BodyArmor, spinel: rewardsRng.Next(5, 20), unlimited: true);
 
             // * Grenades
-            if (rng.NextProbability(30))
+            if (rewardsRng.NextProbability(30))
             {
-                AddReward(ItemIds.FlashGrenade, spinel: rng.Next(2, 4), unlimited: true);
+                AddReward(ItemIds.FlashGrenade, spinel: rewardsRng.Next(2, 4), unlimited: true);
             }
-            if (rng.NextProbability(30))
+            if (rewardsRng.NextProbability(30))
             {
-                AddReward(ItemIds.HandGrenade, spinel: rng.Next(2, 4), unlimited: true);
+                AddReward(ItemIds.HandGrenade, spinel: rewardsRng.Next(2, 4), unlimited: true);
             }
-            if (rng.NextProbability(30))
+            if (rewardsRng.NextProbability(30))
             {
-                AddReward(ItemIds.HeavyGrenade, spinel: rng.Next(2, 4), unlimited: true);
+                AddReward(ItemIds.HeavyGrenade, spinel: rewardsRng.Next(2, 4), unlimited: true);
             }
 
             // * Resources / gunpowder
-            if (rng.NextProbability(30))
+            if (rewardsRng.NextProbability(30))
             {
-                AddReward(ItemIds.ResourcesLarge, spinel: rng.Next(2, 4), unlimited: true);
+                AddReward(ItemIds.ResourcesLarge, spinel: rewardsRng.Next(2, 4), unlimited: true);
             }
-            if (rng.NextProbability(30))
+            if (rewardsRng.NextProbability(30))
             {
-                AddReward(ItemIds.ResourcesSmall, spinel: rng.Next(2, 4), unlimited: true);
+                AddReward(ItemIds.ResourcesSmall, spinel: rewardsRng.Next(2, 4), unlimited: true);
             }
-            if (rng.NextProbability(30))
+            if (rewardsRng.NextProbability(30))
             {
-                AddReward(ItemIds.Gunpowder, count: 10, spinel: rng.Next(2, 4), unlimited: true);
+                AddReward(ItemIds.Gunpowder, count: 10, spinel: rewardsRng.Next(2, 4), unlimited: true);
             }
 
             // * Charms
-            for (var i = 0; i < rng.Next(0, 6); i++)
+            for (var i = 0; i < rewardsRng.Next(0, 6); i++)
             {
-                var charm = _itemRandomizer.GetRandomItem(rng, ItemKinds.Charm);
+                var charm = _itemRandomizer.GetRandomItem(rewardsRng, ItemKinds.Charm);
                 if (charm != null)
-                    AddReward(charm.Id, spinel: rng.Next(1, 4));
+                    AddReward(charm.Id, spinel: rewardsRng.Next(1, 4));
             }
 
             // * Teasures
-            for (var i = 0; i < rng.Next(0, 8); i++)
+            for (var i = 0; i < rewardsRng.Next(0, 8); i++)
             {
-                var treasure = _itemRandomizer.GetRandomItem(rng, ItemKinds.Treasure);
+                var treasure = _itemRandomizer.GetRandomItem(rewardsRng, ItemKinds.Treasure);
                 if (treasure != null)
                     AddReward(treasure.Id);
             }
@@ -306,7 +314,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     {
                         shopItem.UnlockCondition = 2;
                         shopItem.UnlockFlag = Guid.Empty;
-                        shopItem.UnlockChapter = rng.Next(0, 10);
+                        shopItem.UnlockChapter = shopRng.Next(0, 10);
                         shopItem.SpCondition = 1;
                     }
                 }
@@ -337,7 +345,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 {
                     shopItem.UnlockCondition = 2;
                     shopItem.UnlockFlag = Guid.Empty;
-                    shopItem.UnlockChapter = rng.Next(0, 10);
+                    shopItem.UnlockChapter = shopRng.Next(0, 10);
                     shopItem.SpCondition = 0;
                     shopItem.EnableStockSetting = true;
                     shopItem.MaxStock = 1;
@@ -349,7 +357,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     // Price change
                     if (shopItem.BuyPrice > 0)
                     {
-                        var priceMultiplier = rng.NextDouble(0.25, 2);
+                        var priceMultiplier = priceRng.NextDouble(0.25, 2);
                         shopItem.SetPrice(priceMultiplier);
                     }
                     else
@@ -362,11 +370,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 _loggerProcess.LogLine($"Shop item {itemDef.Name} Buy = {shopItem.BuyPrice} Sell = {shopItem.SellPrice} Available = {isAvailable} Unlock = {shopItem.UnlockChapter}");
 
                 // Sale change
-                if (isAvailable && rng.NextProbability(25))
+                if (isAvailable && shopRng.NextProbability(25))
                 {
-                    var startChapter = rng.Next(shopItem.UnlockChapter, 12);
-                    var endChapter = rng.Next(startChapter + 1, startChapter + 3);
-                    var disount = rng.Next(1, 8) * 10;
+                    var startChapter = shopRng.Next(shopItem.UnlockChapter, 12);
+                    var endChapter = shopRng.Next(startChapter + 1, startChapter + 3);
+                    var disount = shopRng.Next(1, 8) * 10;
                     shopItem.SetSale(merchantShop, startChapter, endChapter, -disount);
                     _loggerProcess.LogLine($"    {disount}% discount at chapter {startChapter} to {endChapter}");
                 }
@@ -501,6 +509,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private void RandomizeArea(Area area, Rng rng)
         {
+            var healthRng = rng.NextFork();
+            var dropRng = rng.NextFork();
+            var parasiteRng = rng.NextFork();
+
             var oldEnemies = area.Enemies;
             var def = area.Definition;
             if (def.Exclude is string[] exclude)
@@ -546,6 +558,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 e.SetFieldValue("_RandomMontageID", 0);
                 e.SetFieldValue("_MontageID", 0);
                 e.SetFieldValue("_FixedVoiceID", 0);
+                e.ParasiteKind = 0;
+                e.ForceParasiteAppearance = false;
+                e.ParasiteAppearanceProbability = 0;
 
                 if (ecd.Weapon.Length == 0)
                 {
@@ -565,14 +580,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     e.SetFieldValue(fd.Name, fieldValue);
                 }
 
-                RandomizeHealth(e, ecd, rng);
-                RandomizeDrop(e, ecd, rng);
+                RandomizeHealth(e, ecd, healthRng);
+                RandomizeDrop(e, ecd, dropRng);
 
                 // If there are a lot of enemies, plaga seems to randomly crash the game
                 // E.g. village, 360 zealots, 25 plaga will crash
-                if (numEnemies < 100)
+                if (ecd.Plaga && numEnemies < 100)
                 {
-                    RandomizeParasite(e, rng);
+                    RandomizeParasite(e, parasiteRng);
                 }
             }
         }
@@ -619,7 +634,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
             if (enemy.ParasiteKind != null)
             {
-                var kind = _parasiteRngTable.Next();
+                var kind = 0;
+                if (!_parasiteRngTable.IsEmpty)
+                    kind = _parasiteRngTable.Next();
                 if (kind == 0)
                 {
                     enemy.ParasiteKind = 0;

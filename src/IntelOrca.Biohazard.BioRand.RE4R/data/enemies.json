@@ -206,6 +206,7 @@
       "class": 6,
       "minHealth": 500,
       "maxHealth": 2000,
+      "plaga": true,
       "weapon": [
         {},
         { "primary": "hatchet" },
@@ -250,6 +251,7 @@
       "class": 6,
       "minHealth": 500,
       "maxHealth": 2000,
+      "plaga": true,
       "weapon": [
         {},
         {
@@ -337,6 +339,7 @@
       "class": 5,
       "minHealth": 1000,
       "maxHealth": 5000,
+      "plaga": true,
       "weapon": [
         {
           "primary": "staff"
@@ -351,6 +354,7 @@
       "class": 6,
       "minHealth": 2000,
       "maxHealth": 7000,
+      "plaga": true,
       "weapon": [
         {},
         {
