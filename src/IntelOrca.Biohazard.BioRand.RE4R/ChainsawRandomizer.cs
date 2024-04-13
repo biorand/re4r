@@ -24,6 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private Queue<EnemyClassDefinition> _enemyClassQueue = new Queue<EnemyClassDefinition>();
         private int _uniqueHp = 1;
         private int _contextId = 5000;
+        private ItemRandomizer _itemRandomizer = new ItemRandomizer();
 
         public EnemyClassFactory EnemyClassFactory { get; }
 
@@ -59,7 +60,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 RandomizeInventory(itemData, rng);
             }
-            // RandomizeMerchantShop(rng);
+            else
+            {
+                _itemRandomizer.MarkItemPlaced(ItemIds.SG09R);
+                _itemRandomizer.MarkItemPlaced(ItemIds.CombatKnife);
+            }
+            if (GetConfigOption<bool>("random-merchant"))
+            {
+                RandomizeMerchantShop(rng);
+            }
 
             var areaRepo = AreaDefinitionRepository.Default;
             var areas = new List<Area>();
@@ -98,6 +107,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private void RandomizeInventory(ChainsawItemData itemData, Rng rng)
         {
+            _loggerProcess.LogHeader("Randomizing inventory");
+
             var inventory = ChainsawPlayerInventory.FromData(_fileRepository);
             inventory.PTAS = rng.Next(0, 200) * 100;
             inventory.SpinelCount = rng.Next(0, 5);
@@ -106,22 +117,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // Weapons
             var primaryWeaponKind = GetConfigOption("inventory-weapon-primary", "handgun")!;
             var secondaryWeaponKind = GetConfigOption("inventory-weapon-secondary", "random")!;
-            var knifeWeapon = GetRandomWeapon(rng, ItemClasses.Knife);
-            var primaryWeapon = GetRandomWeapon(rng, primaryWeaponKind);
-            var secondaryWeapon = GetRandomWeapon(rng, secondaryWeaponKind);
+            var knifeWeapon = _itemRandomizer.GetRandomWeapon(rng, ItemClasses.Knife, allowReoccurance: false);
+            var primaryWeapon = _itemRandomizer.GetRandomWeapon(rng, primaryWeaponKind, allowReoccurance: false);
+            var secondaryWeapon = _itemRandomizer.GetRandomWeapon(rng, secondaryWeaponKind, allowReoccurance: false);
             if (knifeWeapon != null)
+            {
                 inventory.AddItem(new Item(knifeWeapon.Id));
+            }
             if (primaryWeapon != null)
             {
                 inventory.AddItem(new Item(primaryWeapon.Id));
-                var ammo = GetRandomItem(rng, ItemKinds.Ammo, primaryWeapon.Class);
+                var ammo = _itemRandomizer.GetRandomItem(rng, ItemKinds.Ammo, primaryWeapon.Class);
                 if (ammo != null)
                     inventory.AddItem(new Item(ammo.Id));
             }
             if (secondaryWeapon != null)
             {
                 inventory.AddItem(new Item(secondaryWeapon.Id));
-                var ammo = GetRandomItem(rng, ItemKinds.Ammo, secondaryWeapon.Class);
+                var ammo = _itemRandomizer.GetRandomItem(rng, ItemKinds.Ammo, secondaryWeapon.Class);
                 if (ammo != null)
                     inventory.AddItem(new Item(ammo.Id));
             }
@@ -144,7 +157,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             foreach (var kind in kinds)
             {
-                var randomItem = GetRandomItem(rng, kind);
+                var randomItem = _itemRandomizer.GetRandomItem(rng, kind);
                 if (randomItem != null)
                     inventory.AddItem(new Item(randomItem.Id, -1));
             }
@@ -152,54 +165,237 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             inventory.UpdateWeapons(itemData);
             inventory.AutoSort(itemData);
             inventory.Save(_fileRepository);
-        }
 
-        private ItemDefinition? GetRandomWeapon(Rng rng, string classification)
-        {
-            var weaponKinds = new[] {
-                ItemClasses.None, ItemClasses.Handgun, ItemClasses.Shotgun,
-                ItemClasses.Rifle, ItemClasses.Smg, ItemClasses.Magnum };
-
-            if (classification == ItemClasses.None)
-                return null;
-
-            if (classification == ItemClasses.Random)
-                classification = rng.Next(weaponKinds);
-
-            var itemRepo = ItemDefinitionRepository.Default;
-            var pool = itemRepo.GetAll(ItemKinds.Weapon, classification);
-            var chosen = rng.Next(pool);
-            return chosen;
-        }
-
-        private ItemDefinition? GetRandomItem(Rng rng, string kind, string? classification = null)
-        {
-            var itemRepo = ItemDefinitionRepository.Default;
-            var pool = itemRepo.GetAll(kind, classification);
-            if (pool.Length == 0)
-                return null;
-
-            var chosen = rng.Next(pool);
-            return chosen;
+            foreach (var item in inventory.Data[0].InventoryItems)
+            {
+                _loggerProcess.LogLine($"Add item {item.Item} {item.Item.CurrentItemCount}");
+            }
         }
 
         private void RandomizeMerchantShop(Rng rng)
         {
+            _loggerProcess.LogHeader("Randomizing merchant");
+
+            var itemRepo = ItemDefinitionRepository.Default;
             var merchantShop = ChainsawMerchantShop.FromData(_fileRepository);
-            var items = merchantShop.ShopItems;
+            var shopItems = merchantShop.ShopItems;
             var stocks = merchantShop.StockAdditions;
-            var rewards = merchantShop.Rewards.ToList();
-            rewards[0].ItemId = 275637056;
-            rewards[0].SpinelCount = rng.Next(10, 20);
-            rewards[2].RecieveType = 0;
-            rewards[1].ItemId = 114401600;
-            rewards[1].SpinelCount = rng.Next(1, 6);
-            rewards[1].RecieveType = 1;
-            rewards[2].ItemId = 120864000;
-            rewards[2].SpinelCount = rng.Next(1, 6);
-            rewards[2].RecieveType = 1;
-            merchantShop.Rewards = rewards.Take(3).ToArray();
+
+            // Rewards
+            merchantShop.ClearRewards();
+
+            // * Weapon attachments
+            for (var i = 0; i < rng.Next(0, 4); i++)
+            {
+                var attachment = _itemRandomizer.GetRandomAttachment(rng, allowReoccurance: false);
+                if (attachment != null)
+                    AddReward(attachment.Id, spinel: rng.Next(2, 7));
+            }
+
+            // * Weapons
+            for (var i = 0; i < rng.Next(0, 4); i++)
+            {
+                var weapon = _itemRandomizer.GetRandomWeapon(rng, allowReoccurance: false);
+                if (weapon != null)
+                    AddReward(weapon.Id, spinel: rng.Next(4, 13));
+            }
+
+            // * Recipes
+            for (var i = 0; i < rng.Next(0, 4); i++)
+            {
+                var recipe = _itemRandomizer.GetRandomItem(rng, ItemKinds.Recipe, allowReoccurance: false);
+                if (recipe != null)
+                    AddReward(recipe.Id, spinel: rng.Next(4, 9));
+            }
+
+            // * Exclusive upgrades
+            var ticketSpinel = rng.Next(15, 35);
+            for (var i = 0; i < rng.Next(0, 3); i++)
+            {
+                AddReward(ItemIds.ExclusiveUpgradeTicket, spinel: ticketSpinel, unlimited: true);
+                ticketSpinel += rng.Next(1, 5);
+            }
+
+            // * Health (unlimited)
+            var itemIds = new[] { ItemIds.FirstAidSpray, ItemIds.GreenHerb, ItemIds.ChickenEgg };
+            var healthItem = rng.Next(itemIds);
+            AddReward(healthItem, spinel: rng.Next(1, 4), unlimited: true);
+
+            // * Health (single)
+            for (var i = 0; i < rng.Next(0, 4); i++)
+            {
+                var item = _itemRandomizer.GetRandomItem(rng, ItemKinds.Health);
+                if (item != null)
+                    AddReward(item.Id, spinel: rng.Next(1, 4));
+            }
+
+            // * Velvet blue
+            AddReward(ItemIds.VelvetBlue, spinel: 1, unlimited: true);
+
+            if (rng.NextProbability(50))
+                AddReward(ItemIds.BodyArmor, spinel: rng.Next(5, 20), unlimited: true);
+
+            // * Grenades
+            if (rng.NextProbability(30))
+            {
+                AddReward(ItemIds.FlashGrenade, spinel: rng.Next(2, 4), unlimited: true);
+            }
+            if (rng.NextProbability(30))
+            {
+                AddReward(ItemIds.HandGrenade, spinel: rng.Next(2, 4), unlimited: true);
+            }
+            if (rng.NextProbability(30))
+            {
+                AddReward(ItemIds.HeavyGrenade, spinel: rng.Next(2, 4), unlimited: true);
+            }
+
+            // * Resources / gunpowder
+            if (rng.NextProbability(30))
+            {
+                AddReward(ItemIds.ResourcesLarge, spinel: rng.Next(2, 4), unlimited: true);
+            }
+            if (rng.NextProbability(30))
+            {
+                AddReward(ItemIds.ResourcesSmall, spinel: rng.Next(2, 4), unlimited: true);
+            }
+            if (rng.NextProbability(30))
+            {
+                AddReward(ItemIds.Gunpowder, count: 10, spinel: rng.Next(2, 4), unlimited: true);
+            }
+
+            // * Charms
+            for (var i = 0; i < rng.Next(0, 6); i++)
+            {
+                var charm = _itemRandomizer.GetRandomItem(rng, ItemKinds.Charm);
+                if (charm != null)
+                    AddReward(charm.Id, spinel: rng.Next(1, 4));
+            }
+
+            // * Teasures
+            for (var i = 0; i < rng.Next(0, 8); i++)
+            {
+                var treasure = _itemRandomizer.GetRandomItem(rng, ItemKinds.Treasure);
+                if (treasure != null)
+                    AddReward(treasure.Id);
+            }
+
+            // Shop
+            foreach (var shopItem in shopItems)
+            {
+                var itemDef = itemRepo.Find(shopItem.ItemId);
+                if (itemDef == null)
+                    continue;
+
+                // Availability change
+                if (itemDef.Kind == ItemKinds.Ammo)
+                {
+                }
+                else if (
+                    itemDef.Kind == ItemKinds.Weapon ||
+                    itemDef.Kind == ItemKinds.Attachment ||
+                    itemDef.Kind == ItemKinds.Armor)
+                {
+                    if (_itemRandomizer.IsItemPlaced(shopItem.ItemId))
+                    {
+                        shopItem.UnlockCondition = 4;
+                        shopItem.UnlockFlag = Guid.Empty;
+                        shopItem.UnlockChapter = 0;
+                        shopItem.SpCondition = 1;
+                    }
+                    else
+                    {
+                        shopItem.UnlockCondition = 2;
+                        shopItem.UnlockFlag = Guid.Empty;
+                        shopItem.UnlockChapter = rng.Next(0, 10);
+                        shopItem.SpCondition = 1;
+                    }
+                }
+                else if (itemDef.Kind == ItemKinds.Gunpowder ||
+                         itemDef.Kind == ItemKinds.Resource)
+                {
+                    shopItem.UnlockCondition = 2;
+                    shopItem.UnlockFlag = Guid.Empty;
+                    shopItem.UnlockChapter = 0;
+                    shopItem.SpCondition = 0;
+                    shopItem.EnableStockSetting = true;
+                    shopItem.EnableSelectCount = true;
+                    shopItem.MaxStock = 30;
+                    shopItem.DefaultStock = 10;
+                }
+                else if (shopItem.ItemId == ItemIds.FirstAidSpray)
+                {
+                    shopItem.UnlockCondition = 2;
+                    shopItem.UnlockFlag = Guid.Empty;
+                    shopItem.UnlockChapter = 0;
+                    shopItem.SpCondition = 0;
+                    shopItem.EnableStockSetting = true;
+                    shopItem.EnableSelectCount = true;
+                    shopItem.MaxStock = 5;
+                    shopItem.DefaultStock = 1;
+                }
+                else
+                {
+                    shopItem.UnlockCondition = 2;
+                    shopItem.UnlockFlag = Guid.Empty;
+                    shopItem.UnlockChapter = rng.Next(0, 10);
+                    shopItem.SpCondition = 0;
+                    shopItem.EnableStockSetting = true;
+                    shopItem.MaxStock = 1;
+                    shopItem.DefaultStock = 1;
+                }
+
+                if (GetConfigOption<bool>("random-merchant-prices"))
+                {
+                    // Price change
+                    if (shopItem.BuyPrice > 0)
+                    {
+                        var priceMultiplier = rng.NextDouble(0.25, 2);
+                        shopItem.SetPrice(priceMultiplier);
+                    }
+                    else
+                    {
+                        shopItem.UnlockChapter = 0;
+                    }
+                }
+
+                var isAvailable = shopItem.UnlockCondition == 2 && shopItem.BuyPrice > 0;
+                _loggerProcess.LogLine($"Shop item {itemDef.Name} Buy = {shopItem.BuyPrice} Sell = {shopItem.SellPrice} Available = {isAvailable} Unlock = {shopItem.UnlockChapter}");
+
+                // Sale change
+                if (isAvailable && rng.NextProbability(25))
+                {
+                    var startChapter = rng.Next(shopItem.UnlockChapter, 12);
+                    var endChapter = rng.Next(startChapter + 1, startChapter + 3);
+                    var disount = rng.Next(1, 8) * 10;
+                    shopItem.SetSale(merchantShop, startChapter, endChapter, -disount);
+                    _loggerProcess.LogLine($"    {disount}% discount at chapter {startChapter} to {endChapter}");
+                }
+            }
+
             merchantShop.Save(_fileRepository);
+
+            void AddReward(int itemId, int count = 1, int? spinel = null, bool unlimited = false)
+            {
+                if (merchantShop.Rewards.Length >= 30)
+                    return;
+
+                var itemDefinition = itemRepo.Find(itemId);
+                if (itemDefinition == null)
+                    return;
+
+                if (spinel == null)
+                {
+                    var avgSpinel = itemDefinition.Value / 2500;
+                    var minSpinel = Math.Max(1, avgSpinel - 2);
+                    var maxSpinel = avgSpinel + 1;
+                    spinel = rng.Next(minSpinel, maxSpinel + 1);
+                }
+
+                var item = new Item(itemId, count);
+                var reward = merchantShop.AddReward(new Item(itemId, count), spinel.Value, false);
+                reward.StartChapter = Math.Max(0, rng.Next(-3, 6));
+                _loggerProcess.LogLine($"Add reward {reward.RewardId} {item} Cost = {spinel} spinel");
+            }
         }
 
         private void DisableFirstAreaInhibitor(List<Area> areas)

@@ -28,6 +28,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return _random.NextDouble();
         }
 
+        public double NextDouble(double min, double max)
+        {
+            if (max <= min)
+                return min;
+
+            var range = max - min;
+            return min + (_random.NextDouble() * range);
+        }
+
         public bool NextProbability(int percent)
         {
             return Next(0, 100) < percent;

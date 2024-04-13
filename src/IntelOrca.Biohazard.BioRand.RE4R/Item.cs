@@ -8,6 +8,10 @@
 
         public Item(int id) : this(id, -1) { }
 
-        public override string ToString() => IsAutomatic ? "(automatic)" : $"{Id} x{Count}";
+        public override string ToString()
+        {
+            var itemName = ItemDefinitionRepository.Default.GetName(Id);
+            return IsAutomatic ? "(automatic)" : $"{itemName} x{Count}";
+        }
     }
 }

@@ -60,7 +60,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
             return value;
         }
 
-        public static void Set(this RszInstance instance, string xpath, object newValue)
+        public static void Set(this RszInstance instance, string xpath, object? newValue)
         {
             var value = (object?)instance;
             var parts = xpath.Split('.');

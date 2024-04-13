@@ -52,6 +52,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             generalGroup.Items.Add(new GroupItem()
             {
+                Id = $"random-merchant",
+                Label = "Random Merchant Shop",
+                Description = "Let Biorand randomize the merchant's shop.",
+                Type = "switch",
+                Default = true
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
+                Id = $"random-merchant-prices",
+                Label = "Random Merchant Prices",
+                Description = "Let Biorand randomize the merchant's shop prices.",
+                Type = "switch",
+                Default = true
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
                 Id = $"enemy-multiplier",
                 Label = "Enemy multiplier",
                 Type = "range",
@@ -100,7 +116,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // });
             configDefinition.Groups.Add(generalGroup);
 
-            var inventoryGroup = new Group("General");
+            var inventoryGroup = new Group("Inventory");
             inventoryGroup.Items.Add(new GroupItem()
             {
                 Id = $"inventory-weapon-primary",

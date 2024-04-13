@@ -25,6 +25,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             _sb.AppendLine(_hr);
         }
 
+        public void LogHeader(string header)
+        {
+            _sb.AppendLine();
+            LogHr();
+            _sb.AppendLine(header);
+            LogHr();
+        }
+
+        public void LogLine(string line)
+        {
+            _sb.AppendLine(line);
+        }
+
         public void LogArea(Area area)
         {
             _sb.AppendLine();

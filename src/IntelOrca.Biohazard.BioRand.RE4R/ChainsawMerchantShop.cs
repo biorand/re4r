@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using RszTool;
@@ -44,6 +45,31 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             fileRepository.SetGameFileData(RewardSettingsPath, _rewardSettings.ToByteArray());
         }
 
+        public void ClearRewards()
+        {
+            Rewards = [];
+        }
+
+        public Reward AddReward(Item item, int requiredSpinel, bool unlimited)
+        {
+            var instance = _rewardSettings.RSZ!.CreateInstance("chainsaw.InGameShopRewardSingleSetting");
+            var reward = new Reward(instance);
+            reward.Enable = true;
+            reward.SpinelCount = requiredSpinel;
+            reward.ItemId = item.Id;
+            reward.ItemCount = item.Count;
+            reward.RecieveType = unlimited ? 1 : 0;
+            reward.Mode = 0;
+            reward.StartChapter = -1;
+            reward.EndChapter = -1;
+
+            var rewards = Rewards.ToList();
+            reward.RewardId = rewards.Count == 0 ? 0 : rewards.Select(x => x.RewardId).Max() + 1;
+            rewards.Add(reward);
+            Rewards = rewards.ToArray();
+            return reward;
+        }
+
         public ShopItem[] ShopItems
         {
             get => _itemSettings.RSZ!.ObjectList[0].GetList("_Datas")
@@ -76,18 +102,119 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public sealed class ShopItem(RszInstance _instance)
         {
+            public void SetPrice(double multiplier)
+            {
+                var prices = Price;
+                var corePrice = prices.FirstOrDefault(x => x.Difficulty == 20);
+                if (corePrice == null)
+                {
+                    corePrice = prices.FirstOrDefault();
+                    if (corePrice == null)
+                        return;
+                }
+                corePrice.Difficulty = 20;
+                corePrice.PurchasePrice = Round(corePrice.PurchasePrice * multiplier);
+                corePrice.SellingPrice = Round(corePrice.SellingPrice * multiplier);
+                Price = [corePrice];
+            }
+
+            private static int Round(double value)
+            {
+                if (value >= 1000)
+                    return (int)(value / 1000) * 1000;
+                if (value >= 100)
+                    return (int)(value / 100) * 100;
+                if (value >= 10)
+                    return (int)(value / 10) * 10;
+                return (int)value;
+            }
+
+            public void SetSale(ChainsawMerchantShop shop, int startChapter, int endChapter, int discount)
+            {
+                var instance = shop._itemSettings.RSZ!.CreateInstance("chainsaw.InGameShopItemSaleSingleSetting");
+                var sale = new Sale(instance);
+                sale.SaleType = 2;
+                sale.StartTiming = startChapter;
+                sale.EndTiming = endChapter;
+                sale.SaleRate = discount;
+            }
+
+            public int BuyPrice
+            {
+                get => Price.FirstOrDefault()?.PurchasePrice ?? 0;
+            }
+
+            public int SellPrice
+            {
+                get => Price.FirstOrDefault()?.SellingPrice ?? 0;
+            }
+
             public int ItemId => (int)_instance.GetFieldValue("_ItemId")!;
-            public PriceSetting[] Price => _instance.GetList("_PriceSettings")
-                .Select(x => new PriceSetting((RszInstance)x!))
-                .ToArray();
-            public uint UnlockCondition => _instance.Get<uint>("_UnlockSetting._UnlockCondition")!;
-            public Guid UnlockFlag => _instance.Get<Guid>("_UnlockSetting._UnlockFlag")!;
-            public int UnlockChapter => _instance.Get<int>("_UnlockSetting._UnlockTiming")!;
-            public uint SpCondition => _instance.Get<uint>("_UnlockSetting._SpCondition")!;
-            public bool EnableStockSetting => _instance.Get<bool>("_StockSetting._EnableStockSetting")!;
-            public bool EnableSelectCount => _instance.Get<bool>("_StockSetting._EnableSelectCount")!;
-            public int MaxStock => _instance.Get<int>("_StockSetting._MaxStock")!;
-            public int DefaultStock => _instance.Get<int>("_StockSetting._DefaultStock")!;
+
+            public PriceSetting[] Price
+            {
+                get
+                {
+                    return _instance.GetList("_PriceSettings")
+                        .Select(x => new PriceSetting((RszInstance)x!))
+                        .ToArray();
+                }
+                set
+                {
+                    var lst = _instance.GetList("_PriceSettings");
+                    lst.Clear();
+                    lst.AddRange(value.Select(x => x.Instance));
+                }
+            }
+
+            public uint UnlockCondition
+            {
+                get => _instance.Get<uint>("_UnlockSetting._UnlockCondition")!;
+                set => _instance.Set("_UnlockSetting._UnlockCondition", value);
+            }
+
+            public Guid UnlockFlag
+            {
+                get => _instance.Get<Guid>("_UnlockSetting._UnlockFlag")!;
+                set => _instance.Set("_UnlockSetting._UnlockFlag", value);
+            }
+
+            public int UnlockChapter
+            {
+                get => _instance.Get<int>("_UnlockSetting._UnlockTiming")!;
+                set => _instance.Set("_UnlockSetting._UnlockTiming", value);
+            }
+
+            public uint SpCondition
+            {
+                get => _instance.Get<uint>("_UnlockSetting._SpCondition")!;
+                set => _instance.Set("_UnlockSetting._SpCondition", value);
+            }
+
+            public bool EnableStockSetting
+            {
+                get => _instance.Get<bool>("_StockSetting._EnableStockSetting")!;
+                set => _instance.Set("_StockSetting._EnableStockSetting", value);
+            }
+
+            public bool EnableSelectCount
+            {
+                get => _instance.Get<bool>("_StockSetting._EnableSelectCount")!;
+                set => _instance.Set("_StockSetting._EnableSelectCount", value);
+            }
+
+            public int MaxStock
+            {
+                get => _instance.Get<int>("_StockSetting._MaxStock")!;
+                set => _instance.Set("_StockSetting._MaxStock", value);
+            }
+
+            public int DefaultStock
+            {
+                get => _instance.Get<int>("_StockSetting._DefaultStock")!;
+                set => _instance.Set("_StockSetting._DefaultStock", value);
+            }
+
             public Sale[] Sales
             {
                 get
@@ -99,6 +226,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     return list
                         .Select(x => new Sale((RszInstance)x!))
                         .ToArray();
+                }
+                set
+                {
+                    var list = _instance.GetList("_SaleSetting._Settings");
+                    if (value == null || value.Length == 0)
+                        list = null;
+                    else
+                        list = new List<object?>(value);
+                    _instance.Set("_SaleSetting._Settings", list);
                 }
             }
 
@@ -112,9 +248,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public sealed class PriceSetting(RszInstance _instance)
         {
-            public int Difficulty => _instance.Get<int>("_Difficulty");
-            public int PurchasePrice => _instance.Get<int>("_Price._PurchasePrice");
-            public int SellingPrice => _instance.Get<int>("_Price._SellingPrice");
+            public RszInstance Instance => _instance;
+
+            public int Difficulty
+            {
+                get => _instance.Get<int>("_Difficulty");
+                set => _instance.Set("_Difficulty", value);
+            }
+
+            public int PurchasePrice
+            {
+                get => _instance.Get<int>("_Price._PurchasePrice");
+                set => _instance.Set("_Price._PurchasePrice", value);
+            }
+
+            public int SellingPrice
+            {
+                get => _instance.Get<int>("_Price._SellingPrice");
+                set => _instance.Set("_Price._SellingPrice", value);
+            }
 
             public override string ToString()
             {
@@ -124,13 +276,39 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public sealed class Sale(RszInstance _instance)
         {
-            public int Mode => _instance.Get<int>("_Mode");
-            public int SaleType => _instance.Get<int>("_SaleType");
-            public int StartTiming => _instance.Get<int>("_StartTiming");
-            public int EndTiming => _instance.Get<int>("_EndTiming");
+            public int Mode
+            {
+                get => _instance.Get<int>("_Mode");
+                set => _instance.Set("_Mode", value);
+            }
+
+            public int SaleType
+            {
+                get => _instance.Get<int>("_SaleType");
+                set => _instance.Set("_SaleType", value);
+            }
+
+            public int StartTiming
+            {
+                get => _instance.Get<int>("_StartTiming");
+                set => _instance.Set("_StartTiming", value);
+            }
+
+            public int EndTiming
+            {
+                get => _instance.Get<int>("_EndTiming");
+                set => _instance.Set("_EndTiming", value);
+            }
+
             public Guid StartGlobalFlag => _instance.Get<Guid>("_StartGlobalFlag");
+
             public Guid EndGlobalFlag => _instance.Get<Guid>("_EndGlobalFlag");
-            public int SaleRate => _instance.Get<int>("_SaleRate");
+
+            public int SaleRate
+            {
+                get => _instance.Get<int>("_SaleRate");
+                set => _instance.Set("_SaleRate", value);
+            }
 
             public override string ToString()
             {
@@ -181,8 +359,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             public RszInstance Instance => _instance;
 
-            public bool Enable => _instance.Get<bool>("_Enable");
-            public int RewardId => _instance.Get<int>("_RewardId");
+            public bool Enable
+            {
+                get => _instance.Get<bool>("_Enable");
+                set => _instance.Set("_Enable", value);
+            }
+
+            public int RewardId
+            {
+                get => _instance.Get<int>("_RewardId");
+                set => _instance.Set("_RewardId", value);
+            }
 
             public int SpinelCount
             {
@@ -196,7 +383,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 set => _instance.Set("_RewardItemId", value);
             }
 
-            public int ItemCount => _instance.Get<int>("_ItemCount");
+            public int ItemCount
+            {
+                get => _instance.Get<int>("_ItemCount");
+                set => _instance.Set("_ItemCount", value);
+            }
+
             public int Progress => _instance.Get<int>("_Progress");
 
             public int RecieveType
@@ -205,9 +397,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 set => _instance.Set("_RecieveType", value);
             }
 
-            public int Mode => _instance.Get<int>("_DisplaySetting._Mode");
-            public int StartChapter => _instance.Get<int>("_DisplaySetting._StartTiming");
-            public int EndChapter => _instance.Get<int>("_DisplaySetting._EndTiming");
+            public int Mode
+            {
+                get => _instance.Get<int>("_DisplaySetting._Mode");
+                set => _instance.Set("_DisplaySetting._Mode", value);
+            }
+
+            public int StartChapter
+            {
+                get => _instance.Get<int>("_DisplaySetting._StartTiming");
+                set => _instance.Set("_DisplaySetting._StartTiming", value);
+            }
+
+            public int EndChapter
+            {
+                get => _instance.Get<int>("_DisplaySetting._EndTiming");
+                set => _instance.Set("_DisplaySetting._EndTiming", value);
+            }
+
             public Guid StartGlobalFlag => _instance.Get<Guid>("_DisplaySetting._StartGlobalFlag");
             public Guid EndGlobalFlag => _instance.Get<Guid>("_DisplaySetting._EndGlobalFlag");
 
