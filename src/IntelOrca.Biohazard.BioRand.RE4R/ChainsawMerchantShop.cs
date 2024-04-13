@@ -5,7 +5,7 @@ using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal class MerchantShop
+    internal class ChainsawMerchantShop
     {
         private const string ItemSettingsPath = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopitemsettinguserdata.user.2";
         private const string StockAdditionSettingsPath = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopstockadditionsettinguserdata.user.2";
@@ -14,19 +14,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly UserFile _stockAdditionSettings;
         private readonly UserFile _rewardSettings;
 
-        private MerchantShop(UserFile itemSettings, UserFile stockAdditionSettings, UserFile rewardSettings)
+        private ChainsawMerchantShop(UserFile itemSettings, UserFile stockAdditionSettings, UserFile rewardSettings)
         {
             _itemSettings = itemSettings;
             _stockAdditionSettings = stockAdditionSettings;
             _rewardSettings = rewardSettings;
         }
 
-        public static MerchantShop FromData(FileRepository fileRepository)
+        public static ChainsawMerchantShop FromData(FileRepository fileRepository)
         {
             var itemSettings = GetUserFile(fileRepository, ItemSettingsPath);
             var stockAdditionSettings = GetUserFile(fileRepository, StockAdditionSettingsPath);
             var rewardSettings = GetUserFile(fileRepository, RewardSettingsPath);
-            return new MerchantShop(itemSettings, stockAdditionSettings, rewardSettings);
+            return new ChainsawMerchantShop(itemSettings, stockAdditionSettings, rewardSettings);
         }
 
         private static UserFile GetUserFile(FileRepository fileRepository, string path)

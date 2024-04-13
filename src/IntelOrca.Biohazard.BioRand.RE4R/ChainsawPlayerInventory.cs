@@ -5,21 +5,21 @@ using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal class PlayerInventory
+    internal class ChainsawPlayerInventory
     {
         private const string InventoryCatalogPath = "natives/stm/_chainsaw/appsystem/inventory/inventorycatalog/inventorycatalog_main.user.2";
 
         private readonly UserFile _inventoryCatalog;
 
-        private PlayerInventory(UserFile inventoryCatalog)
+        private ChainsawPlayerInventory(UserFile inventoryCatalog)
         {
             _inventoryCatalog = inventoryCatalog;
         }
 
-        public static PlayerInventory FromData(FileRepository fileRepository)
+        public static ChainsawPlayerInventory FromData(FileRepository fileRepository)
         {
             var inventoryCatalog = GetUserFile(fileRepository, InventoryCatalogPath);
-            return new PlayerInventory(inventoryCatalog);
+            return new ChainsawPlayerInventory(inventoryCatalog);
         }
 
         private static UserFile GetUserFile(FileRepository fileRepository, string path)
@@ -35,50 +35,117 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             fileRepository.SetGameFileData(InventoryCatalogPath, _inventoryCatalog.ToByteArray());
         }
 
-        public void SetItems(params ItemDefinition[] items)
+        public void ClearItems()
         {
-            Data[0].InventoryItems = items.Select(x => CreateInventoryItem(x)).ToArray();
-            AutoSort();
+            Data[0].InventoryItems = [];
         }
 
-        public void AddItem(RE4R.Item item)
+        public void AddItem(Item item)
         {
-            var itemRepo = ItemDefinitionRepository.Default;
-            var itemDef = itemRepo.Find(item.Id);
-            var inventoryItem = CreateInventoryItem(itemDef!);
-            inventoryItem.SlotIndexColumn = 7;
+            var inventoryItem = CreateInventoryItem(item);
+            inventoryItem.SlotIndexColumn = 5;
 
             var items = Data[0].InventoryItems.ToList();
             items.Add(inventoryItem);
             Data[0].InventoryItems = items.ToArray();
         }
 
-        private void AutoSort()
+        public void UpdateWeapons(ChainsawItemData itemData)
         {
-            var itemRepo = ItemDefinitionRepository.Default;
-            var column = 0;
             foreach (var item in Data[0].InventoryItems)
             {
-                var itemDef = itemRepo.Find(item.Item.ItemId);
-                if (itemDef != null)
+                if (item.Item is WeaponItemStack weaponStack)
                 {
-                    item.SlotIndexColumn = column;
-                    column += itemDef.Width;
+                    weaponStack.CurrentItemCount = 1;
+                    weaponStack.CurrentAmmoCount = itemData.GetMaxAmmo(item.Item.ItemId);
                 }
+                else
+                {
+                    item.Item.CurrentItemCount = Math.Max(1, itemData.GetMaxAmmo(item.Item.ItemId));
+                }
+                item.Item.CurrentDurability = itemData.GetMaxDurability(item.Item.ItemId);
             }
         }
 
-        private InventoryItem CreateInventoryItem(ItemDefinition definition, int count = 1)
+        public void AutoSort(ChainsawItemData itemData)
         {
+            var items = Data[0].InventoryItems
+                .OrderByDescending(x => itemData.GetSize(x.Item.ItemId).Height)
+                .ThenByDescending(x => itemData.GetSize(x.Item.ItemId).Width)
+                .ToArray();
+            Data[0].InventoryItems = items;
+
+            var caseWidth = 10;
+            var caseHeight = 7;
+            var x = 0;
+            var y = 0;
+            var rowHeight = 0;
+            foreach (var item in items)
+            {
+                var itemId = item.Item.ItemId;
+                var size = itemData.GetSize(item.Item.ItemId);
+                var itemWidth = size.Width;
+                var itemHeight = size.Height;
+                var rotated = false;
+                if (size.Width > size.Height && size.Width <= rowHeight)
+                {
+                    itemWidth = size.Height;
+                    itemHeight = size.Width;
+                    rotated = true;
+                }
+
+                if (x + itemWidth >= caseWidth)
+                {
+                    y += rowHeight;
+                    x = 0;
+                    rowHeight = 0;
+                }
+
+                if (y + itemHeight >= caseHeight)
+                {
+                    continue;
+                }
+
+                item.SlotIndexColumn = x;
+                item.SlotIndexRow = y;
+                item.CurrDirection = rotated ? 1 : 0;
+                x += itemWidth;
+                rowHeight = Math.Max(rowHeight, itemHeight);
+            }
+        }
+
+        private InventoryItem CreateInventoryItem(Item item, int count = 1)
+        {
+            var itemRepo = ItemDefinitionRepository.Default;
+            var definition = itemRepo.Find(item.Id)!;
+            var definitionAmmo = itemRepo.GetAmmo(definition);
+
             var rsz = _inventoryCatalog.RSZ!;
-            var item = new Item(rsz.CreateInstance("chainsaw.Item"));
-            item.Id = Guid.NewGuid();
-            item.ItemId = definition.Id;
-            item.CurrentDurability = 1000;
-            item.CurrentItemCount = count;
+            ItemStack itemStack;
+            switch (definition.Kind)
+            {
+                case ItemKinds.Weapon:
+                case ItemKinds.Grenade:
+                case ItemKinds.Knife:
+                case ItemKinds.Egg:
+                {
+                    var witem = new WeaponItemStack(rsz.CreateInstance("chainsaw.WeaponItem"));
+                    witem.CurrentAmmo = definitionAmmo?.Id ?? -1;
+                    witem.CurrentAmmoCount = 4;
+                    itemStack = witem;
+                    break;
+                }
+                default:
+                    itemStack = new ItemStack(rsz.CreateInstance("chainsaw.Item"));
+                    break;
+            }
+            itemStack.Id = Guid.NewGuid();
+            itemStack.ItemId = definition.Id;
+            itemStack.CurrentDurability = 1000;
+            itemStack.CurrentItemCount = count;
 
             var inventoryItem = new InventoryItem(rsz.CreateInstance("chainsaw.InventoryItemSaveData"));
-            inventoryItem.Item = item;
+            inventoryItem.Item = itemStack;
             return inventoryItem;
         }
 
@@ -162,9 +229,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             public RszInstance Instance => _instance;
 
-            public Item Item
+            public ItemStack Item
             {
-                get => new Item((RszInstance)_instance.Get("Item")!);
+                get
+                {
+                    var instance = (RszInstance)_instance.Get("Item")!;
+                    return instance.RszClass.name == "chainsaw.WeaponItem"
+                        ? new WeaponItemStack(instance)
+                        : new ItemStack(instance);
+                }
                 set => _instance.Set("Item", value.Instance);
             }
 
@@ -191,14 +264,37 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 get => _instance.Get<int>("CurrDirection");
                 set => _instance.Set("CurrDirection", value);
             }
+
+            public override string ToString() => Item.ToString();
         }
 
         public class UniqueItem(RszInstance _instance)
         {
-            public Item Item => new Item((RszInstance)_instance.Get("Item")!);
+            public ItemStack Item => new ItemStack((RszInstance)_instance.Get("Item")!);
         }
 
-        public class Item(RszInstance _instance)
+        public class WeaponItemStack(RszInstance instance) : ItemStack(instance)
+        {
+            public int CurrentAmmo
+            {
+                get => Instance.Get<int>("_CurrentAmmo");
+                set => Instance.Set("_CurrentAmmo", value);
+            }
+
+            public int CurrentAmmoCount
+            {
+                get => Instance.Get<int>("_CurrentAmmoCount");
+                set => Instance.Set("_CurrentAmmoCount", value);
+            }
+
+            public uint CurrentTacticalAmmoCount
+            {
+                get => Instance.Get<uint>("_CurrentTacticalAmmoCount");
+                set => Instance.Set("_CurrentTacticalAmmoCount", value);
+            }
+        }
+
+        public class ItemStack(RszInstance _instance)
         {
             public RszInstance Instance => _instance;
 

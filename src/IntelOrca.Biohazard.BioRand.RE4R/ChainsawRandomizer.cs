@@ -52,10 +52,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
 
             var rng = new Rng(input.Seed);
+            var itemData = ChainsawItemData.FromData(_fileRepository);
 
             StaticChanges();
-            RandomizeInventory(rng);
-            RandomizeMerchantShop(rng);
+            if (GetConfigOption<bool>("random-inventory"))
+            {
+                RandomizeInventory(itemData, rng);
+            }
+            // RandomizeMerchantShop(rng);
 
             var areaRepo = AreaDefinitionRepository.Default;
             var areas = new List<Area>();
@@ -69,19 +73,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 areas.Add(area);
             }
 
-#if DEBUG
-            LogAllEnemies(areas, e => e.Kind.Key == "armadura");
-#endif
-            LogAreas(_loggerInput, areas);
-            foreach (var area in areas)
+            DisableFirstAreaInhibitor(areas);
+            if (GetConfigOption<bool>("random-enemies"))
             {
-                RandomizeArea(area, rng);
-            };
-            Parallel.ForEach(areas, area =>
-            {
-                _fileRepository.SetGameFileData(area.Definition.Path, area.SaveData());
-            });
-            LogAreas(_loggerOutput, areas);
+                RandomizeEnemies(rng, areas);
+            }
 
             var logFiles = new LogFiles(_loggerInput.Output, _loggerProcess.Output, _loggerOutput.Output);
             return new RandomizerOutput(_fileRepository.GetOutputPakFile(), logFiles);
@@ -100,31 +96,96 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             _fileRepository.SetGameFileData(path, scn.ToByteArray());
         }
 
-        private void RandomizeInventory(Rng rng)
+        private void RandomizeInventory(ChainsawItemData itemData, Rng rng)
         {
-            var inventory = PlayerInventory.FromData(_fileRepository);
+            var inventory = ChainsawPlayerInventory.FromData(_fileRepository);
             inventory.PTAS = rng.Next(0, 200) * 100;
             inventory.SpinelCount = rng.Next(0, 5);
+            inventory.ClearItems();
+
+            // Weapons
+            var primaryWeaponKind = GetConfigOption("inventory-weapon-primary", "handgun")!;
+            var secondaryWeaponKind = GetConfigOption("inventory-weapon-secondary", "random")!;
+            var knifeWeapon = GetRandomWeapon(rng, ItemClasses.Knife);
+            var primaryWeapon = GetRandomWeapon(rng, primaryWeaponKind);
+            var secondaryWeapon = GetRandomWeapon(rng, secondaryWeaponKind);
+            if (knifeWeapon != null)
+                inventory.AddItem(new Item(knifeWeapon.Id));
+            if (primaryWeapon != null)
+            {
+                inventory.AddItem(new Item(primaryWeapon.Id));
+                var ammo = GetRandomItem(rng, ItemKinds.Ammo, primaryWeapon.Class);
+                if (ammo != null)
+                    inventory.AddItem(new Item(ammo.Id));
+            }
+            if (secondaryWeapon != null)
+            {
+                inventory.AddItem(new Item(secondaryWeapon.Id));
+                var ammo = GetRandomItem(rng, ItemKinds.Ammo, secondaryWeapon.Class);
+                if (ammo != null)
+                    inventory.AddItem(new Item(ammo.Id));
+            }
+
+            // Other stuff
+            var randomKinds = new[] {
+                ItemKinds.Fish,
+                ItemKinds.Health,
+                ItemKinds.Egg,
+                ItemKinds.Grenade,
+                ItemKinds.Knife,
+                ItemKinds.Gunpowder,
+                ItemKinds.Resource };
+
+            var kinds = new List<string>();
+            for (var i = 0; i < 10; i++)
+            {
+                kinds.Add(rng.Next(randomKinds));
+            }
+
+            foreach (var kind in kinds)
+            {
+                var randomItem = GetRandomItem(rng, kind);
+                if (randomItem != null)
+                    inventory.AddItem(new Item(randomItem.Id, -1));
+            }
+
+            inventory.UpdateWeapons(itemData);
+            inventory.AutoSort(itemData);
+            inventory.Save(_fileRepository);
+        }
+
+        private ItemDefinition? GetRandomWeapon(Rng rng, string classification)
+        {
+            var weaponKinds = new[] {
+                ItemClasses.None, ItemClasses.Handgun, ItemClasses.Shotgun,
+                ItemClasses.Rifle, ItemClasses.Smg, ItemClasses.Magnum };
+
+            if (classification == ItemClasses.None)
+                return null;
+
+            if (classification == ItemClasses.Random)
+                classification = rng.Next(weaponKinds);
 
             var itemRepo = ItemDefinitionRepository.Default;
-            var items = new List<ItemDefinition>();
-            items.Add(itemRepo.GetAll(ItemKinds.Weapon, ItemClasses.Knife).Shuffle(rng).First());
-            items.Add(itemRepo.GetAll(ItemKinds.Weapon, ItemClasses.Handgun).Shuffle(rng).First());
-            items.Add(itemRepo.GetAll(ItemKinds.Health).Shuffle(rng).First());
-            items.Add(itemRepo.GetAll(ItemKinds.Health).Shuffle(rng).First());
-            items.Add(itemRepo.GetAll(ItemKinds.Grenade).Shuffle(rng).First());
-            items.Add(itemRepo.GetAll(ItemKinds.Grenade).Shuffle(rng).First());
-            items.Add(itemRepo.GetAll(ItemKinds.Fish).Shuffle(rng).First());
-            inventory.Data[0].CharacterMaxHp += 500;
-            inventory.Data[0].InventorySize++;
-            // inventory.SetItems(items.ToArray());
-            inventory.AddItem(new Item(114416000, 1));
-            inventory.Save(_fileRepository);
+            var pool = itemRepo.GetAll(ItemKinds.Weapon, classification);
+            var chosen = rng.Next(pool);
+            return chosen;
+        }
+
+        private ItemDefinition? GetRandomItem(Rng rng, string kind, string? classification = null)
+        {
+            var itemRepo = ItemDefinitionRepository.Default;
+            var pool = itemRepo.GetAll(kind, classification);
+            if (pool.Length == 0)
+                return null;
+
+            var chosen = rng.Next(pool);
+            return chosen;
         }
 
         private void RandomizeMerchantShop(Rng rng)
         {
-            var merchantShop = MerchantShop.FromData(_fileRepository);
+            var merchantShop = ChainsawMerchantShop.FromData(_fileRepository);
             var items = merchantShop.ShopItems;
             var stocks = merchantShop.StockAdditions;
             var rewards = merchantShop.Rewards.ToList();
@@ -139,6 +200,43 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             rewards[2].RecieveType = 1;
             merchantShop.Rewards = rewards.Take(3).ToArray();
             merchantShop.Save(_fileRepository);
+        }
+
+        private void DisableFirstAreaInhibitor(List<Area> areas)
+        {
+            var firstArea = areas.FirstOrDefault(x => x.FileName == "level_cp10_chp1_1_010.scn.20");
+            if (firstArea == null)
+                return;
+
+            var scnFile = firstArea.ScnFile;
+            var inhibitor = scnFile.FindGameObject(new Guid("9fc712ca-478c-45b5-be12-5233edf4fe95"));
+            if (inhibitor == null)
+                return;
+
+            var inhibitorComponent = inhibitor.Components[1];
+            for (var i = 0; i < 5; i++)
+            {
+                inhibitorComponent.Set(
+                    $"_Datas[{i}].Rule[0]._Enable.Matters[0]._Data.Flags._CheckFlags[0]._CheckFlag",
+                    new Guid("0fb10e00-5384-4732-881a-af1fae2036c7"));
+            }
+        }
+
+        private void RandomizeEnemies(Rng rng, List<Area> areas)
+        {
+#if DEBUG
+            LogAllEnemies(areas, e => e.Kind.Key == "armadura");
+#endif
+            LogAreas(_loggerInput, areas);
+            foreach (var area in areas)
+            {
+                RandomizeArea(area, rng);
+            };
+            Parallel.ForEach(areas, area =>
+            {
+                _fileRepository.SetGameFileData(area.Definition.Path, area.SaveData());
+            });
+            LogAreas(_loggerOutput, areas);
         }
 
         private void LogAllEnemies(List<Area> areas, Predicate<Enemy> predicate)

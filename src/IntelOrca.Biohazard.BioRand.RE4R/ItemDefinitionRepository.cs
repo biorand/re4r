@@ -64,6 +64,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 items = items.Where(x => x.Class == classification).ToArray();
             return items;
         }
+
+        public ItemDefinition? GetAmmo(ItemDefinition weapon)
+        {
+            return GetAll(ItemKinds.Ammo, weapon.Class).FirstOrDefault();
+        }
     }
 
     public static class ItemKinds
@@ -71,12 +76,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public const string Ammo = "ammo";
         public const string Fish = "fish";
         public const string Health = "health";
+        public const string Egg = "egg";
         public const string Treasure = "treasure";
         public const string Attachment = "attachment";
         public const string Gunpowder = "gunpowder";
         public const string Resource = "resource";
         public const string Weapon = "weapon";
-        public const string Knife = "weapon";
+        public const string Knife = "knife";
         public const string Key = "key";
         public const string Token = "token";
         public const string Special = "special";

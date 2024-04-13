@@ -1,6 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using REE;
+using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -61,6 +64,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 builder.AddEntry(outputFile.Key, outputFile.Value);
             }
             builder.Save(path, REE.PakFlags.ZSTD);
+        }
+
+        public UserFile GetUserFile(string path)
+        {
+            var data = GetGameFileData(path);
+            return data == null
+                ? throw new Exception("Unable to read data file.")
+                : ChainsawRandomizerFactory.Default.ReadUserFile(data);
+        }
+
+        public void SetUserFile(string path, UserFile value)
+        {
+            SetGameFileData(path, value.ToByteArray());
         }
 
         public PakFileBuilder GetOutputPakFile()

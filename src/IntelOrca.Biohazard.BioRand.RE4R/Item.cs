@@ -6,6 +6,8 @@
         public int Count { get; } = count;
         public bool IsAutomatic => Id == -1;
 
+        public Item(int id) : this(id, -1) { }
+
         public override string ToString() => IsAutomatic ? "(automatic)" : $"{Id} x{Count}";
     }
 }

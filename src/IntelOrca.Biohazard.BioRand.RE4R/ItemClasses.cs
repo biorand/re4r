@@ -2,6 +2,9 @@
 {
     public static class ItemClasses
     {
+        public const string None = "";
+        public const string Random = "random";
+
         public const string Handgun = "handgun";
         public const string Shotgun = "shotgun";
         public const string Smg = "smg";

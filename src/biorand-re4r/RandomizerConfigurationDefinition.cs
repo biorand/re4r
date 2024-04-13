@@ -23,6 +23,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             public double? Min { get; set; }
             public double? Max { get; set; }
             public double? Step { get; set; }
+            public string[]? Options { get; set; }
             public object? Default { get; set; }
         }
 
@@ -33,6 +34,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             configDefinition.Groups = new List<Group>();
 
             var generalGroup = new Group("General");
+            generalGroup.Items.Add(new GroupItem()
+            {
+                Id = $"random-enemies",
+                Label = "Random Enemies",
+                Description = "Let Biorand randomize all the enemies in the game.",
+                Type = "switch",
+                Default = true
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
+                Id = $"random-inventory",
+                Label = "Random Inventory",
+                Description = "Let Biorand randomize your starting inventory.",
+                Type = "switch",
+                Default = true
+            });
             generalGroup.Items.Add(new GroupItem()
             {
                 Id = $"enemy-multiplier",
@@ -81,15 +98,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             //     Type = "switch",
             //     Default = false
             // });
-            generalGroup.Items.Add(new GroupItem()
-            {
-                Id = $"enemy-custom-health",
-                Label = "Custom Enemy Health",
-                Description = "Let Biorand randomize the enemy health between a custom range.",
-                Type = "switch",
-                Default = false
-            });
             configDefinition.Groups.Add(generalGroup);
+
+            var inventoryGroup = new Group("General");
+            inventoryGroup.Items.Add(new GroupItem()
+            {
+                Id = $"inventory-weapon-primary",
+                Label = "Primary Weapon",
+                Type = "dropdown",
+                Options = ["random", "handgun", "shotgun", "smg", "rifle", "magnum"],
+                Default = "handgun"
+            });
+            inventoryGroup.Items.Add(new GroupItem()
+            {
+                Id = $"inventory-weapon-secondary",
+                Label = "Secondary Weapon",
+                Type = "dropdown",
+                Options = ["random", "handgun", "shotgun", "smg", "rifle", "magnum"],
+                Default = "random"
+            });
+            configDefinition.Groups.Add(inventoryGroup);
 
             var debugGroup = new Group("Debug");
             debugGroup.Items.Add(new GroupItem()

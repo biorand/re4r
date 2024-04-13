@@ -47,6 +47,9 @@
                 case 'range':
                     config[key] = parseFloat(el.value);
                     break;
+                case 'dropdown':
+                    config[key] = el.value;
+                    break;
             }
         }
         return config;
@@ -333,6 +336,16 @@
                 widgetHtml += `<div id="${inputId}-display" class="col-auto"></div>`;
                 widgetHtml += `</div>`;
                 break;
+            case 'dropdown':
+                // <select id="select-profile" class="form-select"></select>
+                widgetHtml += `<select id="${inputId}" class="form-select">`;
+                if (groupItem.options) {
+                    for (const option of groupItem.options) {
+                        widgetHtml += `<option>${option}</option>`;
+                    }
+                }
+                widgetHtml += `</select>`;
+                break;
         }
         const colClass = groupItem.size ? `col-${groupItem.size}` : 'col-8';
         let html =
@@ -365,7 +378,8 @@
                 });
             }
             inputEl.addEventListener('change', () => {
-                outputEl.innerText = parseFloat(inputEl.value).toFixed(2);
+                if (outputEl)
+                    outputEl.innerText = parseFloat(inputEl.value).toFixed(2);
                 const config = getConfig();
                 saveLocalData('config', config);
             });
