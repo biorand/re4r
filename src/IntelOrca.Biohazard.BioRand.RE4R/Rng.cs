@@ -87,6 +87,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             private double _total;
 
             public bool IsEmpty => _table.Count == 0;
+            public T[] Values => _table.Select(x => x.Item1).ToArray();
 
             public Table(Rng rng)
             {

@@ -513,23 +513,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var dropRng = rng.NextFork();
             var parasiteRng = rng.NextFork();
 
-            var oldEnemies = area.Enemies;
-            var def = area.Definition;
-            if (def.Exclude is string[] exclude)
-            {
-                var excludeGuidArray = exclude.Select(x => new Guid(x)).ToHashSet();
-                oldEnemies = oldEnemies
-                    .Where(x => !excludeGuidArray.Contains(x.Guid))
-                    .ToArray();
-            }
-
-            oldEnemies = oldEnemies
+            var oldEnemies = area.Enemies
                 .Where(x => !x.Kind.Closed)
                 .ToArray();
+            var def = area.Definition;
 
             var oldEnemiesSummary = area.Enemies.Select(GetEnemySummary).ToArray();
             var multiplier = GetConfigOption<double>("enemy-multiplier", 1);
-            var newEnemyCount = (int)oldEnemies.Length * multiplier;
+            var newEnemyCount = oldEnemies.Length * multiplier;
             var delta = (int)Math.Round(newEnemyCount - oldEnemies.Length);
             if (delta != 0)
             {
@@ -550,7 +541,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 if (e.Kind.Closed)
                     continue;
 
-                var ecd = GetRandomEnemyClass(enemyClasses, rng);
+                var restrictionBlock = def.Restrictions?.FirstOrDefault(x => x.Guids?.Contains(e.Guid) ?? false);
+                var excludedClasses = restrictionBlock?.Exclude;
+                if (restrictionBlock != null && excludedClasses == null)
+                    continue;
+
+                var ecd = GetRandomEnemyClass(enemyClasses, rng, excludedClasses);
+                if (ecd == null)
+                    continue;
+
                 e = area.ConvertTo(e, ecd.Kind.ComponentName);
 
                 // Reset various fields
@@ -699,7 +698,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return $"{enemy.Kind} ({enemy.Health})";
         }
 
-        private EnemyClassDefinition GetRandomEnemyClass(HashSet<EnemyClassDefinition> enemyClasses, Rng rng)
+        private EnemyClassDefinition? GetRandomEnemyClass(HashSet<EnemyClassDefinition> enemyClasses, Rng rng, string[]? excludedClasses)
         {
             if (_enemyRngTable == null)
             {
@@ -713,6 +712,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     }
                 }
                 _enemyRngTable = table;
+            }
+
+            if (excludedClasses != null)
+            {
+                var pool = _enemyRngTable.Values
+                    .Where(x => !excludedClasses.Contains(x.Key))
+                    .ToArray();
+                if (pool.Length == 0)
+                    return null;
+                return rng.Next(pool);
             }
 
             if (_enemyClassQueue.Count == 0)
