@@ -38,7 +38,20 @@
     // { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_100.scn.20", "chapter": 1 },
 
     // Chapter 2 (factory, red mist valley, chief)
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/level_cp10_chp1_2.scn.20", "chapter": 2 },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/level_cp10_chp1_2.scn.20",
+      "chapter": 2,
+      "restrictions": [
+        {
+          "guids": [
+            "57a10b46-e53a-460a-9927-eac41a0bdeb7"
+          ],
+          "exclude": [
+            "verdugo"
+          ]
+        }
+      ]
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc44/level_loc44.scn.20", "chapter": 2 },
 
     // Chapter 3 (village dogs, church, fish market, de lago)
