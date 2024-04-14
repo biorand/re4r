@@ -44,6 +44,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             generalGroup.Items.Add(new GroupItem()
             {
+                Id = $"enemy-custom-health",
+                Label = "Custom Enemy Health",
+                Description = "Let Biorand randomize the enemy health using the min/max values.",
+                Type = "switch",
+                Default = false
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
                 Id = $"random-inventory",
                 Label = "Random Inventory",
                 Description = "Let Biorand randomize your starting inventory.",
