@@ -37,6 +37,8 @@
         public const int RecipeHerbGRY2 = 124366400;
         public const int RecipeHerbGRY3 = 124368000;
 
+        public const int Case7x10 = 124160000;
+
         public const int ExclusiveUpgradeTicket = 120867200;
         public const int VelvetBlue = 120864000;
         public const int SG09R = 274835456;

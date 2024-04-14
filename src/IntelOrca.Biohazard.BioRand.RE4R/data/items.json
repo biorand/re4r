@@ -945,29 +945,34 @@
       "id": 124008000
     },
     {
-      "name": "7x10",
+      "name": "Case: 7x10",
       "kind": "case-size",
-      "id": 124160000
+      "id": 124160000,
+      "value": 5000
     },
     {
-      "name": "7x12",
+      "name": "Case: 7x12",
       "kind": "case-size",
-      "id": 124161600
+      "id": 124161600,
+      "value": 10000
     },
     {
-      "name": "8x12",
+      "name": "Case: 8x12",
       "kind": "case-size",
-      "id": 124163200
+      "id": 124163200,
+      "value": 20000
     },
     {
-      "name": "8x13",
+      "name": "Case: 8x13",
       "kind": "case-size",
-      "id": 124164800
+      "id": 124164800,
+      "value": 36000
     },
     {
-      "name": "9x13",
+      "name": "Case: 9x13",
       "kind": "case-size",
-      "id": 124166400
+      "id": 124166400,
+      "value": 64000
     },
     {
       "name": "Attaché Case: Silver",

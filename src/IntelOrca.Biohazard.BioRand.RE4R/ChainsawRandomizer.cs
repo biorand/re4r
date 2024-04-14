@@ -189,6 +189,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var shopItems = merchantShop.ShopItems;
             var stocks = merchantShop.StockAdditions;
 
+            var caseIds = itemRepo
+                .GetAll(ItemKinds.CaseSize)
+                .OrderBy(x => x.Value)
+                .Select(x => x.Id)
+                .ToArray();
+            var caseChapters = new int[caseIds.Length];
+            var caseChapter = rng.Next(0, 3);
+            for (var i = 0; i < caseChapters.Length; i++)
+            {
+                caseChapters[i] = caseChapter;
+                caseChapter += rng.Next(1, 3);
+            }
+            var itemToChapterMap = caseIds.Zip(caseChapters).ToDictionary(x => x.First, x => x.Second);
+
             // Rewards
             merchantShop.ClearRewards();
 
@@ -222,6 +236,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 AddReward(ItemIds.ExclusiveUpgradeTicket, spinel: ticketSpinel, unlimited: true);
                 ticketSpinel += rewardsRng.Next(1, 5);
+            }
+
+            // * Case sizes
+            for (var i = 0; i < rewardsRng.Next(0, 3); i++)
+            {
+                var randomCase = _itemRandomizer.GetRandomItem(rewardsRng, ItemKinds.CaseSize, allowReoccurance: false);
+                if (randomCase != null)
+                {
+                    var spinel = randomCase.Value / 2500;
+                    AddReward(randomCase.Id, spinel: rewardsRng.Next(spinel - 3, spinel + 3));
+                }
             }
 
             // * Health (unlimited)
@@ -301,7 +326,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 else if (
                     itemDef.Kind == ItemKinds.Weapon ||
                     itemDef.Kind == ItemKinds.Attachment ||
-                    itemDef.Kind == ItemKinds.Armor)
+                    itemDef.Kind == ItemKinds.Armor ||
+                    itemDef.Kind == ItemKinds.CaseSize)
                 {
                     if (_itemRandomizer.IsItemPlaced(shopItem.ItemId))
                     {
@@ -351,6 +377,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     shopItem.MaxStock = 1;
                     shopItem.DefaultStock = 1;
                 }
+                if (itemToChapterMap.TryGetValue(shopItem.ItemId, out var unlockChapter))
+                    shopItem.UnlockChapter = unlockChapter;
 
                 if (GetConfigOption<bool>("random-merchant-prices"))
                 {
@@ -398,11 +426,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     var maxSpinel = avgSpinel + 1;
                     spinel = rng.Next(minSpinel, maxSpinel + 1);
                 }
+                else
+                {
+                    spinel = Math.Max(1, spinel.Value);
+                }
 
                 var item = new Item(itemId, count);
                 var reward = merchantShop.AddReward(new Item(itemId, count), spinel.Value, false);
                 reward.StartChapter = Math.Max(0, rng.Next(-3, 6));
-                _loggerProcess.LogLine($"Add reward {reward.RewardId} {item} Cost = {spinel} spinel");
+                if (itemToChapterMap.TryGetValue(itemId, out var chapter))
+                    reward.StartChapter = chapter;
+                _loggerProcess.LogLine($"Add reward {reward.RewardId} {item} Cost = {spinel} spinel Chapter = {reward.StartChapter}");
             }
         }
 

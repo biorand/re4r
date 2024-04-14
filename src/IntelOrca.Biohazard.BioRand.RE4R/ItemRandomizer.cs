@@ -26,6 +26,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             _placedItemIds.Add(ItemIds.RecipeHerbGRY1);
             _placedItemIds.Add(ItemIds.RecipeHerbGRY2);
             _placedItemIds.Add(ItemIds.RecipeHerbGRY3);
+            _placedItemIds.Add(ItemIds.RecipeHerbGRY3);
+            _placedItemIds.Add(ItemIds.Case7x10);
         }
 
         public ItemDefinition? GetRandomWeapon(Rng rng, string? classification = null, bool allowReoccurance = true)
