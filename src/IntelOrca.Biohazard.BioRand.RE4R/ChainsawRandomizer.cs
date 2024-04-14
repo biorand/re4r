@@ -350,7 +350,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     shopItem.UnlockCondition = 2;
                     shopItem.UnlockFlag = Guid.Empty;
                     shopItem.UnlockChapter = 0;
-                    shopItem.SpCondition = 0;
+                    shopItem.SpCondition = 1;
                     shopItem.EnableStockSetting = true;
                     shopItem.EnableSelectCount = true;
                     shopItem.MaxStock = 30;
@@ -361,7 +361,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     shopItem.UnlockCondition = 2;
                     shopItem.UnlockFlag = Guid.Empty;
                     shopItem.UnlockChapter = 0;
-                    shopItem.SpCondition = 0;
+                    shopItem.SpCondition = 1;
                     shopItem.EnableStockSetting = true;
                     shopItem.EnableSelectCount = true;
                     shopItem.MaxStock = 5;
@@ -372,13 +372,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     shopItem.UnlockCondition = 2;
                     shopItem.UnlockFlag = Guid.Empty;
                     shopItem.UnlockChapter = shopRng.Next(0, 10);
-                    shopItem.SpCondition = 0;
+                    shopItem.SpCondition = 1;
                     shopItem.EnableStockSetting = true;
                     shopItem.MaxStock = 1;
                     shopItem.DefaultStock = 1;
                 }
                 if (itemToChapterMap.TryGetValue(shopItem.ItemId, out var unlockChapter))
                     shopItem.UnlockChapter = unlockChapter;
+
+                // Make items unlock at first chapter work
+                if (shopItem.UnlockCondition != 4 && shopItem.UnlockChapter == 0)
+                {
+                    shopItem.UnlockCondition = 0;
+                    shopItem.SpCondition = 0;
+                }
 
                 if (GetConfigOption<bool>("random-merchant-prices"))
                 {
@@ -409,6 +416,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
 
             merchantShop.Save(_fileRepository);
+            LogShop(merchantShop);
 
             void AddReward(int itemId, int count = 1, int? spinel = null, bool unlimited = false)
             {
@@ -432,11 +440,44 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 }
 
                 var item = new Item(itemId, count);
-                var reward = merchantShop.AddReward(new Item(itemId, count), spinel.Value, false);
-                reward.StartChapter = Math.Max(0, rng.Next(-3, 6));
+                var startChapter = Math.Max(0, rng.Next(-3, 6));
                 if (itemToChapterMap.TryGetValue(itemId, out var chapter))
-                    reward.StartChapter = chapter;
+                    startChapter = chapter;
+                var reward = merchantShop.AddReward(new Item(itemId, count), spinel.Value, false, startChapter);
                 _loggerProcess.LogLine($"Add reward {reward.RewardId} {item} Cost = {spinel} spinel Chapter = {reward.StartChapter}");
+            }
+        }
+
+        private void LogShop(ChainsawMerchantShop shop)
+        {
+            var itemRepo = ItemDefinitionRepository.Default;
+
+            _loggerOutput.LogHeader("Merchant");
+            var orderedShopItems = shop.ShopItems.OrderBy(x => x.UnlockChapter).ToArray();
+            var chapter = -1;
+            foreach (var shopItem in orderedShopItems)
+            {
+                if (shopItem.UnlockChapter != chapter)
+                {
+                    chapter = shopItem.UnlockChapter;
+                    _loggerOutput.LogHr();
+                    _loggerOutput.LogLine($"Chapter {chapter + 1}:");
+                    _loggerOutput.LogHr();
+                }
+
+                if (shopItem.BuyPrice <= 0 || shopItem.UnlockCondition == 4)
+                    continue;
+
+                var item = itemRepo.Find(shopItem.ItemId);
+                if (item == null)
+                    continue;
+
+                var sellString = shopItem.SellPrice == -1 ? "" : $"Sell = {shopItem.SellPrice}";
+                _loggerOutput.LogLine($"{item} Buy = {shopItem.BuyPrice} {sellString}");
+                foreach (var sale in shopItem.Sales)
+                {
+                    _loggerOutput.LogLine($"    {-sale.SaleRate}% discount between chapter {sale.StartTiming + 1} and {sale.EndTiming + 1}");
+                }
             }
         }
 

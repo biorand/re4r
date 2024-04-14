@@ -50,7 +50,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             Rewards = [];
         }
 
-        public Reward AddReward(Item item, int requiredSpinel, bool unlimited)
+        public Reward AddReward(Item item, int requiredSpinel, bool unlimited, int startChapter = 0)
         {
             var instance = _rewardSettings.RSZ!.CreateInstance("chainsaw.InGameShopRewardSingleSetting");
             var reward = new Reward(instance);
@@ -59,9 +59,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             reward.ItemId = item.Id;
             reward.ItemCount = item.Count;
             reward.RecieveType = unlimited ? 1 : 0;
-            reward.Mode = 0;
-            reward.StartChapter = -1;
-            reward.EndChapter = -1;
+            reward.StartChapter = startChapter;
+            if (startChapter == 0)
+            {
+                reward.Mode = 0;
+                reward.EndChapter = -1;
+            }
+            else
+            {
+                reward.Mode = 1;
+                reward.EndChapter = 16;
+            }
 
             var rewards = Rewards.ToList();
             reward.RewardId = rewards.Count == 0 ? 0 : rewards.Select(x => x.RewardId).Max() + 1;
