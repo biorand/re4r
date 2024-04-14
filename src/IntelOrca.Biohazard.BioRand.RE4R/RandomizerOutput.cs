@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using REE;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -8,11 +9,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private byte[]? _zipFile;
         private byte[]? _modFile;
 
+        public RandomizerInput Input { get; }
         public PakFileBuilder PakFile { get; }
         public LogFiles LogFiles { get; }
 
-        internal RandomizerOutput(PakFileBuilder pakFile, LogFiles logFiles)
+        internal RandomizerOutput(RandomizerInput input, PakFileBuilder pakFile, LogFiles logFiles)
         {
+            Input = input;
             PakFile = pakFile;
             LogFiles = logFiles;
         }
@@ -49,6 +52,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private ZipFileBuilder BuildZipFile(string logPrefix = "")
         {
             return new ZipFileBuilder()
+                .AddEntry($"{logPrefix}config.json", Encoding.UTF8.GetBytes(Input.Configuration.ToJson()))
                 .AddEntry($"{logPrefix}input.log", Encoding.UTF8.GetBytes(LogFiles.Input))
                 .AddEntry($"{logPrefix}process.log", Encoding.UTF8.GetBytes(LogFiles.Process))
                 .AddEntry($"{logPrefix}output.log", Encoding.UTF8.GetBytes(LogFiles.Output));

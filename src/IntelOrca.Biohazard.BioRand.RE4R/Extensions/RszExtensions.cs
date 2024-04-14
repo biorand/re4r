@@ -73,7 +73,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
                 {
                     var instance2 = ((RszInstance)value!);
                     if (lastPart)
-                        instance2.SetFieldValue(part, newValue);
+                        instance2.SetFieldValue(part, newValue!);
                     else
                         value = instance2.GetFieldValue(part);
                 }
@@ -90,7 +90,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
                     var arrayIndex = int.Parse(szArrayIndex);
                     var lst = ((List<object>)value!);
                     if (lastPart)
-                        lst[arrayIndex] = newValue;
+                        lst[arrayIndex] = newValue!;
                     else
                         value = lst[arrayIndex];
                 }

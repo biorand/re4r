@@ -93,7 +93,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
 
             var logFiles = new LogFiles(_loggerInput.Output, _loggerProcess.Output, _loggerOutput.Output);
-            return new RandomizerOutput(_fileRepository.GetOutputPakFile(), logFiles);
+            return new RandomizerOutput(input, _fileRepository.GetOutputPakFile(), logFiles);
         }
 
         private void StaticChanges()

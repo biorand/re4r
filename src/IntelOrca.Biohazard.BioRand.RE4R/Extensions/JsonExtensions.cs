@@ -5,6 +5,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
 {
     public static class JsonExtensions
     {
+        public static string ToJson(this object o, bool indented = true, bool camelCase = false)
+        {
+            return JsonSerializer.Serialize(
+                o, new JsonSerializerOptions()
+                {
+                    PropertyNamingPolicy = camelCase ? JsonNamingPolicy.CamelCase : null,
+                    WriteIndented = indented
+                })!;
+        }
+
         public static T DeserializeJson<T>(this byte[] json)
         {
             return JsonSerializer.Deserialize<T>(
