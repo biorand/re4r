@@ -78,27 +78,145 @@
 
     // Chapter 9 (maze, great hall, library)
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_000.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_001.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_002.scn.20" },
+    {
+      // Ashley section
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_000.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "674561f7-583b-4e80-b71a-eeeebe74d878",
+            "37374422-bda8-41e1-a38e-26aba2fa3f63",
+            "c8f67039-f288-4bfe-8c36-ffdad6546eed",
+            "34a2643c-c093-4d89-9133-89313f0eb342",
+            "1e2e8318-df17-4247-ab9f-0f10c2c52133",
+            "8fda796b-fd00-485e-b4a0-90dbdaefaaa3",
+            "fe9c2aee-74d3-41fe-851c-4637ec36d68d",
+            "18b9a221-9df1-43ce-9d8c-62ed4b5552af",
+            "e5a529ff-5d49-47b5-8458-78153e860ddf",
+            "fe71b397-8486-4f85-8ed3-ac24b38335b4",
+            "87204786-3f66-4a35-bd77-32a8adbc9817",
+            "4e762059-c563-40b4-a67e-b51f852bff40",
+            "412b33fc-13f2-4c0b-a8a6-2792a2c41b97",
+            "3115e78f-93cb-47af-982e-c2d285f9bccb",
+            "5de1a86a-e7f5-41d6-a0a2-1eca71584259"
+          ],
+          "exclude": [
+            "villager",
+            "zealot",
+            "zealot_red",
+            "soldier",
+            "colmillos",
+            "super-colmillos",
+            "brute_crossbow",
+            "super_iron_maiden",
+            "verdugo"
+          ]
+        }
+      ]
+    },
+    {
+      // Ashley section (crypt 1)
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_001.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "8696d757-91a9-4a92-b49f-473f9ccbe0f3",
+            "05403464-f96e-4041-a7be-2eddb2594657",
+            "fa6aca78-f29c-4d14-a258-1ba193683b74",
+            "50005cc1-b849-43f1-a4b5-e0a892dad4af",
+            "654b2877-3f96-45bc-919a-a39d41705c27",
+            "5478ac6c-e12b-4793-9884-db49e6408cdd",
+            "082896c1-538f-410d-8847-2f7395d566c9",
+            "390e640d-f853-4359-8495-f119439e424b",
+            "ff5126f5-4d73-4f41-b970-6d608c7ac8b6",
+            "c2e21da7-f1b7-4b53-af14-e783cbcc80f4",
+            "ed0c15d0-7e9a-4288-a264-baff7e9614c1",
+            "7a333763-cb7b-4135-bcd9-46a800824e74",
+            "b91829ed-8285-40d2-b0f2-91e2ae01a841",
+            "c2b7043b-a737-45eb-9f55-6fd0e7fbb216",
+            "62c3db80-2b55-4f2f-8218-8d76ea4ba1d6",
+            "e9bd623d-91e6-4b00-b646-afc7835ffe8b",
+            "07e14b5b-f873-4670-a96a-3427f2e9f78f",
+            "243515a9-4595-41a1-aeff-345dcd9a4c73",
+            "11d7aa39-cc26-4c21-bb6b-725da83e4b3e",
+            "5bc7bbb4-0c2d-4e72-92e3-a053c27563f8",
+            "572446ab-d492-46fe-948e-57f7d176bb90",
+            "b351ed92-4e5c-494f-9495-eded785f61d0",
+            "1db4e9c4-6ff6-4700-91f9-c93ac6314ea8",
+            "09e5583f-d6e7-4dcc-9dac-206cecbdc9d3"
+          ],
+          "exclude": [
+            "villager",
+            "zealot",
+            "zealot_red",
+            "soldier",
+            "colmillos",
+            "super-colmillos",
+            "brute_crossbow",
+            "super_iron_maiden",
+            "verdugo"
+          ]
+        }
+      ]
+    },
+    {
+      // Ashley section (crypt 2)
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_002.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "445d55a1-6977-4bec-bf33-199dfb294495",
+            "40b1abfc-f71c-4a6d-8f57-c5be0d0d351a",
+            "8a038729-8d20-42dd-96d0-fdc39b9bdb2d",
+            "bc91b3c1-d012-4a69-a536-dfae3602993d",
+            "53aae086-0d8a-42c5-b1c7-45ecf6c6ce7b",
+            "1defdc36-3de8-44ba-b237-3cca511a17e7",
+            "0f40b5c7-932d-449e-b24e-8d61c73a2885",
+            "921019d8-6bd8-43a1-91a3-d419e39c0356",
+            "ca0780bd-c22b-439c-9358-22214bd703c6",
+            "3a174615-7a3a-4d2c-835d-b104ea2d5756",
+            "dff12adc-d53a-42fa-8dd7-baeccf25c97e",
+            "bbfda678-d45e-41ab-b890-e41af749ac25",
+            "99320184-ac8c-4463-bd21-df13304c0306"
+          ],
+          "exclude": [
+            "villager",
+            "zealot",
+            "zealot_red",
+            "soldier",
+            "colmillos",
+            "super-colmillos",
+            "brute_crossbow",
+            "super_iron_maiden",
+            "verdugo"
+          ]
+        }
+      ]
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_003.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_004.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_005.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_006.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_007.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_008.scn.20" },
-
-    // Chapter 10 (ball room, double garradors, throne room, sewers, verdugo)
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_000.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_001.scn.20" },
     {
-      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_002.scn.20",
+      // Knighty-knight knights room
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_007.scn.20",
       "restrictions": [
         {
           "guids": [
-            "3ead6e3d-e86f-4749-bebf-318c147fd5ca",
-            "dc7c6111-38c2-4b14-b54f-ad8ba0f42c9a"
+            "8d24c259-5fbd-4632-b87d-a86e6fd6a87b",
+            "b4374c74-f9f5-4786-8ea9-ff94024cdedb",
+            "06f53906-941b-417d-86bd-dae75eef46ab",
+            "a3a90441-3401-429f-a460-c3566ce36721",
+            "71413d20-7441-4a18-8e23-2d58c006cdc6",
+            "4adc14c8-c59f-4ae4-b5cd-650e2bf2a692",
+            "fb9eb2fd-ea75-4ae3-bd1b-406b5e789523",
+            "a28e8c01-d0b3-4407-b2b3-05a078fe1aed",
+            "93d176ad-0b75-4473-8147-7c628c739d69",
+            "c88eeb9a-e3ce-42ea-9524-84c9669aa963",
+            "8933afe7-7bcf-4052-9c09-9ca2be004ecc",
+            "5cb0ab35-1d18-4928-8407-20bb3df7db89",
+            "6a67f8dd-7fb0-4928-a475-bc9ea1774385",
+            "7fd85876-8cd0-4fbb-bf97-5b9502d9becf"
           ],
           "exclude": [
             "mendez_1"
@@ -106,6 +224,13 @@
         }
       ]
     },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_008.scn.20" },
+
+    // Chapter 10 (ball room, double garradors, throne room, sewers, verdugo)
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1.scn.20" },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_000.scn.20" },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_001.scn.20" },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_002.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_003.scn.20" },
 
     // Chapter 11 (mine, nest, krauser 1)
@@ -173,7 +298,19 @@
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_000.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_001.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_002.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_003.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_003.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "52061032-d686-401c-b1b7-ebdcd629e8ea"
+          ],
+          "exclude": [
+            "pig"
+          ]
+        }
+      ]
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_004.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc53/level_loc53.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc53/level_loc53_000.scn.20" },
