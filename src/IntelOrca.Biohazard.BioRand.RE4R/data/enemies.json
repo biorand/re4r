@@ -568,7 +568,9 @@
       "maxHealth": 20000,
       "field:_MontageID": 1106175613,
       "field:_RolePatternHash": 2180083513,
-      "field:_PreFirstForceMovePatternHash": 2180083513
+      "field:_PreFirstForceMovePatternHash": 2180083513,
+      "field:_BodyScale._IsFixedScale": true,
+      "field:_BodyScale._FixedScale": 1.3
     },
     {
       "key": "garrador",
