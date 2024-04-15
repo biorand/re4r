@@ -55,9 +55,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public ItemDefinition? GetRandomItem(Rng rng, string kind, string? classification = null, bool allowReoccurance = true)
         {
             var itemRepo = ItemDefinitionRepository.Default;
-            var pool = itemRepo.GetAll(kind, classification);
+            var poolEnumerable = itemRepo
+                .GetAll(kind, classification)
+                .Where(x => _allowBonusItems || !(x.Bonus ?? false));
             if (!allowReoccurance)
-                pool = pool.Where(x => !_placedItemIds.Contains(x.Id)).ToArray();
+            {
+                poolEnumerable = poolEnumerable
+                    .Where(x => !_placedItemIds.Contains(x.Id));
+
+            }
+            var pool = poolEnumerable.ToArray();
             if (pool.Length == 0)
                 return null;
 
