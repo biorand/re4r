@@ -154,16 +154,16 @@
     },
 
     // Chapter 7 (castle entrance, prison, water hall)
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_000.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_001.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_002.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_003.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_004.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_005.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_006.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_007.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_008.scn.20" },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_000.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_001.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_002.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_003.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_004.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_005.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_006.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_007.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_008.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
 
     // Chapter 8 (red zealot, castle battlements)
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2.scn.20" },
@@ -175,7 +175,8 @@
     // Chapter 9 (maze, great hall, library)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3.scn.20",
-      "chapter": 9
+      "chapter": 9,
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
     },
     // Disable random enemies for Ashley section for now
     // {
@@ -193,10 +194,10 @@
     //   "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_002.scn.20",
     //   "chapter": 9
     // },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_003.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_004.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_005.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_006.scn.20" },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_003.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_004.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_005.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_006.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
     {
       // Knighty-knight knights room
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_007.scn.20",
