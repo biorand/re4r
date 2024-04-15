@@ -5,15 +5,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class ItemRandomizer
     {
-        private HashSet<int> _placedItemIds = new HashSet<int>();
+        private readonly HashSet<int> _placedItemIds = new HashSet<int>();
+        private readonly bool _allowBonusItems;
 
         public int[] PlacedItemIds => _placedItemIds.ToArray();
         public ItemDefinition[] PlacedItems => _placedItemIds
             .Select(x => ItemDefinitionRepository.Default.Find(x)!)
             .ToArray();
 
-        public ItemRandomizer()
+        public ItemRandomizer(bool allowBonusItems)
         {
+            _allowBonusItems = allowBonusItems;
             _placedItemIds.Add(ItemIds.RecipeHandgunAmmo);
             _placedItemIds.Add(ItemIds.RecipeShotgunAmmo);
             _placedItemIds.Add(ItemIds.RecipeHerbGG);

@@ -76,8 +76,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             generalGroup.Items.Add(new GroupItem()
             {
+                Id = $"allow-bonus-items",
+                Label = "Allow Bonus Weapons",
+                Description = "Let Biorand include the unlockable and DLC weapons in the pool. You must have them all unlocked.",
+                Type = "switch",
+                Default = false
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
                 Id = $"enemy-multiplier",
                 Label = "Enemy multiplier",
+                Description = "Duplicate enemies by this amount. Warning: high values can cause stability issues.",
                 Type = "range",
                 Min = 0.25,
                 Max = 10,
@@ -129,16 +138,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = $"inventory-weapon-primary",
                 Label = "Primary Weapon",
+                Description = "The primary weapon you start off with in your inventory.",
                 Type = "dropdown",
-                Options = ["random", "handgun", "shotgun", "smg", "rifle", "magnum"],
+                Options = ["random", "handgun", "shotgun", "smg", "rifle", "magnum", "none"],
                 Default = "handgun"
             });
             inventoryGroup.Items.Add(new GroupItem()
             {
                 Id = $"inventory-weapon-secondary",
                 Label = "Secondary Weapon",
+                Description = "An additional weapon you start off with in your inventory.",
                 Type = "dropdown",
-                Options = ["random", "handgun", "shotgun", "smg", "rifle", "magnum"],
+                Options = ["random", "handgun", "shotgun", "smg", "rifle", "magnum", "none"],
                 Default = "random"
             });
             configDefinition.Groups.Add(inventoryGroup);
@@ -148,6 +159,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = $"debug-unique-enemy-hp",
                 Label = "Unique Enemy HP",
+                Description = "Gives every single enemy a unique HP value. Used to identify enemies within the game files.",
                 Type = "switch",
                 Default = false
             });

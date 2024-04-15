@@ -1401,7 +1401,8 @@
       "name": "Chicago Sweeper",
       "kind": "weapon",
       "id": 275157056,
-      "class": "smg"
+      "class": "smg",
+      "bonus": true
     },
     {
       "name": "LE 5",
@@ -1449,7 +1450,8 @@
       "name": "Handcannon",
       "kind": "weapon",
       "id": 275638656,
-      "class": "magnum"
+      "class": "magnum",
+      "bonus": true
     },
     {
       "name": "Bolt Thrower",
@@ -1536,7 +1538,8 @@
       "name": "Primal Knife",
       "kind": "weapon",
       "id": 276445056,
-      "class": "knife"
+      "class": "knife",
+      "bonus": true
     },
     {
       "name": "it_wp5300_00_0",
@@ -1608,13 +1611,15 @@
       "name": "Sentinel Nine",
       "kind": "weapon",
       "id": 278035456,
-      "size": "3x2"
+      "size": "3x2",
+      "bonus": true
     },
     {
       "name": "Skull Shaker",
       "kind": "weapon",
       "id": 278037056,
-      "size": "5x1"
+      "size": "5x1",
+      "bonus": true
     },
     {
       "name": "SW - Sawed-off W-870",

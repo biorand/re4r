@@ -24,7 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private Queue<EnemyClassDefinition> _enemyClassQueue = new Queue<EnemyClassDefinition>();
         private int _uniqueHp = 1;
         private int _contextId = 5000;
-        private ItemRandomizer _itemRandomizer = new ItemRandomizer();
+        private ItemRandomizer _itemRandomizer = new ItemRandomizer(false);
 
         public EnemyClassFactory EnemyClassFactory { get; }
 
@@ -40,6 +40,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 _fileRepository = new FileRepository(input.GamePath);
             }
+
+            _itemRandomizer = new ItemRandomizer(
+                allowBonusItems: GetConfigOption<bool>("allow-bonus-items"));
 
             // Supplement files
             var supplementZip = new ZipArchive(new MemoryStream(Resources.supplement));

@@ -10,6 +10,7 @@
         public string? Mode { get; set; }
         public string? Size { get; set; }
         public string? Class { get; set; }
+        public bool? Bonus { get; set; }
         public int Value { get; set; }
 
         public bool IsAutomatic => Id == -1;
