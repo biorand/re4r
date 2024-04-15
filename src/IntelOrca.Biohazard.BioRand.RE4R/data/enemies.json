@@ -62,7 +62,7 @@
       "closed": true
     },
     {
-      "key": "mendez_1",
+      "key": "mendez_chase",
       "componentName": "chainsaw.Ch1b5z1SpawnParam",
       "closed": true
     },
@@ -620,8 +620,8 @@
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
-      "key": "mendez_1",
-      "kind": "mendez_1",
+      "key": "mendez_chase",
+      "kind": "mendez_chase",
       "name": "Mendez (Chase)",
       "class": 2,
       "minHealth": 10000,

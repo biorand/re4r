@@ -63,12 +63,95 @@
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/level_cp10_chp2_1_100.scn.20" },
 
     // Chapter 5 (church, village, cabin)
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2_100.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2_200.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2.scn.20",
+      "description": "church/village/farm",
+      "chapter": 5,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2_100.scn.20",
+      "description": "cabin",
+      "chapter": 5,
+      "restrictions": [
+        {
+          // All enemies apart from those which spawn down chimney
+          "guids": [
+            "c4894a85-4d6e-4699-aaaf-82b97c2f36b2",
+            "e5cfb50d-f590-4f07-ae8b-1fbd13e1eea8",
+            "5e151d9a-3dde-4435-8c93-5c800ed98f71",
+            "82f2ae08-446d-4a92-a443-b475f4da3a05",
+            "4da6eb6a-8806-4075-a164-b62cae254a2a",
+            "d21288e0-880e-4cdd-8deb-06a21612e049",
+            "ce5ca88f-531f-4fc3-bc64-1baa0ebc92bd",
+            "66e4acbf-9c7f-4859-a807-9fd82cff686e",
+            "733c2e8b-6d50-41a4-956f-cf385051f66f",
+            "27865874-fee2-4d20-b9ef-99a11b7e80a0",
+            "90ac9305-8ce3-44a2-b441-5d1aa2bf7428",
+            "499f80cc-d7b4-48a3-ac76-f12d563fdd4b",
+            "593a2e21-8087-4ab8-a5b9-c9931a2e8f64",
+            "f4781e5b-36f8-493f-ae88-66f2d7f7c1ff",
+            "5ef54085-390a-4031-a0e1-aadeab58b97e",
+            "e5391257-1d42-42ed-a54a-93f972f2ba81",
+            "47abbdba-d83f-4f80-974d-2717bb9edafb",
+            "65542bce-0833-4d46-bbfe-03011eb0dab9",
+            "8f47ef2a-83c7-4a98-962b-2194a47d2179",
+            "5283e013-8361-4f4b-b16d-cbbf88410d60",
+            "d360484b-2f96-4e9b-a6ef-f394b6fe7cbe",
+            "06787d2f-38b5-40e8-930f-89e008f1cf28",
+            "79598a05-3c11-4262-89f6-a73864c96a03",
+            "ef8032dc-3ad1-45d5-9e7f-f7890e211cd5",
+            "2b3bc7f9-1164-42ec-a6ce-d13bf401fc11",
+            "2bf139b2-e92a-43a3-be51-96dcf51c04f0",
+            "8cd9592e-45ed-4e26-a5bb-f6806394e4ae",
+            "44b15c6a-c6cf-4bdf-bd05-c7c914b7b387",
+            "44b0b56e-e031-4473-b04a-b4def0d00864",
+            "b99b5d8d-406b-4a0a-9e0b-8e931f87960e",
+            "4f3694d0-a6cc-41eb-baf4-c4475b542b1a",
+            "726001e1-253d-4a8f-b3b2-27b6c92ae242",
+            "4bae7e39-e7ce-45d8-a6af-ca43f98bc3f0",
+            "3f5a6e2f-ea98-45aa-a8a6-65d314ead54a",
+            "0f2dc793-e360-4a4f-a7bd-4bff959c0e76",
+            "b09cc665-0449-415a-a542-42d06414b594",
+            "73bc72b7-c3bd-45a9-80fa-2f2164005c79",
+            "40894367-c268-4a84-bba5-a9c6bcb73e72",
+            "b2afc4ab-a617-4e2d-81b2-1b94d66e1b60"
+          ],
+          "exclude": [
+            "arana",
+            "colmillos",
+            "novistador",
+            "garrador",
+            "armadura",
+            "mendez_chase",
+            "verdugo",
+            "mendez_2",
+            "cow"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2_200.scn.20"
+    },
 
     // Chapter 6 (bella sisters, mendez)
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_3/level_cp10_chp2_3.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_3/level_cp10_chp2_3.scn.20",
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
+    },
 
     // Chapter 7 (castle entrance, prison, water hall)
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1.scn.20" },
@@ -90,122 +173,26 @@
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_003.scn.20" },
 
     // Chapter 9 (maze, great hall, library)
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3.scn.20" },
     {
-      // Ashley section
-      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_000.scn.20",
-      "restrictions": [
-        {
-          "guids": [
-            "674561f7-583b-4e80-b71a-eeeebe74d878",
-            "37374422-bda8-41e1-a38e-26aba2fa3f63",
-            "c8f67039-f288-4bfe-8c36-ffdad6546eed",
-            "34a2643c-c093-4d89-9133-89313f0eb342",
-            "1e2e8318-df17-4247-ab9f-0f10c2c52133",
-            "8fda796b-fd00-485e-b4a0-90dbdaefaaa3",
-            "fe9c2aee-74d3-41fe-851c-4637ec36d68d",
-            "18b9a221-9df1-43ce-9d8c-62ed4b5552af",
-            "e5a529ff-5d49-47b5-8458-78153e860ddf",
-            "fe71b397-8486-4f85-8ed3-ac24b38335b4",
-            "87204786-3f66-4a35-bd77-32a8adbc9817",
-            "4e762059-c563-40b4-a67e-b51f852bff40",
-            "412b33fc-13f2-4c0b-a8a6-2792a2c41b97",
-            "3115e78f-93cb-47af-982e-c2d285f9bccb",
-            "5de1a86a-e7f5-41d6-a0a2-1eca71584259"
-          ],
-          "exclude": [
-            "villager",
-            "zealot",
-            "zealot_red",
-            "soldier",
-            "colmillos",
-            "super-colmillos",
-            "brute_crossbow",
-            "super_iron_maiden",
-            "verdugo"
-          ]
-        }
-      ]
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3.scn.20",
+      "chapter": 9
     },
-    {
-      // Ashley section (crypt 1)
-      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_001.scn.20",
-      "restrictions": [
-        {
-          "guids": [
-            "8696d757-91a9-4a92-b49f-473f9ccbe0f3",
-            "05403464-f96e-4041-a7be-2eddb2594657",
-            "fa6aca78-f29c-4d14-a258-1ba193683b74",
-            "50005cc1-b849-43f1-a4b5-e0a892dad4af",
-            "654b2877-3f96-45bc-919a-a39d41705c27",
-            "5478ac6c-e12b-4793-9884-db49e6408cdd",
-            "082896c1-538f-410d-8847-2f7395d566c9",
-            "390e640d-f853-4359-8495-f119439e424b",
-            "ff5126f5-4d73-4f41-b970-6d608c7ac8b6",
-            "c2e21da7-f1b7-4b53-af14-e783cbcc80f4",
-            "ed0c15d0-7e9a-4288-a264-baff7e9614c1",
-            "7a333763-cb7b-4135-bcd9-46a800824e74",
-            "b91829ed-8285-40d2-b0f2-91e2ae01a841",
-            "c2b7043b-a737-45eb-9f55-6fd0e7fbb216",
-            "62c3db80-2b55-4f2f-8218-8d76ea4ba1d6",
-            "e9bd623d-91e6-4b00-b646-afc7835ffe8b",
-            "07e14b5b-f873-4670-a96a-3427f2e9f78f",
-            "243515a9-4595-41a1-aeff-345dcd9a4c73",
-            "11d7aa39-cc26-4c21-bb6b-725da83e4b3e",
-            "5bc7bbb4-0c2d-4e72-92e3-a053c27563f8",
-            "572446ab-d492-46fe-948e-57f7d176bb90",
-            "b351ed92-4e5c-494f-9495-eded785f61d0",
-            "1db4e9c4-6ff6-4700-91f9-c93ac6314ea8",
-            "09e5583f-d6e7-4dcc-9dac-206cecbdc9d3"
-          ],
-          "exclude": [
-            "villager",
-            "zealot",
-            "zealot_red",
-            "soldier",
-            "colmillos",
-            "super-colmillos",
-            "brute_crossbow",
-            "super_iron_maiden",
-            "verdugo"
-          ]
-        }
-      ]
-    },
-    {
-      // Ashley section (crypt 2)
-      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_002.scn.20",
-      "restrictions": [
-        {
-          "guids": [
-            "445d55a1-6977-4bec-bf33-199dfb294495",
-            "40b1abfc-f71c-4a6d-8f57-c5be0d0d351a",
-            "8a038729-8d20-42dd-96d0-fdc39b9bdb2d",
-            "bc91b3c1-d012-4a69-a536-dfae3602993d",
-            "53aae086-0d8a-42c5-b1c7-45ecf6c6ce7b",
-            "1defdc36-3de8-44ba-b237-3cca511a17e7",
-            "0f40b5c7-932d-449e-b24e-8d61c73a2885",
-            "921019d8-6bd8-43a1-91a3-d419e39c0356",
-            "ca0780bd-c22b-439c-9358-22214bd703c6",
-            "3a174615-7a3a-4d2c-835d-b104ea2d5756",
-            "dff12adc-d53a-42fa-8dd7-baeccf25c97e",
-            "bbfda678-d45e-41ab-b890-e41af749ac25",
-            "99320184-ac8c-4463-bd21-df13304c0306"
-          ],
-          "exclude": [
-            "villager",
-            "zealot",
-            "zealot_red",
-            "soldier",
-            "colmillos",
-            "super-colmillos",
-            "brute_crossbow",
-            "super_iron_maiden",
-            "verdugo"
-          ]
-        }
-      ]
-    },
+    // Disable random enemies for Ashley section for now
+    // {
+    //   // Ashley section
+    //   "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_000.scn.20",
+    //   "chapter": 9
+    // },
+    // {
+    //   // Ashley section (crypt 1)
+    //   "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_001.scn.20",
+    //   "chapter": 9
+    // },
+    // {
+    //   // Ashley section (crypt 2)
+    //   "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_002.scn.20",
+    //   "chapter": 9
+    // },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_003.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_004.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_005.scn.20" },
@@ -232,7 +219,7 @@
             "7fd85876-8cd0-4fbb-bf97-5b9502d9becf"
           ],
           "exclude": [
-            "mendez_1"
+            "mendez_chase"
           ]
         }
       ]

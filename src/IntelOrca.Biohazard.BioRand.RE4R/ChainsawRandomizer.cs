@@ -87,6 +87,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
 
             DisableFirstAreaInhibitor(areas);
+            FixCabin(areas);
             if (GetConfigOption<bool>("random-enemies"))
             {
                 RandomizeEnemies(enemyRng, areas);
@@ -501,6 +502,31 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
+        private void FixCabin(List<Area> areas)
+        {
+            var area = areas.FirstOrDefault(x => x.FileName == "level_cp10_chp2_2_100.scn.20");
+            if (area == null)
+                return;
+
+            var scnFile = area.ScnFile;
+            foreach (var go in scnFile.IterAllGameObjects(true))
+            {
+                var component = go.Components.FirstOrDefault(x => x.Name.StartsWith("chainsaw.DeadEnemyCounter"));
+                if (component != null)
+                {
+                    var targetIds = component.GetFieldValue("_CountTargetIDs") as List<object>;
+                    if (targetIds != null)
+                    {
+                        targetIds.Clear();
+                        foreach (var id in _characterKindIds)
+                        {
+                            targetIds.Add(id);
+                        }
+                    }
+                }
+            }
+        }
+
         private void RandomizeEnemies(Rng rng, List<Area> areas)
         {
 #if DEBUG
@@ -616,9 +642,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 if (e.Kind.Closed)
                     continue;
 
-                var restrictionBlock = def.Restrictions?.FirstOrDefault(x => x.Guids?.Contains(e.Guid) ?? false);
-                var excludedClasses = restrictionBlock?.Exclude;
-                if (restrictionBlock != null && excludedClasses == null)
+                var excludedClasses = GetExcludedClasses(area, e);
+                if (excludedClasses == null)
                     continue;
 
                 var ecd = GetRandomEnemyClass(enemyClasses, rng, excludedClasses);
@@ -664,6 +689,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     RandomizeParasite(e, parasiteRng);
                 }
             }
+        }
+
+        private static string[]? GetExcludedClasses(Area area, Enemy e)
+        {
+            var restrictions = area.Definition.Restrictions;
+            if (restrictions == null)
+                return [];
+
+            var restrictionBlock = restrictions.FirstOrDefault(x => x.Guids == null || x.Guids.Contains(e.Guid));
+            var excludedClasses = restrictionBlock?.Exclude;
+            if (restrictionBlock != null && excludedClasses == null)
+                return null;
+
+            return excludedClasses ?? [];
         }
 
         private int GetNextContextId()
@@ -773,7 +812,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return $"{enemy.Kind} ({enemy.Health})";
         }
 
-        private EnemyClassDefinition? GetRandomEnemyClass(HashSet<EnemyClassDefinition> enemyClasses, Rng rng, string[]? excludedClasses)
+        private EnemyClassDefinition? GetRandomEnemyClass(HashSet<EnemyClassDefinition> enemyClasses, Rng rng, string[] excludedClasses)
         {
             if (_enemyRngTable == null)
             {
@@ -789,7 +828,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 _enemyRngTable = table;
             }
 
-            if (excludedClasses != null)
+            if (excludedClasses.Length != 0)
             {
                 var pool = _enemyRngTable.Values
                     .Where(x => !excludedClasses.Contains(x.Key))
@@ -937,5 +976,80 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 return new Item(chosenItem.Id, 1);
             }
         }
+
+        private static readonly int[] _characterKindIds = new int[]
+        {
+            100000,
+            110000,
+            199999,
+            200000,
+            200001,
+            200002,
+            200003,
+            200004,
+            200005,
+            200006,
+            200007,
+            200008,
+            200009,
+            200010,
+            200011,
+            200012,
+            200013,
+            200014,
+            200015,
+            200016,
+            200017,
+            200018,
+            200019,
+            200020,
+            200021,
+            200022,
+            200023,
+            200024,
+            200025,
+            200026,
+            200027,
+            200028,
+            200029,
+            200030,
+            200031,
+            200032,
+            200033,
+            200034,
+            200035,
+            200036,
+            200037,
+            200038,
+            200039,
+            200040,
+            200041,
+            200042,
+            200043,
+            200044,
+            200045,
+            200046,
+            200047,
+            380000,
+            600000,
+            600001,
+            600002,
+            600003,
+            600004,
+            600005,
+            80000,
+            81000,
+            81100,
+            81101,
+            81102,
+            81103,
+            81104,
+            81105,
+            81106,
+            81107,
+            81108,
+            81109,
+            500000,
+        };
     }
 }
