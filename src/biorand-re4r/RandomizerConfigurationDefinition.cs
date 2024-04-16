@@ -324,6 +324,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var enemyGroup = new Group("Enemies");
             foreach (var enemyClass in enemyClassFactory.Classes)
             {
+                var defaultValue = 0.5;
+                if (enemyClass.Key == "pig")
+                    defaultValue = 0;
+
                 enemyGroup.Items.Add(new GroupItem()
                 {
                     Id = $"enemy-ratio-{enemyClass.Key}",
@@ -332,7 +336,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Min = 0,
                     Max = 1,
                     Step = 0.01,
-                    Default = 0.5
+                    Default = defaultValue
                 });
             }
             configDefinition.Groups.Add(enemyGroup);
@@ -347,7 +351,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Min = 0,
                 Max = 1,
                 Step = 0.01,
-                Default = 0.75
+                Default = 0
             });
             parasiteGroup.Items.Add(new GroupItem()
             {
@@ -358,7 +362,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Min = 0,
                 Max = 1,
                 Step = 0.01,
-                Default = 0.25 / 4 * 3
+                Default = 0
             });
             parasiteGroup.Items.Add(new GroupItem()
             {
@@ -369,7 +373,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Min = 0,
                 Max = 1,
                 Step = 0.01,
-                Default = 0.25 / 4
+                Default = 0
             });
             configDefinition.Groups.Add(parasiteGroup);
 
