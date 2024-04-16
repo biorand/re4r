@@ -355,8 +355,28 @@
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc65/level_loc65_999.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc66/level_loc66.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc66/level_loc66_000.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc66/level_loc66_001.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc66/level_loc66_002.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc66/level_loc66_001.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "3f92c205-807a-44be-b5e2-57868e887a7e",
+            "70b7c392-2f5d-41b1-8db1-48ebc6417ccb"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc66/level_loc66_002.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "b7f860a6-fc68-4170-ac1c-fd4b97261ad7",
+            "14232e7d-4f9b-4f6d-b58a-f762bfae1212"
+          ]
+        }
+      ]
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc66/level_loc66_003.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc66/level_loc66_004.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc66/level_loc66_005.scn.20" },

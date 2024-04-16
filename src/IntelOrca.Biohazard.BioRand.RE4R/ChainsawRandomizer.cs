@@ -95,7 +95,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
 
             DisableFirstAreaInhibitor(areas);
-            FixCabin(areas);
+            FixDeadEnemyCounters(areas);
             if (GetConfigOption<bool>("random-enemies"))
             {
                 RandomizeEnemies(enemyRng, areas);
@@ -510,25 +510,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        private void FixCabin(List<Area> areas)
+        private void FixDeadEnemyCounters(List<Area> areas)
         {
-            var area = areas.FirstOrDefault(x => x.FileName == "level_cp10_chp2_2_100.scn.20");
-            if (area == null)
-                return;
-
-            var scnFile = area.ScnFile;
-            foreach (var go in scnFile.IterAllGameObjects(true))
+            foreach (var area in areas)
             {
-                var component = go.Components.FirstOrDefault(x => x.Name.StartsWith("chainsaw.DeadEnemyCounter"));
-                if (component != null)
+                var scnFile = area.ScnFile;
+                foreach (var go in scnFile.IterAllGameObjects(true))
                 {
-                    var targetIds = component.GetFieldValue("_CountTargetIDs") as List<object>;
-                    if (targetIds != null)
+                    var component = go.Components.FirstOrDefault(x => x.Name.StartsWith("chainsaw.DeadEnemyCounter"));
+                    if (component != null)
                     {
-                        targetIds.Clear();
-                        foreach (var id in _characterKindIds)
+                        var targetIds = component.GetFieldValue("_CountTargetIDs") as List<object>;
+                        if (targetIds != null)
                         {
-                            targetIds.Add(id);
+                            targetIds.Clear();
+                            foreach (var id in _characterKindIds)
+                            {
+                                targetIds.Add(id);
+                            }
                         }
                     }
                 }
