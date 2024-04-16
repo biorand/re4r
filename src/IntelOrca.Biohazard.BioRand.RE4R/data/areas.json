@@ -316,7 +316,20 @@
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc53/level_loc53.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc53/level_loc53_000.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc53/level_loc53_001.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc53/level_loc53_002.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc53/level_loc53_002.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "f302fd15-3c95-4bed-a792-c2cf16d9a27c",
+            "1c4b25e0-c6b5-408a-96c6-8010fe62738d",
+            "5315416a-8f1d-4526-aa70-4a89c6a01ff5",
+            "bd77f244-3686-4237-8ece-83ef02ffc1b0",
+            "28e749aa-4308-4014-ae97-a30202aff442"
+          ]
+        }
+      ]
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc53/level_loc53_003.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_000.scn.20" },
@@ -341,7 +354,16 @@
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc58/level_loc58.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc59/enemy.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc59/level_loc59.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc60/level_loc60.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc60/level_loc60.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "a4837283-ec06-4a25-b6c6-6e1a5503caeb"
+          ]
+        }
+      ]
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc61/level_loc61.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc62/level_loc62.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc63/level_loc63.scn.20" },
