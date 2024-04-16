@@ -77,7 +77,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 RandomizeMerchantShop(merchantRng);
             }
-            if (GetConfigOption<bool>("randomize-items"))
+            if (GetConfigOption<bool>("random-items"))
             {
                 RandomizeItems(itemData, itemRng);
             }
