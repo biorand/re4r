@@ -870,6 +870,31 @@
       "field:_MontageID": 1106175613
     },
     {
+      "key": "krauser_1",
+      "kind": "krauser_1",
+      "name": "Krauser (Human)",
+      "class": 1,
+      "minHealth": 1000,
+      "maxHealth": 10000,
+      "field:_ThinkType": 11,
+      "field:_MontageID": 1106175613,
+      "field:_RolePatternHash": 0,
+      "field:_PreFirstForceMovePatternHash": 0,
+      "field:_EndTalkingModeLength": 3
+    },
+    {
+      "key": "krauser_2",
+      "kind": "krauser_2",
+      "name": "Krauser (Mutated)",
+      "class": 1,
+      "minHealth": 10000,
+      "maxHealth": 50000,
+      "field:_ThinkType": 7,
+      "field:_MontageID": 1106175613,
+      "field:_RolePatternHash": 0,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
       "key": "cow",
       "kind": "cow",
       "name": "Cow",
