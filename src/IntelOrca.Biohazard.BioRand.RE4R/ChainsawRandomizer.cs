@@ -628,7 +628,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var oldEnemiesSummary = area.Enemies.Select(GetEnemySummary).ToArray();
             var multiplier = GetConfigOption<double>("enemy-multiplier", 1);
-            var newEnemyCount = oldEnemies.Length * multiplier;
+            var newEnemyCount = Math.Min(oldEnemies.Length * multiplier, 350);
             var delta = (int)Math.Round(newEnemyCount - oldEnemies.Length);
             if (delta != 0)
             {
