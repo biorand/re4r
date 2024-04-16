@@ -66,12 +66,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             builder.Save(path, REE.PakFlags.ZSTD);
         }
 
+        public ScnFile GetScnFile(string path)
+        {
+            var data = GetGameFileData(path);
+            return data == null
+                ? throw new Exception("Unable to read data file.")
+                : ChainsawRandomizerFactory.Default.ReadScnFile(data);
+        }
+
         public UserFile GetUserFile(string path)
         {
             var data = GetGameFileData(path);
             return data == null
                 ? throw new Exception("Unable to read data file.")
                 : ChainsawRandomizerFactory.Default.ReadUserFile(data);
+        }
+
+        public void SetScnFile(string path, ScnFile value)
+        {
+            SetGameFileData(path, value.ToByteArray());
         }
 
         public void SetUserFile(string path, UserFile value)

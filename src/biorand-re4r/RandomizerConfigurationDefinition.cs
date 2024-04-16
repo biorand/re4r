@@ -52,6 +52,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             generalGroup.Items.Add(new GroupItem()
             {
+                Id = $"random-items",
+                Label = "Random Items",
+                Description = "Let Biorand randomize all the static items in the game.",
+                Type = "switch",
+                Default = true
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
+                Id = $"preserve-item-models",
+                Label = "Preserve Item Models",
+                Description = "When randomizing items, keep the original item model in the world.",
+                Type = "switch",
+                Default = false
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
                 Id = $"random-inventory",
                 Label = "Random Inventory",
                 Description = "Let Biorand randomize your starting inventory.",

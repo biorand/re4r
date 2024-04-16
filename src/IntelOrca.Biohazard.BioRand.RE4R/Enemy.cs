@@ -24,11 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             get
             {
                 var contextId = (RszInstance)GetFieldValue("_ContextID")!;
-                var category = (sbyte)contextId.GetFieldValue("_Category")!;
-                var kind = (byte)contextId.GetFieldValue("_Kind")!;
-                var group = (int)contextId.GetFieldValue("_Group")!;
-                var index = (int)contextId.GetFieldValue("_Index")!;
-                return new ContextId(category, kind, group, index);
+                return ContextId.FromRsz(contextId);
             }
             set
             {
