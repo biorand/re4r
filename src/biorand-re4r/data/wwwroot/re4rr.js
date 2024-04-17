@@ -289,6 +289,9 @@
         let html = '<div>';
         html += '<hr>';
         html += '<h4>' + group.label + '</h4>';
+        if (group.warning) {
+            html += `<div class="alert alert-warning">${group.warning}</div>`;
+        }
         const itemHtml = group.items.map(getGroupItemHtml);
         for (let i = 0; i < itemHtml.length; i += 2) {
             const left = itemHtml[i + 0];

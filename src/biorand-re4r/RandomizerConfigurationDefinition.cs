@@ -9,6 +9,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public class Group(string label)
         {
+            public string? Warning { get; set; }
             public string? Label { get; set; } = label;
             public List<GroupItem> Items { get; set; } = new List<GroupItem>();
         }
@@ -322,6 +323,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             configDefinition.Groups.Add(dropValuableGroup);
 
             var enemyGroup = new Group("Enemies");
+            enemyGroup.Warning = "It is recommended to leave pig at 0 as it currently causes some crashes.";
             foreach (var enemyClass in enemyClassFactory.Classes)
             {
                 var defaultValue = 0.5;
@@ -342,6 +344,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             configDefinition.Groups.Add(enemyGroup);
 
             var parasiteGroup = new Group("Parasite");
+            parasiteGroup.Warning = "It is recommended to leave parasite at 0 as it currently causes some crashes.";
             parasiteGroup.Items.Add(new GroupItem()
             {
                 Id = $"parasite-ratio-none",
