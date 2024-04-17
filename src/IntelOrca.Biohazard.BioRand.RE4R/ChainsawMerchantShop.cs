@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using RszTool;
@@ -145,6 +144,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 sale.StartTiming = startChapter;
                 sale.EndTiming = endChapter;
                 sale.SaleRate = discount;
+                Sales = [sale];
             }
 
             public int BuyPrice
@@ -237,12 +237,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 }
                 set
                 {
-                    var list = _instance.GetList("_SaleSetting._Settings");
-                    if (value == null || value.Length == 0)
-                        list = null;
-                    else
-                        list = new List<object?>(value);
-                    _instance.Set("_SaleSetting._Settings", list);
+                    var values = (value ?? [])
+                        .Select(x => (object)x.Instance)
+                        .ToList();
+                    _instance.Set("_SaleSetting._Settings", values);
                 }
             }
 
@@ -284,6 +282,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public sealed class Sale(RszInstance _instance)
         {
+            public RszInstance Instance => _instance;
+
             public int Mode
             {
                 get => _instance.Get<int>("_Mode");

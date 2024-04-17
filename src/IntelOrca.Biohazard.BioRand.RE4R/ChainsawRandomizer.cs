@@ -202,6 +202,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var shopItems = merchantShop.ShopItems;
             var stocks = merchantShop.StockAdditions;
 
+            LogShop(_loggerInput, merchantShop);
+
             var caseIds = itemRepo
                 .GetAll(ItemKinds.CaseSize)
                 .OrderBy(x => x.Value)
@@ -420,16 +422,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 // Sale change
                 if (isAvailable && shopRng.NextProbability(25))
                 {
-                    var startChapter = shopRng.Next(shopItem.UnlockChapter, 12);
+                    var startChapter = shopRng.Next(shopItem.UnlockChapter, shopItem.UnlockChapter + 3);
                     var endChapter = shopRng.Next(startChapter + 1, startChapter + 3);
                     var disount = shopRng.Next(1, 8) * 10;
                     shopItem.SetSale(merchantShop, startChapter, endChapter, -disount);
                     _loggerProcess.LogLine($"    {disount}% discount at chapter {startChapter} to {endChapter}");
                 }
+                else
+                {
+                    shopItem.Sales = [];
+                }
             }
 
             merchantShop.Save(_fileRepository);
-            LogShop(merchantShop);
+            LogShop(_loggerOutput, merchantShop);
 
             void AddReward(int itemId, int count = 1, int? spinel = null, bool unlimited = false)
             {
@@ -461,11 +467,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        private void LogShop(ChainsawMerchantShop shop)
+        private void LogShop(RandomizerLogger logger, ChainsawMerchantShop shop)
         {
             var itemRepo = ItemDefinitionRepository.Default;
 
-            _loggerOutput.LogHeader("Merchant");
+            logger.LogHeader("Merchant");
             var orderedShopItems = shop.ShopItems.OrderBy(x => x.UnlockChapter).ToArray();
             var chapter = -1;
             foreach (var shopItem in orderedShopItems)
@@ -473,9 +479,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 if (shopItem.UnlockChapter != chapter)
                 {
                     chapter = shopItem.UnlockChapter;
-                    _loggerOutput.LogHr();
-                    _loggerOutput.LogLine($"Chapter {chapter + 1}:");
-                    _loggerOutput.LogHr();
+                    logger.LogHr();
+                    logger.LogLine($"Chapter {chapter + 1}:");
+                    logger.LogHr();
                 }
 
                 if (shopItem.BuyPrice <= 0 || shopItem.UnlockCondition == 4)
@@ -486,10 +492,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     continue;
 
                 var sellString = shopItem.SellPrice == -1 ? "" : $"Sell = {shopItem.SellPrice}";
-                _loggerOutput.LogLine($"{item} Buy = {shopItem.BuyPrice} {sellString}");
+                logger.LogLine($"{item} Buy = {shopItem.BuyPrice} {sellString}");
                 foreach (var sale in shopItem.Sales)
                 {
-                    _loggerOutput.LogLine($"    {-sale.SaleRate}% discount between chapter {sale.StartTiming + 1} and {sale.EndTiming + 1}");
+                    logger.LogLine($"    {-sale.SaleRate}% discount between chapter {sale.StartTiming + 1} and {sale.EndTiming + 1}");
                 }
             }
         }
