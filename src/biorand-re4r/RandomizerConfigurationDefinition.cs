@@ -124,10 +124,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Label = "Enemy Variety",
                 Description = "Controls how many different enemy types you can have in a single area.",
                 Type = "range",
-                Min = 0,
+                Min = 1,
+                Max = 50,
+                Step = 1,
+                Default = 50
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-pack-max",
+                Label = "Enemy Max Pack",
+                Description = "Controls how the maximum size of a pack of enemies. Examples of packs of enemies would be 6 villages, or 4 garradors.",
+                Type = "range",
+                Min = 1,
                 Max = 10,
                 Step = 1,
-                Default = 0
+                Default = 6
             });
             generalGroup.Items.Add(new GroupItem()
             {

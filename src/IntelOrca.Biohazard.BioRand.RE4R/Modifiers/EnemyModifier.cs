@@ -312,7 +312,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     enemyClasses.Add(ecd);
                 }
 
-                var packCount = GetPackCount(ecd, rng);
+                var packCount = GetPackCount(randomizer, ecd, rng);
                 for (var i = 0; i < packCount; i++)
                 {
                     _enemyClassQueue.Enqueue(ecd);
@@ -321,9 +321,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return _enemyClassQueue.Dequeue();
         }
 
-        private int GetPackCount(EnemyClassDefinition ecd, Rng rng)
+        private int GetPackCount(ChainsawRandomizer randomizer, EnemyClassDefinition ecd, Rng rng)
         {
-            return rng.Next(1, ecd.Class);
+            var maxPackSize = randomizer.GetConfigOption<int>("enemy-pack-max");
+            if (maxPackSize == 0)
+                maxPackSize = ecd.Class;
+            maxPackSize = Math.Clamp(maxPackSize, 1, ecd.Class);
+            return rng.Next(1, maxPackSize + 1);
         }
 
         private Item? GetRandomItem(ChainsawRandomizer randomizer, Enemy enemy, Rng rng)
