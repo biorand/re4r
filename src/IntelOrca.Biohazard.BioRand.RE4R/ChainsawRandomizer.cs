@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -25,8 +26,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private int _uniqueHp = 1;
         private int _contextId = 5000;
         private ItemRandomizer _itemRandomizer = new ItemRandomizer(false);
+        private Rng _rng;
+        private readonly List<Modifier> _modifiers = new List<Modifier>();
 
         public EnemyClassFactory EnemyClassFactory { get; }
+        public FileRepository FileRepository => _fileRepository;
+        public ItemRandomizer ItemRandomizer => _itemRandomizer;
 
         public ChainsawRandomizer(EnemyClassFactory enemyClassFactory)
         {
@@ -56,23 +61,37 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
 
             var rng = new Rng(input.Seed);
-            var inventoryRng = rng.NextFork();
-            var merchantRng = rng.NextFork();
-            var enemyRng = rng.NextFork();
-            var itemRng = rng.NextFork();
+            _rng = rng;
+
+            var inventoryRng = CreateRng();
+            var merchantRng = CreateRng();
+            var enemyRng = CreateRng();
+            var itemRng = CreateRng();
 
             var itemData = ChainsawItemData.FromData(_fileRepository);
 
             StaticChanges();
-            if (GetConfigOption<bool>("random-inventory"))
+
+            _modifiers.Add(new InventoryModifier());
+            IterateModifiers((n, m) =>
             {
-                RandomizeInventory(itemData, inventoryRng);
-            }
-            else
+                _loggerInput.Push(n);
+                m.LogState(this, _loggerInput);
+                _loggerInput.Pop();
+            });
+            IterateModifiers((n, m) =>
             {
-                _itemRandomizer.MarkItemPlaced(ItemIds.SG09R);
-                _itemRandomizer.MarkItemPlaced(ItemIds.CombatKnife);
-            }
+                _loggerProcess.Push(n);
+                m.Apply(this, _loggerProcess);
+                _loggerProcess.Pop();
+            });
+            IterateModifiers((n, m) =>
+            {
+                _loggerOutput.Push(n);
+                m.LogState(this, _loggerOutput);
+                _loggerOutput.Pop();
+            });
+
             if (GetConfigOption<bool>("random-merchant"))
             {
                 RandomizeMerchantShop(merchantRng);
@@ -109,6 +128,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return new RandomizerOutput(input, _fileRepository.GetOutputPakFile(), logFiles);
         }
 
+        private void IterateModifiers(Action<string, Modifier> action)
+        {
+            foreach (var modifier in _modifiers)
+            {
+                var name = modifier.GetType().Name.Replace("Modifier", "");
+                action(name, modifier);
+            }
+        }
+
         private void StaticChanges()
         {
             var path = "natives/stm/_chainsaw/environment/scene/gimmick/st40/gimmick_st40_502_p000.scn.20";
@@ -122,78 +150,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             _fileRepository.SetGameFileData(path, scn.ToByteArray());
         }
 
-        private void RandomizeInventory(ChainsawItemData itemData, Rng rng)
-        {
-            _loggerProcess.LogHeader("Randomizing inventory");
-
-            var inventory = ChainsawPlayerInventory.FromData(_fileRepository);
-            inventory.PTAS = rng.Next(0, 200) * 100;
-            inventory.SpinelCount = rng.Next(0, 5);
-            inventory.ClearItems();
-
-            // Weapons
-            var primaryWeaponKind = GetConfigOption("inventory-weapon-primary", "handgun")!;
-            var secondaryWeaponKind = GetConfigOption("inventory-weapon-secondary", "random")!;
-            var knifeWeapon = _itemRandomizer.GetRandomWeapon(rng, ItemClasses.Knife, allowReoccurance: false);
-            var primaryWeapon = _itemRandomizer.GetRandomWeapon(rng, primaryWeaponKind, allowReoccurance: false);
-            var secondaryWeapon = _itemRandomizer.GetRandomWeapon(rng, secondaryWeaponKind, allowReoccurance: false);
-            if (knifeWeapon != null)
-            {
-                inventory.AddItem(new Item(knifeWeapon.Id));
-            }
-            if (primaryWeapon != null)
-            {
-                inventory.AddItem(new Item(primaryWeapon.Id));
-                var ammo = _itemRandomizer.GetRandomItem(rng, ItemKinds.Ammo, primaryWeapon.Class);
-                if (ammo != null)
-                    inventory.AddItem(new Item(ammo.Id));
-            }
-            if (secondaryWeapon != null)
-            {
-                inventory.AddItem(new Item(secondaryWeapon.Id));
-                var ammo = _itemRandomizer.GetRandomItem(rng, ItemKinds.Ammo, secondaryWeapon.Class);
-                if (ammo != null)
-                    inventory.AddItem(new Item(ammo.Id));
-            }
-
-            // Other stuff
-            var randomKinds = new[] {
-                ItemKinds.Fish,
-                ItemKinds.Health,
-                ItemKinds.Egg,
-                ItemKinds.Grenade,
-                ItemKinds.Knife,
-                ItemKinds.Gunpowder,
-                ItemKinds.Resource };
-
-            var kinds = new List<string>();
-            for (var i = 0; i < 10; i++)
-            {
-                kinds.Add(rng.Next(randomKinds));
-            }
-
-            foreach (var kind in kinds)
-            {
-                var randomItem = _itemRandomizer.GetRandomItem(rng, kind);
-                if (randomItem != null)
-                    inventory.AddItem(new Item(randomItem.Id, -1));
-            }
-
-            inventory.UpdateWeapons(itemData);
-            inventory.AutoSort(itemData);
-            inventory.Save(_fileRepository);
-
-            foreach (var item in inventory.Data[0].InventoryItems)
-            {
-                _loggerProcess.LogLine($"Add item {item.Item} {item.Item.CurrentItemCount}");
-            }
-        }
-
         private void RandomizeMerchantShop(Rng rng)
         {
-            var rewardsRng = rng.NextFork();
-            var shopRng = rng.NextFork();
-            var priceRng = rng.NextFork();
+            var rewardsRng = CreateRng();
+            var shopRng = CreateRng();
+            var priceRng = CreateRng();
 
             _loggerProcess.LogHeader("Randomizing merchant");
 
@@ -629,7 +590,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        private T? GetConfigOption<T>(string key, T? defaultValue = default)
+        public T? GetConfigOption<T>(string key, T? defaultValue = default)
         {
             if (_input.Configuration != null && _input.Configuration.TryGetValue(key, out var value))
             {
@@ -643,9 +604,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private void RandomizeArea(Area area, Rng rng)
         {
-            var healthRng = rng.NextFork();
-            var dropRng = rng.NextFork();
-            var parasiteRng = rng.NextFork();
+            var healthRng = CreateRng();
+            var dropRng = CreateRng();
+            var parasiteRng = CreateRng();
 
             var oldEnemies = area.Enemies
                 .Where(x => !x.Kind.Closed)
@@ -1173,6 +1134,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var chosenItem = rng.Next(filteredItems);
                 return new Item(chosenItem.Id, 1);
             }
+        }
+
+        public Rng CreateRng()
+        {
+            return _rng.NextFork();
         }
 
         private static readonly int[] _characterKindIds = new int[]

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -8,8 +9,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         private readonly StringBuilder _sb = new StringBuilder();
         private readonly string _hr = new string('-', 80);
+        private readonly Stack<string> _stack = new Stack<string>();
 
         public string Output => _sb.ToString();
+
+        public void Push(string header)
+        {
+            LogLine(header);
+            _stack.Push(header);
+        }
+
+        public void Pop()
+        {
+            _stack.Pop();
+        }
 
         public void LogVersion()
         {
@@ -35,6 +48,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public void LogLine(string line)
         {
+            _sb.Append(' ', _stack.Count * 2);
             _sb.AppendLine(line);
         }
 
