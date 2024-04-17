@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -9,19 +8,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         private readonly StringBuilder _sb = new StringBuilder();
         private readonly string _hr = new string('-', 80);
-        private readonly Stack<string> _stack = new Stack<string>();
+        private int _indent;
 
         public string Output => _sb.ToString();
+
+        public void Push()
+        {
+            _indent++;
+        }
 
         public void Push(string header)
         {
             LogLine(header);
-            _stack.Push(header);
+            Push();
         }
 
         public void Pop()
         {
-            _stack.Pop();
+            _indent--;
         }
 
         public void LogVersion()
@@ -48,7 +52,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public void LogLine(string line)
         {
-            _sb.Append(' ', _stack.Count * 2);
+            _sb.Append(' ', _indent * 2);
             _sb.AppendLine(line);
         }
 
@@ -112,8 +116,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             LogLine(enemy.Guid, enemy.Kind.Key, weapons, enemy.Health?.ToString() ?? "*", parasite, itemDrop);
         }
 
-        private void LogLine(params object[] columns)
+        public void LogLine(params object[] columns)
         {
+            _sb.Append(' ', _indent * 2);
             if (columns.Length > 0)
             {
                 foreach (var column in columns)

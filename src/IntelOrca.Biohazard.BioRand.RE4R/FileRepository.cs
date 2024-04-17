@@ -36,6 +36,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public byte[]? GetGameFileData(string path)
         {
+            if (_outputFiles.TryGetValue(path, out var data))
+                return data;
+
             if (_inputGamePath == null)
             {
                 return _inputPakFile?.GetFileData(path);
