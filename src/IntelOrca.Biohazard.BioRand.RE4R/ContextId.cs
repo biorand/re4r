@@ -22,7 +22,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public ContextId WithIndex(int value) => new ContextId(Category, Kind, Group, value);
 
-        public override string ToString() => $"{Category},{Kind},{Group},{Index}";
+        public override string ToString() => $"CTXID({Category},{Kind},{Group},{Index})";
 
         public override bool Equals(object? obj)
         {

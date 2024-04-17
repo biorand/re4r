@@ -768,7 +768,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                         continue;
 
                     var contextId = ContextId.FromRsz(instance.Get<RszInstance>("ID")!);
-                    var randomItem = RandomizeItem(chainsawItemData, itemData, rng);
+                    if (contextId == new ContextId(2, 0, 12, 472) ||
+                        contextId == new ContextId(2, 0, 12, 405))
+                    {
+                        continue;
+                    }
+
+                    var randomItem = RandomizeItem(contextId, chainsawItemData, itemData, rng);
                     if (randomItem != null)
                         storedItems[contextId] = (Item)randomItem;
                 }
@@ -808,7 +814,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        private Item? RandomizeItem(ChainsawItemData chainsawItemData, RszInstance itemData, Rng rng)
+        private Item? RandomizeItem(ContextId contextId, ChainsawItemData chainsawItemData, RszInstance itemData, Rng rng)
         {
             var itemRepo = ItemDefinitionRepository.Default;
             var randomKinds = new[] {
@@ -867,7 +873,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 }
             }
 
-            _loggerProcess.LogLine($"{item} x{itemCount} becomes {newItem}");
+            _loggerProcess.LogLine($"{contextId} {item} x{itemCount} becomes {newItem}");
             return new Item(newItem.Id, count);
         }
 

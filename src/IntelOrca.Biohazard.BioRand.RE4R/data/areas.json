@@ -14,7 +14,10 @@
             "52061032-d686-401c-b1b7-ebdcd629e8ea"
           ],
           "exclude": [
-            "pig"
+            "pig",
+            "pesanta",
+            "u3",
+            "verdugo"
           ]
         }
       ]
@@ -54,7 +57,26 @@
         }
       ]
     },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc44/level_loc44.scn.20", "chapter": 2 },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc44/level_loc44.scn.20",
+      "chapter": 2,
+      "restrictions": [
+        {
+          "guids": [
+            "85850656-bb05-4152-ac1d-cc069d4995fb",
+            "cd744af1-6b44-4f37-a88e-944d56d34ac0",
+            "cc9144a7-2c67-4ffa-9a9d-44dd47cddb94"
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "verdugo",
+            "chainsaw_mad",
+            "garrador"
+          ]
+        }
+      ]
+    },
 
     // Chapter 3 (village dogs, church, fish market, de lago)
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_3/level_cp10_chp1_3.scn.20", "chapter": 3 },
