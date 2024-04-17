@@ -900,7 +900,7 @@
     {
       "key": "krauser_2",
       "kind": "krauser_2",
-      "name": "Krauser (Mutated)",
+      "name": "Krauser (Mutated) !!UNSTABLE!!",
       "class": 1,
       "minHealth": 10000,
       "maxHealth": 50000,
@@ -912,7 +912,7 @@
     {
       "key": "pesanta",
       "kind": "pesanta",
-      "name": "Pesanta",
+      "name": "Pesanta !!UNSTABLE!!",
       "class": 1,
       "minHealth": 10000,
       "maxHealth": 30000,
@@ -923,7 +923,7 @@
     {
       "key": "u3",
       "kind": "u3",
-      "name": "U3",
+      "name": "U3 !!UNSTABLE!!",
       "class": 1,
       "minHealth": 10000,
       "maxHealth": 20000,
@@ -945,7 +945,7 @@
     {
       "key": "pig",
       "kind": "pig",
-      "name": "Pig",
+      "name": "Pig !!UNSTABLE!!",
       "class": 9,
       "minHealth": 500,
       "maxHealth": 5000,
