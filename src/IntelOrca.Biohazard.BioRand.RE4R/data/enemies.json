@@ -117,6 +117,21 @@
       "closed": true
     },
     {
+      "key": "pesanta_phantom",
+      "componentName": "chainsaw.Ch4faz0SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "pesanta",
+      "componentName": "chainsaw.Ch4faz1SpawnParam",
+      "closed": true
+    },
+    {
+      "key": "u3",
+      "componentName": "chainsaw.Ch4fbz0SpawnParam",
+      "closed": true
+    },
+    {
       "key": "ashley_1",
       "componentName": "chainsaw.Ch2a1z0SpawnParam",
       "closed": true
@@ -892,6 +907,28 @@
       "field:_ThinkType": 7,
       "field:_MontageID": 1106175613,
       "field:_RolePatternHash": 0,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "key": "pesanta",
+      "kind": "pesanta",
+      "name": "Pesanta",
+      "class": 1,
+      "minHealth": 10000,
+      "maxHealth": 30000,
+      "field:_ActionMode": 3,
+      "field:_RolePatternHash": 0,
+      "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "key": "u3",
+      "kind": "u3",
+      "name": "U3",
+      "class": 1,
+      "minHealth": 10000,
+      "maxHealth": 20000,
+      "field:_IdentifyType": 1,
+      "field:_RolePatternHash": 2180083513,
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {

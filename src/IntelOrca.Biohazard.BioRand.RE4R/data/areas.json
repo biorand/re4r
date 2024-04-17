@@ -47,6 +47,8 @@
             "57a10b46-e53a-460a-9927-eac41a0bdeb7"
           ],
           "exclude": [
+            "pesanta",
+            "u3",
             "verdugo"
           ]
         }
@@ -126,6 +128,10 @@
           "exclude": [
             "arana",
             "colmillos",
+            "krauser_1",
+            "krauser_2",
+            "pesanta",
+            "u3",
             "novistador",
             "garrador",
             "armadura",
