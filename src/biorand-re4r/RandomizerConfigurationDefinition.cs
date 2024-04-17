@@ -37,6 +37,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var generalGroup = new Group("General");
             generalGroup.Items.Add(new GroupItem()
             {
+                Id = $"enable-autosave-pro",
+                Label = "Professional Autosaves",
+                Description = "Enable autosaves on professional difficulty",
+                Type = "switch",
+                Default = false
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
                 Id = $"random-enemies",
                 Label = "Random Enemies",
                 Description = "Let Biorand randomize all the enemies in the game.",

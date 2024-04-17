@@ -96,6 +96,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             DisableFirstAreaInhibitor(areas);
             FixDeadEnemyCounters(areas);
+            if (GetConfigOption<bool>("enable-autosave-pro"))
+            {
+                EnableProfessionalAutoSave(areas);
+            }
             if (GetConfigOption<bool>("random-enemies"))
             {
                 RandomizeEnemies(enemyRng, areas);
@@ -534,7 +538,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
+        private void EnableProfessionalAutoSave(List<Area> areas)
+        {
+            foreach (var area in areas)
+            {
+                foreach (var go in area.ScnFile.IterAllGameObjects(true))
+                {
+                    var autoSaveSetting = go.FindComponent("chainsaw.AutoSaveSetting");
+                    if (autoSaveSetting != null)
+                    {
+                        autoSaveSetting.Set("_SaveOnPro", true);
+                    }
+                }
+            }
+        }
+
         private void RandomizeEnemies(Rng rng, List<Area> areas)
+
         {
 #if DEBUG
             LogAllEnemies(areas, e => e.Kind.Key == "armadura");
