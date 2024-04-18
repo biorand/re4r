@@ -58,6 +58,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 .WithMode(HttpListenerMode.EmbedIO))
                 // First, we will configure our web server by adding Modules.
                 .WithLocalSessionManager()
+                .WithCors()
                 .WithWebApi("/api", SerializationCallback, m => m.WithController(() => new MainController(randomizerService)))
                 .WithRouting("/", c =>
                 {
