@@ -193,22 +193,22 @@
     { "id": 5803, "key": "hoe" },
     { "id": 5804, "key": "pitchfork" },
     { "id": 5805, "key": "torch" },
-    { "id": 5806, "key": "dynamite" },
+    { "id": 5806, "key": "dynamite", "ranged": true },
     { "id": 5807, "key": "morning_star" },
     { "id": 5808, "key": "wooden_shield" },
     { "id": 5809, "key": "scythe" },
     { "id": 5810, "key": "hammer" },
     { "id": 5811, "key": "shock_baton" },
     { "id": 5813, "key": "iron_shield" },
-    { "id": 5814, "key": "molotov" },
-    { "id": 5815, "key": "crossbow" },
+    { "id": 5814, "key": "molotov", "ranged": true },
+    { "id": 5815, "key": "crossbow", "ranged": true },
     { "id": 5816, "key": "machete" },
     { "id": 5817, "key": "axe" },
     { "id": 5818, "key": "sword" },
     { "id": 5821, "key": "shovel" },
     { "id": 5822, "key": "crowbar" },
     { "id": 5823, "key": "spiked_bat" },
-    { "id": 5824, "key": "rpg" },
+    { "id": 5824, "key": "rpg", "ranged": true },
     { "id": 5825, "key": "krauser_bow" },
     { "id": 5826, "key": "staff" },
     { "id": 5830, "key": "wrist_gun" }
@@ -232,7 +232,8 @@
         { "primary": "hammer" },
         { "primary": "axe" },
         { "primary": "shovel" },
-        { "primary": "crowbar" }
+        { "primary": "crowbar" },
+        { "primary": "machete" }
       ],
       "field:_MontageID": [
         1017464743,
@@ -264,8 +265,8 @@
       "minHealth": 500,
       "maxHealth": 2000,
       "plaga": true,
+      "ranged": true,
       "weapon": [
-        {},
         { "primary": "dynamite" },
         { "primary": "molotov" },
         { "primary": "crossbow" }
@@ -467,6 +468,7 @@
       "minHealth": 1000,
       "maxHealth": 5000,
       "plaga": true,
+      "ranged": true,
       "weapon": [
         {
           "primary": "staff"
@@ -490,7 +492,6 @@
         },
         { "primary": "shock_baton" },
         { "primary": "iron_shield" },
-        { "primary": "machete" },
         { "primary": "spiked_bat" }
       ],
       "field:_Ch1c0z2MontageID": [
@@ -545,6 +546,7 @@
       "minHealth": 2000,
       "maxHealth": 7000,
       "plaga": true,
+      "ranged": true,
       "weapon": [
         { "primary": "dynamite" },
         { "primary": "molotov" },
@@ -725,6 +727,7 @@
       "key": "brute_jj",
       "kind": "brute",
       "name": "Brute (JJ)",
+      "ranged": true,
       "class": 5,
       "minHealth": 5000,
       "maxHealth": 10000,

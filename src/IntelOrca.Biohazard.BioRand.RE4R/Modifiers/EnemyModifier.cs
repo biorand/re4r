@@ -124,6 +124,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             foreach (var enemy in enemies)
             {
                 var e = enemy;
+                if (e.Guid == new Guid("b9e08930-9a3d-404b-9c7e-99b61665ae3b"))
+                    e = e;
+
                 if (e.Kind.Closed)
                     continue;
 
@@ -131,7 +134,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (excludedClasses == null)
                     continue;
 
-                var ecd = GetRandomEnemyClass(randomizer, enemyClasses, rng, excludedClasses);
+                var isRanged = IsEnemyRanged(randomizer, enemy);
+                var ecd = GetRandomEnemyClass(randomizer, enemyClasses, rng, excludedClasses, isRanged);
                 if (ecd == null)
                     continue;
 
@@ -271,8 +275,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 enemy.ItemDrop = GetRandomItem(randomizer, enemy, rng);
         }
 
+        private bool IsEnemyRanged(ChainsawRandomizer randomizer, Enemy enemy)
+        {
+            var weaponDef = randomizer.EnemyClassFactory.Weapons.FirstOrDefault(x => x.Id == enemy.Weapon);
+            if (weaponDef != null)
+                return weaponDef.Ranged;
+            return false;
+        }
 
-        private EnemyClassDefinition? GetRandomEnemyClass(ChainsawRandomizer randomizer, HashSet<EnemyClassDefinition> enemyClasses, Rng rng, string[] excludedClasses)
+
+        private EnemyClassDefinition? GetRandomEnemyClass(
+            ChainsawRandomizer randomizer,
+            HashSet<EnemyClassDefinition> enemyClasses,
+            Rng rng,
+            string[] excludedClasses,
+            bool isRanged)
         {
             if (_enemyRngTable == null)
             {
@@ -286,6 +303,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }
                 _enemyRngTable = table;
+            }
+
+            if (isRanged)
+            {
+                var pool = _enemyRngTable.Values
+                    .Where(x => !excludedClasses.Contains(x.Key))
+                    .Where(x => x.Ranged)
+                    .ToArray();
+                if (pool.Length != 0)
+                    return rng.Next(pool);
             }
 
             if (excludedClasses.Length != 0)

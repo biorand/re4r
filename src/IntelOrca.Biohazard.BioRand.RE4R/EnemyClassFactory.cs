@@ -61,7 +61,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 var key = w.GetProperty("key").GetString() ?? throw new InvalidDataException();
                 var id = w.GetProperty("id").GetInt32();
-                weaponDefinitions.Add(new WeaponDefinition(key, id));
+                var ranged = w.GetBooleanProperty("ranged") ?? false;
+                weaponDefinitions.Add(new WeaponDefinition(key, id, ranged));
             }
 
             var classes = jsonDocument.RootElement.GetProperty("classes");
@@ -75,6 +76,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var minHealth = c.GetProperty("minHealth").GetInt32();
                 var maxHealth = c.GetProperty("maxHealth").GetInt32();
                 var plaga = c.GetBooleanProperty("plaga") ?? false;
+                var ranged = c.GetBooleanProperty("ranged") ?? false;
 
                 var weaponChoices = new List<WeaponChoice>();
                 if (c.TryGetProperty("weapon", out var weapon))
@@ -120,6 +122,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     minHealth,
                     maxHealth,
                     plaga,
+                    ranged,
                     kind,
                     weaponChoices.ToImmutableArray(),
                     fields));

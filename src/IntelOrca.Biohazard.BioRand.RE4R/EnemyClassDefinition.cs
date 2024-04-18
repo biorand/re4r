@@ -10,6 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         int minHealth,
         int maxHealth,
         bool plaga,
+        bool ranged,
         EnemyKindDefinition kind,
         ImmutableArray<WeaponChoice> weapon,
         List<EnemyFieldDefinition> fields)
@@ -20,6 +21,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public int MinHealth { get; } = minHealth;
         public int MaxHealth { get; } = maxHealth;
         public bool Plaga { get; } = plaga;
+        public bool Ranged { get; } = ranged;
         public EnemyKindDefinition Kind { get; } = kind;
         public ImmutableArray<WeaponChoice> Weapon { get; } = weapon;
         public List<EnemyFieldDefinition> Fields { get; } = fields;
