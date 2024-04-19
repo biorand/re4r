@@ -14,6 +14,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     public class AreaRestriction
     {
         public Guid[]? Guids { get; set; }
+        public bool PreventDuplicate { get; set; }
         public string[]? Exclude { get; set; }
     }
 

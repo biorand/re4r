@@ -197,6 +197,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var excludedClasses = restrictionBlock?.Exclude;
                 if (restrictionBlock != null)
                 {
+                    spawn.PreventDuplicate = restrictionBlock.PreventDuplicate;
                     if (excludedClasses == null)
                         enemyClasses = ImmutableArray<EnemyClassDefinition>.Empty;
                     else
@@ -536,8 +537,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public Enemy OriginalEnemy { get; }
             public Enemy Enemy { get; private set; }
             public bool PreventDuplicate { get; set; }
-            public ImmutableArray<EnemyClassDefinition> PreferredClassPool { get; set; }
-            public ImmutableArray<EnemyClassDefinition> ClassPool { get; set; }
+            public ImmutableArray<EnemyClassDefinition> PreferredClassPool { get; set; } = [];
+            public ImmutableArray<EnemyClassDefinition> ClassPool { get; set; } = [];
             public EnemyClassDefinition? ChosenClass { get; set; }
 
             public EnemySpawn(Area area, Enemy originalEnemy, Enemy enemy)

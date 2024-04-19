@@ -11,7 +11,12 @@
       "restrictions": [
         {
           "guids": [
-            "52061032-d686-401c-b1b7-ebdcd629e8ea"
+            "36e28438-0a9c-475c-8a31-c8c4d905e925" // police
+          ]
+        },
+        {
+          "guids": [
+            "36e28438-0a9c-475c-8a31-c8c4d905e925" // first villager coming down stairs
           ],
           "exclude": [
             "pig",
@@ -24,9 +29,24 @@
       "extra": [
         {
           "enemies": [
-            { "stage": 40501, "x": -255, "y": 6, "z": 50 },
-            { "stage": 40501, "x": -240, "y": 6, "z": 54 },
-            { "stage": 40502, "x": -204, "y": 9, "z": 82 }
+            {
+              "stage": 40501,
+              "x": -255,
+              "y": 6,
+              "z": 50
+            },
+            {
+              "stage": 40501,
+              "x": -240,
+              "y": 6,
+              "z": 54
+            },
+            {
+              "stage": 40502,
+              "x": -204,
+              "y": 9,
+              "z": 82
+            }
           ]
         }
       ]
@@ -37,16 +57,21 @@
       "restrictions": [
         {
           "guids": [
-            "da73460d-62b6-4dc2-9882-1183bba45389",
-            "d47e2d46-cd1f-41b4-8f5e-9c58183540ee"
+            "da73460d-62b6-4dc2-9882-1183bba45389", // chainsaw
+            "d47e2d46-cd1f-41b4-8f5e-9c58183540ee", // chainsaw
+            "875b72c1-3cab-4914-b77a-ae309ed8f459" // police on fire
           ],
+          "preventDuplicate": true,
           "exclude": [
             "pig"
           ]
         }
       ]
     },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_030.scn.20", "chapter": 1 },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_030.scn.20",
+      "chapter": 1
+    },
     // { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_100.scn.20", "chapter": 1 },
 
     // Chapter 2 (factory, red mist valley, chief)
@@ -88,12 +113,48 @@
     },
 
     // Chapter 3 (village dogs, church, fish market, de lago)
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_3/level_cp10_chp1_3.scn.20", "chapter": 3 },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_3/level_cp10_chp1_3_000.scn.20", "chapter": 3 },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_3/level_cp10_chp1_3.scn.20",
+      "chapter": 3
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_3/level_cp10_chp1_3_000.scn.20",
+      "chapter": 3
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc46/level_loc46_900.scn.20",
+      "chapter": 3,
+      "restrictions": [
+        {
+          "guids": [
+            "ae0f964e-c6c1-456c-8eaa-a2e3ee6dac42" // dellago
+          ]
+        }
+      ]
+    },
 
     // Chapter 4 (lake, gigante, church)
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/level_cp10_chp2_1.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/level_cp10_chp2_1_100.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/level_cp10_chp2_1.scn.20",
+      "chapter": 4
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/level_cp10_chp2_1_100.scn.20",
+      "chapter": 4
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc45/level_loc45_302.scn.20",
+      "chapter": 4,
+      "description": "first el gigante fight",
+      "restrictions": [
+        {
+          "guids": [
+            "484ec7c2-ded4-49d7-819b-23f6e23a208a", // el_gigante
+            "0ac27748-d843-4759-ad87-d79f68b93fc3" // wolf
+          ]
+        }
+      ]
+    },
 
     // Chapter 5 (church, village, cabin)
     {
@@ -191,16 +252,46 @@
     },
 
     // Chapter 7 (castle entrance, prison, water hall)
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_000.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_001.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_002.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_003.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_004.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_005.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_006.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_007.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_008.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_000.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_001.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_002.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_003.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_004.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_005.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_006.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_007.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_008.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
 
     // Chapter 8 (red zealot, castle battlements)
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2.scn.20" },
@@ -231,10 +322,22 @@
     //   "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_002.scn.20",
     //   "chapter": 9
     // },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_003.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_004.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_005.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_006.scn.20", "restrictions": [{ "exclude": [ "mendez_chase" ] }] },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_003.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_004.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_005.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_006.scn.20",
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+    },
     {
       // Knighty-knight knights room
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_007.scn.20",
@@ -268,12 +371,60 @@
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_000.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_001.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_002.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_002.scn.20",
+      "description": "Double garrador (Unicorn Horns) room",
+      "restrictions": [
+        {
+          "guids": [
+            "3ead6e3d-e86f-4749-bebf-318c147fd5ca",
+            "dc7c6111-38c2-4b14-b54f-ad8ba0f42c9a"
+          ],
+          "preventDuplicate": true,
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_003.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_004.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "902fe2d5-0816-4d48-845b-52efd751dec1" // verdugo
+          ]
+        }
+      ]
+    },
 
     // Chapter 11 (mine, nest, krauser 1)
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_2/level_cp10_chp4_2.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_002.scn.20",
+      "chapter": 11,
+      "restrictions": [
+        {
+          "guids": [
+            "222771c0-628e-4aab-b8a7-dd7d1cff9c6d", // el gigante
+            "55d16590-73c2-4335-8a9b-3b4970ab1103" // el gigante
+          ]
+        }
+      ]
+    },
     // { "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_001.scn.20" }, // Mine cart section
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_004.scn.20",
+      "chapter": 11,
+      "restrictions": [
+        {
+          "guids": [
+            "6c68dd30-5387-4fba-b05e-e4846570025a" // krauser
+          ]
+        }
+      ]
+    },
 
     // Chapter 12 (clock tower, salazar)
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3.scn.20" },
@@ -288,40 +439,207 @@
 
     // Chapter 14 (island sewers, wrecking ball, krauser)
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp5_2/level_cp10_chp5_2.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc65/battle_1.scn.20",
+      "chapter": 14,
+      "restrictions": [
+        {
+          "guids": [
+            "d26180c8-7b97-4d75-aea0-c497a60fb779" // krauser
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc65/battle_2.scn.20",
+      "chapter": 14,
+      "restrictions": [
+        {
+          "guids": [
+            "32f2f575-7e14-4848-b2e7-6aad84945451", // krauser
+            "88e6af1b-9fdc-43b2-a327-ba920a5b8cd7", // krauser
+            "2ba09751-a71b-4afd-ba1e-b9f620316676", // krauser
+            "d5c9189a-60b9-402e-8427-cc1e6b95a9d0" // krauser
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc65/battle_3.scn.20",
+      "chapter": 14,
+      "restrictions": [
+        {
+          "guids": [
+            "58b1261f-d00d-4d6b-9472-7f0eb92b23c2" // krauser
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc65/battle_4.scn.20",
+      "chapter": 14,
+      "restrictions": [
+        {
+          "guids": [
+            "28c3bc26-42aa-48fe-9b60-7e81f41ad00a" // krauser
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc65/level_loc65.scn.20",
+      "chapter": 14,
+      "restrictions": [
+        {
+          "guids": [
+            "58c17f3e-2945-4223-9d2b-dc85536357ce",
+            "9a9f4c65-3a02-4d18-bd22-437d0feb207f",
+            "6ec02c6e-1879-455f-9a50-0a136dddd825",
+            "a241d88c-1eea-48c2-8261-3f31716e4dfa"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc78/level_loc78_001.scn.20",
+      "chapter": 14,
+      "restrictions": [
+        {
+          "guids": [
+            "4e6199c0-e784-4215-ac87-cdbdb0cdf98b",
+            "e510bf60-81a9-46be-b285-cc168cbb3a45",
+            "dc5b9f3b-fd2c-4cf2-9cd8-d61d3210a28b",
+            "c503183b-fb13-4b17-8834-d6f6bfa8f709",
+            "813b7486-7029-4b58-ad5d-479369af5483",
+            "e50ab1e0-f474-47c5-8a48-5d8b7fa32b19",
+            "acabd40c-97b2-45db-a53b-53c84da4dea1",
+            "38a34120-1655-4a5b-94d1-3f5358af2980",
+            "d3fd3b9f-0e76-478b-ab61-435311189e9b",
+            "a39401a6-6f24-41a6-a46c-c5cd462744ed",
+            "3c898d04-173e-44e5-9801-1996f3711c91"
+          ]
+        }
+      ]
+    },
 
     // Chapter 15 (mike, regeneradors, summit)
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp5_3/level_cp10_chp5_3.scn.20" },
 
     // Chapter 16 (sadler)
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp5_4/level_cp10_chp5_4.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc78/level_loc78_002.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "6b0d630d-93ec-4bc7-9690-f0f36c8d8045", // sadler
+            "8f9465b0-c28d-4a34-b004-b63c155d70fd" // sadler
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc69/level_loc69.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "cacdb0fa-b472-4567-9dbd-8cb1cafa9c57", // sadler
+            "aaeee137-ceb9-4a49-a9af-590b8a809509",
+            "39dea5cd-c167-4541-889b-1a1aba393e54",
+            "109fc37b-4f6c-488e-9e85-81fbb81e6e0e",
+            "699d9dd3-0212-4d05-9f49-ed85d88ebb15",
+            "328d36d4-300d-4098-915a-566a878302b0",
+            "09186f55-3add-4c8e-952c-55e624b28191",
+            "35a9baaa-e347-4959-a3b3-afad5c621a3b",
+            "f130e44f-bf75-4a0a-9056-acacad838541",
+            "a2a5a2ac-d3d6-45d8-a44d-e3033fd4c635",
+            "11314255-d6a4-4bf7-bf1f-e8a6153c0d30",
+            "287ab003-671d-4cfa-991a-d6265186ae94",
+            "25c6e2db-7df4-4151-a7fd-2c38dd338b9a",
+            "e805ff53-66fb-482a-8825-d7423d7ee178",
+            "e9685463-98fa-4bfa-ab79-4e80537bbe7b",
+            "9e0f23fa-98d5-4d69-8d15-8f9eeae725a5",
+            "1c020a4e-6743-4a81-8e4d-1a666f711817",
+            "c9734608-38e7-4979-8188-386605abbadc",
+            "c8e80dd3-7d91-4a46-aa67-97a39364787f",
+            "1b20ca38-b99a-4751-b749-67d94d2b3714",
+            "f9e7dba9-9da4-4229-b402-ef4641ecaf1e",
+            "bd5a348e-da37-40ca-9bb6-1e31f11a007e",
+            "8d713b1c-3e51-47b3-9005-431507b149ad", // sadler
+            "93c11349-7eef-4794-9e59-f751398b820f", // sadler
+            "26a4117e-810e-4052-89c7-409cdfb0976c", // sadler
+            "7511d30a-6775-4f75-ab2b-9164e36ca16c", // sadler
+            "1e8ee560-c3ea-4026-bc3c-396b78e3d0a0", // sadler
+            "270c3a76-29c6-455f-9897-b967c3c6cd85", // sadler
+            "12addfca-a7ff-4679-84be-2afe6dd3bcd2", // sadler
+            "18483b92-b870-4533-ac97-20894536f1cc", // sadler
+            "0e354b84-ddc1-4d76-b1c5-525a93ab068a", // sadler
+            "90711861-a789-4f0f-b289-0be6aeda32e7" // sadler
+          ]
+        }
+      ]
+    },
 
     // ?
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chpx_1/level_cp10_chpx_1.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chpx_2/level_cp10_chpx_2.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chpx_3/level_cp10_chpx_3.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40_100.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40_200.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40_100.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "19b7057c-2463-4c8b-adf2-ef4ee3bca075" // police
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40_200.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "0b08a2d7-1755-467f-b8e5-2b0f2ec047b7", // cow
+            "d46eaaf0-dd11-4462-bbc6-19fe54082f08" // viper
+          ]
+        }
+      ]
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40_213.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40_900.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40_901.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc43/level_loc43.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc45/level_loc45.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc45/level_loc45_302.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc45/level_loc45.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "c9139867-8bf2-4b04-af97-3db38b04b0e5", // viper
+            "415c4837-610e-45cb-a724-9984c4cffee2", // viper
+            "e1126869-4317-424d-a622-e539d30da455", // viper
+            "59d6cbc5-f3dc-4eec-8bbb-b1c98d1de18e", // viper
+            "2abd079a-7e11-4ac5-bb07-c3f54754b23c", // viper
+            "baf97a3d-4d25-44cb-bef0-f9529c03d6af", // viper
+            "0d960ac3-6fee-4f3e-8d0c-0b44abc97ffe" // viper
+          ]
+        }
+      ]
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc46/level_loc46.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc46/level_loc46_900.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_000.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_001.scn.20" },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_002.scn.20",
+      "description": "Checkpoint",
       "restrictions": [
         {
           "guids": [
             "0556d8e2-950e-4a90-a1b6-6745f27d7179",
             "f93c4e62-0d9e-425e-894d-313fc73c92af"
           ],
-          "duplicate": false,
+          "preventDuplicate": true,
           "exclude": [
             "krauser_1",
             "krauser_2",
@@ -337,24 +655,79 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_003.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "e4b4f8cf-c516-4ac2-85f5-073b17e01c76",
+            "a61c62f3-52e7-4d78-a167-c99b84fcada9",
+            "aa862ced-d677-42bd-8542-fbbbe038a16f",
+            "751b4a9f-909c-4a31-a57b-e72c1936d615"
+          ]
+        }
+      ],
       "extra": [
         {
           "condition": "579b2165-5e8a-4b17-a05f-9bf8b9e59573",
           "enemies": [
-            { "stage": 47410, "x": 292, "y": 13, "z": -226 },
-            { "stage": 47410, "x": 283, "y": 13, "z": -215 },
-            { "stage": 47410, "x": 289, "y": 13, "z": -212 },
-            { "stage": 47410, "x": 289, "y": 10, "z": -219 },
-            { "stage": 47410, "x": 284, "y": 10, "z": -222 }
+            {
+              "stage": 47410,
+              "x": 292,
+              "y": 13,
+              "z": -226
+            },
+            {
+              "stage": 47410,
+              "x": 283,
+              "y": 13,
+              "z": -215
+            },
+            {
+              "stage": 47410,
+              "x": 289,
+              "y": 13,
+              "z": -212
+            },
+            {
+              "stage": 47410,
+              "x": 289,
+              "y": 10,
+              "z": -219
+            },
+            {
+              "stage": 47410,
+              "x": 284,
+              "y": 10,
+              "z": -222
+            }
           ]
         },
         {
           "condition": "f61225f0-a6b7-4eb1-abea-c7358db3a9e5",
           "enemies": [
-            { "stage": 47410, "x": 283, "y": 13, "z": -215 },
-            { "stage": 47410, "x": 289, "y": 13, "z": -212 },
-            { "stage": 47410, "x": 289, "y": 10, "z": -219 },
-            { "stage": 47410, "x": 284, "y": 10, "z": -222 }
+            {
+              "stage": 47410,
+              "x": 283,
+              "y": 13,
+              "z": -215
+            },
+            {
+              "stage": 47410,
+              "x": 289,
+              "y": 13,
+              "z": -212
+            },
+            {
+              "stage": 47410,
+              "x": 289,
+              "y": 10,
+              "z": -219
+            },
+            {
+              "stage": 47410,
+              "x": 284,
+              "y": 10,
+              "z": -222
+            }
           ]
         }
       ]
@@ -417,18 +790,24 @@
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_001.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_002.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_003.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_004.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_999.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_002.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_003.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_004.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_999.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc56/level_loc56.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc56/level_loc56_000.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc56/level_loc56_001.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc56/level_loc56_002.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc56/level_loc56_003.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc56/level_loc56_003.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "0c88b4af-61c0-4024-a996-8d0ee41514a0"
+          ]
+        }
+      ]
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc56/level_loc56_004.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc56/level_loc56_999.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc57/level_loc57.scn.20" },
@@ -450,11 +829,6 @@
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc63/level_loc63.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc64/level_loc64.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc65/areainfo.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc65/battle_1.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc65/battle_2.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc65/battle_3.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc65/battle_4.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc65/level_loc65.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc65/level_loc65_999.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc66/level_loc66.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc66/level_loc66_000.scn.20" },
@@ -492,7 +866,8 @@
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_001.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_002.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc68/level_loc68.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc69/level_loc69.scn.20" },
+
+
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc69/level_loc69_999.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc70/level_loc70.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc71/level_loc71.scn.20" },
@@ -508,8 +883,6 @@
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc77/level_loc77.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc78/level_loc78.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc78/level_loc78_000.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc78/level_loc78_001.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc78/level_loc78_002.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc78/level_loc78_003.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc79/level_loc79.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc79/level_loc79_000.scn.20" },
