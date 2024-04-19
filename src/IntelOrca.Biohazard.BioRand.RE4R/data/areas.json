@@ -313,7 +313,28 @@
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_000.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_001.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_002.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_002.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "0556d8e2-950e-4a90-a1b6-6745f27d7179",
+            "f93c4e62-0d9e-425e-894d-313fc73c92af"
+          ],
+          "duplicate": false,
+          "exclude": [
+            "krauser_1",
+            "krauser_2",
+            "mendez_2",
+            "mendez_chase",
+            "pesanta",
+            "pig",
+            "u3",
+            "verdugo"
+          ]
+        }
+      ]
+    },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_003.scn.20",
       "extra": [

@@ -36,6 +36,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
+        public int StageID => GetFieldValue<int>("_StageID");
+
         public int? Health
         {
             get

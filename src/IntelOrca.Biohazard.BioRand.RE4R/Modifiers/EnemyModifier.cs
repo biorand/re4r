@@ -9,10 +9,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         private int _contextId;
         private int _uniqueHp;
-        private Rng.Table<EnemyClassDefinition>? _enemyRngTable;
+        private Rng.Table<EnemyClassDefinition>? _allEnemyRngTable;
         private Rng.Table<ItemDefinition?>? _itemRngTable;
         private Rng.Table<int>? _parasiteRngTable;
         private Queue<EnemyClassDefinition> _enemyClassQueue = new Queue<EnemyClassDefinition>();
+        private ImmutableArray<EnemyClassDefinition> _allEnemyClasses;
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
@@ -76,7 +77,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     parasite += $"{enemy.ParasiteAppearanceProbability}%)";
             }
 
-            logger.LogLine(enemy.Guid, enemy.Kind.Key, weapons, enemy.Health?.ToString() ?? "*", parasite, itemDrop);
+            logger.LogLine(
+                enemy.Guid,
+                enemy.StageID,
+                enemy.Kind.Key,
+                weapons,
+                enemy.Health?.ToString() ?? "*",
+                parasite,
+                itemDrop);
         }
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -86,6 +94,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             _contextId = 5000;
             _uniqueHp = 1;
+            _allEnemyClasses = randomizer.EnemyClassFactory.Classes;
 
             var rng = randomizer.CreateRng();
             foreach (var area in randomizer.Areas)
@@ -102,82 +111,72 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var dropRng = rng.NextFork();
             var parasiteRng = rng.NextFork();
 
-            var oldEnemies = area.Enemies
-                .Where(x => !x.Kind.Closed)
-                .ToArray();
-            var def = area.Definition;
-
-            var multiplier = randomizer.GetConfigOption<double>("enemy-multiplier", 1);
-            var newEnemyCount = Math.Min(oldEnemies.Length * multiplier, 350);
-            var delta = (int)Math.Round(newEnemyCount - oldEnemies.Length);
-            if (delta != 0)
+            // Create initial list of enemy spawns
+            var spawns = area.Enemies.Select(e => new EnemySpawn(area, e, e)).ToImmutableArray();
+            foreach (var spawn in spawns)
             {
-                var bag = new EndlessBag<Enemy>(rng, oldEnemies);
-                var enemiesToCopy = bag.Next(delta);
-                foreach (var e in enemiesToCopy)
-                {
-                    area.Duplicate(e, GetNextContextId());
-                }
+                SetClassPool(randomizer, area, spawn);
             }
 
-            var enemies = area.Enemies;
-            var numEnemies = enemies.Length;
-            var enemyClasses = new HashSet<EnemyClassDefinition>();
-            foreach (var enemy in enemies)
+            // Duplicate enemy spawns
+            spawns = DuplicateEnemies(randomizer, spawns, rng);
+
+            // Randomize classes
+            ChooseClasses(randomizer, spawns, rng);
+
+            // Randomize
+            foreach (var spawn in spawns)
             {
-                var e = enemy;
-                if (e.Kind.Closed)
-                    continue;
-
-                var excludedClasses = GetExcludedClasses(area, e);
-                if (excludedClasses == null)
-                    continue;
-
-                var isRanged = IsEnemyRanged(randomizer, enemy);
-                var ecd = GetRandomEnemyClass(randomizer, enemyClasses, rng, excludedClasses, isRanged);
-                if (ecd == null)
-                    continue;
-
-                e = area.ConvertTo(e, ecd.Kind.ComponentName);
-
-                // Reset various fields
-                e.SetFieldValue("_RandamizeMontageID", false);
-                e.SetFieldValue("_RandomMontageID", 0);
-                e.SetFieldValue("_MontageID", 0);
-                e.SetFieldValue("_FixedVoiceID", 0);
-                e.ParasiteKind = 0;
-                e.ForceParasiteAppearance = false;
-                e.ParasiteAppearanceProbability = 0;
-
-                if (ecd.Weapon.Length == 0)
+                if (spawn.ChosenClass is EnemyClassDefinition ecd)
                 {
-                    e.Weapon = 0;
-                    e.SecondaryWeapon = 0;
+                    spawn.ConvertType(area, ecd.Kind);
+
+                    // Reset various fields
+                    var e = spawn.Enemy;
+                    e.SetFieldValue("_RandamizeMontageID", false);
+                    e.SetFieldValue("_RandomMontageID", 0);
+                    e.SetFieldValue("_MontageID", 0);
+                    e.SetFieldValue("_FixedVoiceID", 0);
+                    e.ParasiteKind = 0;
+                    e.ForceParasiteAppearance = false;
+                    e.ParasiteAppearanceProbability = 0;
+
+                    // Set weapon
+                    if (ecd.Weapon.Length == 0)
+                    {
+                        e.Weapon = 0;
+                        e.SecondaryWeapon = 0;
+                    }
+                    else
+                    {
+                        var weaponChoice = rng.Next(ecd.Weapon);
+                        e.Weapon = weaponChoice.Primary?.Id ?? 0;
+                        e.SecondaryWeapon = weaponChoice.Secondary?.Id ?? 0;
+                    }
+
+                    // Set any other custom fields
+                    foreach (var fd in ecd.Fields)
+                    {
+                        var fieldValue = rng.Next(fd.Values);
+                        e.SetFieldValue(fd.Name, fieldValue);
+                    }
+
+                    RandomizeHealth(randomizer, e, ecd, healthRng);
+                    RandomizeDrop(randomizer, e, ecd, dropRng);
+
+                    // If there are a lot of enemies, plaga seems to randomly crash the game
+                    // E.g. village, 360 zealots, 25 plaga will crash
+                    if (ecd.Plaga && spawns.Length < 100)
+                    {
+                        RandomizeParasite(randomizer, e, parasiteRng);
+                    }
+
+                    logger.LogLine($"{e.Guid} {ecd.Name} Health = {e.Health}");
                 }
                 else
                 {
-                    var weaponChoice = rng.Next(ecd.Weapon);
-                    e.Weapon = weaponChoice.Primary?.Id ?? 0;
-                    e.SecondaryWeapon = weaponChoice.Secondary?.Id ?? 0;
+                    logger.LogLine($"{spawn.Enemy.Guid} {spawn.Enemy.Kind} Health = {spawn.Enemy.Health}");
                 }
-
-                foreach (var fd in ecd.Fields)
-                {
-                    var fieldValue = rng.Next(fd.Values);
-                    e.SetFieldValue(fd.Name, fieldValue);
-                }
-
-                RandomizeHealth(randomizer, e, ecd, healthRng);
-                RandomizeDrop(randomizer, e, ecd, dropRng);
-
-                // If there are a lot of enemies, plaga seems to randomly crash the game
-                // E.g. village, 360 zealots, 25 plaga will crash
-                if (ecd.Plaga && numEnemies < 100)
-                {
-                    RandomizeParasite(randomizer, e, parasiteRng);
-                }
-
-                logger.LogLine($"{enemy.Guid} {ecd.Name} Health = {enemy.Health}");
             }
         }
 
@@ -186,20 +185,103 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return _contextId++;
         }
 
-        private static string[]? GetExcludedClasses(Area area, Enemy e)
+        private void SetClassPool(ChainsawRandomizer randomizer, Area area, EnemySpawn spawn)
         {
+            // Get all allowed enemy classes
+            var enemyClasses = _allEnemyClasses;
             var restrictions = area.Definition.Restrictions;
-            if (restrictions == null)
-                return [];
+            if (restrictions != null)
+            {
+                var restrictionBlock = restrictions
+                    .FirstOrDefault(x => x.Guids == null || x.Guids.Contains(spawn.OriginalGuid));
+                var excludedClasses = restrictionBlock?.Exclude;
+                if (restrictionBlock != null)
+                {
+                    if (excludedClasses == null)
+                        enemyClasses = ImmutableArray<EnemyClassDefinition>.Empty;
+                    else
+                        enemyClasses = enemyClasses.Where(x => !excludedClasses.Contains(x.Key)).ToImmutableArray();
+                }
+            }
+            spawn.ClassPool = enemyClasses;
 
-            var restrictionBlock = restrictions.FirstOrDefault(x => x.Guids == null || x.Guids.Contains(e.Guid));
-            var excludedClasses = restrictionBlock?.Exclude;
-            if (restrictionBlock != null && excludedClasses == null)
-                return null;
-
-            return excludedClasses ?? [];
+            // Prefer a ranged enemy
+            if (IsEnemyRanged(randomizer, spawn.OriginalEnemy))
+            {
+                spawn.PreferredClassPool = spawn.ClassPool
+                    .Where(x => x.Ranged)
+                    .ToImmutableArray();
+            }
         }
 
+        private ImmutableArray<EnemySpawn> DuplicateEnemies(ChainsawRandomizer randomizer, ImmutableArray<EnemySpawn> spawns, Rng rng)
+        {
+            var multiplier = randomizer.GetConfigOption<double>("enemy-multiplier", 1);
+            var newEnemyCount = Math.Min(spawns.Length * multiplier, 350);
+            var delta = (int)Math.Round(newEnemyCount - spawns.Length);
+            if (delta != 0)
+            {
+                var newList = spawns.ToBuilder();
+                var duplicatableEnemies = spawns
+                    .Where(x => !x.PreventDuplicate)
+                    .ToArray();
+
+                var bag = new EndlessBag<EnemySpawn>(rng, duplicatableEnemies);
+                var enemiesToCopy = bag.Next(delta);
+                foreach (var spawn in enemiesToCopy)
+                {
+                    var newEnemy = spawn.Area.Duplicate(spawn.Enemy, GetNextContextId());
+                    newList.Add(new EnemySpawn(spawn.Area, spawn.Enemy, newEnemy));
+                }
+                return newList.ToImmutable();
+            }
+            return spawns;
+        }
+
+        private void ChooseClasses(ChainsawRandomizer randomizer, ImmutableArray<EnemySpawn> spawns, Rng rng)
+        {
+            var enemyVariety = randomizer.GetConfigOption("enemy-variety", 50);
+
+            // Randomize classes from least to most restricted
+            var orderedSpawns = spawns
+               .OrderByDescending(x => x.ClassPool.Length)
+               .ToArray();
+
+            var classList = new HashSet<EnemyClassDefinition>();
+            var classQueue = new Queue<EnemyClassDefinition>();
+            foreach (var spawn in orderedSpawns)
+            {
+                if (classList.Count >= enemyVariety)
+                {
+                    // Variety limit hit, reduce class pool
+                    var newClassPool = spawn.ClassPool.Intersect(classList).ToImmutableArray();
+                    if (!newClassPool.IsEmpty)
+                    {
+                        spawn.ClassPool = newClassPool;
+                    }
+                }
+
+                classQueue.TryDequeue(out var nextClass);
+                if (nextClass == null || !spawn.Prefers(nextClass))
+                {
+                    classQueue.Clear();
+                    nextClass = GetRandomEnemyClass(randomizer, spawn, rng);
+                    if (nextClass != null)
+                    {
+                        var count = GetPackCount(randomizer, nextClass, rng);
+                        for (var i = 1; i < count; i++)
+                        {
+                            classQueue.Enqueue(nextClass);
+                        }
+                    }
+                }
+                if (nextClass != null)
+                {
+                    spawn.ChosenClass = nextClass;
+                    classList.Add(nextClass);
+                }
+            }
+        }
 
         private void RandomizeHealth(ChainsawRandomizer randomizer, Enemy enemy, EnemyClassDefinition ecd, Rng rng)
         {
@@ -287,15 +369,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private EnemyClassDefinition? GetRandomEnemyClass(
             ChainsawRandomizer randomizer,
-            HashSet<EnemyClassDefinition> enemyClasses,
-            Rng rng,
-            string[] excludedClasses,
-            bool isRanged)
+            EnemySpawn spawn,
+            Rng rng)
         {
-            if (_enemyRngTable == null)
+            var classPool = spawn.PreferredClassPool;
+            if (classPool.IsDefaultOrEmpty)
+                classPool = spawn.ClassPool;
+            if (classPool.IsDefaultOrEmpty)
+                return null;
+
+            Rng.Table<EnemyClassDefinition>? table = null;
+            if (classPool == _allEnemyClasses)
             {
-                var table = rng.CreateProbabilityTable<EnemyClassDefinition>();
-                foreach (var enemyClass in randomizer.EnemyClassFactory.Classes)
+                table = _allEnemyRngTable;
+            }
+
+            if (table == null)
+            {
+                table = rng.CreateProbabilityTable<EnemyClassDefinition>();
+                foreach (var enemyClass in classPool)
                 {
                     var ratio = randomizer.GetConfigOption<double>($"enemy-ratio-{enemyClass.Key}");
                     if (ratio != 0)
@@ -303,50 +395,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         table.Add(enemyClass, ratio);
                     }
                 }
-                _enemyRngTable = table;
-            }
-
-            if (isRanged)
-            {
-                var pool = _enemyRngTable.Values
-                    .Where(x => !excludedClasses.Contains(x.Key))
-                    .Where(x => x.Ranged)
-                    .ToArray();
-                if (pool.Length != 0)
-                    return rng.Next(pool);
-            }
-
-            if (excludedClasses.Length != 0)
-            {
-                var pool = _enemyRngTable.Values
-                    .Where(x => !excludedClasses.Contains(x.Key))
-                    .ToArray();
-                if (pool.Length == 0)
-                    return null;
-                return rng.Next(pool);
-            }
-
-            if (_enemyClassQueue.Count == 0)
-            {
-                EnemyClassDefinition ecd;
-                var variety = randomizer.GetConfigOption<int>($"enemy-variety");
-                if (variety != 0 && enemyClasses.Count >= variety)
+                if (classPool == _allEnemyClasses)
                 {
-                    ecd = enemyClasses.Shuffle(rng).First();
-                }
-                else
-                {
-                    ecd = _enemyRngTable.Next();
-                    enemyClasses.Add(ecd);
-                }
-
-                var packCount = GetPackCount(randomizer, ecd, rng);
-                for (var i = 0; i < packCount; i++)
-                {
-                    _enemyClassQueue.Enqueue(ecd);
+                    _allEnemyRngTable = table;
                 }
             }
-            return _enemyClassQueue.Dequeue();
+
+            return table.Next();
         }
 
         private int GetPackCount(ChainsawRandomizer randomizer, EnemyClassDefinition ecd, Rng rng)
@@ -472,6 +527,43 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 var chosenItem = rng.Next(filteredItems);
                 return new Item(chosenItem.Id, 1);
+            }
+        }
+
+        private class EnemySpawn
+        {
+            public Area Area { get; }
+            public Enemy OriginalEnemy { get; }
+            public Enemy Enemy { get; private set; }
+            public bool PreventDuplicate { get; set; }
+            public ImmutableArray<EnemyClassDefinition> PreferredClassPool { get; set; }
+            public ImmutableArray<EnemyClassDefinition> ClassPool { get; set; }
+            public EnemyClassDefinition? ChosenClass { get; set; }
+
+            public EnemySpawn(Area area, Enemy originalEnemy, Enemy enemy)
+            {
+                Area = area;
+                OriginalEnemy = originalEnemy;
+                Enemy = enemy;
+            }
+
+            public Guid OriginalGuid => OriginalEnemy.Guid;
+
+            public void ConvertType(Area area, EnemyKindDefinition kind)
+            {
+                Enemy = area.ConvertTo(Enemy, kind.ComponentName);
+            }
+
+            public bool Prefers(EnemyClassDefinition ecd)
+            {
+                if (PreferredClassPool.IsDefaultOrEmpty)
+                    return ClassPool.Contains(ecd);
+                return PreferredClassPool.Contains(ecd);
+            }
+
+            public override string ToString()
+            {
+                return $"{Enemy.Kind}";
             }
         }
     }
