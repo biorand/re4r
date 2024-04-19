@@ -20,6 +20,15 @@
             "verdugo"
           ]
         }
+      ],
+      "extra": [
+        {
+          "enemies": [
+            { "stage": 40501, "x": -255, "y": 6, "z": 50 },
+            { "stage": 40501, "x": -240, "y": 6, "z": 54 },
+            { "stage": 40502, "x": -204, "y": 9, "z": 82 }
+          ]
+        }
       ]
     },
     {
@@ -305,7 +314,30 @@
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_000.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_001.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_002.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_003.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_003.scn.20",
+      "extra": [
+        {
+          "condition": "579b2165-5e8a-4b17-a05f-9bf8b9e59573",
+          "enemies": [
+            { "stage": 47410, "x": 292, "y": 13, "z": -226 },
+            { "stage": 47410, "x": 283, "y": 13, "z": -215 },
+            { "stage": 47410, "x": 289, "y": 13, "z": -212 },
+            { "stage": 47410, "x": 289, "y": 10, "z": -219 },
+            { "stage": 47410, "x": 284, "y": 10, "z": -222 }
+          ]
+        },
+        {
+          "condition": "f61225f0-a6b7-4eb1-abea-c7358db3a9e5",
+          "enemies": [
+            { "stage": 47410, "x": 283, "y": 13, "z": -215 },
+            { "stage": 47410, "x": 289, "y": 13, "z": -212 },
+            { "stage": 47410, "x": 289, "y": 10, "z": -219 },
+            { "stage": 47410, "x": 284, "y": 10, "z": -222 }
+          ]
+        }
+      ]
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_004.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc48/level_loc48.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc50/level_loc50.scn.20" },

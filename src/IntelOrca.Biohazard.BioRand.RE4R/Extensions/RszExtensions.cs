@@ -118,5 +118,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
             scnFile.WriteTo(fileHandler);
             return ms.ToArray();
         }
+
+        public static ScnFile.GameObjectData CreateGameObject(this ScnFile scnFile, string name)
+        {
+            var gameObject = scnFile.IterAllGameObjects(true).First(x => x.Children.Count == 0);
+            var newGameObject = scnFile.ImportGameObject(gameObject, null, null, true);
+            newGameObject.Folder = null;
+            newGameObject.Parent = null;
+            newGameObject.Instance!.SetFieldValue("v0", name);
+            newGameObject.Components.Clear();
+            return newGameObject;
+        }
     }
 }

@@ -53,6 +53,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             generalGroup.Items.Add(new GroupItem()
             {
+                Id = $"extra-enemies",
+                Label = "Extra Enemies",
+                Description = "Add extra enemies to peaceful areas and boss fights.",
+                Type = "switch",
+                Default = true
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
                 Id = $"enemy-custom-health",
                 Label = "Custom Enemy Health",
                 Description = "Let Biorand randomize the enemy health using the min/max values.",

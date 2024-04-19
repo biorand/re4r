@@ -68,6 +68,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 logger.LogHr();
                 logger.LogVersion();
+                logger.LogLine($"Seed = {input.Seed}");
                 logger.LogHr();
             }
             var areas = GetAreas();
@@ -143,6 +144,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 new InventoryModifier(),
                 new MerchantShopModifier(),
                 new LevelItemModifier(),
+                new EnemyPlaceModifier(),
                 new EnemyModifier(),
             }.ToImmutableArray();
         }

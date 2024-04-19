@@ -232,7 +232,6 @@
         { "primary": "hammer" },
         { "primary": "axe" },
         { "primary": "shovel" },
-        { "primary": "crowbar" },
         { "primary": "machete" }
       ],
       "field:_MontageID": [
@@ -492,7 +491,8 @@
         },
         { "primary": "shock_baton" },
         { "primary": "iron_shield" },
-        { "primary": "spiked_bat" }
+        { "primary": "spiked_bat" },
+        { "primary": "crowbar" }
       ],
       "field:_Ch1c0z2MontageID": [
         1017464743,

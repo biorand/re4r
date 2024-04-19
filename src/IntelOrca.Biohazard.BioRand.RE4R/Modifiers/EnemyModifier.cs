@@ -90,11 +90,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var rng = randomizer.CreateRng();
             foreach (var area in randomizer.Areas)
             {
-                RandomizeArea(randomizer, area, rng);
+                logger.Push(area.FileName);
+                RandomizeArea(randomizer, area, rng, logger);
+                logger.Pop();
             }
         }
 
-        private void RandomizeArea(ChainsawRandomizer randomizer, Area area, Rng rng)
+        private void RandomizeArea(ChainsawRandomizer randomizer, Area area, Rng rng, RandomizerLogger logger)
         {
             var healthRng = rng.NextFork();
             var dropRng = rng.NextFork();
@@ -124,9 +126,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             foreach (var enemy in enemies)
             {
                 var e = enemy;
-                if (e.Guid == new Guid("b9e08930-9a3d-404b-9c7e-99b61665ae3b"))
-                    e = e;
-
                 if (e.Kind.Closed)
                     continue;
 
@@ -177,6 +176,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     RandomizeParasite(randomizer, e, parasiteRng);
                 }
+
+                logger.LogLine($"{enemy.Guid} {ecd.Name} Health = {enemy.Health}");
             }
         }
 
