@@ -93,7 +93,13 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_030.scn.20",
-      "chapter": 1
+      "chapter": 1,
+      "description": "farm & "
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc43/level_loc43.scn.20",
+      "chapter": 1,
+      "description": "farm - animals"
     },
     // { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_100.scn.20", "chapter": 1 },
 
@@ -633,7 +639,6 @@
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40_213.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40_900.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40_901.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc43/level_loc43.scn.20" },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc45/level_loc45.scn.20",
       "restrictions": [

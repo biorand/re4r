@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using RszTool;
 
@@ -35,6 +36,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         logger.Push($"{Path.GetFileName(path)}");
                     }
 
+                    var stageId = itemData.Get<int>("StageID");
                     var itemId = itemData.Get<int>("ItemID");
                     var itemCount = itemData.Get<int>("Count");
                     var ammoItemId = itemData.Get<int>("AmmoItemID");
@@ -45,7 +47,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     var ammoItem = itemRepo.Find(ammoItemId);
                     var contextId = ContextId.FromRsz(instance.Get<RszInstance>("ID")!);
-                    logger.LogLine($"{contextId} Item = {item} x{itemCount} Ammo = {ammoItem ?? (null)} x{ammoCount}");
+                    logger.LogLine($"{contextId} {stageId} Item = {item} x{itemCount} Ammo = {ammoItem ?? (null)} x{ammoCount}");
                 }
                 logger.Pop();
             }
@@ -56,32 +58,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("random-items"))
                 return;
 
-            var itemRandomizer = randomizer.ItemRandomizer;
             var fileRepository = randomizer.FileRepository;
             var chainsawItemData = ChainsawItemData.FromData(fileRepository);
-            var itemRepo = ItemDefinitionRepository.Default;
             var rng = randomizer.CreateRng();
-            var randomKinds = new[] {
-                ItemKinds.Ammo,
-                ItemKinds.Fish,
-                ItemKinds.Health,
-                ItemKinds.Egg,
-                ItemKinds.Treasure,
-                ItemKinds.Attachment,
-                ItemKinds.Gunpowder,
-                ItemKinds.Resource,
-                ItemKinds.Weapon,
-                ItemKinds.Knife,
-                ItemKinds.Token,
-                ItemKinds.Money,
-                ItemKinds.Armor,
-                ItemKinds.Map,
-                ItemKinds.CaseSize,
-                ItemKinds.CasePerk,
-                ItemKinds.Recipe,
-                ItemKinds.Charm,
-                ItemKinds.Grenade,
-            };
 
             var storedItems = new Dictionary<ContextId, Item>();
             foreach (var path in _itemDataFiles)
@@ -178,6 +157,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 ItemKinds.Charm,
                 ItemKinds.Grenade,
             };
+
+            if (contextId == new ContextId(2, 0, 12, 271) ||
+                contextId == new ContextId(2, 0, 12, 272))
+            {
+                randomKinds = randomKinds.Except(new[] {
+                    ItemKinds.Weapon,
+                    ItemKinds.Attachment,
+                    ItemKinds.CaseSize,
+                }).ToArray();
+            }
 
             var itemId = itemData.Get<int>("ItemID");
             var itemCount = itemData.Get<int>("Count");
