@@ -141,7 +141,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = $"enemy-pack-max",
                 Label = "Enemy Max Pack",
-                Description = "Controls how the maximum size of a pack of enemies. Examples of packs of enemies would be 6 villages, or 4 garradors.",
+                Description = "Controls the maximum size of an enemy pack." +
+                    "Enemy packs give you groups of similar enemies rather than every individual enemy being a different type.",
                 Type = "range",
                 Min = 1,
                 Max = 10,
