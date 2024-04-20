@@ -196,18 +196,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 var restrictionBlock = restrictions
                     .FirstOrDefault(x => x.Guids == null || x.Guids.Contains(spawn.OriginalGuid));
-                var excludedClasses = restrictionBlock?.Exclude;
+
                 if (restrictionBlock != null)
                 {
                     spawn.PreventDuplicate = restrictionBlock.PreventDuplicate;
-                    if (excludedClasses == null)
+
+                    var includedClasses = restrictionBlock.Include;
+                    if (includedClasses == null)
                     {
-                        enemyClasses = ImmutableArray<EnemyClassDefinition>.Empty;
-                        spawn.PreventDuplicate = true;
+                        var excludedClasses = restrictionBlock.Exclude;
+                        if (excludedClasses == null)
+                        {
+                            enemyClasses = ImmutableArray<EnemyClassDefinition>.Empty;
+                            spawn.PreventDuplicate = true;
+                        }
+                        else
+                        {
+                            enemyClasses = enemyClasses.Where(x => !excludedClasses.Contains(x.Key)).ToImmutableArray();
+                        }
                     }
                     else
                     {
-                        enemyClasses = enemyClasses.Where(x => !excludedClasses.Contains(x.Key)).ToImmutableArray();
+                        enemyClasses = enemyClasses.Where(x => includedClasses.Contains(x.Key)).ToImmutableArray();
                     }
                 }
             }

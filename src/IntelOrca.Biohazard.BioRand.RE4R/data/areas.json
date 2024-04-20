@@ -193,6 +193,11 @@
       "chapter": 5,
       "restrictions": [
         {
+          "guids": [
+            "2526d07e-ca07-4676-8512-119ece440fa3" // ashley
+          ]
+        },
+        {
           "exclude": [
             "mendez_chase"
           ]
@@ -204,6 +209,11 @@
       "description": "cabin",
       "chapter": 5,
       "restrictions": [
+        {
+          "guids": [
+            "2b3bc7f9-1164-42ec-a6ce-d13bf401fc11" // ashley
+          ]
+        },
         {
           // All enemies apart from those which spawn down chimney
           "guids": [
@@ -284,7 +294,16 @@
     // Chapter 7 (castle entrance, prison, water hall)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1.scn.20",
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "guids": [
+            "e584ce9e-b722-4618-a0ec-7680f30e0c0e" // ashley
+          ]
+        },
+        {
+          "exclude": [ "mendez_chase" ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_000.scn.20",
@@ -334,7 +353,32 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3.scn.20",
       "chapter": 9,
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "guids": [
+            "325551aa-2aa2-46d7-8d75-2201c8c686f5" // ashley
+          ]
+        },
+        {
+          "exclude": [ "mendez_chase" ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_003.scn.20",
+      "chapter": 9,
+      "description": "knights outside of knighty-knight knights room",
+      "restrictions": [
+        {
+          "guids": [
+            "52061032-d686-401c-b1b7-ebdcd629e8ea"
+          ],
+          "exclude": [
+            "pig",
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     // Disable random enemies for Ashley section for now
     // {
@@ -457,10 +501,70 @@
     },
 
     // Chapter 12 (clock tower, salazar)
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "2b02dd72-914f-4052-b0cf-935b85cc3e68"
+          ]
+        }
+      ]
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3_000.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3_001.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3_002.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3_002.scn.20",
+      "chapter": 12,
+      "description": "Clock tower - lift",
+      "restrictions": [
+        {
+          "guids": [
+            "13e540aa-2704-4eea-962f-b46ae22e2680", // red zealot with staff
+            "1f86ec7a-94e5-4e83-bfd4-5d495dc0a18f" // red zealot with staff
+          ],
+          "include": [
+            "zealot_red"
+          ]
+        },
+        {
+          "guids": [
+            "ef6119ca-3e3b-4d2e-9efa-4045e1ea9669", // zealot cross bow
+            "f6cfe792-73c0-479f-9b03-0c4072ae40c7", // zealot cross bow
+            "e2e060a9-6b15-43aa-9008-59aa5bfb6909" // zealot cross bow
+          ],
+          "include": [
+            "zealot_range"
+          ]
+        },
+        {
+          "guids": [
+            "aa435849-b9ac-40a7-b5ef-63a0b8eb2073",
+            "a65288a2-8b81-4530-850d-6b0e6f1b7ade",
+            "eb148d1c-cf0a-49da-af39-5ea4372575e5",
+            "b8572ccb-b016-415f-88d2-178cb26ea3b0",
+            "2a2521a2-eb47-4360-a3a6-28fa00d98f19",
+            "1fdefa9e-c1d3-4275-8816-0de2b408d227",
+            "0464cd82-7e9c-4627-a983-cfc5d13cfdc0",
+            "c85d1c18-f480-4c2e-b769-6eee5d9fa3cc",
+            "2b90a55f-337d-489a-b9ee-e6b5d35a9027",
+            "2b53e793-f652-4174-bc03-a351511026d6",
+            "91488749-d210-4f90-ad4f-bdc79d32d2a5",
+            "62f0c027-5cff-43e8-ba79-2e6f42db7ef2",
+            "dd78a8b5-940e-4526-b9c1-33973e4a5384",
+            "d3cff86e-a7ac-49ab-88a6-ea72ea1c0f0a",
+            "1a635355-0b3d-4148-bf2a-ba4e270bedae",
+            "d103b7ec-b006-4aaf-a029-bc53a8b37e84",
+            "9217e6f2-7240-4263-86ae-bec6a24c840b",
+            "3bbc91e9-5977-4f3d-8e82-5bb30bdde054"
+          ],
+          "include": [
+            "zealot",
+            "zealot_shield"
+          ]
+        }
+      ]
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3_003.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3_004.scn.20" },
 
@@ -620,7 +724,8 @@
       "restrictions": [
         {
           "guids": [
-            "19b7057c-2463-4c8b-adf2-ef4ee3bca075" // police
+            "19b7057c-2463-4c8b-adf2-ef4ee3bca075", // police
+            "cf55be15-d8e5-4e84-b854-e8c296f5f26c"
           ]
         }
       ]
@@ -782,19 +887,6 @@
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_000.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_001.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_002.scn.20" },
-    {
-      "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_003.scn.20",
-      "restrictions": [
-        {
-          "guids": [
-            "52061032-d686-401c-b1b7-ebdcd629e8ea"
-          ],
-          "exclude": [
-            "pig"
-          ]
-        }
-      ]
-    },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_004.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc53/level_loc53.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc53/level_loc53_000.scn.20" },
