@@ -425,7 +425,17 @@
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_000.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_001.scn.20" },
     { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_002.scn.20" },
-    { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_003.scn.20" },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_003.scn.20",
+      "chapter": 8,
+      "restrictions": [
+        {
+          "guids": [
+            "80654de9-cdd7-46ca-9ddc-920e8b37ef5b" // el gigante
+          ]
+        }
+      ]
+    },
 
     // Chapter 9 (maze, great hall, library)
     {
