@@ -22,6 +22,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
                 scnFile.RemoveGameObject(obj);
         }
 
+        public static RszInstance? FindComponent(this ScnFile scnFile, Guid gameObjectGuid, string name)
+        {
+            return FindGameObject(scnFile, gameObjectGuid)?.FindComponent(name);
+        }
+
         public static RszInstance? FindComponent(this IGameObjectData gameObject, string name)
         {
             foreach (var component in gameObject.Components)

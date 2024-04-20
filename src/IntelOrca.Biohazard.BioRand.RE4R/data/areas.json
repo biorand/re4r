@@ -395,7 +395,6 @@
             "8f84d26c-dedf-4447-8c03-afacb64c699f"
           ],
           "exclude": [
-            // "arana",
             "armadura",
             "colmillos",
             "cow",
@@ -513,7 +512,9 @@
             "7fd85876-8cd0-4fbb-bf97-5b9502d9becf"
           ],
           "exclude": [
-            "mendez_chase"
+            "mendez_chase",
+            "mendez_2",
+            "verdugo"
           ]
         }
       ]

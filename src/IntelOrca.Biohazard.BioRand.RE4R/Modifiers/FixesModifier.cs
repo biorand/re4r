@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.BioRand.RE4R.Models;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -13,6 +14,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             DisableFirstAreaInhibitor(randomizer, logger);
             FixDeadEnemyCounters(randomizer, logger);
             SlowDownFactoryDoor(randomizer, logger);
+            if (randomizer.GetConfigOption<bool>("random-enemies"))
+            {
+                ImproveKnightyKnightKnightRoom(randomizer, logger);
+            }
             if (randomizer.GetConfigOption<bool>("enable-autosave-pro"))
             {
                 EnableProfessionalAutoSave(randomizer, logger);
@@ -123,6 +128,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             holdHandleComponent.Set("_ReduceProcessLv3", speed);
 
             fileRepository.SetScnFile(scnPath, scn);
+        }
+
+        private void ImproveKnightyKnightKnightRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            var area = randomizer.Areas.FirstOrDefault(x => x.FileName == "level_cp10_chp3_3_007.scn.20");
+            if (area == null)
+                return;
+
+            // Knights become active by triggering their force find flag.
+            // This is won't work for other enemies, so instead have them only spawn in
+            // once the lion head has been picked up.
+            var controllerGuids = new[] {
+                new Guid("8ea3614a-e6bb-4ee3-94ed-e41a459e4303"), // easy
+                new Guid("f47d8cbc-15ed-4a06-b20f-a307c09d678e") // hard
+            };
+
+            var scn = area.ScnFile;
+            foreach (var controllerGuid in controllerGuids)
+            {
+                var spawnControllerComponent = scn.FindComponent(controllerGuid, "chainsaw.CharacterSpawnController");
+                if (spawnControllerComponent != null)
+                {
+                    var controller = new CharacterSpawnController(spawnControllerComponent);
+                    controller.SpawnCondition.Add(scn, new Guid("6ac0d9ef-16d3-46e6-af89-4efb1f8370ac"));
+                }
+            }
         }
 
         private static readonly int[] _characterKindIds = new int[]
