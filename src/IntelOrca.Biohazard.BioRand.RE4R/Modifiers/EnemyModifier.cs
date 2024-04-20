@@ -94,7 +94,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             _contextId = 5000;
             _uniqueHp = 1;
-            _allEnemyClasses = randomizer.EnemyClassFactory.Classes;
+            _allEnemyClasses = randomizer.EnemyClassFactory.Classes
+                .Where(x => GetClassRatio(randomizer, x) > 0)
+                .ToImmutableArray();
 
             var rng = randomizer.CreateRng();
             foreach (var area in randomizer.Areas)
@@ -199,9 +201,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     spawn.PreventDuplicate = restrictionBlock.PreventDuplicate;
                     if (excludedClasses == null)
+                    {
                         enemyClasses = ImmutableArray<EnemyClassDefinition>.Empty;
+                        spawn.PreventDuplicate = true;
+                    }
                     else
+                    {
                         enemyClasses = enemyClasses.Where(x => !excludedClasses.Contains(x.Key)).ToImmutableArray();
+                    }
                 }
             }
             spawn.ClassPool = enemyClasses;
@@ -218,7 +225,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private ImmutableArray<EnemySpawn> DuplicateEnemies(ChainsawRandomizer randomizer, ImmutableArray<EnemySpawn> spawns, Rng rng)
         {
             var multiplier = randomizer.GetConfigOption<double>("enemy-multiplier", 1);
-            var newEnemyCount = Math.Min(spawns.Length * multiplier, 350);
+            var newEnemyCount = Math.Min(spawns.Length * multiplier, 200);
             var delta = (int)Math.Round(newEnemyCount - spawns.Length);
             if (delta != 0)
             {
@@ -227,14 +234,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .Where(x => !x.PreventDuplicate)
                     .ToArray();
 
-                var bag = new EndlessBag<EnemySpawn>(rng, duplicatableEnemies);
-                var enemiesToCopy = bag.Next(delta);
-                foreach (var spawn in enemiesToCopy)
+                if (duplicatableEnemies.Length != 0)
                 {
-                    var newEnemy = spawn.Area.Duplicate(spawn.Enemy, GetNextContextId());
-                    newList.Add(new EnemySpawn(spawn.Area, spawn.Enemy, newEnemy));
+                    var bag = new EndlessBag<EnemySpawn>(rng, duplicatableEnemies);
+                    var enemiesToCopy = bag.Next(delta);
+                    foreach (var spawn in enemiesToCopy)
+                    {
+                        var newEnemy = spawn.Duplicate(GetNextContextId());
+                        newList.Add(newEnemy);
+                    }
+                    return newList.ToImmutable();
                 }
-                return newList.ToImmutable();
             }
             return spawns;
         }
@@ -280,6 +290,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     spawn.ChosenClass = nextClass;
                     classList.Add(nextClass);
+                }
+                else
+                {
                 }
             }
         }
@@ -531,6 +544,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
+        private static double GetClassRatio(ChainsawRandomizer randomizer, EnemyClassDefinition ecd)
+        {
+            return randomizer.GetConfigOption<double>($"enemy-ratio-{ecd.Key}");
+        }
+
         private class EnemySpawn
         {
             public Area Area { get; }
@@ -562,9 +580,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return PreferredClassPool.Contains(ecd);
             }
 
+            public EnemySpawn Duplicate(int contextId)
+            {
+                var newEnemy = Area.Duplicate(Enemy, contextId);
+                var result = new EnemySpawn(Area, Enemy, newEnemy);
+                result.ClassPool = ClassPool;
+                result.PreferredClassPool = PreferredClassPool;
+                result.ChosenClass = ChosenClass;
+                return result;
+            }
+
             public override string ToString()
             {
-                return $"{Enemy.Kind}";
+                return $"{Enemy.Guid} ({Enemy.Kind})";
             }
         }
     }

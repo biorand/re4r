@@ -16,10 +16,28 @@
         },
         {
           "guids": [
-            "36e28438-0a9c-475c-8a31-c8c4d905e925" // first villager coming down stairs
+            "ccd9520b-2fd0-44e7-9b14-24491bce2367" // first villager coming down stairs
           ],
           "exclude": [
+            "mendez_2",
+            "pesanta",
             "pig",
+            "u3",
+            "verdugo"
+          ]
+        },
+        {
+          "guids": [
+            "52061032-d686-401c-b1b7-ebdcd629e8ea",
+            "bacf6775-91ec-4932-85ed-db488c2a35ee",
+            "afc35303-7d98-4615-ad30-ac0c99e2e709",
+            "7627dd62-89c8-4964-ac6e-0df675e2ad10",
+            "ed0cf043-e107-480c-a3c1-58877a84f22f",
+            "444f5d9b-4b54-4c44-8d66-2557f501407a",
+            "4ab9f0a3-891e-441e-a1d6-3de1028fda1a"
+          ],
+          "exclude": [
+            "mendez_2",
             "pesanta",
             "u3",
             "verdugo"
@@ -59,11 +77,16 @@
           "guids": [
             "da73460d-62b6-4dc2-9882-1183bba45389", // chainsaw
             "d47e2d46-cd1f-41b4-8f5e-9c58183540ee", // chainsaw
-            "875b72c1-3cab-4914-b77a-ae309ed8f459" // police on fire
+            "beeac7f4-214f-4b31-ad01-78fd82f1f584" // person in closet
           ],
           "preventDuplicate": true,
           "exclude": [
             "pig"
+          ]
+        },
+        {
+          "guids": [
+            "875b72c1-3cab-4914-b77a-ae309ed8f459" // police on fire
           ]
         }
       ]
