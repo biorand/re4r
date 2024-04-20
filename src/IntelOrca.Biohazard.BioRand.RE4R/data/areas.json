@@ -327,11 +327,90 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_005.scn.20",
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "chapter": 7,
+      "description": "Water hall - start",
+      "restrictions": [
+        {
+          "guids": [
+            "0222c3d4-54d3-4a94-a94a-7055372d6ce3", // entertainment
+            "66d38cec-3c77-45ac-949c-9b6e42ce48cf", // entertainment
+            "351d72e3-338a-47ff-aed3-f26709b4c3f6", // entertainment
+            "13c20e93-7127-4473-aab5-a1db5a71ec4b" // entertainment
+          ],
+          "exclude": [
+            "mendez_chase",
+            "mendez_2",
+            "pesanta",
+            "u3",
+            "verdugo"
+          ]
+        },
+        {
+          "exclude": [ "mendez_chase" ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_006.scn.20",
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "chapter": 7,
+      "description": "Water hall - cranks",
+      "restrictions": [
+        {
+          "guids": [
+            "69982bac-2a25-465e-8d17-3c574c6d7cf6", // ashley target
+            "d0b4f426-af63-4f0c-8940-aaa5e4008142", // ashley target
+            "31a9370c-c696-423d-8efd-78f46f539ccb", // ashley target
+            "174e2dad-03b4-4b72-83b2-829dfc8ab3e8", // ashley target
+            "01227435-cb43-4157-bb5e-b3d2bd7288f5", // ashley target
+            "a4f6586c-2d8a-465e-be79-6a68df991900", // ashley target
+            "a341fadc-41f7-4533-859a-7bcc2a9f92d4", // ashley target
+            "265cdbe1-e8be-428a-9fb3-3be29c6a5340", // ashley target
+            "1a384e5f-a660-4447-b7c7-8801897e23f8", // ashley target
+            "438eab7c-cabd-4122-b13b-4cd3afd81730", // ashley target
+            "6e9c144f-54b6-46f3-a30b-6f8d7d143599", // ashley target
+            "7709a438-92d0-49c9-bc99-d14edb211f46", // ashley target
+            "9c46d00a-3643-4fc7-8446-f3a6df844725", // ashley target
+            "470d9b44-a47e-4c40-96d4-e7f6eb6fafee", // ashley target
+            "8f329f90-3776-4519-a3d0-6cd9ca7f0d64", // ashley target
+            "0003ddf2-1d36-40c6-ba37-ffe598772afe" // ashley target
+          ],
+          "include": [
+            "villager",
+            "zealot",
+            "zealot_shield",
+            "soldier",
+            "soldier_shield",
+            "brute_hammer"
+          ]
+        },
+        {
+          "guids": [
+            "14c8b64f-a4e3-4ebf-a406-7b691346d79a",
+            "8d7a4afd-c753-4a94-b6fe-20ca7ebb75a8",
+            "e9a4f361-cf53-45dc-8b9c-57bf4d35f9aa",
+            "de41d7f1-ec17-4560-9324-0561a66257a3",
+            "b4613cd5-cab7-45ab-a8e9-6f244af517a7",
+            "558fb789-24f9-4363-ad1c-87182db08514",
+            "c9393781-d730-4e5f-b193-3da9cb94226b",
+            "8f84d26c-dedf-4447-8c03-afacb64c699f"
+          ],
+          "exclude": [
+            // "arana",
+            "armadura",
+            "colmillos",
+            "cow",
+            "garrador",
+            "gold-armadura",
+            "mendez_2",
+            "mendez_chase",
+            "super-colmillos",
+            "verdugo"
+          ]
+        },
+        {
+          "exclude": [ "mendez_chase" ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_007.scn.20",
