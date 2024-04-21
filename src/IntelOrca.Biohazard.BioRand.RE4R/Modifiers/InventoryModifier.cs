@@ -48,14 +48,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (primaryWeapon != null)
             {
                 inventory.AddItem(new Item(primaryWeapon.Id));
-                var ammo = itemRandomizer.GetRandomItem(rng, ItemKinds.Ammo, primaryWeapon.Class);
+                var ammo = itemRandomizer.GetRandomItemDefinition(rng, ItemKinds.Ammo, primaryWeapon.Class);
                 if (ammo != null)
                     inventory.AddItem(new Item(ammo.Id));
             }
             if (secondaryWeapon != null)
             {
                 inventory.AddItem(new Item(secondaryWeapon.Id));
-                var ammo = itemRandomizer.GetRandomItem(rng, ItemKinds.Ammo, secondaryWeapon.Class);
+                var ammo = itemRandomizer.GetRandomItemDefinition(rng, ItemKinds.Ammo, secondaryWeapon.Class);
                 if (ammo != null)
                     inventory.AddItem(new Item(ammo.Id));
             }
@@ -78,7 +78,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             foreach (var kind in kinds)
             {
-                var randomItem = itemRandomizer.GetRandomItem(rng, kind);
+                var randomItem = itemRandomizer.GetRandomItemDefinition(rng, kind);
                 if (randomItem != null)
                     inventory.AddItem(new Item(randomItem.Id, -1));
             }

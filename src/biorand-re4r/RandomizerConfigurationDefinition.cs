@@ -118,7 +118,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             generalGroup.Items.Add(new GroupItem()
             {
                 Id = $"enemy-multiplier",
-                Label = "Enemy multiplier",
+                Label = "Enemy Multiplier",
                 Description = "Duplicate enemies by this amount. Warning: high values can cause stability issues.",
                 Type = "range",
                 Min = 0.25,
@@ -140,7 +140,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             generalGroup.Items.Add(new GroupItem()
             {
                 Id = $"enemy-pack-max",
-                Label = "Enemy Max Pack",
+                Label = "Enemy Max. Pack Size",
                 Description = "Controls the maximum size of an enemy pack." +
                     "Enemy packs give you groups of similar enemies rather than every individual enemy being a different type.",
                 Type = "range",
@@ -152,7 +152,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             generalGroup.Items.Add(new GroupItem()
             {
                 Id = $"ammo-quantity",
-                Label = "Ammo quantity",
+                Label = "Ammo Quantity",
                 Type = "range",
                 Min = 0,
                 Max = 1,
@@ -161,13 +161,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             generalGroup.Items.Add(new GroupItem()
             {
-                Id = $"money-quantity",
-                Label = "Money quantity",
+                Id = $"money-drop-min",
+                Label = "Min. Money Drop",
                 Type = "range",
-                Min = 0,
-                Max = 1,
-                Step = 0.1,
-                Default = 0.5
+                Min = 100,
+                Max = 10000,
+                Step = 100,
+                Default = 100
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
+                Id = $"money-drop-max",
+                Label = "Max. Money Drop",
+                Type = "range",
+                Min = 100,
+                Max = 10000,
+                Step = 100,
+                Default = 1000
             });
             // generalGroup.Items.Add(new GroupItem()
             // {
@@ -211,143 +221,38 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             configDefinition.Groups.Add(debugGroup);
 
             var dropGroup = new Group("General Drops");
-            dropGroup.Items.Add(new GroupItem()
+            foreach (var dropKind in DropKinds.Generic)
             {
-                Id = $"drop-ratio-none",
-                Label = "None",
-                Description = "No item is dropped.",
-                Type = "range",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.5
-            });
-            dropGroup.Items.Add(new GroupItem()
-            {
-                Id = $"drop-ratio-automatic",
-                Label = "Automatic",
-                Description = "Let the game decide, usually based on DA.",
-                Type = "range",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.5
-            });
-            dropGroup.Items.Add(new GroupItem()
-            {
-                Id = $"drop-ratio-ammo",
-                Label = "Ammo",
-                Type = "range",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.5
-            });
-            dropGroup.Items.Add(new GroupItem()
-            {
-                Id = $"drop-ratio-grenade",
-                Label = "Grenade",
-                Description = "Flash Grenades, Small Grenades, Heavy Grenades",
-                Type = "range",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.5
-            });
-            dropGroup.Items.Add(new GroupItem()
-            {
-                Id = $"drop-ratio-health",
-                Label = "Health",
-                Description = "Herbs, Eggs",
-                Type = "range",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.5
-            });
-            dropGroup.Items.Add(new GroupItem()
-            {
-                Id = $"drop-ratio-money",
-                Label = "Money",
-                Type = "range",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.5
-            });
-            dropGroup.Items.Add(new GroupItem()
-            {
-                Id = $"drop-ratio-knife",
-                Label = "Knife",
-                Type = "range",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.5
-            });
-            dropGroup.Items.Add(new GroupItem()
-            {
-                Id = $"drop-ratio-gunpowder",
-                Label = "Gunpowder",
-                Type = "range",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.5
-            });
-            dropGroup.Items.Add(new GroupItem()
-            {
-                Id = $"drop-ratio-resource",
-                Label = "Resource",
-                Type = "range",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.5
-            });
+                dropGroup.Items.Add(new GroupItem()
+                {
+                    Id = $"drop-ratio-{dropKind}",
+                    Label = dropKind.Replace("-", " ").ToTitleCase(),
+                    Description = dropKind switch
+                    {
+                        DropKinds.None => "No item is dropped.",
+                        DropKinds.Automatic => "Let the game decide, usually based on DA.",
+                        _ => null
+                    },
+                    Type = "range",
+                    Min = 0,
+                    Max = 1,
+                    Step = 0.01,
+                    Default = 0.5
+                });
+            }
             configDefinition.Groups.Add(dropGroup);
 
             var dropValuableGroup = new Group("Valuable Drops");
-            dropValuableGroup.Items.Add(new GroupItem()
+            foreach (var dropKind in DropKinds.HighValue)
             {
-                Id = $"drop-valuable-ammo",
-                Label = "Ammo",
-                Description = "A more generous portion of ammo.",
-                Type = "switch",
-                Default = true
-            });
-            dropValuableGroup.Items.Add(new GroupItem()
-            {
-                Id = $"drop-valuable-health",
-                Label = "Health",
-                Description = "First-Aid-Spray, Yellow Herbs, Fish, Golden Eggs",
-                Type = "switch",
-                Default = true
-            });
-            dropValuableGroup.Items.Add(new GroupItem()
-            {
-                Id = $"drop-valuable-treasure",
-                Label = "Treasure",
-                Description = "Spinels, Velvet Blue, Gemstones etc.",
-                Type = "switch",
-                Default = true
-            });
-            dropValuableGroup.Items.Add(new GroupItem()
-            {
-                Id = $"drop-valuable-weapon",
-                Label = "Weapon",
-                Description = "A weapon will be dropped, if not already in possession.",
-                Type = "switch",
-                Default = true
-            });
-            dropValuableGroup.Items.Add(new GroupItem()
-            {
-                Id = $"drop-valuable-attachment",
-                Label = "Weapon Attachment",
-                Description = "A weapon attachment will be dropped, if not already in possession.",
-                Type = "switch",
-                Default = true
-            });
+                dropValuableGroup.Items.Add(new GroupItem()
+                {
+                    Id = $"drop-valuable-{dropKind}",
+                    Label = dropKind.Replace("-", " ").ToTitleCase(),
+                    Type = "switch",
+                    Default = true
+                });
+            }
             configDefinition.Groups.Add(dropValuableGroup);
 
             var enemyGroup = new Group("Enemies");

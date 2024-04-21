@@ -6,6 +6,7 @@ using System.IO.Compression;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -17,14 +18,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly RandomizerLogger _loggerProcess = new RandomizerLogger();
         private readonly RandomizerLogger _loggerOutput = new RandomizerLogger();
         private RandomizerInput _input = new RandomizerInput();
-        private ItemRandomizer _itemRandomizer = new ItemRandomizer(false);
+        private ItemRandomizer? _itemRandomizer;
         private readonly ImmutableArray<Modifier> _modifiers = GetModifiers();
         private ImmutableArray<Area> _areas;
         private Rng _rng = new Rng();
 
         public EnemyClassFactory EnemyClassFactory { get; }
         public FileRepository FileRepository => _fileRepository;
-        public ItemRandomizer ItemRandomizer => _itemRandomizer;
+        public ItemRandomizer ItemRandomizer => _itemRandomizer!;
         public ImmutableArray<Area> Areas => _areas;
 
         public ChainsawRandomizer(EnemyClassFactory enemyClassFactory)
@@ -41,6 +42,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
 
             _itemRandomizer = new ItemRandomizer(
+                this,
                 allowBonusItems: GetConfigOption<bool>("allow-bonus-items"));
 
             // Supplement files

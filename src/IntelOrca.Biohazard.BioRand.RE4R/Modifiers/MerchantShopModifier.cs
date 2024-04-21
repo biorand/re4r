@@ -109,7 +109,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             // * Recipes
             for (var i = 0; i < rewardsRng.Next(0, 4); i++)
             {
-                var recipe = itemRandomizer.GetRandomItem(rewardsRng, ItemKinds.Recipe, allowReoccurance: false);
+                var recipe = itemRandomizer.GetRandomItemDefinition(rewardsRng, ItemKinds.Recipe, allowReoccurance: false);
                 if (recipe != null)
                     AddReward(recipe.Id, spinel: rewardsRng.Next(4, 9));
             }
@@ -125,7 +125,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             // * Case sizes
             for (var i = 0; i < rewardsRng.Next(0, 3); i++)
             {
-                var randomCase = itemRandomizer.GetRandomItem(rewardsRng, ItemKinds.CaseSize, allowReoccurance: false);
+                var randomCase = itemRandomizer.GetRandomItemDefinition(rewardsRng, ItemKinds.CaseSize, allowReoccurance: false);
                 if (randomCase != null)
                 {
                     var spinel = randomCase.Value / 2500;
@@ -134,14 +134,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             // * Health (unlimited)
-            var itemIds = new[] { ItemIds.FirstAidSpray, ItemIds.GreenHerb, ItemIds.ChickenEgg };
+            var itemIds = new[] { ItemIds.FirstAidSpray, ItemIds.HerbG, ItemIds.EggWhite };
             var healthItem = rewardsRng.Next(itemIds);
             AddReward(healthItem, spinel: rewardsRng.Next(1, 4), unlimited: true);
 
             // * Health (single)
             for (var i = 0; i < rewardsRng.Next(0, 4); i++)
             {
-                var item = itemRandomizer.GetRandomItem(rewardsRng, ItemKinds.Health);
+                var item = itemRandomizer.GetRandomItemDefinition(rewardsRng, ItemKinds.Health);
                 if (item != null)
                     AddReward(item.Id, spinel: rewardsRng.Next(1, 4));
             }
@@ -155,15 +155,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             // * Grenades
             if (rewardsRng.NextProbability(30))
             {
-                AddReward(ItemIds.FlashGrenade, spinel: rewardsRng.Next(2, 4), unlimited: true);
+                AddReward(ItemIds.GrenadeFlash, spinel: rewardsRng.Next(2, 4), unlimited: true);
             }
             if (rewardsRng.NextProbability(30))
             {
-                AddReward(ItemIds.HandGrenade, spinel: rewardsRng.Next(2, 4), unlimited: true);
+                AddReward(ItemIds.GrenadeLight, spinel: rewardsRng.Next(2, 4), unlimited: true);
             }
             if (rewardsRng.NextProbability(30))
             {
-                AddReward(ItemIds.HeavyGrenade, spinel: rewardsRng.Next(2, 4), unlimited: true);
+                AddReward(ItemIds.GrenadeHeavy, spinel: rewardsRng.Next(2, 4), unlimited: true);
             }
 
             // * Resources / gunpowder
@@ -183,7 +183,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             // * Charms
             for (var i = 0; i < rewardsRng.Next(0, 6); i++)
             {
-                var charm = itemRandomizer.GetRandomItem(rewardsRng, ItemKinds.Charm);
+                var charm = itemRandomizer.GetRandomItemDefinition(rewardsRng, ItemKinds.Charm);
                 if (charm != null)
                     AddReward(charm.Id, spinel: rewardsRng.Next(1, 4));
             }
@@ -191,7 +191,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             // * Teasures
             for (var i = 0; i < rewardsRng.Next(0, 8); i++)
             {
-                var treasure = itemRandomizer.GetRandomItem(rewardsRng, ItemKinds.Treasure);
+                var treasure = itemRandomizer.GetRandomItemDefinition(rewardsRng, ItemKinds.Treasure);
                 if (treasure != null)
                     AddReward(treasure.Id);
             }

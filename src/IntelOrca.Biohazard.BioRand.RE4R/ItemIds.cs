@@ -2,17 +2,31 @@
 {
     public static class ItemIds
     {
+        public const int Money = 124000000;
         public const int FirstAidSpray = 114416000;
-        public const int GreenHerb = 114400000;
-        public const int RedHerb = 114401600;
-        public const int YellowHerb = 114403200;
-        public const int ChickenEgg = 277080256;
-        public const int FlashGrenade = 277078656;
-        public const int HandGrenade = 277075456;
-        public const int HeavyGrenade = 277077056;
+        public const int HerbG = 114400000;
+        public const int HerbGG = 114404800;
+        public const int HerbGGY = 114414400;
+        public const int HerbGGG = 114406400;
+        public const int HerbGR = 114408000;
+        public const int HerbGRY = 114412800;
+        public const int HerbGY = 114409600;
+        public const int HerbR = 114401600;
+        public const int HerbRY = 114411200;
+        public const int HerbY = 114403200;
+        public const int EggWhite = 277080256;
+        public const int EggBrown = 277081856;
+        public const int EggGold = 277083456;
+        public const int GrenadeFlash = 277078656;
+        public const int GrenadeLight = 277075456;
+        public const int GrenadeHeavy = 277077056;
         public const int ResourcesSmall = 117606400;
         public const int ResourcesLarge = 117601600;
         public const int Gunpowder = 117600000;
+
+        public const int SmallKey = 119244800;
+        public const int TokenSilver = 119286400;
+        public const int TokenGold = 119288000;
 
         public const int RecipeHandgunAmmo = 124321600;
         public const int RecipeShotgunAmmo = 124323200;

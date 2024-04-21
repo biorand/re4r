@@ -186,7 +186,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 randomKind != ItemKinds.CasePerk &&
                 randomKind != ItemKinds.CaseSize &&
                 randomKind != ItemKinds.Charm;
-            var newItem = randomizer.ItemRandomizer.GetRandomItem(rng, randomKind, allowReoccurance: allowReoccurance);
+            var newItem = randomizer.ItemRandomizer.GetRandomItemDefinition(rng, randomKind, allowReoccurance: allowReoccurance);
             if (newItem == null)
                 return null;
 

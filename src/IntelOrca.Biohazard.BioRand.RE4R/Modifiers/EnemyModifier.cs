@@ -10,7 +10,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private int _contextId;
         private int _uniqueHp;
         private Rng.Table<EnemyClassDefinition>? _allEnemyRngTable;
-        private Rng.Table<ItemDefinition?>? _itemRngTable;
         private Rng.Table<int>? _parasiteRngTable;
         private Queue<EnemyClassDefinition> _enemyClassQueue = new Queue<EnemyClassDefinition>();
         private ImmutableArray<EnemyClassDefinition> _allEnemyClasses;
@@ -379,7 +378,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (ecd.Class < 6)
                 enemy.ItemDrop = GetRandomValuableItem(randomizer, enemy, ecd, rng);
             else
-                enemy.ItemDrop = GetRandomItem(randomizer, enemy, rng);
+                enemy.ItemDrop = randomizer.ItemRandomizer.GetRandomDrop(rng);
         }
 
         private bool IsEnemyRanged(ChainsawRandomizer randomizer, Enemy enemy)
@@ -437,88 +436,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return rng.Next(1, maxPackSize + 1);
         }
 
-        private Item? GetRandomItem(ChainsawRandomizer randomizer, Enemy enemy, Rng rng)
-        {
-            if (_itemRngTable == null)
-            {
-                var table = rng.CreateProbabilityTable<ItemDefinition?>();
-
-                var repo = ItemDefinitionRepository.Default;
-                var kindRatios = new List<(string, double)>();
-                foreach (var itemKind in repo.Kinds)
-                {
-                    var ratio = randomizer.GetConfigOption<double>($"drop-ratio-{itemKind}");
-                    if (ratio != 0)
-                    {
-                        kindRatios.Add((itemKind, ratio));
-                    }
-                }
-
-                var total = kindRatios.Select(x => x.Item2).Sum();
-
-                var autoRatio = randomizer.GetConfigOption<double>("drop-ratio-automatic");
-                if (autoRatio != 0)
-                {
-                    total += autoRatio;
-                    table.Add(ItemDefinition.Automatic, autoRatio / total);
-                }
-
-                var noneRatio = randomizer.GetConfigOption<double>("drop-ratio-none");
-                if (noneRatio != 0)
-                {
-                    total += noneRatio;
-                    table.Add(null, noneRatio / total);
-                }
-
-                foreach (var (kind, ratio) in kindRatios)
-                {
-                    var itemsForThisKind = repo.KindToItemMap[kind];
-                    var p = (ratio / total) / itemsForThisKind.Length;
-                    foreach (var itemDef in itemsForThisKind)
-                    {
-                        if (string.IsNullOrEmpty(itemDef.Mode))
-                        {
-                            table.Add(itemDef, p);
-                        }
-                    }
-                }
-
-                _itemRngTable = table;
-            }
-
-            var def = _itemRngTable.Next();
-            if (def == null)
-            {
-                return null;
-            }
-            else
-            {
-                var amount = GetRandomItemQuantity(randomizer, def, rng);
-                var item = new Item(def.Id, amount);
-                return item;
-            }
-        }
-
-        private int GetRandomItemQuantity(ChainsawRandomizer randomizer, ItemDefinition def, Rng rng)
-        {
-            var amount = 1;
-            if (def.Kind == ItemKinds.Money)
-            {
-                var multiplier = randomizer.GetConfigOption<double>("money-quantity");
-                amount = Math.Max(1, (int)(rng.Next(100, 2000) * multiplier));
-            }
-            else if (def.Kind == ItemKinds.Ammo)
-            {
-                var multiplier = randomizer.GetConfigOption<double>("ammo-quantity");
-                amount = Math.Max(1, (int)(rng.Next(10, 50) * multiplier));
-            }
-            else if (def.Kind == ItemKinds.Gunpowder)
-            {
-                amount = Math.Max(1, 10);
-            }
-            return amount;
-        }
-
         private Item? GetRandomValuableItem(ChainsawRandomizer randomizer, Enemy enemy, EnemyClassDefinition ecd, Rng rng)
         {
             var itemRepo = ItemDefinitionRepository.Default;
@@ -527,7 +444,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .ToArray();
 
             if (kinds.Length == 0)
-                return GetRandomItem(randomizer, enemy, rng);
+                return randomizer.ItemRandomizer.GetRandomDrop(rng);
 
             var kind = rng.Next(kinds);
             var itemPool = itemRepo.KindToItemMap[kind];
