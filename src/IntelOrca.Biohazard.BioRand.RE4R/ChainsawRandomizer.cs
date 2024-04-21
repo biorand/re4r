@@ -18,6 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly RandomizerLogger _loggerProcess = new RandomizerLogger();
         private readonly RandomizerLogger _loggerOutput = new RandomizerLogger();
         private RandomizerInput _input = new RandomizerInput();
+        private WeaponDistributor? _weaponDistributor;
         private ItemRandomizer? _itemRandomizer;
         private readonly ImmutableArray<Modifier> _modifiers = GetModifiers();
         private ImmutableArray<Area> _areas;
@@ -25,6 +26,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public EnemyClassFactory EnemyClassFactory { get; }
         public FileRepository FileRepository => _fileRepository;
+
+        public WeaponDistributor WeaponDistributor => _weaponDistributor!;
         public ItemRandomizer ItemRandomizer => _itemRandomizer!;
         public ImmutableArray<Area> Areas => _areas;
 
@@ -40,6 +43,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 _fileRepository = new FileRepository(input.GamePath);
             }
+
+            foreach (var logger in new[] { _loggerInput, _loggerProcess, _loggerOutput })
+            {
+                logger.LogHr();
+                logger.LogVersion();
+                logger.LogLine($"Seed = {input.Seed}");
+                logger.LogHr();
+            }
+            var areas = GetAreas();
 
             _itemRandomizer = new ItemRandomizer(
                 this,
@@ -59,21 +71,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var rng = new Rng(input.Seed);
             _rng = rng;
 
+            _weaponDistributor = new WeaponDistributor(this);
+            _weaponDistributor.Setup(_itemRandomizer, _rng, _loggerProcess);
+
             var inventoryRng = CreateRng();
             var merchantRng = CreateRng();
             var enemyRng = CreateRng();
             var itemRng = CreateRng();
 
             var itemData = ChainsawItemData.FromData(_fileRepository);
-
-            foreach (var logger in new[] { _loggerInput, _loggerProcess, _loggerOutput })
-            {
-                logger.LogHr();
-                logger.LogVersion();
-                logger.LogLine($"Seed = {input.Seed}");
-                logger.LogHr();
-            }
-            var areas = GetAreas();
 
             // Input
             IterateModifiers((n, m) =>

@@ -20,20 +20,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         {
             _randomizer = randomizer;
             _allowBonusItems = allowBonusItems;
-            _placedItemIds.Add(ItemIds.RecipeHandgunAmmo);
-            _placedItemIds.Add(ItemIds.RecipeShotgunAmmo);
-            _placedItemIds.Add(ItemIds.RecipeHerbGG);
-            _placedItemIds.Add(ItemIds.RecipeHerbGR);
-            _placedItemIds.Add(ItemIds.RecipeHerbGY);
-            _placedItemIds.Add(ItemIds.RecipeHerbRY);
-            _placedItemIds.Add(ItemIds.RecipeHerbGGG);
-            _placedItemIds.Add(ItemIds.RecipeHerbGGY1);
-            _placedItemIds.Add(ItemIds.RecipeHerbGGY2);
-            _placedItemIds.Add(ItemIds.RecipeHerbGRY1);
-            _placedItemIds.Add(ItemIds.RecipeHerbGRY2);
-            _placedItemIds.Add(ItemIds.RecipeHerbGRY3);
-            _placedItemIds.Add(ItemIds.RecipeHerbGRY3);
-            _placedItemIds.Add(ItemIds.Case7x10);
         }
 
         public ItemDefinition? GetRandomWeapon(Rng rng, string? classification = null, bool allowReoccurance = true)
@@ -54,6 +40,30 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public ItemDefinition? GetRandomAttachment(Rng rng, string? classification = null, bool allowReoccurance = true)
         {
             return GetRandomItemDefinition(rng, ItemKinds.Attachment, classification, allowReoccurance);
+        }
+
+        public ItemDefinition? GetRandomAttachment(Rng rng, ItemDefinition? weapon, bool allowReoccurance = true)
+        {
+            var itemRepo = ItemDefinitionRepository.Default;
+            var poolEnumerable = itemRepo
+                .GetAll(ItemKinds.Attachment)
+                .Where(x => _allowBonusItems || !(x.Bonus ?? false));
+            if (!allowReoccurance)
+            {
+                poolEnumerable = poolEnumerable
+                    .Where(x => !_placedItemIds.Contains(x.Id));
+            }
+            if (weapon != null)
+            {
+                poolEnumerable = poolEnumerable.Where(x => x.Weapons?.Contains(weapon.Id) ?? false);
+            }
+            var pool = poolEnumerable.ToArray();
+            if (pool.Length == 0)
+                return null;
+
+            var chosen = rng.Next(pool);
+            _placedItemIds.Add(chosen.Id);
+            return chosen;
         }
 
         public ItemDefinition? GetRandomItemDefinition(Rng rng, string kind, string? classification = null, bool allowReoccurance = true)

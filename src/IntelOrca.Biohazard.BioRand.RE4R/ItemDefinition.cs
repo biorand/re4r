@@ -12,6 +12,7 @@
         public string? Class { get; set; }
         public bool? Bonus { get; set; }
         public int Value { get; set; }
+        public int[]? Weapons { get; set; }
 
         public bool IsAutomatic => Id == -1;
         public int Width => int.Parse((Size ?? "2x2").Split('x')[0]);

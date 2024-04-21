@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -13,12 +14,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             logger.LogLine($"PTAS = {inventory.PTAS}");
             logger.LogLine($"Spinels = {inventory.SpinelCount}");
+
+            var itemsById = inventory.Data[0].InventoryItems
+                .GroupBy(x => x.Item.ItemId)
+                .OrderBy(x => x.Key)
+                .ToArray();
+            foreach (var itemGroup in itemsById)
+            {
+                var item = itemGroup.First();
+                var count = itemGroup.Sum(x => x.Item.CurrentItemCount);
+                logger.LogLine($"{item} {count}");
+            }
         }
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             _inventory ??= ChainsawPlayerInventory.FromData(randomizer.FileRepository);
             var inventory = _inventory;
+
+            AssumeStartingItems(randomizer);
 
             var itemRandomizer = randomizer.ItemRandomizer;
             if (!randomizer.GetConfigOption<bool>("random-inventory"))
@@ -36,28 +50,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             inventory.ClearItems();
 
             // Weapons
-            var primaryWeaponKind = randomizer.GetConfigOption("inventory-weapon-primary", "handgun")!;
-            var secondaryWeaponKind = randomizer.GetConfigOption("inventory-weapon-secondary", "random")!;
-            var knifeWeapon = itemRandomizer.GetRandomWeapon(rng, ItemClasses.Knife, allowReoccurance: false);
-            var primaryWeapon = itemRandomizer.GetRandomWeapon(rng, primaryWeaponKind, allowReoccurance: false);
-            var secondaryWeapon = itemRandomizer.GetRandomWeapon(rng, secondaryWeaponKind, allowReoccurance: false);
-            if (knifeWeapon != null)
+            var weapons = randomizer.WeaponDistributor.GetStartingWeapons();
+            foreach (var weapon in weapons)
             {
-                inventory.AddItem(new Item(knifeWeapon.Id));
-            }
-            if (primaryWeapon != null)
-            {
-                inventory.AddItem(new Item(primaryWeapon.Id));
-                var ammo = itemRandomizer.GetRandomItemDefinition(rng, ItemKinds.Ammo, primaryWeapon.Class);
+                inventory.AddItem(new Item(weapon.Id));
+                var ammo = itemRandomizer.GetRandomItemDefinition(rng, ItemKinds.Ammo, weapon.Class);
                 if (ammo != null)
+                {
                     inventory.AddItem(new Item(ammo.Id));
-            }
-            if (secondaryWeapon != null)
-            {
-                inventory.AddItem(new Item(secondaryWeapon.Id));
-                var ammo = itemRandomizer.GetRandomItemDefinition(rng, ItemKinds.Ammo, secondaryWeapon.Class);
-                if (ammo != null)
-                    inventory.AddItem(new Item(ammo.Id));
+                }
             }
 
             // Other stuff
@@ -92,5 +93,33 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.LogLine($"Add item {item.Item} {item.Item.CurrentItemCount}");
             }
         }
+
+        private static void AssumeStartingItems(ChainsawRandomizer randomizer)
+        {
+            foreach (var id in _startingItems)
+            {
+                randomizer.ItemRandomizer.MarkItemPlaced(id);
+            }
+        }
+
+        private static readonly int[] _startingItems = [
+            ItemIds.RecipeHandgunAmmo,
+            ItemIds.RecipeShotgunAmmo,
+            ItemIds.RecipeRifleAmmo,
+            ItemIds.RecipeSmgAmmo,
+            ItemIds.RecipeHerbGG,
+            ItemIds.RecipeHerbGR,
+            ItemIds.RecipeHerbGY,
+            ItemIds.RecipeHerbRY,
+            ItemIds.RecipeHerbGGG,
+            ItemIds.RecipeHerbGGY1,
+            ItemIds.RecipeHerbGGY2,
+            ItemIds.RecipeHerbGRY1,
+            ItemIds.RecipeHerbGRY2,
+            ItemIds.RecipeHerbGRY3,
+            ItemIds.RecipeHerbGRY3,
+            ItemIds.Case7x10,
+            ItemIds.CaseSilver,
+        ];
     }
 }

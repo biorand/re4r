@@ -190,37 +190,63 @@
     {
       "name": "Scope",
       "kind": "attachment",
-      "id": 116000000
+      "id": 116000000,
+      "weapons": [
+        275158656,
+        275475456,
+        275477056,
+        275478656
+      ]
     },
     {
       "name": "Red9 Stock",
       "kind": "attachment",
-      "id": 116001600
+      "id": 116001600,
+      "weapons": [ 274838656 ]
     },
     {
       "name": "High-power Scope",
       "kind": "attachment",
-      "id": 116003200
+      "id": 116003200,
+      "weapons": [
+        275158656,
+        275475456,
+        275477056,
+        275478656
+      ]
     },
     {
       "name": "Biosensor Scope",
       "kind": "attachment",
-      "id": 116004800
+      "id": 116004800,
+      "weapons": [
+        275158656,
+        275475456,
+        275477056,
+        275478656
+      ]
     },
     {
       "name": "TMP Stock",
       "kind": "attachment",
-      "id": 116006400
+      "id": 116006400,
+      "weapons": [ 275155456 ]
     },
     {
       "name": "Laser Sight",
       "kind": "attachment",
-      "id": 116008000
+      "id": 116008000,
+      "weapons": [
+        274835456,
+        274837056,
+        278035456
+      ]
     },
     {
       "name": "Matilda Stock",
       "kind": "attachment",
-      "id": 116009600
+      "id": 116009600,
+      "weapons": [ 274841856 ]
     },
     {
       "name": "Gunpowder",
@@ -1730,7 +1756,8 @@
     {
       "name": "Mercenaries Krauser's bow",
       "kind": "weapon",
-      "id": 278521856
+      "id": 278521856,
+      "mode": "mercenaries"
     },
     {
       "name": "it_wp6304_10_0",

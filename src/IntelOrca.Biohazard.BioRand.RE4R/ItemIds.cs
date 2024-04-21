@@ -53,10 +53,13 @@
 
         public const int Case7x10 = 124160000;
 
+        public const int CaseSilver = 124176000;
+
         public const int ExclusiveUpgradeTicket = 120867200;
         public const int VelvetBlue = 120864000;
         public const int SG09R = 274835456;
         public const int CombatKnife = 276435456;
+        public const int BiosensorScope = 116004800;
         public const int BodyArmor = 124001600;
     }
 }
