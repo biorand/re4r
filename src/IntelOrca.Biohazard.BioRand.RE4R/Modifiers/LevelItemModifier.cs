@@ -83,7 +83,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     var contextId = ContextId.FromRsz(instance.Get<RszInstance>("ID")!);
                     if (contextId == new ContextId(2, 0, 12, 472) ||
-                        contextId == new ContextId(2, 0, 12, 405))
+                        contextId == new ContextId(2, 0, 12, 405) ||
+                        contextId == new ContextId(2, 0, 61, 67))
                     {
                         continue;
                     }
