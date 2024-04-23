@@ -34,26 +34,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (extra.Enemies == null)
                         continue;
 
-                    var spawnController = CreateSpawnController(scn, "BioRandSpawnController");
-                    if (!string.IsNullOrEmpty(extra.Condition))
+                    foreach (var g in extra.Enemies.GroupBy(x => x.Stage))
                     {
-                        spawnController.Components[1].Set("_SpawnCondition._Logic", 0);
-                        spawnController.Components[1].Set("_SpawnCondition._CheckFlags", new List<object>()
+                        var spawnController = CreateSpawnController(scn, "BioRandSpawnController");
+                        if (!string.IsNullOrEmpty(extra.Condition))
+                        {
+                            spawnController.Components[1].Set("_SpawnCondition._Logic", 0);
+                            spawnController.Components[1].Set("_SpawnCondition._CheckFlags", new List<object>()
                         {
                             CreateCheckFlag(scn, new Guid(extra.Condition)),
                         });
-                        logger.Push($"CharacterSpawnController Condition = ({extra.Condition})");
-                    }
-                    else
-                    {
-                        logger.Push($"CharacterSpawnController");
-                    }
+                            logger.Push($"CharacterSpawnController Condition = ({extra.Condition})");
+                        }
+                        else
+                        {
+                            logger.Push($"CharacterSpawnController");
+                        }
 
 
-                    foreach (var enemyDef in extra.Enemies)
-                    {
-                        var position = new Vector3(enemyDef.X, enemyDef.Y, enemyDef.Z);
-                        CreateEnemy(scn, spawnController, "BioRandEnemy", enemyDef.Stage, position, RandomRotation(rng), logger);
+                        foreach (var enemyDef in g)
+                        {
+                            var position = new Vector3(enemyDef.X, enemyDef.Y, enemyDef.Z);
+                            CreateEnemy(scn, spawnController, "BioRandEnemy", enemyDef.Stage, position, RandomRotation(rng), logger);
+                        }
                     }
                     logger.Pop();
                 }
