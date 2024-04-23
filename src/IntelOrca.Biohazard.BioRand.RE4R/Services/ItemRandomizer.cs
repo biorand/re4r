@@ -10,6 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         private readonly HashSet<int> _placedItemIds = new HashSet<int>();
         private readonly bool _allowBonusItems;
         private Rng.Table<string>? _itemRngTable;
+        private EndlessBag<string>? _generalDrops;
 
         public int[] PlacedItemIds => _placedItemIds.ToArray();
         public ItemDefinition[] PlacedItems => _placedItemIds
@@ -90,7 +91,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public Item? GetRandomDrop(Rng rng)
         {
             var table = GetItemRngTable(rng);
-            var dropKind = table.Next();
+            return GetRandomDrop(rng, table.Next());
+        }
+
+        public Item? GetRandomDrop(Rng rng, string dropKind)
+        {
             return dropKind switch
             {
                 // General
@@ -157,6 +162,41 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return _itemRngTable;
         }
 
+        public Item? GetNextGeneralDrop(Rng rng)
+        {
+            _generalDrops ??= CreateGeneralItemPool(rng);
+            var kind = _generalDrops.Next();
+            return GetRandomDrop(rng, kind);
+        }
+
+        public EndlessBag<string> CreateGeneralItemPool(Rng rng)
+        {
+            var ratios = new Dictionary<string, double>();
+            foreach (var dropKind in DropKinds.Generic)
+            {
+                var ratio = _randomizer.GetConfigOption<double>($"drop-ratio-{dropKind}");
+                if (ratio > 0)
+                {
+                    ratios.Add(dropKind, ratio);
+                }
+            }
+            var smallestRatio = ratios.Min(x => x.Value);
+            foreach (var k in ratios.Keys)
+            {
+                ratios[k] = ratios[k] / smallestRatio;
+            }
+
+            var pool = new List<string>();
+            foreach (var kvp in ratios)
+            {
+                for (var i = 0; i < kvp.Value; i++)
+                {
+                    pool.Add(kvp.Key);
+                }
+            }
+            return new EndlessBag<string>(rng, pool);
+        }
+
         public Item? GetRandomItem(Rng rng, string kind, string? classification = null, bool allowReoccurance = false)
         {
             ItemDefinition? itemDefinition;
@@ -199,6 +239,38 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var max = _randomizer.GetConfigOption("money-drop-max", 1000);
             var value = rng.Next(min, max + 1);
             return new Item(ItemIds.Money, value);
+        }
+
+        public Item? GetRandomTreasure(Rng rng, int classNumber)
+        {
+            var min = GetMaxTreasureValue(classNumber + 1);
+            var max = GetMaxTreasureValue(classNumber);
+            return GetRandomTreasure(rng, min, max);
+        }
+
+        static int GetMaxTreasureValue(int cn)
+        {
+            var f = Math.Pow(Math.Clamp((6 - cn) / 5.0, 0, 1), 2);
+            var v = 2500 + ((30000 - 2500) * f);
+            return (int)Math.Clamp(v, 2500, 30000);
+        }
+
+        public Item? GetRandomTreasure(Rng rng, int minValue, int maxValue)
+        {
+            var itemRepo = ItemDefinitionRepository.Default;
+            var treasureItems = itemRepo.KindToItemMap[ItemKinds.Treasure]
+                .Shuffle(rng)
+                .OrderBy(x => x.Value)
+                .Where(x => x.Value >= minValue && x.Value <= maxValue)
+                .ToArray();
+
+            if (treasureItems.Length == 0)
+            {
+                return new Item(ItemIds.Spinel);
+            }
+
+            var def = rng.Next(treasureItems);
+            return new Item(def.Id, 1);
         }
 
         public static Item GetRandomGunpowder(Rng rng)

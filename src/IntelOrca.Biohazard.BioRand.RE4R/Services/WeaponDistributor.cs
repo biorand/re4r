@@ -38,7 +38,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             }
 
             // Chapters
-            var endlessBag = new EndlessBag<int>(rng, Enumerable.Range(1, 13));
+            var endlessBag = new EndlessBag<int>(rng, Enumerable.Range(1, 12));
             while (true)
             {
                 var weapon = itemRandomizer.GetRandomWeapon(rng, allowReoccurance: false);

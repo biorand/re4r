@@ -61,5 +61,6 @@
         public const int CombatKnife = 276435456;
         public const int BiosensorScope = 116004800;
         public const int BodyArmor = 124001600;
+        public const int Spinel = 120800000;
     }
 }

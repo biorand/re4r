@@ -98,12 +98,30 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .ToImmutableArray();
 
             var rng = randomizer.CreateRng();
+
+            // Randomize enemies
+            logger.Push("Randomizing enemies");
             foreach (var area in randomizer.Areas)
             {
                 logger.Push(area.FileName);
                 RandomizeArea(randomizer, area, rng, logger);
                 logger.Pop();
             }
+            logger.Pop();
+
+            // Randomize enemy drops
+            logger.Push("Randomizing drops");
+            var areaByChapter = randomizer.Areas.GroupBy(x => x.Definition.Chapter);
+            foreach (var group in areaByChapter)
+            {
+                var chapter = group.Key;
+                var enemies = group
+                    .SelectMany(x => x.EnemySpawns)
+                    .Where(x => x.Enemy.Kind.Key != "mendez_chase")
+                    .ToImmutableArray();
+                RandomizeEnemyDrops(randomizer, chapter, enemies, rng, logger);
+            }
+            logger.Pop();
         }
 
         private void RandomizeArea(ChainsawRandomizer randomizer, Area area, Rng rng, RandomizerLogger logger)
@@ -126,6 +144,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             ChooseClasses(randomizer, spawns, rng);
 
             // Randomize
+            area.EnemySpawns = spawns;
             foreach (var spawn in spawns)
             {
                 if (spawn.ChosenClass is EnemyClassDefinition ecd)
@@ -163,7 +182,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
 
                     RandomizeHealth(randomizer, e, ecd, healthRng);
-                    RandomizeDrop(randomizer, e, ecd, dropRng);
+                    // RandomizeDrop(randomizer, e, ecd, dropRng);
 
                     // If there are a lot of enemies, plaga seems to randomly crash the game
                     // E.g. village, 360 zealots, 25 plaga will crash
@@ -178,6 +197,97 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     logger.LogLine($"{spawn.Enemy.Guid} {spawn.Enemy.Kind} Health = {spawn.Enemy.Health}");
                 }
+            }
+        }
+
+        private void RandomizeEnemyDrops(ChainsawRandomizer randomizer, int chapter, ImmutableArray<EnemySpawn> chapterSpawns, Rng rng, RandomizerLogger logger)
+        {
+            logger.Push($"Chapter {chapter}");
+            var spawnsLeft = chapterSpawns
+                .OrderByDescending(x => x.Enemy.Health ?? 0)
+                .ToList();
+
+            var valuableRatio = randomizer.GetConfigOption<double>("valuable-drop-ratio");
+            var valuableCount = (int)(spawnsLeft.Count * valuableRatio);
+
+            // Weapons
+            var weaponDrops = randomizer.WeaponDistributor
+                .GetWeaponsForDrop(chapter)
+                .Shuffle(rng);
+            logger.Push("Weapons");
+            foreach (var weapon in weaponDrops)
+            {
+                if (spawnsLeft.Count == 0)
+                    break;
+
+                var i = GetRandomHighClassEnemy(spawnsLeft, rng, noHorde: true);
+                var spawn = spawnsLeft[i];
+                spawnsLeft.RemoveAt(i);
+                var item = new Item(weapon.Id, 1);
+                spawn.Enemy.ItemDrop = item;
+                logger.LogLine(spawn.Guid, spawn.Enemy.Kind, item);
+            }
+            logger.Pop();
+
+            // Valuable items
+            logger.Push("Valuables");
+            for (var i = 0; i < valuableCount; i++)
+            {
+                if (spawnsLeft.Count == 0)
+                    break;
+
+                var j = GetRandomHighClassEnemy(spawnsLeft, rng);
+                var spawn = spawnsLeft[j];
+                spawnsLeft.RemoveAt(j);
+
+                var classNumber = spawn.ChosenClass?.Class ?? 5;
+                spawn.Enemy.ItemDrop = randomizer.ItemRandomizer.GetRandomTreasure(rng, classNumber);
+                logger.LogLine(spawn.Guid, spawn.Enemy.Kind, spawn.Enemy.ItemDrop!);
+            }
+            logger.Pop();
+
+            logger.Push("General");
+            var itemRandomizer = randomizer.ItemRandomizer;
+            foreach (var spawn in spawnsLeft)
+            {
+                spawn.Enemy.ItemDrop = itemRandomizer.GetNextGeneralDrop(rng);
+                logger.LogLine(spawn.Guid, (object?)spawn.Enemy.ItemDrop ?? "(none)");
+            }
+            logger.Pop();
+            logger.Pop();
+        }
+
+        private int GetRandomHighClassEnemy(List<EnemySpawn> chapterSpawns, Rng rng, bool noHorde = false)
+        {
+            var possibleClassNumbers = chapterSpawns
+                .Where(x => !(noHorde && x.Horde))
+                .Where(x => x.ChosenClass != null)
+                .Select(x => x.ChosenClass!.Class)
+                .Distinct()
+                .Order()
+                .ToArray();
+
+            if (possibleClassNumbers.Length == 0)
+            {
+                var index = rng.Next(0, chapterSpawns.Count);
+                return index;
+            }
+            else
+            {
+                var classNumber = possibleClassNumbers.Last();
+                for (var i = 0; i < possibleClassNumbers.Length - 1; i++)
+                {
+                    if (rng.NextProbability(75))
+                    {
+                        classNumber = possibleClassNumbers[i];
+                        break;
+                    }
+                }
+                var spawn = chapterSpawns
+                    .Where(x => x.ChosenClass?.Class == classNumber)
+                    .Shuffle(rng)
+                    .First();
+                return chapterSpawns.IndexOf(spawn);
             }
         }
 
@@ -198,6 +308,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 if (restrictionBlock != null)
                 {
+                    spawn.Horde = restrictionBlock.Horde;
                     spawn.PreventDuplicate = restrictionBlock.PreventDuplicate;
 
                     var includedClasses = restrictionBlock.Include;
@@ -474,53 +585,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private static double GetClassRatio(ChainsawRandomizer randomizer, EnemyClassDefinition ecd)
         {
             return randomizer.GetConfigOption<double>($"enemy-ratio-{ecd.Key}");
-        }
-
-        private class EnemySpawn
-        {
-            public Area Area { get; }
-            public Enemy OriginalEnemy { get; }
-            public Enemy Enemy { get; private set; }
-            public bool PreventDuplicate { get; set; }
-            public ImmutableArray<EnemyClassDefinition> PreferredClassPool { get; set; } = [];
-            public ImmutableArray<EnemyClassDefinition> ClassPool { get; set; } = [];
-            public EnemyClassDefinition? ChosenClass { get; set; }
-
-            public EnemySpawn(Area area, Enemy originalEnemy, Enemy enemy)
-            {
-                Area = area;
-                OriginalEnemy = originalEnemy;
-                Enemy = enemy;
-            }
-
-            public Guid OriginalGuid => OriginalEnemy.Guid;
-
-            public void ConvertType(Area area, EnemyKindDefinition kind)
-            {
-                Enemy = area.ConvertTo(Enemy, kind.ComponentName);
-            }
-
-            public bool Prefers(EnemyClassDefinition ecd)
-            {
-                if (PreferredClassPool.IsDefaultOrEmpty)
-                    return ClassPool.Contains(ecd);
-                return PreferredClassPool.Contains(ecd);
-            }
-
-            public EnemySpawn Duplicate(int contextId)
-            {
-                var newEnemy = Area.Duplicate(Enemy, contextId);
-                var result = new EnemySpawn(Area, Enemy, newEnemy);
-                result.ClassPool = ClassPool;
-                result.PreferredClassPool = PreferredClassPool;
-                result.ChosenClass = ChosenClass;
-                return result;
-            }
-
-            public override string ToString()
-            {
-                return $"{Enemy.Guid} ({Enemy.Kind})";
-            }
         }
     }
 }

@@ -41,9 +41,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         {
                             spawnController.Components[1].Set("_SpawnCondition._Logic", 0);
                             spawnController.Components[1].Set("_SpawnCondition._CheckFlags", new List<object>()
-                        {
-                            CreateCheckFlag(scn, new Guid(extra.Condition)),
-                        });
+                            {
+                                CreateCheckFlag(scn, new Guid(extra.Condition)),
+                            });
                             logger.Push($"CharacterSpawnController Condition = ({extra.Condition})");
                         }
                         else
@@ -51,14 +51,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             logger.Push($"CharacterSpawnController");
                         }
 
-
                         foreach (var enemyDef in g)
                         {
                             var position = new Vector3(enemyDef.X, enemyDef.Y, enemyDef.Z);
                             CreateEnemy(scn, spawnController, "BioRandEnemy", enemyDef.Stage, position, RandomRotation(rng), rng, logger);
                         }
+                        logger.Pop();
                     }
-                    logger.Pop();
                 }
                 logger.Pop();
             }

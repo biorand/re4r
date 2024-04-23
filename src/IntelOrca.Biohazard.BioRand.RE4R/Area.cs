@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using RszTool;
@@ -46,6 +47,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
+        public ImmutableArray<EnemySpawn> EnemySpawns { get; set; }
 
         private RszInstance? GetMainEnemyComponent(ScnFile.GameObjectData gameObject)
         {

@@ -179,6 +179,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 100,
                 Default = 1000
             });
+            generalGroup.Items.Add(new GroupItem()
+            {
+                Id = $"valuable-drop-ratio",
+                Label = "Valuable Drop Ratio",
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 0.25
+            });
             // generalGroup.Items.Add(new GroupItem()
             // {
             //     Id = $"progressive-difficulty",

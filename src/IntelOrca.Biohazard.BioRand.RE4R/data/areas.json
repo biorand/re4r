@@ -169,6 +169,7 @@
             "d47e2d46-cd1f-41b4-8f5e-9c58183540ee", // chainsaw
             "beeac7f4-214f-4b31-ad01-78fd82f1f584" // person in closet
           ],
+          "horde": true,
           "preventDuplicate": true,
           "exclude": [
             "pig"
@@ -177,7 +178,11 @@
         {
           "guids": [
             "875b72c1-3cab-4914-b77a-ae309ed8f459" // police on fire
-          ]
+          ],
+          "horde": true
+        },
+        {
+          "horde": true
         }
       ]
     },
