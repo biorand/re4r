@@ -55,7 +55,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         foreach (var enemyDef in g)
                         {
                             var position = new Vector3(enemyDef.X, enemyDef.Y, enemyDef.Z);
-                            CreateEnemy(scn, spawnController, "BioRandEnemy", enemyDef.Stage, position, RandomRotation(rng), logger);
+                            CreateEnemy(scn, spawnController, "BioRandEnemy", enemyDef.Stage, position, RandomRotation(rng), rng, logger);
                         }
                     }
                     logger.Pop();
@@ -67,6 +67,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private ContextId GetNextContextId()
         {
             return new ContextId(0, 0, _contextIdGroup, _contextIdIndex++);
+        }
+
+        private Guid NextGuid(Rng rng)
+        {
+            return rng.NextGuid();
         }
 
         private static Vector4 RandomRotation(Rng rng)
@@ -96,12 +101,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return newGameObject;
         }
 
-        private ScnFile.GameObjectData CreateEnemy(ScnFile scn, ScnFile.GameObjectData parent, string name, int stageId, Vector3 position, Vector4 rotation, RandomizerLogger logger)
+        private ScnFile.GameObjectData CreateEnemy(ScnFile scn, ScnFile.GameObjectData parent, string name, int stageId, Vector3 position, Vector4 rotation, Rng rng, RandomizerLogger logger)
         {
             var newGameObject = scn.CreateGameObject(name);
             SetTransform(scn, newGameObject, new Vector4(position, 1), rotation);
             scn.RemoveGameObject(newGameObject);
             newGameObject = scn.ImportGameObject(newGameObject, parent: parent);
+            newGameObject.Guid = NextGuid(rng);
 
             var contextId = GetNextContextId();
             var spawnParam = CreateComponent(scn, newGameObject, "chainsaw.Ch1c0SpawnParamCommon");

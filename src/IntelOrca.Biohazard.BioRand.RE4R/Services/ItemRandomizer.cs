@@ -98,7 +98,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 DropKinds.Automatic => new Item(-1, 0),
                 DropKinds.Ammo => GetRandomAmmo(rng),
                 DropKinds.Fas => new Item(ItemIds.FirstAidSpray, 1),
-                DropKinds.Fish => GetRandomItem(rng, ItemKinds.Fish),
+                DropKinds.Fish => GetRandomItem(rng, ItemKinds.Fish, allowReoccurance: true),
                 DropKinds.EggBrown => new Item(ItemIds.EggBrown, 1),
                 DropKinds.EggWhite => new Item(ItemIds.EggWhite, 1),
                 DropKinds.EggGold => new Item(ItemIds.EggGold, 1),
@@ -116,8 +116,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 DropKinds.HerbR => new Item(ItemIds.HerbR, 1),
                 DropKinds.HerbRY => new Item(ItemIds.HerbRY, 1),
                 DropKinds.HerbY => new Item(ItemIds.HerbY, 1),
-                DropKinds.Knife => GetRandomItem(rng, ItemKinds.Knife),
-                DropKinds.Money => GetRandomItem(rng, ItemKinds.Money),
+                DropKinds.Knife => GetRandomItem(rng, ItemKinds.Knife, allowReoccurance: true),
+                DropKinds.Money => GetRandomItem(rng, ItemKinds.Money, allowReoccurance: true),
                 DropKinds.ResourceLarge => new Item(ItemIds.ResourcesLarge, 1),
                 DropKinds.ResourceSmall => new Item(ItemIds.ResourcesSmall, 1),
                 DropKinds.TokenSilver => new Item(ItemIds.TokenSilver, 1),
@@ -130,7 +130,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 DropKinds.Charm => GetRandomItem(rng, ItemKinds.Charm),
                 DropKinds.Recipe => GetRandomItem(rng, ItemKinds.Recipe),
                 DropKinds.SmallKey => new Item(ItemIds.SmallKey, 1),
-                DropKinds.Treasure => GetRandomItem(rng, ItemKinds.Treasure),
+                DropKinds.Treasure => GetRandomItem(rng, ItemKinds.Treasure, allowReoccurance: true),
                 DropKinds.Weapon => GetRandomItem(rng, ItemKinds.Weapon),
 
                 _ => null,
@@ -181,12 +181,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return null;
         }
 
-        public Item GetRandomAmmo(Rng rng)
+        public Item? GetRandomAmmo(Rng rng)
         {
+            var itemDef = GetRandomItemDefinition(rng, ItemKinds.Ammo);
+            if (itemDef == null)
+                return null;
+
             // TODO this should be percentage of a stack
             var multiplier = _randomizer.GetConfigOption<double>("ammo-quantity");
             var amount = Math.Max(1, (int)(rng.Next(10, 50) * multiplier));
-            return new Item(ItemIds.Gunpowder, amount);
+            return new Item(itemDef.Id, amount);
         }
 
         public Item GetRandomMoney(Rng rng)

@@ -80,6 +80,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return new Table<T>(this);
         }
 
+        public Guid NextGuid()
+        {
+            var buffer = new byte[16];
+            _random.NextBytes(buffer);
+            return new Guid(buffer);
+        }
+
         public class Table<T>
         {
             private readonly Rng _rng;
