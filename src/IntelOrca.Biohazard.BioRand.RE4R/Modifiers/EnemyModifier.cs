@@ -118,6 +118,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var enemies = group
                     .SelectMany(x => x.EnemySpawns)
                     .Where(x => x.Enemy.Kind.Key != "mendez_chase")
+                    .Where(x => !x.HasKeyItem)
                     .ToImmutableArray();
                 RandomizeEnemyDrops(randomizer, chapter, enemies, rng, logger);
             }

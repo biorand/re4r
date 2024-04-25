@@ -47,6 +47,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return result;
         }
 
+        public bool HasKeyItem
+        {
+            get
+            {
+                if (Guid == OriginalGuid && Enemy.ItemDrop is Item item)
+                {
+                    var itemRepo = ItemDefinitionRepository.Default;
+                    var itemDef = itemRepo.Find(item.Id);
+                    if (itemDef != null && itemDef.Kind == ItemKinds.Key)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
         public override string ToString()
         {
             return $"{Enemy.Guid} ({Enemy.Kind})";
