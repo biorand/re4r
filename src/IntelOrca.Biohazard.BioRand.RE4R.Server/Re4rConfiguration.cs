@@ -1,10 +1,13 @@
-﻿using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+﻿using System;
+using System.IO;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public class Re4rConfiguration
     {
         public string? GamePath { get; set; }
+        public DatabaseConfig? Database { get; set; }
         public string[]? Passwords { get; set; }
 
         public static Re4rConfiguration GetDefault()
@@ -21,5 +24,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             return File.ReadAllText(path).DeserializeJson<Re4rConfiguration>();
         }
+    }
+
+    public class DatabaseConfig
+    {
+        public string? Path { get; set; }
     }
 }
