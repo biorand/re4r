@@ -34,13 +34,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
             var version = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
             var randomizerService = new RandomizerService();
             var dbService = await DatabaseService.CreateDefault();
+            var emailService = new EmailService();
             var server = new WebServer(o => o
                 .WithUrlPrefix(url)
                 .WithMode(HttpListenerMode.EmbedIO))
                 // First, we will configure our web server by adding Modules.
                 .WithLocalSessionManager()
                 .WithCors()
-                .WithWebApi("/api/auth", SerializationCallback, m => m.WithController(() => new AuthController(dbService)))
+                .WithWebApi("/api/auth", SerializationCallback, m => m.WithController(() => new AuthController(dbService, emailService)))
                 .WithWebApi("/api", SerializationCallback, m => m.WithController(() => new MainController(randomizerService)))
                 .WithRouting("/", c =>
                 {

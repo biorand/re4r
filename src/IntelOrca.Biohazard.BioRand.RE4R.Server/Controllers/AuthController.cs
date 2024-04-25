@@ -12,60 +12,79 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
     internal class AuthController : WebApiController
     {
         private readonly DatabaseService _db;
+        private readonly EmailService _emailService;
 
-        public AuthController(DatabaseService db)
+        public AuthController(DatabaseService db, EmailService emailService)
         {
             _db = db;
+            _emailService = emailService;
         }
 
         [Route(HttpVerbs.Post, "/register")]
         public async Task<object> RegisterAsync([MyJsonData] RegisterRequest req)
         {
-            if (!IsValidEmailAddress(req.Email))
+            var email = req.Email?.Trim() ?? "";
+            var name = req.Name?.Trim() ?? "";
+
+            if (!IsValidEmailAddress(email))
                 return Failure(HttpStatusCode.BadRequest, "Invalid e-mail address.");
-            if (req.Name == null || req.Name.Length < 1)
+            if (name == null || name.Length < 4)
                 return Failure(HttpStatusCode.BadRequest, "Name too short.");
-            if (req.Name.Length > 32)
+            if (name.Length > 32)
                 return Failure(HttpStatusCode.BadRequest, "Name too long.");
-            if (Regex.IsMatch(req.Name, ""))
+            if (!Regex.IsMatch(name, "^[A-Za-z0-9_]+$"))
                 return Failure(HttpStatusCode.BadRequest, "Name contains invalid characters.");
 
-            var existingUserByEmail = await _db.GetUserByEmail(req.Email);
+            var existingUserByEmail = await _db.GetUserByEmail(email);
             if (existingUserByEmail != null)
                 return Failure(HttpStatusCode.BadRequest, "Email already registered.");
 
-            var existingUserByName = await _db.GetUserByName(req.Name);
+            var existingUserByName = await _db.GetUserByName(name);
             if (existingUserByName != null)
                 return Failure(HttpStatusCode.BadRequest, "Name already registered.");
 
-            await _db.CreateUserAsync(req.Email, req.Name);
+            var user = await _db.CreateUserAsync(email, name);
+            var token = await _db.CreateTokenAsync(user);
+
+            await _emailService.SendEmailAsync(email,
+                $"Welcome {name},\n\nYou are now registered for BioRand.\n\nUse the following code to login:\n{token.Code}");
+
             return new
             {
-                email = req.Email,
-                name = req.Name
+                email,
+                name
             };
         }
 
         [Route(HttpVerbs.Post, "/signin")]
-        public async Task<object> RegisterAsync([MyJsonData] SignInRequest req)
+        public async Task<object> SignInAsync([MyJsonData] SignInRequest req)
         {
-            if (!IsValidEmailAddress(req.Email))
+            var email = req.Email?.Trim() ?? "";
+
+            if (!IsValidEmailAddress(email))
                 return Failure(HttpStatusCode.BadRequest, "Invalid e-mail address.");
 
-            var user = await _db.GetUserByEmail(req.Email);
+            var user = await _db.GetUserByEmail(email);
             if (user == null)
                 return Failure(HttpStatusCode.BadRequest, "E-mail address not registered.");
 
-            if (req.Code == null)
+            if (string.IsNullOrEmpty(req.Code))
             {
-                await _db.CreateTokenAsync(user);
+                var token = await _db.CreateTokenAsync(user);
+
+                await _emailService.SendEmailAsync(email,
+                    $"Hello {user.Name},\n\nUse the following code to login to BioRand:\n{token.Code}\n\nIf you did not request this code, ignore this message.");
                 // Send e-mail
-                return new { };
+                return new
+                {
+                    email
+                };
             }
             else
             {
                 // Check code
-                var token = await _db.GetTokenAsync(user, req.Code.Value);
+                int.TryParse(req.Code, out var code);
+                var token = await _db.GetTokenAsync(user, code);
                 if (token == null)
                     return Failure(HttpStatusCode.BadRequest, "Code invalid.");
                 if (token.LastUsed != null)
@@ -74,6 +93,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 await _db.UseTokenAsync(token.Token);
                 return new
                 {
+                    email = user.Email,
+                    name = user.Name,
                     token = token.Token
                 };
             }
@@ -104,7 +125,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         internal class SignInRequest
         {
             public string? Email { get; set; }
-            public int? Code { get; set; }
+            public string? Code { get; set; }
         }
     }
 }

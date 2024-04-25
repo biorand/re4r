@@ -48,29 +48,33 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 .FirstOrDefaultAsync();
         }
 
-        public async Task CreateUserAsync(string email, string name)
+        public async Task<UserDbModel> CreateUserAsync(string email, string name)
         {
-            await _conn.InsertAsync(new UserDbModel()
+            var user = new UserDbModel()
             {
                 Created = DateTime.UtcNow,
                 Name = name,
                 NameLowerCase = name.ToLowerInvariant(),
                 Email = email.ToLowerInvariant(),
                 Role = UserRoleKind.Pending,
-            });
+            };
+            await _conn.InsertAsync(user);
+            return user;
         }
 
-        public async Task CreateTokenAsync(UserDbModel user)
+        public async Task<TokenDbModel> CreateTokenAsync(UserDbModel user)
         {
             var code = RandomNumberGenerator.GetInt32(1000000);
             var token = RandomNumberGenerator.GetHexString(32, lowercase: true);
-            await _conn.InsertAsync(new TokenDbModel()
+            var result = new TokenDbModel()
             {
                 Created = DateTime.UtcNow,
                 UserId = user.Id,
                 Code = code,
                 Token = token
-            });
+            };
+            await _conn.InsertAsync(result);
+            return result;
         }
 
         public async Task<TokenDbModel?> GetTokenAsync(UserDbModel user, int code)

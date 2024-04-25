@@ -1,5 +1,6 @@
 <script lang="ts">
     import { getApi } from './api';
+    import { getUserManager } from './userManager';
 
     enum ModeKind {
         Menu,
@@ -8,9 +9,10 @@
         SignInCode
     }
 
-    let mode = ModeKind.Register;
-    let email = '';
-    let name = '';
+    let mode = ModeKind.SignIn;
+    let email = 'intelorca@gmail.com';
+    let name = 'IntelOrca';
+    let code = '';
     let errorMessage = '';
     let pending = false;
 
@@ -21,11 +23,42 @@
             const api = getApi();
             const result = await api.register(email, name);
             if (result.success) {
+                email = result.data.email;
+                name = result.data.name;
+                mode = ModeKind.SignInCode;
             } else {
                 errorMessage = result.data.reason;
             }
         } catch {
             errorMessage = 'Unable to register';
+        }
+        pending = false;
+    }
+
+    async function onSignInClick(phase: number) {
+        if (phase !== 0 && code == '') return;
+
+        if (pending) return;
+        pending = true;
+        try {
+            const api = getApi();
+            const result = await api.signIn(email, phase == 0 ? undefined : code);
+            if (result.success) {
+                if (phase == 0) {
+                    email = result.data.email;
+                    mode = ModeKind.SignInCode;
+                } else {
+                    mode = ModeKind.Menu;
+                    code = '';
+
+                    const userManager = getUserManager();
+                    userManager.setSignedIn(result.data.email, result.data.name, result.data.token);
+                }
+            } else {
+                errorMessage = result.data.reason;
+            }
+        } catch {
+            errorMessage = 'Unable to sign in';
         }
         pending = false;
     }
@@ -56,7 +89,7 @@
                             class="form-control"
                             id="txt-email"
                             required
-                            value={email}
+                            bind:value={email}
                         />
                     </div>
                     <div class="mb-3">
@@ -66,7 +99,7 @@
                             class="form-control"
                             id="txt-name"
                             required
-                            value={name}
+                            bind:value={name}
                         />
                         <div class="form-text">User name you use for Twitch or Discord.</div>
                     </div>
@@ -85,13 +118,55 @@
                         >Cancel</button
                     >
                 </form>
-            {:else}
+            {:else if mode == ModeKind.SignIn}
                 <form class="col-md-6">
                     <div class="mb-3">
                         <label for="txt-email" class="form-label">Email address</label>
                         <input type="email" class="form-control" id="txt-email" value={email} />
                     </div>
-                    <button type="submit" class="btn btn-primary">Sign In</button>
+                    <div class="mb-3">
+                        <div class="invalid-feedback d-block">{errorMessage}</div>
+                    </div>
+                    <button on:click={() => onSignInClick(0)} type="submit" class="btn btn-primary"
+                        >Sign In</button
+                    >
+                    <button on:click={() => (mode = ModeKind.Menu)} class="btn btn-secondary"
+                        >Cancel</button
+                    >
+                </form>
+            {:else if mode == ModeKind.SignInCode}
+                <form>
+                    <div class="mb-3">
+                        <label for="txt-email" class="form-label">Email address</label>
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="txt-email"
+                            disabled
+                            bind:value={email}
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="txt-code" class="form-label">Code</label>
+                        <input
+                            type="text"
+                            maxlength="6"
+                            class="form-control form-control-lg"
+                            id="txt-code"
+                            required
+                            bind:value={code}
+                        />
+                        <div class="form-text">
+                            Type the code you received in the e-mail. If you are unable to find the
+                            e-mail, try checking your spam folder.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="invalid-feedback d-block">{errorMessage}</div>
+                    </div>
+                    <button on:click={() => onSignInClick(1)} type="submit" class="btn btn-primary"
+                        >Sign In</button
+                    >
                     <button on:click={() => (mode = ModeKind.Menu)} class="btn btn-secondary"
                         >Cancel</button
                     >
@@ -100,3 +175,9 @@
         </div>
     </div>
 </div>
+
+<style>
+    #txt-code {
+        font-family: monospace;
+    }
+</style>
