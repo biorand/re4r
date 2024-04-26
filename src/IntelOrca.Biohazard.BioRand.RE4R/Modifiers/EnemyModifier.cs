@@ -153,7 +153,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 _stageEnemyCount.TryGetValue(stageId, out var count);
                 _stageEnemyCount[stageId] = ++count;
             }
-            spawns = DuplicateEnemies(randomizer, spawns, rng);
+            spawns = DuplicateEnemies(randomizer, area, spawns, rng);
 
             // Randomize classes
             ChooseClasses(randomizer, spawns, rng);
@@ -357,10 +357,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private ImmutableArray<EnemySpawn> DuplicateEnemies(ChainsawRandomizer randomizer, ImmutableArray<EnemySpawn> spawns, Rng rng)
+        private ImmutableArray<EnemySpawn> DuplicateEnemies(ChainsawRandomizer randomizer, Area area, ImmutableArray<EnemySpawn> spawns, Rng rng)
         {
             var multiplier = randomizer.GetConfigOption<double>("enemy-multiplier", 1);
             var maxPerStage = randomizer.GetConfigOption<int>("enemy-max-per-stage", 25);
+            if (area.Definition.MaxEnemiesPerStage != 0)
+            {
+                maxPerStage = area.Definition.MaxEnemiesPerStage;
+            }
+
             var newList = spawns.ToBuilder();
             foreach (var g in spawns.GroupBy(x => x.StageID))
             {

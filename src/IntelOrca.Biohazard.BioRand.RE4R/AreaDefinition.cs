@@ -7,6 +7,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         public string Path { get; set; } = "";
         public int Chapter { get; set; }
+        public int MaxEnemiesPerStage { get; set; }
         public AreaRestriction[]? Restrictions { get; set; }
         public AreaExtra[]? Extra { get; set; }
     }

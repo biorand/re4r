@@ -1340,6 +1340,7 @@
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2.scn.20",
       "description": "church/village/farm",
       "chapter": 5,
+      "maxEnemiesPerStage": 10,
       "restrictions": [
         {
           "guids": [
@@ -1386,6 +1387,7 @@
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2_100.scn.20",
       "description": "cabin",
       "chapter": 5,
+      "maxEnemiesPerStage": 80,
       "restrictions": [
         {
           "guids": [
@@ -2034,6 +2036,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_004.scn.20",
       "chapter": 9,
+      "maxEnemiesPerStage": 20,
       "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
     },
     {
@@ -2647,7 +2650,11 @@
     },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67.scn.20", "chapter": 16 },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_000.scn.20", "chapter": 16 },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_001.scn.20", "chapter": 16 },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_001.scn.20",
+      "chapter": 16,
+      "maxEnemiesPerStage": 20
+    },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_002.scn.20", "chapter": 16 },
     { "path": "natives/stm/_chainsaw/leveldesign/location/loc68/level_loc68.scn.20", "chapter": 16 },
     {
