@@ -8,6 +8,7 @@
         Tester,
         Standard,
         Administrator,
-        Banned
+        Banned,
+        System
     }
 }

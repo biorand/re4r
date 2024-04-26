@@ -1,7 +1,9 @@
 <script lang="ts">
+    import { page } from '$app/stores';
+    import { LocalStorageKeys } from '$lib/localStorage';
+    import { getUserManager } from '$lib/userManager';
+    import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
-    import { LocalStorageKeys } from './localStorage';
-    import { getUserManager } from './userManager';
 
     let isSignedIn = false;
     let userName = '';
@@ -15,14 +17,16 @@
         userManager.signOut();
     }
 
-    const theme = localStorage.getItem(LocalStorageKeys.Theme) || 'light';
     const isDarkTheme = writable(false);
-    isDarkTheme.subscribe((value) => {
-        const theme = value ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-bs-theme', theme);
-        localStorage.setItem(LocalStorageKeys.Theme, theme);
+    onMount(() => {
+        const theme = localStorage.getItem(LocalStorageKeys.Theme) || 'light';
+        isDarkTheme.subscribe((value) => {
+            const theme = value ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-bs-theme', theme);
+            localStorage.setItem(LocalStorageKeys.Theme, theme);
+        });
+        isDarkTheme.set(theme === 'dark');
     });
-    isDarkTheme.set(theme === 'dark');
 
     const userManager = getUserManager();
     userManager.subscribe(() => {
@@ -35,6 +39,25 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">BioRand for Resident Evil 4 (2023)</a>
+            <div class="me-auto">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            class:active={$page.url.pathname == '/'}
+                            aria-current="page"
+                            href="/">Generate</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            class:active={$page.url.pathname == '/profiles'}
+                            href="/profiles">Profiles</a
+                        >
+                    </li>
+                </ul>
+            </div>
             <div class="d-flex">
                 {#if isSignedIn}
                     <a class="nav-link" href="/">{userName}</a>

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Toolbar from './+toolbar.svelte';
     import Auth from './auth.svelte';
     import ConfigView from './configView.svelte';
     import ProfileManagerView from './profileManagerView.svelte';
@@ -12,7 +11,6 @@
     });
 </script>
 
-<Toolbar />
 <div class="container-fluid">
     {#if isSignedIn}
         <div class="pt-5">

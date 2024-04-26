@@ -369,6 +369,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return configDefinition;
         }
 
+        public Dictionary<string, object> GetDefault()
+        {
+            var result = new Dictionary<string, object>();
+            if (Groups != null)
+            {
+                foreach (var group in Groups)
+                {
+                    foreach (var item in group.Items)
+                    {
+                        result[item.Id!] = item.Default!;
+                    }
+                }
+            }
+            return result;
+        }
+
         public static Dictionary<string, object> ProcessConfig(string configJson)
         {
             var deserialized = configJson.DeserializeJson<Dictionary<string, object>>();

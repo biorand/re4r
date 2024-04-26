@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
@@ -35,12 +36,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
             var randomizerService = new RandomizerService();
             var dbService = await DatabaseService.CreateDefault();
             var emailService = new EmailService();
+
+            await CreateDefaultProfiles(randomizerService, dbService);
+
             var server = new WebServer(o => o
                 .WithUrlPrefix(url)
                 .WithMode(HttpListenerMode.EmbedIO))
                 // First, we will configure our web server by adding Modules.
                 .WithLocalSessionManager()
                 .WithCors()
+                .WithWebApi("/api/profile", SerializationCallback, m => m.WithController(() => new ProfileController(dbService)))
                 .WithWebApi("/api/auth", SerializationCallback, m => m.WithController(() => new AuthController(dbService, emailService)))
                 .WithWebApi("/api", SerializationCallback, m => m.WithController(() => new MainController(randomizerService)))
                 .WithRouting("/", c =>
@@ -56,6 +61,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
             // Listen for state changes.
             server.StateChanged += (s, e) => $"WebServer New State - {e.NewState}".Info();
             return server;
+        }
+
+        private async Task CreateDefaultProfiles(RandomizerService randomizerService, DatabaseService dbService)
+        {
+            // Default profile
+            var randomizerConfig = await randomizerService.GetConfigAsync();
+            var defaultConfig = randomizerConfig.GetDefault();
+
+            var profiles = await dbService.GetProfilesAsync(dbService.SystemUserId);
+            var profile = profiles.FirstOrDefault(x => x.Name == "Default");
+            if (profile == null)
+            {
+                await dbService.CreateProfileAsync(dbService.SystemUserId, "Default", "The default profile.", defaultConfig);
+            }
+            else
+            {
+                await dbService.SetProfileConfigAsync(profile.Id, defaultConfig);
+            }
         }
 
         public static async Task SerializationCallback(IHttpContext context, object? data)
