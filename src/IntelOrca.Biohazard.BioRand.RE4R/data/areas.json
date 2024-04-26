@@ -16,19 +16,19 @@
         },
         {
           "guids": [
-            "ccd9520b-2fd0-44e7-9b14-24491bce2367" // first villager coming down stairs
+            "ccd9520b-2fd0-44e7-9b14-24491bce2367", // ??
+            "52061032-d686-401c-b1b7-ebdcd629e8ea" // first villager coming down stairs
           ],
           "exclude": [
+            "pig",
             "mendez_2",
             "pesanta",
-            "pig",
             "u3",
             "verdugo"
           ]
         },
         {
           "guids": [
-            "52061032-d686-401c-b1b7-ebdcd629e8ea",
             "bacf6775-91ec-4932-85ed-db488c2a35ee",
             "afc35303-7d98-4615-ad30-ac0c99e2e709",
             "7627dd62-89c8-4964-ac6e-0df675e2ad10",
@@ -180,10 +180,11 @@
             "875b72c1-3cab-4914-b77a-ae309ed8f459" // police on fire
           ],
           "horde": true
-        },
-        {
-          "horde": true
         }
+        // TODO
+        // {
+        //   "horde": true
+        // }
       ]
     },
     {

@@ -14,6 +14,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private Queue<EnemyClassDefinition> _enemyClassQueue = new Queue<EnemyClassDefinition>();
         private ImmutableArray<EnemyClassDefinition> _allEnemyClasses;
 
+        private Dictionary<int, int> _stageEnemyCount = new Dictionary<int, int>();
+
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             foreach (var area in randomizer.Areas)
@@ -101,17 +103,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             // Randomize enemies
             logger.Push("Randomizing enemies");
-            foreach (var area in randomizer.Areas)
+            var areaByChapter = randomizer.Areas.GroupBy(x => x.Definition.Chapter);
+            foreach (var chapterAreas in areaByChapter)
             {
-                logger.Push(area.FileName);
-                RandomizeArea(randomizer, area, rng, logger);
+                logger.Push($"Chapter {chapterAreas.Key}");
+                foreach (var area in chapterAreas)
+                {
+                    logger.Push(area.FileName);
+                    RandomizeArea(randomizer, area, rng, logger);
+                    logger.Pop();
+                }
+                _stageEnemyCount.Clear();
                 logger.Pop();
             }
             logger.Pop();
 
             // Randomize enemy drops
             logger.Push("Randomizing drops");
-            var areaByChapter = randomizer.Areas.GroupBy(x => x.Definition.Chapter);
             foreach (var group in areaByChapter)
             {
                 var chapter = group.Key;
@@ -139,6 +147,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             // Duplicate enemy spawns
+            foreach (var spawn in spawns)
+            {
+                var stageId = spawn.Enemy.StageID;
+                _stageEnemyCount.TryGetValue(stageId, out var count);
+                _stageEnemyCount[stageId] = ++count;
+            }
             spawns = DuplicateEnemies(randomizer, spawns, rng);
 
             // Randomize classes
@@ -192,11 +206,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         RandomizeParasite(randomizer, e, parasiteRng);
                     }
 
-                    logger.LogLine($"{e.Guid} {ecd.Name} Health = {e.Health}");
+                    logger.LogLine($"{e.Guid} {e.StageID} {ecd.Name} Health = {e.Health}");
                 }
                 else
                 {
-                    logger.LogLine($"{spawn.Enemy.Guid} {spawn.Enemy.Kind} Health = {spawn.Enemy.Health}");
+                    logger.LogLine($"{spawn.Enemy.Guid} {spawn.StageID} {spawn.Enemy.Kind} Health = {spawn.Enemy.Health}");
                 }
             }
         }
@@ -346,28 +360,44 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private ImmutableArray<EnemySpawn> DuplicateEnemies(ChainsawRandomizer randomizer, ImmutableArray<EnemySpawn> spawns, Rng rng)
         {
             var multiplier = randomizer.GetConfigOption<double>("enemy-multiplier", 1);
-            var newEnemyCount = Math.Min(spawns.Length * multiplier, 200);
-            var delta = (int)Math.Round(newEnemyCount - spawns.Length);
-            if (delta != 0)
+            var maxPerStage = randomizer.GetConfigOption<int>("enemy-max-per-stage", 25);
+            var newList = spawns.ToBuilder();
+            foreach (var g in spawns.GroupBy(x => x.StageID))
             {
-                var newList = spawns.ToBuilder();
-                var duplicatableEnemies = spawns
-                    .Where(x => !x.PreventDuplicate)
-                    .ToArray();
-
-                if (duplicatableEnemies.Length != 0)
+                var stageSpawns = g.ToArray();
+                var newEnemyCount = stageSpawns.Length * multiplier;
+                var delta = (int)Math.Round(newEnemyCount - stageSpawns.Length);
+                if (delta != 0)
                 {
-                    var bag = new EndlessBag<EnemySpawn>(rng, duplicatableEnemies);
-                    var enemiesToCopy = bag.Next(delta);
-                    foreach (var spawn in enemiesToCopy)
+                    var duplicatableEnemies = stageSpawns
+                        .Where(x => !x.PreventDuplicate)
+                        .ToArray();
+                    if (duplicatableEnemies.Length != 0)
                     {
-                        var newEnemy = spawn.Duplicate(GetNextContextId());
-                        newList.Add(newEnemy);
+                        var bag = new EndlessBag<EnemySpawn>(rng, duplicatableEnemies);
+                        while (delta > 0)
+                        {
+                            var enemyToDuplicate = bag.Next();
+                            var stageId = enemyToDuplicate.Enemy.StageID;
+                            if (!_stageEnemyCount.TryGetValue(stageId, out var currentStageIdCount))
+                                _stageEnemyCount[stageId] = 0;
+
+                            if (currentStageIdCount < maxPerStage)
+                            {
+                                var newEnemy = enemyToDuplicate.Duplicate(GetNextContextId());
+                                newList.Add(newEnemy);
+                                _stageEnemyCount[stageId]++;
+                                delta--;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
                     }
-                    return newList.ToImmutable();
                 }
             }
-            return spawns;
+            return newList.ToImmutable();
         }
 
         private void ChooseClasses(ChainsawRandomizer randomizer, ImmutableArray<EnemySpawn> spawns, Rng rng)

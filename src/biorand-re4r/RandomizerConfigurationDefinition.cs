@@ -128,6 +128,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             generalGroup.Items.Add(new GroupItem()
             {
+                Id = $"enemy-max-per-stage",
+                Label = "Enemy Max. Per Stage",
+                Description = "How many enemies can appear in each stage by default.",
+                Type = "range",
+                Min = 1,
+                Max = 1000,
+                Step = 1,
+                Default = 25
+            });
+            generalGroup.Items.Add(new GroupItem()
+            {
                 Id = $"enemy-variety",
                 Label = "Enemy Variety",
                 Description = "Controls how many different enemy types you can have in a single area.",

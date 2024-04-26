@@ -145,7 +145,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         private string GetString(string fileName)
         {
 #if DEBUG
-            var wwwroot = @"M:\git\re4rr\src\biorand-re4r\data\wwwroot";
+            var wwwroot = @"M:\git\re4rr-main\src\biorand-re4r\data\wwwroot";
             var path = Path.Combine(wwwroot, fileName);
             return File.ReadAllText(path);
 #else

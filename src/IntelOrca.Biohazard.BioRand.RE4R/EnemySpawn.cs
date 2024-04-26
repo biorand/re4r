@@ -23,6 +23,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public Guid OriginalGuid => OriginalEnemy.Guid;
         public Guid Guid => Enemy.Guid;
+        public int StageID => Enemy.StageID;
 
         public void ConvertType(Area area, EnemyKindDefinition kind)
         {
