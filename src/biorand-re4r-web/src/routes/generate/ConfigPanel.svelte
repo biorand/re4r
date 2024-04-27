@@ -1,10 +1,32 @@
 <script lang="ts">
-    import type { Config, ConfigDefinition } from '$lib/api';
-    import type { Writable } from 'svelte/store';
+    import type { Config, ConfigDefinition, Profile } from '$lib/api';
+    import { writable, type Writable } from 'svelte/store';
     import ConfigurationControl from './ConfigControl.svelte';
 
     export let definition: ConfigDefinition | undefined;
-    export let configuration: Writable<Config | undefined>;
+    export let profile: Writable<Profile | undefined>;
+
+    let lastProfile: Profile | undefined = undefined;
+    let lastConfiguration: Config | undefined = undefined;
+    let configuration = writable({});
+    profile.subscribe((p) => {
+        if (p !== lastProfile) {
+            lastProfile = p;
+            if (p?.config) {
+                lastConfiguration = p.config;
+                configuration.set(p.config);
+            }
+        }
+    });
+    configuration.subscribe((c) => {
+        if (lastConfiguration !== c) {
+            lastConfiguration = c;
+            profile.update((p) => {
+                lastProfile = <Profile>{ ...p, config: c };
+                return lastProfile;
+            });
+        }
+    });
 
     function pairs<T>(arr: T[]): T[][] {
         const result: T[][] = [];
@@ -15,13 +37,22 @@
     }
 </script>
 
-{#if $configuration}
+{#if $profile}
     <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button
+                class="nav-link active"
+                id="tab-profile"
+                data-bs-toggle="tab"
+                data-bs-target="#pane-profile"
+                type="button"
+                role="tab">Profile</button
+            >
+        </li>
         {#each definition?.pages || [] as p, i}
             <li class="nav-item" role="presentation">
                 <button
                     class="nav-link"
-                    class:active={i == 0}
                     id="tab-{i}"
                     data-bs-toggle="tab"
                     data-bs-target="#pane-{i}"
@@ -32,15 +63,51 @@
         {/each}
     </ul>
     <div class="tab-content" id="myTabContent">
+        <div
+            class="tab-pane fade p-2 show active"
+            id="pane-profile"
+            role="tabpanel"
+            aria-labelledby="tab-profile"
+            tabindex="0"
+        >
+            <div class="mb-3">
+                <label for="txt-profile-name" class="form-label">Name</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="txt-profile-name"
+                    bind:value={$profile.name}
+                />
+            </div>
+            <div class="mb-3">
+                <label for="txt-profile-description" class="form-label">Description</label>
+                <textarea
+                    class="form-control"
+                    id="txt-profile-description"
+                    rows="3"
+                    bind:value={$profile.description}
+                ></textarea>
+            </div>
+            <div class="row">
+                <span class="col-sm-2 col-form-label">Stars</span>
+                <div class="col-sm-10">
+                    <span class="form-control-plaintext">4</span>
+                </div>
+            </div>
+            <div class="row">
+                <span class="col-sm-2 col-form-label">Seeds generated</span>
+                <div class="col-sm-10">
+                    <span class="form-control-plaintext">4</span>
+                </div>
+            </div>
+        </div>
         {#each definition?.pages || [] as p, i}
             <div
                 class="tab-pane fade p-2"
-                class:show={i == 0}
-                class:active={i == 0}
                 id="pane-{i}"
                 role="tabpanel"
                 aria-labelledby="tab-{i}"
-                tabindex="0"
+                tabindex={i + 1}
             >
                 {#each p.groups as g}
                     {#if g.label}

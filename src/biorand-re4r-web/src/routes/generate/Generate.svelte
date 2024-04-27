@@ -10,9 +10,8 @@
     const userManager = getUserManager();
     const profileManager = new UserProfileManager(api, userManager.info!.id);
 
-    let modified = 0;
     let configDefinition: ConfigDefinition | undefined = undefined;
-    let config = profileManager.config;
+    let profile = profileManager.selectedProfile;
 
     onMount(async () => {
         await profileManager.download();
@@ -26,7 +25,7 @@
             <ProfileManagerPanel userProfileManager={profileManager} />
         </div>
         <div class="col-lg-8">
-            <ConfigPanel definition={configDefinition} configuration={config} />
+            <ConfigPanel definition={configDefinition} {profile} />
         </div>
     </div>
 </div>
