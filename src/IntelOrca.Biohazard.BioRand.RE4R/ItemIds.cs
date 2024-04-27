@@ -62,5 +62,11 @@
         public const int BiosensorScope = 116004800;
         public const int BodyArmor = 124001600;
         public const int Spinel = 120800000;
+
+        public const int BlackBassSmall = 114417600;
+        public const int BlackBassLarge = 114420800;
+
+        public const int Dynamite = 119236800;
+        public const int WoodenPlanks = 119289600;
     }
 }

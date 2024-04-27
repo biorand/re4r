@@ -149,12 +149,33 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             public int BuyPrice
             {
-                get => Price.FirstOrDefault()?.PurchasePrice ?? 0;
+                get => CorePriceSetting.PurchasePrice;
+                set
+                {
+                    CorePriceSetting.PurchasePrice = value;
+                    Price = [CorePriceSetting];
+                }
             }
 
             public int SellPrice
             {
-                get => Price.FirstOrDefault()?.SellingPrice ?? 0;
+                get => CorePriceSetting.SellingPrice;
+                set
+                {
+                    CorePriceSetting.SellingPrice = value;
+                    Price = [CorePriceSetting];
+                }
+            }
+
+            private PriceSetting CorePriceSetting
+            {
+                get
+                {
+                    var result = Price.FirstOrDefault(x => x.Difficulty == 20);
+                    if (result == null)
+                        result = Price.FirstOrDefault();
+                    return result!;
+                }
             }
 
             public int ItemId => (int)_instance.GetFieldValue("_ItemId")!;

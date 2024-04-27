@@ -172,8 +172,10 @@
       "value": 5000
     },
     {
-      "name": "L",
-      "id": 114420800
+      "name": "Black Bass (L)",
+      "kind": "fish",
+      "id": 114420800,
+      "value": 2500
     },
     {
       "name": "Viper",
