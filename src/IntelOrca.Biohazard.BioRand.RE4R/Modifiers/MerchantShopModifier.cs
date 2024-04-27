@@ -584,7 +584,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 public ItemDefinition ItemDefinition => itemDefinition;
 
-                public int Quantity { get; set; }
+                public int Quantity { get; set; } = 1;
                 public int BuyPrice { get; set; }
                 public int SellPrice { get; set; }
                 public int SpinelPrice { get; set; }
