@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { getApi } from './api';
-    import { getUserManager } from './userManager';
+    import { getApi } from '$lib/api';
+    import { getUserManager } from '$lib/userManager';
 
     enum ModeKind {
         Menu,
@@ -23,11 +23,11 @@
             const api = getApi();
             const result = await api.register(email, name);
             if (result.success) {
-                email = result.data.email;
-                name = result.data.name;
+                email = result.email;
+                name = result.name;
                 mode = ModeKind.SignInCode;
             } else {
-                errorMessage = result.data.reason;
+                errorMessage = result.message;
             }
         } catch {
             errorMessage = 'Unable to register';
@@ -45,17 +45,17 @@
             const result = await api.signIn(email, phase == 0 ? undefined : code);
             if (result.success) {
                 if (phase == 0) {
-                    email = result.data.email;
+                    email = result.email;
                     mode = ModeKind.SignInCode;
                 } else {
                     mode = ModeKind.Menu;
                     code = '';
 
                     const userManager = getUserManager();
-                    userManager.setSignedIn(result.data.email, result.data.name, result.data.token);
+                    userManager.setSignedIn(result.email, result.name, result.token || '');
                 }
             } else {
-                errorMessage = result.data.reason;
+                errorMessage = result.message;
             }
         } catch {
             errorMessage = 'Unable to sign in';
@@ -64,7 +64,7 @@
     }
 </script>
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
+<div class="fixed-top container d-flex justify-content-center align-items-center vh-100">
     <div class="col-md-6">
         <div class="card p-3">
             {#if mode == ModeKind.Menu}

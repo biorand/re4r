@@ -11,6 +11,7 @@ export interface RegisterResult {
 export interface SignInResult {
     success: boolean;
     email: string;
+    name: string;
     token?: string;
     message: string;
 }

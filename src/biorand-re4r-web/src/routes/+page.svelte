@@ -1,5 +1,19 @@
 <script lang="ts">
-    import Top from '$lib/top.svelte';
+    import { getUserManager } from '$lib/userManager';
+    import Auth from './Auth.svelte';
+    import Generate from './Generate.svelte';
+
+    const userManager = getUserManager();
+    let isSignedIn = userManager.isSignedIn();
+    userManager.subscribe(() => {
+        isSignedIn = userManager.isSignedIn();
+    });
 </script>
 
-<Top />
+<div class="container-fluid">
+    {#if isSignedIn}
+        <Generate />
+    {:else}
+        <Auth />
+    {/if}
+</div>

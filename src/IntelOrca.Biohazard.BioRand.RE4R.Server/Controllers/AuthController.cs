@@ -77,6 +77,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 // Send e-mail
                 return new
                 {
+                    success = true,
                     email
                 };
             }
@@ -93,6 +94,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 await _db.UseTokenAsync(token.Token);
                 return new
                 {
+                    success = true,
                     email = user.Email,
                     name = user.Name,
                     token = token.Token
@@ -100,10 +102,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             }
         }
 
-        private object Failure(HttpStatusCode statusCode, string reason)
+        private object Failure(HttpStatusCode statusCode, string message)
         {
             Response.StatusCode = (int)statusCode;
-            return new { reason };
+            return new
+            {
+                success = false,
+                message
+            };
         }
 
         private static bool IsValidEmailAddress([NotNullWhen(true)] string? email)
