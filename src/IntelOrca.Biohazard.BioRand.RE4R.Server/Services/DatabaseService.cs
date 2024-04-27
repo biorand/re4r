@@ -36,6 +36,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             await _conn.CreateTableAsync<TokenDbModel>();
             await _conn.CreateTableAsync<ProfileDbModel>();
             await _conn.CreateTableAsync<RandoConfigDbModel>();
+            await _conn.ExecuteAsync(
+                @"CREATE TABLE IF NOT EXISTS ""profile_star"" (
+                    ""ProfileId"" integer not null,
+                    ""UserId"" integer not null,
+                    PRIMARY KEY (""ProfileId"", ""UserId""))");
             await GetOrCreateSystemUser();
         }
 
@@ -151,9 +156,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             var skip = (page - 1) * pageSize;
             var parameters = new List<object>();
             var q = @"
-                SELECT p.*, u.Name as UserName
+                SELECT p.*, u.Name as UserName, IIF(ps.ProfileId, 1, 0) AS IsStarred
                 FROM profile AS p
                 LEFT JOIN user AS u ON p.UserId = u.Id
+                LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId
                 WHERE (p.Name LIKE ? OR p.Description LIKE ?)";
             parameters.Add($"%{query}%");
             parameters.Add($"%{query}%");
@@ -164,12 +170,35 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 parameters.Add(user);
             }
 
-            q += " ORDER BY StarCount LIMIT ? OFFSET ?";
+            q += " ORDER BY StarCount DESC LIMIT ? OFFSET ?";
             parameters.Add(pageSize);
             parameters.Add(skip);
 
             var result = await _conn.QueryAsync<ExtendedProfileDbModel>(q, [.. parameters]);
             return [.. result];
+        }
+
+        public async Task StarProfileAsync(int profileId, int userId, bool value)
+        {
+            if (value)
+            {
+                await _conn.ExecuteAsync("INSERT OR IGNORE INTO profile_star (ProfileId, UserId) VALUES (?, ?)",
+                    profileId,
+                    userId);
+            }
+            else
+            {
+                await _conn.ExecuteAsync("DELETE FROM profile_star WHERE ProfileId = ? AND UserId = ?",
+                    profileId,
+                    userId);
+            }
+            await _conn.ExecuteAsync(
+                @"UPDATE profile
+                     SET StarCount = (SELECT COUNT(*) FROM profile_star WHERE ProfileId = ? AND UserId = ?)
+                   WHERE Id = ?",
+                profileId,
+                userId,
+                profileId);
         }
 
         public async Task<ProfileDbModel> CreateProfileAsync(
@@ -229,6 +258,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
         {
             public string UserName { get; set; } = "";
             public string Data { get; set; } = "";
+            public bool IsStarred { get; set; }
         }
     }
 }

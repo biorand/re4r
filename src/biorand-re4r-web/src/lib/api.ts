@@ -61,6 +61,10 @@ class BioRandApi {
         return await this.get<ProfileQueryResult>("profile/search", query);
     }
 
+    async setProfileStar(profileId: number, value: boolean) {
+        return await this.fetch(value ? 'POST' : 'DELETE', `profile/${profileId}/star`);
+    }
+
     private async get<T>(query: string, body?: any) {
         return this.fetch<T>('GET', query, body);
     }

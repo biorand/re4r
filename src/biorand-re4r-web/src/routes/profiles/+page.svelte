@@ -42,6 +42,26 @@
         });
     });
 
+    async function setProfileStarred(profileId: number, value: boolean) {
+        if (searchResult) {
+            await api.setProfileStar(profileId, value);
+            searchResult = {
+                ...searchResult,
+                pageResults: searchResult.pageResults.map((r) => {
+                    if (r.id != profileId) {
+                        return r;
+                    } else {
+                        return {
+                            ...r,
+                            starCount: r.starCount + (value ? 1 : -1),
+                            isStarred: value
+                        };
+                    }
+                })
+            };
+        }
+    }
+
     function getSearchUrl(query: { [key: string]: any }) {
         return buildUrl('profiles', query);
     }
@@ -85,6 +105,11 @@
                                 role="switch"
                                 id="profile-bookmark-{profile.id}"
                                 checked={profile.isStarred}
+                                on:change={(e) =>
+                                    setProfileStarred(
+                                        profile.id,
+                                        e.target instanceof HTMLInputElement && e.target.checked
+                                    )}
                             />
                             <label class="form-check-label" for="profile-bookmark-{profile.id}"
                                 >Bookmarks</label

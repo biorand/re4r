@@ -24,10 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         {
             var authorizedUser = await GetAuthorizedUserAsync();
             if (authorizedUser == null)
-            {
-                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                return new object { };
-            }
+                return UnauthorizedResult();
 
             var profiles = await _db.GetProfilesAsync(authorizedUser.Id);
             return profiles.Select(x => new
@@ -49,10 +46,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         {
             var authorizedUser = await GetAuthorizedUserAsync();
             if (authorizedUser == null)
-            {
-                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                return new object { };
-            }
+                return UnauthorizedResult();
 
             var profiles = await _db.GetProfilesAsync(q, user, page);
             return new
@@ -67,9 +61,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                     x.UserName,
                     x.StarCount,
                     x.SeedCount,
-                    IsStarred = false
+                    x.IsStarred
                 }).ToArray()
             };
+        }
+
+        [Route(HttpVerbs.Any, "/{profileId}/star")]
+        public async Task<object> StarProfileAsync(int profileId)
+        {
+            var authorizedUser = await GetAuthorizedUserAsync();
+            if (authorizedUser == null)
+                return UnauthorizedResult();
+
+            var star = Request.HttpVerb switch
+            {
+                HttpVerbs.Post => true,
+                HttpVerbs.Delete => false,
+                _ => (bool?)null
+            };
+            if (!star.HasValue)
+                return ErrorResult(HttpStatusCode.BadRequest);
+
+            await _db.StarProfileAsync(profileId, authorizedUser.Id, star.Value);
+            return EmptyResult();
         }
 
         private async Task<UserDbModel?> GetAuthorizedUserAsync()
@@ -89,6 +103,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 }
             }
             return null;
+        }
+
+        private object UnauthorizedResult() => ErrorResult(HttpStatusCode.Unauthorized);
+
+        private object ErrorResult(HttpStatusCode code)
+        {
+            Response.StatusCode = (int)code;
+            return new object { };
+        }
+
+        private object EmptyResult()
+        {
+            return new object { };
         }
     }
 }
