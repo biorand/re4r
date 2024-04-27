@@ -1,7 +1,7 @@
 <script lang="ts">
     import { getUserManager } from '$lib/userManager';
-    import Auth from './Auth.svelte';
-    import Generate from './Generate.svelte';
+    import Auth from './auth/Auth.svelte';
+    import Generate from './generate/Generate.svelte';
 
     const userManager = getUserManager();
     let isSignedIn = userManager.isSignedIn();

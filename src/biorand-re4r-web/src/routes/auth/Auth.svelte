@@ -52,7 +52,12 @@
                     code = '';
 
                     const userManager = getUserManager();
-                    userManager.setSignedIn(result.email, result.name, result.token || '');
+                    userManager.setSignedIn(
+                        result.id,
+                        result.email,
+                        result.name,
+                        result.token || ''
+                    );
                 }
             } else {
                 errorMessage = result.message;

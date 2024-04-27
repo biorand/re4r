@@ -95,6 +95,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 return new
                 {
                     success = true,
+                    id = user.Id,
                     email = user.Email,
                     name = user.Name,
                     token = token.Token

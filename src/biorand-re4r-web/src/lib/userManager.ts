@@ -1,6 +1,7 @@
 import { LocalStorageKeys } from "./localStorage";
 
 interface UserInfo {
+    id: number;
     email: string;
     name: string;
     token: string;
@@ -54,9 +55,9 @@ class UserManager {
         return !!this._info;
     }
 
-    setSignedIn(email: string, name: string, token: string) {
+    setSignedIn(id: number, email: string, name: string, token: string) {
         this._info = {
-            email, name, token
+            id, email, name, token
         }
         this.notifications.raise();
         this.saveToLocalStorage();

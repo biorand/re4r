@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using EmbedIO;
@@ -30,14 +31,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             return profiles.Select(x => new
             {
                 x.Id,
-                x.UserId,
-                x.UserName,
                 x.Name,
                 x.Description,
-                CreatedAt = x.Created,
+                x.UserId,
+                x.UserName,
                 x.StarCount,
                 x.SeedCount,
-                Data = Json.Deserialize(x.Data)
+                x.IsStarred,
+                x.ConfigId,
+                Config = Json.Deserialize(x.Data)
             }).ToArray();
         }
 
@@ -58,10 +60,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                     x.Id,
                     x.Name,
                     x.Description,
+                    x.UserId,
                     x.UserName,
                     x.StarCount,
                     x.SeedCount,
-                    x.IsStarred
+                    x.IsStarred,
+                    x.ConfigId,
                 }).ToArray()
             };
         }
@@ -83,6 +87,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 return ErrorResult(HttpStatusCode.BadRequest);
 
             await _db.StarProfileAsync(profileId, authorizedUser.Id, star.Value);
+            return EmptyResult();
+        }
+
+        [Route(HttpVerbs.Put, "/temp")]
+        public async Task<object> UpdateTempProfileAsync([MyJsonData] UpdateTempConfigRequest body)
+        {
+            var authorizedUser = await GetAuthorizedUserAsync();
+            if (authorizedUser == null)
+                return UnauthorizedResult();
+
+            await _db.SetUserConfigAsync(authorizedUser.Id, body.ProfileId, body.Config);
             return EmptyResult();
         }
 
@@ -116,6 +131,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         private object EmptyResult()
         {
             return new object { };
+        }
+
+        public class UpdateTempConfigRequest
+        {
+            public int ProfileId { get; set; }
+            public Dictionary<string, object> Config { get; set; } = [];
         }
     }
 }

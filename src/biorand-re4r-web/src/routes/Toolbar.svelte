@@ -39,8 +39,19 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">BioRand for Resident Evil 4 (2023)</a>
-            <div class="me-auto">
-                <ul class="navbar-nav">
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a
                             class="nav-link"
@@ -57,22 +68,22 @@
                         >
                     </li>
                 </ul>
-            </div>
-            <div class="d-flex">
-                {#if isSignedIn}
-                    <a class="nav-link" href="/">{userName}</a>
-                    <span class="mx-2">|</span>
-                    <a on:click={onSignOutClick} class="nav-link" href="/">Sign out</a>
-                {/if}
-                <div class="ms-3 form-check form-switch">
-                    <input
-                        bind:checked={$isDarkTheme}
-                        class="form-check-input"
-                        type="checkbox"
-                        role="switch"
-                        id="switch-theme"
-                    />
-                    <label class="form-check-label" for="switch-theme">Dark</label>
+                <div class="d-flex">
+                    {#if isSignedIn}
+                        <a class="nav-link" href="/">{userName}</a>
+                        <span class="mx-2">|</span>
+                        <a on:click={onSignOutClick} class="nav-link" href="/">Sign out</a>
+                    {/if}
+                    <div class="ms-3 form-check form-switch">
+                        <input
+                            bind:checked={$isDarkTheme}
+                            class="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            id="switch-theme"
+                        />
+                        <label class="form-check-label" for="switch-theme">Dark</label>
+                    </div>
                 </div>
             </div>
         </div>

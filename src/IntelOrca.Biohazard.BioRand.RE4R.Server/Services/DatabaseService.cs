@@ -142,12 +142,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 
         public async Task<ExtendedProfileDbModel[]> GetProfilesAsync(int userId)
         {
-            var result = await _conn.QueryAsync<ExtendedProfileDbModel>(
-                "SELECT profile.*, user.Name as UserName, Data " +
-                "FROM profile " +
-                "LEFT JOIN user ON profile.UserId = user.Id " +
-                "LEFT JOIN randoconfig ON profile.ConfigId = randoconfig.Id");
-            return result.ToArray();
+            var q = @"
+                SELECT p.*,
+                       u.Name AS UserName,
+                       IIF(ps.ProfileId, 1, 0) AS IsStarred,
+                       c.Data
+                  FROM profile AS p
+                LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId AND ps.UserId = ?
+                LEFT JOIN randoconfig AS c ON p.ConfigId = c.Id
+                LEFT JOIN user AS u ON p.UserId = u.Id
+                LEFT JOIN user ON p.UserId = user.Id
+                LEFT JOIN randoconfig ON p.ConfigId = randoconfig.Id
+                WHERE p.UserId = ?
+                   OR p.UserId = ?
+                   OR ps.ProfileId IS NOT NULL";
+            var result = await _conn.QueryAsync<ExtendedProfileDbModel>(q,
+                userId,
+                userId,
+                SystemUserId);
+            return [.. result];
         }
 
         public async Task<ExtendedProfileDbModel[]> GetProfilesAsync(string? query, string? user, int page = 1)
@@ -229,6 +242,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 
             var randoConfig = await CreateRandoConfig(profileId, newConfigData);
             await _conn.ExecuteAsync("UPDATE profile SET ConfigId = ? WHERE Id = ?", randoConfig.Id, profileId);
+            await CleanRandoConfig(existingConfigId);
+        }
+
+        public async Task SetUserConfigAsync(int userId, int profileId, Dictionary<string, object> config)
+        {
+            var newConfigData = config.ToJson(indented: false);
+            var existingConfigId = await _conn.ExecuteScalarAsync<int>("SELECT ConfigId FROM user WHERE Id = ?", userId);
+            var existingConfigData = await _conn.ExecuteScalarAsync<string>("SELECT Data FROM randoconfig WHERE Id = ?", existingConfigId);
+            if (existingConfigData == newConfigData)
+                return;
+
+            var randoConfig = await CreateRandoConfig(profileId, newConfigData);
+            await _conn.ExecuteAsync("UPDATE user SET ConfigId = ? WHERE Id = ?", randoConfig.Id, userId);
             await CleanRandoConfig(existingConfigId);
         }
 
