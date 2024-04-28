@@ -58,29 +58,24 @@
                     >
                         <div class="d-flex">
                             <div class="flex-grow-1 p-1">
-                                {#if profile === $selectedProfile && !profileGroup.isReadOnly}
-                                    <input
-                                        on:change={(e) => onRenameProfileEvent(profile, e.target)}
-                                        value={profile.name}
-                                    />
-                                {:else}
-                                    <div>{profile.name}</div>
-                                {/if}
+                                <div>{profile.name}</div>
                             </div>
                             <div>
-                                <button
-                                    type="button"
-                                    class="btn btn-sm btn-light"
-                                    data-bs-toggle="tooltip"
-                                    data-bs-title="Duplicate"
-                                    on:click={(e) => {
-                                        duplicateProfile(profile);
-                                        e.stopPropagation();
-                                    }}
-                                >
-                                    <i class="bi bi-copy"></i></button
-                                >
                                 {#if !profileGroup.isReadOnly}
+                                    {#if profile.id !== 0}
+                                        <button
+                                            type="button"
+                                            class="btn btn-sm btn-light"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-title="Duplicate"
+                                            on:click={(e) => {
+                                                duplicateProfile(profile);
+                                                e.stopPropagation();
+                                            }}
+                                        >
+                                            <i class="bi bi-copy"></i></button
+                                        >
+                                    {/if}
                                     <button
                                         type="button"
                                         class="btn btn-sm btn-light"
@@ -91,7 +86,7 @@
                                             e.stopPropagation();
                                         }}
                                     >
-                                        <i class="bi bi-x"></i></button
+                                        <i class="bi bi-save"></i></button
                                     >
                                 {/if}
                             </div>

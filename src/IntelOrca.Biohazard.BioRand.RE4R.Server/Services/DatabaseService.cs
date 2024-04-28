@@ -151,8 +151,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId AND ps.UserId = ?
                 LEFT JOIN randoconfig AS c ON p.ConfigId = c.Id
                 LEFT JOIN user AS u ON p.UserId = u.Id
-                LEFT JOIN user ON p.UserId = user.Id
-                LEFT JOIN randoconfig ON p.ConfigId = randoconfig.Id
                 WHERE p.UserId = ?
                    OR p.UserId = ?
                    OR ps.ProfileId IS NOT NULL";
