@@ -1,0 +1,13 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+WORKDIR /w
+COPY . /w
+RUN dotnet publish src/biorand-re4r -c release -o /out -p:PublishSingleFile=true
+
+FROM alpine
+RUN apk add --no-cache libstdc++ sqlite-libs \
+ && ln -s libsqlite3.so.0 /usr/lib/libsqlite3.so
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+COPY --from=build /out/biorand-re4r /usr/bin/biorand-re4r
+RUN biorand-re4r --version
+ENTRYPOINT ["/usr/bin/biorand-re4r", "web-server"]
+EXPOSE 80/tcp

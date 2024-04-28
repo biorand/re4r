@@ -14,6 +14,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var app = new CommandApp();
             app.Configure(config =>
             {
+                config.PropagateExceptions();
                 config.Settings.ApplicationName = "biorand-re4r";
                 config.AddCommand<WebServerCommand>("web-server")
                     .WithDescription("Runs a local web server for generating randos")
