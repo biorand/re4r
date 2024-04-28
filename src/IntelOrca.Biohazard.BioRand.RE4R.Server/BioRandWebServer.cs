@@ -35,7 +35,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
             var version = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
             var randomizerService = new RandomizerService();
             var dbService = await DatabaseService.CreateDefault();
-            var emailService = new EmailService();
+            var emailService = new EmailService(Re4rConfiguration.GetDefault().Email);
 
             await CreateDefaultProfiles(randomizerService, dbService);
 

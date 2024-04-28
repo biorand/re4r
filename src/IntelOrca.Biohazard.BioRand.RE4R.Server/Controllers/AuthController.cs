@@ -47,6 +47,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             var token = await _db.CreateTokenAsync(user);
 
             await _emailService.SendEmailAsync(email,
+                "Welcome to BioRand",
                 $"Welcome {name},\n\nYou are now registered for BioRand.\n\nUse the following code to login:\n{token.Code}");
 
             return new
@@ -73,6 +74,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 var token = await _db.CreateTokenAsync(user);
 
                 await _emailService.SendEmailAsync(email,
+                    "BioRand - Sign In",
                     $"Hello {user.Name},\n\nUse the following code to login to BioRand:\n{token.Code}\n\nIf you did not request this code, ignore this message.");
                 // Send e-mail
                 return new
