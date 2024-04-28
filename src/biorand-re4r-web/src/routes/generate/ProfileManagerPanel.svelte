@@ -46,73 +46,57 @@
 </script>
 
 <div class="d-flex flex-column h-100">
-    <div class="p-2 flex-grow-1">
-        {#each $profileGroups as profileGroup}
-            <h4>{profileGroup.category}</h4>
-            <ul class="list-group list-group-flush">
+    {#each $profileGroups as profileGroup}
+        <div class="mb-3">
+            <h4 class="text-2xl">{profileGroup.category}</h4>
+            <ul class="mt-1 ml-4">
                 {#each profileGroup.profiles as profile}
-                    <button
-                        class="list-group-item list-group-item-action p-1"
-                        class:active={profile === $selectedProfile}
-                        on:click={() => selectProfile(profile)}
-                    >
-                        <div class="d-flex">
-                            <div class="flex-grow-1 p-1">
-                                <div>{profile.name}</div>
-                            </div>
-                            <div>
-                                {#if !profileGroup.isReadOnly}
-                                    {#if profile.id !== 0}
+                    <li>
+                        <button
+                            class="w-full p-1 text-left {profile === $selectedProfile
+                                ? 'bg-blue-500'
+                                : 'hover:bg-gray-600'}"
+                            on:click={() => selectProfile(profile)}
+                        >
+                            <div class="flex">
+                                <div class="grow">
+                                    <div>{profile.name}</div>
+                                </div>
+                                <div>
+                                    {#if !profileGroup.isReadOnly}
+                                        {#if profile.id !== 0}
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-light"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-title="Duplicate"
+                                                on:click={(e) => {
+                                                    duplicateProfile(profile);
+                                                    e.stopPropagation();
+                                                }}
+                                            >
+                                                <i class="bi bi-copy"></i></button
+                                            >
+                                        {/if}
                                         <button
                                             type="button"
                                             class="btn btn-sm btn-light"
                                             data-bs-toggle="tooltip"
-                                            data-bs-title="Duplicate"
+                                            data-bs-title="Delete"
                                             on:click={(e) => {
-                                                duplicateProfile(profile);
+                                                deleteProfile(profile);
                                                 e.stopPropagation();
                                             }}
                                         >
-                                            <i class="bi bi-copy"></i></button
+                                            <i class="bi bi-save"></i></button
                                         >
                                     {/if}
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-light"
-                                        data-bs-toggle="tooltip"
-                                        data-bs-title="Delete"
-                                        on:click={(e) => {
-                                            deleteProfile(profile);
-                                            e.stopPropagation();
-                                        }}
-                                    >
-                                        <i class="bi bi-save"></i></button
-                                    >
-                                {/if}
+                                </div>
                             </div>
-                        </div>
-                    </button>
+                        </button>
+                    </li>
                 {/each}
             </ul>
-        {/each}
-    </div>
+        </div>
+    {/each}
 </div>
-
-<style>
-    input {
-        border: 0;
-        background: none;
-        color: inherit;
-    }
-
-    input:focus-visible,
-    input:focus,
-    input:active {
-        border: 0;
-        outline: none;
-    }
-
-    ul:not(:last-child) {
-        margin-bottom: 16px;
-    }
-</style>

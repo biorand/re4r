@@ -1,9 +1,12 @@
 <script lang="ts">
     import { page } from '$app/stores';
-    import PageNav from '$lib/PageNav.svelte';
+    import BioRandPagination from '$lib/BioRandPagination.svelte';
     import { getApi, type ProfileQueryOptions, type ProfileQueryResult } from '$lib/api';
     import { buildUrl, getLocation, idleTimeout } from '$lib/utility';
+    import { Input, Label, Listgroup, ListgroupItem, Tooltip } from 'flowbite-svelte';
+    import { BookmarkSolid, ShuffleOutline } from 'flowbite-svelte-icons';
     import { readable, writable } from 'svelte/store';
+    import ProfileBadge from './ProfileBadge.svelte';
 
     function tryParseInt(input: any): number | undefined {
         if (typeof input !== 'string') return undefined;
@@ -75,67 +78,55 @@
     }
 </script>
 
-<div class="container">
-    <h1 class="mb-3">Community Profiles</h1>
-    <div class="card p-3 mb-3">
-        <form>
-            <div class="mb-3 row">
-                <label for="input-filter" class="col-sm-2 col-form-label">Filter</label>
-                <div class="col-sm-10">
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="input-filter"
-                        bind:value={$filter}
-                    />
-                </div>
-            </div>
-        </form>
-    </div>
+<div class="container mx-auto mb-3">
+    <h1 class="mb-3 text-4xl dark:text-white">Community Profiles</h1>
+    <form class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg w-full mb-4">
+        <Label for="input-filter" class="block mb-2">Filter</Label>
+        <Input bind:value={$filter} id="input-filter" type="text" />
+    </form>
     {#if searchResult}
-        <ul class="list-group mb-3">
+        <Listgroup class="mb-3">
             {#each searchResult.pageResults as profile}
-                <li class="list-group-item">
-                    <div class="float-end">
-                        <div class="form-check form-check-reverse form-switch">
-                            <span class="badge text-bg-secondary">{profile.starCount}</span>
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                role="switch"
-                                id="profile-bookmark-{profile.id}"
-                                checked={profile.isStarred}
-                                on:change={(e) =>
-                                    setProfileStarred(
-                                        profile.id,
-                                        e.target instanceof HTMLInputElement && e.target.checked
-                                    )}
-                            />
-                            <label class="form-check-label" for="profile-bookmark-{profile.id}"
-                                >Bookmarks</label
+                <ListgroupItem class="text-base font-semibold gap-2 p-3">
+                    <div class="flex">
+                        <div class="grow">
+                            <div>
+                                <span class="text-2xl">{profile.name}</span>
+                                <span class="text-gray-500"
+                                    >by
+                                    <a
+                                        class="text-blue-400 hover:text-blue-300"
+                                        href={getByUserUrl(profile.userName)}>{profile.userName}</a
+                                    ></span
+                                >
+                            </div>
+                            <div>
+                                {profile.description}
+                            </div>
+                        </div>
+                        <div class="">
+                            <Tooltip>Generated Seeds</Tooltip>
+                            <ProfileBadge tooltip="Generated Seeds">
+                                <ShuffleOutline />
+                                <span class="ml-1">{profile.seedCount}</span>
+                            </ProfileBadge>
+                            <ProfileBadge
+                                active={profile.isStarred}
+                                tooltip="Bookmarks"
+                                on:click={() => setProfileStarred(profile.id, !profile.isStarred)}
                             >
+                                <BookmarkSolid />
+                                <span class="ml-1">{profile.starCount}</span>
+                            </ProfileBadge>
                         </div>
-                        <div>
-                            <span class="badge text-bg-secondary">{profile.seedCount}</span>
-                            Seeds
-                        </div>
                     </div>
-                    <div>
-                        <span class="fs-4">{profile.name}</span>
-                        <span class="text-secondary"
-                            >by
-                            <a
-                                class="link-underline link-underline-opacity-0"
-                                href={getByUserUrl(profile.userName)}>{profile.userName}</a
-                            ></span
-                        >
-                    </div>
-                    <div>
-                        {profile.description}
-                    </div>
-                </li>
+                </ListgroupItem>
             {/each}
-        </ul>
-        <PageNav page={searchResult.page} count={searchResult.pageCount} href={getPageUrl} />
+        </Listgroup>
+        <BioRandPagination
+            page={searchResult.page}
+            pageCount={searchResult.pageCount}
+            href={getPageUrl}
+        />
     {/if}
 </div>

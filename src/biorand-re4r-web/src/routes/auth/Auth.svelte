@@ -1,6 +1,8 @@
 <script lang="ts">
     import { getApi } from '$lib/api';
     import { getUserManager } from '$lib/userManager';
+    import { Button, Input, Label } from 'flowbite-svelte';
+    import { EnvelopeSolid, UserSolid } from 'flowbite-svelte-icons';
 
     enum ModeKind {
         Menu,
@@ -9,7 +11,7 @@
         SignInCode
     }
 
-    let mode = ModeKind.SignIn;
+    let mode = ModeKind.Menu;
     let email = 'intelorca@gmail.com';
     let name = 'IntelOrca';
     let code = '';
@@ -69,120 +71,112 @@
     }
 </script>
 
-<div class="fixed-top container d-flex justify-content-center align-items-center vh-100">
-    <div class="col-md-6">
-        <div class="card p-3">
-            {#if mode == ModeKind.Menu}
-                <div class="text-center">
-                    <div class="m-2">
-                        <button on:click={() => (mode = 1)} class="btn btn-lg btn-primary w-50"
-                            >Register</button
-                        >
-                    </div>
-                    <div class="m-2">
-                        <button on:click={() => (mode = 2)} class="btn btn-lg btn-secondary w-50"
-                            >Sign in</button
-                        >
-                    </div>
+<div class="fixed w-full h-full grid place-items-center">
+    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg w-full md:w-6/12 md:max-w-lg">
+        {#if mode == ModeKind.Menu}
+            <div class="grid gap-4 grid-cols-2">
+                <div>
+                    <Button on:click={() => (mode = ModeKind.Register)} class="w-full"
+                        >Register</Button
+                    >
                 </div>
-            {:else if mode == ModeKind.Register}
-                <form>
-                    <div class="mb-3">
-                        <label for="txt-email" class="form-label">Email address</label>
-                        <input
-                            type="email"
-                            class="form-control"
-                            id="txt-email"
-                            required
-                            bind:value={email}
+                <div>
+                    <Button on:click={() => (mode = ModeKind.SignIn)} class="w-full">Sign In</Button
+                    >
+                </div>
+            </div>
+        {:else if mode == ModeKind.Register}
+            <form>
+                <div class="mb-2">
+                    <Label for="email" class="block mb-2">Email Address</Label>
+                    <Input
+                        bind:value={email}
+                        id="email"
+                        type="email"
+                        placeholder="albert.wesker@umbrella.com"
+                    >
+                        <EnvelopeSolid
+                            slot="left"
+                            class="w-5 h-5 text-gray-500 dark:text-gray-400"
                         />
-                    </div>
-                    <div class="mb-3">
-                        <label for="txt-name" class="form-label">Name</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="txt-name"
-                            required
-                            bind:value={name}
+                    </Input>
+                </div>
+                <div class="mb-6">
+                    <Label for="name" class="block mb-2">Name</Label>
+                    <Input bind:value={name} id="name" type="text" placeholder="awesker">
+                        <UserSolid slot="left" class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                    </Input>
+                    <p
+                        id="helper-text-explanation"
+                        class="mt-2 text-sm text-gray-500 dark:text-gray-400"
+                    >
+                        This should be your Twitch / Discord user name.
+                    </p>
+                </div>
+                <div class="mb-3">
+                    <div class="invalid-feedback d-block">{errorMessage}</div>
+                </div>
+                <Button on:click={onRegisterClick} type="submit" color="blue">Register</Button>
+                <Button on:click={() => (mode = ModeKind.Menu)} color="alternative">Cancel</Button>
+            </form>
+        {:else if mode == ModeKind.SignIn}
+            <form>
+                <div class="mb-6">
+                    <Label for="email" class="block mb-2">Email Address</Label>
+                    <Input
+                        bind:value={email}
+                        id="email"
+                        type="email"
+                        placeholder="albert.wesker@umbrella.com"
+                    >
+                        <EnvelopeSolid
+                            slot="left"
+                            class="w-5 h-5 text-gray-500 dark:text-gray-400"
                         />
-                        <div class="form-text">User name you use for Twitch or Discord.</div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="invalid-feedback d-block">{errorMessage}</div>
-                    </div>
-                    <button on:click={onRegisterClick} type="submit" class="btn btn-primary">
-                        <span
-                            class="spinner-border spinner-border-sm"
-                            class:d-none={!pending}
-                            aria-hidden="true"
-                        ></span>
-                        <span role="status">Register</span>
-                    </button>
-                    <button on:click={() => (mode = ModeKind.Menu)} class="btn btn-secondary"
-                        >Cancel</button
+                    </Input>
+                </div>
+                <div class="mb-3">
+                    <div class="invalid-feedback d-block">{errorMessage}</div>
+                </div>
+                <Button on:click={() => onSignInClick(0)} type="submit" color="blue">Sign In</Button
+                >
+                <Button on:click={() => (mode = ModeKind.Menu)} color="alternative">Cancel</Button>
+            </form>
+        {:else if mode == ModeKind.SignInCode}
+            <form>
+                <div class="mb-2">
+                    <Label for="email" class="block mb-2">Email Address</Label>
+                    <Input
+                        bind:value={email}
+                        id="email"
+                        type="email"
+                        placeholder="albert.wesker@umbrella.com"
+                        disabled
                     >
-                </form>
-            {:else if mode == ModeKind.SignIn}
-                <form class="col-md-6">
-                    <div class="mb-3">
-                        <label for="txt-email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="txt-email" value={email} />
-                    </div>
-                    <div class="mb-3">
-                        <div class="invalid-feedback d-block">{errorMessage}</div>
-                    </div>
-                    <button on:click={() => onSignInClick(0)} type="submit" class="btn btn-primary"
-                        >Sign In</button
-                    >
-                    <button on:click={() => (mode = ModeKind.Menu)} class="btn btn-secondary"
-                        >Cancel</button
-                    >
-                </form>
-            {:else if mode == ModeKind.SignInCode}
-                <form>
-                    <div class="mb-3">
-                        <label for="txt-email" class="form-label">Email address</label>
-                        <input
-                            type="email"
-                            class="form-control"
-                            id="txt-email"
-                            disabled
-                            bind:value={email}
+                        <EnvelopeSolid
+                            slot="left"
+                            class="w-5 h-5 text-gray-500 dark:text-gray-400"
                         />
-                    </div>
-                    <div class="mb-3">
-                        <label for="txt-code" class="form-label">Code</label>
-                        <input
-                            type="text"
-                            maxlength="6"
-                            class="form-control form-control-lg"
-                            id="txt-code"
-                            required
-                            bind:value={code}
-                        />
-                        <div class="form-text">
-                            Type the code you received in the e-mail. If you are unable to find the
-                            e-mail, try checking your spam folder.
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="invalid-feedback d-block">{errorMessage}</div>
-                    </div>
-                    <button on:click={() => onSignInClick(1)} type="submit" class="btn btn-primary"
-                        >Sign In</button
+                    </Input>
+                </div>
+                <div class="mb-6">
+                    <Label for="code" class="block mb-2">Code</Label>
+                    <Input bind:value={code} id="code" type="password" />
+                    <p
+                        id="helper-text-explanation"
+                        class="mt-2 text-sm text-gray-500 dark:text-gray-400"
                     >
-                    <button on:click={() => (mode = ModeKind.Menu)} class="btn btn-secondary"
-                        >Cancel</button
-                    >
-                </form>
-            {/if}
-        </div>
+                        Type the code you received in the e-mail. If you are unable to find the
+                        e-mail, try checking your spam folder.
+                    </p>
+                </div>
+                <div class="mb-3">
+                    <div class="invalid-feedback d-block">{errorMessage}</div>
+                </div>
+                <Button on:click={() => onSignInClick(1)} type="submit" color="blue">Sign In</Button
+                >
+                <Button on:click={() => (mode = ModeKind.Menu)} color="alternative">Cancel</Button>
+            </form>
+        {/if}
     </div>
 </div>
-
-<style>
-    #txt-code {
-        font-family: monospace;
-    }
-</style>

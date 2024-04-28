@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { Config, ConfigOption } from '$lib/api';
+    import { Label, Range, Select, Toggle, Tooltip } from 'flowbite-svelte';
     import { writable, type Writable } from 'svelte/store';
 
     export let definition: ConfigOption;
@@ -27,49 +28,37 @@
     });
 </script>
 
-<div class="row align-items-center">
-    <div class="col-6">
-        <label
-            for="cfg-{definition.id}"
-            class="form-label"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            data-bs-custom-class="custom-tooltip"
-            data-bs-title={definition.description}>{definition.label}</label
-        >
+<div class="sm:flex m-1">
+    <div class="sm:w-1/2">
+        <Label class="h-full content-center" for="cfg-{definition.id}">{definition.label}</Label>
+        {#if definition.description}
+            <Tooltip>{definition.description}</Tooltip>
+        {/if}
     </div>
-    <div class="col">
+    <div class="sm:w-1/2">
         {#if definition.type === 'switch'}
-            <div class="form-check form-switch">
-                <input
-                    id="cfg-{definition.id}"
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    bind:checked={$value}
-                />
-            </div>
+            <Toggle size="small" id="cfg-{definition.id}" bind:checked={$value} />
         {:else if definition.type === 'range'}
-            <div class="row">
-                <div class="col">
-                    <input
+            <div class="flex">
+                <div class="grow">
+                    <Range
                         id="cfg-{definition.id}"
-                        type="range"
-                        class="form-range"
                         min={definition.min}
                         max={definition.max}
                         step={definition.step}
                         bind:value={$value}
                     />
                 </div>
-                <div id="cfg-{definition.id}" class="col-2">{$value}</div>
+                <div class="w-12 ml-2">{$value}</div>
             </div>
         {:else if definition.type === 'dropdown'}
-            <select id="cfg-{definition.id}" class="form-select" bind:value={$value}>
-                {#each definition.options || [] as option}
-                    <option>{option}</option>
-                {/each}
-            </select>
+            <Select
+                id="cfg-{definition.id}"
+                underline
+                size="sm"
+                items={(definition.options || []).map((x) => ({ name: x, value: x }))}
+                bind:value={$value}
+            />
         {/if}
     </div>
 </div>

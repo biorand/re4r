@@ -10,10 +10,8 @@
     });
 </script>
 
-<div class="container-fluid">
-    {#if isSignedIn}
-        <Generate />
-    {:else}
-        <Auth />
-    {/if}
-</div>
+{#if isSignedIn}
+    <Generate />
+{:else}
+    <Auth />
+{/if}

@@ -1,5 +1,7 @@
 <script lang="ts">
     import type { Config, ConfigDefinition, Profile } from '$lib/api';
+    import { Alert, Input, Label, TabItem, Tabs, Textarea } from 'flowbite-svelte';
+    import { InfoCircleSolid } from 'flowbite-svelte-icons';
     import { writable, type Writable } from 'svelte/store';
     import ConfigurationControl from './ConfigControl.svelte';
 
@@ -38,101 +40,45 @@
 </script>
 
 {#if $profile}
-    <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button
-                class="nav-link active"
-                id="tab-profile"
-                data-bs-toggle="tab"
-                data-bs-target="#pane-profile"
-                type="button"
-                role="tab">Profile</button
-            >
-        </li>
-        {#each definition?.pages || [] as p, i}
-            <li class="nav-item" role="presentation">
-                <button
-                    class="nav-link"
-                    id="tab-{i}"
-                    data-bs-toggle="tab"
-                    data-bs-target="#pane-{i}"
-                    type="button"
-                    role="tab">{p.label}</button
-                >
-            </li>
-        {/each}
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div
-            class="tab-pane fade p-2 show active"
-            id="pane-profile"
-            role="tabpanel"
-            aria-labelledby="tab-profile"
-            tabindex="0"
-        >
+    <Tabs tabStyle="pill">
+        <TabItem open title="Profile">
             <div class="mb-3">
-                <label for="txt-profile-name" class="form-label">Name</label>
-                <input
-                    type="text"
-                    class="form-control"
-                    id="txt-profile-name"
-                    bind:value={$profile.name}
-                />
+                <Label class="mb-2" for="txt-profile-name">Name</Label>
+                <Input type="text" id="txt-profile-name" bind:value={$profile.name} />
             </div>
             <div class="mb-3">
-                <label for="txt-profile-description" class="form-label">Description</label>
-                <textarea
-                    class="form-control"
-                    id="txt-profile-description"
-                    rows="3"
-                    bind:value={$profile.description}
-                ></textarea>
+                <Label class="mb-2" for="txt-profile-description">Description</Label>
+                <Textarea id="txt-profile-description" rows="3" bind:value={$profile.description} />
             </div>
-            <div class="row">
-                <span class="col-sm-2 col-form-label">Stars</span>
-                <div class="col-sm-10">
-                    <span class="form-control-plaintext">4</span>
-                </div>
-            </div>
-            <div class="row">
-                <span class="col-sm-2 col-form-label">Seeds generated</span>
-                <div class="col-sm-10">
-                    <span class="form-control-plaintext">4</span>
-                </div>
-            </div>
-        </div>
+            <div class="mb-3">Stars: {$profile.starCount}</div>
+            <div class="mb-3">Seeds: {$profile.seedCount}</div>
+        </TabItem>
         {#each definition?.pages || [] as p, i}
-            <div
-                class="tab-pane fade p-2"
-                id="pane-{i}"
-                role="tabpanel"
-                aria-labelledby="tab-{i}"
-                tabindex={i + 1}
-            >
+            <TabItem title={p.label}>
                 {#each p.groups as g}
                     {#if g.label}
                         <h4>{g.label}</h4>
                     {/if}
                     {#if g.warning}
-                        <div class="alert alert-warning">
-                            {g.warning}
-                        </div>
+                        <Alert border color="yellow" class="my-4">
+                            <InfoCircleSolid slot="icon" class="w-5 h-5" />{g.warning}
+                        </Alert>
                     {/if}
                     {#each pairs(g.items) as p}
-                        <div class="row">
-                            <div class="col-xxl-6">
+                        <div class="sm:flex">
+                            <div class="sm:w-1/2 mr-2">
                                 <ConfigurationControl definition={p[0]} {configuration} />
                             </div>
-                            <div class="col-xxl-6">
+                            <div class="sm:w-1/2 ml-2">
                                 {#if p[1]}
                                     <ConfigurationControl definition={p[1]} {configuration} />
                                 {/if}
                             </div>
                         </div>
                     {/each}
-                    <hr />
+                    <hr class="border-gray-500 mb-3" />
                 {/each}
-            </div>
+            </TabItem>
         {/each}
-    </div>
+    </Tabs>
 {/if}

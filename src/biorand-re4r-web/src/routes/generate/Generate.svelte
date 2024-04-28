@@ -19,12 +19,12 @@
     });
 </script>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-4" style="max-width: 512px;">
+<div class="mb-3">
+    <div class="md:flex">
+        <div class="md:w-1/3 md:max-w-lg m-2">
             <ProfileManagerPanel userProfileManager={profileManager} />
         </div>
-        <div class="col-lg-8">
+        <div class="md:w-2/3 m-2">
             <ConfigPanel definition={configDefinition} {profile} />
         </div>
     </div>
