@@ -18,7 +18,6 @@ COPY --from=build-api /out/biorand-re4r /usr/bin/biorand-re4r
 COPY --from=build-web /w/src/biorand-re4r-web/build /usr/share/biorand-re4r/www
 RUN biorand-re4r --version
 
-FROM biorand-re4r:main
 RUN CFG=/etc/nginx/http.d/default.conf \
  && echo 'server {' > $CFG \
  && echo '    listen 80 default_server;' >> $CFG \
@@ -30,7 +29,7 @@ RUN CFG=/etc/nginx/http.d/default.conf \
  && echo '}' >> $CFG
 
 RUN echo '#!/bin/sh' > /usr/bin/run-api \
- && echo 'biorand-re4r web-server >> /root/.biorand/api.log' \
+ && echo 'biorand-re4r web-server >> /root/.biorand/api.log' >> /usr/bin/run-api \
  && chmod +x /usr/bin/run-api
 
 RUN echo '#!/bin/sh' > /usr/bin/run-www \
