@@ -34,7 +34,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var pushedHeading = false;
                 var rewards = chapterRewards.GetValueOrDefault(chapter, []);
                 var items = chapterItems.GetValueOrDefault(chapter, []);
-                var chapterNumber = chapter == 0 ? 1 : chapter;
+                var chapterNumber = chapter + 1;
                 foreach (var reward in rewards)
                 {
                     var item = itemRepo.Find(reward.ItemId);
@@ -415,19 +415,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var item = _availableItems.FirstOrDefault(x => x.ItemDefinition.Id == shopItem.ItemId);
                     if (item == null || item.BuyPrice == 0)
                     {
-                        var itemDefinition = itemRepo.Find(shopItem.ItemId);
-                        if (itemDefinition != null)
+                        if (shopItem.BuyPrice != -1)
                         {
-                            item = new AvailableItem(itemDefinition);
-                            RandomizePrice(item, spinel: false);
-                            shopItem.BuyPrice = item.BuyPrice;
-                            shopItem.SellPrice = item.SellPrice;
-                        }
+                            var itemDefinition = itemRepo.Find(shopItem.ItemId);
+                            if (itemDefinition != null)
+                            {
+                                item = new AvailableItem(itemDefinition);
+                                RandomizePrice(item, spinel: false);
+                                shopItem.BuyPrice = item.BuyPrice;
+                                shopItem.SellPrice = item.SellPrice;
+                            }
 
-                        shopItem.UnlockCondition = 4;
-                        shopItem.UnlockFlag = Guid.Empty;
-                        shopItem.UnlockChapter = 0;
-                        shopItem.SpCondition = 1;
+                            shopItem.UnlockCondition = 4;
+                            shopItem.UnlockFlag = Guid.Empty;
+                            shopItem.UnlockChapter = 0;
+                            shopItem.SpCondition = 1;
+                        }
                     }
                     else
                     {
@@ -435,7 +438,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         shopItem.SellPrice = item.SellPrice;
                         shopItem.UnlockCondition = 2;
                         shopItem.UnlockFlag = Guid.Empty;
-                        shopItem.UnlockChapter = item.UnlockChapter;
+                        shopItem.UnlockChapter = Math.Max(0, item.UnlockChapter - 1);
                         shopItem.SpCondition = 1;
                         shopItem.EnableStockSetting = item.MaxStock != 0;
                         shopItem.EnableSelectCount = item.MaxStock != 0;
@@ -444,7 +447,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
 
                     // Make items unlock at first chapter work
-                    if (shopItem.UnlockCondition != 4 && shopItem.UnlockChapter <= 1)
+                    if (shopItem.UnlockCondition != 4 && shopItem.UnlockChapter <= 0)
                     {
                         shopItem.UnlockChapter = 0;
                         shopItem.UnlockCondition = 0;
