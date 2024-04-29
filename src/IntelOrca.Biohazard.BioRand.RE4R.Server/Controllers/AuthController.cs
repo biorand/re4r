@@ -4,17 +4,16 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
-using EmbedIO.WebApi;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
-    internal class AuthController : WebApiController
+    internal class AuthController : BaseController
     {
         private readonly DatabaseService _db;
         private readonly EmailService _emailService;
 
-        public AuthController(DatabaseService db, EmailService emailService)
+        public AuthController(DatabaseService db, EmailService emailService) : base(db)
         {
             _db = db;
             _emailService = emailService;
@@ -103,16 +102,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                     token = token.Token
                 };
             }
-        }
-
-        private object Failure(HttpStatusCode statusCode, string message)
-        {
-            Response.StatusCode = (int)statusCode;
-            return new
-            {
-                success = false,
-                message
-            };
         }
 
         private static bool IsValidEmailAddress([NotNullWhen(true)] string? email)

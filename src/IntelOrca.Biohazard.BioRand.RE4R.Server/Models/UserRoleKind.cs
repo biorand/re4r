@@ -4,11 +4,11 @@
     {
         Pending,
         PendingEarlyAccess,
+        Banned,
         EarlyAccess,
         Tester,
         Standard,
         Administrator,
-        Banned,
         System
     }
 }

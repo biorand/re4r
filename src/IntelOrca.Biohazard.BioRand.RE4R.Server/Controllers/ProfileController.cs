@@ -5,17 +5,16 @@ using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
-using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
 using Swan.Formatters;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
-    internal class ProfileController : WebApiController
+    internal class ProfileController : BaseController
     {
         private readonly DatabaseService _db;
 
-        public ProfileController(DatabaseService db)
+        public ProfileController(DatabaseService db) : base(db)
         {
             _db = db;
         }
@@ -101,36 +100,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             return EmptyResult();
         }
 
-        private async Task<UserDbModel?> GetAuthorizedUserAsync()
+        [Route(HttpVerbs.Get, "/definition")]
+        public Task<RandomizerConfigurationDefinition> GetConfigAsync()
         {
-            var authorization = HttpContext.Request.Headers["Authorization"];
-            if (!string.IsNullOrEmpty(authorization))
-            {
-                var parts = authorization.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length == 2)
-                {
-                    var type = parts[0];
-                    var token = parts[1];
-                    if (type == "Bearer")
-                    {
-                        return await _db.GetUserByToken(token);
-                    }
-                }
-            }
-            return null;
-        }
-
-        private object UnauthorizedResult() => ErrorResult(HttpStatusCode.Unauthorized);
-
-        private object ErrorResult(HttpStatusCode code)
-        {
-            Response.StatusCode = (int)code;
-            return new object { };
-        }
-
-        private object EmptyResult()
-        {
-            return new object { };
+            var chainsawRandomizerFactory = ChainsawRandomizerFactory.Default;
+            var randomizer = chainsawRandomizerFactory.Create();
+            var enemyClassFactory = randomizer.EnemyClassFactory;
+            var configDefinition = RandomizerConfigurationDefinition.Create(enemyClassFactory);
+            return Task.FromResult(configDefinition);
         }
 
         public class UpdateTempConfigRequest

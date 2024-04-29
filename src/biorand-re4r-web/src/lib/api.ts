@@ -74,8 +74,14 @@ export interface ConfigDefinition {
 export type Config = { [key: string]: any };
 
 export class BioRandApi {
-    private urlBase = "http://localhost:10285/api"
+    private urlBase = "https://api-re4r.biorand.net";
     private authToken?: string;
+
+    constructor(urlBase?: string) {
+        if (urlBase) {
+            this.urlBase = urlBase;
+        }
+    }
 
     setAuthToken(authToken: string) {
         this.authToken = authToken;
@@ -115,7 +121,7 @@ export class BioRandApi {
     }
 
     async getConfigDefinition() {
-        return await this.get<ConfigDefinition>("config");
+        return await this.get<ConfigDefinition>("profile/definition");
     }
 
     private async get<T>(query: string, body?: any) {
@@ -152,7 +158,15 @@ export class BioRandApi {
 }
 
 export function getApi() {
-    const api = new BioRandApi();
+    const hostName = document.location.hostname;
+    let apiUrl = 'https://api-re4r.biorand.net';
+    if (hostName === 'localhost') {
+        apiUrl = 'http://localhost:10285';
+    } else if (hostName.indexOf('beta') !== -1) {
+        apiUrl = 'https://beta-api-re4r.biorand.net';
+    }
+
+    const api = new BioRandApi(apiUrl);
     const userManager = getUserManager();
     if (userManager.isSignedIn()) {
         api.setAuthToken(userManager.info!.token);
