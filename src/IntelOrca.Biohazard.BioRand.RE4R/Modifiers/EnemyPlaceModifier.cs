@@ -114,7 +114,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private static ScnFile.GameObjectData CreateSpawnController(ScnFile scn, string name)
         {
             var newGameObject = scn.CreateGameObject(name);
-            // newGameObject.Prefab!.Path = "_Chainsaw/AppSystem/Prefab/CharacterSpawnController.pfb";
+            newGameObject.Prefab = new ScnFile.PrefabInfo()
+            {
+                Path = "_Chainsaw/AppSystem/Prefab/CharacterSpawnController.pfb"
+            };
             SetTransform(scn, newGameObject, Vector4.Zero);
 
             var characterSpawnControllerComponent = CreateComponent(scn, newGameObject, "chainsaw.CharacterSpawnController");
@@ -127,6 +130,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private ScnFile.GameObjectData CreateEnemy(ScnFile scn, ScnFile.GameObjectData parent, string name, int stageId, Vector3 position, Vector4 rotation, Rng rng, RandomizerLogger logger)
         {
             var newGameObject = scn.CreateGameObject(name);
+            newGameObject.Prefab = new ScnFile.PrefabInfo()
+            {
+                Path = "_Chainsaw/AppSystem/Prefab/ch1c0SpawnParam.pfb"
+            };
             SetTransform(scn, newGameObject, new Vector4(position, 1), rotation);
             scn.RemoveGameObject(newGameObject);
             newGameObject = scn.ImportGameObject(newGameObject, parent: parent);

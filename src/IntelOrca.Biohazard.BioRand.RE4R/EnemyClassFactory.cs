@@ -52,8 +52,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 var key = k.GetProperty("key").GetString() ?? throw new InvalidDataException();
                 var componentName = k.GetProperty("componentName").GetString() ?? throw new InvalidDataException();
+                var prefab = k.GetProperty("prefab").GetString() ?? throw new InvalidDataException();
                 var closed = k.GetBooleanProperty("closed") ?? false;
-                kindDefinitions.Add(new EnemyKindDefinition(key, componentName, closed));
+                kindDefinitions.Add(new EnemyKindDefinition(key, componentName, prefab, closed));
             }
 
             var weapons = jsonDocument.RootElement.GetProperty("weapons");

@@ -54,16 +54,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return gameObject.Components.FirstOrDefault(x => EnemyClassFactory.FindEnemyKind(x.Name) != null);
         }
 
-        public Enemy ConvertTo(Enemy enemy, string type)
+        public Enemy ConvertTo(Enemy enemy, EnemyKindDefinition kind)
         {
             var gameObject = enemy.GameObject;
             var oldComponent = enemy.MainComponent;
-            if (oldComponent.RszClass.name == type)
+            if (oldComponent.RszClass.name == kind.ComponentName)
                 return enemy;
 
-            ScnFile.AddComponent(gameObject, type);
+            ScnFile.AddComponent(gameObject, kind.ComponentName);
             gameObject.Components.Remove(oldComponent);
             var newComponent = gameObject.Components.Last();
+
+            if (gameObject.Prefab != null)
+            {
+                gameObject.Prefab.Path = kind.Prefab;
+            }
 
             var newEnemy = new Enemy(this, gameObject, newComponent);
 

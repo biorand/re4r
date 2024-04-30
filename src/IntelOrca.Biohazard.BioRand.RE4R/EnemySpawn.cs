@@ -27,7 +27,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public void ConvertType(Area area, EnemyKindDefinition kind)
         {
-            Enemy = area.ConvertTo(Enemy, kind.ComponentName);
+            Enemy = area.ConvertTo(Enemy, kind);
         }
 
         public bool Prefers(EnemyClassDefinition ecd)

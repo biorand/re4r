@@ -2,188 +2,228 @@
   "kinds": [
     {
       "key": "villager",
-      "componentName": "chainsaw.Ch1c0SpawnParamCommon"
+      "componentName": "chainsaw.Ch1c0SpawnParamCommon",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1c0SpawnParam.pfb"
     },
     {
       "key": "villager_2",
-      "componentName": "chainsaw.Ch1c0z0SpawnParam"
+      "componentName": "chainsaw.Ch1c0z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1c0z0SpawnParam.pfb"
     },
     {
       "key": "zealot",
-      "componentName": "chainsaw.Ch1c0z1SpawnParam"
+      "componentName": "chainsaw.Ch1c0z1SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1c0z1SpawnParam.pfb"
     },
     {
       "key": "soldier",
-      "componentName": "chainsaw.Ch1c0z2SpawnParam"
+      "componentName": "chainsaw.Ch1c0z2SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1c0z2SpawnParam.pfb"
     },
     {
       "key": "arana",
-      "componentName": "chainsaw.Ch1e0z0SpawnParam"
+      "componentName": "chainsaw.Ch1e0z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1e0z0SpawnParam.pfb"
     },
     {
       "key": "chainsaw",
-      "componentName": "chainsaw.Ch1d1z1SpawnParam"
+      "componentName": "chainsaw.Ch1d1z1SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1d1z1SpawnParam.pfb"
     },
     {
       "key": "chainsaw_mercenaries",
-      "componentName": "chainsaw.Ch1d1z1SpawnParamMercenaries"
+      "componentName": "chainsaw.Ch1d1z1SpawnParamMercenaries",
+      "prefab": "_Mercenaries/AppSystem/Character/Prefab/ch1d1z1SpawnParamMercenaries.pfb"
     },
     {
       "key": "chainsaw_mad",
-      "componentName": "chainsaw.Ch7k0z0SpawnParam"
+      "componentName": "chainsaw.Ch7k0z0SpawnParam",
+      "prefab": "_Mercenaries/AppSystem/Character/Prefab/ch7k0z0SpawnParam.pfb"
     },
     {
       "key": "colmillos",
-      "componentName": "chainsaw.Ch1d2z0SpawnParam"
+      "componentName": "chainsaw.Ch1d2z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1d2z0SpawnParam.pfb"
     },
     {
       "key": "novistador",
-      "componentName": "chainsaw.Ch1d3z0SpawnParam"
+      "componentName": "chainsaw.Ch1d3z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1d3z0SpawnParam.pfb"
     },
     {
       "key": "garrador",
-      "componentName": "chainsaw.Ch1d0z0SpawnParam"
+      "componentName": "chainsaw.Ch1d0z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1d0z0SpawnParam.pfb"
     },
     {
       "key": "regenerador",
-      "componentName": "chainsaw.Ch1d4z0SpawnParam"
+      "componentName": "chainsaw.Ch1d4z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1d4z0SpawnParam.pfb"
     },
     {
       "key": "armadura",
-      "componentName": "chainsaw.Ch1d6z0SpawnParam"
+      "componentName": "chainsaw.Ch1d6z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1d6z0SpawnParam.pfb"
     },
     {
       "key": "brute",
-      "componentName": "chainsaw.Ch1c8z0SpawnParam"
+      "componentName": "chainsaw.Ch1c8z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1c8z0SpawnParam.pfb"
     },
     {
       "key": "sadler_1",
       "componentName": "chainsaw.Ch1f8z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1f8z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "mendez_chase",
       "componentName": "chainsaw.Ch1b5z1SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1b5z1SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "krauser_1",
       "componentName": "chainsaw.Ch1b7z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1b7z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "el_gigante",
       "componentName": "chainsaw.Ch1f0z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1f0z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "dellago",
       "componentName": "chainsaw.Ch1f1z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1f1z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "verdugo",
       "componentName": "chainsaw.Ch1f2z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1f2z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "mendez_2",
       "componentName": "chainsaw.Ch1f4z1SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1f4z1SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "mendez_3",
       "componentName": "chainsaw.Ch1f5z1SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1f5z1SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "salazar",
       "componentName": "chainsaw.Ch1f6z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1f6z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "krauser_2",
       "componentName": "chainsaw.Ch1f7z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1f7z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "sadler_2",
       "componentName": "chainsaw.Ch1fcz0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1fcz0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "sadler_3",
       "componentName": "chainsaw.Ch1fdz0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1fdz0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "pesanta_phantom",
       "componentName": "chainsaw.Ch4faz0SpawnParam",
+      "prefab": "_AnotherOrder/AppSystem/Character/Prefab/ch4faz0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "pesanta",
       "componentName": "chainsaw.Ch4faz1SpawnParam",
+      "prefab": "_AnotherOrder/AppSystem/Character/Prefab/ch4faz1SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "u3",
       "componentName": "chainsaw.Ch4fbz0SpawnParam",
+      "prefab": "_AnotherOrder/AppSystem/Character/Prefab/ch4fbz0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "ashley_1",
       "componentName": "chainsaw.Ch2a1z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch2a1z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "ashley_2",
       "componentName": "chainsaw.Ch2a3z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch2a3z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "ch2a3z1",
       "componentName": "chainsaw.Ch2a3z1SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch2a3z1SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "police",
       "componentName": "chainsaw.Ch2b0z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch2b0z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "ch2b1z0",
       "componentName": "chainsaw.Ch2b1z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch2b1z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "dead_cloak",
       "componentName": "chainsaw.Ch2bd00SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch2bd00SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "wolf",
       "componentName": "chainsaw.Ch8g0z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch8g0z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "ch8g1z0",
       "componentName": "chainsaw.Ch8g1z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch8g1z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "viper",
       "componentName": "chainsaw.Ch8g2z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch8g2z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "cow",
       "componentName": "chainsaw.Ch8g3z0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch8g3z0SpawnParam.pfb",
       "closed": true
     },
     {
       "key": "pig",
       "componentName": "chainsaw.Ch8gaz0SpawnParam",
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch8gaz0SpawnParam.pfb",
       "closed": true
     }
   ],
