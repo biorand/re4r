@@ -1,11 +1,5 @@
+import type { UserAuthInfo } from "./api";
 import { LocalStorageKeys } from "./localStorage";
-
-interface UserInfo {
-    id: number;
-    email: string;
-    name: string;
-    token: string;
-}
 
 class Notifier<T extends (...args: any[]) => void> {
     subscribers: T[];
@@ -26,10 +20,10 @@ class Notifier<T extends (...args: any[]) => void> {
 }
 
 class UserManager {
-    private _info: UserInfo | undefined;
+    private _info: UserAuthInfo | undefined;
     private notifications = new Notifier<() => void>();
 
-    get info(): UserInfo | undefined {
+    get info(): UserAuthInfo | undefined {
         return this._info;
     }
 
@@ -55,10 +49,8 @@ class UserManager {
         return !!this._info;
     }
 
-    setSignedIn(id: number, email: string, name: string, token: string) {
-        this._info = {
-            id, email, name, token
-        }
+    setSignedIn(userAuthInfo: UserAuthInfo) {
+        this._info = userAuthInfo;
         this.notifications.raise();
         this.saveToLocalStorage();
     }

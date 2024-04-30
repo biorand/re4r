@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EmbedIO;
@@ -98,49 +97,72 @@ The BioRand Team");
         [Route(HttpVerbs.Post, "/signin")]
         public async Task<object> SignInAsync([MyJsonData] SignInRequest req)
         {
+            var validationResult = new Dictionary<string, string>();
+
             var email = req.Email?.Trim() ?? "";
-
             if (!IsValidEmailAddress(email))
-                return Failure(HttpStatusCode.BadRequest, "Invalid e-mail address.");
-
-            var user = await _db.GetUserByEmail(email);
-            if (user == null)
-                return Failure(HttpStatusCode.BadRequest, "E-mail address not registered.");
-
-            if (string.IsNullOrEmpty(req.Code))
             {
-                var token = await _db.CreateTokenAsync(user);
-
-                await _emailService.SendEmailAsync(email,
-                    "BioRand - Sign In",
-                    $"Hello {user.Name},\n\nUse the following code to login to BioRand:\n{token.Code}\n\nIf you did not request this code, ignore this message.");
-                // Send e-mail
-                return new
-                {
-                    success = true,
-                    email
-                };
+                validationResult["email"] = "Invalid e-mail address.";
             }
             else
             {
-                // Check code
-                int.TryParse(req.Code, out var code);
-                var token = await _db.GetTokenAsync(user, code);
-                if (token == null)
-                    return Failure(HttpStatusCode.BadRequest, "Code invalid.");
-                if (token.LastUsed != null)
-                    return Failure(HttpStatusCode.BadRequest, "Code invalid.");
-
-                await _db.UseTokenAsync(token.Token);
-                return new
+                var user = await _db.GetUserByEmail(email);
+                if (user == null)
                 {
-                    success = true,
-                    id = user.Id,
-                    email = user.Email,
-                    name = user.Name,
-                    token = token.Token
-                };
+                    validationResult["email"] = "E-mail address not registered.";
+                }
+                else if (string.IsNullOrEmpty(req.Code))
+                {
+                    var token = await _db.CreateTokenAsync(user);
+                    var code = token.Code.ToString("000000");
+
+                    await _emailService.SendEmailAsync(email,
+                        "BioRand 4 - Sign In",
+$@"Dear {user.Name},
+
+Your code for signing into BioRand 4 is: {code}
+
+Enter this code to complete the sign in process. If you did not request this code, please ignore this message.
+
+Kind regards,
+The BioRand Team");
+
+                    return new
+                    {
+                        Success = true,
+                        user.Email
+                    };
+                }
+                else
+                {
+                    // Check code
+                    var codeInvalid = !int.TryParse(req.Code, out var code);
+                    if (!codeInvalid)
+                    {
+                        var token = await _db.GetTokenAsync(user, code);
+                        if (token != null && token.LastUsed == null)
+                        {
+                            await _db.UseTokenAsync(token.Token);
+                            return new
+                            {
+                                Success = true,
+                                user.Id,
+                                user.Email,
+                                user.Name,
+                                token.Token
+                            };
+                        }
+                    }
+                    validationResult["code"] = "Code is invalid.";
+                }
             }
+
+            return new
+            {
+                Success = false,
+                Email = email,
+                Validation = validationResult
+            };
         }
 
         private static bool IsValidEmailAddress([NotNullWhen(true)] string? email)

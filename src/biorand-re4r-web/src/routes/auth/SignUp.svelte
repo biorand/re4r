@@ -19,7 +19,7 @@
     let success = false;
     let registeredName = '';
 
-    async function onRegisterClick() {
+    async function onSubmit() {
         [emailData, nameData] = validateClear(emailData, nameData);
         serverWait = true;
         try {
@@ -58,7 +58,7 @@
         </div>
         <div class="sm:w-1/2 p-4">
             <div class="bg-gray-100 dark:bg-gray-700 p-4 max-w-96 rounded-lg mx-auto sm:m-0">
-                <form>
+                <form on:submit={onSubmit}>
                     <fieldset disabled={serverWait}>
                         <FormInput
                             id="email"
@@ -87,12 +87,7 @@
                             </Helper>
                         {/if}
 
-                        <Button
-                            on:click={onRegisterClick}
-                            type="submit"
-                            color="blue"
-                            class="w-full"
-                        >
+                        <Button type="submit" color="blue" class="w-full">
                             {#if serverWait}
                                 <Spinner class="me-3" size="4" color="white" />
                             {/if}

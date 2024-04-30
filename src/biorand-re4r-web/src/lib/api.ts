@@ -12,13 +12,16 @@ export interface RegisterResult {
     validation?: ValidationResult;
 }
 
-export interface SignInResult {
+export interface SignInResult extends UserAuthInfo {
     success: boolean;
+    validation?: ValidationResult;
+}
+
+export interface UserAuthInfo {
     id: number;
     email: string;
     name: string;
-    token?: string;
-    message: string;
+    token: string;
 }
 
 export interface ProfileQueryOptions {

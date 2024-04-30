@@ -90,7 +90,10 @@
             <NavLi href="/profiles">Profiles</NavLi>
         </NavUl>
     {:else}
-        <div class="ml-3">
+        <div class="ml-3 inline-flex">
+            <div class="py-3 mr-2 text-sm">
+                <a href="/login">Sign in</a>
+            </div>
             <DarkMode />
         </div>
     {/if}
