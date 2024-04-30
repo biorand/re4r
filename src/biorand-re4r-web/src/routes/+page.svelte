@@ -1,6 +1,6 @@
 <script lang="ts">
     import { getUserManager } from '$lib/userManager';
-    import Auth from './auth/Auth.svelte';
+    import SignUp from './auth/SignUp.svelte';
     import Generate from './generate/Generate.svelte';
 
     const userManager = getUserManager();
@@ -13,5 +13,5 @@
 {#if isSignedIn}
     <Generate />
 {:else}
-    <Auth />
+    <SignUp />
 {/if}

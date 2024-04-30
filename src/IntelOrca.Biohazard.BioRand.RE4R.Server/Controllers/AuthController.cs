@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -22,38 +23,76 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         [Route(HttpVerbs.Post, "/register")]
         public async Task<object> RegisterAsync([MyJsonData] RegisterRequest req)
         {
+            var validationResult = new Dictionary<string, string>();
+
+            // Validate email
             var email = req.Email?.Trim() ?? "";
-            var name = req.Name?.Trim() ?? "";
-
             if (!IsValidEmailAddress(email))
-                return Failure(HttpStatusCode.BadRequest, "Invalid e-mail address.");
-            if (name == null || name.Length < 4)
-                return Failure(HttpStatusCode.BadRequest, "Name too short.");
-            if (name.Length > 32)
-                return Failure(HttpStatusCode.BadRequest, "Name too long.");
-            if (!Regex.IsMatch(name, "^[A-Za-z0-9_]+$"))
-                return Failure(HttpStatusCode.BadRequest, "Name contains invalid characters.");
-
-            var existingUserByEmail = await _db.GetUserByEmail(email);
-            if (existingUserByEmail != null)
-                return Failure(HttpStatusCode.BadRequest, "Email already registered.");
-
-            var existingUserByName = await _db.GetUserByName(name);
-            if (existingUserByName != null)
-                return Failure(HttpStatusCode.BadRequest, "Name already registered.");
-
-            var user = await _db.CreateUserAsync(email, name);
-            var token = await _db.CreateTokenAsync(user);
-
-            await _emailService.SendEmailAsync(email,
-                "Welcome to BioRand",
-                $"Welcome {name},\n\nYou are now registered for BioRand.\n\nUse the following code to login:\n{token.Code}");
-
-            return new
             {
-                email,
-                name
-            };
+                validationResult["email"] = "Invalid e-mail address.";
+            }
+            else
+            {
+                var existingUserByEmail = await _db.GetUserByEmail(email);
+                if (existingUserByEmail != null)
+                {
+                    validationResult["email"] = "Email already registered.";
+                }
+            }
+
+            // Validate name
+            var name = req.Name?.Trim() ?? "";
+            if (name == null || name.Length < 4)
+            {
+                validationResult["name"] = "Name too short.";
+            }
+            else if (name.Length > 32)
+            {
+                validationResult["name"] = "Name too long.";
+            }
+            else if (!Regex.IsMatch(name, "^[A-Za-z0-9_]+$"))
+            {
+                validationResult["name"] = "Name contains invalid characters.";
+            }
+            else
+            {
+                var existingUserByName = await _db.GetUserByName(name);
+                if (existingUserByName != null)
+                {
+                    validationResult["name"] = "Name already registered.";
+                }
+            }
+
+            if (validationResult.Count == 0)
+            {
+                await _db.CreateUserAsync(email, name!);
+                await _emailService.SendEmailAsync(email,
+                    "BioRand 4 - Early Access",
+$@"Dear {name},
+
+Thank you for registering for early access for BioRand: Resident Evil 4 (2023).
+You will be informed when you are granted early access.
+
+Kind regards,
+The BioRand Team");
+
+                return new
+                {
+                    Success = true,
+                    Email = email,
+                    Name = name
+                };
+            }
+            else
+            {
+                return new
+                {
+                    Success = false,
+                    Email = email,
+                    Name = name,
+                    Validation = validationResult
+                };
+            }
         }
 
         [Route(HttpVerbs.Post, "/signin")]

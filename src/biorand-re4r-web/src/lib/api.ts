@@ -1,12 +1,15 @@
-import type { ConfigDefinition } from "./ConfigDefinition";
 import { getUserManager } from "./userManager";
 import { buildUrl } from "./utility";
+
+export type ValidationResult = {
+    [key: string]: string;
+};
 
 export interface RegisterResult {
     success: boolean;
     email: string;
     name: string;
-    message: string;
+    validation?: ValidationResult;
 }
 
 export interface SignInResult {

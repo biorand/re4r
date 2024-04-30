@@ -1,4 +1,5 @@
 <script lang="ts">
+    import BioRandTitle from '$lib/BioRandTitle.svelte';
     import { LocalStorageKeys } from '$lib/localStorage';
     import { getUserManager } from '$lib/userManager';
     import {
@@ -66,9 +67,7 @@
 <Navbar class="px-2 sm:px-4 py-2.5 fixed w-full z-20 top-0 start-0 border-b" fluid={true}>
     <NavBrand href="/">
         <img src="/umbrella.png" class="me-3 h-6 sm:h-9" alt="BioRand Logo" />
-        <span class="self-center whitespace-nowrap text-5xl font-semibold title dark:text-white"
-            >BIORAND 4</span
-        >
+        <BioRandTitle />
     </NavBrand>
     {#if isSignedIn}
         <div class="flex items-center md:order-2">
