@@ -54,7 +54,31 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         foreach (var enemyDef in g)
                         {
                             var position = new Vector3(enemyDef.X, enemyDef.Y, enemyDef.Z);
-                            CreateEnemy(scn, spawnController, "BioRandEnemy", enemyDef.Stage, position, RandomRotation(rng), rng, logger);
+                            var enemy = CreateEnemy(scn, spawnController, "BioRandEnemy", enemyDef.Stage, position, RandomRotation(rng), rng, logger);
+
+                            if (enemyDef.Ranged)
+                            {
+                                var rangedClasses = EnemyClassFactory.Default.Classes
+                                    .Where(x => x.Ranged)
+                                    .Select(x => x.Key)
+                                    .ToArray();
+
+                                var restriction = new AreaRestriction()
+                                {
+                                    Guids = [enemy.Guid],
+                                    Include = rangedClasses
+                                };
+                                def.Restrictions = [.. (def.Restrictions ?? []), restriction];
+                            }
+                            if (enemyDef.Small)
+                            {
+                                var restriction = new AreaRestriction()
+                                {
+                                    Guids = [enemy.Guid],
+                                    Exclude = ["mendez_chase", "verdugo", "mendez_2", "krauser_2", "pesanta", "u3"]
+                                };
+                                def.Restrictions = [.. (def.Restrictions ?? []), restriction];
+                            }
                         }
                         logger.Pop();
                     }

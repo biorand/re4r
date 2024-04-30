@@ -33,5 +33,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public int X { get; set; }
         public int Y { get; set; }
         public int Z { get; set; }
+        public bool Small { get; set; }
+        public bool Ranged { get; set; }
     }
 }
