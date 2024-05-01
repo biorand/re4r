@@ -22,9 +22,9 @@ RUN CFG=/etc/nginx/http.d/default.conf \
  && echo 'server {' > $CFG \
  && echo '    listen 80 default_server;' >> $CFG \
  && echo '    listen [::]:80 default_server;' >> $CFG \
+ && echo '    root /usr/share/biorand-re4r/www;' >> $CFG \
  && echo '    location / {' >> $CFG \
- && echo '        root    /usr/share/biorand-re4r/www;' >> $CFG \
- && echo '        index   index.html;' >> $CFG \
+ && echo '        try_files $uri $uri/ /index.html;' >> $CFG \
  && echo '    }' >> $CFG \
  && echo '}' >> $CFG
 
