@@ -22,6 +22,8 @@ export interface UserAuthInfo {
     email: string;
     name: string;
     token: string;
+    role: number;
+    avatarUrl: string;
 }
 
 export interface ProfileQueryOptions {
