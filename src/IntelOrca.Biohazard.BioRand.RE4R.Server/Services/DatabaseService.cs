@@ -291,6 +291,43 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return _conn.UpdateAsync(user);
         }
 
+        public Task<UserDbModel> GetUserAsync(int id)
+        {
+            return _conn.Table<UserDbModel>().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<UserDbModel[]> GetUsersAsync(string sort, bool descending, int skip, int count)
+        {
+            var q = _conn.Table<UserDbModel>();
+            if (sort != null)
+            {
+                if (descending)
+                {
+                    q = sort.ToLowerInvariant() switch
+                    {
+                        "name" => q.OrderByDescending(x => x.Name),
+                        "created" => q.OrderByDescending(x => x.Created),
+                        "role" => q.OrderByDescending(x => x.Role),
+                        _ => q
+                    };
+                }
+                else
+                {
+                    q = sort.ToLowerInvariant() switch
+                    {
+                        "name" => q.OrderBy(x => x.Name),
+                        "created" => q.OrderBy(x => x.Created),
+                        "role" => q.OrderBy(x => x.Role),
+                        _ => q
+                    };
+                }
+            }
+            return await q
+                .Skip(skip)
+                .Take(count)
+                .ToArrayAsync();
+        }
+
         public class ExtendedProfileDbModel : ProfileDbModel
         {
             public string UserName { get; set; } = "";

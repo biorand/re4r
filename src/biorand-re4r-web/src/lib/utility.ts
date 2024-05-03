@@ -50,3 +50,10 @@ export function getLocation() {
     }
     return locationReadable;
 }
+
+export function tryParseInt(input: any): number | undefined {
+    if (typeof input !== 'string') return undefined;
+    const result = parseInt(input);
+    if (isNaN(result)) return undefined;
+    return result;
+}

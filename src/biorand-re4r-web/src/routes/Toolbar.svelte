@@ -1,7 +1,8 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import BioRandTitle from '$lib/BioRandTitle.svelte';
-    import { UserRole, type UserAuthInfo } from '$lib/api';
+    import RoleBadge from '$lib/RoleBadge.svelte';
+    import { UserRole, type User } from '$lib/api';
     import { LocalStorageKeys } from '$lib/localStorage';
     import { getUserManager } from '$lib/userManager';
     import {
@@ -19,10 +20,11 @@
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
 
-    export let currentUser: UserAuthInfo | undefined = undefined;
+    export let currentUser: User | undefined = undefined;
 
     $: role = currentUser?.role || UserRole.Pending;
     $: accountAccessible = role >= UserRole.EarlyAccess && role != UserRole.System;
+    $: isAdmin = role == UserRole.Administrator;
 
     async function onSignOutClick() {
         const userManager = getUserManager();
@@ -49,6 +51,9 @@
     </NavBrand>
     {#if currentUser}
         <div class="flex items-center md:order-2">
+            <div class="mr-4">
+                <RoleBadge {role}>{role}</RoleBadge>
+            </div>
             <Avatar id="avatar-menu">
                 <img alt="" src={currentUser.avatarUrl} />
             </Avatar>
@@ -67,6 +72,9 @@
             <NavUl>
                 <NavLi href="/">Generate</NavLi>
                 <NavLi href="/profiles">Profiles</NavLi>
+                {#if isAdmin}
+                    <NavLi href="/users">Users</NavLi>
+                {/if}
             </NavUl>
         {/if}
     {:else}

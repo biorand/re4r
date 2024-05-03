@@ -1,6 +1,12 @@
 import { getUserManager } from "./userManager";
 import { buildUrl } from "./utility";
 
+export type QueryResult<T> = {
+    page: number;
+    pageCount: number;
+    pageResults: T[];
+};
+
 export type ValidationResult = {
     [key: string]: string;
 };
@@ -18,13 +24,26 @@ export interface SignInResult extends UserAuthInfo {
 }
 
 export interface UserAuthInfo {
+    token: string;
+    user: User;
+}
+
+export interface User {
     id: number;
+    created: number;
     email: string;
     name: string;
-    token: string;
     role: UserRole;
     avatarUrl: string;
 }
+
+export interface UserQueryOptions {
+    sort?: string;
+    order?: undefined | "asc" | "desc";
+    page?: number;
+}
+
+export type UserQueryResult = QueryResult<User>;
 
 export enum UserRole {
     Pending,
@@ -56,11 +75,7 @@ export interface Profile {
     config?: Config;
 }
 
-export interface ProfileQueryResult {
-    page: number;
-    pageCount: number;
-    pageResults: Profile[];
-}
+export type ProfileQueryResult = QueryResult<Profile>;
 
 export interface ConfigOption {
     id: string;
@@ -118,6 +133,14 @@ export class BioRandApi {
             email,
             code
         });
+    }
+
+    async getUser(id: number) {
+        return await this.get<User>(`user/${id}`);
+    }
+
+    async getUsers(query: UserQueryOptions) {
+        return await this.get<UserQueryResult>(`user`, query);
     }
 
     async getProfiles() {

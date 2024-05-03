@@ -1,4 +1,4 @@
-import type { UserAuthInfo } from "./api";
+import { getApi, type UserAuthInfo } from "./api";
 import { LocalStorageKeys } from "./localStorage";
 
 class Notifier<T extends (...args: any[]) => void> {
@@ -59,6 +59,20 @@ class UserManager {
         this._info = undefined;
         this.notifications.raise();
         this.saveToLocalStorage();
+    }
+
+    async refresh() {
+        try {
+            if (this._info) {
+                const api = getApi();
+                const user = await api.getUser(this._info.user.id);
+                this.setSignedIn({
+                    ...this._info,
+                    user: user
+                });
+            }
+        }
+        catch { }
     }
 
     subscribe(cb: () => void) {

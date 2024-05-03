@@ -2,18 +2,11 @@
     import { page } from '$app/stores';
     import BioRandPagination from '$lib/BioRandPagination.svelte';
     import { getApi, type ProfileQueryOptions, type ProfileQueryResult } from '$lib/api';
-    import { buildUrl, getLocation, idleTimeout } from '$lib/utility';
+    import { buildUrl, getLocation, idleTimeout, tryParseInt } from '$lib/utility';
     import { Input, Label, Listgroup, ListgroupItem, Tooltip } from 'flowbite-svelte';
     import { BookmarkSolid, ShuffleOutline } from 'flowbite-svelte-icons';
     import { readable, writable } from 'svelte/store';
     import ProfileBadge from './ProfileBadge.svelte';
-
-    function tryParseInt(input: any): number | undefined {
-        if (typeof input !== 'string') return undefined;
-        const result = parseInt(input);
-        if (isNaN(result)) return undefined;
-        return result;
-    }
 
     const queryParams = readable<ProfileQueryOptions>(undefined, (set) => {
         getLocation().subscribe((location) => {

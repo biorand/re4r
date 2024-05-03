@@ -1,8 +1,12 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using EmbedIO.WebApi;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
+using Swan;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
@@ -67,6 +71,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 success = false,
                 message
             };
+        }
+
+        protected object GetUser(UserDbModel user)
+        {
+            return new
+            {
+                user.Id,
+                user.Name,
+                Created = user.Created.ToUnixEpochDate(),
+                user.Email,
+                user.Role,
+                AvatarUrl = GetAvatarUrl(user.Email)
+            };
+        }
+
+        protected static string GetAvatarUrl(string email)
+        {
+            var inputBytes = Encoding.ASCII.GetBytes(email.ToLower());
+            var hashBytes = SHA256.HashData(inputBytes);
+            var hashString = Convert.ToHexString(hashBytes).ToLowerInvariant();
+            return $"https://www.gravatar.com/avatar/{hashString}";
         }
     }
 }

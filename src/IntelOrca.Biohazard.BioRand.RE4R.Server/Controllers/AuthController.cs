@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EmbedIO;
@@ -156,12 +153,8 @@ The BioRand Team");
                             return new
                             {
                                 Success = true,
-                                user.Id,
-                                user.Email,
-                                user.Name,
                                 token.Token,
-                                user.Role,
-                                AvatarUrl = GetAvatarUrl(user.Email)
+                                User = GetUser(user)
                             };
                         }
                     }
@@ -185,14 +178,6 @@ The BioRand Team");
             if (atIndex <= 0 || atIndex >= 255)
                 return false;
             return true;
-        }
-
-        private static string GetAvatarUrl(string email)
-        {
-            var inputBytes = Encoding.ASCII.GetBytes(email.ToLower());
-            var hashBytes = SHA256.HashData(inputBytes);
-            var hashString = Convert.ToHexString(hashBytes).ToLowerInvariant();
-            return $"https://www.gravatar.com/avatar/{hashString}";
         }
 
         internal class RegisterRequest

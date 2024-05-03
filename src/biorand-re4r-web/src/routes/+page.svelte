@@ -7,7 +7,7 @@
 
     const userManager = getUserManager();
     let isSignedIn = userManager.isSignedIn();
-    let role = userManager.info?.role;
+    let role = userManager.info?.user.role;
     let showBanner = shouldShowBanner(role);
     userManager.subscribe(() => {
         isSignedIn = userManager.isSignedIn();
