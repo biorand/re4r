@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
@@ -39,17 +40,79 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         }
 
         [Route(HttpVerbs.Get, "/{id}")]
-        public async Task<object> GetUsersAsync(int id)
+        public async Task<object> GetUserAsync(string id)
+        {
+            var processedId = (object)id;
+            if (int.TryParse(id, out var numericId))
+            {
+                processedId = numericId;
+            }
+
+            var authorizedUser = await GetAuthorizedUserAsync();
+            if (authorizedUser == null)
+                return UnauthorizedResult();
+
+            if (processedId is int userId)
+            {
+                if (authorizedUser.Role < UserRoleKind.Administrator && authorizedUser.Id != userId)
+                    return UnauthorizedResult();
+
+                var user = await _db.GetUserAsync(userId);
+                if (user == null)
+                    return NotFoundResult();
+
+                return GetUser(user);
+            }
+            else
+            {
+                if (authorizedUser.Role < UserRoleKind.Administrator && !string.Equals(authorizedUser.NameLowerCase, (string)processedId, StringComparison.OrdinalIgnoreCase))
+                    return UnauthorizedResult();
+
+                var user = await _db.GetUserAsync((string)processedId);
+                if (user == null)
+                    return NotFoundResult();
+
+                return GetUser(user);
+            }
+        }
+
+        [Route(HttpVerbs.Put, "/{id}")]
+        public async Task<object> UpdateUserAsync(int id, [MyJsonData] UserUpdateRequest request)
         {
             var authorizedUser = await GetAuthorizedUserAsync();
             if (authorizedUser == null)
                 return UnauthorizedResult();
 
-            if (authorizedUser.Id != id && authorizedUser.Role < UserRoleKind.Administrator)
+            var user = await _db.GetUserAsync(id);
+            if (user == null)
+                return NotFoundResult();
+
+            if (authorizedUser.Role < UserRoleKind.Administrator && user.Id != authorizedUser.Id)
                 return UnauthorizedResult();
 
-            var user = await _db.GetUserAsync(id);
-            return GetUser(user);
+            if (authorizedUser.Role >= UserRoleKind.Administrator)
+            {
+                user.Name = request.Name ?? user.Name;
+                user.NameLowerCase = request.Name?.ToLowerInvariant() ?? user.NameLowerCase;
+                user.Role = request.Role ?? user.Role;
+            }
+
+            user.ShareHistory = request.ShareHistory ?? user.ShareHistory;
+
+            await _db.UpdateUserAsync(user);
+
+            return new
+            {
+                Success = true
+            };
+        }
+
+        public class UserUpdateRequest
+        {
+            public string? Email { get; set; }
+            public string? Name { get; set; }
+            public UserRoleKind? Role { get; set; }
+            public bool? ShareHistory { get; set; }
         }
     }
 }

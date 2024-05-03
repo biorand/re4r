@@ -296,6 +296,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return _conn.Table<UserDbModel>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public Task<UserDbModel> GetUserAsync(string name)
+        {
+            var lowerName = name.ToLowerInvariant();
+            return _conn.Table<UserDbModel>().FirstOrDefaultAsync(x => x.NameLowerCase == lowerName);
+        }
+
         public async Task<UserDbModel[]> GetUsersAsync(string sort, bool descending, int skip, int count)
         {
             var q = _conn.Table<UserDbModel>();

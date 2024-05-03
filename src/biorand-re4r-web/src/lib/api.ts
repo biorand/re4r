@@ -35,6 +35,7 @@ export interface User {
     name: string;
     role: UserRole;
     avatarUrl: string;
+    shareHistory: boolean;
 }
 
 export interface UserQueryOptions {
@@ -44,6 +45,18 @@ export interface UserQueryOptions {
 }
 
 export type UserQueryResult = QueryResult<User>;
+
+export interface UpdateUpdateRequest {
+    email?: string;
+    name?: string;
+    role?: UserRole;
+    shareHistory?: boolean;
+}
+
+export interface UpdateUserResult {
+    success: boolean;
+    validation?: ValidationResult;
+}
 
 export enum UserRole {
     Pending,
@@ -135,12 +148,16 @@ export class BioRandApi {
         });
     }
 
-    async getUser(id: number) {
+    async getUser(id: number | string) {
         return await this.get<User>(`user/${id}`);
     }
 
     async getUsers(query: UserQueryOptions) {
         return await this.get<UserQueryResult>(`user`, query);
+    }
+
+    async updateUser(id: number, request: UpdateUpdateRequest) {
+        return await this.put<UpdateUserResult>(`user/${id}`, request);
     }
 
     async getProfiles() {

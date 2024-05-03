@@ -2,6 +2,8 @@
     import { Badge } from 'flowbite-svelte';
     import type { UserRole } from './api';
 
+    let className = '';
+    export { className as class };
     export let role: UserRole;
 
     const roles = [
@@ -18,4 +20,4 @@
     $: roleColor = roles[role][1] as any;
 </script>
 
-<Badge color={roleColor}>{roleName}</Badge>
+<Badge class={className} color={roleColor}>{roleName}</Badge>

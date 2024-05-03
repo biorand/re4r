@@ -82,7 +82,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 Created = user.Created.ToUnixEpochDate(),
                 user.Email,
                 user.Role,
-                AvatarUrl = GetAvatarUrl(user.Email)
+                AvatarUrl = GetAvatarUrl(user.Email),
+                user.ShareHistory
             };
         }
 

@@ -52,7 +52,7 @@
     {#if currentUser}
         <div class="flex items-center md:order-2">
             <div class="mr-4">
-                <RoleBadge {role}>{role}</RoleBadge>
+                <RoleBadge {role} />
             </div>
             <Avatar id="avatar-menu">
                 <img alt="" src={currentUser.avatarUrl} />
