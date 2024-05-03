@@ -22,8 +22,19 @@ export interface UserAuthInfo {
     email: string;
     name: string;
     token: string;
-    role: number;
+    role: UserRole;
     avatarUrl: string;
+}
+
+export enum UserRole {
+    Pending,
+    PendingEarlyAccess,
+    Banned,
+    EarlyAccess,
+    Tester,
+    Standard,
+    Administrator,
+    System
 }
 
 export interface ProfileQueryOptions {

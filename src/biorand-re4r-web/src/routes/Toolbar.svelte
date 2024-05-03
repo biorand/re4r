@@ -1,7 +1,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import BioRandTitle from '$lib/BioRandTitle.svelte';
-    import type { UserAuthInfo } from '$lib/api';
+    import { UserRole, type UserAuthInfo } from '$lib/api';
     import { LocalStorageKeys } from '$lib/localStorage';
     import { getUserManager } from '$lib/userManager';
     import {
@@ -20,6 +20,9 @@
     import { writable } from 'svelte/store';
 
     export let currentUser: UserAuthInfo | undefined = undefined;
+
+    $: role = currentUser?.role || UserRole.Pending;
+    $: accountAccessible = role >= UserRole.EarlyAccess && role != UserRole.System;
 
     async function onSignOutClick() {
         const userManager = getUserManager();
@@ -60,10 +63,12 @@
             </DropdownHeader>
             <DropdownItem on:click={onSignOutClick}>Sign out</DropdownItem>
         </Dropdown>
-        <NavUl>
-            <NavLi href="/">Generate</NavLi>
-            <NavLi href="/profiles">Profiles</NavLi>
-        </NavUl>
+        {#if accountAccessible}
+            <NavUl>
+                <NavLi href="/">Generate</NavLi>
+                <NavLi href="/profiles">Profiles</NavLi>
+            </NavUl>
+        {/if}
     {:else}
         <div class="ml-3 inline-flex">
             <div class="py-3 mr-2 text-sm">

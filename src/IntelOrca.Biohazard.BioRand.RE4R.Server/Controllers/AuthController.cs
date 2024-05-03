@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
@@ -145,6 +146,12 @@ The BioRand Team");
                         var token = await _db.GetTokenAsync(user, code);
                         if (token != null && token.LastUsed == null)
                         {
+                            if (!await _db.AdminUserExistsAsync())
+                            {
+                                user.Role = UserRoleKind.Administrator;
+                                await _db.UpdateUserAsync(user);
+                            }
+
                             await _db.UseTokenAsync(token.Token);
                             return new
                             {

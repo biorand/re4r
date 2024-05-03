@@ -278,6 +278,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 await _conn.ExecuteAsync("DELETE FROM randoconfig WHERE Id = ?", randoConfigId);
         }
 
+        public async Task<bool> AdminUserExistsAsync()
+        {
+            var rows = await _conn.ExecuteScalarAsync<int>(
+                "SELECT COUNT(*) FROM user WHERE Role = ?",
+                UserRoleKind.Administrator);
+            return rows != 0;
+        }
+
+        public Task UpdateUserAsync(UserDbModel user)
+        {
+            return _conn.UpdateAsync(user);
+        }
+
         public class ExtendedProfileDbModel : ProfileDbModel
         {
             public string UserName { get; set; } = "";
