@@ -109,6 +109,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
             profile.Name = body.Name;
             profile.Description = body.Description;
+            profile.Public = body.Public;
 
             var config = RandomizerConfigurationDefinition.ProcessConfig(body.Config);
             await _db.UpdateProfileAsync(profile);
@@ -196,6 +197,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             public int Id { get; set; }
             public string Name { get; set; } = "";
             public string Description { get; set; } = "";
+            public bool Public { get; set; }
             public Dictionary<string, object> Config { get; set; } = [];
         }
 

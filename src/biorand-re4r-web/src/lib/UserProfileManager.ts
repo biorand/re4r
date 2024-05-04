@@ -191,6 +191,7 @@ export class UserProfileManager {
             id: profile.id,
             name: profile.name,
             description: profile.description,
+            public: profile.public,
             config: profile.config
         };
 
@@ -204,6 +205,7 @@ export class UserProfileManager {
             newProfileView = this.toProfileViewModel(newProfile);
             this._downloadedProfiles = replaceBy(this._downloadedProfiles,
                 x => x.id === newProfileView.id, newProfileView);
+            this._selectedProfile = undefined;
         }
         this.updateProfileList();
         this.selectProfileId(newProfileView.id);
@@ -251,6 +253,7 @@ export class UserProfileManager {
     private profileModified(orig: ProfileViewModel, curr: ProfileViewModel) {
         if (orig.name !== curr.name) return true;
         if (orig.description !== curr.description) return true;
+        if (orig.public !== curr.public) return true;
         if (!objectEquals(orig.config, curr.config)) return true;
         return false;
     }
