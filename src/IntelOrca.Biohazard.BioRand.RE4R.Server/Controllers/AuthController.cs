@@ -149,6 +149,12 @@ The BioRand Team");
                                 await _db.UpdateUserAsync(user);
                             }
 
+                            if (user.Role == UserRoleKind.Pending)
+                            {
+                                user.Role = UserRoleKind.PendingEarlyAccess;
+                                await _db.UpdateUserAsync(user);
+                            }
+
                             await _db.UseTokenAsync(token.Token);
                             return new
                             {

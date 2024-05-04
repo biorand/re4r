@@ -12,10 +12,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
     internal class UserController : BaseController
     {
         private readonly DatabaseService _db;
+        private readonly EmailService _emailService;
 
-        public UserController(DatabaseService db) : base(db)
+        public UserController(DatabaseService db, EmailService emailService) : base(db)
         {
             _db = db;
+            _emailService = emailService;
         }
 
         [Route(HttpVerbs.Get, "/")]
@@ -48,7 +50,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 processedId = numericId;
             }
 
-            var authorizedUser = await GetAuthorizedUserAsync();
+            var authorizedUser = await GetAuthorizedUserAsync(UserRoleKind.Pending);
             if (authorizedUser == null)
                 return UnauthorizedResult();
 
@@ -79,7 +81,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         [Route(HttpVerbs.Put, "/{id}")]
         public async Task<object> UpdateUserAsync(int id, [MyJsonData] UserUpdateRequest request)
         {
-            var authorizedUser = await GetAuthorizedUserAsync();
+            var authorizedUser = await GetAuthorizedUserAsync(UserRoleKind.Pending);
             if (authorizedUser == null)
                 return UnauthorizedResult();
 
@@ -90,6 +92,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (authorizedUser.Role < UserRoleKind.Administrator && user.Id != authorizedUser.Id)
                 return UnauthorizedResult();
 
+            var oldRole = user.Role;
             if (authorizedUser.Role >= UserRoleKind.Administrator)
             {
                 user.Name = request.Name ?? user.Name;
@@ -100,6 +103,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             user.ShareHistory = request.ShareHistory ?? user.ShareHistory;
 
             await _db.UpdateUserAsync(user);
+
+            if (oldRole == UserRoleKind.PendingEarlyAccess &&
+                user.Role == UserRoleKind.EarlyAccess)
+            {
+                await _emailService.SendEmailAsync(user.Email,
+                    "BioRand 4 - Sign In",
+$@"Dear {user.Name},
+
+We are pleased to inform you that your request for early access has been approved.
+
+You should now be able to sign in and generate randomizers for Resident Evil 4 (2023).
+
+Kind regards,
+The BioRand Team");
+            }
 
             return new
             {

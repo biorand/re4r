@@ -52,7 +52,11 @@
                 <h1 class="text-5xl"><BioRandTitle /></h1>
                 <h2 class="text-2xl">Sign up for early access</h2>
                 <div class="mt-4 w-64 mx-auto sm:mx-0">
-                    <img style="filter: blur(1px) sepia(50%); " alt="" src="/madchainsaw.jpg" />
+                    <img
+                        style="filter: blur(1px) sepia(50%); "
+                        alt=""
+                        src="/assets/madchainsaw.jpg"
+                    />
                 </div>
             </div>
         </div>

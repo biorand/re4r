@@ -19,7 +19,7 @@
     <Textarea
         id="txt-profile-description"
         rows="3"
-        readonly={!profile.isOwner}
+        readOnly={!profile.isOwner}
         bind:value={profile.description}
     />
 </div>

@@ -312,8 +312,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
         public async Task CleanRandoConfig(int randoConfigId)
         {
             var a = await _conn.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM profile WHERE ConfigId = ?", randoConfigId);
-            var b = await _conn.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM user WHERE ConfigId = ?", randoConfigId);
-            // await _conn.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM rando WHERE ConfigId = ?", randoConfigId);
+            var b = await _conn.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM rando WHERE ConfigId = ?", randoConfigId);
             var total = a + b;
             if (total == 0)
                 await _conn.ExecuteAsync("DELETE FROM randoconfig WHERE Id = ?", randoConfigId);

@@ -24,8 +24,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
         [NotNull]
         public UserRoleKind Role { get; set; }
 
-        public int ConfigId { get; set; }
-
         [NotNull]
         public int Flags { get; set; }
 

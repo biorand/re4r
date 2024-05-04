@@ -6,7 +6,8 @@
     export let definition: ConfigOption;
     export let config: Config;
 
-    let value = writable<any>(definition.default);
+    const initialValue = definition.id in config ? config[definition.id] : definition.default;
+    let value = writable<any>(initialValue);
     value.subscribe((v) => {
         if (config[definition.id] !== v) {
             config[definition.id] = v;
@@ -41,7 +42,7 @@
                         bind:value={$value}
                     />
                 </div>
-                <div class="w-12 ml-2">{value}</div>
+                <div class="w-12 ml-2">{$value}</div>
             </div>
         {:else if definition.type === 'dropdown'}
             <Select

@@ -26,19 +26,14 @@
         <Spinner class="mx-auto block" />
     </div>
 {:then}
-    <div class="mb-3">
-        <div class="md:flex">
-            <div class="md:w-1/3 md:max-w-lg m-2">
-                <ProfileManagerPanel
-                    groups={$profileGroups}
-                    bind:selectedProfile={$selectedProfile}
-                />
-            </div>
-            <div class="md:w-2/3 m-2">
-                {#if configDefinition && $selectedProfile}
-                    <ProfilePanel definition={configDefinition} bind:profile={$selectedProfile} />
-                {/if}
-            </div>
+    <div class="lg:flex grow">
+        <div class="lg:w-1/3 lg:max-w-lg p-2 border-r border-gray-100 dark:border-gray-700">
+            <ProfileManagerPanel groups={$profileGroups} bind:selectedProfile={$selectedProfile} />
+        </div>
+        <div class="lg:grow m-2">
+            {#if configDefinition && $selectedProfile}
+                <ProfilePanel definition={configDefinition} bind:profile={$selectedProfile} />
+            {/if}
         </div>
     </div>
 {:catch}

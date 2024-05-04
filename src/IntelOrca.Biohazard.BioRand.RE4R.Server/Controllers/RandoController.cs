@@ -35,6 +35,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             var rando = await _db.CreateRando(new RandoDbModel()
             {
                 Created = DateTime.UtcNow,
+                Version = ChainsawRandomizerFactory.Default.GitHash,
                 Seed = request.Seed,
                 UserId = user.Id,
                 ConfigId = randoConfig.Id

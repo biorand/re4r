@@ -22,7 +22,8 @@
     </div>
 {:then}
     <Toolbar {currentUser} />
-    <div style="margin-top: 74px;">
+    <div class="min-h-screen flex flex-col">
+        <div style="height: 73px;"></div>
         <slot />
     </div>
 {/await}

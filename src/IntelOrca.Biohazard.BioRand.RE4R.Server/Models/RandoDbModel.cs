@@ -10,9 +10,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
         public int Id { get; set; }
         [NotNull]
         public DateTime Created { get; set; }
-        [Indexed]
+        [NotNull, Indexed]
         public int UserId { get; set; }
+        [NotNull]
+        public string Version { get; set; } = "";
+        [NotNull]
         public int Seed { get; set; }
+        [NotNull]
         public int ConfigId { get; set; }
     }
 }

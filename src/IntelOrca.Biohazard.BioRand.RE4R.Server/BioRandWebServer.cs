@@ -46,7 +46,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
                 .WithWebApi("/auth", SerializationCallback, m => m.WithController(() => new AuthController(dbService, emailService)))
                 .WithWebApi("/profile", SerializationCallback, m => m.WithController(() => new ProfileController(dbService)))
                 .WithWebApi("/rando", SerializationCallback, m => m.WithController(() => new RandoController(dbService, randomizerService)))
-                .WithWebApi("/user", SerializationCallback, m => m.WithController(() => new UserController(dbService)))
+                .WithWebApi("/user", SerializationCallback, m => m.WithController(() => new UserController(dbService, emailService)))
                 .WithWebApi("/", SerializationCallback, m => m.WithController(() => new MainController(dbService, randomizerService)))
                 .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));
 
@@ -66,6 +66,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
             {
                 var newProfile = new ProfileDbModel()
                 {
+                    UserId = dbService.SystemUserId,
                     Created = DateTime.UtcNow,
                     Name = "Default",
                     Description = "The default profile.",

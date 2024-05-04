@@ -38,6 +38,7 @@
 
 <div class="mb-3">
     <h1 class="text-3xl">{profile.name}</h1>
+    <h2 class="ml-4 font-light text-gray-300">by {profile.userName}</h2>
 </div>
 <div class="mb-6">
     <Label class="mb-2" for="txt-profile-description">Seed</Label>

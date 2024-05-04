@@ -13,16 +13,25 @@
 
 <li>
     <button
-        class="w-full p-1 text-left {profile.isSelected ? 'bg-blue-900' : 'hover:bg-gray-600'}"
+        class="w-full p-1 text-left {profile.isSelected
+            ? 'bg-blue-200 dark:bg-blue-900'
+            : 'hover:bg-gray-300 dark:hover:bg-gray-600'}"
         on:click
     >
         <div class="flex">
             <div class="grow flex">
-                <div class:text-blue-200={profile.public} class:font-semibold={profile.public}>
-                    {profile.name}
+                <div>
+                    <span
+                        class={profile.public
+                            ? 'font-semibold text-blue-800 dark:text-blue-200'
+                            : ''}>{profile.name}</span
+                    >
+                    <span class="text-gray-800 dark:text-gray-400 text-sm font-light"
+                        >by {profile.userName}</span
+                    >
                 </div>
                 {#if profile.isModified}
-                    <div class="ml-2 text-red-300">[modified]</div>
+                    <div class="ml-2 font-light text-red-900 dark:text-red-300">[modified]</div>
                 {/if}
             </div>
             {#if profile.isSelected}

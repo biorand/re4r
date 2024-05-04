@@ -4,8 +4,13 @@
     import { validateClear, validateFormInputData, type FormInputData } from '$lib/Validation';
     import { UserRole, getApi, type User } from '$lib/api';
     import { getUserManager } from '$lib/userManager';
-    import { Button, Checkbox, Helper, Label, Select, Spinner } from 'flowbite-svelte';
-    import { EnvelopeSolid, ExclamationCircleOutline, UserSolid } from 'flowbite-svelte-icons';
+    import { Alert, Button, Checkbox, Helper, Label, Select, Spinner } from 'flowbite-svelte';
+    import {
+        CloseCircleSolid,
+        EnvelopeSolid,
+        ExclamationCircleOutline,
+        UserSolid
+    } from 'flowbite-svelte-icons';
     import FormInput from '../../auth/FormInput.svelte';
 
     const userName = $page.params.user;
@@ -111,6 +116,20 @@
                     data={nameData}
                 />
             </div>
+            <div class="mb-3">
+                <Label for="role" class="block mb-2">Profile Picture</Label>
+                <Alert border color="default">
+                    In order to change your profile picture, please upload an image using
+                    <a
+                        href="https://gravatar.com/profile"
+                        target="_blank"
+                        class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                    >
+                        Gravatar</a
+                    >
+                    for your registered email address.
+                </Alert>
+            </div>
             <div class="max-w-60">
                 <Label for="role" class="block mb-2">Role</Label>
                 {#if isAdmin}
@@ -145,4 +164,8 @@
             </Button>
         </form>
     </div>
+{:catch err}
+    <Alert border color="red" class="my-4">
+        <CloseCircleSolid slot="icon" class="w-5 h-5" />{err}
+    </Alert>
 {/await}
