@@ -62,6 +62,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
         protected object NotFoundResult() => ErrorResult(HttpStatusCode.NotFound);
         protected object UnauthorizedResult() => ErrorResult(HttpStatusCode.Unauthorized);
+        protected object ForbiddenResult() => ErrorResult(HttpStatusCode.Forbidden);
 
         protected object Failure(HttpStatusCode statusCode, string message)
         {

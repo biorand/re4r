@@ -1,18 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
     internal class RandoController : BaseController
     {
+        private readonly DatabaseService _db;
         private readonly RandomizerService _randomizer;
 
         public RandoController(DatabaseService db, RandomizerService randomizer) : base(db)
         {
+            _db = db;
             _randomizer = randomizer;
         }
 
@@ -23,9 +28,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (user == null)
                 return UnauthorizedResult();
 
-            var result = await _randomizer.GenerateAsync(
-                request.Seed,
-                RandomizerConfigurationDefinition.ProcessConfig(request.Config));
+            var config = RandomizerConfigurationDefinition.ProcessConfig(request.Config);
+            var configJson = config.ToJson(indented: false);
+
+            var randoConfig = await _db.GetOrCreateRandoConfig(request.ProfileId, configJson);
+            var rando = await _db.CreateRando(new RandoDbModel()
+            {
+                Created = DateTime.UtcNow,
+                Seed = request.Seed,
+                UserId = user.Id,
+                ConfigId = randoConfig.Id
+            });
+
+            var result = await _randomizer.GenerateAsync((ulong)rando.Id, request.Seed, config);
             return new
             {
                 result = "success",
@@ -69,7 +84,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         public class GenerateRequest
         {
             public int Seed { get; set; }
-            public string? Password { get; set; }
+            public int ProfileId { get; set; }
             public Dictionary<string, object>? Config { get; set; }
         }
     }

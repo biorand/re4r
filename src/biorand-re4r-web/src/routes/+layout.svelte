@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { User } from '$lib/api';
     import { getUserManager } from '$lib/userManager';
+    import { Spinner } from 'flowbite-svelte';
     import '../app.pcss';
     import Toolbar from './Toolbar.svelte';
 
@@ -15,7 +16,11 @@
     })();
 </script>
 
-{#await init then}
+{#await init}
+    <div class="container mx-auto p-3">
+        <Spinner class="mx-auto block" />
+    </div>
+{:then}
     <Toolbar {currentUser} />
     <div style="margin-top: 74px;">
         <slot />

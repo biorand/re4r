@@ -1,17 +1,16 @@
 <script lang="ts">
     import LoadingButton from '$lib/LoadingButton.svelte';
-    import { getApi, type Config, type GenerateResult } from '$lib/api';
+    import type { ProfileViewModel } from '$lib/UserProfileManager';
+    import { getApi, type GenerateResult } from '$lib/api';
     import { rng } from '$lib/utility';
     import { Alert, Button, ButtonGroup, Hr, Input, Label } from 'flowbite-svelte';
     import { CloseCircleSolid, ShuffleOutline } from 'flowbite-svelte-icons';
-    import { get, type Writable } from 'svelte/store';
     import DownloadCard from './DownloadCard.svelte';
 
-    export let configuration: Writable<Config>;
+    export let profile: ProfileViewModel;
 
     let seed = 0;
     let generating = false;
-    let profileId = 0;
     let generateResult: GenerateResult | undefined;
     let generateError = '';
     function onShuffleSeed() {
@@ -26,8 +25,8 @@
             const api = getApi();
             generateResult = await api.generate({
                 seed,
-                profileId,
-                config: get(configuration)
+                profileId: profile.originalId,
+                config: profile.config || {}
             });
             generating = false;
         } catch {

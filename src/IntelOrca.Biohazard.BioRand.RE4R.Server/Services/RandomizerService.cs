@@ -40,7 +40,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return Task.FromResult(configDefinition);
         }
 
-        public async Task<GenerateResult> GenerateAsync(int seed, Dictionary<string, object> config)
+        public async Task<GenerateResult> GenerateAsync(ulong id, int seed, Dictionary<string, object> config)
         {
             await _mutex.WaitAsync();
             try
@@ -58,7 +58,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 var output = randomizer.Randomize(input);
                 var outputFile = output.GetOutputZip();
                 var outputFileMod = output.GetOutputMod();
-                var id = (ulong)_random.NextInt64();
                 var result = new GenerateResult(id, seed, outputFile, outputFileMod);
                 _randos[id] = result;
                 return result;

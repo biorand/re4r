@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
 using Swan.Formatters;
+using static IntelOrca.Biohazard.BioRand.RE4R.Server.Services.DatabaseService;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
@@ -27,19 +29,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 return UnauthorizedResult();
 
             var profiles = await _db.GetProfilesAsync(authorizedUser.Id);
-            return profiles.Select(x => new
-            {
-                x.Id,
-                x.Name,
-                x.Description,
-                x.UserId,
-                x.UserName,
-                x.StarCount,
-                x.SeedCount,
-                x.IsStarred,
-                x.ConfigId,
-                Config = Json.Deserialize(x.Data)
-            }).ToArray();
+            return profiles.Select(GetProfile).ToArray();
+        }
+
+        [Route(HttpVerbs.Get, "/definition")]
+        public Task<RandomizerConfigurationDefinition> GetConfigAsync()
+        {
+            var chainsawRandomizerFactory = ChainsawRandomizerFactory.Default;
+            var randomizer = chainsawRandomizerFactory.Create();
+            var enemyClassFactory = randomizer.EnemyClassFactory;
+            var configDefinition = RandomizerConfigurationDefinition.Create(enemyClassFactory);
+            return Task.FromResult(configDefinition);
         }
 
         [Route(HttpVerbs.Get, "/search")]
@@ -54,19 +54,80 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             {
                 Page = 1,
                 PageCount = 1,
-                PageResults = profiles.Select(x => new
-                {
-                    x.Id,
-                    x.Name,
-                    x.Description,
-                    x.UserId,
-                    x.UserName,
-                    x.StarCount,
-                    x.SeedCount,
-                    x.IsStarred,
-                    x.ConfigId,
-                }).ToArray()
+                PageResults = profiles.Select(GetProfile).ToArray()
             };
+        }
+
+        [Route(HttpVerbs.Post, "/")]
+        public async Task<object> InsertProfileAsync([MyJsonData] UpdateProfileRequest body)
+        {
+            var authorizedUser = await GetAuthorizedUserAsync();
+            if (authorizedUser == null)
+                return UnauthorizedResult();
+
+            var config = RandomizerConfigurationDefinition.ProcessConfig(body.Config);
+
+            var profile = await _db.CreateProfileAsync(authorizedUser.Id, body.Name, body.Description, config);
+            return await GetProfileAsync(profile.Id);
+        }
+
+        [Route(HttpVerbs.Get, "/{id}")]
+        public async Task<object> GetProfileAsync(int id)
+        {
+            var authorizedUser = await GetAuthorizedUserAsync();
+            if (authorizedUser == null)
+                return UnauthorizedResult();
+
+            var profile = await _db.GetProfileAsync(id, authorizedUser.Id);
+            if (profile == null)
+                return NotFoundResult();
+
+            if (profile.UserId != authorizedUser.Id && !profile.Public && authorizedUser.Role != UserRoleKind.Administrator)
+                return ForbiddenResult();
+
+            return GetProfile(profile);
+        }
+
+        [Route(HttpVerbs.Put, "/{id}")]
+        public async Task<object> UpdateProfileAsync(int id, [MyJsonData] UpdateProfileRequest body)
+        {
+            var authorizedUser = await GetAuthorizedUserAsync();
+            if (authorizedUser == null)
+                return UnauthorizedResult();
+
+            var profile = await _db.GetProfileAsync(id, authorizedUser.Id);
+            if (profile == null)
+                return NotFoundResult();
+
+            if (authorizedUser.Role < UserRoleKind.Administrator && profile.UserId != authorizedUser.Id)
+                return UnauthorizedResult();
+
+            profile.Name = body.Name;
+            profile.Description = body.Description;
+
+            var config = RandomizerConfigurationDefinition.ProcessConfig(body.Config);
+            await _db.UpdateProfileAsync(profile);
+            await _db.SetProfileConfigAsync(id, config);
+
+            return await GetProfileAsync(id);
+        }
+
+        [Route(HttpVerbs.Delete, "/{id}")]
+        public async Task<object> DeleteProfileAsync(int id)
+        {
+            var authorizedUser = await GetAuthorizedUserAsync();
+            if (authorizedUser == null)
+                return UnauthorizedResult();
+
+            var profile = await _db.GetProfileAsync(id, authorizedUser.Id);
+            if (profile == null)
+                return NotFoundResult();
+
+            if (authorizedUser.Role < UserRoleKind.Administrator && profile.UserId != authorizedUser.Id)
+                return UnauthorizedResult();
+
+            await _db.DeleteProfileAsync(id);
+            return EmptyResult();
         }
 
         [Route(HttpVerbs.Any, "/{profileId}/star")]
@@ -100,14 +161,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             return EmptyResult();
         }
 
-        [Route(HttpVerbs.Get, "/definition")]
-        public Task<RandomizerConfigurationDefinition> GetConfigAsync()
+        private object GetProfile(ExtendedProfileDbModel profile)
         {
-            var chainsawRandomizerFactory = ChainsawRandomizerFactory.Default;
-            var randomizer = chainsawRandomizerFactory.Create();
-            var enemyClassFactory = randomizer.EnemyClassFactory;
-            var configDefinition = RandomizerConfigurationDefinition.Create(enemyClassFactory);
-            return Task.FromResult(configDefinition);
+            return new
+            {
+                profile.Id,
+                profile.Name,
+                profile.Description,
+                profile.UserId,
+                profile.UserName,
+                profile.StarCount,
+                profile.SeedCount,
+                profile.IsStarred,
+                profile.ConfigId,
+                Config = string.IsNullOrEmpty(profile.Data) ? null : Json.Deserialize(profile.Data)
+            };
+        }
+
+        public class UpdateProfileRequest
+        {
+            public int Id { get; set; }
+            public string Name { get; set; } = "";
+            public string Description { get; set; } = "";
+            public Dictionary<string, object> Config { get; set; } = [];
         }
 
         public class UpdateTempConfigRequest

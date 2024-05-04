@@ -35,6 +35,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             await _conn.CreateTableAsync<UserDbModel>();
             await _conn.CreateTableAsync<TokenDbModel>();
             await _conn.CreateTableAsync<ProfileDbModel>();
+            await _conn.CreateTableAsync<RandoDbModel>();
             await _conn.CreateTableAsync<RandoConfigDbModel>();
             await _conn.ExecuteAsync(
                 @"CREATE TABLE IF NOT EXISTS ""profile_star"" (
@@ -140,6 +141,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 token);
         }
 
+        public async Task<ExtendedProfileDbModel?> GetProfileAsync(int id, int userId)
+        {
+            var q = @"
+                SELECT p.*,
+                       u.Name AS UserName,
+                       IIF(ps.ProfileId, 1, 0) AS IsStarred,
+                       c.Data
+                  FROM profile AS p
+                LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId AND ps.UserId = ?
+                LEFT JOIN randoconfig AS c ON p.ConfigId = c.Id
+                LEFT JOIN user AS u ON p.UserId = u.Id
+                WHERE p.Id = ?
+                  AND NOT(p.Flags & 1)";
+            var result = await _conn.FindWithQueryAsync<ExtendedProfileDbModel>(q, userId, id);
+            return result;
+        }
+
         public async Task<ExtendedProfileDbModel[]> GetProfilesAsync(int userId)
         {
             var q = @"
@@ -151,9 +169,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId AND ps.UserId = ?
                 LEFT JOIN randoconfig AS c ON p.ConfigId = c.Id
                 LEFT JOIN user AS u ON p.UserId = u.Id
-                WHERE p.UserId = ?
-                   OR p.UserId = ?
-                   OR ps.ProfileId IS NOT NULL";
+                WHERE (p.UserId = ?
+                    OR p.UserId = ?
+                    OR ps.ProfileId IS NOT NULL)
+                  AND NOT(p.Flags & 1)";
             var result = await _conn.QueryAsync<ExtendedProfileDbModel>(q,
                 userId,
                 userId,
@@ -171,7 +190,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 FROM profile AS p
                 LEFT JOIN user AS u ON p.UserId = u.Id
                 LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId
-                WHERE (p.Name LIKE ? OR p.Description LIKE ?)";
+                WHERE (p.Name LIKE ? OR p.Description LIKE ?)
+                  AND NOT(p.Flags & 1)";
             parameters.Add($"%{query}%");
             parameters.Add($"%{query}%");
 
@@ -230,6 +250,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return result;
         }
 
+        public async Task UpdateProfileAsync(ProfileDbModel profile)
+        {
+            await _conn.UpdateAsync(profile, typeof(ProfileDbModel));
+        }
+
+        public async Task DeleteProfileAsync(int profileId)
+        {
+            await _conn.ExecuteAsync("UPDATE profile SET Flags = Flags | 1 WHERE Id = ?", profileId);
+        }
+
         public async Task SetProfileConfigAsync(int profileId, Dictionary<string, object> config)
         {
             var newConfigData = config.ToJson(indented: false);
@@ -238,7 +268,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             if (existingConfigData == newConfigData)
                 return;
 
-            var randoConfig = await CreateRandoConfig(profileId, newConfigData);
+            var randoConfig = await GetOrCreateRandoConfig(profileId, newConfigData);
             await _conn.ExecuteAsync("UPDATE profile SET ConfigId = ? WHERE Id = ?", randoConfig.Id, profileId);
             await CleanRandoConfig(existingConfigId);
         }
@@ -251,20 +281,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             if (existingConfigData == newConfigData)
                 return;
 
-            var randoConfig = await CreateRandoConfig(profileId, newConfigData);
+            var randoConfig = await GetOrCreateRandoConfig(profileId, newConfigData);
             await _conn.ExecuteAsync("UPDATE user SET ConfigId = ? WHERE Id = ?", randoConfig.Id, userId);
             await CleanRandoConfig(existingConfigId);
         }
 
-        public async Task<RandoConfigDbModel> CreateRandoConfig(int profileId, string data)
+        public async Task<RandoConfigDbModel> GetOrCreateRandoConfig(int profileId, string data)
         {
-            var result = new RandoConfigDbModel()
+            var result = await _conn.Table<RandoConfigDbModel>()
+                .Where(x => x.BasedOnProfileId == profileId && x.Data == data)
+                .FirstOrDefaultAsync();
+            if (result == null)
             {
-                Created = DateTime.UtcNow,
-                BasedOnProfileId = profileId,
-                Data = data
-            };
-            await _conn.InsertAsync(result);
+                result = new RandoConfigDbModel()
+                {
+                    Created = DateTime.UtcNow,
+                    BasedOnProfileId = profileId,
+                    Data = data
+                };
+                await _conn.InsertAsync(result);
+            }
             return result;
         }
 
@@ -276,6 +312,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             var total = a + b;
             if (total == 0)
                 await _conn.ExecuteAsync("DELETE FROM randoconfig WHERE Id = ?", randoConfigId);
+        }
+
+        public async Task<RandoDbModel> CreateRando(RandoDbModel rando)
+        {
+            await _conn.InsertAsync(rando);
+            return rando;
         }
 
         public async Task<bool> AdminUserExistsAsync()

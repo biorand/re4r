@@ -186,6 +186,18 @@ export class BioRandApi {
         return await this.fetch(value ? 'POST' : 'DELETE', `profile/${profileId}/star`);
     }
 
+    async createProfile(profile: Profile) {
+        return await this.post<Profile>(`profile`, profile);
+    }
+
+    async updateProfile(profile: Profile) {
+        return await this.put<Profile>(`profile/${profile.id}`, profile);
+    }
+
+    async deleteProfile(id: number) {
+        return await this.delete<Profile>(`profile/${id}`);
+    }
+
     async updateTempConfig(profileId: number, config: Config) {
         return await this.put(`profile/temp`, {
             profileId,
@@ -211,6 +223,10 @@ export class BioRandApi {
 
     private async put<T>(query: string, body?: any) {
         return this.fetch<T>('PUT', query, body);
+    }
+
+    private async delete<T>(query: string, body?: any) {
+        return this.fetch<T>('DELETE', query, body);
     }
 
     private async fetch<T>(method: string, query: string, body?: any): Promise<T> {

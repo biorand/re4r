@@ -1,15 +1,17 @@
 <script lang="ts">
-    import type { Config, ConfigDefinition, Profile } from '$lib/api';
-    import { Alert, Input, Label, TabItem, Tabs, Textarea } from 'flowbite-svelte';
+    import type { ProfileViewModel } from '$lib/UserProfileManager';
+    import type { Config, ConfigDefinition } from '$lib/api';
+    import { Alert, TabItem, Tabs } from 'flowbite-svelte';
     import { InfoCircleSolid } from 'flowbite-svelte-icons';
     import { writable, type Writable } from 'svelte/store';
     import ConfigurationControl from './ConfigControl.svelte';
     import GeneratePanel from './GeneratePanel.svelte';
+    import ProfilePanel from './ProfilePanel.svelte';
 
     export let definition: ConfigDefinition | undefined;
-    export let profile: Writable<Profile | undefined>;
+    export let profile: Writable<ProfileViewModel | undefined>;
 
-    let lastProfile: Profile | undefined = undefined;
+    let lastProfile: ProfileViewModel | undefined = undefined;
     let lastConfiguration: Config | undefined = undefined;
     let configuration = writable({});
 
@@ -26,7 +28,7 @@
         if (lastConfiguration !== c) {
             lastConfiguration = c;
             profile.update((p) => {
-                lastProfile = <Profile>{ ...p, config: c };
+                lastProfile = <ProfileViewModel>{ ...p, config: c, isModified: true };
                 return lastProfile;
             });
         }
@@ -44,19 +46,10 @@
 {#if $profile}
     <Tabs tabStyle="pill">
         <TabItem open title="Generate">
-            <GeneratePanel {configuration} />
+            <GeneratePanel profile={$profile} />
         </TabItem>
         <TabItem title="Profile">
-            <div class="mb-3">
-                <Label class="mb-2" for="txt-profile-name">Name</Label>
-                <Input type="text" id="txt-profile-name" bind:value={$profile.name} />
-            </div>
-            <div class="mb-3">
-                <Label class="mb-2" for="txt-profile-description">Description</Label>
-                <Textarea id="txt-profile-description" rows="3" bind:value={$profile.description} />
-            </div>
-            <div class="mb-3">Stars: {$profile.starCount}</div>
-            <div class="mb-3">Seeds: {$profile.seedCount}</div>
+            <ProfilePanel bind:profile={$profile} />
         </TabItem>
         {#each definition?.pages || [] as p, i}
             <TabItem title={p.label}>

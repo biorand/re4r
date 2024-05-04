@@ -62,3 +62,18 @@ export function rng(low: number, high: number) {
     const range = high - low;
     return low + Math.round(Math.random() * range);
 }
+
+export function groupBy<T>(array: T[], keyFn: (obj: T) => string) {
+    return array.reduce((acc: { [key: string]: T[] }, obj) => {
+        const k = keyFn(obj);
+        acc[k] = acc[k] || [];
+        acc[k].push(obj);
+        return acc;
+    }, {});
+}
+
+export function replaceBy<T>(collection: T[], predicate: (item: T) => boolean, newValue: T) {
+    return collection.map(x => {
+        return predicate(x) ? newValue : x;
+    });
+}

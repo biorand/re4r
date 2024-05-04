@@ -3,7 +3,6 @@
     import BioRandTitle from '$lib/BioRandTitle.svelte';
     import RoleBadge from '$lib/RoleBadge.svelte';
     import { UserRole, type User } from '$lib/api';
-    import { LocalStorageKeys } from '$lib/localStorage';
     import { getUserManager } from '$lib/userManager';
     import {
         Avatar,
@@ -17,8 +16,6 @@
         NavUl,
         Navbar
     } from 'flowbite-svelte';
-    import { onMount } from 'svelte';
-    import { writable } from 'svelte/store';
 
     export let currentUser: User | undefined = undefined;
 
@@ -31,17 +28,6 @@
         userManager.signOut();
         await goto('/');
     }
-
-    const isDarkTheme = writable(false);
-    onMount(() => {
-        const theme = localStorage.getItem(LocalStorageKeys.Theme) || 'light';
-        isDarkTheme.subscribe((value) => {
-            const theme = value ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-bs-theme', theme);
-            localStorage.setItem(LocalStorageKeys.Theme, theme);
-        });
-        isDarkTheme.set(theme === 'dark');
-    });
 </script>
 
 <Navbar class="px-2 sm:px-4 py-2.5 fixed w-full z-20 top-0 start-0 border-b" fluid={true}>
