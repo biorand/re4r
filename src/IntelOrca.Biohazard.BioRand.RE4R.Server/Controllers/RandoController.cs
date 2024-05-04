@@ -32,12 +32,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 id = result.Id,
                 seed = result.Seed,
                 downloadUrl = CreateUrl($"rando/{result.Id}/download"),
-                downloadUrlMod = CreateUrl($"rando/{result.Id}/download&mod=true")
+                downloadUrlMod = CreateUrl($"rando/{result.Id}/download?mod=true")
             };
         }
 
         [Route(HttpVerbs.Get, "/{randoId}/download")]
-        public async Task DownloadAsync(int randoId, [QueryField] bool mod)
+        public async Task DownloadAsync(long randoId, [QueryField] bool mod)
         {
             var result = _randomizer.Find((ulong)randoId);
             if (result == null)

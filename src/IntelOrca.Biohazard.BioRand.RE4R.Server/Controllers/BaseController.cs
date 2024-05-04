@@ -21,8 +21,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
         protected string CreateUrl(string path)
         {
-            var baseUrl = Request.Url.AbsoluteUri.TrimEnd('/');
-            return $"{baseUrl}/${path}";
+            var baseUrl = Request.Url.GetLeftPart(UriPartial.Authority);
+            return $"{baseUrl}/{path}";
         }
 
         protected async Task<UserDbModel?> GetAuthorizedUserAsync(UserRoleKind minimumRole = UserRoleKind.EarlyAccess)

@@ -1,0 +1,78 @@
+<script lang="ts">
+    import LoadingButton from '$lib/LoadingButton.svelte';
+    import { getApi, type Config, type GenerateResult } from '$lib/api';
+    import { rng } from '$lib/utility';
+    import { Alert, Button, ButtonGroup, Hr, Input, Label } from 'flowbite-svelte';
+    import { CloseCircleSolid, ShuffleOutline } from 'flowbite-svelte-icons';
+    import { get, type Writable } from 'svelte/store';
+    import DownloadCard from './DownloadCard.svelte';
+
+    export let configuration: Writable<Config>;
+
+    let seed = 0;
+    let generating = false;
+    let profileId = 0;
+    let generateResult: GenerateResult | undefined;
+    let generateError = '';
+    function onShuffleSeed() {
+        seed = rng(100000, 1000000);
+    }
+    onShuffleSeed();
+
+    async function onGenerate() {
+        generating = true;
+        generateResult = undefined;
+        try {
+            const api = getApi();
+            generateResult = await api.generate({
+                seed,
+                profileId,
+                config: get(configuration)
+            });
+            generating = false;
+        } catch {
+            generateError = 'An error occured on the server while generating this seed.';
+            generating = false;
+        }
+    }
+</script>
+
+<div class="mb-6 max-w-56">
+    <Label class="mb-2" for="txt-profile-description">Seed</Label>
+    <ButtonGroup class="w-full" size="sm">
+        <Input id="seed" type="text" bind:value={seed} />
+        <Button on:click={onShuffleSeed} color="primary"><ShuffleOutline /></Button>
+    </ButtonGroup>
+</div>
+<div class="mb-3 w-full max-w-56">
+    <LoadingButton
+        on:click={onGenerate}
+        loading={generating}
+        class="w-full"
+        color="primary"
+        size="sm">Generate</LoadingButton
+    >
+</div>
+<Hr hrClass="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
+{#if generateResult}
+    <div>
+        <h2 class="text-3xl">Your randomizer is ready!</h2>
+        <h3 class="mb-3">Download the appropriate file and enjoy!</h3>
+        <div class="flex flex-wrap gap-3">
+            <DownloadCard
+                title="Patch"
+                description="Simply drop this file into your RE 4 install folder."
+                href={generateResult.downloadUrl}
+            />
+            <DownloadCard
+                title="Fluffy Mod"
+                description="Add this to Fluffy Mod manager and enable it."
+                href={generateResult.downloadUrlMod}
+            />
+        </div>
+    </div>
+{:else if generateError}
+    <Alert border color="red" class="my-4">
+        <CloseCircleSolid slot="icon" class="w-5 h-5" />{generateError}
+    </Alert>
+{/if}

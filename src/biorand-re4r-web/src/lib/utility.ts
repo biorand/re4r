@@ -57,3 +57,8 @@ export function tryParseInt(input: any): number | undefined {
     if (isNaN(result)) return undefined;
     return result;
 }
+
+export function rng(low: number, high: number) {
+    const range = high - low;
+    return low + Math.round(Math.random() * range);
+}

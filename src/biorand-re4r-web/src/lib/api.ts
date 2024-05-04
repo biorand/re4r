@@ -120,6 +120,20 @@ export interface ConfigDefinition {
 
 export type Config = { [key: string]: any };
 
+export interface GenerateRequest {
+    seed: number;
+    profileId: number;
+    config: Config;
+}
+
+export interface GenerateResult {
+    id: number;
+    seed: number;
+    config: Config;
+    downloadUrl: string;
+    downloadUrlMod: string;
+}
+
 export class BioRandApi {
     private urlBase = "https://api-re4r.biorand.net";
     private authToken?: string;
@@ -181,6 +195,10 @@ export class BioRandApi {
 
     async getConfigDefinition() {
         return await this.get<ConfigDefinition>("profile/definition");
+    }
+
+    async generate(request: GenerateRequest) {
+        return await this.post<GenerateResult>("rando/generate", request);
     }
 
     private async get<T>(query: string, body?: any) {

@@ -4,6 +4,7 @@
     import { InfoCircleSolid } from 'flowbite-svelte-icons';
     import { writable, type Writable } from 'svelte/store';
     import ConfigurationControl from './ConfigControl.svelte';
+    import GeneratePanel from './GeneratePanel.svelte';
 
     export let definition: ConfigDefinition | undefined;
     export let profile: Writable<Profile | undefined>;
@@ -11,6 +12,7 @@
     let lastProfile: Profile | undefined = undefined;
     let lastConfiguration: Config | undefined = undefined;
     let configuration = writable({});
+
     profile.subscribe((p) => {
         if (p !== lastProfile) {
             lastProfile = p;
@@ -41,7 +43,10 @@
 
 {#if $profile}
     <Tabs tabStyle="pill">
-        <TabItem open title="Profile">
+        <TabItem open title="Generate">
+            <GeneratePanel {configuration} />
+        </TabItem>
+        <TabItem title="Profile">
             <div class="mb-3">
                 <Label class="mb-2" for="txt-profile-name">Name</Label>
                 <Input type="text" id="txt-profile-name" bind:value={$profile.name} />
