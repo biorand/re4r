@@ -1,31 +1,23 @@
 <script lang="ts">
     import type { Config, ConfigOption } from '$lib/api';
     import { Label, Range, Select, Toggle, Tooltip } from 'flowbite-svelte';
-    import { writable, type Writable } from 'svelte/store';
+    import { get, writable } from 'svelte/store';
 
     export let definition: ConfigOption;
-    export let configuration: Writable<Config>;
+    export let config: Config;
 
-    let currentConfig: Config | undefined = undefined;
-    let value = writable(definition.default);
-
-    configuration.subscribe((newValue) => {
-        if (newValue !== currentConfig) {
-            currentConfig = newValue;
-            value.set(newValue[definition.id]);
+    let value = writable<any>(definition.default);
+    value.subscribe((v) => {
+        if (config[definition.id] !== v) {
+            config[definition.id] = v;
         }
     });
 
-    value.subscribe((newValue) => {
-        if (currentConfig) {
-            if (newValue !== currentConfig[definition.id]) {
-                const newConfig = { ...currentConfig };
-                newConfig[definition.id] = newValue;
-                currentConfig = newConfig;
-                configuration.set(newConfig);
-            }
+    $: {
+        if (get(value) !== config[definition.id]) {
+            value.set(config[definition.id]);
         }
-    });
+    }
 </script>
 
 <div class="sm:flex m-1">
@@ -49,7 +41,7 @@
                         bind:value={$value}
                     />
                 </div>
-                <div class="w-12 ml-2">{$value}</div>
+                <div class="w-12 ml-2">{value}</div>
             </div>
         {:else if definition.type === 'dropdown'}
             <Select

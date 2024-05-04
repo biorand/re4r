@@ -18,7 +18,9 @@
     >
         <div class="flex">
             <div class="grow flex">
-                <div>{profile.name}</div>
+                <div class:text-blue-200={profile.public} class:font-semibold={profile.public}>
+                    {profile.name}
+                </div>
                 {#if profile.isModified}
                     <div class="ml-2 text-red-300">[modified]</div>
                 {/if}

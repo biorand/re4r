@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
@@ -10,6 +9,7 @@ using EmbedIO.Actions;
 using EmbedIO.Net;
 using EmbedIO.WebApi;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
 using Swan.Logging;
 
@@ -61,14 +61,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
             var randomizerConfig = await randomizerService.GetConfigAsync();
             var defaultConfig = randomizerConfig.GetDefault();
 
-            var profiles = await dbService.GetProfilesAsync(dbService.SystemUserId);
-            var profile = profiles.FirstOrDefault(x => x.Name == "Default");
+            var profile = await dbService.GetDefaultProfile();
             if (profile == null)
             {
-                await dbService.CreateProfileAsync(dbService.SystemUserId, "Default", "The default profile.", defaultConfig);
+                var newProfile = new ProfileDbModel()
+                {
+                    Created = DateTime.UtcNow,
+                    Name = "Default",
+                    Description = "The default profile.",
+                    Public = true
+                };
+                await dbService.CreateProfileAsync(newProfile, defaultConfig);
             }
             else
             {
+                profile.Description = "The default profile.";
+                profile.Public = true;
+                await dbService.UpdateProfileAsync(profile);
                 await dbService.SetProfileConfigAsync(profile.Id, defaultConfig);
             }
         }

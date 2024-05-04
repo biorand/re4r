@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -7,6 +8,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     public class RandomizerConfigurationDefinition
     {
         public List<Page> Pages { get; set; } = [];
+
+        [JsonIgnore]
+        public IEnumerable<GroupItem> AllItems
+        {
+            get
+            {
+                foreach (var p in Pages)
+                {
+                    foreach (var g in p.Groups)
+                    {
+                        foreach (var i in g.Items)
+                        {
+                            yield return i;
+                        }
+                    }
+                }
+            }
+        }
 
         public Page CreatePage(string label)
         {
@@ -386,15 +405,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public Dictionary<string, object> GetDefault()
         {
             var result = new Dictionary<string, object>();
-            foreach (var page in Pages)
+            foreach (var item in AllItems)
             {
-                foreach (var group in page.Groups)
-                {
-                    foreach (var item in group.Items)
-                    {
-                        result[item.Id!] = item.Default!;
-                    }
-                }
+                result[item.Id!] = item.Default!;
+            }
+            return result;
+        }
+
+        public static Dictionary<string, object> AddDefaults(Dictionary<string, object> config)
+        {
+            var defaults = Create(EnemyClassFactory.Default).GetDefault();
+            var result = new Dictionary<string, object>(defaults);
+            foreach (var kvp in config)
+            {
+                result[kvp.Key] = kvp.Value;
             }
             return result;
         }

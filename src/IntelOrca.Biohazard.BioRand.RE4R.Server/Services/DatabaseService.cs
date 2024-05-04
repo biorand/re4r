@@ -158,7 +158,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return result;
         }
 
-        public async Task<ExtendedProfileDbModel[]> GetProfilesAsync(int userId)
+        public async Task<ProfileDbModel?> GetDefaultProfile()
+        {
+            return await _conn.Table<ProfileDbModel>()
+                .Where(x => (x.Flags & 1) == 0)
+                .Where(x => x.UserId == SystemUserId)
+                .Where(x => x.Name == "Default")
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<ExtendedProfileDbModel[]> GetProfilesForUserAsync(int userId)
         {
             var q = @"
                 SELECT p.*,
@@ -172,11 +181,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 WHERE (p.UserId = ?
                     OR p.UserId = ?
                     OR ps.ProfileId IS NOT NULL)
+                  AND ((p.Flags & 2) OR p.UserId = ?)
                   AND NOT(p.Flags & 1)";
             var result = await _conn.QueryAsync<ExtendedProfileDbModel>(q,
                 userId,
                 userId,
-                SystemUserId);
+                SystemUserId,
+                userId);
             return [.. result];
         }
 
@@ -191,9 +202,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 LEFT JOIN user AS u ON p.UserId = u.Id
                 LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId
                 WHERE (p.Name LIKE ? OR p.Description LIKE ?)
+                  AND p.UserId != ?
+                  AND p.Flags & 2
                   AND NOT(p.Flags & 1)";
             parameters.Add($"%{query}%");
             parameters.Add($"%{query}%");
+            parameters.Add(SystemUserId);
 
             if (!string.IsNullOrEmpty(user))
             {
@@ -233,21 +247,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
         }
 
         public async Task<ProfileDbModel> CreateProfileAsync(
-            int userId,
-            string name,
-            string description,
+            ProfileDbModel profile,
             Dictionary<string, object> config)
         {
-            var result = new ProfileDbModel()
-            {
-                Created = DateTime.UtcNow,
-                UserId = userId,
-                Name = name,
-                Description = description
-            };
-            await _conn.InsertAsync(result);
-            await SetProfileConfigAsync(result.Id, config);
-            return result;
+            await _conn.InsertAsync(profile);
+            await SetProfileConfigAsync(profile.Id, config);
+            return profile;
         }
 
         public async Task UpdateProfileAsync(ProfileDbModel profile)

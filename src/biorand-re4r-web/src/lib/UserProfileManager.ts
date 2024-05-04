@@ -1,8 +1,13 @@
 import { derived, get, writable, type Writable } from "svelte/store";
 import type { BioRandApi, Config, Profile } from "./api";
-import { groupBy, replaceBy } from "./utility";
+import { groupBy, objectEquals, replaceBy } from "./utility";
 
 export type ProfileCategory = 'Personal' | 'Official' | 'Community';
+
+export interface ProfileGroup {
+    category: ProfileCategory;
+    profiles: ProfileViewModel[];
+}
 
 export interface ProfileViewModel {
     id: number;
@@ -11,14 +16,15 @@ export interface ProfileViewModel {
     config: Config;
     userId: number;
     userName: string;
+    public: boolean;
     starCount: number;
     seedCount: number;
 
     category: string;
     originalId: number;
-    isNew: boolean;
     isModified: boolean;
     isSelected: boolean;
+    isOwner: boolean;
 
     onSave?: VoidFunction;
     onDuplicate?: VoidFunction;
@@ -28,8 +34,10 @@ export interface ProfileViewModel {
 
 export class UserProfileManager {
     private readonly api: BioRandApi;
+    private _ready = false;
     private _downloadedProfiles: ProfileViewModel[] = [];
     private _selectedProfile: ProfileViewModel | undefined;
+    private _stashedProfile: ProfileViewModel | undefined;
 
     readonly userId: number;
 
@@ -41,38 +49,52 @@ export class UserProfileManager {
         this.userId = userId;
 
         this.selectedProfile.subscribe(profile => {
-            if (profile === undefined)
-                return;
-            if (profile === this._selectedProfile)
+            if (!this._ready)
                 return;
 
-            if (profile.isModified && profile.userId !== this.userId) {
-                // Profile is not ours, create new one
-                const originalProfile = this._downloadedProfiles.find(p => p.id === profile?.id);
-                const originalProfileName = originalProfile?.name;
-                let newProfileName = profile.name;
-                if (newProfileName === originalProfileName) {
-                    newProfileName = `${originalProfileName} - Copy`;
+            if (profile !== this._selectedProfile) {
+                this._stashedProfile = undefined;
+                if (profile) {
+                    profile.isSelected = true;
+                    this._stashedProfile = { ...profile, config: { ...profile.config } };
                 }
-                profile = <ProfileViewModel>{
-                    ...profile,
-                    id: 0,
-                    name: newProfileName,
-                    userId: this.userId,
-                    userName: '',
-
-                    category: 'Personal',
-                    originalId: profile.id,
-                    isNew: true,
-                    isSelected: true
-                };
+                this._selectedProfile = profile;
+            } else if (profile === undefined) {
+                this._stashedProfile = undefined;
             } else {
-                profile = { ...profile, isSelected: true };
-            }
+                if (this._stashedProfile && this.profileModified(this._stashedProfile, profile)) {
+                    profile.isModified = true;
+                }
 
-            this._selectedProfile = this.setProfileActions(profile);
+                if (profile.isModified && profile.userId !== this.userId) {
+                    // Profile is not ours, create new one
+                    const originalProfile = this._downloadedProfiles.find(p => p.id === profile?.id);
+                    const originalProfileName = originalProfile?.name;
+                    let newProfileName = profile.name;
+                    if (newProfileName === originalProfileName) {
+                        newProfileName = `${originalProfileName} - Copy`;
+                    }
+                    profile = <ProfileViewModel>{
+                        ...profile,
+                        id: 0,
+                        name: newProfileName,
+                        userId: this.userId,
+                        userName: '',
+                        public: false,
+                        seedCount: 0,
+                        starCount: 0,
+
+                        category: 'Personal',
+                        originalId: profile.id,
+                        isOwner: true,
+                        isSelected: true
+                    };
+                    this.selectedProfile.set(profile);
+                }
+            }
+            if (profile)
+                this.setProfileActions(profile);
             this.updateProfileList();
-            this.selectedProfile.set(this._selectedProfile);
             this.saveStorage();
         });
     }
@@ -80,9 +102,10 @@ export class UserProfileManager {
     private updateProfileList() {
         let profiles = this._downloadedProfiles.map(p => {
             if (p.id === this._selectedProfile?.id) {
-                return { ...this._selectedProfile, isSelected: true };
+                return this._selectedProfile;
+            } else {
+                return <ProfileViewModel>{ ...p, config: { ...p.config } };
             }
-            return p;
         });
         if (this._selectedProfile?.id === 0) {
             profiles = [this._selectedProfile, ...profiles];
@@ -93,6 +116,7 @@ export class UserProfileManager {
     async download() {
         const profiles = await this.api.getProfiles();
         this._downloadedProfiles = profiles.map(x => this.toProfileViewModel(x));
+        this._ready = true;
         this.updateProfileList();
         this.readStorage();
     }
@@ -108,12 +132,13 @@ export class UserProfileManager {
             config: profile.config,
             seedCount: profile.seedCount,
             starCount: profile.starCount,
+            public: profile.public,
 
             originalId: profile.id,
             category,
-            isNew: false,
             isModified: false,
-            isSelected: false
+            isSelected: false,
+            isOwner: profile.userId === this.userId
         };
         return this.setProfileActions(result);
     }
@@ -134,14 +159,11 @@ export class UserProfileManager {
         const isSavable = profile.category === 'Personal' && profile.isModified;
         const isUpdatable = profile.category === 'Personal' && profile.id !== 0;
         const isCommunity = profile.category === 'Community';
-        const result = <ProfileViewModel>{
-            ...profile,
-            onSave: createProfileAction(isSavable, () => this.save(result)),
-            onDelete: createProfileAction(isUpdatable, () => this.delete(result)),
-            onDuplicate: createProfileAction(isUpdatable),
-            onRemove: createProfileAction(isCommunity)
-        };
-        return result;
+        profile.onSave = createProfileAction(isSavable, () => this.save(profile));
+        profile.onDelete = createProfileAction(isUpdatable, () => this.delete(profile));
+        profile.onDuplicate = createProfileAction(isUpdatable, () => this.duplicate(profile));
+        profile.onRemove = createProfileAction(isCommunity, () => this.remove(profile));
+        return profile;
     }
 
     private readStorage() {
@@ -151,17 +173,16 @@ export class UserProfileManager {
             if (storage.modifiedProfile) {
                 this.selectedProfile.set(storage.modifiedProfile);
             } else {
-                const profiles = get(this.profiles);
-                const selectedProfile = profiles.find(x => x.id === storage.selectedProfileId);
-                this.selectedProfile.set(selectedProfile);
+                this.selectProfileId(storage.selectedProfileId);
             }
         }
     }
 
     private saveStorage() {
+        const selectedProfile = get(this.selectedProfile);
         localStorage.setItem('userProfileManager', JSON.stringify({
-            selectedProfileId: get(this.selectedProfile)?.id,
-            modifiedProfile: get(this.selectedProfile)
+            selectedProfileId: selectedProfile?.id,
+            modifiedProfile: selectedProfile?.isModified ? selectedProfile : undefined
         }));
     }
 
@@ -173,35 +194,71 @@ export class UserProfileManager {
             config: profile.config
         };
 
+        let newProfileView: ProfileViewModel;
         if (profile.id === 0) {
             const newProfile = await this.api.createProfile(p);
-            const newProfileView = this.toProfileViewModel(newProfile);
+            newProfileView = this.toProfileViewModel(newProfile);
             this._downloadedProfiles = [newProfileView, ...this._downloadedProfiles];
-            this.selectedProfile.set(newProfileView);
         } else {
             const newProfile = await this.api.updateProfile(p);
-            const newProfileView = this.toProfileViewModel(newProfile);
+            newProfileView = this.toProfileViewModel(newProfile);
             this._downloadedProfiles = replaceBy(this._downloadedProfiles,
                 x => x.id === newProfileView.id, newProfileView);
-            this.selectedProfile.set(newProfileView);
         }
+        this.updateProfileList();
+        this.selectProfileId(newProfileView.id);
+    }
+
+    duplicate(profile: ProfileViewModel) {
+        const newProfile = <ProfileViewModel>{
+            ...profile,
+            id: 0,
+            name: `${profile.name} - Copy`,
+            starCount: 0,
+            seedCount: 0,
+            config: profile.config,
+            isModified: true,
+            isOwner: true
+        };
+        this.selectedProfile.set(newProfile);
+    }
+
+    async remove(profile: ProfileViewModel) {
+        await this.api.setProfileStar(profile.id, false);
+        this._downloadedProfiles = this._downloadedProfiles.filter(p => p.id !== profile.id);
+        this.updateProfileList();
+        this.selectDefaultProfile();
     }
 
     async delete(profile: ProfileViewModel) {
         await this.api.deleteProfile(profile.id);
         this._downloadedProfiles = this._downloadedProfiles.filter(p => p.id !== profile.id);
+        this.updateProfileList();
         this.selectDefaultProfile();
     }
 
     private selectDefaultProfile() {
-        const p = this._downloadedProfiles[0];
-        this.selectedProfile.set(p);
+        const profiles = get(this.profiles);
+        this.selectedProfile.set(profiles[0]);
+    }
+
+    private selectProfileId(id: number) {
+        const profiles = get(this.profiles);
+        const profile = profiles.find(p => p.id === id);
+        this.selectedProfile.set(profile);
+    }
+
+    private profileModified(orig: ProfileViewModel, curr: ProfileViewModel) {
+        if (orig.name !== curr.name) return true;
+        if (orig.description !== curr.description) return true;
+        if (!objectEquals(orig.config, curr.config)) return true;
+        return false;
     }
 
     profileGroups = derived(this.profiles, (profiles) => {
         const categoryOrder = ['Personal', 'Official', 'Community'];
         const groups = groupBy(profiles, p => p.category);
-        return categoryOrder.map(category => ({
+        return categoryOrder.map(category => (<ProfileGroup>{
             category,
             profiles: groups[category] || []
         }));

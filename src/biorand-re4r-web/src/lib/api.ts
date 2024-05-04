@@ -84,6 +84,7 @@ export interface Profile {
     starCount: number;
     seedCount: number;
     isStarred: boolean;
+    public: boolean;
     configId: number;
     config?: Config;
 }

@@ -4,15 +4,16 @@
     import { getUserManager } from '$lib/userManager';
     import { Alert, Spinner } from 'flowbite-svelte';
     import { CloseCircleSolid } from 'flowbite-svelte-icons';
-    import ConfigPanel from './ConfigPanel.svelte';
     import ProfileManagerPanel from './ProfileManagerPanel.svelte';
+    import ProfilePanel from './ProfilePanel.svelte';
 
     const api = getApi();
     const userManager = getUserManager();
     const profileManager = new UserProfileManager(api, userManager.info?.user.id || 0);
 
     let configDefinition: ConfigDefinition | undefined = undefined;
-    let profile = profileManager.selectedProfile;
+    let profileGroups = profileManager.profileGroups;
+    let selectedProfile = profileManager.selectedProfile;
 
     let init = (async () => {
         await profileManager.download();
@@ -28,10 +29,15 @@
     <div class="mb-3">
         <div class="md:flex">
             <div class="md:w-1/3 md:max-w-lg m-2">
-                <ProfileManagerPanel userProfileManager={profileManager} />
+                <ProfileManagerPanel
+                    groups={$profileGroups}
+                    bind:selectedProfile={$selectedProfile}
+                />
             </div>
             <div class="md:w-2/3 m-2">
-                <ConfigPanel definition={configDefinition} {profile} />
+                {#if configDefinition && $selectedProfile}
+                    <ProfilePanel definition={configDefinition} bind:profile={$selectedProfile} />
+                {/if}
             </div>
         </div>
     </div>

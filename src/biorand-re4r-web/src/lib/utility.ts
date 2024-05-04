@@ -58,6 +58,38 @@ export function tryParseInt(input: any): number | undefined {
     return result;
 }
 
+export function objectEquals(obj1: any, obj2: any) {
+    // Check if both objects are objects
+    if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
+        return false;
+    }
+
+    // Get the keys of the objects
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    // Check if the number of keys is the same
+    if (keys1.length !== keys2.length) {
+        return false;
+    }
+
+    // Check if all keys and values are equal
+    for (let key of keys1) {
+        if (!keys2.includes(key) || obj1[key] !== obj2[key]) {
+            return false;
+        }
+
+        // Recursively check nested objects
+        if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
+            if (!objectEquals(obj1[key], obj2[key])) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 export function rng(low: number, high: number) {
     const range = high - low;
     return low + Math.round(Math.random() * range);

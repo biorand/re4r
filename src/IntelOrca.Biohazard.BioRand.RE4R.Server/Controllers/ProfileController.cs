@@ -7,7 +7,6 @@ using EmbedIO.Routing;
 using EmbedIO.WebApi;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
-using Swan.Formatters;
 using static IntelOrca.Biohazard.BioRand.RE4R.Server.Services.DatabaseService;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
@@ -28,7 +27,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (authorizedUser == null)
                 return UnauthorizedResult();
 
-            var profiles = await _db.GetProfilesAsync(authorizedUser.Id);
+            var profiles = await _db.GetProfilesForUserAsync(authorizedUser.Id);
             return profiles.Select(GetProfile).ToArray();
         }
 
@@ -67,7 +66,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
             var config = RandomizerConfigurationDefinition.ProcessConfig(body.Config);
 
-            var profile = await _db.CreateProfileAsync(authorizedUser.Id, body.Name, body.Description, config);
+            var profile = new ProfileDbModel()
+            {
+                UserId = authorizedUser.Id,
+                Name = body.Name,
+                Description = body.Description
+            };
+            profile = await _db.CreateProfileAsync(profile, config);
             return await GetProfileAsync(profile.Id);
         }
 
@@ -163,6 +168,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
         private object GetProfile(ExtendedProfileDbModel profile)
         {
+            Dictionary<string, object>? config = null;
+            if (!string.IsNullOrEmpty(profile.Data))
+            {
+                config = RandomizerConfigurationDefinition.ProcessConfig(profile.Data);
+                config = RandomizerConfigurationDefinition.AddDefaults(config);
+            }
+
             return new
             {
                 profile.Id,
@@ -173,8 +185,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 profile.StarCount,
                 profile.SeedCount,
                 profile.IsStarred,
+                profile.Public,
                 profile.ConfigId,
-                Config = string.IsNullOrEmpty(profile.Data) ? null : Json.Deserialize(profile.Data)
+                Config = config
             };
         }
 
