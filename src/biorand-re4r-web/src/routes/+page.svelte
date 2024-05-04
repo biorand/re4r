@@ -26,6 +26,14 @@
     }
 </script>
 
+<svelte:head>
+    {#if isSignedIn}
+        <title>Generate - BioRand 4</title>
+    {:else}
+        <title>Sign Up - BioRand 4</title>
+    {/if}
+</svelte:head>
+
 {#if isSignedIn}
     {#if showBanner}
         <UserBanner {role} />

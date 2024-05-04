@@ -9,7 +9,7 @@
     import FormInput from '../../auth/FormInput.svelte';
 
     const userName = $page.params.user;
-    let user: User;
+    let user: User | undefined;
 
     const userManager = getUserManager();
     let isAdmin = userManager.info?.user.role == UserRole.Administrator;
@@ -49,6 +49,8 @@
     })();
 
     async function onSubmit() {
+        if (!user) return;
+
         [emailData, nameData] = validateClear(emailData, nameData);
         serverWait = true;
         try {
@@ -74,6 +76,10 @@
         }
     }
 </script>
+
+<svelte:head>
+    <title>{user?.name || userName} - BioRand 4</title>
+</svelte:head>
 
 {#await init}
     <Spinner />

@@ -71,6 +71,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Community Profiles - BioRand 4</title>
+</svelte:head>
+
 <div class="container mx-auto mb-3">
     <h1 class="mb-3 text-4xl dark:text-white">Community Profiles</h1>
     <form class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg w-full mb-4">

@@ -9,6 +9,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Sign In - BioRand 4</title>
+</svelte:head>
+
 {#if !isSignedIn}
     <SignIn />
 {/if}

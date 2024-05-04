@@ -64,7 +64,7 @@
         </div>
         <Dropdown class="min-w-48" placement="bottom" triggeredBy="#avatar-menu">
             <DropdownHeader>
-                <span class="block text-sm">{currentUser.name}</span>
+                <a class="block text-sm" href="/user/{currentUser.name}">{currentUser.name}</a>
             </DropdownHeader>
             <DropdownItem on:click={onSignOutClick}>Sign out</DropdownItem>
         </Dropdown>

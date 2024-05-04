@@ -48,6 +48,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Users - BioRand 4</title>
+</svelte:head>
+
 <div class="container mx-auto mb-3">
     <h1 class="mb-3 text-4xl dark:text-white">Users</h1>
     {#if searchResult}
