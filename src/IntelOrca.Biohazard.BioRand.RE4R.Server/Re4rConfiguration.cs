@@ -12,10 +12,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public EmailConfig? Email { get; set; }
         public string[]? Passwords { get; set; }
 
-        public static Re4rConfiguration GetDefault()
+        public static string GetBioRandDirectory()
         {
             var homePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var biorandHomePath = Path.Combine(homePath, ".biorand");
+            return biorandHomePath;
+        }
+
+        public static string GetLogDirectory()
+        {
+            var biorandHomePath = GetBioRandDirectory();
+            return Path.Combine(biorandHomePath, "logs");
+        }
+
+        public static Re4rConfiguration GetDefault()
+        {
+            var biorandHomePath = GetBioRandDirectory();
             var configPath = Path.Combine(biorandHomePath, "biorand-re4r.json");
             if (File.Exists(configPath))
                 return FromFile(configPath);

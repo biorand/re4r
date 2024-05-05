@@ -11,18 +11,28 @@ using EmbedIO.WebApi;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
+using Serilog;
 using Swan.Logging;
+using ILogger = Serilog.ILogger;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server
 {
     public class BioRandWebServer : IDisposable
     {
+        private readonly ILogger _logger;
+
+        public BioRandWebServer()
+        {
+            _logger = ConfigureLogger();
+        }
+
         public void Dispose()
         {
         }
 
         public async Task RunAsync(string url)
         {
+            _logger.Information("Creating web server {Url}", url);
             using var server = await CreateWebServer(url);
             await server.RunAsync();
         }
@@ -56,6 +66,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
             return server;
         }
 
+        private static ILogger ConfigureLogger()
+        {
+            var logDirectory = Re4rConfiguration.GetLogDirectory();
+            var logFile = Path.Combine(logDirectory, "api.biorand-re4r.log");
+
+            Log.Logger = new LoggerConfiguration()
+#if DEBUG
+                .MinimumLevel.Debug()
+#else
+                .MinimumLevel.Information()
+#endif
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.File(logFile, rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+            return Log.ForContext<BioRandWebServer>();
+        }
+
         private async Task CreateDefaultProfiles(RandomizerService randomizerService, DatabaseService dbService)
         {
             // Default profile
@@ -73,12 +101,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
                     Description = "The default profile.",
                     Public = true
                 };
+
+                _logger.Information("Creating profile {Name} for default config", newProfile.Name);
                 await dbService.CreateProfileAsync(newProfile, defaultConfig);
             }
             else
             {
                 profile.Description = "The default profile.";
                 profile.Public = true;
+
+                _logger.Information("Updating profile {Id} {Name} to default config", profile.Id, profile.Name);
                 await dbService.UpdateProfileAsync(profile);
                 await dbService.SetProfileConfigAsync(profile.Id, defaultConfig);
             }

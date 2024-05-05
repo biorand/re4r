@@ -7,6 +7,7 @@ using EmbedIO.WebApi;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
+using Serilog;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
@@ -15,12 +16,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         private readonly DatabaseService _db;
         private readonly RandomizerService _randomizer;
         private readonly UrlService _urlService;
+        private readonly ILogger _logger;
 
         public RandoController(DatabaseService db, RandomizerService randomizer, UrlService urlService) : base(db)
         {
             _db = db;
             _randomizer = randomizer;
             _urlService = urlService;
+            _logger = Log.ForContext<RandoController>();
         }
 
         [Route(HttpVerbs.Post, "/generate")]
@@ -44,7 +47,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             });
             await _db.UpdateSeedCount(request.ProfileId);
 
+            _logger.Information("User [{UserId}]{UserName} generatating rando ProfileId = {ProfileId} Seed = {Seed}",
+                user.Id, user.Name, request.ProfileId, request.Seed);
             var result = await _randomizer.GenerateAsync((ulong)rando.Id, request.Seed, config);
+            _logger.Information("User [{UserId}]{UserName} generated rando {RandoId} ProfileId = {ProfileId} Seed = {Seed}",
+                user.Id, user.Name, result.Id, request.ProfileId, result.Seed);
             return new
             {
                 result = "success",

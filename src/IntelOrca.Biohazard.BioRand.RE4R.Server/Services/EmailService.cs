@@ -3,13 +3,16 @@ using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
-using Swan.Logging;
+using Serilog;
+using ILogger = Serilog.ILogger;
 using MailMessage = System.Net.Mail.MailMessage;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 {
     internal class EmailService(EmailConfig? config)
     {
+        private readonly ILogger _logger = Log.ForContext<EmailService>();
+
         public async Task SendEmailAsync(string to, string subject, string body)
         {
             if (string.IsNullOrEmpty(config?.From))
@@ -27,12 +30,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                     subject,
                     body));
 
-                $"Sending e-mail to {to}: {body}".Log(typeof(EmailService), LogLevel.Info);
                 await smtpClient.SendAsync(message);
+                _logger.Information("Email sent to {To}, Subject = {Subject}", to, subject);
             }
             catch (Exception ex)
             {
-                ex.Log(typeof(EmailService));
+                _logger.Error(ex, "Failed to send email to {To}, Subject = {Subject}", to, subject);
             }
         }
     }

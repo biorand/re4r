@@ -6,6 +6,7 @@ using EmbedIO;
 using EmbedIO.Routing;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
+using Serilog;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
@@ -13,11 +14,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
     {
         private readonly DatabaseService _db;
         private readonly EmailService _emailService;
+        private readonly ILogger _logger;
 
         public AuthController(DatabaseService db, EmailService emailService) : base(db)
         {
             _db = db;
             _emailService = emailService;
+            _logger = Log.ForContext<AuthController>();
         }
 
         [Route(HttpVerbs.Post, "/register")]
@@ -65,6 +68,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
             if (validationResult.Count == 0)
             {
+                _logger.Information("Creating user {Name} <{Email}>", email, name);
                 await _db.CreateUserAsync(email, name!);
                 await _emailService.SendEmailAsync(email,
                     "BioRand 4 - Early Access",
@@ -85,6 +89,7 @@ The BioRand Team");
             }
             else
             {
+                _logger.Information("Register failed for {Name} <{Email}>", name, email);
                 return new
                 {
                     Success = false,
@@ -110,13 +115,17 @@ The BioRand Team");
                 var user = await _db.GetUserByEmail(email);
                 if (user == null)
                 {
+                    _logger.Information("Sign in failed for {Email}, account not found", email);
                     validationResult["email"] = "E-mail address not registered.";
                 }
                 else if (string.IsNullOrEmpty(req.Code))
                 {
-                    var token = await _db.CreateTokenAsync(user);
-                    var code = token.Code.ToString("000000");
+                    _logger.Information("User {UserId}[{UserName}] sign in attempted", user.Id, user.Name);
 
+                    var token = await _db.CreateTokenAsync(user);
+                    _logger.Information("Auth token created for {UserId}[{UserName}]", user.Id, user.Name);
+
+                    var code = token.Code.ToString("000000");
                     await _emailService.SendEmailAsync(email,
                         "BioRand 4 - Sign In",
 $@"Dear {user.Name},
@@ -143,19 +152,24 @@ The BioRand Team");
                         var token = await _db.GetTokenAsync(user, code);
                         if (token != null && token.LastUsed == null)
                         {
+                            _logger.Information("User {UserId}[{UserName}] signed in successfully", user.Id, user.Name);
+
                             if (!await _db.AdminUserExistsAsync())
                             {
                                 user.Role = UserRoleKind.Administrator;
                                 await _db.UpdateUserAsync(user);
+                                _logger.Information("User {UserId}[{UserName}] role set to {Role}", user.Id, user.Name, user.Role);
                             }
 
                             if (user.Role == UserRoleKind.Pending)
                             {
                                 user.Role = UserRoleKind.PendingEarlyAccess;
                                 await _db.UpdateUserAsync(user);
+                                _logger.Information("User {UserId}[{UserName}] role set to {Role}", user.Id, user.Name, user.Role);
                             }
 
                             await _db.UseTokenAsync(token.Token);
+                            _logger.Information("Auth token verified for {UserId}[{UserName}]", user.Id, user.Name);
                             return new
                             {
                                 Success = true,
@@ -164,6 +178,7 @@ The BioRand Team");
                             };
                         }
                     }
+                    _logger.Information("User {UserId}[{UserName}] sign in failed, code invalid", user.Id, user.Name);
                     validationResult["code"] = "Code is invalid.";
                 }
             }

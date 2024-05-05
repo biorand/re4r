@@ -7,6 +7,7 @@ using EmbedIO.Routing;
 using EmbedIO.WebApi;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
+using Serilog;
 using static IntelOrca.Biohazard.BioRand.RE4R.Server.Services.DatabaseService;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
@@ -14,10 +15,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
     internal class ProfileController : BaseController
     {
         private readonly DatabaseService _db;
+        private readonly ILogger _logger;
 
         public ProfileController(DatabaseService db) : base(db)
         {
             _db = db;
+            _logger = Log.ForContext<AuthController>();
         }
 
         [Route(HttpVerbs.Get, "/")]
@@ -72,7 +75,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 Name = body.Name,
                 Description = body.Description
             };
+
             profile = await _db.CreateProfileAsync(profile, config);
+            _logger.Information("User [{UserId]{UserName} created profile {Id}[{Name}]",
+                authorizedUser.Id, authorizedUser.Name, profile.Id, profile.Name);
             return await GetProfileAsync(profile.Id);
         }
 
@@ -112,8 +118,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             profile.Public = body.Public;
 
             var config = RandomizerConfigurationDefinition.ProcessConfig(body.Config);
+
             await _db.UpdateProfileAsync(profile);
             await _db.SetProfileConfigAsync(id, config);
+            _logger.Information("User [{UserId]{UserName} updated profile {Id}[{Name}]",
+                authorizedUser.Id, authorizedUser.Name, profile.Id, profile.Name);
 
             return await GetProfileAsync(id);
         }
@@ -133,6 +142,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 return UnauthorizedResult();
 
             await _db.DeleteProfileAsync(id);
+            _logger.Information("User [{UserId]{UserName} deleted profile {Id}[{Name}]",
+                authorizedUser.Id, authorizedUser.Name, profile.Id, profile.Name);
+
             return EmptyResult();
         }
 
@@ -152,18 +164,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (!star.HasValue)
                 return ErrorResult(HttpStatusCode.BadRequest);
 
+            var profile = await _db.GetProfileAsync(profileId, authorizedUser.Id);
+            if (profile == null)
+                return NotFoundResult();
+
             await _db.StarProfileAsync(profileId, authorizedUser.Id, star.Value);
-            return EmptyResult();
-        }
+            if (star == true)
+            {
+            }
+            else
+            {
+                _logger.Information("User [{UserId]{UserName} starred profile {Id}[{Name}]",
+                    authorizedUser.Id, authorizedUser.Name, profile.Id, profile.Name);
+            }
 
-        [Route(HttpVerbs.Put, "/temp")]
-        public async Task<object> UpdateTempProfileAsync([MyJsonData] UpdateTempConfigRequest body)
-        {
-            var authorizedUser = await GetAuthorizedUserAsync();
-            if (authorizedUser == null)
-                return UnauthorizedResult();
-
-            await _db.SetUserConfigAsync(authorizedUser.Id, body.ProfileId, body.Config);
             return EmptyResult();
         }
 

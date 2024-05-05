@@ -6,6 +6,7 @@ using EmbedIO.Routing;
 using EmbedIO.WebApi;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
+using Serilog;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
@@ -13,11 +14,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
     {
         private readonly DatabaseService _db;
         private readonly EmailService _emailService;
+        private readonly ILogger _logger;
 
         public UserController(DatabaseService db, EmailService emailService) : base(db)
         {
             _db = db;
             _emailService = emailService;
+            _logger = Log.ForContext<UserController>();
         }
 
         [Route(HttpVerbs.Get, "/")]
@@ -103,6 +106,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             user.ShareHistory = request.ShareHistory ?? user.ShareHistory;
 
             await _db.UpdateUserAsync(user);
+            _logger.Information("User [{UserId]{UserName} updated user {UserId}[{UserName}]",
+                authorizedUser.Id, authorizedUser.Name, user.Id, user.Name);
 
             if (oldRole == UserRoleKind.PendingEarlyAccess &&
                 user.Role == UserRoleKind.EarlyAccess)
