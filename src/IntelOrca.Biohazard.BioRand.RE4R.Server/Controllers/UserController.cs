@@ -108,7 +108,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 user.Role == UserRoleKind.EarlyAccess)
             {
                 await _emailService.SendEmailAsync(user.Email,
-                    "BioRand 4 - Sign In",
+                    "BioRand 4 - Early Access",
 $@"Dear {user.Name},
 
 We are pleased to inform you that your request for early access has been approved.
