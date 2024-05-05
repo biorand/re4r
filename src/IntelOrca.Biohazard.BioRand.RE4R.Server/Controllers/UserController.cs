@@ -106,7 +106,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             user.ShareHistory = request.ShareHistory ?? user.ShareHistory;
 
             await _db.UpdateUserAsync(user);
-            _logger.Information("User [{UserId]{UserName} updated user {UserId}[{UserName}]",
+            _logger.Information("User [{UserId}]{UserName} updated user {UserId}[{UserName}]",
                 authorizedUser.Id, authorizedUser.Name, user.Id, user.Name);
 
             if (oldRole == UserRoleKind.PendingEarlyAccess &&

@@ -77,7 +77,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             };
 
             profile = await _db.CreateProfileAsync(profile, config);
-            _logger.Information("User [{UserId]{UserName} created profile {Id}[{Name}]",
+            _logger.Information("User [{UserId}]{UserName} created profile {Id}[{Name}]",
                 authorizedUser.Id, authorizedUser.Name, profile.Id, profile.Name);
             return await GetProfileAsync(profile.Id);
         }
@@ -121,7 +121,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
             await _db.UpdateProfileAsync(profile);
             await _db.SetProfileConfigAsync(id, config);
-            _logger.Information("User [{UserId]{UserName} updated profile {Id}[{Name}]",
+            _logger.Information("User [{UserId}]{UserName} updated profile {Id}[{Name}]",
                 authorizedUser.Id, authorizedUser.Name, profile.Id, profile.Name);
 
             return await GetProfileAsync(id);
@@ -142,7 +142,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 return UnauthorizedResult();
 
             await _db.DeleteProfileAsync(id);
-            _logger.Information("User [{UserId]{UserName} deleted profile {Id}[{Name}]",
+            _logger.Information("User [{UserId}]{UserName} deleted profile {Id}[{Name}]",
                 authorizedUser.Id, authorizedUser.Name, profile.Id, profile.Name);
 
             return EmptyResult();
@@ -174,7 +174,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             }
             else
             {
-                _logger.Information("User [{UserId]{UserName} starred profile {Id}[{Name}]",
+                _logger.Information("User [{UserId}]{UserName} starred profile {Id}[{Name}]",
                     authorizedUser.Id, authorizedUser.Name, profile.Id, profile.Name);
             }
 
