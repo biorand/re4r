@@ -11,7 +11,7 @@ RUN cd src/biorand-re4r-web \
  && npm run build
 
 FROM alpine
-RUN apk add --no-cache libstdc++ nginx sqlite-libs \
+RUN apk add --no-cache libstdc++ nginx sqlite sqlite-libs \
  && ln -s libsqlite3.so.0 /usr/lib/libsqlite3.so
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 COPY --from=build-api /out/biorand-re4r /usr/bin/biorand-re4r
