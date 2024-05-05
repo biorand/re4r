@@ -9,12 +9,12 @@
 
     export let profile: ProfileViewModel;
 
-    let seed = 0;
+    let seed = '0';
     let generating = false;
     let generateResult: GenerateResult | undefined;
     let generateError = '';
     function onShuffleSeed() {
-        seed = rng(100000, 1000000);
+        seed = rng(100000, 1000000).toString();
     }
     onShuffleSeed();
 
@@ -24,7 +24,7 @@
         try {
             const api = getApi();
             generateResult = await api.generate({
-                seed,
+                seed: parseInt(seed) || 0,
                 profileId: profile.originalId,
                 config: profile.config || {}
             });

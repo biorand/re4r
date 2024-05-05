@@ -97,7 +97,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             }
 
             Response.ContentType = MimeType.Default;
-            Response.ContentLength64 = result.ZipFile.LongLength;
+            Response.ContentLength64 = contentData.LongLength;
             Response.ContentEncoding = null;
             Response.Headers["Content-Disposition"] = $"attachment; filename=\"{contentName}";
             await Response.OutputStream.WriteAsync(contentData);
