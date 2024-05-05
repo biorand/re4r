@@ -89,8 +89,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 
         public async Task<UserDbModel?> GetUserByToken(string token)
         {
+            var now = DateTime.UtcNow - TimeSpan.FromDays(30);
             var tokenModel = await _conn.Table<TokenDbModel>()
-                .Where(x => x.Token == token)
+                .Where(x => x.Token == token && x.LastUsed > now)
                 .FirstOrDefaultAsync();
             if (tokenModel == null)
                 return null;
@@ -127,6 +128,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return result;
         }
 
+        public async Task<TokenDbModel?> GetTokenAsync(string token)
+        {
+            return await _conn.Table<TokenDbModel>()
+                .Where(x => x.Token == token)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<TokenDbModel?> GetTokenAsync(UserDbModel user, int code)
         {
             return await _conn.Table<TokenDbModel>()
@@ -139,6 +147,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             await _conn.ExecuteAsync("UPDATE token SET LastUsed = ? WHERE token = ?",
                 DateTime.UtcNow,
                 token);
+        }
+
+        public async Task DeleteTokenAsync(int tokenId)
+        {
+            await _conn.Table<TokenDbModel>()
+                .Where(x => x.Id == tokenId)
+                .DeleteAsync();
         }
 
         public async Task<ExtendedProfileDbModel?> GetProfileAsync(int id, int userId)

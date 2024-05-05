@@ -2,7 +2,7 @@
     import { goto } from '$app/navigation';
     import BioRandTitle from '$lib/BioRandTitle.svelte';
     import RoleBadge from '$lib/RoleBadge.svelte';
-    import { UserRole, type StatsResult, type User } from '$lib/api';
+    import { UserRole, getApi, type StatsResult, type User } from '$lib/api';
     import { getUserManager } from '$lib/userManager';
     import {
         Avatar,
@@ -27,6 +27,8 @@
     $: isAdmin = role == UserRole.Administrator;
 
     async function onSignOutClick() {
+        const api = getApi();
+        await api.signOut();
         const userManager = getUserManager();
         userManager.signOut();
         await goto('/');

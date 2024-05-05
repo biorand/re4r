@@ -141,6 +141,16 @@ export interface StatsResult {
     userCount: number;
 }
 
+export class BioRandApiError extends Error {
+    statusCode: number;
+
+    constructor(statusCode: number, message?: string) {
+        super(message);
+        this.name = 'BioRandApiError';
+        this.statusCode = statusCode;
+    }
+}
+
 export class BioRandApi {
     private urlBase = "https://api-re4r.biorand.net";
     private authToken?: string;
@@ -167,6 +177,10 @@ export class BioRandApi {
             email,
             code
         });
+    }
+
+    async signOut() {
+        await this.post("auth/signout");
     }
 
     async getUser(id: number | string) {
@@ -253,6 +267,9 @@ export class BioRandApi {
         const baseUrl = this.getUrl(query);
         const url = isGet ? buildUrl(baseUrl, body) : baseUrl;
         const req = await fetch(url, fetchOptions);
+        if (!req.ok) {
+            throw new BioRandApiError(req.status)
+        }
         return await req.json();
     }
 

@@ -19,7 +19,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             _db = db;
         }
 
-        protected async Task<UserDbModel?> GetAuthorizedUserAsync(UserRoleKind minimumRole = UserRoleKind.EarlyAccess)
+        protected string? GetAuthToken()
         {
             var authorization = HttpContext.Request.Headers["Authorization"];
             if (!string.IsNullOrEmpty(authorization))
@@ -31,13 +31,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                     var token = parts[1];
                     if (type == "Bearer")
                     {
-                        var user = await _db.GetUserByToken(token);
-                        if (user != null && user.Role < minimumRole)
-                        {
-                            return null;
-                        }
-                        return user;
+                        return token;
                     }
+                }
+            }
+            return null;
+        }
+
+        private async Task UseAuthToken(string token)
+        {
+            await _db.UseTokenAsync(token);
+        }
+
+        protected async Task<UserDbModel?> GetAuthorizedUserAsync(UserRoleKind minimumRole = UserRoleKind.EarlyAccess)
+        {
+            var token = GetAuthToken();
+            if (token != null)
+            {
+                var user = await _db.GetUserByToken(token);
+                if (user != null && user.Role >= minimumRole)
+                {
+                    await UseAuthToken(token);
+                    return user;
                 }
             }
             return null;

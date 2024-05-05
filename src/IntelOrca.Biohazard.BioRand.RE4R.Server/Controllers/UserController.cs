@@ -112,7 +112,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (oldRole == UserRoleKind.PendingEarlyAccess &&
                 user.Role == UserRoleKind.EarlyAccess)
             {
-                await _emailService.SendEmailAsync(user.Email,
+                await _emailService.SendEmailAsync(user.Name, user.Email,
                     "BioRand 4 - Early Access",
 $@"Dear {user.Name},
 

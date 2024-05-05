@@ -70,7 +70,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             {
                 _logger.Information("Creating user {Name} <{Email}>", email, name);
                 await _db.CreateUserAsync(email, name!);
-                await _emailService.SendEmailAsync(email,
+                await _emailService.SendEmailAsync(name!, email,
                     "BioRand 4 - Early Access",
 $@"Dear {name},
 
@@ -126,7 +126,7 @@ The BioRand Team");
                     _logger.Information("Auth token created for {UserId}[{UserName}]", user.Id, user.Name);
 
                     var code = token.Code.ToString("000000");
-                    await _emailService.SendEmailAsync(email,
+                    await _emailService.SendEmailAsync(user.Name, user.Email,
                         "BioRand 4 - Sign In",
 $@"Dear {user.Name},
 
@@ -189,6 +189,26 @@ The BioRand Team");
                 Email = email,
                 Validation = validationResult
             };
+        }
+
+        [Route(HttpVerbs.Post, "/signout")]
+        public async Task<object> SignOutAsync()
+        {
+            var tokenString = GetAuthToken();
+            if (tokenString == null)
+                return UnauthorizedResult();
+
+            var token = await _db.GetTokenAsync(tokenString);
+            if (token == null)
+                return UnauthorizedResult();
+
+            var user = await _db.GetUserAsync(token.UserId);
+
+            await _db.DeleteTokenAsync(token.Id);
+
+            _logger.Information("User {UserId}[{UserName}] deleted token {TokenId}",
+                user?.Id, user?.Name, token.Id);
+            return EmptyResult();
         }
 
         private static bool IsValidEmailAddress([NotNullWhen(true)] string? email)

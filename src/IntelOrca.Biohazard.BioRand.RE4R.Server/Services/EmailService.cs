@@ -13,11 +13,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
     {
         private readonly ILogger _logger = Log.ForContext<EmailService>();
 
-        public async Task SendEmailAsync(string to, string subject, string body)
+        public async Task SendEmailAsync(string name, string email, string subject, string body)
         {
             if (string.IsNullOrEmpty(config?.From))
                 return;
 
+            var to = $"{name} <{email}>";
             try
             {
                 using var smtpClient = new SmtpClient();

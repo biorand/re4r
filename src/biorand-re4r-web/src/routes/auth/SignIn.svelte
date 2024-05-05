@@ -13,7 +13,7 @@
 
     let emailData: FormInputData = {
         key: 'email',
-        value: 'intelorca@gmail.com'
+        value: ''
     };
     let codeData: FormInputData = {
         key: 'code',

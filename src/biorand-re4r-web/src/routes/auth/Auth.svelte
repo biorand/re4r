@@ -12,8 +12,8 @@
     }
 
     let mode = ModeKind.Menu;
-    let email = 'intelorca@gmail.com';
-    let name = 'IntelOrca';
+    let email = '';
+    let name = '';
     let code = '';
     let errorMessage = '';
     let pending = false;

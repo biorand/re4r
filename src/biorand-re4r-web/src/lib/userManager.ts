@@ -65,11 +65,18 @@ class UserManager {
         try {
             if (this._info) {
                 const api = getApi();
-                const user = await api.getUser(this._info.user.id);
-                this.setSignedIn({
-                    ...this._info,
-                    user: user
-                });
+                try {
+                    const user = await api.getUser(this._info.user.id);
+                    console.log(user);
+                    this.setSignedIn({
+                        ...this._info,
+                        user: user
+                    });
+                } catch (err: any) {
+                    if (err?.statusCode === 401) {
+                        this.signOut();
+                    }
+                }
             }
         }
         catch { }
