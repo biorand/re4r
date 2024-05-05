@@ -135,6 +135,12 @@ export interface GenerateResult {
     downloadUrlMod: string;
 }
 
+export interface StatsResult {
+    randoCount: number;
+    profileCount: number;
+    userCount: number;
+}
+
 export class BioRandApi {
     private urlBase = "https://api-re4r.biorand.net";
     private authToken?: string;
@@ -212,6 +218,10 @@ export class BioRandApi {
 
     async generate(request: GenerateRequest) {
         return await this.post<GenerateResult>("rando/generate", request);
+    }
+
+    async getStats() {
+        return await this.get<StatsResult>("rando/stats");
     }
 
     private async get<T>(query: string, body?: any) {

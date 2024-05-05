@@ -2,7 +2,7 @@
     import { goto } from '$app/navigation';
     import BioRandTitle from '$lib/BioRandTitle.svelte';
     import RoleBadge from '$lib/RoleBadge.svelte';
-    import { UserRole, type User } from '$lib/api';
+    import { UserRole, type StatsResult, type User } from '$lib/api';
     import { getUserManager } from '$lib/userManager';
     import {
         Avatar,
@@ -14,10 +14,13 @@
         NavHamburger,
         NavLi,
         NavUl,
-        Navbar
+        Navbar,
+        Tooltip
     } from 'flowbite-svelte';
+    import { ShuffleOutline } from 'flowbite-svelte-icons';
 
-    export let currentUser: User | undefined = undefined;
+    export let currentUser: User | undefined;
+    export let stats: StatsResult | undefined;
 
     $: role = currentUser?.role || UserRole.Pending;
     $: accountAccessible = role >= UserRole.EarlyAccess && role != UserRole.System;
@@ -34,10 +37,19 @@
     <NavBrand href="/">
         <img src="/assets/umbrella.png" class="me-3 h-6 sm:h-9" alt="BioRand Logo" />
         <BioRandTitle />
+        {#if stats}
+            <div
+                class="inline relative left-3 top-3 px-2 rounded h-6 text-black dark:text-white bg-gray-300 dark:bg-blue-800"
+            >
+                <ShuffleOutline class="w-3 h-3 inline align-top mt-1.5" />
+                <span class="text-sm align-top">{stats.randoCount}</span>
+            </div>
+            <Tooltip placement="bottom">Randomizers generated</Tooltip>
+        {/if}
     </NavBrand>
     {#if currentUser}
         <div class="flex items-center md:order-2">
-            <div class="mr-4">
+            <div class="mr-4 hidden sm:block">
                 <RoleBadge {role} />
             </div>
             <Avatar id="avatar-menu">

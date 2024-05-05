@@ -1,5 +1,6 @@
 <script lang="ts">
-    import type { User } from '$lib/api';
+    import { getApi, type StatsResult, type User } from '$lib/api';
+    import { LocalStorageKeys, getLocalStorageManager } from '$lib/localStorage';
     import { getUserManager } from '$lib/userManager';
     import { Spinner } from 'flowbite-svelte';
     import '../app.pcss';
@@ -14,6 +15,18 @@
         currentUser = userManager.info?.user;
         await userManager.refresh();
     })();
+
+    const lsManager = getLocalStorageManager();
+    let stats = lsManager.get<StatsResult>(LocalStorageKeys.Stats);
+    let refreshStats = async () => {
+        try {
+            const api = getApi();
+            stats = await api.getStats();
+            lsManager.set(LocalStorageKeys.Stats, stats);
+        } catch {}
+    };
+    refreshStats();
+    setInterval(() => refreshStats(), 60000);
 </script>
 
 {#await init}
@@ -21,7 +34,7 @@
         <Spinner class="mx-auto block" />
     </div>
 {:then}
-    <Toolbar {currentUser} />
+    <Toolbar {currentUser} {stats} />
     <div class="min-h-screen flex flex-col">
         <div style="height: 73px;"></div>
         <slot />

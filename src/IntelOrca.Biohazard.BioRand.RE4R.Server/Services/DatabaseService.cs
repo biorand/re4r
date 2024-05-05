@@ -324,6 +324,34 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return rando;
         }
 
+        public async Task UpdateSeedCount(int profileId)
+        {
+            await _conn.ExecuteAsync(
+                @"UPDATE profile
+                     SET SeedCount = (
+                        SELECT COUNT(*) FROM rando
+                        INNER JOIN randoconfig ON ConfigId = randoconfig.Id
+                        WHERE BasedOnProfileId = ?)
+                   WHERE Id = ?",
+                profileId,
+                profileId);
+        }
+
+        public async Task<int> CountRandos()
+        {
+            return await _conn.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM rando");
+        }
+
+        public async Task<int> CountProfiles()
+        {
+            return await _conn.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM rando");
+        }
+
+        public async Task<int> CountUsers()
+        {
+            return await _conn.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM rando");
+        }
+
         public async Task<bool> AdminUserExistsAsync()
         {
             var rows = await _conn.ExecuteScalarAsync<int>(

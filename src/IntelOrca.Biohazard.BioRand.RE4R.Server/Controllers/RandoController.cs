@@ -40,6 +40,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 UserId = user.Id,
                 ConfigId = randoConfig.Id
             });
+            await _db.UpdateSeedCount(request.ProfileId);
 
             var result = await _randomizer.GenerateAsync((ulong)rando.Id, request.Seed, config);
             return new
@@ -49,6 +50,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 seed = result.Seed,
                 downloadUrl = CreateUrl($"rando/{result.Id}/download"),
                 downloadUrlMod = CreateUrl($"rando/{result.Id}/download?mod=true")
+            };
+        }
+
+        [Route(HttpVerbs.Get, "/stats")]
+        public async Task<object> GetStatsAsync()
+        {
+            return new
+            {
+                RandoCount = await _db.CountRandos(),
+                ProfileCount = await _db.CountProfiles(),
+                UserCount = await _db.CountUsers(),
             };
         }
 
