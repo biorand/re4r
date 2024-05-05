@@ -1,0 +1,26 @@
+POST http://localhost:10285/api/auth/register HTTP/1.1
+content-type: application/json
+
+{
+    "email": "intelorca@gmail.com",
+    "name": "IntelOrca"
+}
+
+###
+
+POST http://localhost:10285/api/auth/signin HTTP/1.1
+content-type: application/json
+
+{
+    "email": "intelorca@gmail.com"
+}
+
+###
+
+POST http://localhost:10285/api/auth/signin HTTP/1.1
+content-type: application/json
+
+{
+    "email": "intelorca@gmail.com",
+    "code": 968032
+}

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IntelOrca.Biohazard.BioRand.RE4R {
+namespace IntelOrca.Biohazard.BioRand.RE4R.Server {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IntelOrca.Biohazard.BioRand.RE4R.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IntelOrca.Biohazard.BioRand.RE4R.Server.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -76,14 +76,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R {
         ///&lt;head&gt;
         ///    &lt;meta charset=&quot;utf-8&quot;&gt;
         ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
-        ///    &lt;title&gt;Bootstrap demo&lt;/title&gt;
+        ///    &lt;title&gt;BIORAND for Resident Evil 4&lt;/title&gt;
         ///    &lt;link href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;
         ///          integrity=&quot;sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN&quot; crossorigin=&quot;anonymous&quot;&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
         ///    &lt;div class=&quot;container my-3&quot;&gt;
         ///        &lt;div class=&quot;card&quot;&gt;
-        ///     [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string index {
             get {
@@ -95,19 +95,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R {
         ///   Looks up a localized string similar to (function () {
         ///    const configDefMap = {};
         ///
-        ///    function getConfig() {
-        ///        const config = {};
-        ///        for (key in configDefMap) {
-        ///            const def = configDefMap[key];
-        ///            const el = document.getElementById(`cfg-${key}`);
-        ///            switch (def.type) {
-        ///                case &apos;switch&apos;:
-        ///                    config[key] = el.checked;
-        ///                    break;
-        ///                case &apos;number&apos;:
-        ///                case &apos;range&apos;:
-        ///                    config[key] = parseFloat(el.value);
-        ///     [rest of string was truncated]&quot;;.
+        ///    function loadLocalData(key) {
+        ///        return JSON.parse(localStorage.getItem(key));
+        ///    }
+        ///
+        ///    function saveLocalData(key, value) {
+        ///        return localStorage.setItem(key, JSON.stringify(value));
+        ///    }
+        ///
+        ///    function getApiUrl(url) {
+        ///        var baseUrl = new URL(document.URL).origin;
+        ///        var url = baseUrl + `/api/${url}`;
+        ///        return url;
+        ///    }
+        ///
+        ///    function getConfigDefinition() {
+        ///        return new Promise((resolve, reject) =&gt; {
+        ///            fetch(ge [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string re4rr {
             get {

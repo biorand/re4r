@@ -13,12 +13,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "REE", "src\REE\REE.csproj",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntelOrca.Biohazard.BioRand.RE4R", "src\IntelOrca.Biohazard.BioRand.RE4R\IntelOrca.Biohazard.BioRand.RE4R.csproj", "{CCCDB04C-7D3B-425F-AC0E-C2EEC5A0C7BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelOrca.Biohazard.BioRand.RE4R.Server", "src\IntelOrca.Biohazard.BioRand.RE4R.Server\IntelOrca.Biohazard.BioRand.RE4R.Server.csproj", "{4E5C6C0B-4E9B-44BC-97A1-FF553156562B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2693B039-0FDF-4F19-9B4C-9604BB67B6A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2693B039-0FDF-4F19-9B4C-9604BB67B6A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2693B039-0FDF-4F19-9B4C-9604BB67B6A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2693B039-0FDF-4F19-9B4C-9604BB67B6A6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D7BE368B-A7E9-4A3D-B089-2C11B6A7D13B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7BE368B-A7E9-4A3D-B089-2C11B6A7D13B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7BE368B-A7E9-4A3D-B089-2C11B6A7D13B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,19 +37,20 @@ Global
 		{CCCDB04C-7D3B-425F-AC0E-C2EEC5A0C7BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCCDB04C-7D3B-425F-AC0E-C2EEC5A0C7BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCCDB04C-7D3B-425F-AC0E-C2EEC5A0C7BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2693B039-0FDF-4F19-9B4C-9604BB67B6A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2693B039-0FDF-4F19-9B4C-9604BB67B6A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2693B039-0FDF-4F19-9B4C-9604BB67B6A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2693B039-0FDF-4F19-9B4C-9604BB67B6A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E5C6C0B-4E9B-44BC-97A1-FF553156562B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E5C6C0B-4E9B-44BC-97A1-FF553156562B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E5C6C0B-4E9B-44BC-97A1-FF553156562B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E5C6C0B-4E9B-44BC-97A1-FF553156562B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{2693B039-0FDF-4F19-9B4C-9604BB67B6A6} = {C63AE2CF-8873-4DD8-9E14-01E099F90870}
 		{D7BE368B-A7E9-4A3D-B089-2C11B6A7D13B} = {C63AE2CF-8873-4DD8-9E14-01E099F90870}
 		{94AE718B-F351-49CF-9089-A68B3A0CC5DD} = {C63AE2CF-8873-4DD8-9E14-01E099F90870}
 		{CCCDB04C-7D3B-425F-AC0E-C2EEC5A0C7BB} = {C63AE2CF-8873-4DD8-9E14-01E099F90870}
-		{2693B039-0FDF-4F19-9B4C-9604BB67B6A6} = {C63AE2CF-8873-4DD8-9E14-01E099F90870}
+		{4E5C6C0B-4E9B-44BC-97A1-FF553156562B} = {C63AE2CF-8873-4DD8-9E14-01E099F90870}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5780D5E9-A2CD-4CCE-AF3A-F785EC19D2AB}

@@ -1,17 +1,57 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public class RandomizerConfigurationDefinition
     {
-        public List<Group>? Groups { get; set; }
+        public List<Page> Pages { get; set; } = [];
+
+        [JsonIgnore]
+        public IEnumerable<GroupItem> AllItems
+        {
+            get
+            {
+                foreach (var p in Pages)
+                {
+                    foreach (var g in p.Groups)
+                    {
+                        foreach (var i in g.Items)
+                        {
+                            yield return i;
+                        }
+                    }
+                }
+            }
+        }
+
+        public Page CreatePage(string label)
+        {
+            var result = new Page(label);
+            Pages.Add(result);
+            return result;
+        }
+
+        public class Page(string label)
+        {
+            public string Label { get; set; } = label;
+            public List<Group> Groups { get; set; } = [];
+
+            public Group CreateGroup(string label)
+            {
+                var result = new Group(label);
+                Groups.Add(result);
+                return result;
+            }
+        }
 
         public class Group(string label)
         {
+            public string Label { get; set; } = label;
             public string? Warning { get; set; }
-            public string? Label { get; set; } = label;
-            public List<GroupItem> Items { get; set; } = new List<GroupItem>();
+            public List<GroupItem> Items { get; set; } = [];
         }
 
         public class GroupItem
@@ -32,10 +72,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             var configDefinition = new RandomizerConfigurationDefinition();
 
-            configDefinition.Groups = new List<Group>();
-
-            var generalGroup = new Group("General");
-            generalGroup.Items.Add(new GroupItem()
+            var page = configDefinition.CreatePage("General");
+            var group = page.CreateGroup("");
+            group.Items.Add(new GroupItem()
             {
                 Id = $"enable-autosave-pro",
                 Label = "Professional Autosaves",
@@ -43,7 +82,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"random-enemies",
                 Label = "Random Enemies",
@@ -51,7 +90,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"extra-enemies",
                 Label = "Extra Enemies",
@@ -59,7 +98,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"enemy-custom-health",
                 Label = "Custom Enemy Health",
@@ -67,7 +106,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"random-items",
                 Label = "Random Items",
@@ -75,7 +114,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"preserve-item-models",
                 Label = "Preserve Item Models",
@@ -83,7 +122,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"random-inventory",
                 Label = "Random Inventory",
@@ -91,7 +130,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"random-merchant",
                 Label = "Random Merchant Shop",
@@ -99,7 +138,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"random-merchant-prices",
                 Label = "Random Merchant Prices",
@@ -107,7 +146,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"allow-bonus-items",
                 Label = "Allow Bonus Weapons",
@@ -115,7 +154,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"enemy-multiplier",
                 Label = "Enemy Multiplier",
@@ -126,7 +165,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.05,
                 Default = 1
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"enemy-max-per-stage",
                 Label = "Enemy Max. Per Stage",
@@ -137,7 +176,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 1,
                 Default = 25
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"enemy-variety",
                 Label = "Enemy Variety",
@@ -148,7 +187,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 1,
                 Default = 50
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"enemy-pack-max",
                 Label = "Enemy Max. Pack Size",
@@ -160,7 +199,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 1,
                 Default = 6
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"ammo-quantity",
                 Label = "Ammo Quantity",
@@ -170,7 +209,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.1,
                 Default = 0.5
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"money-drop-min",
                 Label = "Min. Money Drop",
@@ -180,7 +219,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 100,
                 Default = 100
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"money-drop-max",
                 Label = "Max. Money Drop",
@@ -190,7 +229,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 100,
                 Default = 1000
             });
-            generalGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"valuable-drop-ratio",
                 Label = "Valuable Drop Ratio",
@@ -207,10 +246,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             //     Type = "switch",
             //     Default = false
             // });
-            configDefinition.Groups.Add(generalGroup);
 
-            var inventoryGroup = new Group("Inventory");
-            inventoryGroup.Items.Add(new GroupItem()
+            group = page.CreateGroup("Debug");
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"debug-unique-enemy-hp",
+                Label = "Unique Enemy HP",
+                Description = "Gives every single enemy a unique HP value. Used to identify enemies within the game files.",
+                Type = "switch",
+                Default = false
+            });
+
+            page = configDefinition.CreatePage("Inventory");
+            group = page.CreateGroup("Weapons");
+            group.Items.Add(new GroupItem()
             {
                 Id = $"inventory-weapon-primary",
                 Label = "Primary Weapon",
@@ -219,7 +268,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Options = ["random", "handgun", "shotgun", "smg", "rifle", "magnum", "none"],
                 Default = "handgun"
             });
-            inventoryGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"inventory-weapon-secondary",
                 Label = "Secondary Weapon",
@@ -228,23 +277,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Options = ["random", "handgun", "shotgun", "smg", "rifle", "magnum", "none"],
                 Default = "random"
             });
-            configDefinition.Groups.Add(inventoryGroup);
 
-            var debugGroup = new Group("Debug");
-            debugGroup.Items.Add(new GroupItem()
-            {
-                Id = $"debug-unique-enemy-hp",
-                Label = "Unique Enemy HP",
-                Description = "Gives every single enemy a unique HP value. Used to identify enemies within the game files.",
-                Type = "switch",
-                Default = false
-            });
-            configDefinition.Groups.Add(debugGroup);
-
-            var dropGroup = new Group("General Drops");
+            page = configDefinition.CreatePage("Enemies");
+            group = page.CreateGroup("General Drops");
             foreach (var dropKind in DropKinds.Generic)
             {
-                dropGroup.Items.Add(new GroupItem()
+                group.Items.Add(new GroupItem()
                 {
                     Id = $"drop-ratio-{dropKind}",
                     Label = dropKind.Replace("-", " ").ToTitleCase(),
@@ -261,12 +299,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Default = 0.5
                 });
             }
-            configDefinition.Groups.Add(dropGroup);
 
-            var dropValuableGroup = new Group("Valuable Drops");
+            group = page.CreateGroup("Valuable Drops");
             foreach (var dropKind in DropKinds.HighValue)
             {
-                dropValuableGroup.Items.Add(new GroupItem()
+                group.Items.Add(new GroupItem()
                 {
                     Id = $"drop-valuable-{dropKind}",
                     Label = dropKind.Replace("-", " ").ToTitleCase(),
@@ -274,10 +311,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Default = true
                 });
             }
-            configDefinition.Groups.Add(dropValuableGroup);
 
-            var enemyGroup = new Group("Enemies");
-            enemyGroup.Warning = "It is recommended to leave pig, pesanta, u3, and krauser (mutated) at 0 as it currently causes some crashes.";
+            group = page.CreateGroup("Classes");
+            group.Warning = "It is recommended to leave pig, pesanta, u3, and krauser (mutated) at 0 as it currently causes some crashes.";
             foreach (var enemyClass in enemyClassFactory.Classes)
             {
                 var defaultValue = 0.5;
@@ -289,7 +325,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     defaultValue = 0;
                 }
 
-                enemyGroup.Items.Add(new GroupItem()
+                group.Items.Add(new GroupItem()
                 {
                     Id = $"enemy-ratio-{enemyClass.Key}",
                     Label = enemyClass.Name,
@@ -300,11 +336,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Default = defaultValue
                 });
             }
-            configDefinition.Groups.Add(enemyGroup);
 
-            var parasiteGroup = new Group("Parasite");
-            parasiteGroup.Warning = "It is recommended to leave parasite at 0 as it currently causes some crashes.";
-            parasiteGroup.Items.Add(new GroupItem()
+            group = page.CreateGroup("Parasite");
+            group.Warning = "It is recommended to leave parasite at 0 as it currently causes some crashes.";
+            group.Items.Add(new GroupItem()
             {
                 Id = $"parasite-ratio-none",
                 Label = "None",
@@ -315,7 +350,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.01,
                 Default = 0
             });
-            parasiteGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"parasite-ratio-a",
                 Label = "Plaga Guadaña",
@@ -326,7 +361,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.01,
                 Default = 0
             });
-            parasiteGroup.Items.Add(new GroupItem()
+            group.Items.Add(new GroupItem()
             {
                 Id = $"parasite-ratio-b",
                 Label = "Plaga Mandíbula",
@@ -337,12 +372,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.01,
                 Default = 0
             });
-            configDefinition.Groups.Add(parasiteGroup);
 
-            var enemyHealthGroup = new Group("Custom Enemy Health");
+            page = configDefinition.CreatePage("Health");
+            group = page.CreateGroup("");
             foreach (var enemyClass in enemyClassFactory.Classes)
             {
-                enemyHealthGroup.Items.Add(new GroupItem()
+                group.Items.Add(new GroupItem()
                 {
                     Id = $"enemy-health-min-{enemyClass.Key}",
                     Label = $"Min. {enemyClass.Name} HP",
@@ -352,7 +387,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Step = 1,
                     Default = enemyClass.MinHealth
                 });
-                enemyHealthGroup.Items.Add(new GroupItem()
+                group.Items.Add(new GroupItem()
                 {
                     Id = $"enemy-health-max-{enemyClass.Key}",
                     Label = $"Max. {enemyClass.Name} HP",
@@ -363,9 +398,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Default = enemyClass.MaxHealth
                 });
             }
-            configDefinition.Groups.Add(enemyHealthGroup);
 
             return configDefinition;
+        }
+
+        public Dictionary<string, object> GetDefault()
+        {
+            var result = new Dictionary<string, object>();
+            foreach (var item in AllItems)
+            {
+                result[item.Id!] = item.Default!;
+            }
+            return result;
+        }
+
+        public static Dictionary<string, object> AddDefaults(Dictionary<string, object> config)
+        {
+            var defaults = Create(EnemyClassFactory.Default).GetDefault();
+            var result = new Dictionary<string, object>(defaults);
+            foreach (var kvp in config)
+            {
+                result[kvp.Key] = kvp.Value;
+            }
+            return result;
         }
 
         public static Dictionary<string, object> ProcessConfig(string configJson)
