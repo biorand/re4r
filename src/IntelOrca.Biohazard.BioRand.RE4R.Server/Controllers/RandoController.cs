@@ -14,11 +14,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
     {
         private readonly DatabaseService _db;
         private readonly RandomizerService _randomizer;
+        private readonly UrlService _urlService;
 
-        public RandoController(DatabaseService db, RandomizerService randomizer) : base(db)
+        public RandoController(DatabaseService db, RandomizerService randomizer, UrlService urlService) : base(db)
         {
             _db = db;
             _randomizer = randomizer;
+            _urlService = urlService;
         }
 
         [Route(HttpVerbs.Post, "/generate")]
@@ -48,8 +50,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 result = "success",
                 id = result.Id,
                 seed = result.Seed,
-                downloadUrl = CreateUrl($"rando/{result.Id}/download"),
-                downloadUrlMod = CreateUrl($"rando/{result.Id}/download?mod=true")
+                downloadUrl = _urlService.GetApiUrl($"rando/{result.Id}/download"),
+                downloadUrlMod = _urlService.GetApiUrl($"rando/{result.Id}/download?mod=true")
             };
         }
 

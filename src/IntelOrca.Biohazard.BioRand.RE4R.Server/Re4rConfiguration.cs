@@ -7,6 +7,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     public class Re4rConfiguration
     {
         public string? GamePath { get; set; }
+        public UrlConfig? Url { get; set; }
         public DatabaseConfig? Database { get; set; }
         public EmailConfig? Email { get; set; }
         public string[]? Passwords { get; set; }
@@ -39,5 +40,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public int Port { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }
+    }
+
+    public class UrlConfig
+    {
+        public string? Api { get; set; }
+        public string? Web { get; set; }
     }
 }

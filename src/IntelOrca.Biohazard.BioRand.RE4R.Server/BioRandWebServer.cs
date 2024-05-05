@@ -35,6 +35,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
             var randomizerService = new RandomizerService();
             var dbService = await DatabaseService.CreateDefault();
             var emailService = new EmailService(Re4rConfiguration.GetDefault().Email);
+            var urlService = new UrlService(Re4rConfiguration.GetDefault().Url);
 
             await CreateDefaultProfiles(randomizerService, dbService);
 
@@ -45,7 +46,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
                 .WithCors()
                 .WithWebApi("/auth", SerializationCallback, m => m.WithController(() => new AuthController(dbService, emailService)))
                 .WithWebApi("/profile", SerializationCallback, m => m.WithController(() => new ProfileController(dbService)))
-                .WithWebApi("/rando", SerializationCallback, m => m.WithController(() => new RandoController(dbService, randomizerService)))
+                .WithWebApi("/rando", SerializationCallback, m => m.WithController(() => new RandoController(dbService, randomizerService, urlService)))
                 .WithWebApi("/user", SerializationCallback, m => m.WithController(() => new UserController(dbService, emailService)))
                 .WithWebApi("/", SerializationCallback, m => m.WithController(() => new MainController(dbService, randomizerService)))
                 .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));
