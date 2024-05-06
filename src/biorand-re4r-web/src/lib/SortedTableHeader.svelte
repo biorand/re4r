@@ -12,7 +12,7 @@
         order = key ? ctx.getOrder(key) : undefined;
     });
 
-    $: nextOrder = order === 'desc' ? <SortedTableOrder>undefined : 'desc';
+    $: nextOrder = order === 'asc' ? 'desc' : <SortedTableOrder>undefined;
 
     function onSort() {
         if (key) {

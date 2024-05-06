@@ -33,14 +33,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (page <= 0)
                 page = 1;
 
-            var pageCount = 25;
+            var itemsPerPage = 25;
             var descending = "desc".Equals(order, System.StringComparison.InvariantCultureIgnoreCase);
-            var users = await _db.GetUsersAsync(sort, descending, (page - 1) * pageCount, pageCount);
+            var users = await _db.GetUsersAsync(sort, descending, LimitOptions.FromPage(page, itemsPerPage));
             return new
             {
                 Page = page,
-                PageCount = 1,
-                PageResults = users.Select(GetUser).ToArray()
+                PageCount = (users.Total + itemsPerPage - 1) / itemsPerPage,
+                PageResults = users.Results.Select(GetUser).ToArray()
             };
         }
 

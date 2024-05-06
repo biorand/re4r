@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
     import { Pagination } from 'flowbite-svelte';
     import { ChevronLeftOutline, ChevronRightOutline } from 'flowbite-svelte-icons';
 
@@ -22,13 +23,13 @@
 
     function onPrevious() {
         if (page > 1) {
-            window.location.href = href(page - 1);
+            goto(href(page - 1));
         }
     }
 
     function onNext() {
         if (page < pageCount) {
-            window.location.href = href(page + 1);
+            goto(href(page + 1));
         }
     }
 </script>

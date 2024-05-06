@@ -393,7 +393,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return _conn.Table<UserDbModel>().FirstOrDefaultAsync(x => x.NameLowerCase == lowerName);
         }
 
-        public async Task<UserDbModel[]> GetUsersAsync(string sort, bool descending, int skip, int count)
+        public Task<LimitedResult<UserDbModel>> GetUsersAsync(string sort, bool descending, LimitOptions? limitOptions = null)
         {
             var q = _conn.Table<UserDbModel>();
             if (sort != null)
@@ -419,10 +419,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                     };
                 }
             }
-            return await q
-                .Skip(skip)
-                .Take(count)
-                .ToArrayAsync();
+
+            return ExecuteLimitedResult(q, limitOptions);
+        }
+
+        private static async Task<LimitedResult<T>> ExecuteLimitedResult<T>(
+            AsyncTableQuery<T> query,
+            LimitOptions? options) where T : new()
+        {
+            if (options is LimitOptions o)
+            {
+                var total = await query.CountAsync();
+                var results = await query
+                    .Skip(o.Skip)
+                    .Take(o.Limit)
+                    .ToArrayAsync();
+                return new LimitedResult<T>(total, results);
+            }
+            else
+            {
+                var results = await query.ToArrayAsync();
+                return new LimitedResult<T>(results.Length, results);
+            }
         }
 
         public class ExtendedProfileDbModel : ProfileDbModel
@@ -431,5 +449,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             public string Data { get; set; } = "";
             public bool IsStarred { get; set; }
         }
+
+    }
+
+    public readonly struct LimitOptions(int skip, int limit)
+    {
+        public int Skip { get; } = skip;
+        public int Limit { get; } = limit;
+
+        public static LimitOptions FromPage(int page, int itemsPerPage) => new((page - 1) * itemsPerPage, itemsPerPage);
+    }
+
+
+    public sealed class LimitedResult<T>(int total, T[] results)
+    {
+        public int Total { get; } = total;
+        public T[] Results { get; } = results;
     }
 }
