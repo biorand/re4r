@@ -11,10 +11,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private int _uniqueHp;
         private Rng.Table<EnemyClassDefinition>? _allEnemyRngTable;
         private Rng.Table<int>? _parasiteRngTable;
-        private Queue<EnemyClassDefinition> _enemyClassQueue = new Queue<EnemyClassDefinition>();
         private ImmutableArray<EnemyClassDefinition> _allEnemyClasses;
 
-        private Dictionary<int, int> _stageEnemyCount = new Dictionary<int, int>();
+        private Dictionary<int, int> _stageEnemyCount = new();
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
@@ -265,7 +264,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var itemRandomizer = randomizer.ItemRandomizer;
             foreach (var spawn in spawnsLeft)
             {
-                spawn.Enemy.ItemDrop = itemRandomizer.GetNextGeneralDrop(rng);
+                spawn.Enemy.ItemDrop = itemRandomizer.GetNextGeneralDrop("enemy-drop-ratio", rng);
                 logger.LogLine(spawn.Guid, (object?)spawn.Enemy.ItemDrop ?? "(none)");
             }
             logger.Pop();
@@ -508,26 +507,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void RandomizeDrop(ChainsawRandomizer randomizer, Enemy enemy, EnemyClassDefinition ecd, Rng rng)
-        {
-            var repo = ItemDefinitionRepository.Default;
-            if (enemy.ItemDrop is Item drop && !drop.IsAutomatic)
-            {
-                var currentItemId = drop.Id;
-                var itemDef = repo.Find(currentItemId);
-                if (itemDef?.Kind == null || itemDef.Kind == ItemKinds.Key)
-                {
-                    // Don't change the drop for this enemy
-                    return;
-                }
-            }
-
-            if (ecd.Class < 6)
-                enemy.ItemDrop = GetRandomValuableItem(randomizer, enemy, ecd, rng);
-            else
-                enemy.ItemDrop = randomizer.ItemRandomizer.GetRandomDrop(rng);
-        }
-
         private bool IsEnemyRanged(ChainsawRandomizer randomizer, Enemy enemy)
         {
             var weaponDef = randomizer.EnemyClassFactory.Weapons.FirstOrDefault(x => x.Id == enemy.Weapon);
@@ -581,41 +560,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 maxPackSize = ecd.Class;
             maxPackSize = Math.Clamp(maxPackSize, 1, ecd.Class);
             return rng.Next(1, maxPackSize + 1);
-        }
-
-        private Item? GetRandomValuableItem(ChainsawRandomizer randomizer, Enemy enemy, EnemyClassDefinition ecd, Rng rng)
-        {
-            var itemRepo = ItemDefinitionRepository.Default;
-            var kinds = itemRepo.Kinds
-                .Where(x => randomizer.GetConfigOption<bool>($"drop-valuable-{x}"))
-                .ToArray();
-
-            if (kinds.Length == 0)
-                return randomizer.ItemRandomizer.GetRandomDrop(rng);
-
-            var kind = rng.Next(kinds);
-            var itemPool = itemRepo.KindToItemMap[kind];
-
-            var minValue = (10 - ecd.Class) * 800;
-            var maxValue = minValue * 3;
-            if (kind == ItemKinds.Money)
-            {
-                var amount = rng.Next(minValue, maxValue + 1);
-                return new Item(itemPool[0].Id, amount);
-            }
-            else
-            {
-                var filteredItems = itemPool
-                    .Where(x => string.IsNullOrEmpty(x.Mode))
-                    .Where(x => x.Value >= minValue && x.Value <= maxValue)
-                    .ToImmutableArray();
-
-                if (filteredItems.Length == 0)
-                    filteredItems = itemPool;
-
-                var chosenItem = rng.Next(filteredItems);
-                return new Item(chosenItem.Id, 1);
-            }
         }
 
         private static double GetClassRatio(ChainsawRandomizer randomizer, EnemyClassDefinition ecd)

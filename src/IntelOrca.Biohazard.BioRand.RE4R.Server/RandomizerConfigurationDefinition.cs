@@ -156,51 +156,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"enemy-multiplier",
-                Label = "Enemy Multiplier",
-                Description = "Duplicate enemies by this amount. Warning: high values can cause stability issues.",
-                Type = "range",
-                Min = 0.25,
-                Max = 10,
-                Step = 0.05,
-                Default = 1
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"enemy-max-per-stage",
-                Label = "Enemy Max. Per Stage",
-                Description = "How many enemies can appear in each stage by default.",
-                Type = "range",
-                Min = 1,
-                Max = 1000,
-                Step = 1,
-                Default = 25
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"enemy-variety",
-                Label = "Enemy Variety",
-                Description = "Controls how many different enemy types you can have in a single area.",
-                Type = "range",
-                Min = 1,
-                Max = 50,
-                Step = 1,
-                Default = 50
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"enemy-pack-max",
-                Label = "Enemy Max. Pack Size",
-                Description = "Controls the maximum size of an enemy pack." +
-                    "Enemy packs give you groups of similar enemies rather than every individual enemy being a different type.",
-                Type = "range",
-                Min = 1,
-                Max = 10,
-                Step = 1,
-                Default = 6
-            });
-            group.Items.Add(new GroupItem()
-            {
                 Id = $"ammo-quantity",
                 Label = "Ammo Quantity",
                 Type = "range",
@@ -278,13 +233,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Default = "random"
             });
 
-            page = configDefinition.CreatePage("Enemies");
+            page = configDefinition.CreatePage("Items");
             group = page.CreateGroup("General Drops");
             foreach (var dropKind in DropKinds.Generic)
             {
                 group.Items.Add(new GroupItem()
                 {
-                    Id = $"drop-ratio-{dropKind}",
+                    Id = $"item-drop-ratio-{dropKind}",
                     Label = dropKind.Replace("-", " ").ToTitleCase(),
                     Description = dropKind switch
                     {
@@ -305,7 +260,88 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 group.Items.Add(new GroupItem()
                 {
-                    Id = $"drop-valuable-{dropKind}",
+                    Id = $"item-drop-valuable-{dropKind}",
+                    Label = dropKind.Replace("-", " ").ToTitleCase(),
+                    Type = "switch",
+                    Default = true
+                });
+            }
+
+            page = configDefinition.CreatePage("Enemies");
+            group = page.CreateGroup("");
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-multiplier",
+                Label = "Enemy Multiplier",
+                Description = "Duplicate enemies by this amount. Warning: high values can cause stability issues.",
+                Type = "range",
+                Min = 0.25,
+                Max = 10,
+                Step = 0.05,
+                Default = 1
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-max-per-stage",
+                Label = "Enemy Max. Per Stage",
+                Description = "How many enemies can appear in each stage by default.",
+                Type = "range",
+                Min = 1,
+                Max = 1000,
+                Step = 1,
+                Default = 25
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-variety",
+                Label = "Enemy Variety",
+                Description = "Controls how many different enemy types you can have in a single area.",
+                Type = "range",
+                Min = 1,
+                Max = 50,
+                Step = 1,
+                Default = 50
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-pack-max",
+                Label = "Enemy Max. Pack Size",
+                Description = "Controls the maximum size of an enemy pack." +
+                    "Enemy packs give you groups of similar enemies rather than every individual enemy being a different type.",
+                Type = "range",
+                Min = 1,
+                Max = 10,
+                Step = 1,
+                Default = 6
+            });
+
+            group = page.CreateGroup("General Drops");
+            foreach (var dropKind in DropKinds.GenericAll)
+            {
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"enemy-drop-ratio-{dropKind}",
+                    Label = dropKind.Replace("-", " ").ToTitleCase(),
+                    Description = dropKind switch
+                    {
+                        DropKinds.None => "No item is dropped.",
+                        DropKinds.Automatic => "Let the game decide, usually based on DA.",
+                        _ => null
+                    },
+                    Type = "range",
+                    Min = 0,
+                    Max = 1,
+                    Step = 0.01,
+                    Default = 0.5
+                });
+            }
+
+            group = page.CreateGroup("Valuable Drops");
+            foreach (var dropKind in DropKinds.HighValue)
+            {
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"enemy-drop-valuable-{dropKind}",
                     Label = dropKind.Replace("-", " ").ToTitleCase(),
                     Type = "switch",
                     Default = true

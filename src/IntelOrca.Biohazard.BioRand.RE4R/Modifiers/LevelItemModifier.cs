@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using RszTool;
 
@@ -58,7 +56,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("random-items"))
                 return;
 
+            var itemRepo = ItemDefinitionRepository.Default;
             var fileRepository = randomizer.FileRepository;
+            var itemRandomizer = randomizer.ItemRandomizer;
             var chainsawItemData = ChainsawItemData.FromData(fileRepository);
             var rng = randomizer.CreateRng();
 
@@ -77,8 +77,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 foreach (var item in list)
                 {
                     var instance = (RszInstance)item;
-                    var itemData = instance.Get<RszInstance>("ItemData");
-                    if (itemData == null)
+                    var oldItem = GetItem(instance);
+                    if (oldItem == null)
                         continue;
 
                     var contextId = ContextId.FromRsz(instance.Get<RszInstance>("ID")!);
@@ -89,9 +89,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         continue;
                     }
 
-                    var randomItem = RandomizeItem(randomizer, contextId, chainsawItemData, itemData, rng, logger);
-                    if (randomItem != null)
-                        storedItems[contextId] = (Item)randomItem;
+                    var oldItemDef = itemRepo.Find(oldItem.Value.Id);
+                    if (oldItemDef == null || oldItemDef.Kind == ItemKinds.Key)
+                        continue;
+
+                    var randomItem = itemRandomizer.GetNextGeneralDrop("item-drop-ratio", rng);
+                    if (randomItem is Item newItem)
+                    {
+                        storedItems[contextId] = newItem;
+                        UpdateItem(instance, newItem);
+                        logger.LogLine($"{contextId} {oldItem} becomes {newItem}");
+                    }
                 }
                 logger.Pop();
 
@@ -100,134 +108,100 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             if (!randomizer.GetConfigOption<bool>("preserve-item-models"))
             {
-                foreach (var path in _itemFiles)
-                {
-                    var scnFile = fileRepository.GetScnFile(path);
-                    if (scnFile == null)
-                        continue;
-
-                    foreach (var go in scnFile.IterAllGameObjects(true))
-                    {
-                        var itemDrop = go.FindComponent("chainsaw.DropItem");
-                        if (itemDrop == null)
-                            continue;
-
-                        var itemData = itemDrop.Get<RszInstance>("_ItemData");
-                        if (itemData == null)
-                            continue;
-
-                        var contextId = ContextId.FromRsz(itemDrop.Get<RszInstance>("_ID")!);
-                        if (storedItems.TryGetValue(contextId, out var randomItem))
-                        {
-                            itemData.Set("ItemID", randomItem.Id);
-                            itemData.Set("Count", randomItem.Count);
-                            itemData.Set("AmmoItemID", 0);
-                            itemData.Set("AmmoCount", 0);
-                        }
-                    }
-
-                    fileRepository.SetScnFile(path, scnFile);
-                }
+                UpdateItemModels(randomizer, storedItems);
             }
         }
 
-        private static Item? RandomizeItem(
-            ChainsawRandomizer randomizer,
-            ContextId contextId,
-            ChainsawItemData chainsawItemData,
-            RszInstance itemData,
-            Rng rng,
-            RandomizerLogger logger)
+        private void UpdateItem(RszInstance instance, Item newItem)
         {
             var itemRepo = ItemDefinitionRepository.Default;
-            var randomKinds = new[] {
-                ItemKinds.Ammo,
-                ItemKinds.Fish,
-                ItemKinds.Health,
-                ItemKinds.Egg,
-                ItemKinds.Treasure,
-                ItemKinds.Attachment,
-                ItemKinds.Gunpowder,
-                ItemKinds.Resource,
-                ItemKinds.Weapon,
-                ItemKinds.Knife,
-                ItemKinds.Token,
-                ItemKinds.Money,
-                ItemKinds.CaseSize,
-                ItemKinds.CasePerk,
-                ItemKinds.Charm,
-                ItemKinds.Grenade,
-            };
+            var newItemDef = itemRepo.Find(newItem.Id);
+            if (newItemDef == null)
+                return;
 
-            if (contextId == new ContextId(2, 0, 12, 271) ||
-                contextId == new ContextId(2, 0, 12, 272))
+            ItemDefinition? ammoDefinition = null;
+            if (newItemDef.Kind == ItemKinds.Weapon)
             {
-                randomKinds = randomKinds.Except(new[] {
-                    ItemKinds.Weapon,
-                    ItemKinds.Attachment,
-                    ItemKinds.CaseSize,
-                }).ToArray();
+                ammoDefinition = itemRepo.GetAmmo(newItemDef);
             }
 
-            var itemId = itemData.Get<int>("ItemID");
-            var itemCount = itemData.Get<int>("Count");
-            var ammoItemId = itemData.Get<int>("AmmoItemID");
-            var ammoCount = itemData.Get<int>("AmmoCount");
-            var item = itemRepo.Find(itemId);
-            if (item == null)
-                return null;
+            var itemData = instance.Get<RszInstance>("ItemData");
+            if (itemData == null)
+                return;
 
-            if (item.Kind == ItemKinds.Key)
-                return null;
-
-            var randomKind = rng.Next(randomKinds);
-            var allowReoccurance =
-                randomKind != ItemKinds.Weapon &&
-                randomKind != ItemKinds.Attachment &&
-                randomKind != ItemKinds.CasePerk &&
-                randomKind != ItemKinds.CaseSize &&
-                randomKind != ItemKinds.Charm;
-            var newItem = randomizer.ItemRandomizer.GetRandomItemDefinition(rng, randomKind, allowReoccurance: allowReoccurance);
-            if (newItem == null)
-                return null;
-
-            var count = GetRandomItemQuantity(randomizer, newItem, rng);
             itemData.Set("ItemID", newItem.Id);
-            itemData.Set("Count", count);
-            itemData.Set("AmmoItemID", 0);
-            itemData.Set("AmmoCount", 0);
-            if (newItem.Kind == ItemKinds.Weapon)
+            if (ammoDefinition == null)
             {
-                var definitionAmmo = itemRepo.GetAmmo(newItem);
-                if (definitionAmmo != null)
+                itemData.Set("Count", newItem.Count);
+                itemData.Set("AmmoItemID", 0);
+                itemData.Set("AmmoCount", 0);
+            }
+            else
+            {
+                itemData.Set("Count", 1);
+                itemData.Set("AmmoItemID", ammoDefinition.Id);
+                itemData.Set("AmmoCount", newItem.Count);
+            }
+        }
+
+        private void UpdateItemModels(ChainsawRandomizer randomizer, Dictionary<ContextId, Item> storedItems)
+        {
+            var fileRepository = randomizer.FileRepository;
+            foreach (var path in _itemFiles)
+            {
+                var scnFile = fileRepository.GetScnFile(path);
+                if (scnFile == null)
+                    continue;
+
+                foreach (var go in scnFile.IterAllGameObjects(true))
                 {
-                    itemData.Set("AmmoItemID", definitionAmmo.Id);
-                    itemData.Set("AmmoCount", chainsawItemData.GetMaxAmmo(newItem.Id));
+                    var itemDrop = go.FindComponent("chainsaw.DropItem");
+                    if (itemDrop == null)
+                        continue;
+
+                    var itemData = itemDrop.Get<RszInstance>("_ItemData");
+                    if (itemData == null)
+                        continue;
+
+                    var contextId = ContextId.FromRsz(itemDrop.Get<RszInstance>("_ID")!);
+                    if (storedItems.TryGetValue(contextId, out var randomItem))
+                    {
+                        itemData.Set("ItemID", randomItem.Id);
+                        itemData.Set("Count", randomItem.Count);
+                        itemData.Set("AmmoItemID", 0);
+                        itemData.Set("AmmoCount", 0);
+                    }
+                }
+
+                fileRepository.SetScnFile(path, scnFile);
+            }
+        }
+
+        private static Item? GetItem(RszInstance instance)
+        {
+            var itemData = instance.Get<RszInstance>("ItemData");
+            if (itemData == null)
+                return null;
+
+            var itemId = itemData.Get<int>("ItemID");
+
+            var itemRepo = ItemDefinitionRepository.Default;
+            var itemDef = itemRepo.Find(itemId);
+            if (itemDef != null)
+            {
+                if (itemDef.Kind == ItemKinds.Weapon)
+                {
+                    var ammoCount = itemData.Get<int>("AmmoCount");
+                    return new Item(itemId, ammoCount);
+                }
+                else
+                {
+                    var itemCount = itemData.Get<int>("Count");
+                    return new Item(itemId, itemCount);
                 }
             }
 
-            logger.LogLine($"{contextId} {item} x{itemCount} becomes {newItem}");
-            return new Item(newItem.Id, count);
-        }
-
-        private static int GetRandomItemQuantity(ChainsawRandomizer randomizer, ItemDefinition def, Rng rng)
-        {
-            var amount = 1;
-            if (def.Kind == ItemKinds.Money)
-            {
-                var multiplier = randomizer.GetConfigOption<double>("money-quantity");
-                amount = Math.Max(1, (int)(rng.Next(100, 2000) * multiplier));
-            }
-            else if (def.Kind == ItemKinds.Ammo)
-            {
-                var multiplier = randomizer.GetConfigOption<double>("ammo-quantity");
-                amount = Math.Max(1, (int)(rng.Next(10, 50) * multiplier));
-            }
-            else if (def.Kind == ItemKinds.Gunpowder)
-            {
-                amount = Math.Max(1, 10);
-            }
-            return amount;
+            return null;
         }
 
         private static readonly string[] _itemFiles = new string[]

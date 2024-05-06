@@ -9,8 +9,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         private readonly ChainsawRandomizer _randomizer;
         private readonly HashSet<int> _placedItemIds = new HashSet<int>();
         private readonly bool _allowBonusItems;
-        private Rng.Table<string>? _itemRngTable;
-        private EndlessBag<string>? _generalDrops;
+        private readonly Dictionary<string, EndlessBag<string>> _generalDrops = new();
 
         public int[] PlacedItemIds => _placedItemIds.ToArray();
         public ItemDefinition[] PlacedItems => _placedItemIds
@@ -88,12 +87,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return chosen;
         }
 
-        public Item? GetRandomDrop(Rng rng)
-        {
-            var table = GetItemRngTable(rng);
-            return GetRandomDrop(rng, table.Next());
-        }
-
         public Item? GetRandomDrop(Rng rng, string dropKind)
         {
             return dropKind switch
@@ -142,59 +135,44 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             };
         }
 
-        private Rng.Table<string> GetItemRngTable(Rng rng)
+        public Item? GetNextGeneralDrop(string key, Rng rng)
         {
-            if (_itemRngTable == null)
-            {
-                var table = rng.CreateProbabilityTable<string>();
-                foreach (var dropKind in DropKinds.Generic)
-                {
-                    var ratio = _randomizer.GetConfigOption<double>($"drop-ratio-{dropKind}");
-                    if (ratio != 0)
-                    {
-                        table.Add(dropKind, ratio);
-                    }
-                }
-                if (table.IsEmpty)
-                    table.Add(DropKinds.None, 1);
-                _itemRngTable = table;
-            }
-            return _itemRngTable;
-        }
-
-        public Item? GetNextGeneralDrop(Rng rng)
-        {
-            _generalDrops ??= CreateGeneralItemPool(rng);
-            var kind = _generalDrops.Next();
+            var bag = CreateGeneralItemPool(key, rng);
+            var kind = bag.Next();
             return GetRandomDrop(rng, kind);
         }
 
-        public EndlessBag<string> CreateGeneralItemPool(Rng rng)
+        public EndlessBag<string> CreateGeneralItemPool(string key, Rng rng)
         {
-            var ratios = new Dictionary<string, double>();
-            foreach (var dropKind in DropKinds.Generic)
+            if (!_generalDrops.TryGetValue(key, out var result))
             {
-                var ratio = _randomizer.GetConfigOption<double>($"drop-ratio-{dropKind}");
-                if (ratio > 0)
+                var ratios = new Dictionary<string, double>();
+                foreach (var dropKind in DropKinds.GenericAll)
                 {
-                    ratios.Add(dropKind, ratio);
+                    var ratio = _randomizer.GetConfigOption<double>($"{key}-{dropKind}");
+                    if (ratio > 0)
+                    {
+                        ratios.Add(dropKind, ratio);
+                    }
                 }
-            }
-            var smallestRatio = ratios.Min(x => x.Value);
-            foreach (var k in ratios.Keys)
-            {
-                ratios[k] = ratios[k] / smallestRatio;
-            }
+                var smallestRatio = ratios.Min(x => x.Value);
+                foreach (var k in ratios.Keys)
+                {
+                    ratios[k] = ratios[k] / smallestRatio;
+                }
 
-            var pool = new List<string>();
-            foreach (var kvp in ratios)
-            {
-                for (var i = 0; i < kvp.Value; i++)
+                var pool = new List<string>();
+                foreach (var kvp in ratios)
                 {
-                    pool.Add(kvp.Key);
+                    for (var i = 0; i < kvp.Value; i++)
+                    {
+                        pool.Add(kvp.Key);
+                    }
                 }
+                result = new EndlessBag<string>(rng, pool);
+                _generalDrops[key] = result;
             }
-            return new EndlessBag<string>(rng, pool);
+            return result;
         }
 
         public Item? GetRandomItem(Rng rng, string kind, string? classification = null, bool allowReoccurance = false)

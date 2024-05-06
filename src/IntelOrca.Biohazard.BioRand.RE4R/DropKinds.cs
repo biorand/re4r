@@ -46,12 +46,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public const string Weapon = "weapon";
 
         public static ImmutableArray<string> All => _generic.Concat(_highValue).ToImmutableArray();
+        public static ImmutableArray<string> GenericAll => _special.Concat(_generic).ToImmutableArray();
         public static ImmutableArray<string> Generic => _generic.ToImmutableArray();
         public static ImmutableArray<string> HighValue => _highValue.ToImmutableArray();
 
-        private static readonly string[] _generic = [
+        private static readonly string[] _special = [
             None,
             Automatic,
+        ];
+
+        private static readonly string[] _generic = [
             Ammo,
             Fas,
             Fish,
