@@ -135,6 +135,30 @@ export interface GenerateResult {
     downloadUrlMod: string;
 }
 
+export interface RandoHistoryQueryOptions {
+    user?: string;
+    sort?: string;
+    order?: undefined | "asc" | "desc";
+    page?: number;
+}
+
+export type RandoHistoryResult = QueryResult<RandoHistoryItem>;
+
+export interface RandoHistoryItem {
+    id: number;
+    created: number;
+    userId: number;
+    userName: string;
+    userAvatarUrl: string;
+    profileId: number;
+    profileName: string;
+    profileUserId: number;
+    profileUserName: string;
+    version: string;
+    seed: number;
+    config: string;
+}
+
 export interface StatsResult {
     randoCount: number;
     profileCount: number;
@@ -236,6 +260,10 @@ export class BioRandApi {
 
     async getStats() {
         return await this.get<StatsResult>("rando/stats");
+    }
+
+    async getRandoHistory(query: RandoHistoryQueryOptions) {
+        return await this.get<RandoHistoryResult>("rando/history", query);
     }
 
     private async get<T>(query: string, body?: any) {

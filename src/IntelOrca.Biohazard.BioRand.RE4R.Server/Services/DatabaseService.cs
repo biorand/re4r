@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using SQLite;
+using Swan;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 {
@@ -17,6 +20,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
         private DatabaseService(SQLiteAsyncConnection conn)
         {
             _conn = conn;
+        }
+
+        private QueryBuilder<T> BuildQuery<T>(string q, params object[] args) where T : new()
+        {
+            return new QueryBuilder<T>(_conn, q, args);
         }
 
         public static async Task<DatabaseService> CreateDefault()
@@ -335,6 +343,34 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 await _conn.ExecuteAsync("DELETE FROM randoconfig WHERE Id = ?", randoConfigId);
         }
 
+        public Task<LimitedResult<ExtendedRandoDbModel>> GetRandosAsync(
+            int? userId = null,
+            bool onlyShared = false,
+            SortOptions? sortOptions = null,
+            LimitOptions? limitOptions = null)
+        {
+            var q = BuildQuery<ExtendedRandoDbModel>(@"
+                SELECT r.*,
+	                   u.Name as UserName,
+	                   u.Email as UserEmail,
+	                   p.Id as ProfileId,
+	                   p.Name as ProfileName,
+	                   pu.Id as ProfileUserId,
+	                   pu.Name as ProfileUserName,
+	                   c.Data as Config
+                FROM rando as r
+                LEFT JOIN user as u ON r.UserId = u.Id
+                LEFT JOIN randoconfig as c ON r.ConfigId = c.Id
+                LEFT JOIN profile as p ON c.BasedOnProfileId = p.Id
+                LEFT JOIN user as pu ON p.UserId = pu.Id");
+            q.WhereIf("r.UserId = ?", userId);
+            if (onlyShared)
+            {
+                q.Where("u.Flags AND 2");
+            }
+            return q.ExecuteLimitedAsync(sortOptions, limitOptions);
+        }
+
         public async Task<RandoDbModel> CreateRando(RandoDbModel rando)
         {
             await _conn.InsertAsync(rando);
@@ -450,6 +486,31 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             public bool IsStarred { get; set; }
         }
 
+        public class ExtendedRandoDbModel : RandoDbModel
+        {
+            public string? UserName { get; set; }
+            public string? UserEmail { get; set; }
+            public int ProfileId { get; set; }
+            public string? ProfileName { get; set; }
+            public int ProfileUserId { get; set; }
+            public string? ProfileUserName { get; set; }
+            public string? Config { get; set; }
+        }
+    }
+
+    public readonly struct SortOptions(string field, bool descending)
+    {
+        public string Field { get; } = field;
+        public bool Descending { get; } = descending;
+
+        public static SortOptions? FromQuery(string? sort, string? order, params string[] allowed)
+        {
+            if (sort == null) return null;
+            var field = allowed.FirstOrDefault(x => x.Equals(sort, StringComparison.OrdinalIgnoreCase));
+            if (field == null) return null;
+            var desc = "desc".Equals(order, StringComparison.OrdinalIgnoreCase);
+            return new SortOptions(sort, desc);
+        }
     }
 
     public readonly struct LimitOptions(int skip, int limit)
@@ -465,5 +526,74 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
     {
         public int Total { get; } = total;
         public T[] Results { get; } = results;
+    }
+
+    public class QueryBuilder<T> where T : new()
+    {
+        private readonly ISQLiteAsyncConnection _conn;
+        private readonly StringBuilder _sb = new StringBuilder();
+        private readonly List<object> _parameters = new List<object>();
+
+        public QueryBuilder(ISQLiteAsyncConnection conn, string query = "", params object[] parameters)
+        {
+            _conn = conn;
+            Append(query, parameters);
+        }
+
+        public void Append(string query, params object[] parameters)
+        {
+            if (_sb.Length > 0 && _sb[^1] != '\n')
+            {
+                _sb.Append('\n');
+            }
+            _sb.AppendLine(query);
+            _parameters.AddRange(parameters);
+        }
+
+        public void Where(string query, params object[] parameters)
+        {
+            if (!_sb.ToString().Contains("WHERE"))
+                Append($"WHERE {query}", parameters);
+            else
+                Append($"AND {query}", parameters);
+        }
+
+        public void WhereIf(string query, object? parameter)
+        {
+            if (parameter != null)
+            {
+                if (!_sb.ToString().Contains("WHERE"))
+                    Append($"WHERE {query}", parameter);
+                else
+                    Append($"AND {query}", parameter);
+            }
+        }
+
+        public Task<int> CountAsync()
+        {
+            var q = _sb.ToString();
+            var fromIndex = q.IndexOf("FROM");
+            if (fromIndex == -1)
+                throw new Exception("Unable to create count query.");
+            q = $"SELECT COUNT(*) {q[fromIndex..]}";
+            return _conn.ExecuteScalarAsync<int>(q, [.. _parameters]);
+        }
+
+        public async Task<LimitedResult<T>> ExecuteLimitedAsync(SortOptions? sortOptions, LimitOptions? limitOptions)
+        {
+            var total = await CountAsync();
+            if (sortOptions is SortOptions so)
+            {
+                var kind = so.Descending ? "DESC" : "ASC";
+                Append($"ORDER BY {so.Field} {kind}");
+            }
+            if (limitOptions is LimitOptions lo)
+            {
+                Append("LIMIT ?", lo.Limit);
+                Append("OFFSET ?", lo.Skip);
+            }
+            var results = await _conn.QueryAsync<T>(_sb.ToString(), [.. _parameters]);
+            return new LimitedResult<T>(total, [.. results]);
+        }
     }
 }

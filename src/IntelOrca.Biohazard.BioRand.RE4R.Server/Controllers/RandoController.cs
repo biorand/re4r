@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
@@ -8,6 +9,7 @@ using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
 using Serilog;
+using Swan;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
@@ -59,6 +61,64 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 seed = result.Seed,
                 downloadUrl = _urlService.GetApiUrl($"rando/{result.Id}/download"),
                 downloadUrlMod = _urlService.GetApiUrl($"rando/{result.Id}/download?mod=true")
+            };
+        }
+
+        [Route(HttpVerbs.Get, "/history")]
+        public async Task<object> GetHistoryAsync(
+            [QueryField] string? sort = null,
+            [QueryField] string? order = null,
+            [QueryField] string? user = null,
+            [QueryField] int page = 1)
+        {
+            var authorizedUser = await GetAuthorizedUserAsync();
+            if (authorizedUser == null)
+                return UnauthorizedResult();
+
+            var onlyShared = authorizedUser.Role < UserRoleKind.Administrator;
+            int? userId = null;
+            if (user != null)
+            {
+                var filterUser = await _db.GetUserAsync(user);
+                if (filterUser == null)
+                    return NotFoundResult();
+
+                userId = filterUser.Id;
+            }
+
+            if (page < 1)
+                page = 1;
+
+            var itemsPerPage = 25;
+            var randos = await _db.GetRandosAsync(
+                userId,
+                onlyShared,
+                SortOptions.FromQuery(sort, order, "Created"),
+                LimitOptions.FromPage(page, itemsPerPage));
+            return new
+            {
+                Page = page,
+                PageCount = (randos.Total + itemsPerPage - 1) / itemsPerPage,
+                PageResults = randos.Results.Select(GetRando).ToArray()
+            };
+        }
+
+        private object GetRando(DatabaseService.ExtendedRandoDbModel rando)
+        {
+            return new
+            {
+                rando.Id,
+                rando.UserId,
+                rando.UserName,
+                UserAvatarUrl = GetAvatarUrl(rando.UserEmail ?? ""),
+                Created = rando.Created.ToUnixEpochDate(),
+                rando.Version,
+                rando.ProfileId,
+                rando.ProfileName,
+                rando.ProfileUserId,
+                rando.ProfileUserName,
+                rando.Seed,
+                rando.Config
             };
         }
 

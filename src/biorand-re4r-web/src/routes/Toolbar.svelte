@@ -71,6 +71,7 @@
         {#if accountAccessible}
             <NavUl>
                 <NavLi href="/">Generate</NavLi>
+                <NavLi href="/history">History</NavLi>
                 <NavLi href="/profiles">Profiles</NavLi>
                 {#if isAdmin}
                     <NavLi href="/users">Users</NavLi>
