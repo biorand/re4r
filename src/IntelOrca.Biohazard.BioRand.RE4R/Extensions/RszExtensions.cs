@@ -131,6 +131,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
             newGameObject.Folder = null;
             newGameObject.Parent = null;
             newGameObject.Instance!.SetFieldValue("v0", name);
+            newGameObject.Instance!.SetFieldValue("v1", "");
+            newGameObject.Instance!.SetFieldValue("v2", (byte)1);
+            newGameObject.Instance!.SetFieldValue("v3", (byte)1);
+            newGameObject.Instance!.SetFieldValue("v4", -1.0f);
             newGameObject.Components.Clear();
             return newGameObject;
         }
