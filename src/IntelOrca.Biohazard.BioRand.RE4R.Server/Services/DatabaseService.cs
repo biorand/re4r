@@ -206,7 +206,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return [.. result];
         }
 
-        public async Task<ExtendedProfileDbModel[]> GetProfilesAsync(string? query, string? user, int page = 1)
+        public async Task<ExtendedProfileDbModel[]> GetProfilesAsync(int starUserId, string? query, string? user, int page = 1)
         {
             var pageSize = 25;
             var skip = (page - 1) * pageSize;
@@ -217,11 +217,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 LEFT JOIN user AS u ON p.UserId = u.Id
                 LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId
                 WHERE (p.Name LIKE ? OR p.Description LIKE ?)
+                  AND ps.UserId != ?
                   AND p.UserId != ?
                   AND p.Flags & 2
                   AND NOT(p.Flags & 1)";
             parameters.Add($"%{query}%");
             parameters.Add($"%{query}%");
+            parameters.Add(starUserId);
             parameters.Add(SystemUserId);
 
             if (!string.IsNullOrEmpty(user))

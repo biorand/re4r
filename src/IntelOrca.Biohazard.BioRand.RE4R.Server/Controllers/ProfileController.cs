@@ -51,7 +51,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (authorizedUser == null)
                 return UnauthorizedResult();
 
-            var profiles = await _db.GetProfilesAsync(q, user, page);
+            var profiles = await _db.GetProfilesAsync(authorizedUser.Id, q, user, page);
             return new
             {
                 Page = 1,
