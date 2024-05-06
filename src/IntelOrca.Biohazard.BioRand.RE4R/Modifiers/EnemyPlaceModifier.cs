@@ -36,7 +36,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     foreach (var g in extra.Enemies.GroupBy(x => x.Stage))
                     {
-                        var spawnController = CreateSpawnController(scn, "BioRandSpawnController");
+                        var controllerPosition = new Vector3();
+                        if (g.Count() > 0)
+                        {
+                            foreach (var enemyDef in g)
+                            {
+                                controllerPosition.X += enemyDef.X;
+                                controllerPosition.Y += enemyDef.Y;
+                                controllerPosition.Z += enemyDef.Z;
+                            }
+                            controllerPosition.X /= g.Count();
+                            controllerPosition.Y /= g.Count();
+                            controllerPosition.Z /= g.Count();
+                        }
+
+                        var spawnController = CreateSpawnController(scn, "BioRandSpawnController", controllerPosition);
                         if (!string.IsNullOrEmpty(extra.Condition))
                         {
                             spawnController.Components[1].Set("_SpawnCondition._Logic", 0);
@@ -111,7 +125,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return checkFlagInfo;
         }
 
-        private static ScnFile.GameObjectData CreateSpawnController(ScnFile scn, string name)
+        private static ScnFile.GameObjectData CreateSpawnController(ScnFile scn, string name, Vector3 position)
         {
             var newGameObject = scn.CreateGameObject(name);
             newGameObject.Prefab = new ScnFile.PrefabInfo()
@@ -124,7 +138,50 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             characterSpawnControllerComponent.Set("v0", (byte)1);
             characterSpawnControllerComponent.Set("_DifficutyParam", 63U);
             characterSpawnControllerComponent.Set("_GUID", Guid.NewGuid());
+
+            CreateCharacterArea(scn, newGameObject, position);
             return newGameObject;
+        }
+
+        private static RszInstance CreateCharacterArea(ScnFile scn, ScnFile.GameObjectData parent, Vector3 position)
+        {
+            var boxShape = scn.RSZ!.CreateInstance("chainsaw.BoxShape");
+            boxShape.Set("_Shape", new RszTool.via.OBB()
+            {
+                Coord = new RszTool.via.mat4()
+                {
+                    m00 = 1,
+                    m01 = 0,
+                    m02 = 0,
+                    m03 = 0,
+                    m10 = 0,
+                    m11 = 1,
+                    m12 = 0,
+                    m13 = 0,
+                    m20 = 0,
+                    m21 = 0,
+                    m22 = 1,
+                    m23 = 0,
+                    m30 = position.X,
+                    m31 = position.Y,
+                    m32 = position.Z,
+                    m33 = 1,
+                },
+                Extent = new Vector3(54.93218f, 9.113283f, 40.30833f)
+            });
+
+            var collider = scn.RSZ!.CreateInstance("chainsaw.VariableColliderShape");
+            collider.Set("_ColliderShapeType", 4);
+            collider.Set("_ColliderShape", boxShape);
+
+            var areaNode = scn.RSZ!.CreateInstance("chainsaw.CharacterArea.AreaNode");
+            areaNode.Set("_KeyNameHash", 808353594U);
+            areaNode.Set("_Area", new List<object>() { collider });
+
+            var characterAreaComponent = CreateComponent(scn, parent, "chainsaw.CharacterArea");
+            characterAreaComponent.Set("v0", (byte)1);
+            characterAreaComponent.Set("_AreaNodes", new List<object>() { areaNode });
+            return characterAreaComponent;
         }
 
         private ScnFile.GameObjectData CreateEnemy(ScnFile scn, ScnFile.GameObjectData parent, string name, int stageId, Vector3 position, Vector4 rotation, Rng rng, RandomizerLogger logger)
@@ -144,6 +201,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             spawnParam.Set("v0", (byte)1);
             spawnParam.Set("_StageID", stageId);
             spawnParam.Set("_SpawmRadius", 20.0f);
+
+            var areaSetting = scn.RSZ!.CreateInstance("chainsaw.CharacterAreaSetting");
+            areaSetting.Set("_AreaType", 2);
+            areaSetting.Set("_KeyNameHash", 808353594U);
+            spawnParam.Set("_TerritoryAreaSetting", areaSetting);
+
             spawnParam.Set("_ContextID._Group", contextId.Group);
             spawnParam.Set("_ContextID._Index", contextId.Index);
             spawnParam.Set("_RoleType", 3);
