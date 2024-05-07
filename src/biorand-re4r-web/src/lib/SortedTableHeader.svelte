@@ -5,6 +5,7 @@
     import type { SortedTableContext, SortedTableOrder } from './SortedTable.svelte';
 
     export let key: string | undefined = undefined;
+    export let align: 'left' | 'center' | 'right' = 'left';
 
     const ctx = getContext<SortedTableContext<T>>('sorted-table');
     let order: SortedTableOrder;
@@ -21,7 +22,7 @@
     }
 </script>
 
-<TableHeadCell on:click={onSort} class="select-none">
+<TableHeadCell on:click={onSort} class="select-none text-{align}">
     {#if order === 'asc'}
         <CaretDownSolid class="inline w-4 h-4" />
     {:else if order === 'desc'}

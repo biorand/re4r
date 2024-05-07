@@ -65,7 +65,7 @@
                 <SortedTableHeader key="created">Time</SortedTableHeader>
                 <SortedTableHeader>User</SortedTableHeader>
                 <SortedTableHeader>Profile</SortedTableHeader>
-                <SortedTableHeader>Version</SortedTableHeader>
+                <SortedTableHeader align="center">Version</SortedTableHeader>
                 <SortedTableHeader>Seed</SortedTableHeader>
                 <!--
                 <SortedTableHeader></SortedTableHeader>
@@ -80,7 +80,7 @@
                         </div>
                         <div>
                             <a
-                                class="text-blue-400 hover:text-blue-300"
+                                class="text-blue-800 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
                                 href="/history?user={item.userName}">{item.userName}</a
                             >
                         </div>
@@ -88,10 +88,15 @@
                 </TableBodyCell>
                 <TableBodyCell tdClass="p-1"
                     >{item.profileName}
-                    <span class="text-gray-300 text-sm font-light">by {item.profileUserName}</span
+                    <span class="text-gray-700 dark:text-gray-300 text-sm font-light"
+                        >by {item.profileUserName}</span
                     ></TableBodyCell
                 >
-                <TableBodyCell tdClass="p-1 font-mono">{item.version}</TableBodyCell>
+                <TableBodyCell tdClass="p-1 font-mono text-center">
+                    <span class="py-0.5 px-1 rounded text-xs bg-gray-200 dark:bg-gray-600">
+                        {item.version}
+                    </span>
+                </TableBodyCell>
                 <TableBodyCell tdClass="p-1 font-mono">{item.seed}</TableBodyCell>
                 <!--
                 <TableBodyCell tdClass="p-1"
