@@ -6,6 +6,7 @@
     import ConfigControl from './ConfigControl.svelte';
     import GenerateTabPanel from './GenerateTabPanel.svelte';
     import ProfileTabPanel from './ProfileTabPanel.svelte';
+    import RatioBar from './RatioBar.svelte';
 
     export let definition: ConfigDefinition;
     export let profile: ProfileViewModel;
@@ -20,14 +21,14 @@
 </script>
 
 <Tabs tabStyle="pill">
-    <TabItem open title="Generate">
+    <TabItem title="Generate">
         <GenerateTabPanel {profile} />
     </TabItem>
     <TabItem title="Profile">
         <ProfileTabPanel bind:profile />
     </TabItem>
     {#each definition?.pages || [] as p, i}
-        <TabItem title={p.label}>
+        <TabItem open={p.label == 'Items'} title={p.label}>
             {#each p.groups as g}
                 {#if g.label}
                     <h4>{g.label}</h4>
@@ -36,6 +37,9 @@
                     <Alert border color="yellow" class="my-4">
                         <InfoCircleSolid slot="icon" class="w-5 h-5" />{g.warning}
                     </Alert>
+                {/if}
+                {#if g.label === 'General Drops'}
+                    <RatioBar class="my-2" config={profile.config} group={g} />
                 {/if}
                 {#each pairs(g.items) as p}
                     <div class="sm:flex">

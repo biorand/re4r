@@ -59,6 +59,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             public string? Id { get; set; }
             public string? Label { get; set; }
             public string? Description { get; set; }
+            public GroupItemCategory? Category { get; set; }
             public string? Type { get; set; }
             public int? Size { get; set; }
             public double? Min { get; set; }
@@ -66,6 +67,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             public double? Step { get; set; }
             public string[]? Options { get; set; }
             public object? Default { get; set; }
+        }
+
+        public class GroupItemCategory
+        {
+            public string? Label { get; set; }
+            public string? TextColor { get; set; }
+            public string? BackgroundColor { get; set; }
         }
 
         public static RandomizerConfigurationDefinition Create(EnemyClassFactory enemyClassFactory)
@@ -247,6 +255,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                         DropKinds.Automatic => "Let the game decide, usually based on DA.",
                         _ => null
                     },
+                    Category = new GroupItemCategory()
+                    {
+                        Label = DropKinds.GetCategory(dropKind),
+                        BackgroundColor = DropKinds.GetColor(dropKind).BackgroundColor,
+                        TextColor = DropKinds.GetColor(dropKind).TextColor,
+                    },
                     Type = "range",
                     Min = 0,
                     Max = 1,
@@ -327,6 +341,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                         DropKinds.None => "No item is dropped.",
                         DropKinds.Automatic => "Let the game decide, usually based on DA.",
                         _ => null
+                    },
+                    Category = new GroupItemCategory()
+                    {
+                        Label = DropKinds.GetCategory(dropKind),
+                        BackgroundColor = DropKinds.GetColor(dropKind).BackgroundColor,
+                        TextColor = DropKinds.GetColor(dropKind).TextColor,
                     },
                     Type = "range",
                     Min = 0,

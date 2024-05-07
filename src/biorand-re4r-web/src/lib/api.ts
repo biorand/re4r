@@ -96,6 +96,7 @@ export interface ConfigOption {
     id: string;
     label: string;
     description?: string;
+    category?: ConfigOptionCategory;
     type: string;
     size?: number;
     min?: number;
@@ -103,6 +104,12 @@ export interface ConfigOption {
     step?: number;
     options?: string[];
     default?: boolean | number | string;
+}
+
+export interface ConfigOptionCategory {
+    label: string;
+    backgroundColor: string;
+    textColor: string;
 }
 
 export interface ConfigGroup {
