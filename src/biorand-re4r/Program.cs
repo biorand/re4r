@@ -43,11 +43,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var newPak = new PakFileBuilder();
 
             var includeList = new[] {
+                @"natives/stm/_chainsaw/appsystem/inventory/inventorycatalog/.*",
                 @"natives/stm/_chainsaw/appsystem/ui/.*",
+                @"natives/stm/_chainsaw/appsystem/weaponcustom/.*",
                 @"natives/stm/_chainsaw/environment/scene/gimmick/.*",
                 @"natives/stm/_chainsaw/leveldesign/chapter/.*",
-                @"natives/stm/_chainsaw/leveldesign/location/.*",
-                @"natives/stm/_chainsaw/appsystem/inventory/inventorycatalog/.*"
+                @"natives/stm/_chainsaw/leveldesign/location/.*"
             }.Select(x => new Regex(x));
 
             foreach (var path in pakList.Entries)

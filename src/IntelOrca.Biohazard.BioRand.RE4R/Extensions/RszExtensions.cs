@@ -41,17 +41,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
             return null;
         }
 
+        public static int GetLength(this RszInstance instance, string xpath)
+        {
+            var list = GetList(instance, xpath);
+            return list.Count;
+        }
+
+        public static List<T> GetArray<T>(this RszInstance instance, string xpath)
+        {
+            var list = GetList(instance, xpath);
+            return list.Cast<T>().ToList();
+        }
+
         public static List<object?> GetList(this RszInstance instance, string xpath)
         {
             return Get<List<object>?>(instance, xpath)!;
         }
 
-        public static T? Get<T>(this RszInstance instance, string xpath)
+        public static T? Get<T>(this RszInstance instance, string xpath, bool? relaxed = false)
         {
-            return (T?)Get(instance, xpath);
+            return (T?)Get(instance, xpath, relaxed);
         }
 
-        public static object? Get(this RszInstance instance, string xpath)
+        public static object? Get(this RszInstance instance, string xpath, bool? relaxed = false)
         {
             var value = (object?)instance;
             var parts = xpath.Split('.');
@@ -73,7 +85,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
                     var arrayEndIndex = part.IndexOf("]");
                     var szArrayIndex = part[arrayStartIndex..arrayEndIndex];
                     var arrayIndex = int.Parse(szArrayIndex);
-                    value = ((List<object>)value!)[arrayIndex];
+                    var list = (List<object>?)value;
+                    if (list == null || list.Count <= arrayIndex)
+                        return null;
+
+                    value = list[arrayIndex];
                 }
             }
             return value;
