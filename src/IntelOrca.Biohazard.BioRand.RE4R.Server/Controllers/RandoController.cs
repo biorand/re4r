@@ -75,15 +75,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (authorizedUser == null)
                 return UnauthorizedResult();
 
-            var onlyShared = authorizedUser.Role < UserRoleKind.Administrator;
-            int? userId = null;
+            var viewerUserId = authorizedUser.Role < UserRoleKind.Administrator
+                ? authorizedUser.Id
+                : (int?)null;
+            int? filterUserId = null;
             if (user != null)
             {
                 var filterUser = await _db.GetUserAsync(user);
                 if (filterUser == null)
                     return NotFoundResult();
 
-                userId = filterUser.Id;
+                filterUserId = filterUser.Id;
             }
 
             if (page < 1)
@@ -91,8 +93,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
             var itemsPerPage = 25;
             var randos = await _db.GetRandosAsync(
-                userId,
-                onlyShared,
+                filterUserId,
+                viewerUserId,
                 SortOptions.FromQuery(sort, order, "Created"),
                 LimitOptions.FromPage(page, itemsPerPage));
             return new

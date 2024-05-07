@@ -344,8 +344,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
         }
 
         public Task<LimitedResult<ExtendedRandoDbModel>> GetRandosAsync(
-            int? userId = null,
-            bool onlyShared = false,
+            int? filterUserId = null,
+            int? viewerUserId = null,
             SortOptions? sortOptions = null,
             LimitOptions? limitOptions = null)
         {
@@ -363,10 +363,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 LEFT JOIN randoconfig as c ON r.ConfigId = c.Id
                 LEFT JOIN profile as p ON c.BasedOnProfileId = p.Id
                 LEFT JOIN user as pu ON p.UserId = pu.Id");
-            q.WhereIf("r.UserId = ?", userId);
-            if (onlyShared)
+            q.WhereIf("r.UserId = ?", filterUserId);
+            if (viewerUserId != null)
             {
-                q.Where("u.Flags AND 2");
+                q.Where("((u.Flags AND 2) OR u.Id = ?)", viewerUserId.Value);
             }
             return q.ExecuteLimitedAsync(sortOptions, limitOptions);
         }
