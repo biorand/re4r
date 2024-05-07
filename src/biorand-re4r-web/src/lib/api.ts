@@ -1,3 +1,4 @@
+import { LocalStorageKeys, getLocalStorageManager } from "./localStorage";
 import { getUserManager } from "./userManager";
 import { buildUrl } from "./utility";
 
@@ -307,12 +308,16 @@ export class BioRandApi {
 }
 
 export function getApi() {
-    const hostName = document.location.hostname;
-    let apiUrl = 'https://api-re4r.biorand.net';
-    if (hostName === 'localhost') {
-        apiUrl = 'http://localhost:10285';
-    } else if (hostName.indexOf('beta') !== -1) {
-        apiUrl = 'https://beta-api-re4r.biorand.net';
+    const lsManager = getLocalStorageManager();
+    let apiUrl = lsManager.getString(LocalStorageKeys.ApiUrl);
+    if (!apiUrl) {
+        const hostName = document.location.hostname;
+        apiUrl = 'https://api-re4r.biorand.net';
+        if (hostName === 'localhost') {
+            apiUrl = 'http://localhost:10285';
+        } else if (hostName.indexOf('beta') !== -1) {
+            apiUrl = 'https://beta-api-re4r.biorand.net';
+        }
     }
 
     const api = new BioRandApi(apiUrl);

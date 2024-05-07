@@ -1,9 +1,15 @@
 export const LocalStorageKeys = {
+    ApiUrl: 'apiUrl',
     Stats: 'stats',
     UserManager: 'userManager'
 };
 
 class LocalStorageManager {
+    getString(key: string): string | undefined {
+        const result = localStorage.getItem(key);
+        return typeof result === 'string' ? result : undefined;
+    }
+
     get<T>(key: string): T | undefined {
         try {
             const j = localStorage.getItem(key);
