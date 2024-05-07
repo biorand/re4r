@@ -3,12 +3,14 @@
     import SortedTable, { type SortedTableData } from '$lib/SortedTable.svelte';
     import SortedTableHeader from '$lib/SortedTableHeader.svelte';
     import Timestamp from '$lib/Timestamp.svelte';
+    import { UserProfileManager } from '$lib/UserProfileManager';
     import {
         getApi,
         type RandoHistoryItem,
         type RandoHistoryQueryOptions,
         type RandoHistoryResult
     } from '$lib/api';
+    import { getUserManager } from '$lib/userManager';
     import { buildUrl, getLocation, tryParseInt } from '$lib/utility';
     import { Avatar, TableBodyCell, TableBodyRow, TableHead } from 'flowbite-svelte';
     import { readable } from 'svelte/store';
@@ -39,6 +41,28 @@
         };
     });
 
+    function loadConfig(item: RandoHistoryItem) {
+        const userManager = getUserManager();
+        const profileManager = new UserProfileManager(api, userManager.info?.user.id || 0);
+        profileManager.loadProfile({
+            id: 0,
+            name: item.profileName,
+            description: '',
+            config: JSON.parse(item.config),
+            userId: userManager.info?.user.id || 0,
+            userName: userManager.info?.user.name || '',
+            public: false,
+            starCount: 0,
+            seedCount: 0,
+
+            category: 'Personal',
+            originalId: item.profileId,
+            isModified: true,
+            isSelected: true,
+            isOwner: true
+        });
+    }
+
     function sortTable(e: any) {
         const url = getSearchUrl({ ...searchInput, sort: e.detail.sort, order: e.detail.order });
         window.history.replaceState({}, '', url);
@@ -67,9 +91,7 @@
                 <SortedTableHeader>Profile</SortedTableHeader>
                 <SortedTableHeader align="center">Version</SortedTableHeader>
                 <SortedTableHeader>Seed</SortedTableHeader>
-                <!--
                 <SortedTableHeader></SortedTableHeader>
-                -->
             </TableHead>
             <TableBodyRow class="text-base font-semibold">
                 <TableBodyCell tdClass="p-1"><Timestamp value={item.created} /></TableBodyCell>
@@ -98,12 +120,13 @@
                     </span>
                 </TableBodyCell>
                 <TableBodyCell tdClass="p-1 font-mono">{item.seed}</TableBodyCell>
-                <!--
                 <TableBodyCell tdClass="p-1"
-                    ><a href="/" class="text-blue-400 hover:text-blue-300">Generate</a
+                    ><a
+                        on:click={() => loadConfig(item)}
+                        href="/"
+                        class="text-blue-400 hover:text-blue-300">Generate</a
                     ></TableBodyCell
                 >
-                -->
             </TableBodyRow>
         </SortedTable>
         <BioRandPagination

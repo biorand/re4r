@@ -1,7 +1,8 @@
 export const LocalStorageKeys = {
     ApiUrl: 'apiUrl',
     Stats: 'stats',
-    UserManager: 'userManager'
+    UserManager: 'userManager',
+    UserProfileManager: 'userProfileManager'
 };
 
 class LocalStorageManager {
@@ -21,10 +22,14 @@ class LocalStorageManager {
         return undefined;
     }
 
-    set<T extends object>(key: string, value: T) {
+    set<T extends object>(key: string, value: T | undefined) {
         try {
-            const j = JSON.stringify(value);
-            localStorage.setItem(key, j);
+            if (value) {
+                const j = JSON.stringify(value);
+                localStorage.setItem(key, j);
+            } else {
+                localStorage.removeItem(key);
+            }
         } catch {
         }
     }

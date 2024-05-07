@@ -1,5 +1,6 @@
 import { derived, get, writable, type Writable } from "svelte/store";
 import type { BioRandApi, Config, Profile } from "./api";
+import { LocalStorageKeys, getLocalStorageManager } from "./localStorage";
 import { groupBy, objectEquals, replaceBy } from "./utility";
 
 export type ProfileCategory = 'Personal' | 'Official' | 'Community';
@@ -30,6 +31,11 @@ export interface ProfileViewModel {
     onDuplicate?: VoidFunction;
     onDelete?: VoidFunction;
     onRemove?: VoidFunction;
+}
+
+interface UserProfileManagerStore {
+    modifiedProfile?: ProfileViewModel;
+    selectedProfileId?: number;
 }
 
 export class UserProfileManager {
@@ -121,6 +127,11 @@ export class UserProfileManager {
         this.readStorage();
     }
 
+    loadProfile(profile: ProfileViewModel) {
+        this.selectedProfile.set(profile);
+        this.saveStorage();
+    }
+
     private toProfileViewModel(profile: Profile) {
         const category = this.getCategory(profile);
         const result = <ProfileViewModel>{
@@ -167,26 +178,27 @@ export class UserProfileManager {
     }
 
     private readStorage() {
-        const json = localStorage.getItem('userProfileManager');
-        if (json) {
-            const storage = JSON.parse(json);
+        const lsManager = getLocalStorageManager();
+        const storage = lsManager.get<UserProfileManagerStore>(LocalStorageKeys.UserProfileManager);
+        if (storage) {
             if (storage.modifiedProfile) {
                 this.selectedProfile.set(storage.modifiedProfile);
-            } else {
+            } else if (typeof storage.selectedProfileId === 'number') {
                 this.selectProfileId(storage.selectedProfileId);
             }
         }
     }
 
     private saveStorage() {
+        const lsManager = getLocalStorageManager();
         const selectedProfile = get(this.selectedProfile);
-        localStorage.setItem('userProfileManager', JSON.stringify({
+        lsManager.set<UserProfileManagerStore>(LocalStorageKeys.UserProfileManager, {
             selectedProfileId: selectedProfile?.id,
             modifiedProfile: selectedProfile?.isModified ? selectedProfile : undefined
-        }));
+        });
     }
 
-    async save(profile: ProfileViewModel) {
+    private async save(profile: ProfileViewModel) {
         const p = <Profile>{
             id: profile.id,
             name: profile.name,
@@ -211,7 +223,7 @@ export class UserProfileManager {
         this.selectProfileId(newProfileView.id);
     }
 
-    duplicate(profile: ProfileViewModel) {
+    private duplicate(profile: ProfileViewModel) {
         const newProfile = <ProfileViewModel>{
             ...profile,
             id: 0,
@@ -225,14 +237,14 @@ export class UserProfileManager {
         this.selectedProfile.set(newProfile);
     }
 
-    async remove(profile: ProfileViewModel) {
+    private async remove(profile: ProfileViewModel) {
         await this.api.setProfileStar(profile.id, false);
         this._downloadedProfiles = this._downloadedProfiles.filter(p => p.id !== profile.id);
         this.updateProfileList();
         this.selectDefaultProfile();
     }
 
-    async delete(profile: ProfileViewModel) {
+    private async delete(profile: ProfileViewModel) {
         await this.api.deleteProfile(profile.id);
         this._downloadedProfiles = this._downloadedProfiles.filter(p => p.id !== profile.id);
         this.updateProfileList();

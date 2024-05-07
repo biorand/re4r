@@ -1,5 +1,5 @@
 import { getApi, type UserAuthInfo } from "./api";
-import { LocalStorageKeys } from "./localStorage";
+import { LocalStorageKeys, getLocalStorageManager } from "./localStorage";
 
 class Notifier<T extends (...args: any[]) => void> {
     subscribers: T[];
@@ -28,21 +28,13 @@ class UserManager {
     }
 
     constructor() {
-        try {
-            const j = localStorage.getItem(LocalStorageKeys.UserManager);
-            if (j) {
-                this._info = JSON.parse(j);
-            }
-        } catch {
-            this._info = undefined;
-        }
+        const lsManager = getLocalStorageManager();
+        this._info = lsManager.get(LocalStorageKeys.UserManager);
     }
 
     saveToLocalStorage() {
-        if (this._info)
-            localStorage.setItem(LocalStorageKeys.UserManager, JSON.stringify(this._info));
-        else
-            localStorage.removeItem(LocalStorageKeys.UserManager);
+        const lsManager = getLocalStorageManager();
+        lsManager.set(LocalStorageKeys.UserManager, this._info);
     }
 
     isSignedIn() {
@@ -67,7 +59,6 @@ class UserManager {
                 const api = getApi();
                 try {
                     const user = await api.getUser(this._info.user.id);
-                    console.log(user);
                     this.setSignedIn({
                         ...this._info,
                         user: user
