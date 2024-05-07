@@ -225,7 +225,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 LEFT JOIN user AS u ON p.UserId = u.Id
                 LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId
                 WHERE (p.Name LIKE ? OR p.Description LIKE ?)
-                  AND ps.UserId != ?
+                  AND ps.UserId = ?
                   AND p.UserId != ?
                   AND p.Flags & 2
                   AND NOT(p.Flags & 1)";
@@ -366,7 +366,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             q.WhereIf("r.UserId = ?", filterUserId);
             if (viewerUserId != null)
             {
-                q.Where("((u.Flags AND 2) OR u.Id = ?)", viewerUserId.Value);
+                q.Where("((u.Flags & 1) OR u.Id = ?)", viewerUserId.Value);
             }
             return q.ExecuteLimitedAsync(sortOptions, limitOptions);
         }
