@@ -223,15 +223,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 SELECT p.*, u.Name as UserName, IIF(ps.ProfileId, 1, 0) AS IsStarred
                 FROM profile AS p
                 LEFT JOIN user AS u ON p.UserId = u.Id
-                LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId
+                LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId AND ps.UserId = ?
                 WHERE (p.Name LIKE ? OR p.Description LIKE ?)
-                  AND ps.UserId = ?
                   AND p.UserId != ?
                   AND p.Flags & 2
                   AND NOT(p.Flags & 1)";
-            parameters.Add($"%{query}%");
-            parameters.Add($"%{query}%");
             parameters.Add(starUserId);
+            parameters.Add($"%{query}%");
+            parameters.Add($"%{query}%");
             parameters.Add(SystemUserId);
 
             if (!string.IsNullOrEmpty(user))
