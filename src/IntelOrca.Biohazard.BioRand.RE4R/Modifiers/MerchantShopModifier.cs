@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -562,25 +563,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (randomizer.GetConfigOption<bool>("random-merchant-prices"))
                     {
                         var priceMultiplier = _priceRng.NextDouble(0.25, 2);
-                        item.BuyPrice = RoundPrice(item.BuyPrice * priceMultiplier);
-                        item.SellPrice = RoundPrice(item.SellPrice * priceMultiplier);
+                        item.BuyPrice = (item.BuyPrice * priceMultiplier).RoundPrice();
+                        item.SellPrice = (item.SellPrice * priceMultiplier).RoundPrice();
                     }
                 }
-            }
-
-            private static int RoundPrice(double value)
-            {
-                if (value >= 100000)
-                    return (int)(value / 100000) * 100000;
-                if (value >= 10000)
-                    return (int)(value / 10000) * 10000;
-                if (value >= 1000)
-                    return (int)(value / 1000) * 1000;
-                if (value >= 100)
-                    return (int)(value / 100) * 100;
-                if (value >= 10)
-                    return (int)(value / 10) * 10;
-                return (int)value;
             }
 
             private class AvailableItem(ItemDefinition itemDefinition)

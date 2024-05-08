@@ -28,6 +28,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return _random.NextDouble();
         }
 
+        public float NextFloat() => NextFloat(0, 1);
+
+        public float NextFloat(float min, float max)
+        {
+            return (float)NextDouble(min, max);
+        }
+
         public double NextDouble(double min, double max)
         {
             if (max <= min)

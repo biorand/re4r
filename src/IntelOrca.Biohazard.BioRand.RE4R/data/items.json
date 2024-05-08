@@ -1366,141 +1366,162 @@
       "kind": "weapon",
       "id": 274835456,
       "size": "3x2",
-      "class": "handgun"
+      "class": "handgun",
+      "weaponId": 4000
     },
     {
       "name": "Punisher",
       "kind": "weapon",
       "id": 274837056,
       "size": "3x2",
-      "class": "handgun"
+      "class": "handgun",
+      "weaponId": 4001
     },
     {
       "name": "Red9",
       "kind": "weapon",
       "id": 274838656,
       "size": "3x2",
-      "class": "handgun"
+      "class": "handgun",
+      "weaponId": 4002
     },
     {
       "name": "Blacktail",
       "kind": "weapon",
       "id": 274840256,
       "size": "2x2",
-      "class": "handgun"
+      "class": "handgun",
+      "weaponId": 4003
     },
     {
       "name": "Matilda",
       "kind": "weapon",
       "id": 274841856,
       "size": "3x2",
-      "class": "handgun"
+      "class": "handgun",
+      "weaponId": 4004
     },
     {
       "name": "Minecart Handgun",
       "kind": "weapon",
       "id": 274843456,
       "mode": "disabled",
-      "class": "handgun"
+      "class": "handgun",
+      "weaponId": 4005
     },
     {
       "name": "W-870",
       "kind": "weapon",
       "id": 274995456,
       "size": "8x2",
-      "class": "shotgun"
+      "class": "shotgun",
+      "weaponId": 4100
     },
     {
       "name": "Riot Gun",
       "kind": "weapon",
       "id": 274997056,
       "size": "8x2",
-      "class": "shotgun"
+      "class": "shotgun",
+      "weaponId": 4101
     },
     {
       "name": "Striker",
       "kind": "weapon",
       "id": 274998656,
       "size": "4x2",
-      "class": "shotgun"
+      "class": "shotgun",
+      "weaponId": 4102
     },
     {
       "name": "TMP",
       "kind": "weapon",
       "id": 275155456,
       "size": "3x2",
-      "class": "smg"
+      "class": "smg",
+      "weaponId": 4200
     },
     {
       "name": "Chicago Sweeper",
       "kind": "weapon",
       "id": 275157056,
       "class": "smg",
-      "bonus": true
+      "bonus": true,
+      "weaponId": 4201
     },
     {
       "name": "LE 5",
       "kind": "weapon",
       "id": 275158656,
       "size": "6x2",
-      "class": "smg"
+      "class": "smg",
+      "weaponId": 4202
     },
     {
       "name": "SR M1903",
       "kind": "weapon",
       "id": 275475456,
       "size": "9x1",
-      "class": "rifle"
+      "class": "rifle",
+      "weaponId": 4400
     },
     {
       "name": "Stingray",
       "kind": "weapon",
       "id": 275477056,
       "size": "7x2",
-      "class": "rifle"
+      "class": "rifle",
+      "weaponId": 4401
     },
     {
       "name": "CQBR Assault Rifle",
       "kind": "weapon",
       "id": 275478656,
       "size": "7x2",
-      "class": "rifle"
+      "class": "rifle",
+      "weaponId": 4402
     },
     {
       "name": "Broken Butterfly",
       "kind": "weapon",
       "id": 275635456,
       "size": "3x2",
-      "class": "magnum"
+      "class": "magnum",
+      "weaponId": 4500
     },
     {
       "name": "Killer7",
       "kind": "weapon",
       "id": 275637056,
       "size": "3x2",
-      "class": "magnum"
+      "class": "magnum",
+      "weaponId": 4501
     },
     {
       "name": "Handcannon",
       "kind": "weapon",
       "id": 275638656,
       "class": "magnum",
-      "bonus": true
+      "bonus": true,
+      "weaponId": 4502
     },
     {
       "name": "Bolt Thrower",
       "kind": "weapon",
       "id": 275795456,
       "size": "4x2",
-      "class": "special"
+      "class": "special",
+      "weaponId": 4600
     },
     {
       "name": "it_wp4600_10_0",
-      "id": 275795616
+      "id": 275795616,
+      "weaponId": 4701
     },
     {
       "name": "it_wp4701_00_0",
-      "id": 275957056
+      "id": 275957056,
+      "weaponId": 4702
     },
     {
       "name": "it_wp4702_00_0",
@@ -1508,11 +1529,13 @@
     },
     {
       "name": "it_wp4800_00_0",
-      "id": 276115456
+      "id": 276115456,
+      "weaponId": 4800
     },
     {
       "name": "it_wp4801_00_0",
-      "id": 276117056
+      "id": 276117056,
+      "weaponId": 4801
     },
     {
       "name": "Rocket Launcher",
@@ -1520,158 +1543,188 @@
       "id": 276275456,
       "mode": "disabled",
       "size": "8x2",
-      "class": "special"
+      "class": "special",
+      "weaponId": 4900
     },
     {
       "name": "Special Rocket Launcher",
       "kind": "weapon",
       "id": 276277056,
       "mode": "disabled",
-      "class": "special"
+      "class": "special",
+      "weaponId": 4901
     },
     {
       "name": "Infinite Rocket Launcher",
       "kind": "weapon",
       "id": 276278656,
       "mode": "disabled",
-      "class": "special"
+      "class": "special",
+      "weaponId": 4902
     },
     {
       "name": "Combat Knife",
       "kind": "weapon",
       "id": 276435456,
       "size": "1x3",
-      "class": "knife"
+      "class": "knife",
+      "weaponId": 5000
     },
     {
       "name": "Fighting Knife",
       "kind": "weapon",
       "id": 276437056,
       "size": "1x4",
-      "class": "knife"
+      "class": "knife",
+      "weaponId": 5001
     },
     {
       "name": "Kitchen Knife",
       "kind": "knife",
-      "id": 276438656
+      "id": 276438656,
+      "weaponId": 5002
     },
     {
       "name": "Boot Knife",
       "kind": "knife",
-      "id": 276440256
+      "id": 276440256,
+      "weaponId": 5003
     },
     {
       "name": "it_wp5004_00_0",
-      "id": 276441856
+      "id": 276441856,
+      "weaponId": 5004
     },
     {
       "name": "it_wp5005_00_0",
-      "id": 276443456
+      "id": 276443456,
+      "weaponId": 5005
     },
     {
       "name": "Primal Knife",
       "kind": "weapon",
       "id": 276445056,
       "class": "knife",
-      "bonus": true
+      "bonus": true,
+      "weaponId": 5006
     },
     {
       "name": "it_wp5300_00_0",
-      "id": 276915456
+      "id": 276915456,
+      "weaponId": 5300
     },
     {
       "name": "it_wp5301_00_0",
-      "id": 276917056
+      "id": 276917056,
+      "weaponId": 5301
     },
     {
       "name": "it_wp5302_00_0",
-      "id": 276918656
+      "id": 276918656,
+      "weaponId": 5302
     },
     {
       "name": "Hand Grenade",
       "kind": "grenade",
-      "id": 277075456
+      "id": 277075456,
+      "weaponId": 5400
     },
     {
       "name": "Heavy Grenade",
       "kind": "grenade",
-      "id": 277077056
+      "id": 277077056,
+      "weaponId": 5401
     },
     {
       "name": "Flash Grenade",
       "kind": "grenade",
-      "id": 277078656
+      "id": 277078656,
+      "weaponId": 5402
     },
     {
       "name": "Chicken Egg",
       "kind": "egg",
-      "id": 277080256
+      "id": 277080256,
+      "weaponId": 5403
     },
     {
       "name": "Brown Chicken Egg",
       "kind": "egg",
-      "id": 277081856
+      "id": 277081856,
+      "weaponId": 5404
     },
     {
       "name": "Gold Chicken Egg",
       "kind": "egg",
-      "id": 277083456
+      "id": 277083456,
+      "weaponId": 5405
     },
     {
       "name": "it_wp5406_00_0",
-      "id": 277085056
+      "id": 277085056,
+      "weaponId": 5406
     },
     {
       "name": "it_wp5407_00_0",
-      "id": 277086656
+      "id": 277086656,
+      "weaponId": 5407
     },
     {
       "name": "it_wp5408_00_0",
-      "id": 277088256
+      "id": 277088256,
+      "weaponId": 5408
     },
     {
       "name": "it_wp5500_00_0",
-      "id": 277235456
+      "id": 277235456,
+      "weaponId": 5500
     },
     {
       "name": "it_wp5501_00_0",
-      "id": 277237056
+      "id": 277237056,
+      "weaponId": 5501
     },
     {
       "name": "it_wp5502_00_0",
-      "id": 277238656
+      "id": 277238656,
+      "weaponId": 5502
     },
     {
       "name": "Sentinel Nine",
       "kind": "weapon",
       "id": 278035456,
       "size": "3x2",
-      "bonus": true
+      "bonus": true,
+      "weaponId": 6000
     },
     {
       "name": "Skull Shaker",
       "kind": "weapon",
       "id": 278037056,
       "size": "5x1",
-      "bonus": true
+      "bonus": true,
+      "weaponId": 6001
     },
     {
       "name": "SW - Sawed-off W-870",
       "kind": "weapon",
       "mode": "sw",
-      "id": 278195456
+      "id": 278195456,
+      "weaponId": 6100
     },
     {
       "name": "SW - Chicago Sweeper",
       "kind": "weapon",
       "mode": "sw",
-      "id": 278197056
+      "id": 278197056,
+      "weaponId": 6101
     },
     {
       "name": "SW - Blast Crossbow",
       "kind": "weapon",
       "mode": "sw",
-      "id": 278198656
+      "id": 278198656,
+      "weaponId": 6102
     },
     {
       "name": "it_wp6102_10_0",
@@ -1681,81 +1734,96 @@
       "name": "SW - Blacktail AC",
       "kind": "weapon",
       "mode": "sw",
-      "id": 278200256
+      "id": 278200256,
+      "weaponId": 6103
     },
     {
       "name": "SW - TMP",
       "kind": "weapon",
       "mode": "sw",
-      "id": 278201856
+      "id": 278201856,
+      "weaponId": 6104
     },
     {
       "name": "SW - Stingray",
       "kind": "weapon",
       "mode": "sw",
-      "id": 278203456
+      "id": 278203456,
+      "weaponId": 6105
     },
     {
       "name": "SW - Rocket Launcher",
       "kind": "weapon",
       "mode": "sw",
-      "id": 278205056
+      "id": 278205056,
+      "weaponId": 6106
     },
     {
       "name": "SW - Tactical Knife",
       "kind": "weapon",
       "mode": "sw",
-      "id": 278206656
+      "id": 278206656,
+      "weaponId": 6107
     },
     {
       "name": "SW - Elite Knife",
       "kind": "weapon",
       "mode": "sw",
-      "id": 278208256
+      "id": 278208256,
+      "weaponId": 6108
     },
     {
       "name": "it_wp6109_00_0",
-      "id": 278209856
+      "id": 278209856,
+      "weaponId": 6109
     },
     {
       "name": "SW - Infinite Rocket Launcher",
       "kind": "weapon",
       "mode": "sw",
-      "id": 278213056
+      "id": 278213056,
+      "weaponId": 6111
     },
     {
       "name": "SW - Punisher MC",
       "kind": "weapon",
       "mode": "sw",
-      "id": 278214656
+      "id": 278214656,
+      "weaponId": 6112
     },
     {
       "name": "SW - Red9",
       "kind": "weapon",
       "mode": "sw",
-      "id": 278216256
+      "id": 278216256,
+      "weaponId": 6113
     },
     {
       "name": "SW - SR M1903",
       "kind": "weapon",
       "mode": "sw",
-      "id": 278217856
+      "id": 278217856,
+      "weaponId": 6114
     },
     {
       "name": "it_wp6300_00_0",
-      "id": 278515456
+      "id": 278515456,
+      "weaponId": 6300
     },
     {
       "name": "it_wp6301_00_0",
-      "id": 278517056
+      "id": 278517056,
+      "weaponId": 6301
     },
     {
       "name": "it_wp6302_00_0",
-      "id": 278518656
+      "id": 278518656,
+      "weaponId": 6302
     },
     {
       "name": "it_wp6303_00_0",
-      "id": 278520256
+      "id": 278520256,
+      "weaponId": 6303
     },
     {
       "name": "it_wp6303_10_0",
@@ -1765,7 +1833,8 @@
       "name": "Mercenaries Krauser's bow",
       "kind": "weapon",
       "id": 278521856,
-      "mode": "mercenaries"
+      "mode": "mercenaries",
+      "weaponId": 6304
     },
     {
       "name": "it_wp6304_10_0",
@@ -1773,7 +1842,8 @@
     },
     {
       "name": "it_wp6305_00_0",
-      "id": 278523456
+      "id": 278523456,
+      "weaponId": 6305
     }
   ]
 }

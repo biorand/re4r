@@ -15,6 +15,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             ImmutableDictionary<string, ImmutableArray<ItemDefinition>>.Empty;
         public ImmutableDictionary<int, ItemDefinition> IdToItemMap { get; private set; } =
             ImmutableDictionary<int, ItemDefinition>.Empty;
+        public ImmutableDictionary<int, ItemDefinition> WeaponIdToItemMap { get; private set; } =
+            ImmutableDictionary<int, ItemDefinition>.Empty;
 
         public static ItemDefinitionRepository Default
         {
@@ -44,6 +46,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 .GroupBy(x => x.Kind!)
                 .ToImmutableDictionary(x => x.Key, x => x.ToImmutableArray());
             IdToItemMap = Items.ToImmutableDictionary(x => x.Id);
+            WeaponIdToItemMap = Items
+                .Where(x => x.WeaponId != null)
+                .ToImmutableDictionary(x => x.WeaponId!.Value);
         }
 
         public ItemDefinition? Find(int id)
@@ -55,6 +60,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public string GetName(int id)
         {
             return Find(id)?.Name ?? id.ToString();
+        }
+
+        public ItemDefinition? FromWeaponId(int id)
+        {
+            WeaponIdToItemMap.TryGetValue(id, out var item);
+            return item;
         }
 
         public ItemDefinition[] GetAll(string kind, string? classification = null)

@@ -140,22 +140,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"random-merchant",
-                Label = "Random Merchant Shop",
-                Description = "Let Biorand randomize the merchant's shop.",
-                Type = "switch",
-                Default = true
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"random-merchant-prices",
-                Label = "Random Merchant Prices",
-                Description = "Let Biorand randomize the merchant's shop prices.",
-                Type = "switch",
-                Default = true
-            });
-            group.Items.Add(new GroupItem()
-            {
                 Id = $"allow-bonus-items",
                 Label = "Allow Bonus Weapons",
                 Description = "Let Biorand include the unlockable and DLC weapons in the pool. You must have them all unlocked.",
@@ -210,14 +194,39 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             //     Default = false
             // });
 
-            group = page.CreateGroup("Debug");
+            page = configDefinition.CreatePage("Merchant");
+            group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
-                Id = $"debug-unique-enemy-hp",
-                Label = "Unique Enemy HP",
-                Description = "Gives every single enemy a unique HP value. Used to identify enemies within the game files.",
+                Id = $"random-merchant",
+                Label = "Random Shop",
+                Description = "Let Biorand randomize the merchant's shop.",
                 Type = "switch",
-                Default = false
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"random-merchant-prices",
+                Label = "Random Shop Prices",
+                Description = "Let Biorand randomize the merchant's shop prices.",
+                Type = "switch",
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"random-weapon-stats",
+                Label = "Random Upgraded Weapon Stats",
+                Description = "Let Biorand randomize the upgraded weapon stats.",
+                Type = "switch",
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"random-weapon-upgrade-prices",
+                Label = "Random Weapon Upgrade Prices",
+                Description = "Let Biorand randomize the merchant's prices for weapon upgrades.",
+                Type = "switch",
+                Default = true
             });
 
             page = configDefinition.CreatePage("Inventory");
@@ -454,6 +463,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Default = enemyClass.MaxHealth
                 });
             }
+
+            page = configDefinition.CreatePage("Debug");
+            group = page.CreateGroup("");
+            group.Warning = "These options are only for testing / debugging the randomizer.";
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"debug-unique-enemy-hp",
+                Label = "Unique Enemy HP",
+                Description = "Gives every single enemy a unique HP value. Used to identify enemies within the game files.",
+                Type = "switch",
+                Default = false
+            });
 
             return configDefinition;
         }
