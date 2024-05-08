@@ -2,7 +2,7 @@
     import { goto } from '$app/navigation';
     import BioRandTitle from '$lib/BioRandTitle.svelte';
     import RoleBadge from '$lib/RoleBadge.svelte';
-    import { UserRole, getApi, type StatsResult, type User } from '$lib/api';
+    import { UserRole, getApi, isLocalhost, type StatsResult, type User } from '$lib/api';
     import { getUserManager } from '$lib/userManager';
     import {
         Avatar,
@@ -18,6 +18,7 @@
         Tooltip
     } from 'flowbite-svelte';
     import { ShuffleOutline } from 'flowbite-svelte-icons';
+    import ApiSwitch from './ApiSwitch.svelte';
 
     export let currentUser: User | undefined;
     export let stats: StatsResult | undefined;
@@ -61,6 +62,9 @@
             <div class="ml-3">
                 <DarkMode />
             </div>
+            {#if isLocalhost()}
+                <ApiSwitch />
+            {/if}
         </div>
         <Dropdown class="min-w-48" placement="bottom" triggeredBy="#avatar-menu">
             <DropdownHeader>
@@ -84,6 +88,9 @@
                 <a href="/login">Sign in</a>
             </div>
             <DarkMode />
+            {#if isLocalhost()}
+                <ApiSwitch />
+            {/if}
         </div>
     {/if}
 </Navbar>

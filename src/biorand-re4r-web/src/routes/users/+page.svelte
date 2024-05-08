@@ -3,6 +3,7 @@
     import RoleBadge from '$lib/RoleBadge.svelte';
     import SortedTable, { type SortedTableData } from '$lib/SortedTable.svelte';
     import SortedTableHeader from '$lib/SortedTableHeader.svelte';
+    import TableTitle from '$lib/TableTitle.svelte';
     import Timestamp from '$lib/Timestamp.svelte';
     import { getApi, type User, type UserQueryOptions, type UserQueryResult } from '$lib/api';
     import { buildUrl, getLocation, tryParseInt } from '$lib/utility';
@@ -53,7 +54,7 @@
 </svelte:head>
 
 <div class="container mx-auto mb-3">
-    <h1 class="mb-3 text-4xl dark:text-white">Users</h1>
+    <TableTitle title="Users" result={searchResult} />
     {#if searchResult}
         <SortedTable {data} on:sort={sortTable} let:item={user}>
             <TableHead slot="header">

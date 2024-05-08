@@ -22,13 +22,15 @@ class LocalStorageManager {
         return undefined;
     }
 
-    set<T extends object>(key: string, value: T | undefined) {
+    set<T>(key: string, value: T | undefined) {
         try {
-            if (value) {
+            if (typeof value === 'object') {
                 const j = JSON.stringify(value);
                 localStorage.setItem(key, j);
-            } else {
+            } else if (value === null || typeof value === 'undefined') {
                 localStorage.removeItem(key);
+            } else {
+                localStorage.setItem(key, value.toString());
             }
         } catch {
         }

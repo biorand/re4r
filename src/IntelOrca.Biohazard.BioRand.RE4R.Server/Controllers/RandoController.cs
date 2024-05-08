@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
@@ -97,12 +96,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 viewerUserId,
                 SortOptions.FromQuery(sort, order, "Created"),
                 LimitOptions.FromPage(page, itemsPerPage));
-            return new
-            {
-                Page = page,
-                PageCount = (randos.Total + itemsPerPage - 1) / itemsPerPage,
-                PageResults = randos.Results.Select(GetRando).ToArray()
-            };
+            return ResultListResult(page, itemsPerPage, randos, GetRando);
         }
 
         private object GetRando(DatabaseService.ExtendedRandoDbModel rando)

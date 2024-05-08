@@ -469,12 +469,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                     .Skip(o.Skip)
                     .Take(o.Limit)
                     .ToArrayAsync();
-                return new LimitedResult<T>(total, results);
+                return new LimitedResult<T>(total, o.Skip, results);
             }
             else
             {
                 var results = await query.ToArrayAsync();
-                return new LimitedResult<T>(results.Length, results);
+                return new LimitedResult<T>(results.Length, 0, results);
             }
         }
 
@@ -499,8 +499,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 
     public readonly struct SortOptions(string field, bool descending)
     {
-        public string Field { get; } = field;
-        public bool Descending { get; } = descending;
+        public string Field => field;
+        public bool Descending => descending;
 
         public static SortOptions? FromQuery(string? sort, string? order, params string[] allowed)
         {
@@ -514,17 +514,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 
     public readonly struct LimitOptions(int skip, int limit)
     {
-        public int Skip { get; } = skip;
-        public int Limit { get; } = limit;
+        public int Skip => skip;
+        public int Limit => limit;
 
         public static LimitOptions FromPage(int page, int itemsPerPage) => new((page - 1) * itemsPerPage, itemsPerPage);
     }
 
 
-    public sealed class LimitedResult<T>(int total, T[] results)
+    public sealed class LimitedResult<T>(int total, int offset, T[] results)
     {
-        public int Total { get; } = total;
-        public T[] Results { get; } = results;
+        public int Total => total;
+        public int Offset => offset;
+        public T[] Results => results;
+        public int From => offset + 1;
+        public int To => offset + results.Length;
     }
 
     public class QueryBuilder<T> where T : new()
@@ -592,7 +595,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 Append("OFFSET ?", lo.Skip);
             }
             var results = await _conn.QueryAsync<T>(_sb.ToString(), [.. _parameters]);
-            return new LimitedResult<T>(total, [.. results]);
+            return new LimitedResult<T>(total, limitOptions?.Skip ?? 0, [.. results]);
         }
     }
 }

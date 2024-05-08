@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
@@ -103,6 +104,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             var hashBytes = SHA256.HashData(inputBytes);
             var hashString = Convert.ToHexString(hashBytes).ToLowerInvariant();
             return $"https://www.gravatar.com/avatar/{hashString}";
+        }
+
+        protected object ResultListResult<TResult, TMapped>(
+            int page,
+            int itemsPerPage,
+            LimitedResult<TResult> result,
+            Func<TResult, TMapped> selector)
+        {
+            return new
+            {
+                Page = page,
+                PageCount = (result.Total + itemsPerPage - 1) / itemsPerPage,
+                TotalResults = result.Total,
+                PageStart = result.From,
+                PageEnd = result.To,
+                PageResults = result.Results.Select(selector).ToArray()
+            };
         }
     }
 }

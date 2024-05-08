@@ -5,6 +5,9 @@ import { buildUrl } from "./utility";
 export type QueryResult<T> = {
     page: number;
     pageCount: number;
+    totalResults: number;
+    pageStart: number;
+    pageEnd: number;
     pageResults: T[];
 };
 
@@ -314,15 +317,37 @@ export class BioRandApi {
     }
 }
 
+export function isLocalhost() {
+    return document.location.hostname === 'localhost';
+}
+
+export function isBeta() {
+    return document.location.hostname.indexOf('beta') != -1;
+}
+
+export function isCustomApi() {
+    const lsManager = getLocalStorageManager();
+    let apiUrl = lsManager.getString(LocalStorageKeys.ApiUrl);
+    return !!apiUrl;
+}
+
+export function switchApi(useDefault: boolean) {
+    const lsManager = getLocalStorageManager();
+    if (useDefault) {
+        lsManager.set(LocalStorageKeys.ApiUrl, undefined);
+    } else {
+        lsManager.set(LocalStorageKeys.ApiUrl, 'https://api-re4r.biorand.net');
+    }
+}
+
 export function getApi() {
     const lsManager = getLocalStorageManager();
     let apiUrl = lsManager.getString(LocalStorageKeys.ApiUrl);
     if (!apiUrl) {
-        const hostName = document.location.hostname;
         apiUrl = 'https://api-re4r.biorand.net';
-        if (hostName === 'localhost') {
+        if (isLocalhost()) {
             apiUrl = 'http://localhost:10285';
-        } else if (hostName.indexOf('beta') !== -1) {
+        } else if (isBeta()) {
             apiUrl = 'https://beta-api-re4r.biorand.net';
         }
     }

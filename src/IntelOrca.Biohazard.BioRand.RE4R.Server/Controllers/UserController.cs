@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
@@ -36,12 +35,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             var itemsPerPage = 25;
             var descending = "desc".Equals(order, System.StringComparison.InvariantCultureIgnoreCase);
             var users = await _db.GetUsersAsync(sort, descending, LimitOptions.FromPage(page, itemsPerPage));
-            return new
-            {
-                Page = page,
-                PageCount = (users.Total + itemsPerPage - 1) / itemsPerPage,
-                PageResults = users.Results.Select(GetUser).ToArray()
-            };
+            return ResultListResult(page, itemsPerPage, users, GetUser);
         }
 
         [Route(HttpVerbs.Get, "/{id}")]

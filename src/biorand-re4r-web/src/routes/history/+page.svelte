@@ -2,6 +2,7 @@
     import BioRandPagination from '$lib/BioRandPagination.svelte';
     import SortedTable, { type SortedTableData } from '$lib/SortedTable.svelte';
     import SortedTableHeader from '$lib/SortedTableHeader.svelte';
+    import TableTitle from '$lib/TableTitle.svelte';
     import Timestamp from '$lib/Timestamp.svelte';
     import { UserProfileManager } from '$lib/UserProfileManager';
     import {
@@ -82,7 +83,7 @@
 </svelte:head>
 
 <div class="container mx-auto mb-3">
-    <h1 class="mb-3 text-4xl dark:text-white">History</h1>
+    <TableTitle title="History" result={searchResult} />
     {#if searchResult}
         <SortedTable {data} on:sort={sortTable} let:item>
             <TableHead slot="header">
