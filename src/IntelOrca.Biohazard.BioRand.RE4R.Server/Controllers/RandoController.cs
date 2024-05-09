@@ -34,6 +34,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (user == null)
                 return UnauthorizedResult();
 
+            var profile = await _db.GetProfileAsync(request.ProfileId, user.Id);
+            if (profile == null)
+                return NotFoundResult();
+
             var config = RandomizerConfigurationDefinition.ProcessConfig(request.Config);
             var configJson = config.ToJson(indented: false);
 
@@ -48,9 +52,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             });
             await _db.UpdateSeedCount(request.ProfileId);
 
-            _logger.Information("User [{UserId}]{UserName} generatating rando ProfileId = {ProfileId} Seed = {Seed}",
-                user.Id, user.Name, request.ProfileId, request.Seed);
-            var result = await _randomizer.GenerateAsync((ulong)rando.Id, request.Seed, config);
+            _logger.Information("User [{UserId}]{UserName} generatating rando ProfileId = {ProfileId} ProfileName = {ProfileName} Seed = {Seed}",
+                user.Id, user.Name, request.ProfileId, profile.Name, request.Seed);
+            var result = await _randomizer.GenerateAsync(
+                (ulong)rando.Id,
+                profile.Name,
+                profile.Description,
+                profile.UserName,
+                request.Seed,
+                config);
             _logger.Information("User [{UserId}]{UserName} generated rando {RandoId} ProfileId = {ProfileId} Seed = {Seed}",
                 user.Id, user.Name, result.Id, request.ProfileId, result.Seed);
             return new

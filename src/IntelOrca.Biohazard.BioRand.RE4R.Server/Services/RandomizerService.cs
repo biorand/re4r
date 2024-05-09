@@ -40,7 +40,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return Task.FromResult(configDefinition);
         }
 
-        public async Task<GenerateResult> GenerateAsync(ulong id, int seed, Dictionary<string, object> config)
+        public async Task<GenerateResult> GenerateAsync(
+            ulong id,
+            string profileName,
+            string profileDescription,
+            string profileAuthor,
+            int seed,
+            Dictionary<string, object> config)
         {
             await _mutex.WaitAsync();
             try
@@ -52,6 +58,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 var input = new RandomizerInput
                 {
                     GamePath = biorandConfig.GamePath,
+                    ProfileName = profileName,
+                    ProfileDescription = profileDescription,
+                    ProfileAuthor = profileAuthor,
                     Seed = seed,
                     Configuration = config
                 };

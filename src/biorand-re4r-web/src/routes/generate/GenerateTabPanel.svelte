@@ -73,7 +73,7 @@
             />
             <DownloadCard
                 title="Fluffy Mod"
-                description="Add this to Fluffy Mod manager and enable it."
+                description="Drop this zip file into Fluffy Mod Manager's mod folder and enable it."
                 href={generateResult.downloadUrlMod}
             />
         </div>

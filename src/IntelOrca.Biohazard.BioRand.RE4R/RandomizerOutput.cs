@@ -39,12 +39,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var zipFile = BuildZipFile();
             foreach (var entry in PakFile.Entries)
             {
-                zipFile.AddEntry($"Biorand/{entry.Key}", entry.Value);
+                zipFile.AddEntry(entry.Key, entry.Value);
             }
             _modFile = zipFile
-                .AddEntry("Biorand/pic.jpg", Resources.modimage)
-                .AddEntry("Biorand/modinfo.ini",
-                    Encoding.UTF8.GetBytes("name=Biorand\nversion=1.5\ndescription=RE4R randomizer\nscreenshot=pic.jpg\nauthor=IntelOrca\ncategory=!Other > Misc\n"))
+                .AddEntry("pic.jpg", Resources.modimage)
+                .AddEntry("modinfo.ini", GetModInfo())
                 .Build();
             return _modFile;
         }
@@ -56,6 +55,40 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 .AddEntry($"{logPrefix}input.log", Encoding.UTF8.GetBytes(LogFiles.Input))
                 .AddEntry($"{logPrefix}process.log", Encoding.UTF8.GetBytes(LogFiles.Process))
                 .AddEntry($"{logPrefix}output.log", Encoding.UTF8.GetBytes(LogFiles.Output));
+        }
+
+        private byte[] GetModInfo()
+        {
+            var rf = ChainsawRandomizerFactory.Default;
+
+            var name = $"BioRand - {Sanitize(Input.ProfileName)} [{Input.Seed}]";
+            var description = SanitizeParagraph(
+                $"{Sanitize(Input.ProfileName)} by {Sanitize(Input.ProfileAuthor)} [{Input.Seed}]\n" +
+                Input.ProfileDescription);
+            var author = "BioRand by IntelOrca & BioRand Team";
+            var version = $"{rf.CurrentVersionNumber} ({rf.GitHash})";
+
+            var lines = new[] {
+                $"name={name}",
+                $"version={version}",
+                $"description={description}",
+                "screenshot=pic.jpg",
+                $"author={author}",
+                "category=!Other > Misc",
+                ""
+            };
+            var content = string.Join('\n', lines);
+            return Encoding.UTF8.GetBytes(content);
+        }
+
+        private static string SanitizeParagraph(string? s)
+        {
+            return (s ?? "").Trim().ReplaceLineEndings("\\n");
+        }
+
+        private static string Sanitize(string? s)
+        {
+            return (s ?? "").Trim().ReplaceLineEndings(" ");
         }
     }
 }

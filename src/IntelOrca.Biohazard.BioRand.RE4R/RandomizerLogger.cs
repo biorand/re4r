@@ -33,7 +33,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var crf = ChainsawRandomizerFactory.Default;
 
             _sb.AppendLine(crf.CurrentVersionInfo);
-            _sb.AppendLine("by IntelOrca");
+            _sb.AppendLine("by IntelOrca & BioRand Team");
             _sb.AppendLine($"Generated at {DateTime.Now}");
         }
 
