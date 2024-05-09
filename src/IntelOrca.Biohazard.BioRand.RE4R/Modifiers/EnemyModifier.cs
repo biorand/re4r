@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -92,6 +93,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("random-enemies"))
                 return;
 
+            var randomItemSettings = new RandomItemSettings
+            {
+                ItemRatioKeyFunc = (dropKind) => randomizer.GetConfigOption<double>($"enemy-drop-ratio-{dropKind}"),
+                MinAmmoQuantity = randomizer.GetConfigOption("enemy-drop-ammo-min", 0.1),
+                MaxAmmoQuantity = randomizer.GetConfigOption("enemy-drop-ammo-max", 1.0),
+                MinMoneyQuantity = randomizer.GetConfigOption("enemy-drop-money-min", 100),
+                MaxMoneyQuantity = randomizer.GetConfigOption("enemy-drop-money-max", 1000),
+            };
+
             _contextId = 5000;
             _uniqueHp = 1;
             _allEnemyClasses = randomizer.EnemyClassFactory.Classes
@@ -127,7 +137,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .Where(x => x.Enemy.Kind.Key != "mendez_chase")
                     .Where(x => !x.HasKeyItem)
                     .ToImmutableArray();
-                RandomizeEnemyDrops(randomizer, chapter, enemies, rng, logger);
+                RandomizeEnemyDrops(randomizer, randomItemSettings, chapter, enemies, rng, logger);
             }
             logger.Pop();
         }
@@ -214,14 +224,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void RandomizeEnemyDrops(ChainsawRandomizer randomizer, int chapter, ImmutableArray<EnemySpawn> chapterSpawns, Rng rng, RandomizerLogger logger)
+        private void RandomizeEnemyDrops(
+            ChainsawRandomizer randomizer,
+            RandomItemSettings randomItemSettings,
+            int chapter,
+            ImmutableArray<EnemySpawn> chapterSpawns,
+            Rng rng,
+            RandomizerLogger logger)
         {
             logger.Push($"Chapter {chapter}");
             var spawnsLeft = chapterSpawns
                 .OrderByDescending(x => x.Enemy.Health ?? 0)
                 .ToList();
 
-            var valuableRatio = randomizer.GetConfigOption<double>("valuable-drop-ratio");
+            var valuableRatio = randomizer.GetConfigOption<double>("enemy-valuable-drop-ratio");
             var valuableCount = (int)(spawnsLeft.Count * valuableRatio);
 
             // Weapons
@@ -264,7 +280,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var itemRandomizer = randomizer.ItemRandomizer;
             foreach (var spawn in spawnsLeft)
             {
-                spawn.Enemy.ItemDrop = itemRandomizer.GetNextGeneralDrop("enemy-drop-ratio", rng);
+                spawn.Enemy.ItemDrop = itemRandomizer.GetNextGeneralDrop(rng, randomItemSettings);
                 logger.LogLine(spawn.Guid, (object?)spawn.Enemy.ItemDrop ?? "(none)");
             }
             logger.Pop();

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -56,6 +57,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("random-items"))
                 return;
 
+            var randomItemSettings = new RandomItemSettings
+            {
+                ItemRatioKeyFunc = (dropKind) => randomizer.GetConfigOption<double>($"item-drop-ratio-{dropKind}"),
+                MinAmmoQuantity = randomizer.GetConfigOption("item-drop-ammo-min", 0.1),
+                MaxAmmoQuantity = randomizer.GetConfigOption("item-drop-ammo-max", 1.0),
+                MinMoneyQuantity = randomizer.GetConfigOption("item-drop-money-min", 100),
+                MaxMoneyQuantity = randomizer.GetConfigOption("item-drop-money-max", 1000),
+            };
+
             var itemRepo = ItemDefinitionRepository.Default;
             var fileRepository = randomizer.FileRepository;
             var itemRandomizer = randomizer.ItemRandomizer;
@@ -93,7 +103,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (oldItemDef == null || oldItemDef.Kind == ItemKinds.Key)
                         continue;
 
-                    var randomItem = itemRandomizer.GetNextGeneralDrop("item-drop-ratio", rng);
+                    var randomItem = itemRandomizer.GetNextGeneralDrop(rng, randomItemSettings);
                     if (randomItem is Item newItem)
                     {
                         storedItems[contextId] = newItem;

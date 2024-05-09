@@ -100,22 +100,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"random-items",
-                Label = "Random Items",
-                Description = "Let Biorand randomize all the static items in the game.",
-                Type = "switch",
-                Default = true
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"preserve-item-models",
-                Label = "Preserve Item Models",
-                Description = "When randomizing items, keep the original item model in the world.",
-                Type = "switch",
-                Default = false
-            });
-            group.Items.Add(new GroupItem()
-            {
                 Id = $"random-inventory",
                 Label = "Random Inventory",
                 Description = "Let Biorand randomize your starting inventory.",
@@ -129,46 +113,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Description = "Let Biorand include the unlockable and DLC weapons in the pool. You must have them all unlocked.",
                 Type = "switch",
                 Default = false
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"ammo-quantity",
-                Label = "Ammo Quantity",
-                Type = "range",
-                Min = 0,
-                Max = 1,
-                Step = 0.1,
-                Default = 0.5
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"money-drop-min",
-                Label = "Min. Money Drop",
-                Type = "range",
-                Min = 100,
-                Max = 10000,
-                Step = 100,
-                Default = 100
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"money-drop-max",
-                Label = "Max. Money Drop",
-                Type = "range",
-                Min = 100,
-                Max = 10000,
-                Step = 100,
-                Default = 1000
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"valuable-drop-ratio",
-                Label = "Valuable Drop Ratio",
-                Type = "range",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.25
             });
             // generalGroup.Items.Add(new GroupItem()
             // {
@@ -235,6 +179,65 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
 
             page = configDefinition.CreatePage("Items");
+            group = page.CreateGroup("");
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"random-items",
+                Label = "Random Items",
+                Description = "Let Biorand randomize all the static items in the game.",
+                Type = "switch",
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"preserve-item-models",
+                Label = "Preserve Item Models",
+                Description = "When randomizing items, keep the original item model in the world.",
+                Type = "switch",
+                Default = false
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"item-drop-ammo-min",
+                Label = "Min. Ammo Quantity",
+                Description = "The minimum percentage of an ammo stack to drop.",
+                Type = "range",
+                Min = 0.1,
+                Max = 1,
+                Step = 0.1,
+                Default = 0.1
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"item-drop-ammo-max",
+                Label = "Max. Ammo Quantity",
+                Description = "The maximum percentage of an ammo stack to drop.",
+                Type = "range",
+                Min = 0.1,
+                Max = 10,
+                Step = 0.1,
+                Default = 1
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"item-drop-money-min",
+                Label = "Min. Money Drop",
+                Type = "range",
+                Min = 100,
+                Max = 10000,
+                Step = 100,
+                Default = 100
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"item-drop-money-max",
+                Label = "Max. Money Drop",
+                Type = "range",
+                Min = 100,
+                Max = 10000,
+                Step = 100,
+                Default = 1000
+            });
             group = page.CreateGroup("General Drops");
             foreach (var dropKind in DropKinds.Generic)
             {
@@ -339,6 +342,59 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 10,
                 Step = 1,
                 Default = 6
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-drop-ammo-min",
+                Label = "Min. Ammo Quantity",
+                Description = "The minimum percentage of an ammo stack to drop.",
+                Type = "range",
+                Min = 0.1,
+                Max = 1,
+                Step = 0.1,
+                Default = 0.1
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-drop-ammo-max",
+                Label = "Max. Ammo Quantity",
+                Description = "The maximum percentage of an ammo stack to drop.",
+                Type = "range",
+                Min = 0.1,
+                Max = 1,
+                Step = 0.1,
+                Default = 1
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-drop-money-min",
+                Label = "Min. Money Drop",
+                Type = "range",
+                Min = 100,
+                Max = 10000,
+                Step = 100,
+                Default = 100
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-drop-money-max",
+                Label = "Max. Money Drop",
+                Type = "range",
+                Min = 100,
+                Max = 10000,
+                Step = 100,
+                Default = 1000
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-valuable-drop-ratio",
+                Label = "Valuable Drop Ratio",
+                Description = "The percentage of enemies that should drop a valuable item. Tougher enemies are more likely to drop valuables. The value of the item is based on the toughness of the enemy.",
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 0.25
             });
 
             group = page.CreateGroup("General Drops");

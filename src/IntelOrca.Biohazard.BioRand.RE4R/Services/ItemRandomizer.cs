@@ -9,7 +9,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         private readonly ChainsawRandomizer _randomizer;
         private readonly HashSet<int> _placedItemIds = new HashSet<int>();
         private readonly bool _allowBonusItems;
-        private readonly Dictionary<string, EndlessBag<string>> _generalDrops = new();
+        private readonly Dictionary<RandomItemSettings, EndlessBag<string>> _generalDrops = new();
 
         public int[] PlacedItemIds => _placedItemIds.ToArray();
         public ItemDefinition[] PlacedItems => _placedItemIds
@@ -87,16 +87,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return chosen;
         }
 
-        public Item? GetRandomDrop(Rng rng, string dropKind)
+        public Item? GetRandomDrop(Rng rng, string dropKind, RandomItemSettings settings)
         {
             return dropKind switch
             {
                 // General
                 DropKinds.None => null,
                 DropKinds.Automatic => new Item(-1, 0),
-                DropKinds.Ammo => GetRandomAmmo(rng),
+                DropKinds.Ammo => GetRandomAmmo(rng, settings),
                 DropKinds.Fas => new Item(ItemIds.FirstAidSpray, 1),
-                DropKinds.Fish => GetRandomItem(rng, ItemKinds.Fish, allowReoccurance: true),
+                DropKinds.Fish => GetRandomSingleItem(rng, ItemKinds.Fish, allowReoccurance: true),
                 DropKinds.EggBrown => new Item(ItemIds.EggBrown, 1),
                 DropKinds.EggWhite => new Item(ItemIds.EggWhite, 1),
                 DropKinds.EggGold => new Item(ItemIds.EggGold, 1),
@@ -114,42 +114,42 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 DropKinds.HerbR => new Item(ItemIds.HerbR, 1),
                 DropKinds.HerbRY => new Item(ItemIds.HerbRY, 1),
                 DropKinds.HerbY => new Item(ItemIds.HerbY, 1),
-                DropKinds.Knife => GetRandomItem(rng, ItemKinds.Knife, allowReoccurance: true),
-                DropKinds.Money => GetRandomItem(rng, ItemKinds.Money, allowReoccurance: true),
+                DropKinds.Knife => GetRandomSingleItem(rng, ItemKinds.Knife, allowReoccurance: true),
+                DropKinds.Money => GetRandomMoney(rng, settings),
                 DropKinds.ResourceLarge => new Item(ItemIds.ResourcesLarge, 1),
                 DropKinds.ResourceSmall => new Item(ItemIds.ResourcesSmall, 1),
                 DropKinds.TokenSilver => new Item(ItemIds.TokenSilver, 1),
                 DropKinds.TokenGold => new Item(ItemIds.TokenGold, 1),
 
                 // High value
-                DropKinds.Attachment => GetRandomItem(rng, ItemKinds.Attachment),
-                DropKinds.CasePerk => GetRandomItem(rng, ItemKinds.CasePerk),
-                DropKinds.CaseSize => GetRandomItem(rng, ItemKinds.CaseSize),
-                DropKinds.Charm => GetRandomItem(rng, ItemKinds.Charm),
-                DropKinds.Recipe => GetRandomItem(rng, ItemKinds.Recipe),
+                DropKinds.Attachment => GetRandomSingleItem(rng, ItemKinds.Attachment),
+                DropKinds.CasePerk => GetRandomSingleItem(rng, ItemKinds.CasePerk),
+                DropKinds.CaseSize => GetRandomSingleItem(rng, ItemKinds.CaseSize),
+                DropKinds.Charm => GetRandomSingleItem(rng, ItemKinds.Charm),
+                DropKinds.Recipe => GetRandomSingleItem(rng, ItemKinds.Recipe),
                 DropKinds.SmallKey => new Item(ItemIds.SmallKey, 1),
-                DropKinds.Treasure => GetRandomItem(rng, ItemKinds.Treasure, allowReoccurance: true),
-                DropKinds.Weapon => GetRandomItem(rng, ItemKinds.Weapon),
+                DropKinds.Treasure => GetRandomSingleItem(rng, ItemKinds.Treasure, allowReoccurance: true),
+                DropKinds.Weapon => GetRandomSingleItem(rng, ItemKinds.Weapon),
 
                 _ => null,
             };
         }
 
-        public Item? GetNextGeneralDrop(string key, Rng rng)
+        public Item? GetNextGeneralDrop(Rng rng, RandomItemSettings settings)
         {
-            var bag = CreateGeneralItemPool(key, rng);
+            var bag = CreateGeneralItemPool(settings, rng);
             var kind = bag.Next();
-            return GetRandomDrop(rng, kind);
+            return GetRandomDrop(rng, kind, settings);
         }
 
-        public EndlessBag<string> CreateGeneralItemPool(string key, Rng rng)
+        public EndlessBag<string> CreateGeneralItemPool(RandomItemSettings settings, Rng rng)
         {
-            if (!_generalDrops.TryGetValue(key, out var result))
+            if (!_generalDrops.TryGetValue(settings, out var result))
             {
                 var ratios = new Dictionary<string, double>();
                 foreach (var dropKind in DropKinds.GenericAll)
                 {
-                    var ratio = _randomizer.GetConfigOption<double>($"{key}-{dropKind}");
+                    var ratio = settings.GetItemRatio(dropKind);
                     if (ratio > 0)
                     {
                         ratios.Add(dropKind, ratio);
@@ -170,12 +170,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     }
                 }
                 result = new EndlessBag<string>(rng, pool);
-                _generalDrops[key] = result;
+                _generalDrops[settings] = result;
             }
             return result;
         }
 
-        public Item? GetRandomItem(Rng rng, string kind, string? classification = null, bool allowReoccurance = false)
+        private Item? GetRandomSingleItem(Rng rng, string kind, string? classification = null, bool allowReoccurance = false)
         {
             ItemDefinition? itemDefinition;
             switch (kind)
@@ -186,10 +186,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 case ItemKinds.Attachment:
                     itemDefinition = GetRandomAttachment(rng, classification, allowReoccurance);
                     break;
-                case ItemKinds.Ammo:
-                    return GetRandomAmmo(rng);
-                case ItemKinds.Money:
-                    return GetRandomMoney(rng);
                 default:
                     itemDefinition = GetRandomItemDefinition(rng, kind, classification, allowReoccurance);
                     break;
@@ -199,22 +195,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return null;
         }
 
-        public Item? GetRandomAmmo(Rng rng)
+        public Item? GetRandomAmmo(Rng rng, RandomItemSettings settings)
         {
             var itemDef = GetRandomItemDefinition(rng, ItemKinds.Ammo);
             if (itemDef == null)
                 return null;
 
-            // TODO this should be percentage of a stack
-            var multiplier = _randomizer.GetConfigOption<double>("ammo-quantity");
-            var amount = Math.Max(1, (int)(rng.Next(10, 50) * multiplier));
+            var min = settings.MinAmmoQuantity;
+            var max = settings.MaxAmmoQuantity;
+            var minAmount = Math.Max(1, (int)Math.Round(min * itemDef.Stack));
+            var maxAmount = Math.Min(itemDef.Stack, (int)Math.Round(max * itemDef.Stack));
+            var amount = rng.Next(minAmount, maxAmount + 1);
             return new Item(itemDef.Id, amount);
         }
 
-        public Item GetRandomMoney(Rng rng)
+        public Item GetRandomMoney(Rng rng, RandomItemSettings settings)
         {
-            var min = _randomizer.GetConfigOption("money-drop-min", 1);
-            var max = _randomizer.GetConfigOption("money-drop-max", 1000);
+            var min = Math.Max(settings.MinMoneyQuantity, 1);
+            var max = Math.Min(settings.MaxMoneyQuantity, 1000000);
             var value = rng.Next(min, max + 1);
             return new Item(ItemIds.Money, value);
         }
@@ -262,5 +260,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         }
 
         public bool IsItemPlaced(int id) => _placedItemIds.Contains(id);
+    }
+
+    public class RandomItemSettings
+    {
+        public double MinAmmoQuantity { get; set; }
+        public double MaxAmmoQuantity { get; set; }
+        public int MinMoneyQuantity { get; set; }
+        public int MaxMoneyQuantity { get; set; }
+        public Func<string, double>? ItemRatioKeyFunc { get; set; }
+
+        public double GetItemRatio(string dropKind)
+        {
+            return ItemRatioKeyFunc?.Invoke(dropKind) ?? 0;
+        }
     }
 }
