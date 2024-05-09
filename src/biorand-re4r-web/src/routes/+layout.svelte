@@ -5,6 +5,7 @@
     import { Spinner } from 'flowbite-svelte';
     import '../app.pcss';
     import Toolbar from './Toolbar.svelte';
+    import Footer from './Footer.svelte';
 
     let currentUser: User | undefined = undefined;
     let init = (async () => {
@@ -37,6 +38,9 @@
     <Toolbar {currentUser} {stats} />
     <div class="min-h-screen flex flex-col">
         <div style="height: 73px;"></div>
-        <slot />
+        <div class="flex grow">
+            <slot />
+        </div>
+        <Footer />
     </div>
 {/await}

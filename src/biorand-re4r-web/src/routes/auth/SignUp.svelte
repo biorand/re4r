@@ -45,7 +45,7 @@
 </script>
 
 {#if !success}
-    <div class="sm:flex">
+    <div class="sm:flex mx-auto">
         <div class="sm:w-1/2 p-4 flex">
             <div class="sm:grow"></div>
             <div class="grow text-center sm:grow-0 sm:text-left">

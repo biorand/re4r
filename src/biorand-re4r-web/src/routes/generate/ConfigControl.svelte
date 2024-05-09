@@ -23,7 +23,9 @@
 
 <div class="sm:flex m-1">
     <div class="sm:w-1/2">
-        <Label class="h-full content-center" for="cfg-{definition.id}">{definition.label}</Label>
+        <Label class="inline-block h-full content-center" for="cfg-{definition.id}"
+            >{definition.label}</Label
+        >
         {#if definition.description}
             <Tooltip>{definition.description}</Tooltip>
         {/if}
