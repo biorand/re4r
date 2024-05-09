@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
+using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -14,6 +15,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             DisableFirstAreaInhibitor(randomizer, logger);
             FixDeadEnemyCounters(randomizer, logger);
             SlowDownFactoryDoor(randomizer, logger);
+            IncreaseJetSkiTimer(randomizer, logger);
             if (randomizer.GetConfigOption<bool>("random-enemies"))
             {
                 ImproveKnightyKnightKnightRoom(randomizer, logger);
@@ -128,6 +130,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             holdHandleComponent.Set("_ReduceProcessLv3", speed);
 
             fileRepository.SetScnFile(scnPath, scn);
+        }
+
+        private void IncreaseJetSkiTimer(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            const string userFilePath = "natives/stm/_chainsaw/appsystem/ui/userdata/guiparamholdersettinguserdata.user.2";
+            const float updatedTimerSeconds = 6 * 60;
+
+            logger.LogLine($"Set jet ski timer to {updatedTimerSeconds} seconds");
+
+            var fileRepository = randomizer.FileRepository;
+            var userFile = fileRepository.GetUserFile(userFilePath);
+            if (userFile == null)
+                return;
+
+            var timerSettings = userFile.RSZ!.ObjectList[0].Get<RszInstance>("_TimerGuiParamHolder._TimerParamSettings[0]")!;
+            timerSettings.Set("_MaxSecond", updatedTimerSeconds);
+            timerSettings.Set("_RespawnTimer", updatedTimerSeconds);
+            foreach (var i in new[] { 10, 20, 30, 40 })
+            {
+                var sub = $"_TimerParam_Defficulty{i}";
+                var subObject = timerSettings.Get<RszInstance>(sub)!;
+                subObject.Set("MaxSecond", updatedTimerSeconds);
+                subObject.Set("RespawnTimer", updatedTimerSeconds);
+            }
+
+            fileRepository.SetUserFile(userFilePath, userFile);
         }
 
         private void ImproveKnightyKnightKnightRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)
