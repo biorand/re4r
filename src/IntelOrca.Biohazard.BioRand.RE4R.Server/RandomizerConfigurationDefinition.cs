@@ -92,22 +92,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"random-enemies",
-                Label = "Random Enemies",
-                Description = "Let Biorand randomize all the enemies in the game.",
-                Type = "switch",
-                Default = true
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"extra-enemies",
-                Label = "Extra Enemies",
-                Description = "Add extra enemies to peaceful areas and boss fights.",
-                Type = "switch",
-                Default = true
-            });
-            group.Items.Add(new GroupItem()
-            {
                 Id = $"enemy-custom-health",
                 Label = "Custom Enemy Health",
                 Description = "Let Biorand randomize the enemy health using the min/max values.",
@@ -294,6 +278,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
+                Id = $"random-enemies",
+                Label = "Random Enemies",
+                Description = "Let Biorand randomize all the enemies in the game.",
+                Type = "switch",
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"extra-enemy-amount",
+                Label = "Extra Enemies",
+                Description = "The percentage of extra enemy spawns to add. (Includes peaceful areas, and boss arenas.)",
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 0.25
+            });
+            group.Items.Add(new GroupItem()
+            {
                 Id = $"enemy-multiplier",
                 Label = "Enemy Multiplier",
                 Description = "Duplicate enemies by this amount. Warning: high values can cause stability issues.",
@@ -329,7 +332,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = $"enemy-pack-max",
                 Label = "Enemy Max. Pack Size",
-                Description = "Controls the maximum size of an enemy pack." +
+                Description = "Controls the maximum size of an enemy pack. " +
                     "Enemy packs give you groups of similar enemies rather than every individual enemy being a different type.",
                 Type = "range",
                 Min = 1,

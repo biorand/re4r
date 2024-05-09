@@ -16,8 +16,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var rng = randomizer.CreateRng();
 
-            if (!randomizer.GetConfigOption("extra-enemies", false))
+            var extraEnemiesPercent = randomizer.GetConfigOption("extra-enemy-amount", 0.5);
+            if (extraEnemiesPercent <= 0)
                 return;
+
+            var extraEnemiesToPlace = GetExtraEnemiesToPlace(randomizer, extraEnemiesPercent, rng);
 
             _contextIdGroup = 1;
             _contextIdIndex = 1;
@@ -53,6 +56,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                         foreach (var enemyDef in g)
                         {
+                            if (!extraEnemiesToPlace.Contains(enemyDef))
+                                continue;
+
                             var position = new Vector3(enemyDef.X, enemyDef.Y, enemyDef.Z);
                             var enemy = CreateEnemy(scn, spawnController, "BioRandEnemy", enemyDef.Stage, position, RandomRotation(rng), rng, logger);
 
@@ -85,6 +91,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
                 logger.Pop();
             }
+        }
+
+        private static HashSet<AreaExtraEnemy> GetExtraEnemiesToPlace(ChainsawRandomizer randomizer, double amount, Rng rng)
+        {
+            var allExtraEnemies = randomizer.Areas
+                .SelectMany(x => x.Definition.Extra ?? [])
+                .SelectMany(x => x.Enemies ?? [])
+                .Shuffle(rng);
+
+            var count = (int)Math.Round(allExtraEnemies.Length * amount);
+            return allExtraEnemies.Take(count).ToHashSet();
         }
 
         private ContextId GetNextContextId()

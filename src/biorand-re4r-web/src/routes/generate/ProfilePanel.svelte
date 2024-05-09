@@ -21,14 +21,14 @@
 </script>
 
 <Tabs tabStyle="pill">
-    <TabItem title="Generate">
+    <TabItem open title="Generate">
         <GenerateTabPanel {profile} />
     </TabItem>
     <TabItem title="Profile">
         <ProfileTabPanel bind:profile />
     </TabItem>
     {#each definition?.pages || [] as p, i}
-        <TabItem open={p.label == 'Items'} title={p.label}>
+        <TabItem title={p.label}>
             {#each p.groups as g}
                 {#if g.label}
                     <h4>{g.label}</h4>
