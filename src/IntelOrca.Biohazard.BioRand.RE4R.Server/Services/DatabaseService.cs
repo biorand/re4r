@@ -214,37 +214,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return [.. result];
         }
 
-        public async Task<ExtendedProfileDbModel[]> GetProfilesAsync(int starUserId, string? query, string? user, int page = 1)
+        public Task<LimitedResult<ExtendedProfileDbModel>> GetProfilesAsync(
+            int starUserId,
+            string? query,
+            string? user,
+            SortOptions? sortOptions,
+            LimitOptions? limitOptions)
         {
-            var pageSize = 25;
-            var skip = (page - 1) * pageSize;
-            var parameters = new List<object>();
-            var q = @"
+            var q = BuildQuery<ExtendedProfileDbModel>(@"
                 SELECT p.*, u.Name as UserName, IIF(ps.ProfileId, 1, 0) AS IsStarred
                 FROM profile AS p
                 LEFT JOIN user AS u ON p.UserId = u.Id
-                LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId AND ps.UserId = ?
-                WHERE (p.Name LIKE ? OR p.Description LIKE ?)
-                  AND p.UserId != ?
-                  AND p.Flags & 2
-                  AND NOT(p.Flags & 1)";
-            parameters.Add(starUserId);
-            parameters.Add($"%{query}%");
-            parameters.Add($"%{query}%");
-            parameters.Add(SystemUserId);
+                LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId AND ps.UserId = ?",
+                starUserId);
 
-            if (!string.IsNullOrEmpty(user))
-            {
-                q += " AND u.Name = ?";
-                parameters.Add(user);
-            }
+            q.Where("p.Name LIKE ? OR p.Description LIKE ?", $"%{query}%", $"%{query}%");
+            q.Where("p.UserId != ?", SystemUserId);
+            q.Where("p.Flags & 2");
+            q.Where("NOT(p.Flags & 1)");
+            q.WhereIf("u.Name = ?", user);
 
-            q += " ORDER BY StarCount DESC LIMIT ? OFFSET ?";
-            parameters.Add(pageSize);
-            parameters.Add(skip);
-
-            var result = await _conn.QueryAsync<ExtendedProfileDbModel>(q, [.. parameters]);
-            return [.. result];
+            return q.ExecuteLimitedAsync(sortOptions, limitOptions);
         }
 
         public async Task StarProfileAsync(int profileId, int userId, bool value)
@@ -555,9 +545,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
         public void Where(string query, params object[] parameters)
         {
             if (!_sb.ToString().Contains("WHERE"))
-                Append($"WHERE {query}", parameters);
+                Append($"WHERE ({query})", parameters);
             else
-                Append($"AND {query}", parameters);
+                Append($"AND ({query})", parameters);
         }
 
         public void WhereIf(string query, object? parameter)

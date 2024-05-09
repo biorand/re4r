@@ -51,13 +51,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (authorizedUser == null)
                 return UnauthorizedResult();
 
-            var profiles = await _db.GetProfilesAsync(authorizedUser.Id, q, user, page);
-            return new
-            {
-                Page = 1,
-                PageCount = 1,
-                PageResults = profiles.Select(GetProfile).ToArray()
-            };
+            if (page <= 0)
+                page = 1;
+
+            var itemsPerPage = 25;
+            var profiles = await _db.GetProfilesAsync(authorizedUser.Id, q, user,
+                new SortOptions("StarCount", true),
+                LimitOptions.FromPage(page, itemsPerPage));
+            return ResultListResult(page, itemsPerPage, profiles, GetProfile);
         }
 
         [Route(HttpVerbs.Post, "/")]

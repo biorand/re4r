@@ -7,6 +7,7 @@
     import { BookmarkSolid, ShuffleOutline } from 'flowbite-svelte-icons';
     import { readable, writable } from 'svelte/store';
     import ProfileBadge from './ProfileBadge.svelte';
+    import TableTitle from '$lib/TableTitle.svelte';
 
     const queryParams = readable<ProfileQueryOptions>(undefined, (set) => {
         getLocation().subscribe((location) => {
@@ -76,7 +77,7 @@
 </svelte:head>
 
 <div class="container mx-auto mb-3">
-    <h1 class="mb-3 text-4xl dark:text-white">Community Profiles</h1>
+    <TableTitle title="Community Profiles" result={searchResult} />
     <form class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg w-full mb-4">
         <Label for="input-filter" class="block mb-2">Filter</Label>
         <Input bind:value={$filter} id="input-filter" type="text" />
