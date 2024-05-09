@@ -2861,7 +2861,21 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_001.scn.20",
-      "chapter": 8
+      "chapter": 8,
+      "restrictions": [
+        {
+          "guids": [
+            "2076e20c-1813-4f01-bd45-4b191506016a" // red zealot with crimson lantern
+          ],
+          "exclude": [
+            "krauser_1",
+            "krauser_2",
+            "mendez_chase",
+            "pesanta",
+            "u3"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_002.scn.20",
@@ -5807,7 +5821,45 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc61/level_loc61.scn.20",
-      "chapter": 13
+      "chapter": 13,
+      "restrictions": [
+        {
+          // regeneradors with wrench in capsules
+          "guids": [
+            "ec73c258-19b5-4534-9010-63b93c5dd899",
+            "121a6619-6891-4474-994a-a269b157216c",
+            "b99b7a23-8d20-46a5-9b8a-0bf90cca90ef",
+            "be280715-78e6-4cd7-8f28-09ec50608c7d"
+          ],
+          "preventDuplicate": true,
+          "exclude": [
+            "krauser_1",
+            "krauser_2",
+            "mendez_chase",
+            "pesanta",
+            "u3"
+          ]
+        },
+        {
+          // other regeneradors in capsules
+          "guids": [
+            "69cfa597-7291-4a75-96eb-9dd5ad7e38a8",
+            "79ca4b25-ea22-4c4d-a655-c09cb9ec5958",
+            "16e55d3b-6238-40b2-91f2-75bdf1c3897a",
+            "55569dbd-db47-4292-8aa9-c0049159857a",
+            "2d5ee37e-c51b-4c64-8c9e-1e4fe7e53b58",
+            "76bd56c7-87e5-413d-808b-d8e875ff087e",
+            "8ff22883-d0d7-404f-be44-2589c91752cf",
+            "f581dd02-fd89-40c6-996b-bd0f34636160",
+            "5983fbf6-04a0-4560-9e31-3e31628898b1",
+            "8023c600-8523-4b04-90c4-61671196ca1c",
+            "8c5de483-1194-4d50-9e9f-53065809d760",
+            "290c3ebf-408f-4513-84dc-bcec52cdad76",
+            "1e97a1e6-76fd-42d7-85a4-4b405c2dfaa4"
+          ],
+          "preventDuplicate": true
+        }
+      ]
     },
 
     // Chapter 14 (island sewers, wrecking ball, krauser)
