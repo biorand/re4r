@@ -311,17 +311,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"enemy-max-per-stage",
-                Label = "Enemy Max. Per Stage",
-                Description = "How many enemies can appear in each stage by default.",
-                Type = "range",
-                Min = 1,
-                Max = 1000,
-                Step = 1,
-                Default = 25
-            });
-            group.Items.Add(new GroupItem()
-            {
                 Id = $"enemy-variety",
                 Label = "Enemy Variety",
                 Description = "Controls how many different enemy types you can have in a single area.",
@@ -534,6 +523,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"debug-stage-enemy-limit-default",
+                Label = "Default Enemy Max. Per Stage",
+                Description = "How many enemies can appear in each stage by default.",
+                Type = "range",
+                Min = 1,
+                Max = 500,
+                Step = 1,
+                Default = 25
+            });
+
+            group = page.CreateGroup("Enemy Limits");
+            foreach (var stageId in StageIds.All)
+            {
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"debug-stage-enemy-limit-{stageId}",
+                    Label = $"Stage {stageId}",
+                    Type = "range",
+                    Min = 0,
+                    Max = 500,
+                    Step = 1,
+                    Default = 0
+                });
+            }
 
             return configDefinition;
         }

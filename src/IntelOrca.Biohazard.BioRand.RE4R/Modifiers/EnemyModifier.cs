@@ -374,15 +374,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private ImmutableArray<EnemySpawn> DuplicateEnemies(ChainsawRandomizer randomizer, Area area, ImmutableArray<EnemySpawn> spawns, Rng rng)
         {
             var multiplier = randomizer.GetConfigOption<double>("enemy-multiplier", 1);
-            var maxPerStage = randomizer.GetConfigOption<int>("enemy-max-per-stage", 25);
-            if (area.Definition.MaxEnemiesPerStage != 0)
-            {
-                maxPerStage = area.Definition.MaxEnemiesPerStage;
-            }
-
+            var maxPerStage = randomizer.GetConfigOption("debug-stage-enemy-limit-default", 25);
             var newList = spawns.ToBuilder();
             foreach (var g in spawns.GroupBy(x => x.StageID))
             {
+                var enemyLimit = randomizer.GetConfigOption($"debug-stage-enemy-limit-{g.Key}", 0);
+                if (enemyLimit == 0)
+                {
+                    enemyLimit = maxPerStage;
+                }
+
                 var stageSpawns = g.ToArray();
                 var newEnemyCount = stageSpawns.Length * multiplier;
                 var delta = (int)Math.Round(newEnemyCount - stageSpawns.Length);
