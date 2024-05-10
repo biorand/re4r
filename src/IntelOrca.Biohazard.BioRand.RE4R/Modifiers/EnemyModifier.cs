@@ -90,9 +90,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            if (!randomizer.GetConfigOption<bool>("random-enemies"))
-                return;
-
             var randomItemSettings = new RandomItemSettings
             {
                 ItemRatioKeyFunc = (dropKind) => randomizer.GetConfigOption<double>($"enemy-drop-ratio-{dropKind}"),
@@ -109,23 +106,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .ToImmutableArray();
 
             var rng = randomizer.CreateRng();
+            var areaByChapter = randomizer.Areas.GroupBy(x => x.Definition.Chapter);
 
             // Randomize enemies
-            logger.Push("Randomizing enemies");
-            var areaByChapter = randomizer.Areas.GroupBy(x => x.Definition.Chapter);
-            foreach (var chapterAreas in areaByChapter)
+            if (randomizer.GetConfigOption<bool>("random-enemies"))
             {
-                logger.Push($"Chapter {chapterAreas.Key}");
-                foreach (var area in chapterAreas)
+                logger.Push("Randomizing enemies");
+                foreach (var chapterAreas in areaByChapter)
                 {
-                    logger.Push(area.FileName);
-                    RandomizeArea(randomizer, area, rng, logger);
+                    logger.Push($"Chapter {chapterAreas.Key}");
+                    foreach (var area in chapterAreas)
+                    {
+                        logger.Push(area.FileName);
+                        RandomizeArea(randomizer, area, rng, logger);
+                        logger.Pop();
+                    }
+                    _stageEnemyCount.Clear();
                     logger.Pop();
                 }
-                _stageEnemyCount.Clear();
                 logger.Pop();
             }
-            logger.Pop();
 
             // Randomize enemy health
             logger.Push("Randomizing health");
@@ -135,24 +135,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var enemies = group
                     .SelectMany(x => x.EnemySpawns)
                     .ToImmutableArray();
-                RandomizeEnemyHealth(randomizer, randomItemSettings, chapter, enemies, rng, logger);
+                RandomizeEnemyHealth(randomizer, chapter, enemies, rng, logger);
             }
             logger.Pop();
 
-            // Randomize enemy drops
-            logger.Push("Randomizing drops");
-            foreach (var group in areaByChapter)
+            if (randomizer.GetConfigOption<bool>("random-enemy-drops"))
             {
-                var chapter = group.Key;
-                var enemies = group
-                    .SelectMany(x => x.EnemySpawns)
-                    .Where(x => !x.Enemy.Kind.NoItemDrop)
-                    .Where(x => !x.HasKeyItem)
-                    .Where(x => x.Guid != new Guid("a61c62f3-52e7-4d78-a167-c99b84fcada9")) // Mendez (phase 1)
-                    .ToImmutableArray();
-                RandomizeEnemyDrops(randomizer, randomItemSettings, chapter, enemies, rng, logger);
+                // Randomize enemy drops
+                logger.Push("Randomizing drops");
+                foreach (var group in areaByChapter)
+                {
+                    var chapter = group.Key;
+                    var enemies = group
+                        .SelectMany(x => x.EnemySpawns)
+                        .Where(x => !x.Enemy.Kind.NoItemDrop)
+                        .Where(x => !x.HasKeyItem)
+                        .Where(x => x.Guid != new Guid("a61c62f3-52e7-4d78-a167-c99b84fcada9")) // Mendez (phase 1)
+                        .ToImmutableArray();
+                    RandomizeEnemyDrops(randomizer, randomItemSettings, chapter, enemies, rng, logger);
+                }
+                logger.Pop();
             }
-            logger.Pop();
         }
 
         private void RandomizeArea(ChainsawRandomizer randomizer, Area area, Rng rng, RandomizerLogger logger)
@@ -225,27 +228,37 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         RandomizeParasite(randomizer, e, parasiteRng);
                     }
 
-                    logger.LogLine($"{e.Guid} {e.StageID} {ecd.Name} Health = {e.Health}");
+                    logger.LogLine($"{e.Guid} {e.StageID} {ecd.Name}");
                 }
                 else
                 {
-                    logger.LogLine($"{spawn.Enemy.Guid} {spawn.StageID} {spawn.Enemy.Kind} Health = {spawn.Enemy.Health}");
+                    logger.LogLine($"{spawn.Enemy.Guid} {spawn.StageID} {spawn.Enemy.Kind}");
                 }
             }
         }
 
         private void RandomizeEnemyHealth(
             ChainsawRandomizer randomizer,
-            RandomItemSettings randomItemSettings,
             int chapter,
             ImmutableArray<EnemySpawn> chapterSpawns,
             Rng rng,
             RandomizerLogger logger)
         {
+            var progressiveDifficulty = randomizer.GetConfigOption("enemy-health-progressive-difficulty", false);
+            var windowStart = 0.0;
+            var windowEnd = 1.0;
+            if (progressiveDifficulty)
+            {
+                windowStart = (chapter - 1) / 16.0;
+                windowEnd = chapter / 16.0;
+            }
+
+            logger.Push($"Chapter {chapter}");
             foreach (var spawn in chapterSpawns)
             {
-                RandomizeHealth(randomizer, spawn.Enemy, spawn.ChosenClass, rng);
+                RandomizeHealth(randomizer, spawn, windowStart, windowEnd, rng, logger);
             }
+            logger.Pop();
         }
 
         private void RandomizeEnemyDrops(
@@ -501,12 +514,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void RandomizeHealth(ChainsawRandomizer randomizer, Enemy enemy, EnemyClassDefinition? ecd, Rng rng)
+        private void RandomizeHealth(
+            ChainsawRandomizer randomizer,
+            EnemySpawn spawn,
+            double windowStart,
+            double windowEnd,
+            Rng rng,
+            RandomizerLogger logger)
         {
+            var enemy = spawn.Enemy;
             var debugUniqueHp = randomizer.GetConfigOption<bool>("debug-unique-enemy-hp");
             if (debugUniqueHp)
             {
                 enemy.Health = _uniqueHp++;
+                logger.LogLine(spawn.Guid, spawn.Enemy.Kind, enemy.Health);
             }
             else if (Bosses.GetBoss(enemy.Guid) is Boss boss)
             {
@@ -518,9 +539,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     minHealth = Math.Clamp(minHealth, 1, 1_000_000);
                     maxHealth = Math.Clamp(maxHealth, minHealth, 1_000_000);
                     enemy.Health = rng.Next(minHealth, maxHealth + 1);
+                    logger.LogLine("Boss", spawn.Guid, boss.Name, enemy.Health);
                 }
             }
-            else if (ecd != null)
+            else if (spawn.ChosenClass is EnemyClassDefinition ecd)
             {
                 var randomHealth = randomizer.GetConfigOption<bool>("enemy-random-health");
                 if (randomHealth)
@@ -529,11 +551,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var maxHealth = randomizer.GetConfigOption<int>($"enemy-health-max-{ecd.Key}");
                     minHealth = Math.Clamp(minHealth, 1, 100000);
                     maxHealth = Math.Clamp(maxHealth, minHealth, 100000);
-                    enemy.Health = rng.Next(minHealth, maxHealth + 1);
+
+                    var range = maxHealth - minHealth;
+                    var wMinHealth = (int)Math.Round(minHealth + (range * windowStart));
+                    var wMaxHealth = (int)Math.Round(minHealth + (range * windowEnd));
+
+                    enemy.Health = rng.Next(wMinHealth, wMaxHealth + 1);
+                    logger.LogLine(spawn.Guid, ecd.Name, enemy.Health);
                 }
-                else
+                else if (randomizer.GetConfigOption<bool>("random-enemies"))
                 {
                     enemy.Health = null;
+                    logger.LogLine(spawn.Guid, ecd.Name, "Automatic");
                 }
             }
         }

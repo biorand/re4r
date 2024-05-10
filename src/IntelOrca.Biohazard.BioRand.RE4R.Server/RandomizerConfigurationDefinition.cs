@@ -275,6 +275,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
+                Id = $"random-enemy-drops",
+                Label = "Random enemy drops",
+                Description = "Let Biorand randomize the enemy drops.",
+                Type = "switch",
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
                 Id = $"extra-enemy-amount",
                 Label = "Extra Enemies",
                 Description = "The percentage of extra enemy spawns to add. (Includes peaceful areas, and boss arenas.)",
