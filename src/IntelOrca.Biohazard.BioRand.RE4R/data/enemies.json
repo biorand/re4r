@@ -80,13 +80,15 @@
       "key": "mendez_chase",
       "componentName": "chainsaw.Ch1b5z1SpawnParam",
       "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1b5z1SpawnParam.pfb",
-      "closed": true
+      "closed": true,
+      "noItemDrop": true
     },
     {
       "key": "krauser_1",
       "componentName": "chainsaw.Ch1b7z0SpawnParam",
       "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1b7z0SpawnParam.pfb",
-      "closed": true
+      "closed": true,
+      "noItemDrop": true
     },
     {
       "key": "el_gigante",

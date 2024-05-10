@@ -134,7 +134,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var chapter = group.Key;
                 var enemies = group
                     .SelectMany(x => x.EnemySpawns)
-                    .Where(x => x.Enemy.Kind.Key != "mendez_chase")
+                    .Where(x => !x.Enemy.Kind.NoItemDrop)
                     .Where(x => !x.HasKeyItem)
                     .ToImmutableArray();
                 RandomizeEnemyDrops(randomizer, randomItemSettings, chapter, enemies, rng, logger);
@@ -206,7 +206,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
 
                     RandomizeHealth(randomizer, e, ecd, healthRng);
-                    // RandomizeDrop(randomizer, e, ecd, dropRng);
 
                     // If there are a lot of enemies, plaga seems to randomly crash the game
                     // E.g. village, 360 zealots, 25 plaga will crash
