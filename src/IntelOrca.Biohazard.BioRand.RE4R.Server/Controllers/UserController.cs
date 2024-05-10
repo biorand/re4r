@@ -94,6 +94,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             {
                 user.Name = request.Name ?? user.Name;
                 user.NameLowerCase = request.Name?.ToLowerInvariant() ?? user.NameLowerCase;
+                user.Email = request.Email?.ToLowerInvariant() ?? user.Email;
                 user.Role = request.Role ?? user.Role;
             }
 
