@@ -8,7 +8,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         // Generic
         public const string None = "none";
         public const string Automatic = "automatic";
-        public const string Ammo = "ammo";
+        public const string AmmoHandgun = "ammo-handgun";
+        public const string AmmoShotgun = "ammo-shotgun";
+        public const string AmmoRifle = "ammo-rifle";
+        public const string AmmoSmg = "ammo-smg";
+        public const string AmmoMagnum = "ammo-magnum";
+        public const string AmmoBolts = "ammo-bolts";
+        public const string AmmoMines = "ammo-mines";
         public const string Fas = "fas";
         public const string Fish = "fish";
         public const string EggBrown = "egg-brown";
@@ -65,7 +71,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 None => CategoryNone,
                 Automatic => CategoryOther,
-                Ammo => CategoryAmmo,
+                AmmoHandgun => CategoryAmmo,
+                AmmoShotgun => CategoryAmmo,
+                AmmoRifle => CategoryAmmo,
+                AmmoSmg => CategoryAmmo,
+                AmmoMagnum => CategoryAmmo,
+                AmmoBolts => CategoryAmmo,
+                AmmoMines => CategoryAmmo,
                 Fas => CategoryHealth,
                 Fish => CategoryHealth,
                 EggBrown => CategoryHealth,
@@ -115,7 +127,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         ];
 
         private static readonly string[] _generic = [
-            Ammo,
+            AmmoHandgun,
+            AmmoShotgun,
+            AmmoRifle,
+            AmmoSmg,
+            AmmoMagnum,
+            AmmoBolts,
+            AmmoMines,
             Fas,
             Fish,
             EggBrown,

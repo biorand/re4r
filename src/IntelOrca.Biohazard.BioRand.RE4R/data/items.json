@@ -269,7 +269,8 @@
     {
       "name": "Attachable Mines",
       "kind": "ammo",
-      "id": 117603200
+      "id": 117603200,
+      "stack": 10
     },
     {
       "name": "Broken Knife",

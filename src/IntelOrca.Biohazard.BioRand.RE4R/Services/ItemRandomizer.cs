@@ -94,7 +94,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 // General
                 DropKinds.None => null,
                 DropKinds.Automatic => new Item(-1, 0),
-                DropKinds.Ammo => GetRandomAmmo(rng, settings),
+                DropKinds.AmmoHandgun => GetRandomAmmo(ItemIds.AmmoHandgun, rng, settings),
+                DropKinds.AmmoShotgun => GetRandomAmmo(ItemIds.AmmoShotgun, rng, settings),
+                DropKinds.AmmoRifle => GetRandomAmmo(ItemIds.AmmoRifle, rng, settings),
+                DropKinds.AmmoSmg => GetRandomAmmo(ItemIds.AmmoSmg, rng, settings),
+                DropKinds.AmmoMagnum => GetRandomAmmo(ItemIds.AmmoMagnum, rng, settings),
+                DropKinds.AmmoBolts => GetRandomAmmo(ItemIds.AmmoBolts, rng, settings),
+                DropKinds.AmmoMines => GetRandomAmmo(ItemIds.AmmoMines, rng, settings),
                 DropKinds.Fas => new Item(ItemIds.FirstAidSpray, 1),
                 DropKinds.Fish => GetRandomSingleItem(rng, ItemKinds.Fish, allowReoccurance: true),
                 DropKinds.EggBrown => new Item(ItemIds.EggBrown, 1),
@@ -195,9 +201,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return null;
         }
 
-        public Item? GetRandomAmmo(Rng rng, RandomItemSettings settings)
+        public Item? GetRandomAmmo(int? itemId, Rng rng, RandomItemSettings settings)
         {
-            var itemDef = GetRandomItemDefinition(rng, ItemKinds.Ammo);
+            var itemDef = itemId == null
+                ? GetRandomItemDefinition(rng, ItemKinds.Ammo)
+                : ItemDefinitionRepository.Default.Find(itemId.Value);
             if (itemDef == null)
                 return null;
 

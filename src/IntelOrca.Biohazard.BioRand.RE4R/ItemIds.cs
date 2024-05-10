@@ -2,6 +2,13 @@
 {
     public static class ItemIds
     {
+        public const int AmmoHandgun = 112800000;
+        public const int AmmoShotgun = 112803200;
+        public const int AmmoRifle = 112804800;
+        public const int AmmoSmg = 112806400;
+        public const int AmmoMagnum = 112801600;
+        public const int AmmoBolts = 112808000;
+        public const int AmmoMines = 117603200;
         public const int Money = 124000000;
         public const int FirstAidSpray = 114416000;
         public const int HerbG = 114400000;
