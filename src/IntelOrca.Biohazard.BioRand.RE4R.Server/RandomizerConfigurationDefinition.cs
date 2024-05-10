@@ -92,35 +92,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"enemy-custom-health",
-                Label = "Custom Enemy Health",
-                Description = "Let Biorand randomize the enemy health using the min/max values.",
-                Type = "switch",
-                Default = false
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"random-inventory",
-                Label = "Random Inventory",
-                Description = "Let Biorand randomize your starting inventory.",
-                Type = "switch",
-                Default = true
-            });
-            group.Items.Add(new GroupItem()
-            {
                 Id = $"allow-bonus-items",
                 Label = "Allow Bonus Weapons",
                 Description = "Let Biorand include the unlockable and DLC weapons in the pool. You must have them all unlocked.",
                 Type = "switch",
                 Default = false
             });
-            // generalGroup.Items.Add(new GroupItem()
-            // {
-            //     Id = $"progressive-difficulty",
-            //     Label = "Progressive Difficulty",
-            //     Type = "switch",
-            //     Default = false
-            // });
 
             page = configDefinition.CreatePage("Merchant");
             group = page.CreateGroup("");
@@ -158,6 +135,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
 
             page = configDefinition.CreatePage("Inventory");
+            group = page.CreateGroup("");
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"random-inventory",
+                Label = "Random Inventory",
+                Description = "Let Biorand randomize your starting inventory.",
+                Type = "switch",
+                Default = true
+            });
             group = page.CreateGroup("Weapons");
             group.Items.Add(new GroupItem()
             {
@@ -488,6 +474,56 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             page = configDefinition.CreatePage("Health");
             group = page.CreateGroup("");
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"boss-random-health",
+                Label = "Random Boss Health",
+                Description = "Let Biorand randomize the boss health using the min/max values.",
+                Type = "switch",
+                Default = false
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-random-health",
+                Label = "Random Enemy Health",
+                Description = "Let Biorand randomize the enemy health using the min/max values.",
+                Type = "switch",
+                Default = false
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-health-progressive-difficulty",
+                Label = "Progressive Difficulty",
+                Type = "switch",
+                Default = false
+            });
+
+            group = page.CreateGroup("Bosses");
+            foreach (var boss in Bosses.All)
+            {
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"boss-health-min-{boss.Key}",
+                    Label = $"Min. {boss.Name} HP",
+                    Type = "range",
+                    Min = 0,
+                    Max = 1_000_000,
+                    Step = 1_000,
+                    Default = 10_000
+                });
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"boss-health-max-{boss.Key}",
+                    Label = $"Max. {boss.Name} HP",
+                    Type = "range",
+                    Min = 0,
+                    Max = 1_000_000,
+                    Step = 1_000,
+                    Default = 100_000
+                });
+            }
+
+            group = page.CreateGroup("Enemies");
             foreach (var enemyClass in enemyClassFactory.Classes)
             {
                 group.Items.Add(new GroupItem()

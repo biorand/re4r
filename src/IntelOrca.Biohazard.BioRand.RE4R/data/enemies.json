@@ -74,7 +74,8 @@
       "key": "sadler_1",
       "componentName": "chainsaw.Ch1f8z0SpawnParam",
       "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1f8z0SpawnParam.pfb",
-      "closed": true
+      "closed": true,
+      "noItemDrop": true
     },
     {
       "key": "mendez_chase",
@@ -100,7 +101,8 @@
       "key": "dellago",
       "componentName": "chainsaw.Ch1f1z0SpawnParam",
       "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1f1z0SpawnParam.pfb",
-      "closed": true
+      "closed": true,
+      "noItemDrop": true
     },
     {
       "key": "verdugo",
@@ -136,13 +138,15 @@
       "key": "sadler_2",
       "componentName": "chainsaw.Ch1fcz0SpawnParam",
       "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1fcz0SpawnParam.pfb",
-      "closed": true
+      "closed": true,
+      "noItemDrop": true
     },
     {
       "key": "sadler_3",
       "componentName": "chainsaw.Ch1fdz0SpawnParam",
       "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1fdz0SpawnParam.pfb",
-      "closed": true
+      "closed": true,
+      "noItemDrop": true
     },
     {
       "key": "pesanta_phantom",

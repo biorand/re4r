@@ -127,6 +127,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             logger.Pop();
 
+            // Randomize enemy health
+            logger.Push("Randomizing health");
+            foreach (var group in areaByChapter)
+            {
+                var chapter = group.Key;
+                var enemies = group
+                    .SelectMany(x => x.EnemySpawns)
+                    .ToImmutableArray();
+                RandomizeEnemyHealth(randomizer, randomItemSettings, chapter, enemies, rng, logger);
+            }
+            logger.Pop();
+
             // Randomize enemy drops
             logger.Push("Randomizing drops");
             foreach (var group in areaByChapter)
@@ -136,6 +148,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .SelectMany(x => x.EnemySpawns)
                     .Where(x => !x.Enemy.Kind.NoItemDrop)
                     .Where(x => !x.HasKeyItem)
+                    .Where(x => x.Guid != new Guid("a61c62f3-52e7-4d78-a167-c99b84fcada9")) // Mendez (phase 1)
                     .ToImmutableArray();
                 RandomizeEnemyDrops(randomizer, randomItemSettings, chapter, enemies, rng, logger);
             }
@@ -205,8 +218,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         e.SetFieldValue(fd.Name, fieldValue);
                     }
 
-                    RandomizeHealth(randomizer, e, ecd, healthRng);
-
                     // If there are a lot of enemies, plaga seems to randomly crash the game
                     // E.g. village, 360 zealots, 25 plaga will crash
                     if (ecd.Plaga && spawns.Length < 100)
@@ -220,6 +231,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     logger.LogLine($"{spawn.Enemy.Guid} {spawn.StageID} {spawn.Enemy.Kind} Health = {spawn.Enemy.Health}");
                 }
+            }
+        }
+
+        private void RandomizeEnemyHealth(
+            ChainsawRandomizer randomizer,
+            RandomItemSettings randomItemSettings,
+            int chapter,
+            ImmutableArray<EnemySpawn> chapterSpawns,
+            Rng rng,
+            RandomizerLogger logger)
+        {
+            foreach (var spawn in chapterSpawns)
+            {
+                RandomizeHealth(randomizer, spawn.Enemy, spawn.ChosenClass, rng);
             }
         }
 
@@ -290,8 +315,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var possibleClassNumbers = chapterSpawns
                 .Where(x => !(noHorde && x.Horde))
-                .Where(x => x.ChosenClass != null)
-                .Select(x => x.ChosenClass!.Class)
+                .Select(GetEnemyClass)
                 .Distinct()
                 .Order()
                 .ToArray();
@@ -313,11 +337,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }
                 var spawn = chapterSpawns
-                    .Where(x => x.ChosenClass?.Class == classNumber)
+                    .Where(x => GetEnemyClass(x) == classNumber)
                     .Shuffle(rng)
                     .First();
                 return chapterSpawns.IndexOf(spawn);
             }
+        }
+
+        private static int GetEnemyClass(EnemySpawn spawn)
+        {
+            var boss = Bosses.GetBoss(spawn.Guid);
+            if (boss != null)
+                return 1;
+
+            return spawn.ChosenClass?.Class ?? 6;
         }
 
         private int GetNextContextId()
@@ -468,16 +501,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void RandomizeHealth(ChainsawRandomizer randomizer, Enemy enemy, EnemyClassDefinition ecd, Rng rng)
+        private void RandomizeHealth(ChainsawRandomizer randomizer, Enemy enemy, EnemyClassDefinition? ecd, Rng rng)
         {
             var debugUniqueHp = randomizer.GetConfigOption<bool>("debug-unique-enemy-hp");
             if (debugUniqueHp)
             {
                 enemy.Health = _uniqueHp++;
             }
-            else
+            else if (Bosses.GetBoss(enemy.Guid) is Boss boss)
             {
-                var randomHealth = randomizer.GetConfigOption<bool>("enemy-custom-health");
+                var randomHealth = randomizer.GetConfigOption<bool>("boss-random-health");
+                if (randomHealth)
+                {
+                    var minHealth = randomizer.GetConfigOption<int>($"boss-health-min-{boss.Key}");
+                    var maxHealth = randomizer.GetConfigOption<int>($"boss-health-max-{boss.Key}");
+                    minHealth = Math.Clamp(minHealth, 1, 1_000_000);
+                    maxHealth = Math.Clamp(maxHealth, minHealth, 1_000_000);
+                    enemy.Health = rng.Next(minHealth, maxHealth + 1);
+                }
+            }
+            else if (ecd != null)
+            {
+                var randomHealth = randomizer.GetConfigOption<bool>("enemy-random-health");
                 if (randomHealth)
                 {
                     var minHealth = randomizer.GetConfigOption<int>($"enemy-health-min-{ecd.Key}");
