@@ -130,12 +130,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 var list = _weapons[chapter];
                 foreach (var weapon in list)
                 {
-                    var findable = _findable.Contains(weapon) ? ", findable" : "";
-                    logger.LogLine($"{weapon}{findable}");
+                    var discovery = GetDiscovery(weapon);
+                    logger.LogLine($"{weapon}", discovery);
                 }
                 logger.Pop();
             }
             logger.Pop();
+        }
+
+        private string GetDiscovery(ItemDefinition weapon)
+        {
+            if (_weapons[0].Contains(weapon))
+                return "starting";
+            if (_findable.Contains(weapon))
+                return "findable";
+            return "";
         }
 
         private void AddWeapon(int chapter, ItemDefinition? definition)
