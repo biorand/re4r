@@ -132,20 +132,33 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             private void DistributeWeapons()
             {
-                var rng = _distRng;
                 var weaponDistributor = randomizer.WeaponDistributor;
-                var startingWeapons = weaponDistributor.GetStartingWeapons();
                 var weapons = weaponDistributor.GetWeaponsForShop();
                 foreach (var kvp in weapons)
                 {
                     var chapter = kvp.Key;
                     foreach (var w in kvp.Value)
                     {
-                        var isReward = !startingWeapons.Contains(w) && rng.NextProbability(25);
                         var item = CreateAvailableItem(w);
                         item.UnlockChapter = chapter;
-                        RandomizePrice(item, spinel: isReward);
+                        RandomizePrice(item, spinel: false);
                     }
+                }
+
+                var rewards = weaponDistributor.GetWeapons(ItemDiscovery.Reward);
+                foreach (var dItem in rewards)
+                {
+                    var item = CreateAvailableItem(dItem.Definition);
+                    item.UnlockChapter = dItem.Chapter;
+                    RandomizePrice(item, spinel: true);
+                }
+
+                var startingItems = weaponDistributor.GetWeapons(ItemDiscovery.Start);
+                foreach (var dItem in startingItems)
+                {
+                    var item = CreateAvailableItem(dItem.Definition);
+                    item.UnlockChapter = 0;
+                    RandomizePrice(item, spinel: false);
                 }
             }
 

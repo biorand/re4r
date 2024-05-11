@@ -279,7 +279,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             // Weapons
             var weaponDrops = randomizer.WeaponDistributor
-                .GetWeaponsForDrop(chapter)
+                .GetWeapons(chapter, ItemDiscovery.Enemy)
                 .Shuffle(rng);
             logger.Push("Weapons");
             foreach (var weapon in weaponDrops)
@@ -290,7 +290,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var i = GetRandomHighClassEnemy(spawnsLeft, rng, noHorde: true);
                 var spawn = spawnsLeft[i];
                 spawnsLeft.RemoveAt(i);
-                var item = new Item(weapon.Id, 1);
+                var item = new Item(weapon.Definition.Id, 1);
                 spawn.Enemy.ItemDrop = item;
                 logger.LogLine(spawn.Guid, spawn.Enemy.Kind, item);
             }

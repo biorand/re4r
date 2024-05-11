@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 {
     internal class WeaponDistributor(ChainsawRandomizer randomizer)
     {
-        private readonly Dictionary<int, List<ItemDefinition>> _weapons = [];
-        private readonly HashSet<ItemDefinition> _findable = [];
-
-        public ImmutableArray<int> Chapters => [.. _weapons.Keys.Order()];
+        private readonly List<DistributedItem> _distributedItems = new();
 
         public void Setup(ItemRandomizer itemRandomizer, Rng rng, RandomizerLogger logger)
         {
@@ -39,59 +37,84 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
             // Chapters
             var endlessBag = new EndlessBag<int>(rng, Enumerable.Range(1, 12));
-            while (true)
+            while (itemRandomizer.GetRandomWeapon(rng, allowReoccurance: false) is ItemDefinition weapon)
             {
-                var weapon = itemRandomizer.GetRandomWeapon(rng, allowReoccurance: false);
-                if (weapon == null)
-                    break;
-
                 var chapter = endlessBag.Next();
                 AddWeapon(chapter, weapon);
             }
-            while (true)
+            while (itemRandomizer.GetRandomAttachment(rng, allowReoccurance: false) is ItemDefinition attachment)
             {
-                var attachment = itemRandomizer.GetRandomAttachment(rng, allowReoccurance: false);
-                if (attachment == null)
-                    break;
-
                 var chapter = attachment.Id == ItemIds.BiosensorScope
                     ? rng.Next(1, 5) // Ensure we get biosensor scope before cabin
                     : endlessBag.Next();
                 AddWeapon(chapter, attachment);
             }
 
-            var placedWeapons = _weapons
-                .Where(x => x.Key != 0)
-                .SelectMany(x => x.Value)
-                .ToArray();
-            var findable = placedWeapons
-                .Shuffle(rng)
-                .Take(placedWeapons.Length / 2)
-                .ToArray();
-            foreach (var weapon in findable)
-                _findable.Add(weapon);
+            RandomizeDiscovery(rng);
 
             LogDistribution(logger);
         }
 
-        public ImmutableArray<ItemDefinition> GetStartingWeapons()
+        private void RandomizeDiscovery(Rng rng)
         {
-            _weapons.TryGetValue(0, out var list);
-            return list?.ToImmutableArray() ?? [];
+            var discoveries = new Dictionary<ItemDiscovery, double>
+            {
+                [ItemDiscovery.Shop] = 0.5 * 0.75,
+                [ItemDiscovery.Reward] = 0.5 * 0.25,
+                [ItemDiscovery.Enemy] = 0.5 * 0.5,
+                [ItemDiscovery.Item] = 0.5 * 0.5
+            };
+
+            var startingItems = _distributedItems
+                .Where(x => x.Chapter == 0)
+                .ToArray();
+            var nonStartingItems = _distributedItems
+                .Where(x => x.Chapter != 0)
+                .Shuffle(rng);
+
+            foreach (var dGroup in nonStartingItems.GroupByProportion(discoveries))
+            {
+                foreach (var dItem in dGroup)
+                {
+                    SetDiscovery(dItem, dGroup.Key);
+                }
+            }
+            foreach (var dItem in startingItems)
+            {
+                SetDiscovery(dItem, ItemDiscovery.Start);
+            }
         }
 
-        public ImmutableArray<ItemDefinition> GetWeaponsForDrop(int chapter)
+        private void SetDiscovery(DistributedItem dItem, ItemDiscovery discovery)
         {
-            _weapons.TryGetValue(chapter, out var list);
-            return list?
-                .Where(_findable.Contains)
-                .ToImmutableArray() ?? [];
+            var index = _distributedItems.IndexOf(dItem);
+            if (index != -1)
+                _distributedItems[index] = _distributedItems[index].WithDiscovery(discovery);
+        }
+
+        public ImmutableArray<DistributedItem> GetWeapons(int chapter, ItemDiscovery discovery)
+        {
+            return _distributedItems
+                .Where(x => x.Chapter == chapter && x.Discovery == discovery)
+                .ToImmutableArray();
+        }
+
+        public ImmutableArray<DistributedItem> GetWeapons(ItemDiscovery discovery)
+        {
+            return _distributedItems
+                .Where(x => x.Discovery == discovery)
+                .ToImmutableArray();
         }
 
         public ImmutableDictionary<int, ImmutableArray<ItemDefinition>> GetWeaponsForShop()
         {
             var result = ImmutableDictionary.CreateBuilder<int, ImmutableArray<ItemDefinition>>();
-            foreach (var chapter in Chapters)
+            var chapters = _distributedItems
+                .Select(x => x.Chapter)
+                .Distinct()
+                .Order()
+                .ToArray();
+            foreach (var chapter in chapters)
             {
                 result[chapter] = GetWeaponsForShop(chapter);
             }
@@ -101,50 +124,52 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public ImmutableArray<ItemDefinition> GetWeaponsForShop(int chapter)
         {
             var builder = ImmutableArray.CreateBuilder<ItemDefinition>();
-
-            // Add non-findable weapons
-            if (_weapons.TryGetValue(chapter, out var list))
+            foreach (var distributedItem in _distributedItems)
             {
-                builder.AddRange(list.Where(x => !_findable.Contains(x)));
-            }
-
-            // Add weapons that were findable last chapter
-            if (chapter > 1)
-            {
-                if (_weapons.TryGetValue(chapter - 1, out list))
+                if (distributedItem.Discovery == ItemDiscovery.Start)
                 {
-                    builder.AddRange(list.Where(_findable.Contains));
+                    if (chapter == 1)
+                    {
+                        builder.Add(distributedItem.Definition);
+                    }
+                }
+                else if (distributedItem.Discovery == ItemDiscovery.Enemy ||
+                         distributedItem.Discovery == ItemDiscovery.Shop)
+                {
+                    // Add items that were found from item/enemy to shop in following chapter
+                    if (distributedItem.Chapter == chapter - 1)
+                    {
+                        builder.Add(distributedItem.Definition);
+                    }
+                }
+                else
+                {
+                    if (distributedItem.Chapter == chapter)
+                    {
+                        builder.Add(distributedItem.Definition);
+                    }
                 }
             }
-
             return builder.ToImmutable();
         }
 
         private void LogDistribution(RandomizerLogger logger)
         {
             logger.Push("Weapon Distribution");
-            var chapters = _weapons.Keys.Order().ToArray();
-            foreach (var chapter in chapters)
+            var chapters = _distributedItems
+                .GroupBy(x => x.Chapter)
+                .OrderBy(x => x.Key)
+                .ToArray();
+            foreach (var chapterItems in chapters)
             {
-                logger.Push($"Chapter {chapter}");
-                var list = _weapons[chapter];
-                foreach (var weapon in list)
+                logger.Push($"Chapter {chapterItems.Key}");
+                foreach (var dItem in chapterItems)
                 {
-                    var discovery = GetDiscovery(weapon);
-                    logger.LogLine($"{weapon}", discovery);
+                    logger.LogLine($"{dItem.Definition} ({dItem.Discovery})");
                 }
                 logger.Pop();
             }
             logger.Pop();
-        }
-
-        private string GetDiscovery(ItemDefinition weapon)
-        {
-            if (_weapons[0].Contains(weapon))
-                return "starting";
-            if (_findable.Contains(weapon))
-                return "findable";
-            return "";
         }
 
         private void AddWeapon(int chapter, ItemDefinition? definition)
@@ -152,10 +177,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             if (definition == null)
                 return;
 
-            if (!_weapons.TryGetValue(chapter, out var list))
-                _weapons[chapter] = list = new();
-
-            list.Add(definition);
+            _distributedItems.Add(new DistributedItem(definition, ItemDiscovery.None, chapter));
         }
 
         private static readonly string[] _weaponClasses = [
@@ -165,5 +187,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             ItemClasses.Rifle,
             ItemClasses.Smg,
             ItemClasses.Magnum ];
+    }
+
+    public class DistributedItem(ItemDefinition definition, ItemDiscovery discovery, int chapter)
+    {
+        public ItemDefinition Definition => definition;
+        public ItemDiscovery Discovery => discovery;
+        public int Chapter => chapter;
+
+        public DistributedItem WithDiscovery(ItemDiscovery discovery)
+        {
+            return new DistributedItem(Definition, discovery, chapter);
+        }
+
+        public override string ToString()
+        {
+            return $"{Definition} Discovery = {Discovery} Chapter = {Chapter}";
+        }
+    }
+
+    public enum ItemDiscovery
+    {
+        None,
+        Start,
+        Enemy,
+        Item,
+        Shop,
+        Reward
     }
 }

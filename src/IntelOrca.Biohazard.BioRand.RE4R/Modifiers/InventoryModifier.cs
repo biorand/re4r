@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -50,11 +51,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             inventory.ClearItems();
 
             // Weapons
-            var weapons = randomizer.WeaponDistributor.GetStartingWeapons();
+            var weapons = randomizer.WeaponDistributor.GetWeapons(ItemDiscovery.Start);
             foreach (var weapon in weapons)
             {
-                inventory.AddItem(new Item(weapon.Id));
-                var ammo = itemRandomizer.GetRandomItemDefinition(rng, ItemKinds.Ammo, weapon.Class);
+                inventory.AddItem(new Item(weapon.Definition.Id));
+                var ammo = itemRandomizer.GetRandomItemDefinition(rng, ItemKinds.Ammo, weapon.Definition.Class);
                 if (ammo != null)
                 {
                     inventory.AddItem(new Item(ammo.Id));
