@@ -162,14 +162,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         ];
 
         private static readonly string[] _highValue = [
+            Weapon,
             Attachment,
-            CasePerk,
             CaseSize,
-            Charm,
+            CasePerk,
             Recipe,
             SmallKey,
-            Treasure,
-            Weapon,
+            Charm,
         ];
     }
 }

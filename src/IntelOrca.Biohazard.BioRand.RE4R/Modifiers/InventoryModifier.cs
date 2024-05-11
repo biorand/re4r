@@ -33,8 +33,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             _inventory ??= ChainsawPlayerInventory.FromData(randomizer.FileRepository);
             var inventory = _inventory;
 
-            AssumeStartingItems(randomizer);
-
             var itemRandomizer = randomizer.ItemRandomizer;
             if (!randomizer.GetConfigOption<bool>("random-inventory"))
             {
@@ -94,33 +92,5 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.LogLine($"Add item {item.Item} {item.Item.CurrentItemCount}");
             }
         }
-
-        private static void AssumeStartingItems(ChainsawRandomizer randomizer)
-        {
-            foreach (var id in _startingItems)
-            {
-                randomizer.ItemRandomizer.MarkItemPlaced(id);
-            }
-        }
-
-        private static readonly int[] _startingItems = [
-            ItemIds.RecipeHandgunAmmo,
-            ItemIds.RecipeShotgunAmmo,
-            ItemIds.RecipeRifleAmmo,
-            ItemIds.RecipeSmgAmmo,
-            ItemIds.RecipeHerbGG,
-            ItemIds.RecipeHerbGR,
-            ItemIds.RecipeHerbGY,
-            ItemIds.RecipeHerbRY,
-            ItemIds.RecipeHerbGGG,
-            ItemIds.RecipeHerbGGY1,
-            ItemIds.RecipeHerbGGY2,
-            ItemIds.RecipeHerbGRY1,
-            ItemIds.RecipeHerbGRY2,
-            ItemIds.RecipeHerbGRY3,
-            ItemIds.RecipeHerbGRY3,
-            ItemIds.Case7x10,
-            ItemIds.CaseSilver,
-        ];
     }
 }

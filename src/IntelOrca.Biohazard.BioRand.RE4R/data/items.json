@@ -374,7 +374,7 @@
     },
     {
       "name": "Small Key",
-      "kind": "key",
+      "kind": "small-key",
       "id": 119244800
     },
     {
@@ -1066,7 +1066,6 @@
     },
     {
       "name": "Recipe: Bolts",
-      "kind": "recipe",
       "id": 124331200
     },
     {

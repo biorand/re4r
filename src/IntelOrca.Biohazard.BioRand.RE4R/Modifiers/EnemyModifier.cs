@@ -274,14 +274,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .OrderByDescending(x => x.Enemy.Health ?? 0)
                 .ToList();
 
-            var valuableRatio = randomizer.GetConfigOption<double>("enemy-valuable-drop-ratio");
-            var valuableCount = (int)(spawnsLeft.Count * valuableRatio);
-
-            // Weapons
+            // Valuables
             var weaponDrops = randomizer.WeaponDistributor
                 .GetWeapons(chapter, ItemDiscovery.Enemy)
                 .Shuffle(rng);
-            logger.Push("Weapons");
+            logger.Push("Valuables");
             foreach (var weapon in weaponDrops)
             {
                 if (spawnsLeft.Count == 0)
@@ -296,9 +293,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             logger.Pop();
 
-            // Valuable items
-            logger.Push("Valuables");
-            for (var i = 0; i < valuableCount; i++)
+            // Treasure
+            var treasureRatio = randomizer.GetConfigOption<double>("enemy-treasure-drop-ratio");
+            var treasureCount = (int)(spawnsLeft.Count * treasureRatio);
+            logger.Push("Treasure");
+            for (var i = 0; i < treasureCount; i++)
             {
                 if (spawnsLeft.Count == 0)
                     break;

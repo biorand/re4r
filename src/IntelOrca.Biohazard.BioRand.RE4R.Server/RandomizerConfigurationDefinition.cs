@@ -98,6 +98,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"valuable-limit-charm",
+                Label = "Charms",
+                Description = "The number of different charms to include in the seed.",
+                Type = "range",
+                Min = 0,
+                Max = 32,
+                Default = 8
+            });
 
             page = configDefinition.CreatePage("Merchant");
             group = page.CreateGroup("");
@@ -370,9 +380,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"enemy-valuable-drop-ratio",
-                Label = "Valuable Drop Ratio",
-                Description = "The percentage of enemies that should drop a valuable item. Tougher enemies are more likely to drop valuables. The value of the item is based on the toughness of the enemy.",
+                Id = $"enemy-treasure-drop-ratio",
+                Label = "Treasure Drop Ratio",
+                Description = "The percentage of enemies that should drop a treasure. Tougher enemies are more likely to drop treasure. The value of the treasure is based on the toughness of the enemy.",
                 Type = "range",
                 Min = 0,
                 Max = 1,

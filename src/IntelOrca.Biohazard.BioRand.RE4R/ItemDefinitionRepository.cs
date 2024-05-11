@@ -105,5 +105,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public const string Recipe = "recipe";
         public const string Charm = "charm";
         public const string Grenade = "grenade";
+        public const string SmallKey = "small-key";
     }
 }
