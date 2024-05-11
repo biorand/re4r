@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using RszTool;
@@ -13,9 +14,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var itemRepo = ItemDefinitionRepository.Default;
             var fileRepository = randomizer.FileRepository;
-            foreach (var path in _itemDataFiles)
+            foreach (var area in AreaDefinitionRepository.Default.Items)
             {
-                var userFile = fileRepository.GetUserFile(path);
+                if (area.DataPath == null)
+                    continue;
+
+                var userFile = fileRepository.GetUserFile(area.DataPath);
                 if (userFile == null)
                     continue;
 
@@ -33,7 +37,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (!pushedHeader)
                     {
                         pushedHeader = true;
-                        logger.Push($"{Path.GetFileName(path)}");
+                        logger.Push($"{Path.GetFileName(area.DataPath)}");
                     }
 
                     var stageId = itemData.Get<int>("StageID");
@@ -58,6 +62,61 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("random-items"))
                 return;
 
+            var fileRepository = randomizer.FileRepository;
+            var rng = randomizer.CreateRng();
+
+            var levelItems = GetAllItems(fileRepository);
+            RandomizeItems(randomizer, levelItems, rng, logger);
+            UpdateItemData(randomizer, levelItems);
+            if (!randomizer.GetConfigOption<bool>("preserve-item-models"))
+            {
+                UpdateItemModels(randomizer, levelItems);
+            }
+        }
+
+        private ImmutableArray<LevelItem> GetAllItems(FileRepository fileRepository)
+        {
+            var itemRepo = ItemDefinitionRepository.Default;
+            var levelItems = ImmutableArray.CreateBuilder<LevelItem>();
+            foreach (var area in AreaDefinitionRepository.Default.Items)
+            {
+                if (area.DataPath == null)
+                    continue;
+
+                var userFile = fileRepository.GetUserFile(area.DataPath);
+                if (userFile == null)
+                    continue;
+
+                var list = userFile.RSZ!.ObjectList[0].Get("Datas") as List<object>;
+                if (list == null)
+                    continue;
+
+                foreach (var item in list)
+                {
+                    var instance = (RszInstance)item;
+                    var oldItem = GetItem(instance);
+                    if (oldItem == null)
+                        continue;
+
+                    var oldItemDef = itemRepo.Find(oldItem.Value.Id);
+                    if (oldItemDef == null)
+                        continue;
+
+                    var contextId = ContextId.FromRsz(instance.Get<RszInstance>("ID")!);
+                    var itemInfo = area.Items?.FirstOrDefault(x => x.CtxId == contextId);
+                    var levelItem = new LevelItem(area.Chapter, contextId, oldItemDef, oldItem.Value)
+                    {
+                        Include = itemInfo?.Include,
+                        Exclude = itemInfo?.Exclude,
+                    };
+                    levelItems.Add(levelItem);
+                }
+            }
+            return levelItems.ToImmutable();
+        }
+
+        private void RandomizeItems(ChainsawRandomizer randomizer, ImmutableArray<LevelItem> levelItems, Rng rng, RandomizerLogger logger)
+        {
             var randomItemSettings = new RandomItemSettings
             {
                 ItemRatioKeyFunc = (dropKind) => randomizer.GetConfigOption<double>($"item-drop-ratio-{dropKind}"),
@@ -67,16 +126,66 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 MaxMoneyQuantity = randomizer.GetConfigOption("item-drop-money-max", 1000),
             };
 
+            logger.Push($"Randomizing items");
+
+            var itemRandomizer = randomizer.ItemRandomizer;
+            var weaponDistributor = randomizer.WeaponDistributor;
+            foreach (var kvp in levelItems.GroupBy(x => x.Chapter).OrderBy(x => x.Key))
+            {
+                var chapter = kvp.Key;
+                var chapterItems = kvp
+                    .Where(x => x.CanChange)
+                    .ToHashSet();
+
+                logger.Push($"Chapter {chapter}");
+
+                // Weapons
+                var valuableItems = chapterItems
+                    .Where(x => x.Exclude == null)
+                    .Shuffle(rng)
+                    .ToQueue();
+                var weapons = weaponDistributor.GetWeapons(chapter, ItemDiscovery.Item);
+                foreach (var weapon in weapons)
+                {
+                    var levelItem = valuableItems.Dequeue();
+                    chapterItems.Remove(levelItem);
+                    levelItem.NewItem = new Item(weapon.Definition.Id, 1);
+                    LogItemChange(levelItem, logger);
+                }
+
+                // General items
+                var generalItems = chapterItems.Shuffle(rng).ToQueue();
+                while (generalItems.TryDequeue(out var levelItem))
+                {
+                    if (levelItem.Include?.Length == 0)
+                        continue;
+
+                    var randomItem = itemRandomizer.GetNextGeneralDrop(rng, randomItemSettings);
+                    if (randomItem is Item newItem)
+                    {
+                        levelItem.NewItem = newItem;
+                        LogItemChange(levelItem, logger);
+                    }
+                }
+                logger.Pop();
+            }
+
+            logger.Pop();
+        }
+
+        private static void LogItemChange(LevelItem levelItem, RandomizerLogger logger)
+        {
+            logger.LogLine($"{levelItem.ContextId} {levelItem.OriginalItem} becomes {levelItem.NewItem}");
+        }
+
+        private void UpdateItemData(ChainsawRandomizer randomizer, ImmutableArray<LevelItem> levelItems)
+        {
+            var map = levelItems.ToDictionary(x => x.ContextId);
             var itemRepo = ItemDefinitionRepository.Default;
             var fileRepository = randomizer.FileRepository;
-            var itemRandomizer = randomizer.ItemRandomizer;
-            var chainsawItemData = ChainsawItemData.FromData(fileRepository);
-            var rng = randomizer.CreateRng();
-
-            var storedItems = new Dictionary<ContextId, Item>();
-            foreach (var path in _itemDataFiles)
+            foreach (var area in AreaDefinitionRepository.Default.Items)
             {
-                var userFile = fileRepository.GetUserFile(path);
+                var userFile = fileRepository.GetUserFile(area.DataPath);
                 if (userFile == null)
                     continue;
 
@@ -84,7 +193,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (list == null)
                     continue;
 
-                logger.Push($"{Path.GetFileName(path)}");
                 foreach (var item in list)
                 {
                     var instance = (RszInstance)item;
@@ -93,29 +201,56 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         continue;
 
                     var contextId = ContextId.FromRsz(instance.Get<RszInstance>("ID")!);
-                    if (_ignoredItems.Contains(contextId))
-                        continue;
-
-                    var oldItemDef = itemRepo.Find(oldItem.Value.Id);
-                    if (oldItemDef == null || oldItemDef.Kind == ItemKinds.Key)
-                        continue;
-
-                    var randomItem = itemRandomizer.GetNextGeneralDrop(rng, randomItemSettings);
-                    if (randomItem is Item newItem)
+                    if (map.TryGetValue(contextId, out var levelItem))
                     {
-                        storedItems[contextId] = newItem;
-                        UpdateItem(instance, newItem);
-                        logger.LogLine($"{contextId} {oldItem} becomes {newItem}");
+                        if (levelItem.NewItem is Item newItem)
+                        {
+                            UpdateItem(instance, newItem);
+                        }
                     }
                 }
-                logger.Pop();
 
-                fileRepository.SetUserFile(path, userFile);
+                fileRepository.SetUserFile(area.DataPath, userFile);
             }
+        }
 
-            if (!randomizer.GetConfigOption<bool>("preserve-item-models"))
+        private void UpdateItemModels(ChainsawRandomizer randomizer, ImmutableArray<LevelItem> levelItems)
+        {
+            var map = levelItems.ToDictionary(x => x.ContextId);
+            var fileRepository = randomizer.FileRepository;
+            foreach (var area in AreaDefinitionRepository.Default.Items)
             {
-                UpdateItemModels(randomizer, storedItems);
+                if (area.Path == null)
+                    continue;
+
+                var scnFile = fileRepository.GetScnFile(area.Path);
+                if (scnFile == null)
+                    continue;
+
+                foreach (var go in scnFile.IterAllGameObjects(true))
+                {
+                    var itemDrop = go.FindComponent("chainsaw.DropItem");
+                    if (itemDrop == null)
+                        continue;
+
+                    var itemData = itemDrop.Get<RszInstance>("_ItemData");
+                    if (itemData == null)
+                        continue;
+
+                    var contextId = ContextId.FromRsz(itemDrop.Get<RszInstance>("_ID")!);
+                    if (map.TryGetValue(contextId, out var levelItem))
+                    {
+                        if (levelItem.NewItem is Item newItem)
+                        {
+                            itemData.Set("ItemID", newItem.Id);
+                            itemData.Set("Count", newItem.Count);
+                            itemData.Set("AmmoItemID", 0);
+                            itemData.Set("AmmoCount", 0);
+                        }
+                    }
+                }
+
+                fileRepository.SetScnFile(area.Path, scnFile);
             }
         }
 
@@ -151,39 +286,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void UpdateItemModels(ChainsawRandomizer randomizer, Dictionary<ContextId, Item> storedItems)
-        {
-            var fileRepository = randomizer.FileRepository;
-            foreach (var path in _itemFiles)
-            {
-                var scnFile = fileRepository.GetScnFile(path);
-                if (scnFile == null)
-                    continue;
-
-                foreach (var go in scnFile.IterAllGameObjects(true))
-                {
-                    var itemDrop = go.FindComponent("chainsaw.DropItem");
-                    if (itemDrop == null)
-                        continue;
-
-                    var itemData = itemDrop.Get<RszInstance>("_ItemData");
-                    if (itemData == null)
-                        continue;
-
-                    var contextId = ContextId.FromRsz(itemDrop.Get<RszInstance>("_ID")!);
-                    if (storedItems.TryGetValue(contextId, out var randomItem))
-                    {
-                        itemData.Set("ItemID", randomItem.Id);
-                        itemData.Set("Count", randomItem.Count);
-                        itemData.Set("AmmoItemID", 0);
-                        itemData.Set("AmmoCount", 0);
-                    }
-                }
-
-                fileRepository.SetScnFile(path, scnFile);
-            }
-        }
-
         private static Item? GetItem(RszInstance instance)
         {
             var itemData = instance.Get<RszInstance>("ItemData");
@@ -211,141 +313,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return null;
         }
 
-        private static readonly ImmutableArray<ContextId> _ignoredItems = [
-            new ContextId(2, 0, 12, 472), // Green herb
-            new ContextId(2, 0, 12, 405), // Knife
-            new ContextId(2, 0, 12, 467), // Pearl Pendant
-            new ContextId(2, 0, 12, 468), // Dirty Pearl Pendant
-            new ContextId(2, 0, 12, 465), // Pearl Pendant
-            new ContextId(2, 0, 12, 466), // Dirty Pearl Pendant
-            new ContextId(2, 0, 61, 67), // Special rocket launcher
-        ];
-
-        private static readonly string[] _itemFiles = new string[]
+        private class LevelItem(int chapter, ContextId contextId, ItemDefinition originalItemDefinition, Item originalItem)
         {
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_0/item_cp10_chp1_0.scn.20",
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/item_cp10_chp1_1.scn.20",
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/item_cp10_chp1_2.scn.20",
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/item_cp10_chp2_1.scn.20",
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/item_cp10_chp2_2.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc40/item_loc40.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc43/item_loc43.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc44/item_loc44.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc45/item_loc45.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc46/item_loc46.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_001.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_000.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_001.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_002.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_003.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_004.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_005.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_007.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_000.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_002.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_003.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_004.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_006.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_000.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_002.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_003.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_004.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_005.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc53/item_loc53.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_000.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_001.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_002.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_003.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_004.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_005.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc55/item_loc55.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_000.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc58/item_loc58.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc59/item_loc59.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc60/item_loc60.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc61/item_loc61.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc62/item_loc62.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc63/item_loc63.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc64/item_loc64.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc65/item_loc65.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc66/item_loc66.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc67/item_loc67.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc68/item_loc68.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc69/item_loc69.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc70/item_loc70.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc73/item_loc73_200.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc73/item_loc73_201.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc73/item_loc73_300.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc73/item_loc73_400.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc73/item_loc73_401.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc73/item_loc73_402.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc73/item_loc73_403.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc73/item_loc73_404.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc73/item_loc73_405.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc73/item_loc73_406.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc73/item_loc73_500.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc73/item_loc73_900.scn.20",
-            "natives/stm/_chainsaw/leveldesign/location/loc78/item_loc78.scn.20",
-        };
+            public int Chapter => chapter;
+            public ContextId ContextId => contextId;
+            public ItemDefinition OriginalDefinition => originalItemDefinition;
+            public Item OriginalItem => originalItem;
 
-        private static readonly string[] _itemDataFiles = new[]
-        {
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_0/item_cp10_chp1_0_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/item_cp10_chp1_1_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/item_cp10_chp1_2_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/item_cp10_chp2_1_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/item_cp10_chp2_2_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc40/item_loc40_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc41/item_loc41_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc42/item_loc42_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc43/item_loc43_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc44/item_loc44_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc45/item_loc45_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc46/item_loc46_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_001_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_000_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_001_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_002_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_003_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_004_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_005_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_007_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_000_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_002_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_003_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_004_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_006_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_000_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_002_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_003_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_004_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_005_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc53/item_loc53_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_000_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_001_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_002_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_003_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_004_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_005_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc55/item_loc55_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_000_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc59/item_loc59_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc60/item_loc60_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc61/item_loc61_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc62/item_loc62_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc63/item_loc63_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc64/item_loc64_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc65/item_loc65_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc66/item_loc66_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc67/item_loc67_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc68/item_loc68_itemdata.user.2",
-            "natives/stm/_chainsaw/leveldesign/location/loc69/item_loc69_itemdata.user.2",
-        };
+            public string[]? Include { get; set; }
+            public string[]? Exclude { get; set; }
+            public Item? NewItem { get; set; }
+
+            public bool IsKey => OriginalDefinition.Kind == ItemKinds.Key;
+            public bool CanChange => !IsKey && Include?.Length != 0;
+        }
     }
 }

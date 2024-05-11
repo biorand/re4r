@@ -8102,15 +8102,27 @@
         }
       ]
     },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67.scn.20", "chapter": 16 },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_000.scn.20", "chapter": 16 },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67.scn.20",
+      "chapter": 16
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_000.scn.20",
+      "chapter": 16
+    },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_001.scn.20",
       "chapter": 16,
       "maxEnemiesPerStage": 20
     },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_002.scn.20", "chapter": 16 },
-    { "path": "natives/stm/_chainsaw/leveldesign/location/loc68/level_loc68.scn.20", "chapter": 16 },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_002.scn.20",
+      "chapter": 16
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc68/level_loc68.scn.20",
+      "chapter": 16
+    },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc59/enemy.scn.20",
       "chapter": 16,
@@ -8152,5 +8164,112 @@
     // { "path": "natives/stm/_chainsaw/leveldesign/location/loc79/level_loc79_001.scn.20" },
     // { "path": "natives/stm/_chainsaw/leveldesign/location/loc79/level_loc79_002.scn.20" },
     // { "path": "natives/stm/_chainsaw/leveldesign/location/loc79/level_loc79_003.scn.20" }
+  ],
+  "items": [
+    { "chapter": 1, "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_0/item_cp10_chp1_0.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_0/item_cp10_chp1_0_itemdata.user.2" },
+    { "chapter": 1, "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/item_cp10_chp1_1.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/item_cp10_chp1_1_itemdata.user.2" },
+    { "chapter": 2, "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/item_cp10_chp1_2.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/item_cp10_chp1_2_itemdata.user.2" },
+    { "chapter": 4, "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/item_cp10_chp2_1.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/item_cp10_chp2_1_itemdata.user.2" },
+    { "chapter": 5, "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/item_cp10_chp2_2.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/item_cp10_chp2_2_itemdata.user.2" },
+    { "chapter": 1, "path": "natives/stm/_chainsaw/leveldesign/location/loc40/item_loc40.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc40/item_loc40_itemdata.user.2" },
+    {
+      "chapter": 1,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc43/item_loc43.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc43/item_loc43_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,12,467", // Pearl Pendant
+          "include": []
+        },
+        {
+          "contextId": "2,0,12,468", // Dirty Pearl Pendant
+          "include": []
+        }
+      ]
+    },
+    {
+      "chapter": 2,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc44/item_loc44.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc44/item_loc44_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,12,472", // Green herb
+          "include": []
+        },
+        {
+          "contextId": "2,0,12,405", // Knife
+          "include": []
+        },
+        {
+          "contextId": "2,0,12,271", // Sapphire
+          "exclude": [ "weapon" ]
+        },
+        {
+          "contextId": "2,0,12,272", // Handgun ammo
+          "exclude": [ "weapon" ]
+        },
+        {
+          "contextId": "2,0,12,465", // Pearl Pendant
+          "include": []
+        },
+        {
+          "contextId": "2,0,12,466", // Dirty Pearl Pendant
+          "include": []
+        }
+      ]
+    },
+    { "chapter": 3, "path": "natives/stm/_chainsaw/leveldesign/location/loc45/item_loc45.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc45/item_loc45_itemdata.user.2" },
+    { "chapter": 3, "path": "natives/stm/_chainsaw/leveldesign/location/loc46/item_loc46.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc46/item_loc46_itemdata.user.2" },
+    { "chapter": 6, "path": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_001_itemdata.user.2" },
+    { "chapter": 6, "path": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_itemdata.user.2" },
+    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_000.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_000_itemdata.user.2" },
+    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_001_itemdata.user.2" },
+    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_002.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_002_itemdata.user.2" },
+    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_003.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_003_itemdata.user.2" },
+    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_004.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_004_itemdata.user.2" },
+    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_005.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_005_itemdata.user.2" },
+    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_007.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_007_itemdata.user.2" },
+    { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_000.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_000_itemdata.user.2" },
+    { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_002.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_002_itemdata.user.2" },
+    { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_003.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_003_itemdata.user.2" },
+    { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_004.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_004_itemdata.user.2" },
+    { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_006.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_006_itemdata.user.2" },
+    { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_000.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_000_itemdata.user.2" },
+    { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_002.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_002_itemdata.user.2" },
+    { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_003.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_003_itemdata.user.2" },
+    { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_004.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_004_itemdata.user.2" },
+    { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_005.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_005_itemdata.user.2" },
+    { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc53/item_loc53.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc53/item_loc53_itemdata.user.2" },
+    { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_000.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_000_itemdata.user.2" },
+    { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_001_itemdata.user.2" },
+    { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_002.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_002_itemdata.user.2" },
+    { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_003.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_003_itemdata.user.2" },
+    { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_004.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_004_itemdata.user.2" },
+    { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_005.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_005_itemdata.user.2" },
+    { "chapter": 11, "path": "natives/stm/_chainsaw/leveldesign/location/loc55/item_loc55.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc55/item_loc55_itemdata.user.2" },
+    { "chapter": 12, "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_000.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_000_itemdata.user.2" },
+    { "chapter": 12, "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001_itemdata.user.2" },
+    { "chapter": 12, "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_itemdata.user.2" },
+    { "chapter": 16, "path": "natives/stm/_chainsaw/leveldesign/location/loc59/item_loc59.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc59/item_loc59_itemdata.user.2" },
+    { "chapter": 13, "path": "natives/stm/_chainsaw/leveldesign/location/loc60/item_loc60.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc60/item_loc60_itemdata.user.2" },
+    { "chapter": 13, "path": "natives/stm/_chainsaw/leveldesign/location/loc61/item_loc61.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc61/item_loc61_itemdata.user.2" },
+    { "chapter": 13, "path": "natives/stm/_chainsaw/leveldesign/location/loc62/item_loc62.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc62/item_loc62_itemdata.user.2" },
+    { "chapter": 14, "path": "natives/stm/_chainsaw/leveldesign/location/loc63/item_loc63.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc63/item_loc63_itemdata.user.2" },
+    { "chapter": 14, "path": "natives/stm/_chainsaw/leveldesign/location/loc64/item_loc64.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc64/item_loc64_itemdata.user.2" },
+    { "chapter": 14, "path": "natives/stm/_chainsaw/leveldesign/location/loc65/item_loc65.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc65/item_loc65_itemdata.user.2" },
+    { "chapter": 15, "path": "natives/stm/_chainsaw/leveldesign/location/loc66/item_loc66.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc66/item_loc66_itemdata.user.2" },
+    { "chapter": 16, "path": "natives/stm/_chainsaw/leveldesign/location/loc67/item_loc67.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc67/item_loc67_itemdata.user.2" },
+    { "chapter": 16, "path": "natives/stm/_chainsaw/leveldesign/location/loc68/item_loc68.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc68/item_loc68_itemdata.user.2" },
+    {
+      "chapter": 16,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc69/item_loc69.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc69/item_loc69_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,61,67", // Special Rocket Launcher
+          "include": []
+        }
+      ]
+    }
   ]
 }
