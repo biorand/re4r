@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
@@ -92,12 +93,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         continue;
 
                     var contextId = ContextId.FromRsz(instance.Get<RszInstance>("ID")!);
-                    if (contextId == new ContextId(2, 0, 12, 472) ||
-                        contextId == new ContextId(2, 0, 12, 405) ||
-                        contextId == new ContextId(2, 0, 61, 67))
-                    {
+                    if (_ignoredItems.Contains(contextId))
                         continue;
-                    }
 
                     var oldItemDef = itemRepo.Find(oldItem.Value.Id);
                     if (oldItemDef == null || oldItemDef.Kind == ItemKinds.Key)
@@ -213,6 +210,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             return null;
         }
+
+        private static readonly ImmutableArray<ContextId> _ignoredItems = [
+            new ContextId(2, 0, 12, 472), // Green herb
+            new ContextId(2, 0, 12, 405), // Knife
+            new ContextId(2, 0, 12, 467), // Pearl Pendant
+            new ContextId(2, 0, 12, 468), // Dirty Pearl Pendant
+            new ContextId(2, 0, 12, 465), // Pearl Pendant
+            new ContextId(2, 0, 12, 466), // Dirty Pearl Pendant
+            new ContextId(2, 0, 61, 67), // Special rocket launcher
+        ];
 
         private static readonly string[] _itemFiles = new string[]
         {
