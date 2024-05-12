@@ -50,5 +50,16 @@
       "meta": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._CustomStrength._StrengthCustomStages[{L}]",
       "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._Strength._DurabilityMaxes[{L}]"
     }
+  ],
+  "exclusives": [
+    {
+      "name": "Critical Rate",
+      "category": 0,
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCriticalRate._CriticalRateNormalScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCriticalRate._CriticalRateFitScale"
+      ]
+    }
   ]
 }

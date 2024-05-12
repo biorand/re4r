@@ -327,10 +327,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
+            foreach (var e in def.Exclusives)
+            {
+                for (var w = 0; w < 100; w++)
+                {
+                    for (var i = 0; i < 10; i++)
+                    {
+                        var dataCategory = dataRoot.Get<int?>(ProcessPath(e.DataCategory, w, i), relaxed: true);
+                        if ((dataCategory ?? -1) != e.Category)
+                            continue;
+
+
+                    }
+                }
+            }
+
             return [.. stats];
         }
 
-        private static string ProcessPath(string xpath, int w, int i, int l)
+        private static string ProcessPath(string xpath, int w, int i, int l = 0)
         {
             return xpath
                 .Replace("{W}", w.ToString())
@@ -344,6 +359,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     public class WeaponStatsDefinition
     {
         public WeaponUpgradeDefinition[] Upgrades { get; set; } = [];
+        public WeaponExclusiveDefinition[] Exclusives { get; set; } = [];
     }
 
     public class WeaponUpgradeDefinition
@@ -356,6 +372,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public string DataCategory { get; set; } = "";
         public string Meta { get; set; } = "";
         public string Data { get; set; } = "";
+    }
+
+    public class WeaponExclusiveDefinition
+    {
+        public string Name { get; set; } = "";
+        public int Category { get; set; }
+        public string DataCategory { get; set; } = "";
+        public string DataFields { get; set; } = "";
     }
 
     public record WeaponStat(
