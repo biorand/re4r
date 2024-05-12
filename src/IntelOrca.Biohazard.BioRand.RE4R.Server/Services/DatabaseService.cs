@@ -253,10 +253,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             }
             await _conn.ExecuteAsync(
                 @"UPDATE profile
-                     SET StarCount = (SELECT COUNT(*) FROM profile_star WHERE ProfileId = ? AND UserId = ?)
+                     SET StarCount = (SELECT COUNT(*) FROM profile_star WHERE ProfileId = ?)
                    WHERE Id = ?",
                 profileId,
-                userId,
                 profileId);
         }
 
