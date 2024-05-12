@@ -3,16 +3,23 @@ const config = {
         "./src/**/*.{html,js,svelte,ts,md}",
         "./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}",
     ],
-
-    theme: {
-        extend: {},
-    },
-
     plugins: [
         require('flowbite/plugin')
     ],
     darkMode: 'class',
     theme: {
+        fontFamily: {
+            sans: [
+                'Inter',
+                'ui-sans-serif',
+                'system-ui',
+                'sans-serif',
+                '"Apple Color Emoji"',
+                '"Segoe UI Emoji"',
+                '"Segoe UI Symbol"',
+                '"Noto Color Emoji"'
+            ]
+        },
         extend: {
             colors: {
                 // rose

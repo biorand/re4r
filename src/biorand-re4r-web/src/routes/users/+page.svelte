@@ -6,6 +6,7 @@
     import TableTitle from '$lib/TableTitle.svelte';
     import Timestamp from '$lib/Timestamp.svelte';
     import { getApi, type User, type UserQueryOptions, type UserQueryResult } from '$lib/api';
+    import PageBody from '$lib/typography/PageBody.svelte';
     import { buildUrl, getLocation, tryParseInt } from '$lib/utility';
     import { Avatar, TableBodyCell, TableBodyRow, TableHead } from 'flowbite-svelte';
     import { readable } from 'svelte/store';
@@ -53,7 +54,7 @@
     <title>Users - BioRand 4</title>
 </svelte:head>
 
-<div class="container mx-auto mb-3">
+<PageBody>
     <TableTitle title="Users" result={searchResult} />
     {#if searchResult}
         <SortedTable {data} on:sort={sortTable} let:item={user}>
@@ -87,4 +88,4 @@
             href={getPageUrl}
         />
     {/if}
-</div>
+</PageBody>

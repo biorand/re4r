@@ -11,6 +11,7 @@
         type RandoHistoryQueryOptions,
         type RandoHistoryResult
     } from '$lib/api';
+    import PageBody from '$lib/typography/PageBody.svelte';
     import { getUserManager } from '$lib/userManager';
     import { buildUrl, getLocation, tryParseInt } from '$lib/utility';
     import { Avatar, TableBodyCell, TableBodyRow, TableHead } from 'flowbite-svelte';
@@ -82,7 +83,7 @@
     <title>History - BioRand 4</title>
 </svelte:head>
 
-<div class="container mx-auto mb-3">
+<PageBody>
     <TableTitle title="History" result={searchResult} />
     {#if searchResult}
         <SortedTable {data} on:sort={sortTable} let:item>
@@ -136,4 +137,4 @@
             href={getPageUrl}
         />
     {/if}
-</div>
+</PageBody>

@@ -1,12 +1,13 @@
 <script lang="ts" generics="T">
     import { type QueryResult } from './api';
+    import PageTitle from './typography/PageTitle.svelte';
 
     export let title;
     export let result: QueryResult<T> | undefined;
 </script>
 
 <div class="flex mb-3">
-    <h1 class="grow text-4xl dark:text-white">{title}</h1>
+    <PageTitle class="grow">{title}</PageTitle>
     {#if result}
         <span class="content-end">
             {#if result.pageResults.length > 0}

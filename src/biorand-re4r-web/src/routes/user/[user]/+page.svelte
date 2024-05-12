@@ -3,6 +3,8 @@
     import RoleBadge from '$lib/RoleBadge.svelte';
     import { validateClear, validateFormInputData, type FormInputData } from '$lib/Validation';
     import { UserRole, getApi, type User } from '$lib/api';
+    import PageBody from '$lib/typography/PageBody.svelte';
+    import PageTitle from '$lib/typography/PageTitle.svelte';
     import { getUserManager } from '$lib/userManager';
     import { Alert, Button, Checkbox, Helper, Label, Select, Spinner } from 'flowbite-svelte';
     import {
@@ -89,8 +91,8 @@
 {#await init}
     <Spinner />
 {:then}
-    <div class="container mx-auto mb-3 p-3">
-        <h1 class="mb-3 text-4xl dark:text-white">{user.name}</h1>
+    <PageBody>
+        <PageTitle>{user.name}</PageTitle>
         <form on:submit={onSubmit}>
             <div class="max-w-3xl">
                 <FormInput
@@ -163,7 +165,7 @@
                 Save Changes
             </Button>
         </form>
-    </div>
+    </PageBody>
 {:catch err}
     <Alert border color="red" class="my-4">
         <CloseCircleSolid slot="icon" class="w-5 h-5" />{err}

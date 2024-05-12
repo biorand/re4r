@@ -2,7 +2,7 @@
     import BioRandTitle from '$lib/BioRandTitle.svelte';
     import { validateClear, validateFormInputData, type FormInputData } from '$lib/Validation';
     import { getApi } from '$lib/api';
-    import { Button, Helper, Spinner } from 'flowbite-svelte';
+    import { A, Button, Helper, Spinner } from 'flowbite-svelte';
     import { EnvelopeSolid, ExclamationCircleOutline, UserSolid } from 'flowbite-svelte-icons';
     import FormInput from './FormInput.svelte';
 
@@ -95,8 +95,14 @@
                             {#if serverWait}
                                 <Spinner class="me-3" size="4" color="white" />
                             {/if}
-                            Register
+                            Sign Up
                         </Button>
+
+                        <Helper class="mt-3 text-xs">
+                            By signing up, you agree to the <A target="_blank" href="/terms"
+                                >terms and conditions</A
+                            >.
+                        </Helper>
                     </fieldset>
                 </form>
             </div>

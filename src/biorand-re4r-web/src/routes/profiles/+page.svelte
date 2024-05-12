@@ -1,13 +1,14 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import BioRandPagination from '$lib/BioRandPagination.svelte';
+    import TableTitle from '$lib/TableTitle.svelte';
     import { getApi, type ProfileQueryOptions, type ProfileQueryResult } from '$lib/api';
+    import { PageBody } from '$lib/typography';
     import { buildUrl, getLocation, idleTimeout, tryParseInt } from '$lib/utility';
     import { Input, Label, Listgroup, ListgroupItem, Tooltip } from 'flowbite-svelte';
     import { BookmarkSolid, ShuffleOutline } from 'flowbite-svelte-icons';
     import { readable, writable } from 'svelte/store';
     import ProfileBadge from './ProfileBadge.svelte';
-    import TableTitle from '$lib/TableTitle.svelte';
 
     const queryParams = readable<ProfileQueryOptions>(undefined, (set) => {
         getLocation().subscribe((location) => {
@@ -76,7 +77,7 @@
     <title>Community Profiles - BioRand 4</title>
 </svelte:head>
 
-<div class="container mx-auto mb-3">
+<PageBody>
     <TableTitle title="Community Profiles" result={searchResult} />
     <form class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg w-full mb-4">
         <Label for="input-filter" class="block mb-2">Filter</Label>
@@ -127,4 +128,4 @@
             href={getPageUrl}
         />
     {/if}
-</div>
+</PageBody>
