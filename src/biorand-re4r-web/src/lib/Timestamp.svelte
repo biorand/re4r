@@ -9,6 +9,9 @@
     function getTimeAgo(timestamp: number) {
         const currentTime = new Date().getTime();
         const timeDifference = currentTime - timestamp * 1000;
+        if (timeDifference < 60000) {
+            return 'A few seconds ago';
+        }
 
         const seconds = Math.floor(timeDifference / 1000);
         const minutes = Math.floor(seconds / 60);
