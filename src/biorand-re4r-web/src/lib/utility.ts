@@ -60,7 +60,7 @@ export function tryParseInt(input: any): number | undefined {
 
 export function objectEquals(obj1: any, obj2: any) {
     // Check if both objects are objects
-    if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
+    if (!obj1 || !obj2 || typeof obj1 !== 'object' || typeof obj2 !== 'object') {
         return false;
     }
 

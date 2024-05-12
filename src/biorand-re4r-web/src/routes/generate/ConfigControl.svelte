@@ -41,7 +41,14 @@
             step: definition.step,
             untransform: (value: number) => value,
             transform: (value: number) => value,
-            formatted: derived(value, (value) => value)
+            formatted: derived(value, (value) => {
+                if (!definition.step) return value.toLocaleString();
+                const szStep = definition.step.toString();
+                const szStepDotIndex = szStep.indexOf('.');
+                if (szStepDotIndex === -1) return value.toLocaleString();
+                const decimals = szStep.length - szStepDotIndex - 1;
+                return value.toFixed(decimals);
+            })
         };
     }
 

@@ -1,9 +1,10 @@
 <script lang="ts">
     import type { ProfileViewModel } from '$lib/UserProfileManager';
-    import type { ConfigDefinition } from '$lib/api';
+    import type { ConfigDefinition, ConfigGroup } from '$lib/api';
     import { Alert, TabItem, Tabs } from 'flowbite-svelte';
     import { InfoCircleSolid } from 'flowbite-svelte-icons';
     import ConfigControl from './ConfigControl.svelte';
+    import ConfigGroupHeading from './ConfigGroupHeading.svelte';
     import GenerateTabPanel from './GenerateTabPanel.svelte';
     import ProfileTabPanel from './ProfileTabPanel.svelte';
     import RatioBar from './RatioBar.svelte';
@@ -18,27 +19,30 @@
         }
         return result;
     }
+
+    function hasRatioBar(g: ConfigGroup) {
+        return g.items.some((x) => x.category);
+    }
 </script>
 
 <Tabs tabStyle="pill">
-    <TabItem open title="Generate">
+    <TabItem title="Generate">
         <GenerateTabPanel {profile} />
     </TabItem>
     <TabItem title="Profile">
         <ProfileTabPanel bind:profile />
     </TabItem>
     {#each definition?.pages || [] as p, i}
-        <TabItem title={p.label}>
+        <TabItem title={p.label} open={i == 4}>
             {#each p.groups as g}
-                {#if g.label}
-                    <h4>{g.label}</h4>
-                {/if}
+                <ConfigGroupHeading bind:config={profile.config} group={g} />
+
                 {#if g.warning}
                     <Alert border color="yellow" class="my-4">
                         <InfoCircleSolid slot="icon" class="w-5 h-5" />{g.warning}
                     </Alert>
                 {/if}
-                {#if g.label === 'General Drops'}
+                {#if hasRatioBar(g)}
                     <RatioBar class="my-2" config={profile.config} group={g} />
                 {/if}
                 {#each pairs(g.items) as p}
