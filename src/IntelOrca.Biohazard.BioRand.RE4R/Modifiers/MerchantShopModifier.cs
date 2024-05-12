@@ -116,11 +116,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             public void Go()
             {
-                DistributeWeapons();
-                DistributeCaseSizes();
+                DistributeValuables();
+                DistributeStockItems();
                 DistributeMiscItems();
-                DistributeCriticalItems();
-                DistributeCharms();
                 DistributeTreasures();
                 RandomizeDiscounts();
                 LogAvailableItems();
@@ -130,10 +128,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 shop.Save(randomizer.FileRepository);
             }
 
-            private void DistributeWeapons()
+            private void DistributeValuables()
             {
-                var weaponDistributor = randomizer.WeaponDistributor;
-                var weapons = weaponDistributor.GetWeaponsForShop();
+                var valuableDistributor = randomizer.ValuableDistributor;
+                var weapons = valuableDistributor.GetItemsForShop();
                 foreach (var kvp in weapons)
                 {
                     var chapter = kvp.Key;
@@ -145,7 +143,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }
 
-                var rewards = weaponDistributor.GetWeapons(ItemDiscovery.Reward);
+                var rewards = valuableDistributor.GetItems(ItemDiscovery.Reward);
                 foreach (var dItem in rewards)
                 {
                     var item = CreateAvailableItem(dItem.Definition);
@@ -153,7 +151,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     RandomizePrice(item, spinel: true);
                 }
 
-                var startingItems = weaponDistributor.GetWeapons(ItemDiscovery.Start);
+                var startingItems = valuableDistributor.GetItems(ItemDiscovery.Start);
                 foreach (var dItem in startingItems)
                 {
                     var item = CreateAvailableItem(dItem.Definition);
@@ -162,51 +160,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
-            private void DistributeCaseSizes()
+            private void DistributeStockItems()
             {
-                var rng = _distRng;
-                var itemRepo = ItemDefinitionRepository.Default;
-                var caseSizes = itemRepo
-                    .GetAll(ItemKinds.CaseSize)
-                    .OrderBy(x => x.Value)
-                    .ToArray();
+                var itemRandomizer = randomizer.ItemRandomizer;
+                var settings = new RandomItemSettings();
 
-                var caseChapter = rng.Next(0, 3);
-                foreach (var caseSize in caseSizes)
+                foreach (var kind in DropKinds.Generic)
                 {
-                    var item = CreateAvailableItem(caseSize);
-                    item.UnlockChapter = caseChapter;
-                    RandomizePrice(item, spinel: rng.NextProbability(25));
-                    caseChapter += rng.Next(1, 3);
+                    var minStock = randomizer.GetConfigOption($"merchant-stock-min-{kind}", 0);
+                    var maxStock = randomizer.GetConfigOption($"merchant-stock-max-{kind}", 0);
+                    if (maxStock == 0)
+                        continue;
+
+                    var drop = itemRandomizer.GetRandomDrop(_distRng, kind, settings);
+                    if (!drop.HasValue)
+                        continue;
+
+                    var item = CreateAvailableItem(drop.Value.Id);
+                    item.InitialStock = rng.Next(minStock, maxStock + 1);
+                    item.StockPerChapter = rng.NextFloat(minStock, maxStock);
+                    item.MaxStock = 100;
+                    RandomizePrice(item, spinel: false);
                 }
             }
 
             private void DistributeMiscItems()
             {
-                var itemRepo = ItemDefinitionRepository.Default;
-
-                var recipeDefs = itemRepo.KindToItemMap[ItemKinds.Recipe];
-                foreach (var def in recipeDefs)
-                {
-                    if (ItemRandomizer.IsItemPlaced(def.Id))
-                        continue;
-
-                    var item = CreateAvailableItem(def);
-                    item.UnlockChapter = rng.Next(1, 6);
-                    RandomizePrice(item, spinel: rng.NextProbability(25));
-                }
-
-                var casePerks = itemRepo.KindToItemMap[ItemKinds.CasePerk];
-                foreach (var def in casePerks)
-                {
-                    if (ItemRandomizer.IsItemPlaced(def.Id))
-                        continue;
-
-                    var item = CreateAvailableItem(def);
-                    item.UnlockChapter = rng.Next(1, 11);
-                    RandomizePrice(item, spinel: true);
-                }
-
                 for (var i = 0; i < rng.Next(1, 3); i++)
                 {
                     var item = CreateAvailableItem(ItemIds.ExclusiveUpgradeTicket);
@@ -227,133 +206,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var item = CreateAvailableItem(ItemIds.EggGold);
                     item.UnlockChapter = rng.Next(1, 6);
                     RandomizePrice(item, spinel: true);
-                }
-
-                if (rng.NextProbability(50))
-                {
-                    var item = CreateAvailableItem(ItemIds.SmallKey);
-                    RandomizePrice(item, spinel: rng.NextProbability(25));
-                }
-
-                var randomItems = new[]
-                {
-                    ItemIds.EggBrown,
-                    ItemIds.EggWhite,
-                    ItemIds.BlackBassSmall,
-                    ItemIds.BlackBassLarge,
-                    ItemIds.HerbG,
-                    ItemIds.HerbR,
-                    ItemIds.HerbY,
-                    ItemIds.HerbGG,
-                    ItemIds.HerbGGG,
-                    ItemIds.HerbGGY,
-                    ItemIds.HerbGR,
-                    ItemIds.HerbGRY,
-                    ItemIds.HerbRY,
-                };
-                foreach (var itemId in randomItems)
-                {
-                    if (rng.NextProbability(50))
-                    {
-                        var item = CreateAvailableItem(itemId);
-                        item.UnlockChapter = rng.Next(1, 6);
-                        if (rng.NextProbability(25))
-                        {
-                            item.InitialStock = rng.Next(5, 10);
-                            item.MaxStock = rng.Next(5, 10);
-                            item.StockPerChapter = rng.Next(1, 5);
-                        }
-                        RandomizePrice(item, spinel: rng.NextProbability(10));
-                    }
-                }
-
-                var ammoItemDefs = itemRepo.KindToItemMap[ItemKinds.Ammo];
-                foreach (var ammoItemDef in ammoItemDefs)
-                {
-                    var item = CreateAvailableItem(ammoItemDef.Id);
-                    item.InitialStock = rng.Next(10, 50);
-                    item.StockPerChapter = rng.Next(10, 50);
-                    item.MaxStock = rng.Next(50, 100);
-                    RandomizePrice(item, spinel: false);
-                }
-
-                var knifeDefs = itemRepo.KindToItemMap[ItemKinds.Knife];
-                foreach (var def in knifeDefs)
-                {
-                    var item = CreateAvailableItem(def.Id);
-                    item.InitialStock = rng.Next(0, 10);
-                    item.StockPerChapter = rng.Next(5, 15);
-                    item.MaxStock = rng.Next(30, 50);
-                    RandomizePrice(item, spinel: false);
-                }
-
-                var grenades = new[]
-                {
-                    ItemIds.GrenadeFlash,
-                    ItemIds.GrenadeLight,
-                    ItemIds.GrenadeHeavy,
-                };
-                foreach (var itemId in grenades)
-                {
-                    var item = CreateAvailableItem(itemId);
-                    item.UnlockChapter = rng.Next(1, 4);
-                    item.InitialStock = rng.Next(0, 5);
-                    item.StockPerChapter = rng.Next(1, 5);
-                    item.MaxStock = rng.Next(10, 20);
-                    RandomizePrice(item, spinel: false);
-                    if (rng.NextProbability(25))
-                    {
-                        RandomizePrice(item, spinel: true);
-                    }
-                }
-
-                var tokens = itemRepo.KindToItemMap[ItemKinds.Token];
-                foreach (var def in tokens)
-                {
-                    if (rng.NextProbability(75))
-                        continue;
-
-                    var item = CreateAvailableItem(def);
-                    item.UnlockChapter = rng.Next(1, 11);
-                    RandomizePrice(item, spinel: true);
-                }
-            }
-
-            private void DistributeCriticalItems()
-            {
-                var itemRepo = ItemDefinitionRepository.Default;
-                var criticalItems = new[]
-                {
-                    ItemIds.Gunpowder,
-                    ItemIds.ResourcesSmall,
-                    ItemIds.FirstAidSpray,
-                    ItemIds.ResourcesLarge,
-                };
-                foreach (var itemId in criticalItems)
-                {
-                    var itemDef = itemRepo.Find(itemId)!;
-                    var item = CreateAvailableItem(itemDef);
-                    if (itemId == ItemIds.Gunpowder)
-                        item.Quantity = 10;
-                    item.StockPerChapter = (float)rng.NextDouble(5, 10);
-                    item.MaxStock = rng.Next(10, 30);
-                    RandomizePrice(item, spinel: false);
-                    if (rng.NextProbability(25))
-                        RandomizePrice(item, spinel: true);
-                }
-            }
-
-            private void DistributeCharms()
-            {
-                for (var i = 0; i < rng.Next(10, 20); i++)
-                {
-                    var charm = ItemRandomizer.GetRandomItemDefinition(rng, ItemKinds.Charm, allowReoccurance: false);
-                    if (charm != null)
-                    {
-                        var item = CreateAvailableItem(charm);
-                        item.UnlockChapter = rng.Next(0, 10);
-                        RandomizePrice(item, spinel: rng.NextProbability(25));
-                    }
                 }
             }
 

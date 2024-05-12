@@ -129,7 +129,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             logger.Push($"Randomizing items");
 
             var itemRandomizer = randomizer.ItemRandomizer;
-            var weaponDistributor = randomizer.WeaponDistributor;
+            var weaponDistributor = randomizer.ValuableDistributor;
             foreach (var kvp in levelItems.GroupBy(x => x.Chapter).OrderBy(x => x.Key))
             {
                 var chapter = kvp.Key;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -64,6 +65,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public static ImmutableArray<string> GenericAll => _special.Concat(_generic).ToImmutableArray();
         public static ImmutableArray<string> Generic => _generic.ToImmutableArray();
         public static ImmutableArray<string> HighValue => _highValue.ToImmutableArray();
+
+        public static string GetLabel(string drop)
+        {
+            return drop switch
+            {
+                Fas => "First-Aid Spray",
+                HerbG => "Herb G",
+                HerbGG => "Herb G+G",
+                HerbGGY => "Herb G+G+Y",
+                HerbGGG => "Herb G+G+G",
+                HerbGR => "Herb G+G+R",
+                HerbGRY => "Herb G+R+Y",
+                HerbGY => "Herb G+Y",
+                HerbR => "Herb R",
+                HerbRY => "Herb G+Y",
+                HerbY => "Herb Y",
+                _ => drop.Replace("-", " ").ToTitleCase(),
+            };
+        }
 
         public static string GetCategory(string drop)
         {

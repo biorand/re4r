@@ -49,7 +49,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             inventory.ClearItems();
 
             // Weapons
-            var weapons = randomizer.WeaponDistributor.GetWeapons(ItemDiscovery.Start);
+            var weapons = randomizer.ValuableDistributor.GetItems(ItemDiscovery.Start);
             foreach (var weapon in weapons)
             {
                 inventory.AddItem(new Item(weapon.Definition.Id));

@@ -18,7 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly RandomizerLogger _loggerProcess = new RandomizerLogger();
         private readonly RandomizerLogger _loggerOutput = new RandomizerLogger();
         private RandomizerInput _input = new RandomizerInput();
-        private ValuableDistributor? _weaponDistributor;
+        private ValuableDistributor? _valuableDistributor;
         private ItemRandomizer? _itemRandomizer;
         private readonly ImmutableArray<Modifier> _modifiers = GetModifiers();
         private ImmutableArray<Area> _areas;
@@ -27,7 +27,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public EnemyClassFactory EnemyClassFactory { get; }
         public FileRepository FileRepository => _fileRepository;
 
-        public ValuableDistributor WeaponDistributor => _weaponDistributor!;
+        public ValuableDistributor ValuableDistributor => _valuableDistributor!;
         public ItemRandomizer ItemRandomizer => _itemRandomizer!;
         public ImmutableArray<Area> Areas => _areas;
 
@@ -71,8 +71,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var rng = new Rng(input.Seed);
             _rng = rng;
 
-            _weaponDistributor = new ValuableDistributor(this);
-            _weaponDistributor.Setup(_itemRandomizer, _rng, _loggerProcess);
+            _valuableDistributor = new ValuableDistributor(this);
+            _valuableDistributor.Setup(_itemRandomizer, _rng, _loggerProcess);
 
             var inventoryRng = CreateRng();
             var merchantRng = CreateRng();

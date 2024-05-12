@@ -168,14 +168,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 .ToImmutableArray();
         }
 
-        public ImmutableArray<DistributedItem> GetWeapons(ItemDiscovery discovery)
+        public ImmutableArray<DistributedItem> GetItems(ItemDiscovery discovery)
         {
             return _distributedItems
                 .Where(x => x.Discovery == discovery)
                 .ToImmutableArray();
         }
 
-        public ImmutableDictionary<int, ImmutableArray<ItemDefinition>> GetWeaponsForShop()
+        public ImmutableDictionary<int, ImmutableArray<ItemDefinition>> GetItemsForShop()
         {
             var result = ImmutableDictionary.CreateBuilder<int, ImmutableArray<ItemDefinition>>();
             var chapters = _distributedItems

@@ -144,6 +144,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Default = true
             });
 
+            group = page.CreateGroup("Max. Stock Increase per Chapter");
+            foreach (var kind in DropKinds.Generic)
+            {
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"merchant-stock-max-{kind}",
+                    Label = DropKinds.GetLabel(kind),
+                    Type = "range",
+                    Min = 0,
+                    Max = 100,
+                    Step = 1,
+                    Default = kind.Contains("ammo") ? 0 : 5
+                });
+            }
+
             page = configDefinition.CreatePage("Inventory");
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
@@ -240,7 +255,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"item-drop-ratio-{dropKind}",
-                    Label = dropKind.Replace("-", " ").ToTitleCase(),
+                    Label = DropKinds.GetLabel(dropKind),
                     Description = dropKind switch
                     {
                         DropKinds.None => "No item is dropped.",
@@ -267,7 +282,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"item-drop-valuable-{dropKind}",
-                    Label = dropKind.Replace("-", " ").ToTitleCase(),
+                    Label = DropKinds.GetLabel(dropKind),
                     Type = "switch",
                     Default = true
                 });
@@ -396,7 +411,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"enemy-drop-ratio-{dropKind}",
-                    Label = dropKind.Replace("-", " ").ToTitleCase(),
+                    Label = DropKinds.GetLabel(dropKind),
                     Description = dropKind switch
                     {
                         DropKinds.None => "No item is dropped.",

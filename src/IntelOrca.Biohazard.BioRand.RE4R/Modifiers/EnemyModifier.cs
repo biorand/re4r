@@ -275,7 +275,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .ToList();
 
             // Valuables
-            var weaponDrops = randomizer.WeaponDistributor
+            var weaponDrops = randomizer.ValuableDistributor
                 .GetWeapons(chapter, ItemDiscovery.Enemy)
                 .Shuffle(rng);
             logger.Push("Valuables");

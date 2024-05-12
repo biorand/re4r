@@ -6,6 +6,11 @@ export const LocalStorageKeys = {
 };
 
 class LocalStorageManager {
+    getNumber(key: string): number | undefined {
+        const result = localStorage.getItem(key);
+        return typeof result === 'string' ? parseFloat(result) : undefined;
+    }
+
     getString(key: string): string | undefined {
         const result = localStorage.getItem(key);
         return typeof result === 'string' ? result : undefined;

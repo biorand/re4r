@@ -26,14 +26,14 @@
 </script>
 
 <Tabs tabStyle="pill">
-    <TabItem title="Generate">
+    <TabItem title="Generate" open>
         <GenerateTabPanel {profile} />
     </TabItem>
     <TabItem title="Profile">
         <ProfileTabPanel bind:profile />
     </TabItem>
     {#each definition?.pages || [] as p, i}
-        <TabItem title={p.label} open={i == 4}>
+        <TabItem title={p.label}>
             {#each p.groups as g}
                 <ConfigGroupHeading bind:config={profile.config} group={g} />
 
