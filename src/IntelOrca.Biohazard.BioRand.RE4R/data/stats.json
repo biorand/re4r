@@ -55,10 +55,142 @@
     {
       "name": "Critical Rate",
       "category": 0,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
       "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
       "dataFields": [
         "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCriticalRate._CriticalRateNormalScale",
         "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCriticalRate._CriticalRateFitScale"
+      ]
+    },
+    {
+      "name": "Power",
+      "category": 1,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAttackUp._DamageRateScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAttackUp._WinceRateScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAttackUp._BreakRateScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAttackUp._StoppingRateScale"
+      ]
+    },
+    {
+      "name": "Power (Shotgun)",
+      "category": 2,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakShotGunAroundAttackUp._DamageRateScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakShotGunAroundAttackUp._WinceRateScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakShotGunAroundAttackUp._BreakRateScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakShotGunAroundAttackUp._StoppingRateScale"
+      ]
+    },
+    {
+      "name": "Penetration",
+      "category": 3,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakThroughNum._ThroughNumNormal",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakThroughNum._ThroughNumFit"
+      ]
+    },
+    {
+      "name": "Ammo Capacity",
+      "category": 4,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAmmoMaxUp._AmmoMaxScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAmmoMaxUp._ReloadNumScale"
+      ]
+    },
+    {
+      "name": "Rate of Fire",
+      "category": 5,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakRapid._RapidSpeedScale"
+      ]
+    },
+    {
+      "name": "Durability",
+      "category": 6,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakStrength._DurabilityMaxScale"
+      ]
+    },
+    {
+      "name": "Unlimited Ammunition",
+      "category": 7,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakOKReload._IsOKReload"
+      ]
+    },
+    {
+      "name": "Attack Speed",
+      "category": 8,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCombatSpeed._CombatSpeed"
+      ]
+    },
+    {
+      "name": "Unbreakable",
+      "category": 9,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakUnbreakable._IsUnbreakable"
+      ]
+    },
+    {
+      "name": "BlastRange_1011",
+      "category": 10,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakBlastRange_1011._BlastRangeScale"
       ]
     }
   ]

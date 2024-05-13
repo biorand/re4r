@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Data;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -27,18 +28,31 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var weaponName = weapon?.Name ?? weaponId.Key.ToString();
 
                 logger.Push($"Weapon {weaponName}");
-                foreach (var upgradeName in weaponId.GroupBy(x => x.Name))
+                foreach (var upgradeName in weaponId.OfType<WeaponUpgradeStat>().GroupBy(x => x.Name))
                 {
                     logger.Push(upgradeName.Key);
                     foreach (var stat in upgradeName.OrderBy(x => x.Level))
                     {
                         var value = stat.Value;
-                        if (value is float f)
-                            value = f.ToString("0.00");
+                        if (value.Value is float f)
+                            value = value.WithValue(f.ToString("0.00"));
                         logger.LogLine($"Level = {stat.Level} Cost = {stat.Cost} Info = {stat.Info} Value = {value}");
                     }
                     logger.Pop();
                 }
+
+                // Exclusive
+                var exclusives = weaponId.OfType<WeaponExclusiveStat>().ToArray();
+                if (exclusives.Length > 0)
+                {
+                    logger.Push($"Exclusive: {exclusives[0].Name} Cost = {exclusives[0].Cost}");
+                    foreach (var exclusive in weaponId.OfType<WeaponExclusiveStat>())
+                    {
+                        logger.LogLine($"Field = {GetFieldName(exclusive.Value.Path)} Value = {exclusive.Value.Value}");
+                    }
+                    logger.Pop();
+                }
+
                 logger.Pop();
             }
         }
@@ -71,31 +85,35 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 foreach (var statKind in statKinds)
                 {
                     var modifiedStats = statKind
+                        .OfType<WeaponUpgradeStat>()
                         .Select(x => new WeaponStatModifier(x))
                         .ToArray();
+
+                    if (!modifiedStats.Any())
+                        continue;
 
                     RandomizeStats(modifiedStats, logger);
                     foreach (var modifiedStat in modifiedStats)
                     {
-                        if (modifiedStat.Stat.Level == 0)
+                        if (((WeaponUpgradeStat)modifiedStat.Stat).Level == 0)
                             continue;
 
                         var stat = modifiedStat.Stat;
                         var statDef = WeaponStatsDefinition.Upgrades.First(x => x.Name == statKind.Key);
                         if (_randomPrices)
                         {
-                            metaRoot.Set(stat.CostPath, modifiedStat.Cost);
+                            metaRoot.Set(stat.Cost.Path, modifiedStat.Cost);
                         }
                         if (_randomStats)
                         {
-                            metaRoot.Set(stat.InfoPath, GetInfo(stat.Name, stat.Info, stat.Value, modifiedStat.Value));
-                            if (stat.Value is float)
+                            metaRoot.Set(stat.Info.Path, GetInfo(stat.Name, stat.Info.Value, stat.Value.Value, modifiedStat.Value));
+                            if (stat.Value.Value is float)
                             {
-                                dataRoot.Set(stat.ValuePath, modifiedStat.Value);
+                                dataRoot.Set(stat.Value.Path, modifiedStat.Value);
                             }
-                            else if (stat.Value is int)
+                            else if (stat.Value.Value is int)
                             {
-                                dataRoot.Set(stat.ValuePath, (int)MathF.Round(modifiedStat.Value));
+                                dataRoot.Set(stat.Value.Path, (int)MathF.Round(modifiedStat.Value));
                             }
                         }
                     }
@@ -156,8 +174,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var name = stats[0].Stat.Name;
             var format = stats.First().Stat.Value is float ? "0.00" : "0";
-            var originalMin = Convert.ToSingle(stats.First().Stat.Value).ToString(format);
-            var originalMax = Convert.ToSingle(stats.Last().Stat.Value).ToString(format);
+            var originalMin = Convert.ToSingle(stats.First().Stat.Value.Value).ToString(format);
+            var originalMax = Convert.ToSingle(stats.Last().Stat.Value.Value).ToString(format);
             var max = Convert.ToSingle(stats.Last().Value).ToString(format);
             logger.LogLine($"{name} {originalMin} - {originalMax} -> {max}");
         }
@@ -259,9 +277,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var def = WeaponStatsDefinition;
             foreach (var d in def.Upgrades)
             {
-                var costs = new Dictionary<(int, int), (string, int)>();
-                var infos = new Dictionary<(int, int), (string, string)>();
-                var values = new Dictionary<(int, int), (string, object)>();
+                var costs = new Dictionary<(int, int), WeaponRszField<int>>();
+                var infos = new Dictionary<(int, int), WeaponRszField<string>>();
+                var values = new Dictionary<(int, int), WeaponRszField<object>>();
 
                 for (var w = 0; w < 100; w++)
                 {
@@ -277,8 +295,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             var metaInfo = metaRoot.Get<string?>(metaInfoPath, relaxed: true);
                             if (metaWeaponId != null && metaCategory == d.Category && metaCost != null)
                             {
-                                costs[(metaWeaponId.Value, l)] = (metaCostPath, metaCost.Value);
-                                infos[(metaWeaponId.Value, l)] = (metaInfoPath, metaInfo ?? "");
+                                costs[(metaWeaponId.Value, l)] = new WeaponRszField<int>(metaCostPath, metaCost.Value);
+                                infos[(metaWeaponId.Value, l)] = new WeaponRszField<string>(metaInfoPath, metaInfo ?? "");
                             }
 
                             var dataWeaponId = dataRoot.Get<int?>(ProcessPath(d.DataWeaponId, w, i, l), relaxed: true);
@@ -287,7 +305,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             var data = dataRoot.Get(dataPath, relaxed: true);
                             if (dataWeaponId != null && dataCategory == d.Category && data != null)
                             {
-                                values[(dataWeaponId.Value, l)] = (dataPath, data);
+                                values[(dataWeaponId.Value, l)] = new WeaponRszField<object>(dataPath, data);
                             }
                         }
                     }
@@ -301,28 +319,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     infos.TryGetValue((metaWeaponId, level), out var metaInfo);
                     if (values.TryGetValue((metaWeaponId, level), out var value))
                     {
-                        if (metaCost.Item2 < 0)
-                            metaCost.Item2 = 0;
+                        if (metaCost.Value < 0)
+                            metaCost = metaCost.WithValue(0);
                         if (d.Name == "Ammo Capacity" || d.Name == "Durability")
                         {
-                            if ((int)value.Item2 < 0)
-                                value.Item2 = int.Parse(metaInfo.Item2);
+                            if ((int)value.Value < 0)
+                                value = value.WithValue(int.Parse(metaInfo.Value));
                         }
                         else
                         {
-                            if ((float)value.Item2 < 0)
-                                value.Item2 = 1.0f;
+                            if ((float)value.Value < 0)
+                                value = value.WithValue(1.0f);
                         }
-                        stats.Add(new WeaponStat(
+                        stats.Add(new WeaponUpgradeStat(
                             d.Name,
                             metaWeaponId,
                             level,
-                            metaCost.Item2,
-                            metaInfo.Item2 ?? "",
-                            value.Item2,
-                            metaCost.Item1,
-                            metaInfo.Item1,
-                            value.Item1));
+                            metaCost,
+                            metaInfo,
+                            value));
                     }
                 }
             }
@@ -337,12 +352,31 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         if ((dataCategory ?? -1) != e.Category)
                             continue;
 
-
+                        var dataWeaponId = dataRoot.Get<int?>(ProcessPath(e.DataWeaponId, w, i), relaxed: true);
+                        var metaCost = GetProcessedField<int>(metaRoot, e.MetaCost, w, i);
+                        foreach (var field in e.DataFields)
+                        {
+                            var dataPath = ProcessPath(field, w, i);
+                            var value = dataRoot.Get(dataPath, relaxed: true);
+                            stats.Add(new WeaponExclusiveStat(
+                                e.Name,
+                                dataWeaponId!.Value,
+                                metaCost,
+                                new WeaponRszField<string>(),
+                                new WeaponRszField<object>(dataPath, value!)));
+                        }
                     }
                 }
             }
 
             return [.. stats];
+        }
+
+        private static WeaponRszField<T> GetProcessedField<T>(RszInstance instance, string xpath, int w, int i, int l = 0)
+        {
+            var processedPath = ProcessPath(xpath, w, i, l);
+            var value = instance.Get<T?>(processedPath, relaxed: true);
+            return new WeaponRszField<T>(processedPath, value!);
         }
 
         private static string ProcessPath(string xpath, int w, int i, int l = 0)
@@ -351,6 +385,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .Replace("{W}", w.ToString())
                 .Replace("{I}", i.ToString())
                 .Replace("{L}", l.ToString());
+        }
+
+        private static string GetFieldName(string xpath)
+        {
+            var i = xpath.LastIndexOf('.');
+            if (i == -1)
+                return xpath;
+            return xpath[(i + 1)..];
         }
 
         private static WeaponStatsDefinition WeaponStatsDefinition { get; } = Resources.stats.DeserializeJson<WeaponStatsDefinition>();
@@ -378,27 +420,54 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public string Name { get; set; } = "";
         public int Category { get; set; }
+        public string MetaWeaponId { get; set; } = "";
+        public string DataWeaponId { get; set; } = "";
         public string DataCategory { get; set; } = "";
-        public string DataFields { get; set; } = "";
+        public string MetaCost { get; set; } = "";
+        public string[] DataFields { get; set; } = [];
     }
 
-    public record WeaponStat(
+    public abstract record WeaponStat(
+        string Name,
+        int WeaponId,
+        WeaponRszField<int> Cost,
+        WeaponRszField<string> Info,
+        WeaponRszField<object> Value)
+    {
+    }
+
+    public record WeaponUpgradeStat(
         string Name,
         int WeaponId,
         int Level,
-        int Cost,
-        string Info,
-        object Value,
-        string CostPath,
-        string InfoPath,
-        string ValuePath)
+        WeaponRszField<int> Cost,
+        WeaponRszField<string> Info,
+        WeaponRszField<object> Value) : WeaponStat(Name, WeaponId, Cost, Info, Value)
+    {
+    }
+
+    public record WeaponExclusiveStat(
+        string Name,
+        int WeaponId,
+        WeaponRszField<int> Cost,
+        WeaponRszField<string> Info,
+        WeaponRszField<object> Value) : WeaponStat(Name, WeaponId, Cost, Info, Value)
     {
     }
 
     public class WeaponStatModifier(WeaponStat stat)
     {
         public WeaponStat Stat => stat;
-        public int Cost { get; set; } = stat.Cost;
-        public float Value { get; set; } = Convert.ToSingle(stat.Value);
+        public int Cost { get; set; } = stat.Cost.Value;
+        public float Value { get; set; } = Convert.ToSingle(stat.Value.Value);
+    }
+
+    public readonly struct WeaponRszField<T>(string path, T value)
+    {
+        public string Path => path;
+        public T Value => value;
+
+        public WeaponRszField<T> WithValue(T value) => new WeaponRszField<T>(path, value);
+        public override string? ToString() => Value?.ToString() ?? base.ToString();
     }
 }
