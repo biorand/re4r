@@ -15,8 +15,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private bool _randomStats;
         private bool _randomPrices;
+        private bool _randomExclusives;
         private Rng _priceRng = new();
         private Rng _valueRng = new();
+        private Rng _exclusiveRng = new();
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
@@ -59,12 +61,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            _priceRng = randomizer.CreateRng();
-            _valueRng = randomizer.CreateRng();
+            var rng = randomizer.CreateRng();
+            _priceRng = rng.NextFork();
+            _valueRng = rng.NextFork();
+            _exclusiveRng = rng.NextFork();
 
             _randomStats = randomizer.GetConfigOption<bool>("random-weapon-stats");
             _randomPrices = randomizer.GetConfigOption<bool>("random-weapon-upgrade-prices");
-            if (!_randomStats && !_randomPrices)
+            _randomExclusives = randomizer.GetConfigOption<bool>("random-weapon-exclusives");
+            if (!_randomStats && !_randomPrices && !_randomExclusives)
                 return;
 
             var itemRepo = ItemDefinitionRepository.Default;
@@ -118,6 +123,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         }
                     }
                 }
+
+                if (_randomPrices)
+                    RandomizeExclusivePrices(metaRoot, stats, weaponId, logger);
+                if (_randomExclusives)
+                    RandomizeExclusive(metaRoot, dataRoot, stats, weaponId, logger);
 
                 logger.Pop();
             }
@@ -259,6 +269,96 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var val = Lerp(originalMin, max, i / (stats.Length - 1.0f));
                 stats[i].Value = (int)MathF.Ceiling(val / 100) * 100;
             }
+        }
+
+        private void RandomizeExclusivePrices(RszInstance metaRoot, ImmutableArray<WeaponStat> stats, int weaponId, RandomizerLogger logger)
+        {
+            var firstExclusiveStat = stats
+                .OfType<WeaponExclusiveStat>()
+                .FirstOrDefault(x => x.WeaponId == weaponId);
+
+            if (firstExclusiveStat == null)
+                return;
+
+            var cost = _priceRng.Next(50, 151) * 1000;
+            metaRoot.Set(firstExclusiveStat.Cost.Path, cost);
+            logger.LogLine($"Exclusive Cost = {cost}");
+        }
+
+        private void RandomizeExclusive(
+            RszInstance metaRoot,
+            RszInstance dataRoot,
+            ImmutableArray<WeaponStat> stats,
+            int weaponId,
+            RandomizerLogger logger)
+        {
+            var availableStats = stats
+                .Where(x => x.WeaponId == weaponId)
+                .Select(x => x.Name)
+                .ToHashSet();
+
+            var randomExclusive = WeaponStatsDefinition.Exclusives
+                .Where(x => x.Requires == null || availableStats.Contains(x.Requires))
+                .Shuffle(_exclusiveRng)
+                .First();
+
+            var metaWeaponIndex = FindWeaponIndex(metaRoot, randomExclusive.MetaWeaponId, weaponId);
+            var dataWeaponIndex = FindWeaponIndex(dataRoot, randomExclusive.DataWeaponId, weaponId);
+            if (metaWeaponIndex == -1 || dataWeaponIndex == -1)
+                return;
+
+            var metaCategoryField = GetProcessedField<int>(metaRoot, randomExclusive.MetaCategory, metaWeaponIndex, 0);
+            metaRoot.Set(metaCategoryField.Path, randomExclusive.Category);
+
+            var dataCategoryField = GetProcessedField<int>(dataRoot, randomExclusive.DataCategory, dataWeaponIndex, 0);
+            dataRoot.Set(dataCategoryField.Path, randomExclusive.Category);
+
+            var messageIdField = GetProcessedField<Guid>(metaRoot, randomExclusive.MetaMessageId, metaWeaponIndex, 0);
+            var perksMessageIdField = GetProcessedField<Guid>(metaRoot, randomExclusive.MetaPerksMessageId, metaWeaponIndex, 0);
+            var rateValueField = GetProcessedField<float>(metaRoot, randomExclusive.MetaRateValue, metaWeaponIndex, 0);
+
+            metaRoot.Set(messageIdField.Path, randomExclusive.MessageId);
+            metaRoot.Set(perksMessageIdField.Path, randomExclusive.PerkMessageId);
+
+            float rateValue = 1.0f;
+            object value = 1.0f;
+            switch (randomExclusive.Category)
+            {
+                case 3:
+                    rateValue = randomExclusive.FixedValue;
+                    value = Convert.ToInt32(rateValue);
+                    break;
+                case 7:
+                case 9:
+                    value = true;
+                    break;
+                default:
+                    rateValue = randomExclusive.FixedValue;
+                    value = rateValue;
+                    break;
+            }
+
+            metaRoot.Set(rateValueField.Path, rateValue);
+            logger.LogLine($"Setting exclusive to {randomExclusive.Name} Rate = {randomExclusive.FixedValue}");
+            foreach (var field in randomExclusive.DataFields)
+            {
+                var fieldField = GetProcessedField<object>(dataRoot, field, dataWeaponIndex, 0);
+                dataRoot.Set(fieldField.Path, value);
+            }
+        }
+
+        private static int FindWeaponIndex(RszInstance root, string xpath, int weaponId)
+        {
+            for (var w = 0; w < 100; w++)
+            {
+                var weaponPath = ProcessPath(xpath, w, 0);
+                var weaponIdField = GetProcessedField<int>(root, weaponPath, w, 0);
+                if (weaponIdField.Value == weaponId)
+                {
+                    return w;
+                }
+            }
+            return -1;
         }
 
         private static float Lerp(float a, float b, float t)
@@ -421,10 +521,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public string Name { get; set; } = "";
         public int Category { get; set; }
         public string MetaWeaponId { get; set; } = "";
+        public string MetaCategory { get; set; } = "";
         public string DataWeaponId { get; set; } = "";
         public string DataCategory { get; set; } = "";
+        public string MetaMessageId { get; set; } = "";
+        public string MetaPerksMessageId { get; set; } = "";
+        public string MetaRateValue { get; set; } = "";
         public string MetaCost { get; set; } = "";
         public string[] DataFields { get; set; } = [];
+        public string? Requires { get; set; }
+        public Guid MessageId { get; set; }
+        public Guid PerkMessageId { get; set; }
+        public float FixedValue { get; set; }
     }
 
     public abstract record WeaponStat(
