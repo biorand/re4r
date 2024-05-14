@@ -12,6 +12,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         private const string WeaponCustomUserDataPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weaponcustomuserdata.user.2";
         private const string WeaponDetailCustomUserDataPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2";
+        private const string ItemDefinitionUserDataPath = "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2";
 
         private bool _randomStats;
         private bool _randomPrices;
@@ -100,9 +101,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     RandomizeStats(modifiedStats, logger);
                     foreach (var modifiedStat in modifiedStats)
                     {
-                        if (((WeaponUpgradeStat)modifiedStat.Stat).Level == 0)
-                            continue;
-
                         var stat = modifiedStat.Stat;
                         var statDef = WeaponStatsDefinition.Upgrades.First(x => x.Name == statKind.Key);
                         if (_randomPrices)
@@ -134,6 +132,40 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             randomizer.FileRepository.SetUserFile(WeaponCustomUserDataPath, mainFile);
             randomizer.FileRepository.SetUserFile(WeaponDetailCustomUserDataPath, detailFile);
+
+            UpdateItemDefinitions(randomizer);
+        }
+
+        private void UpdateItemDefinitions(ChainsawRandomizer randomizer)
+        {
+            var userFile = randomizer.FileRepository.GetUserFile(ItemDefinitionUserDataPath);
+            if (userFile == null)
+                return;
+
+            var stats = GetWeaponStats(randomizer);
+            var baseStats = stats
+                .OfType<WeaponUpgradeStat>()
+                .Where(x => x.Level == 0 && x.Name == "Ammo Capacity")
+                .ToArray();
+
+            var itemRepo = ItemDefinitionRepository.Default;
+            var root = userFile.RSZ!.ObjectList[0];
+            var items = root.GetArray<RszInstance>("_Datas");
+            foreach (var item in items)
+            {
+                var itemId = item.Get<int>("_ItemId");
+                var itemDef = itemRepo.Find(itemId);
+                if (itemDef == null)
+                    continue;
+
+                var stat = baseStats.FirstOrDefault(x => x.WeaponId == itemDef.WeaponId);
+                if (stat == null)
+                    continue;
+
+                item.Set("_WeaponDefineData._AmmoMax", (int)stat.Value.Value);
+            }
+
+            randomizer.FileRepository.SetUserFile(ItemDefinitionUserDataPath, userFile);
         }
 
         private static string GetInfo(string name, string oldInfo, object oldValue, float newValue)
@@ -186,8 +218,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var format = stats.First().Stat.Value.Value is float ? "0.00" : "0";
             var originalMin = Convert.ToSingle(stats.First().Stat.Value.Value).ToString(format);
             var originalMax = Convert.ToSingle(stats.Last().Stat.Value.Value).ToString(format);
+            var min = Convert.ToSingle(stats.First().Value).ToString(format);
             var max = Convert.ToSingle(stats.Last().Value).ToString(format);
-            logger.LogLine($"{name} {originalMin} - {originalMax} -> {max}");
+            logger.LogLine($"{name} {originalMin} - {originalMax} -> {min} - {max}");
         }
 
         private void RandomizePower(WeaponStatModifier[] stats, RandomizerLogger logger)
@@ -196,14 +229,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var originalMax = stats.Last().Value;
             var range = originalMax - originalMin;
 
-            var min = originalMin + 0.05f;
-            var maxLower = min + (range / 2);
+            var minLower = originalMin / 2;
+            var minUpper = originalMin + (range / 2);
+            var min = _valueRng.NextFloat(minLower, minUpper);
+            var maxLower = min + stats.Length;
             var maxUpper = originalMax + range;
             var max = _valueRng.NextFloat(maxLower, maxUpper);
 
-            for (var i = 1; i < stats.Length; i++)
+            for (var i = 0; i < stats.Length; i++)
             {
-                stats[i].Value = Lerp(originalMin, max, i / (stats.Length - 1.0f));
+                stats[i].Value = Lerp(min, max, i / (stats.Length - 1.0f));
             }
         }
 
@@ -211,15 +246,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var originalMin = (int)stats[0].Value;
             var originalMax = (int)stats.Last().Value;
+            var range = originalMax - originalMin;
 
-            var min = originalMin + 1;
+            var minLower = originalMin / 2;
+            var minUpper = originalMin + (range / 2);
+            var min = _valueRng.Next(minLower, minUpper + 1);
             var maxLower = min + stats.Length;
             var maxUpper = originalMax * 2;
-            var max = (int)MathF.Round(_valueRng.NextFloat(maxLower, maxUpper));
+            var max = _valueRng.Next(maxLower, maxUpper + 1);
 
-            for (var i = 1; i < stats.Length; i++)
+            for (var i = 0; i < stats.Length; i++)
             {
-                stats[i].Value = Lerp(originalMin, max, i / (stats.Length - 1.0f));
+                stats[i].Value = Lerp(min, max, i / (stats.Length - 1.0f));
             }
         }
 
@@ -227,15 +265,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var originalMin = stats[0].Value;
             var originalMax = stats.Last().Value;
+            var range = originalMax - originalMin;
 
-            var min = originalMin + 0.05f;
-            var maxLower = min + 0.10f;
+            var minLower = originalMin / 2;
+            var minUpper = originalMin + (range / 2);
+            var min = _valueRng.NextFloat(minLower, minUpper);
+            var maxLower = min + (stats.Length * 0.5f);
             var maxUpper = originalMax * 2;
             var max = _valueRng.NextFloat(maxLower, maxUpper);
 
-            for (var i = 1; i < stats.Length; i++)
+            for (var i = 0; i < stats.Length; i++)
             {
-                stats[i].Value = Lerp(originalMin, max, i / (stats.Length - 1.0f));
+                stats[i].Value = Lerp(min, max, i / (stats.Length - 1.0f));
             }
         }
 
@@ -243,15 +284,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var originalMin = stats[0].Value;
             var originalMax = stats.Last().Value;
+            var range = originalMax - originalMin;
 
-            var min = originalMin - 0.05f;
-            var maxLower = min - 0.10f;
+            var minLower = originalMin - (range / 2);
+            var minUpper = originalMin * 2;
+            var min = _valueRng.NextFloat(minLower, minUpper);
+            var maxLower = min - (stats.Length * 0.5f);
             var maxUpper = originalMax / 2;
             var max = _valueRng.NextFloat(maxLower, maxUpper);
 
-            for (var i = 1; i < stats.Length; i++)
+            for (var i = 0; i < stats.Length; i++)
             {
-                stats[i].Value = Lerp(originalMin, max, i / (stats.Length - 1.0f));
+                stats[i].Value = Lerp(min, max, i / (stats.Length - 1.0f));
             }
         }
 
@@ -259,15 +303,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var originalMin = (int)stats[0].Value;
             var originalMax = (int)stats.Last().Value;
+            var range = originalMax - originalMin;
 
-            var min = originalMin + 100;
+            var minLower = originalMin / 2;
+            var minUpper = originalMax + (range / 2);
+            var min = (int)MathF.Round(_valueRng.NextFloat(minLower, minUpper));
             var maxLower = min + stats.Length;
             var maxUpper = originalMax * 2;
             var max = (int)MathF.Round(_valueRng.NextFloat(maxLower, maxUpper));
 
-            for (var i = 1; i < stats.Length; i++)
+            for (var i = 0; i < stats.Length; i++)
             {
-                var val = Lerp(originalMin, max, i / (stats.Length - 1.0f));
+                var val = Lerp(min, max, i / (stats.Length - 1.0f));
                 stats[i].Value = (int)MathF.Ceiling(val / 100) * 100;
             }
         }
