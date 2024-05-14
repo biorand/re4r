@@ -58,15 +58,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 allowBonusItems: GetConfigOption<bool>("allow-bonus-items"));
 
             // Supplement files
-            var supplementZip = new ZipArchive(new MemoryStream(Resources.supplement));
-            foreach (var entry in supplementZip.Entries)
-            {
-                if (entry.Length == 0)
-                    continue;
-
-                var data = entry.GetData();
-                _fileRepository.SetGameFileData(entry.FullName, data);
-            }
+            ApplyOverlay(Resources.supplement);
+            ApplyOverlay(Resources.delorca);
 
             var rng = new Rng(input.Seed);
             _rng = rng;
@@ -116,6 +109,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var logFiles = new LogFiles(_loggerInput.Output, _loggerProcess.Output, _loggerOutput.Output);
             return new RandomizerOutput(input, _fileRepository.GetOutputPakFile(), logFiles);
+        }
+
+        private void ApplyOverlay(byte[] zipData)
+        {
+            var supplementZip = new ZipArchive(new MemoryStream(zipData));
+            foreach (var entry in supplementZip.Entries)
+            {
+                if (entry.Length == 0)
+                    continue;
+
+                var data = entry.GetData();
+                _fileRepository.SetGameFileData(entry.FullName, data);
+            }
         }
 
         private List<Area> GetAreas()
