@@ -430,7 +430,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
 
                 var stageSpawns = g.ToArray();
-                var newEnemyCount = stageSpawns.Length * multiplier;
+                var newEnemyCount = Math.Min(enemyLimit, stageSpawns.Length * multiplier);
                 var delta = (int)Math.Round(newEnemyCount - stageSpawns.Length);
                 if (delta != 0)
                 {
