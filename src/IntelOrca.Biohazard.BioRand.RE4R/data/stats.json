@@ -50,5 +50,216 @@
       "meta": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._CustomStrength._StrengthCustomStages[{L}]",
       "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._Strength._DurabilityMaxes[{L}]"
     }
+  ],
+  "exclusives": [
+    {
+      "name": "Critical Rate",
+      "category": 0,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
+      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
+      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCriticalRate._CriticalRateNormalScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCriticalRate._CriticalRateFitScale"
+      ],
+      "messageId": "09a22523-bd44-467b-8e19-aec7add301fa",
+      "perkMessageId": "2702d827-edab-4aa4-91e5-70d411c3a452",
+      "fixedValue": 5,
+      "requires": "Ammo Capacity"
+    },
+    {
+      "name": "Power",
+      "category": 1,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
+      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
+      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAttackUp._DamageRateScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAttackUp._WinceRateScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAttackUp._BreakRateScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAttackUp._StoppingRateScale"
+      ],
+      "messageId": "fbf7fd02-c214-41de-91f1-5f4e26d2996c",
+      "perkMessageId": "5825ecfd-166f-45ce-bf4e-10c2d8a3343e",
+      "fixedValue": 2
+    },
+    {
+      "name": "Power (Shotgun)",
+      "category": 2,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
+      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
+      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakShotGunAroundAttackUp._DamageRateScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakShotGunAroundAttackUp._WinceRateScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakShotGunAroundAttackUp._BreakRateScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakShotGunAroundAttackUp._StoppingRateScale"
+      ],
+      "messageId": "fbf7fd02-c214-41de-91f1-5f4e26d2996c",
+      "perkMessageId": "5825ecfd-166f-45ce-bf4e-10c2d8a3343e",
+      "fixedValue": 2,
+      "requires": "N/A"
+    },
+    {
+      "name": "Penetration",
+      "category": 3,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
+      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
+      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakThroughNum._ThroughNumNormal",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakThroughNum._ThroughNumFit"
+      ],
+      "messageId": "28c947e0-235e-4423-b80d-c3358eae988b",
+      "perkMessageId": "a9a87cb2-ffa3-4e9c-a950-0918836871da",
+      "fixedValue": 5,
+      "requires": "Ammo Capacity"
+    },
+    {
+      "name": "Ammo Capacity",
+      "category": 4,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
+      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
+      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAmmoMaxUp._AmmoMaxScale",
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAmmoMaxUp._ReloadNumScale"
+      ],
+      "messageId": "7fdcd8be-1308-457e-8824-e14bbef0bdb4",
+      "perkMessageId": "dcf42fa5-a6ca-4b50-a154-eeac185e0f15",
+      "fixedValue": 2,
+      "requires": "Ammo Capacity"
+    },
+    {
+      "name": "Rate of Fire",
+      "category": 5,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
+      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
+      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakRapid._RapidSpeedScale"
+      ],
+      "messageId": "8acca1f0-182b-4016-bc4d-49ca8dfc8d22",
+      "perkMessageId": "8795e021-f2c8-4237-a0d2-b24eac1803e7",
+      "fixedValue": 2,
+      "requires": "Rate of Fire"
+    },
+    {
+      "name": "Durability",
+      "category": 6,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
+      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
+      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakStrength._DurabilityMaxScale"
+      ],
+      "requires": "Durability"
+    },
+    {
+      "name": "Unlimited Ammunition",
+      "category": 7,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
+      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
+      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakOKReload._IsOKReload"
+      ],
+      "messageId": "509c1e78-f34c-49c8-8847-168e8e61df04",
+      "perkMessageId": "dcd5baea-8d01-4e4b-9c82-a87f0388a2d5",
+      "requires": "N/A"
+    },
+    {
+      "name": "Attack Speed",
+      "category": 8,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
+      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
+      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCombatSpeed._CombatSpeed"
+      ],
+      "messageId": "ba1d62cd-c478-4089-b505-2b25acba9712",
+      "perkMessageId": "47710f47-38fd-44fa-8767-a9f74a044260",
+      "fixedValue": 1.5,
+      "requires": "Durability"
+    },
+    {
+      "name": "Unbreakable",
+      "category": 9,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
+      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
+      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakUnbreakable._IsUnbreakable"
+      ],
+      "messageId": "8351af7a-856b-4346-8990-5af297d6e7ec",
+      "perkMessageId": "9b5f9875-3859-462a-8065-3e26f2fe8ed3",
+      "requires": "N/A"
+    },
+    {
+      "name": "BlastRange_1011",
+      "category": 10,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
+      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
+      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
+      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
+      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
+      "dataFields": [
+        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakBlastRange_1011._BlastRangeScale"
+      ],
+      "requires": "N/A"
+    }
   ]
 }

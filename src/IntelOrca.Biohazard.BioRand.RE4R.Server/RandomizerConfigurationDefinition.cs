@@ -143,6 +143,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"random-weapon-exclusives",
+                Label = "Random Weapon Exclusives",
+                Description = "Let Biorand randomize the weapon exclusive upgrades.",
+                Type = "switch",
+                Default = true
+            });
 
             group = page.CreateGroup("Max. Stock Increase per Chapter");
             foreach (var kind in DropKinds.Generic)
