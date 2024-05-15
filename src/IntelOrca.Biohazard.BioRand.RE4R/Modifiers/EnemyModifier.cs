@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Numerics;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -200,6 +202,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     e.ParasiteKind = 0;
                     e.ForceParasiteAppearance = false;
                     e.ParasiteAppearanceProbability = 0;
+
+                    // Reset orientation (when converting sideways novistadors)
+                    var transform = e.GameObject.FindComponent("via.Transform");
+                    if (transform != null)
+                    {
+                        var v1 = transform.Get<Vector4>("v1");
+                        if (MathF.Round(v1.X, 1) != 0 || MathF.Round(v1.Z, 1) != 0)
+                        {
+                            transform.Set("v1", new Vector4(0, v1.Y, 0, v1.W));
+                        }
+                    }
 
                     // Set weapon
                     if (ecd.Weapon.Length == 0)
