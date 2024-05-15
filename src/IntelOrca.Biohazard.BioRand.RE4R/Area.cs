@@ -47,7 +47,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        public ImmutableArray<EnemySpawn> EnemySpawns { get; set; }
+        public ImmutableArray<EnemySpawn> EnemySpawns { get; set; } = [];
 
         private RszInstance? GetMainEnemyComponent(ScnFile.GameObjectData gameObject)
         {

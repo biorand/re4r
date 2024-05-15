@@ -161,6 +161,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                         ratios.Add(dropKind, ratio);
                     }
                 }
+
+                if (ratios.Count == 0)
+                    return new EndlessBag<string>(rng, [DropKinds.None]);
+
                 var smallestRatio = ratios.Min(x => x.Value);
                 foreach (var k in ratios.Keys)
                 {
