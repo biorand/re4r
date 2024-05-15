@@ -7,6 +7,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         string key,
         string name,
         int classification,
+        int maxPack,
         int minHealth,
         int maxHealth,
         bool plaga,
@@ -18,6 +19,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public string Key { get; } = key;
         public string Name { get; } = name;
         public int Class { get; } = classification;
+        public int MaxPack { get; } = maxPack;
         public int MinHealth { get; } = minHealth;
         public int MaxHealth { get; } = maxHealth;
         public bool Plaga { get; } = plaga;

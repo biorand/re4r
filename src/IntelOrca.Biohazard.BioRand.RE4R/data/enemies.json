@@ -590,6 +590,7 @@
       "kind": "zealot",
       "name": "Zealot (Red)",
       "class": 5,
+      "maxPack": 1,
       "minHealth": 1000,
       "maxHealth": 5000,
       "plaga": true,

@@ -40,6 +40,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
             return element.TryGetProperty(name, out var value) ? value.GetBoolean() : null;
         }
 
+        public static int? GetInt32Property(this JsonElement element, string name)
+        {
+            return element.TryGetProperty(name, out var value) ? value.GetInt32() : null;
+        }
+
         public static string? GetStringProperty(this JsonElement element, string name)
         {
             return element.TryGetProperty(name, out var value) ? value.GetString() : null;

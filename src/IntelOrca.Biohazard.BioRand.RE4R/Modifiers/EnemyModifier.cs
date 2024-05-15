@@ -646,8 +646,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var maxPackSize = randomizer.GetConfigOption<int>("enemy-pack-max");
             if (maxPackSize == 0)
-                maxPackSize = ecd.Class;
-            maxPackSize = Math.Clamp(maxPackSize, 1, ecd.Class);
+                maxPackSize = ecd.MaxPack;
+            maxPackSize = Math.Clamp(maxPackSize, 1, ecd.MaxPack);
             return rng.Next(1, maxPackSize + 1);
         }
 

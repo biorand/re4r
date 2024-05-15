@@ -75,6 +75,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var kind = kindDefinitions.First(x => x.Key == kindKey);
                 var name = c.GetProperty("name").GetString() ?? throw new InvalidDataException();
                 var classification = c.GetProperty("class").GetInt32();
+                var maxPack = c.GetInt32Property("maxPack");
                 var minHealth = c.GetProperty("minHealth").GetInt32();
                 var maxHealth = c.GetProperty("maxHealth").GetInt32();
                 var plaga = c.GetBooleanProperty("plaga") ?? false;
@@ -121,6 +122,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     key,
                     name,
                     classification,
+                    maxPack ?? classification,
                     minHealth,
                     maxHealth,
                     plaga,
