@@ -108,6 +108,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     {
                         Include = itemInfo?.Include,
                         Exclude = itemInfo?.Exclude,
+                        IsDlc = instance.Get<bool>("ItemStatic.IsDLC")
                     };
                     levelItems.Add(levelItem);
                 }
@@ -129,7 +130,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             logger.Push($"Randomizing items");
 
             var itemRandomizer = randomizer.ItemRandomizer;
-            var weaponDistributor = randomizer.ValuableDistributor;
+            var valuableDistributor = randomizer.ValuableDistributor;
             foreach (var kvp in levelItems.GroupBy(x => x.Chapter).OrderBy(x => x.Key))
             {
                 var chapter = kvp.Key;
@@ -139,17 +140,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 logger.Push($"Chapter {chapter}");
 
-                // Weapons
+                // Valuables
                 var valuableItems = chapterItems
-                    .Where(x => x.Exclude == null)
+                    .Where(x => x.Exclude == null && !x.IsDlc)
                     .Shuffle(rng)
                     .ToQueue();
-                var weapons = weaponDistributor.GetWeapons(chapter, ItemDiscovery.Item);
-                foreach (var weapon in weapons)
+                var valuables = valuableDistributor.GetItems(chapter, ItemDiscovery.Item);
+                foreach (var valuable in valuables)
                 {
                     var levelItem = valuableItems.Dequeue();
                     chapterItems.Remove(levelItem);
-                    levelItem.NewItem = new Item(weapon.Definition.Id, 1);
+                    levelItem.NewItem = new Item(valuable.Definition.Id, 1);
                     LogItemChange(levelItem, logger);
                 }
 
@@ -322,6 +323,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             public string[]? Include { get; set; }
             public string[]? Exclude { get; set; }
+            public bool IsDlc { get; set; }
             public Item? NewItem { get; set; }
 
             public bool IsKey => OriginalDefinition.Kind == ItemKinds.Key;

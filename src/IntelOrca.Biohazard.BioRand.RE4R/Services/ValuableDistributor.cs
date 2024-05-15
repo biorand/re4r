@@ -161,7 +161,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 _distributedItems[index] = _distributedItems[index].WithDiscovery(discovery);
         }
 
-        public ImmutableArray<DistributedItem> GetWeapons(int chapter, ItemDiscovery discovery)
+        public ImmutableArray<DistributedItem> GetItems(int chapter, ItemDiscovery discovery)
         {
             return _distributedItems
                 .Where(x => x.Chapter == chapter && x.Discovery == discovery)
