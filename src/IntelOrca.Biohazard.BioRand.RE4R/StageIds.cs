@@ -20,6 +20,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             43300,
             43301,
             43302,
+            43303,
             43310,
             43311,
             43400,
