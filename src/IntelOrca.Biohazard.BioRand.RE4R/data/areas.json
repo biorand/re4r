@@ -839,7 +839,8 @@
             "2abd079a-7e11-4ac5-bb07-c3f54754b23c", // viper
             "baf97a3d-4d25-44cb-bef0-f9529c03d6af", // viper
             "0d960ac3-6fee-4f3e-8d0c-0b44abc97ffe" // viper
-          ]
+          ],
+          "preventDuplicate": true
         }
       ]
     },
@@ -2914,7 +2915,15 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc51/level_loc51_004.scn.20",
-      "chapter": 8
+      "chapter": 8,
+      "restrictions": [
+        {
+          "guids": [
+            "606f9d68-42fb-4ff1-a89c-39f374811594"
+          ],
+          "preventDuplicate": true
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc51/level_loc51_005.scn.20",
@@ -3483,7 +3492,16 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_005.scn.20",
       "chapter": 9,
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "guids": [
+            "e1bc29d8-7148-41c7-82f1-97f16df9a3f2"
+          ],
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_006.scn.20",
@@ -5858,6 +5876,13 @@
             "1e97a1e6-76fd-42d7-85a4-4b405c2dfaa4"
           ],
           "preventDuplicate": true
+        },
+        {
+          // viper
+          "guids": [
+            "43853325-2ccc-4964-a4d6-913accf33a4c"
+          ],
+          "preventDuplicate": true
         }
       ]
     },
@@ -8108,7 +8133,16 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_000.scn.20",
-      "chapter": 16
+      "chapter": 16,
+      "restrictions": [
+        {
+          // viper
+          "guids": [
+            "4a1692cd-ebe4-4cdb-8257-381a263c8e6b"
+          ],
+          "preventDuplicate": true
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_001.scn.20",

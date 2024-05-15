@@ -217,8 +217,7 @@
     {
       "key": "viper",
       "componentName": "chainsaw.Ch8g2z0SpawnParam",
-      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch8g2z0SpawnParam.pfb",
-      "closed": true
+      "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch8g2z0SpawnParam.pfb"
     },
     {
       "key": "cow",

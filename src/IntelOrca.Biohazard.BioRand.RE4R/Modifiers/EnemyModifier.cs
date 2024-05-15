@@ -391,8 +391,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         var excludedClasses = restrictionBlock.Exclude;
                         if (excludedClasses == null)
                         {
-                            enemyClasses = ImmutableArray<EnemyClassDefinition>.Empty;
-                            spawn.PreventDuplicate = true;
+                            if (!spawn.Horde && !spawn.PreventDuplicate)
+                            {
+                                enemyClasses = ImmutableArray<EnemyClassDefinition>.Empty;
+                                spawn.PreventDuplicate = true;
+                            }
                         }
                         else
                         {
