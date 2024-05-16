@@ -28,5 +28,5 @@
         <Toggle bind:checked={profile.public}>Share profile with community</Toggle>
     </div>
 {/if}
-<div class="mb-3">Stars: {profile.starCount}</div>
-<div class="mb-3">Seeds: {profile.seedCount}</div>
+<div class="mb-3">Bookmarks: {profile.starCount}</div>
+<div class="mb-3">Randomizers seeds: {profile.seedCount}</div>

@@ -1,5 +1,6 @@
 export const LocalStorageKeys = {
     ApiUrl: 'apiUrl',
+    LastGeneration: 'lastGeneration',
     Stats: 'stats',
     UserManager: 'userManager',
     UserProfileManager: 'userProfileManager'

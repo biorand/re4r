@@ -8,15 +8,17 @@
     import DownloadCard from './DownloadCard.svelte';
 
     export let profile: ProfileViewModel;
+    export let generateResult: GenerateResult | undefined;
 
-    let seed = '0';
+    let seed = generateResult?.seed.toString() || '0';
     let generating = false;
-    let generateResult: GenerateResult | undefined;
     let generateError = '';
     function onShuffleSeed() {
         seed = rng(100000, 1000000).toString();
     }
-    onShuffleSeed();
+    if (!generateResult) {
+        onShuffleSeed();
+    }
 
     async function onGenerate() {
         generating = true;
@@ -77,6 +79,16 @@
                 href={generateResult.downloadUrlMod}
             />
         </div>
+
+        <p class="mt-3">What should I do if my game crashes?</p>
+        <ol class="ml-8 list-decimal text-gray-300">
+            <li>Reload from last checkpoint and try again.</li>
+            <li>
+                Alter the enemy sliders slightly or reduce the number temporarily. This will
+                reshuffle the enemies. Reload from last checkpoint and try again.
+            </li>
+            <li>As a last resort, change your seed, and reload from last checkpoint.</li>
+        </ol>
     </div>
 {:else if generateError}
     <Alert border color="red" class="my-4">

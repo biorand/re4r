@@ -14,6 +14,7 @@
     let configDefinition: ConfigDefinition | undefined = undefined;
     let profileGroups = profileManager.profileGroups;
     let selectedProfile = profileManager.selectedProfile;
+    let generateResult = profileManager.generatedResult;
 
     let init = (async () => {
         await profileManager.download();
@@ -33,7 +34,11 @@
         <div class="grow flex m-2">
             {#if configDefinition && $selectedProfile}
                 <div class="w-full">
-                    <ProfilePanel definition={configDefinition} bind:profile={$selectedProfile} />
+                    <ProfilePanel
+                        definition={configDefinition}
+                        bind:profile={$selectedProfile}
+                        bind:generateResult={$generateResult}
+                    />
                 </div>
             {:else}
                 <div class="m-auto font-light text-3xl text-gray-500 select-none">

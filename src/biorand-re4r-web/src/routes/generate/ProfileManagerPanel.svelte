@@ -21,4 +21,9 @@
             </ul>
         </div>
     {/each}
+    <div class="ml-3 flex">
+        <a class="mx-auto text-green-300 hover:text-green-400" href="/profiles"
+            >Discover more profiles</a
+        >
+    </div>
 </div>

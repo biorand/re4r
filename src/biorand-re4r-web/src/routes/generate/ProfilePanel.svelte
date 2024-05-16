@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { ProfileViewModel } from '$lib/UserProfileManager';
-    import type { ConfigDefinition, ConfigGroup } from '$lib/api';
+    import type { ConfigDefinition, ConfigGroup, GenerateResult } from '$lib/api';
     import { Alert, TabItem, Tabs } from 'flowbite-svelte';
     import { InfoCircleSolid } from 'flowbite-svelte-icons';
     import ConfigControl from './ConfigControl.svelte';
@@ -11,6 +11,7 @@
 
     export let definition: ConfigDefinition;
     export let profile: ProfileViewModel;
+    export let generateResult: GenerateResult | undefined;
 
     function pairs<T>(arr: T[]): T[][] {
         const result: T[][] = [];
@@ -27,7 +28,7 @@
 
 <Tabs tabStyle="pill">
     <TabItem title="Generate" open>
-        <GenerateTabPanel {profile} />
+        <GenerateTabPanel {profile} bind:generateResult />
     </TabItem>
     <TabItem title="Profile">
         <ProfileTabPanel bind:profile />

@@ -1,5 +1,5 @@
 import { derived, get, writable, type Writable } from "svelte/store";
-import type { BioRandApi, Config, Profile } from "./api";
+import type { BioRandApi, Config, GenerateResult, Profile } from "./api";
 import { LocalStorageKeys, getLocalStorageManager } from "./localStorage";
 import { groupBy, objectEquals, replaceBy } from "./utility";
 
@@ -49,6 +49,7 @@ export class UserProfileManager {
 
     profiles: Writable<ProfileViewModel[]> = writable([]);
     selectedProfile: Writable<ProfileViewModel | undefined> = writable(undefined);
+    generatedResult: Writable<GenerateResult | undefined> = writable(undefined);
 
     constructor(api: BioRandApi, userId: number) {
         this.api = api;
@@ -65,11 +66,14 @@ export class UserProfileManager {
                     this._stashedProfile = { ...profile, config: { ...profile.config } };
                 }
                 this._selectedProfile = profile;
+                this.removeLastGeneration();
             } else if (profile === undefined) {
                 this._stashedProfile = undefined;
+                this.removeLastGeneration();
             } else {
                 if (this._stashedProfile && this.profileModified(this._stashedProfile, profile)) {
                     profile.isModified = true;
+                    this.removeLastGeneration();
                 }
 
                 if (profile.isModified && profile.userId !== this.userId) {
@@ -105,6 +109,19 @@ export class UserProfileManager {
         });
     }
 
+    private initLastGeneration() {
+        const lsManager = getLocalStorageManager();
+        this.generatedResult.set(lsManager.get<GenerateResult>(LocalStorageKeys.LastGeneration));
+        this.generatedResult.subscribe(gr => {
+            const lsManager = getLocalStorageManager();
+            lsManager.set(LocalStorageKeys.LastGeneration, gr);
+        });
+    }
+
+    private removeLastGeneration() {
+        this.generatedResult.set(undefined);
+    }
+
     private updateProfileList() {
         let profiles = this._downloadedProfiles.map(p => {
             if (p.id === this._selectedProfile?.id) {
@@ -125,6 +142,7 @@ export class UserProfileManager {
         this._ready = true;
         this.updateProfileList();
         this.readStorage();
+        this.initLastGeneration();
     }
 
     loadProfile(profile: ProfileViewModel) {
