@@ -8280,7 +8280,17 @@
     { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_003.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_003_itemdata.user.2" },
     { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_004.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_004_itemdata.user.2" },
     { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_005.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_005_itemdata.user.2" },
-    { "chapter": 11, "path": "natives/stm/_chainsaw/leveldesign/location/loc55/item_loc55.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc55/item_loc55_itemdata.user.2" },
+    {
+      "chapter": 11,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc55/item_loc55.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc55/item_loc55_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,68,27", // Respawning boot knife
+          "include": []
+        }
+      ]
+    },
     { "chapter": 12, "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_000.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_000_itemdata.user.2" },
     { "chapter": 12, "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001_itemdata.user.2" },
     { "chapter": 12, "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_itemdata.user.2" },
