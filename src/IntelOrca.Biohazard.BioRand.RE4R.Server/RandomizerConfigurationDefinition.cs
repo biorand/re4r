@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
@@ -627,15 +628,31 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 });
             }
 
+            var defaultProfile = configDefinition.GetDefault();
+            foreach (var item in configDefinition.AllItems)
+            {
+                if (defaultProfile.TryGetValue(item.Id!, out var defaultOverride))
+                {
+                    item.Default = defaultOverride;
+                }
+            }
             return configDefinition;
         }
 
         public Dictionary<string, object> GetDefault()
         {
+            var defaultProfile = ChainsawRandomizerFactory.GetDefaultProfile();
+            var defaultProfileJson = Encoding.UTF8.GetString(defaultProfile);
+            var defaultProfileDeserialized = ProcessConfig(defaultProfileJson);
+
             var result = new Dictionary<string, object>();
             foreach (var item in AllItems)
             {
                 result[item.Id!] = item.Default!;
+                if (defaultProfileDeserialized.TryGetValue(item.Id!, out var defaultOverride))
+                {
+                    result[item.Id!] = defaultOverride;
+                }
             }
             return result;
         }

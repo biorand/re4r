@@ -188,7 +188,7 @@
       "dataFields": [
         "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakStrength._DurabilityMaxScale"
       ],
-      "requires": "Durability"
+      "requires": "N/A"
     },
     {
       "name": "Unlimited Ammunition",

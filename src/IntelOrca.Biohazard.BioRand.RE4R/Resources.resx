@@ -121,6 +121,9 @@
   <data name="areas" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>data\areas.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="default_profile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>data\default-profile.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="delorca" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>data\delorca.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

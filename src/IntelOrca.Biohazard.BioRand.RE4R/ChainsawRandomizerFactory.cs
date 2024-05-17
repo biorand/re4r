@@ -130,5 +130,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
             return rev;
         }
+
+        public static byte[] GetDefaultProfile()
+        {
+            return Resources.default_profile;
+        }
     }
 }

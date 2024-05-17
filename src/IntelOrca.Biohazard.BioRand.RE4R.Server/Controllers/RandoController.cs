@@ -100,6 +100,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (page < 1)
                 page = 1;
 
+            if (sort == null)
+            {
+                sort = "Created";
+                order = "desc";
+            }
+
             var itemsPerPage = 25;
             var randos = await _db.GetRandosAsync(
                 filterUserId,
