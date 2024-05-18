@@ -53,7 +53,12 @@
         <Li><TwitchUser user="Death2024" /></Li>
         <Li><TwitchUser user="DoubleEdger" /></Li>
         <Li><TwitchUser user="ElonNuttMusk" /></Li>
-        <Li><TwitchUser user="Glitch" /></Li>
+        <Li
+            ><TwitchUser
+                user="Glitch5970"
+                href="https://next.nexusmods.com/profile/Glitch5970"
+            /></Li
+        >
         <Li><TwitchUser user="Matthewsaurusrex" /></Li>
         <Li><TwitchUser user="ShinyPockets" /></Li>
     </Ul>
