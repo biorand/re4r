@@ -94,6 +94,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             55300,
             55301,
             55302,
+            56100,
             56102,
             56103,
             56104,
