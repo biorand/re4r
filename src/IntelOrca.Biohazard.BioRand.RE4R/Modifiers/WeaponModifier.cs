@@ -232,7 +232,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var minLower = originalMin / 2;
             var minUpper = originalMin + (range / 2);
             var min = _valueRng.NextFloat(minLower, minUpper);
-            var maxLower = min + stats.Length;
+            var maxLower = min;
             var maxUpper = originalMax + range;
             var max = _valueRng.NextFloat(maxLower, maxUpper);
 
@@ -251,7 +251,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var minLower = originalMin / 2;
             var minUpper = originalMin + (range / 2);
             var min = _valueRng.Next(minLower, minUpper + 1);
-            var maxLower = min + stats.Length;
+            var maxLower = min;
             var maxUpper = originalMax * 2;
             var max = _valueRng.Next(maxLower, maxUpper + 1);
 
@@ -270,7 +270,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var minLower = originalMin / 2;
             var minUpper = originalMin + (range / 2);
             var min = _valueRng.NextFloat(minLower, minUpper);
-            var maxLower = min + (stats.Length * 0.5f);
+            var maxLower = min;
             var maxUpper = originalMax * 2;
             var max = _valueRng.NextFloat(maxLower, maxUpper);
 
@@ -289,7 +289,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var minLower = originalMin - (range / 2);
             var minUpper = originalMin * 2;
             var min = _valueRng.NextFloat(minLower, minUpper);
-            var maxLower = min - (stats.Length * 0.5f);
+            var maxLower = min;
             var maxUpper = originalMax / 2;
             var max = _valueRng.NextFloat(maxLower, maxUpper);
 
@@ -308,7 +308,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var minLower = originalMin / 2;
             var minUpper = originalMax + (range / 2);
             var min = (int)MathF.Round(_valueRng.NextFloat(minLower, minUpper));
-            var maxLower = min + stats.Length;
+            var maxLower = min;
             var maxUpper = originalMax * 2;
             var max = (int)MathF.Round(_valueRng.NextFloat(maxLower, maxUpper));
 
