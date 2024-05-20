@@ -89,7 +89,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             foreach (var item in inventory.Data[0].InventoryItems)
             {
-                logger.LogLine($"Add item {item.Item} {item.Item.CurrentItemCount}");
+                logger.LogLine($"Add item {item.Item} {item.Item.CurrentItemCount} ({item.SlotIndexColumn}, {item.SlotIndexRow})");
             }
         }
     }

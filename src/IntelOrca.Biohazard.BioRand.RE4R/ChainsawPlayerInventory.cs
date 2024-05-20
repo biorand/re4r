@@ -94,7 +94,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     rotated = true;
                 }
 
-                if (x + itemWidth >= caseWidth)
+                if (x + itemWidth > caseWidth)
                 {
                     y += rowHeight;
                     x = 0;
