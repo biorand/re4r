@@ -426,7 +426,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 {
                     q = sort.ToLowerInvariant() switch
                     {
-                        "name" => q.OrderByDescending(x => x.Name),
+                        "name" => q.OrderByDescending(x => x.NameLowerCase),
                         "created" => q.OrderByDescending(x => x.Created),
                         "role" => q.OrderByDescending(x => x.Role),
                         _ => q
@@ -436,7 +436,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 {
                     q = sort.ToLowerInvariant() switch
                     {
-                        "name" => q.OrderBy(x => x.Name),
+                        "name" => q.OrderBy(x => x.NameLowerCase),
                         "created" => q.OrderBy(x => x.Created),
                         "role" => q.OrderBy(x => x.Role),
                         _ => q
