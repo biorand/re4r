@@ -9,7 +9,11 @@
 
     const api = getApi();
     const userManager = getUserManager();
-    const profileManager = new UserProfileManager(api, userManager.info?.user.id || 0);
+    const profileManager = new UserProfileManager(
+        api,
+        userManager.info?.user.id || 0,
+        userManager.info?.user.name || ''
+    );
 
     let configDefinition: ConfigDefinition | undefined = undefined;
     let profileGroups = profileManager.profileGroups;

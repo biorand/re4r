@@ -46,14 +46,16 @@ export class UserProfileManager {
     private _stashedProfile: ProfileViewModel | undefined;
 
     readonly userId: number;
+    readonly userName: string;
 
     profiles: Writable<ProfileViewModel[]> = writable([]);
     selectedProfile: Writable<ProfileViewModel | undefined> = writable(undefined);
     generatedResult: Writable<GenerateResult | undefined> = writable(undefined);
 
-    constructor(api: BioRandApi, userId: number) {
+    constructor(api: BioRandApi, userId: number, userName: string) {
         this.api = api;
         this.userId = userId;
+        this.userName = userName;
 
         this.selectedProfile.subscribe(profile => {
             if (!this._ready)
@@ -89,7 +91,7 @@ export class UserProfileManager {
                         id: 0,
                         name: newProfileName,
                         userId: this.userId,
-                        userName: '',
+                        userName: this.userName,
                         public: false,
                         seedCount: 0,
                         starCount: 0,
@@ -246,13 +248,18 @@ export class UserProfileManager {
             ...profile,
             id: 0,
             name: `${profile.name} - Copy`,
-            starCount: 0,
+            userId: this.userId,
+            userName: this.userName,
+            public: false,
             seedCount: 0,
-            config: profile.config,
-            isModified: true,
-            isOwner: true
+            starCount: 0,
+
+            category: 'Personal',
+            originalId: profile.id,
+            isOwner: true,
+            isSelected: true
         };
-        this.selectedProfile.set(newProfile);
+        this.loadProfile(newProfile);
     }
 
     private async remove(profile: ProfileViewModel) {

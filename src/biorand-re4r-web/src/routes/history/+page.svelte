@@ -45,7 +45,11 @@
 
     function loadConfig(item: RandoHistoryItem) {
         const userManager = getUserManager();
-        const profileManager = new UserProfileManager(api, userManager.info?.user.id || 0);
+        const profileManager = new UserProfileManager(
+            api,
+            userManager.info?.user.id || 0,
+            userManager.info?.user.name || ''
+        );
         profileManager.loadProfile({
             id: 0,
             name: item.profileName,

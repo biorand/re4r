@@ -6,6 +6,7 @@
     export let selectedProfile: ProfileViewModel | undefined;
 
     function onSelectProfile(profile: ProfileViewModel) {
+        console.log('crap');
         selectedProfile = profile;
     }
 </script>
