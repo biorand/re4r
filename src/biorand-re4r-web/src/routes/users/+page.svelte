@@ -25,6 +25,7 @@
     let searchInput: UserQueryOptions;
     let searchResult: UserQueryResult | undefined = undefined;
     let data: SortedTableData<User>;
+    let getPageUrl: (page: number) => string;
     const api = getApi();
     queryParams.subscribe(async (params) => {
         searchInput = params;
@@ -33,6 +34,9 @@
             sort: searchInput.sort,
             order: searchInput.order,
             items: searchResult.pageResults
+        };
+        getPageUrl = (page: number) => {
+            return getSearchUrl({ ...searchInput, page });
         };
     });
 
@@ -43,10 +47,6 @@
 
     function getSearchUrl(query: { [key: string]: any }) {
         return buildUrl('users', query);
-    }
-
-    function getPageUrl(page: number) {
-        return getSearchUrl({ ...searchInput, page });
     }
 </script>
 

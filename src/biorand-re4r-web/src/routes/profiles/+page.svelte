@@ -23,10 +23,14 @@
 
     let searchInput: ProfileQueryOptions;
     let searchResult: ProfileQueryResult | undefined = undefined;
+    let getPageUrl: (page: number) => string;
     const api = getApi();
     queryParams.subscribe(async (params) => {
         searchInput = params;
         searchResult = await api.searchProfiles(searchInput);
+        getPageUrl = (page: number) => {
+            return getSearchUrl({ ...searchInput, page });
+        };
     });
 
     const filter = writable($page.url.searchParams.get('q'));
@@ -66,10 +70,6 @@
 
     function getByUserUrl(user: string) {
         return getSearchUrl({ ...searchInput, user, page: undefined });
-    }
-
-    function getPageUrl(page: number) {
-        return getSearchUrl({ ...searchInput, page });
     }
 </script>
 
