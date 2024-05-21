@@ -5,7 +5,7 @@
     import { getApi, type ProfileQueryOptions, type ProfileQueryResult } from '$lib/api';
     import { PageBody } from '$lib/typography';
     import { buildUrl, getLocation, idleTimeout, tryParseInt } from '$lib/utility';
-    import { Input, Label, Listgroup, ListgroupItem, Tooltip } from 'flowbite-svelte';
+    import { Input, Label, Listgroup, ListgroupItem } from 'flowbite-svelte';
     import { BookmarkSolid, ShuffleOutline } from 'flowbite-svelte-icons';
     import { readable, writable } from 'svelte/store';
     import ProfileBadge from './ProfileBadge.svelte';
@@ -83,15 +83,21 @@
         <Label for="input-filter" class="block mb-2">Filter</Label>
         <Input bind:value={$filter} id="input-filter" type="text" />
     </form>
+    <p class="mb-3 dark:text-gray-300">
+        Community profiles are preset randomizer configurations designed and shared by other users.
+        You can bookmark a profile by clicking the bookmark button, then select it in the profile
+        manager when generating a randomizer. You can share your own profile by toggling the share
+        button which can be found in the profile tab of the profile editor.
+    </p>
     {#if searchResult}
         <Listgroup class="mb-3">
             {#each searchResult.pageResults as profile}
-                <ListgroupItem class="text-base font-semibold gap-2 p-3">
+                <ListgroupItem class="text-base gap-2 p-3">
                     <div class="flex">
                         <div class="grow">
                             <div>
                                 <span class="text-2xl">{profile.name}</span>
-                                <span class="text-gray-500"
+                                <span class="dark:text-gray-500"
                                     >by
                                     <a
                                         class="text-blue-400 hover:text-blue-300"
@@ -99,24 +105,26 @@
                                     ></span
                                 >
                             </div>
-                            <div>
+                            <div class="font-light">
                                 {profile.description}
                             </div>
                         </div>
-                        <div class="">
-                            <Tooltip>Generated Seeds</Tooltip>
-                            <ProfileBadge tooltip="Generated Seeds">
-                                <ShuffleOutline />
-                                <span class="ml-1">{profile.seedCount}</span>
-                            </ProfileBadge>
-                            <ProfileBadge
-                                active={profile.isStarred}
-                                tooltip="Bookmarks"
-                                on:click={() => setProfileStarred(profile.id, !profile.isStarred)}
-                            >
-                                <BookmarkSolid />
-                                <span class="ml-1">{profile.starCount}</span>
-                            </ProfileBadge>
+                        <div>
+                            <div class="flex gap-2">
+                                <ProfileBadge tooltip="Generated Seeds">
+                                    <ShuffleOutline />
+                                    <span class="ml-1">{profile.seedCount}</span>
+                                </ProfileBadge>
+                                <ProfileBadge
+                                    active={profile.isStarred}
+                                    tooltip="Bookmarks"
+                                    on:click={() =>
+                                        setProfileStarred(profile.id, !profile.isStarred)}
+                                >
+                                    <BookmarkSolid />
+                                    <span class="ml-1">{profile.starCount}</span>
+                                </ProfileBadge>
+                            </div>
                         </div>
                     </div>
                 </ListgroupItem>
