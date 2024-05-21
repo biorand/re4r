@@ -24,6 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     public class AreaExtra
     {
         public string? Condition { get; set; }
+        public string? SkipCondition { get; set; }
         public AreaExtraEnemy[]? Enemies { get; set; }
     }
 

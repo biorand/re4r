@@ -47,12 +47,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             {
                                 CreateCheckFlag(scn, new Guid(extra.Condition)),
                             });
-                            logger.Push($"CharacterSpawnController Condition = ({extra.Condition})");
                         }
-                        else
+                        if (!string.IsNullOrEmpty(extra.SkipCondition))
                         {
-                            logger.Push($"CharacterSpawnController");
+                            spawnController.Components[1].Set("_SpawnSkipCondition._Logic", 0);
+                            spawnController.Components[1].Set("_SpawnSkipCondition._CheckFlags", new List<object>()
+                            {
+                                CreateCheckFlag(scn, new Guid(extra.SkipCondition)),
+                            });
                         }
+
+                        logger.Push($"CharacterSpawnController Condition = {extra.Condition} SkipCondition = {extra.SkipCondition}");
 
                         foreach (var enemyDef in g)
                         {

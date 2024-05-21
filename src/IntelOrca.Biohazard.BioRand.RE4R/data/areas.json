@@ -1719,6 +1719,7 @@
       "extra": [
         {
           "condition": "579b2165-5e8a-4b17-a05f-9bf8b9e59573",
+          "skipCondition": "f61225f0-a6b7-4eb1-abea-c7358db3a9e5",
           "enemies": [
             {
               "stage": 47410,
