@@ -89,8 +89,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     var count = 0;
                     while (itemRandomizer.GetRandomItemDefinition(rng, kind, allowReoccurance: false) is ItemDefinition itemDefinition)
                     {
-                        var chapter = itemDefinition.Id == ItemIds.BiosensorScope
-                            ? bag4.Next() // Ensure we get biosensor scope before cabin
+                        var isEssential =
+                            itemDefinition.Id == ItemIds.BiosensorScope ||
+                            itemDefinition.Id == ItemIds.RecipeFlashGrenade;
+                        var chapter = isEssential
+                            ? bag4.Next() // Ensure we get essential items before cabin
                             : bag14.Next();
 
                         AddItem(chapter, itemDefinition);
