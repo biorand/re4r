@@ -568,6 +568,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group = page.CreateGroup("Enemies");
             foreach (var enemyClass in enemyClassFactory.Classes)
             {
+                // Super iron maiden HP can't be changed
+                if (enemyClass.Key == "super_iron_maiden")
+                    continue;
+
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"enemy-health-min-{enemyClass.Key}",
