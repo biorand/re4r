@@ -185,8 +185,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Label = "Primary Weapon",
                 Description = "The primary weapon you start off with in your inventory.",
                 Type = "dropdown",
-                Options = ["random", "handgun", "shotgun", "smg", "rifle", "magnum", "none"],
-                Default = "handgun"
+                Options = [.. ItemClasses.StartingWeapons],
+                Default = ItemClasses.Handgun
             });
             group.Items.Add(new GroupItem()
             {
@@ -194,8 +194,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Label = "Secondary Weapon",
                 Description = "An additional weapon you start off with in your inventory.",
                 Type = "dropdown",
-                Options = ["random", "handgun", "shotgun", "smg", "rifle", "magnum", "none"],
-                Default = "random"
+                Options = [.. ItemClasses.StartingWeapons],
+                Default = ItemClasses.Random
             });
 
             page = configDefinition.CreatePage("Items");

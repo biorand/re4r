@@ -50,7 +50,7 @@
       "kind": "ammo",
       "id": 112808000,
       "value": 250,
-      "class": "special",
+      "class": "bolt",
       "stack": 10
     },
     {
@@ -1510,7 +1510,7 @@
       "kind": "weapon",
       "id": 275795456,
       "size": "4x2",
-      "class": "special",
+      "class": "bolt",
       "weaponId": 4600
     },
     {

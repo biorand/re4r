@@ -259,14 +259,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             _distributedItems.Add(new DistributedItem(definition, ItemDiscovery.None, chapter));
         }
 
-        private static readonly string[] _weaponClasses = [
-            ItemClasses.None,
-            ItemClasses.Handgun,
-            ItemClasses.Shotgun,
-            ItemClasses.Rifle,
-            ItemClasses.Smg,
-            ItemClasses.Magnum ];
-
         private static readonly ImmutableArray<string> _kinds = [
             ItemKinds.Weapon,
             ItemKinds.Attachment,

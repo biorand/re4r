@@ -26,7 +26,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         {
             var weaponKinds = new[] {
                 ItemClasses.None, ItemClasses.Handgun, ItemClasses.Shotgun,
-                ItemClasses.Rifle, ItemClasses.Smg, ItemClasses.Magnum };
+                ItemClasses.Rifle, ItemClasses.Smg, ItemClasses.Magnum,
+                ItemClasses.Bolt };
 
             if (classification == ItemClasses.None)
                 return null;
