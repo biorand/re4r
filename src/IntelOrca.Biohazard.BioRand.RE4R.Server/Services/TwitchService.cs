@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using Serilog;
 using TwitchLib.Api;
+using TwitchLib.Api.Core.Exceptions;
 using TwitchLib.Api.Helix.Models.Users.GetUsers;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
@@ -42,6 +44,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
         public async Task DisconnectAsync(int userId)
         {
             await databaseService.DeleteUserTwitchAsync(userId);
+            _logger.Information("Disconnected twitch for user {UserId}", userId);
         }
 
         public async Task<TwitchDbModel?> GetOrRefreshAsync(int userId, TimeSpan? refresh)
@@ -98,10 +101,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 
         private async Task<bool> IsSubscribedAsync(string accessToken, string userId)
         {
-            var config = GetConfig();
-            var api = GetApi(accessToken);
-            var response = await api.Helix.Subscriptions.CheckUserSubscriptionAsync(config.SubscriberId, userId, accessToken);
-            return response.Data.Length != 0;
+            try
+            {
+                var config = GetConfig();
+                var api = GetApi(accessToken);
+                var response = await api.Helix.Subscriptions.CheckUserSubscriptionAsync(config.SubscriberId, userId);
+                return response.Data.Length != 0;
+            }
+            catch (BadResourceException ex) when (ex.HttpResponse.StatusCode == HttpStatusCode.NotFound)
+            {
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to check subscription for twitch user {UserId}", userId);
+                return false;
+            }
         }
 
         private TwitchAPI GetApi(string? accessToken = null)
