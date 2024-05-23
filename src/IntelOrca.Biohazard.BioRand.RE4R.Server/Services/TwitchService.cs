@@ -100,7 +100,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
         {
             var config = GetConfig();
             var api = GetApi(accessToken);
-            var response = await api.Helix.Subscriptions.CheckUserSubscriptionAsync(config.SubscriberId, userId);
+            var response = await api.Helix.Subscriptions.CheckUserSubscriptionAsync(config.SubscriberId, userId, accessToken);
             return response.Data.Length != 0;
         }
 
@@ -109,6 +109,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             var config = GetConfig();
             var api = new TwitchAPI();
             api.Settings.ClientId = config.ClientId;
+            api.Settings.Secret = config.ClientSecret;
             api.Settings.AccessToken = accessToken;
             return api;
         }
