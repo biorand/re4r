@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
@@ -13,12 +14,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
     {
         private readonly DatabaseService _db;
         private readonly EmailService _emailService;
+        private readonly TwitchService _twitchService;
         private readonly ILogger _logger;
 
-        public UserController(DatabaseService db, EmailService emailService) : base(db)
+        public UserController(DatabaseService db, EmailService emailService, TwitchService twitchService) : base(db, twitchService)
         {
             _db = db;
             _emailService = emailService;
+            _twitchService = twitchService;
             _logger = Log.ForContext<UserController>();
         }
 
@@ -60,7 +63,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 if (user == null)
                     return NotFoundResult();
 
-                return GetUser(user);
+                var twitchModel = _twitchService.IsAvailable ? await _twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1)) : null;
+                return GetUser(user, twitchModel);
             }
             else
             {
@@ -71,7 +75,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 if (user == null)
                     return NotFoundResult();
 
-                return GetUser(user);
+                var twitchModel = _twitchService.IsAvailable ? await _twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1)) : null;
+                return GetUser(user, twitchModel);
             }
         }
 
@@ -88,6 +93,49 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
             if (authorizedUser.Role < UserRoleKind.Administrator && user.Id != authorizedUser.Id)
                 return UnauthorizedResult();
+
+            if (request.TwitchCode != null)
+            {
+                if (request.TwitchCode == "")
+                {
+                    await _twitchService.DisconnectAsync(user.Id);
+                    return new
+                    {
+                        Success = true
+                    };
+                }
+                else if (!_twitchService.IsAvailable)
+                {
+                    var validationResult = new Dictionary<string, string>();
+                    validationResult["twitchCode"] = "Twitch functionality is not available.";
+                    return new
+                    {
+                        Success = false,
+                        Validation = validationResult
+                    };
+                }
+                else
+                {
+                    try
+                    {
+                        await _twitchService.ConnectAsync(user.Id, request.TwitchCode);
+                        return new
+                        {
+                            Success = true
+                        };
+                    }
+                    catch
+                    {
+                        var validationResult = new Dictionary<string, string>();
+                        validationResult["twitchCode"] = "Failed to connect twitch account.";
+                        return new
+                        {
+                            Success = false,
+                            Validation = validationResult
+                        };
+                    }
+                }
+            }
 
             var oldRole = user.Role;
             if (authorizedUser.Role >= UserRoleKind.Administrator)
@@ -131,6 +179,7 @@ The BioRand Team");
             public string? Name { get; set; }
             public UserRoleKind? Role { get; set; }
             public bool? ShareHistory { get; set; }
+            public string? TwitchCode { get; set; }
         }
     }
 }

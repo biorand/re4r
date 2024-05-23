@@ -9,6 +9,7 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="sqlite-net-static" Version="1.9.172" />
+    <PackageReference Include="TwitchLib.Api" Version="3.9.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IntelOrca.Biohazard.BioRand.RE4R\IntelOrca.Biohazard.BioRand.RE4R.csproj" />

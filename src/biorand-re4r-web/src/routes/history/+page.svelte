@@ -104,7 +104,7 @@
                 <TableBodyCell tdClass="p-1">
                     <div class="flex">
                         <div class="content-center">
-                            <Avatar class="mr-2 w-4 h-4" src={item.userAvatarUrl} />
+                            <Avatar class="mr-2 w-4 h-4 overflow-hidden" src={item.userAvatarUrl} />
                         </div>
                         <div>
                             <a

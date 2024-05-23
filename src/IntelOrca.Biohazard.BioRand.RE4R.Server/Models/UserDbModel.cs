@@ -34,6 +34,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
             set => SetFlag(0, value);
         }
 
+        public int? TwitchId { get; set; }
+
         private bool GetFlag(int i) => (Flags & (1 << i)) != 0;
         private void SetFlag(int i, bool value)
         {

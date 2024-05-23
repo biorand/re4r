@@ -40,6 +40,11 @@ export interface User {
     role: UserRole;
     avatarUrl: string;
     shareHistory: boolean;
+    twitch?: {
+        displayName: string;
+        profileImageUrl: string;
+        isSubscribed: boolean;
+    }
 }
 
 export interface UserQueryOptions {
@@ -55,6 +60,7 @@ export interface UpdateUpdateRequest {
     name?: string;
     role?: UserRole;
     shareHistory?: boolean;
+    twitchCode?: string;
 }
 
 export interface UpdateUserResult {

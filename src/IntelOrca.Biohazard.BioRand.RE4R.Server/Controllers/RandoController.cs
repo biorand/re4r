@@ -19,7 +19,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         private readonly UrlService _urlService;
         private readonly ILogger _logger;
 
-        public RandoController(DatabaseService db, RandomizerService randomizer, UrlService urlService) : base(db)
+        public RandoController(DatabaseService db, TwitchService twitchService, RandomizerService randomizer, UrlService urlService) : base(db, twitchService)
         {
             _db = db;
             _randomizer = randomizer;

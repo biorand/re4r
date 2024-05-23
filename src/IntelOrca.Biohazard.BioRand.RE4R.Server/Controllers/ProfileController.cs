@@ -17,7 +17,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         private readonly DatabaseService _db;
         private readonly ILogger _logger;
 
-        public ProfileController(DatabaseService db) : base(db)
+        public ProfileController(DatabaseService db, TwitchService twitchService) : base(db, twitchService)
         {
             _db = db;
             _logger = Log.ForContext<AuthController>();

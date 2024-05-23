@@ -3,14 +3,27 @@
     import RoleBadge from '$lib/RoleBadge.svelte';
     import { validateClear, validateFormInputData, type FormInputData } from '$lib/Validation';
     import { UserRole, getApi, type User } from '$lib/api';
+    import { LocalStorageKeys, getLocalStorageManager } from '$lib/localStorage';
     import PageBody from '$lib/typography/PageBody.svelte';
     import PageTitle from '$lib/typography/PageTitle.svelte';
     import { getUserManager } from '$lib/userManager';
-    import { Alert, Button, Checkbox, Helper, Label, Select, Spinner } from 'flowbite-svelte';
+    import { buildUrl } from '$lib/utility';
     import {
+        Alert,
+        Button,
+        ButtonGroup,
+        Checkbox,
+        Helper,
+        Label,
+        Select,
+        Spinner
+    } from 'flowbite-svelte';
+    import {
+        CheckCircleSolid,
         CloseCircleSolid,
         EnvelopeSolid,
         ExclamationCircleOutline,
+        InfoCircleSolid,
         UserSolid
     } from 'flowbite-svelte-icons';
     import FormInput from '../../auth/FormInput.svelte';
@@ -82,6 +95,42 @@
             serverWait = false;
         }
     }
+
+    function connectTwitch() {
+        const state = getSecureHexString(32);
+
+        const lsManager = getLocalStorageManager();
+        lsManager.set(LocalStorageKeys.TwitchAuthState, state);
+
+        const redirectUri = `${window.location.origin}/auth/twitch`;
+        const twitchAuthUri = buildUrl('https://id.twitch.tv/oauth2/authorize', {
+            client_id: 'mi6184w9paqm7r4p803eioulkct635',
+            redirect_uri: redirectUri,
+            response_type: 'code',
+            scope: 'user:read:subscriptions',
+            state: state
+        });
+        window.location.replace(twitchAuthUri);
+    }
+
+    async function disconnectTwitch() {
+        if (user) {
+            const api = getApi();
+            await api.updateUser(user.id, {
+                twitchCode: ''
+            });
+            user.twitch = undefined;
+        }
+    }
+
+    function getSecureHexString(length: number) {
+        var array = new Uint8Array(length / 2);
+        window.crypto.getRandomValues(array);
+        var hexString = Array.from(array)
+            .map((byte) => ('0' + byte.toString(length)).slice(-2))
+            .join('');
+        return hexString;
+    }
 </script>
 
 <svelte:head>
@@ -91,81 +140,162 @@
 {#await init}
     <Spinner />
 {:then}
-    <PageBody>
-        <PageTitle>{user.name}</PageTitle>
-        <form on:submit={onSubmit}>
-            <div class="max-w-3xl">
-                <FormInput
-                    id="email"
-                    type="email"
-                    label="Email Address"
-                    required={true}
-                    disabled={!isAdmin}
-                    icon={EnvelopeSolid}
-                    data={emailData}
-                />
-            </div>
-            <div class="max-w-lg">
-                <FormInput
-                    id="name"
-                    type="text"
-                    label="Name"
-                    required={true}
-                    disabled={!isAdmin}
-                    minlength={4}
-                    maxlength={32}
-                    icon={UserSolid}
-                    data={nameData}
-                />
-            </div>
-            <div class="mb-3">
-                <Label for="role" class="block mb-2">Profile Picture</Label>
-                <Alert border color="default">
-                    In order to change your profile picture, please upload an image using
-                    <a
-                        href="https://gravatar.com/profile"
-                        target="_blank"
-                        class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                    >
-                        Gravatar</a
-                    >
-                    for your registered email address.
-                </Alert>
-            </div>
-            <div class="max-w-60">
-                <Label for="role" class="block mb-2">Role</Label>
-                {#if isAdmin}
-                    <Select
-                        id="role"
-                        class="mb-3"
+    {#if user}
+        <PageBody>
+            <PageTitle>{user.name}</PageTitle>
+            <form on:submit={onSubmit}>
+                <div class="max-w-3xl">
+                    <FormInput
+                        id="email"
+                        type="email"
+                        label="Email Address"
+                        required={true}
                         disabled={!isAdmin}
-                        items={roles}
-                        bind:value={role}
+                        icon={EnvelopeSolid}
+                        data={emailData}
                     />
-                {:else}
-                    <RoleBadge class="mb-3" role={user.role} />
-                {/if}
-            </div>
-            <div>
-                <Checkbox class="mb-3 inline-block" id="public-history" bind:checked={shareHistory}
-                    >Allow other users to view your randomizer history</Checkbox
-                >
-            </div>
-            {#if serverMessage}
-                <div>
-                    <Helper class="mb-3 inline-flex" color="red">
-                        <ExclamationCircleOutline class="w-4 h-4 me-2" />{serverMessage}
-                    </Helper>
                 </div>
-            {/if}
-            <Button type="submit" color="blue">
-                {#if serverWait}
-                    <Spinner class="me-3" size="4" color="white" />
+                <div class="max-w-lg">
+                    <FormInput
+                        id="name"
+                        type="text"
+                        label="Name"
+                        required={true}
+                        disabled={!isAdmin}
+                        minlength={4}
+                        maxlength={32}
+                        icon={UserSolid}
+                        data={nameData}
+                    />
+                </div>
+                <div class="mb-3">
+                    <Label for="role" class="block mb-2">Profile Picture</Label>
+                    <Alert border color="default">
+                        In order to change your profile picture, please upload an image using
+                        <a
+                            href="https://gravatar.com/profile"
+                            target="_blank"
+                            class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                        >
+                            Gravatar</a
+                        >
+                        for your registered email address.
+                    </Alert>
+                </div>
+                <div class="mb-3">
+                    <Label for="role" class="block mb-2">Twitch</Label>
+                    {#if user.twitch}
+                        <ButtonGroup>
+                            <Button
+                                href="https://twitch.tv/{user.twitch.displayName}"
+                                target="_blank"
+                                color="primary">{user.twitch.displayName}</Button
+                            >
+                            <Button on:click={disconnectTwitch} color="alternative"
+                                >Disconnect</Button
+                            >
+                        </ButtonGroup>
+                        {#if !user.twitch.isSubscribed}
+                            <Alert color="yellow" border class="mt-3 p-2 !items-start">
+                                <span slot="icon">
+                                    <InfoCircleSolid slot="icon" class="w-5 h-5" />
+                                    <span class="sr-only">Info</span>
+                                </span>
+                                <p class="font-medium">Unsubscribed</p>
+                                <ul class="mt-1.5 ms-4 list-disc list-inside">
+                                    <li>
+                                        Support <a
+                                            class="font-medium text-blue-400 hover:text-blue-300"
+                                            href="https://twitch.tv/intelorca"
+                                            target="_blank">IntelOrca</a
+                                        > by subscribing on Twitch.
+                                    </li>
+                                    <li>Instant early access to the randomizer</li>
+                                    <li>Exclusive access to preview functionality</li>
+                                </ul>
+                            </Alert>
+                        {:else}
+                            <Alert color="green" border class="mt-3 p-2">
+                                <CheckCircleSolid slot="icon" class="w-5 h-5" />
+                                <span class="font-medium">Subscribed </span><span class="font-light"
+                                    >to
+                                </span>
+                                <a
+                                    class="font-medium text-blue-400 hover:text-blue-300"
+                                    href="https://twitch.tv/intelorca"
+                                    target="_blank">IntelOrca</a
+                                >
+                            </Alert>
+                        {/if}
+                    {:else}
+                        <Button on:click={connectTwitch}>Connect Twitch Account</Button>
+                        <Alert color="dark" border class="mt-3 p-2 !items-start">
+                            <span slot="icon">
+                                <InfoCircleSolid slot="icon" class="w-5 h-5" />
+                                <span class="sr-only">Info</span>
+                            </span>
+                            <p class="font-medium">Connect your Twitch account to:</p>
+                            <ul class="mt-1.5 ms-4 list-disc list-inside">
+                                <li>Advertise when you are live and playing BioRand.</li>
+                                <li>Use your Twitch profile picture as your avatar.</li>
+                                <li>
+                                    Instant access to the randomizer if subscribed to
+                                    <a
+                                        class="font-medium text-blue-400 hover:text-blue-300"
+                                        href="https://twitch.tv/intelorca"
+                                        target="_blank">IntelOrca</a
+                                    >.
+                                </li>
+                                <li>
+                                    Exclusive access to preview functionality if subscribed to
+                                    <a
+                                        class="font-medium text-blue-400 hover:text-blue-300"
+                                        href="https://twitch.tv/intelorca"
+                                        target="_blank">IntelOrca</a
+                                    >.
+                                </li>
+                            </ul>
+                        </Alert>
+                    {/if}
+                </div>
+                <div class="max-w-60">
+                    <Label for="role" class="block mb-2">Role</Label>
+                    {#if isAdmin}
+                        <Select
+                            id="role"
+                            class="mb-3"
+                            disabled={!isAdmin}
+                            items={roles}
+                            bind:value={role}
+                        />
+                    {:else}
+                        <RoleBadge class="mb-3" role={user.role} />
+                    {/if}
+                </div>
+                <div>
+                    <Checkbox
+                        class="mb-3 inline-block"
+                        id="public-history"
+                        bind:checked={shareHistory}
+                        >Allow other users to view your randomizer history</Checkbox
+                    >
+                </div>
+                {#if serverMessage}
+                    <div>
+                        <Helper class="mb-3 inline-flex" color="red">
+                            <ExclamationCircleOutline class="w-4 h-4 me-2" />{serverMessage}
+                        </Helper>
+                    </div>
                 {/if}
-                Save Changes
-            </Button>
-        </form>
-    </PageBody>
+                <Button type="submit" color="blue">
+                    {#if serverWait}
+                        <Spinner class="me-3" size="4" color="white" />
+                    {/if}
+                    Save Changes
+                </Button>
+            </form>
+        </PageBody>
+    {/if}
 {:catch err}
     <Alert border color="red" class="my-4">
         <CloseCircleSolid slot="icon" class="w-5 h-5" />{err}

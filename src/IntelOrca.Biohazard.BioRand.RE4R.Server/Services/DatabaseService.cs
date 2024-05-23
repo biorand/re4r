@@ -45,6 +45,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             await _conn.CreateTableAsync<ProfileDbModel>();
             await _conn.CreateTableAsync<RandoDbModel>();
             await _conn.CreateTableAsync<RandoConfigDbModel>();
+            await _conn.CreateTableAsync<TwitchDbModel>();
             await _conn.ExecuteAsync(
                 @"CREATE TABLE IF NOT EXISTS ""profile_star"" (
                     ""ProfileId"" integer not null,
@@ -445,6 +446,44 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             }
 
             return ExecuteLimitedResult(q, limitOptions);
+        }
+
+        public async Task<TwitchDbModel> AddOrUpdateUserTwitchAsync(int userId, TwitchDbModel twitch)
+        {
+            var user = await GetUserById(userId);
+            if (user.TwitchId is int twitchId)
+            {
+                twitch.Id = twitchId;
+                await _conn.UpdateAsync(twitch);
+            }
+            else
+            {
+                await _conn.InsertAsync(twitch);
+                user.TwitchId = twitch.Id;
+                await UpdateUserAsync(user);
+            }
+            return twitch;
+        }
+
+        public async Task<TwitchDbModel?> GetUserTwitchAsync(int userId)
+        {
+            var user = await GetUserById(userId);
+            if (user.TwitchId is int twitchId)
+            {
+                return await _conn.GetAsync<TwitchDbModel>(twitchId);
+            }
+            return null;
+        }
+
+        public async Task DeleteUserTwitchAsync(int userId)
+        {
+            var user = await GetUserById(userId);
+            if (user.TwitchId is int twitchId)
+            {
+                user.TwitchId = null;
+                await UpdateUserAsync(user);
+                await _conn.DeleteAsync(new TwitchDbModel() { Id = twitchId });
+            }
         }
 
         private static async Task<LimitedResult<T>> ExecuteLimitedResult<T>(

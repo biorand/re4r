@@ -10,6 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public UrlConfig? Url { get; set; }
         public DatabaseConfig? Database { get; set; }
         public EmailConfig? Email { get; set; }
+        public TwitchConfig? Twitch { get; set; }
         public string[]? Passwords { get; set; }
 
         public static string GetBioRandDirectory()
@@ -58,5 +59,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         public string? Api { get; set; }
         public string? Web { get; set; }
+    }
+
+    public class TwitchConfig
+    {
+        public string ClientId { get; set; } = "";
+        public string ClientSecret { get; set; } = "";
+        public string SubscriberId { get; set; } = "";
     }
 }

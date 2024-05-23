@@ -14,10 +14,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
     internal class BaseController : WebApiController
     {
         private readonly DatabaseService _db;
+        private readonly TwitchService _twitchService;
 
-        public BaseController(DatabaseService db)
+        public BaseController(DatabaseService db, TwitchService twitchService)
         {
             _db = db;
+            _twitchService = twitchService;
         }
 
         protected string? GetAuthToken()
@@ -50,6 +52,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (token != null)
             {
                 var user = await _db.GetUserByToken(token);
+                if (user != null)
+                {
+                    await CheckUserSubscriptionAsync(user);
+                }
                 if (user != null && user.Role >= minimumRole)
                 {
                     await UseAuthToken(token);
@@ -57,6 +63,48 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 }
             }
             return null;
+        }
+
+        protected async Task CheckUserSubscriptionAsync(UserDbModel user)
+        {
+            if (!_twitchService.IsAvailable)
+                return;
+
+            if (user.TwitchId == null)
+            {
+                if (user.Role == UserRoleKind.Standard)
+                {
+                    user.Role = UserRoleKind.EarlyAccess;
+                    await _db.UpdateUserAsync(user);
+                }
+            }
+            else if (user.Role == UserRoleKind.PendingEarlyAccess)
+            {
+                var twitchModel = await _twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1));
+                if (twitchModel?.IsSubscribed == true)
+                {
+                    user.Role = UserRoleKind.Standard;
+                    await _db.UpdateUserAsync(user);
+                }
+            }
+            else if (user.Role == UserRoleKind.EarlyAccess)
+            {
+                var twitchModel = await _twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(5));
+                if (twitchModel?.IsSubscribed == true)
+                {
+                    user.Role = UserRoleKind.Standard;
+                    await _db.UpdateUserAsync(user);
+                }
+            }
+            else if (user.Role == UserRoleKind.Standard)
+            {
+                var twitchModel = await _twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromDays(7));
+                if (twitchModel?.IsSubscribed != true)
+                {
+                    user.Role = UserRoleKind.EarlyAccess;
+                    await _db.UpdateUserAsync(user);
+                }
+            }
         }
 
         protected object EmptyResult()
@@ -84,7 +132,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             };
         }
 
-        protected object GetUser(UserDbModel user)
+        protected object GetUser(UserDbModel user) => GetUser(user, null);
+        protected object GetUser(UserDbModel user, TwitchDbModel? twitchModel)
         {
             return new
             {
@@ -93,8 +142,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 Created = user.Created.ToUnixEpochDate(),
                 user.Email,
                 user.Role,
-                AvatarUrl = GetAvatarUrl(user.Email),
-                user.ShareHistory
+                AvatarUrl = twitchModel == null ? GetAvatarUrl(user.Email) : twitchModel.TwitchProfileImageUrl,
+                user.ShareHistory,
+                twitch = twitchModel == null ? null : new
+                {
+                    DisplayName = twitchModel.TwitchDisplayName,
+                    ProfileImageUrl = twitchModel.TwitchProfileImageUrl,
+                    IsSubscribed = twitchModel.IsSubscribed,
+                }
             };
         }
 

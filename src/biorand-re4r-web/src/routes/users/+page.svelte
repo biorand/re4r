@@ -68,7 +68,7 @@
                 <TableBodyCell tdClass="p-1">
                     <div class="flex">
                         <div class="content-center">
-                            <Avatar class="mr-2 w-4 h-4" src={user.avatarUrl} />
+                            <Avatar class="mr-2 w-4 h-4 overflow-hidden" src={user.avatarUrl} />
                         </div>
                         <div>
                             <a class="text-blue-400 hover:text-blue-300" href="/user/{user.name}"

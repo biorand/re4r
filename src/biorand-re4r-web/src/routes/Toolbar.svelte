@@ -55,7 +55,7 @@
             <div class="mr-4 hidden sm:block">
                 <RoleBadge {role} />
             </div>
-            <Avatar id="avatar-menu">
+            <Avatar id="avatar-menu" class="overflow-hidden">
                 <img alt="" src={currentUser.avatarUrl} />
             </Avatar>
             <NavHamburger class1="w-full md:flex md:w-auto md:order-1" />

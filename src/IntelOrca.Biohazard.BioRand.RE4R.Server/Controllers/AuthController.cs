@@ -16,7 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         private readonly EmailService _emailService;
         private readonly ILogger _logger;
 
-        public AuthController(DatabaseService db, EmailService emailService) : base(db)
+        public AuthController(DatabaseService db, EmailService emailService, TwitchService twitchService) : base(db, twitchService)
         {
             _db = db;
             _emailService = emailService;

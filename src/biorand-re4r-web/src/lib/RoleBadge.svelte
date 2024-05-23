@@ -12,7 +12,7 @@
         ['Banned', 'red'],
         ['Early Access', 'yellow'],
         ['Tester', 'yellow'],
-        ['Standard', 'dark'],
+        ['Subscriber', 'green'],
         ['Administrator', 'blue'],
         ['System', 'blue']
     ];
