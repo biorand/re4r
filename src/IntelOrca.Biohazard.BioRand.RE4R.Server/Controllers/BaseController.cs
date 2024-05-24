@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using EmbedIO.WebApi;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
+using Serilog;
 using Swan;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
@@ -15,6 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
     {
         private readonly DatabaseService _db;
         private readonly TwitchService _twitchService;
+        private readonly ILogger _logger = Log.ForContext<BaseController>();
 
         public BaseController(DatabaseService db, TwitchService twitchService)
         {
@@ -70,6 +72,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (!_twitchService.IsAvailable)
                 return;
 
+            var originalRole = user.Role;
             if (user.TwitchId == null)
             {
                 if (user.Role == UserRoleKind.Standard)
@@ -104,6 +107,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                     user.Role = UserRoleKind.EarlyAccess;
                     await _db.UpdateUserAsync(user);
                 }
+            }
+
+            if (originalRole != user.Role)
+            {
+                _logger.Information("Updating user {UserId}[{UserName}] role from {FromRole} to {ToRole}",
+                    user.Id, user.Name, originalRole, user.Role);
             }
         }
 
