@@ -11,6 +11,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public DatabaseConfig? Database { get; set; }
         public EmailConfig? Email { get; set; }
         public TwitchConfig? Twitch { get; set; }
+        public KofiConfig? Kofi { get; set; }
         public string[]? Passwords { get; set; }
 
         public static string GetBioRandDirectory()
@@ -66,5 +67,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public string ClientId { get; set; } = "";
         public string ClientSecret { get; set; } = "";
         public string SubscriberId { get; set; } = "";
+    }
+
+    public class KofiConfig
+    {
+        public Guid WebhookToken { get; set; }
     }
 }

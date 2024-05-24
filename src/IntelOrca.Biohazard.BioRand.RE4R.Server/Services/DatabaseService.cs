@@ -46,6 +46,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             await _conn.CreateTableAsync<RandoDbModel>();
             await _conn.CreateTableAsync<RandoConfigDbModel>();
             await _conn.CreateTableAsync<TwitchDbModel>();
+            await _conn.CreateTableAsync<KofiDbModel>();
             await _conn.ExecuteAsync(
                 @"CREATE TABLE IF NOT EXISTS ""profile_star"" (
                     ""ProfileId"" integer not null,
@@ -484,6 +485,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 await UpdateUserAsync(user);
                 await _conn.DeleteAsync(new TwitchDbModel() { Id = twitchId });
             }
+        }
+
+        public async Task InsertKofiAsync(KofiDbModel kofi)
+        {
+            await _conn.InsertAsync(kofi);
+        }
+
+        public async Task<int?> FindKofiMatchAsync(string email)
+        {
+            var result = await _conn.QueryAsync<int>(@"
+                SELECT Id FROM user
+                 WHERE Email = ?
+                    OR (KofiEmail = ? AND KofiEmailVerification IS NULL)
+                 LIMIT 1", email, email);
+            if (result.Count == 0)
+                return null;
+            return result.First();
         }
 
         private static async Task<LimitedResult<T>> ExecuteLimitedResult<T>(
