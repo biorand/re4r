@@ -36,6 +36,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
 
         public int? TwitchId { get; set; }
         public string? KofiEmail { get; set; }
+        [Indexed]
         public string? KofiEmailVerification { get; set; }
         public DateTime? KofiEmailTimestamp { get; set; }
 

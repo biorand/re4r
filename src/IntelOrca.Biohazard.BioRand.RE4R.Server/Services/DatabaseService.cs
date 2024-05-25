@@ -109,6 +109,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return await GetUserById(tokenModel.UserId);
         }
 
+        public async Task<UserDbModel?> GetUserByKofiEmailToken(string? token)
+        {
+            if (token == null)
+                return null;
+
+            return await _conn.Table<UserDbModel>()
+                .Where(x => x.KofiEmailVerification == token)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<UserDbModel> CreateUserAsync(string email, string name)
         {
             var user = new UserDbModel()

@@ -29,6 +29,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 RandoGenerateUrl = $"{baseUrl}/rando/generate",
                 RandoUrl = $"{baseUrl}/rando/{{randoId}}",
                 RandoDownloadUrl = $"{baseUrl}/rando/{{randoId}}/download",
+                UserListUrl = $"{baseUrl}/user",
+                UserUrl = $"{baseUrl}/user/{{userId}}",
+                UserVerifyUrl = $"{baseUrl}/user/verify"
             };
         }
 

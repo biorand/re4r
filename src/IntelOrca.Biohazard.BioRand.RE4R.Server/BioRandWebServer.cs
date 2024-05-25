@@ -59,7 +59,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
                 .WithWebApi("/auth", SerializationCallback, m => m.WithController(() => new AuthController(dbService, emailService, twitchService)))
                 .WithWebApi("/profile", SerializationCallback, m => m.WithController(() => new ProfileController(dbService, twitchService)))
                 .WithWebApi("/rando", SerializationCallback, m => m.WithController(() => new RandoController(dbService, twitchService, randomizerService, urlService)))
-                .WithWebApi("/user", SerializationCallback, m => m.WithController(() => new UserController(dbService, emailService, twitchService)))
+                .WithWebApi("/user", SerializationCallback, m => m.WithController(() => new UserController(dbService, emailService, twitchService, urlService)))
                 .WithWebApi("/webhook", SerializationCallback, m => m.WithController(() => new WebHookController(dbService, twitchService, config.Kofi)))
                 .WithWebApi("/", SerializationCallback, m => m.WithController(() => new MainController(dbService, twitchService, randomizerService)))
                 .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));

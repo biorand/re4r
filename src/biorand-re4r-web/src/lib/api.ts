@@ -40,11 +40,16 @@ export interface User {
     role: UserRole;
     avatarUrl: string;
     shareHistory: boolean;
-    twitch?: {
-        displayName: string;
-        profileImageUrl: string;
-        isSubscribed: boolean;
-    }
+    kofiEmail: string;
+    kofiEmailVerified: boolean;
+    kofiMember: boolean;
+    twitch?: UserTwitchInfo;
+}
+
+export interface UserTwitchInfo {
+    displayName: string;
+    profileImageUrl: string;
+    isSubscribed: boolean;
 }
 
 export interface UserQueryOptions {
@@ -58,6 +63,7 @@ export type UserQueryResult = QueryResult<User>;
 export interface UpdateUpdateRequest {
     email?: string;
     name?: string;
+    kofiEmail?: string;
     role?: UserRole;
     shareHistory?: boolean;
     twitchCode?: string;
@@ -234,6 +240,14 @@ export class BioRandApi {
 
     async updateUser(id: number, request: UpdateUpdateRequest) {
         return await this.put<UpdateUserResult>(`user/${id}`, request);
+    }
+
+    async verifyEmail(token: string) {
+        return await this.post(`user/verify`, { token });
+    }
+
+    async reverifyKofiEmail(userId: number) {
+        return await this.post(`user/${userId}/reverifykofi`);
     }
 
     async getProfiles() {

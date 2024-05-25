@@ -3,30 +3,19 @@
     import RoleBadge from '$lib/RoleBadge.svelte';
     import { validateClear, validateFormInputData, type FormInputData } from '$lib/Validation';
     import { UserRole, getApi, type User } from '$lib/api';
-    import { LocalStorageKeys, getLocalStorageManager } from '$lib/localStorage';
     import PageBody from '$lib/typography/PageBody.svelte';
     import PageTitle from '$lib/typography/PageTitle.svelte';
     import { getUserManager } from '$lib/userManager';
-    import { buildUrl } from '$lib/utility';
+    import { Alert, Button, Checkbox, Helper, Label, Select, Spinner } from 'flowbite-svelte';
     import {
-        Alert,
-        Button,
-        ButtonGroup,
-        Checkbox,
-        Helper,
-        Label,
-        Select,
-        Spinner
-    } from 'flowbite-svelte';
-    import {
-        CheckCircleSolid,
         CloseCircleSolid,
         EnvelopeSolid,
         ExclamationCircleOutline,
-        InfoCircleSolid,
         UserSolid
     } from 'flowbite-svelte-icons';
     import FormInput from '../../auth/FormInput.svelte';
+    import KofiConnection from './KofiConnection.svelte';
+    import TwitchConnection from './TwitchConnection.svelte';
 
     const userName = $page.params.user;
     let user: User | undefined;
@@ -40,6 +29,10 @@
     };
     let nameData: FormInputData = {
         key: 'name',
+        value: ''
+    };
+    let kofiEmailData: FormInputData = {
+        key: 'kofiEmail',
         value: ''
     };
     let role = UserRole.Pending;
@@ -63,6 +56,7 @@
         user = await api.getUser(userName);
         emailData = { ...emailData, value: user.email };
         nameData = { ...nameData, value: user.name };
+        kofiEmailData = { ...kofiEmailData, value: user.kofiEmail };
         role = user.role;
         shareHistory = user.shareHistory;
         return user;
@@ -71,22 +65,24 @@
     async function onSubmit() {
         if (!user) return;
 
-        [emailData, nameData] = validateClear(emailData, nameData);
+        [emailData, nameData, kofiEmailData] = validateClear(emailData, nameData, kofiEmailData);
         serverWait = true;
         try {
             const api = getApi();
             const result = await api.updateUser(user.id, {
                 email: emailData.value,
                 name: nameData.value,
+                kofiEmail: kofiEmailData.value,
                 role,
                 shareHistory
             });
             if (result.success) {
             } else {
-                [emailData, nameData] = validateFormInputData(
+                [emailData, nameData, kofiEmailData] = validateFormInputData(
                     result.validation,
                     emailData,
-                    nameData
+                    nameData,
+                    kofiEmailData
                 );
             }
         } catch {
@@ -96,40 +92,11 @@
         }
     }
 
-    function connectTwitch() {
-        const state = getSecureHexString(32);
+    async function reverifyKofiEmail() {
+        if (!user) return;
 
-        const lsManager = getLocalStorageManager();
-        lsManager.set(LocalStorageKeys.TwitchAuthState, state);
-
-        const redirectUri = `${window.location.origin}/auth/twitch`;
-        const twitchAuthUri = buildUrl('https://id.twitch.tv/oauth2/authorize', {
-            client_id: 'mi6184w9paqm7r4p803eioulkct635',
-            redirect_uri: redirectUri,
-            response_type: 'code',
-            scope: 'user:read:subscriptions',
-            state: state
-        });
-        window.location.replace(twitchAuthUri);
-    }
-
-    async function disconnectTwitch() {
-        if (user) {
-            const api = getApi();
-            await api.updateUser(user.id, {
-                twitchCode: ''
-            });
-            user.twitch = undefined;
-        }
-    }
-
-    function getSecureHexString(length: number) {
-        var array = new Uint8Array(length / 2);
-        window.crypto.getRandomValues(array);
-        var hexString = Array.from(array)
-            .map((byte) => ('0' + byte.toString(length)).slice(-2))
-            .join('');
-        return hexString;
+        const api = getApi();
+        await api.reverifyKofiEmail(user.id);
     }
 </script>
 
@@ -144,6 +111,21 @@
         <PageBody>
             <PageTitle>{user.name}</PageTitle>
             <form on:submit={onSubmit}>
+                <div class="mb-3">
+                    <Label for="role" class="block mb-2">Profile Picture</Label>
+                    <Alert border color="default">
+                        In order to change your profile picture, please upload an image using
+                        <a
+                            href="https://gravatar.com/profile"
+                            target="_blank"
+                            class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                        >
+                            Gravatar</a
+                        >
+                        for your registered email address. Alternatively you can connect your Twitch
+                        account and use your Twitch profile picture.
+                    </Alert>
+                </div>
                 <div class="max-w-3xl">
                     <FormInput
                         id="email"
@@ -168,96 +150,6 @@
                         data={nameData}
                     />
                 </div>
-                <div class="mb-3">
-                    <Label for="role" class="block mb-2">Profile Picture</Label>
-                    <Alert border color="default">
-                        In order to change your profile picture, please upload an image using
-                        <a
-                            href="https://gravatar.com/profile"
-                            target="_blank"
-                            class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                        >
-                            Gravatar</a
-                        >
-                        for your registered email address.
-                    </Alert>
-                </div>
-                <div class="mb-3">
-                    <Label for="role" class="block mb-2">Twitch</Label>
-                    {#if user.twitch}
-                        <ButtonGroup>
-                            <Button
-                                href="https://twitch.tv/{user.twitch.displayName}"
-                                target="_blank"
-                                color="primary">{user.twitch.displayName}</Button
-                            >
-                            <Button on:click={disconnectTwitch} color="alternative"
-                                >Disconnect</Button
-                            >
-                        </ButtonGroup>
-                        {#if !user.twitch.isSubscribed}
-                            <Alert color="yellow" border class="mt-3 p-2 !items-start">
-                                <span slot="icon">
-                                    <InfoCircleSolid slot="icon" class="w-5 h-5" />
-                                    <span class="sr-only">Info</span>
-                                </span>
-                                <p class="font-medium">Unsubscribed</p>
-                                <ul class="mt-1.5 ms-4 list-disc list-inside">
-                                    <li>
-                                        Support <a
-                                            class="font-medium text-blue-400 hover:text-blue-300"
-                                            href="https://twitch.tv/intelorca"
-                                            target="_blank">IntelOrca</a
-                                        > by subscribing on Twitch.
-                                    </li>
-                                    <li>Instant early access to the randomizer</li>
-                                    <li>Exclusive access to preview functionality</li>
-                                </ul>
-                            </Alert>
-                        {:else}
-                            <Alert color="green" border class="mt-3 p-2">
-                                <CheckCircleSolid slot="icon" class="w-5 h-5" />
-                                <span class="font-medium">Subscribed </span><span class="font-light"
-                                    >to
-                                </span>
-                                <a
-                                    class="font-medium text-blue-400 hover:text-blue-300"
-                                    href="https://twitch.tv/intelorca"
-                                    target="_blank">IntelOrca</a
-                                >
-                            </Alert>
-                        {/if}
-                    {:else}
-                        <Button on:click={connectTwitch}>Connect Twitch Account</Button>
-                        <Alert color="dark" border class="mt-3 p-2 !items-start">
-                            <span slot="icon">
-                                <InfoCircleSolid slot="icon" class="w-5 h-5" />
-                                <span class="sr-only">Info</span>
-                            </span>
-                            <p class="font-medium">Connect your Twitch account to:</p>
-                            <ul class="mt-1.5 ms-4 list-disc list-inside">
-                                <li>Advertise when you are live and playing BioRand.</li>
-                                <li>Use your Twitch profile picture as your avatar.</li>
-                                <li>
-                                    Instant access to the randomizer if subscribed to
-                                    <a
-                                        class="font-medium text-blue-400 hover:text-blue-300"
-                                        href="https://twitch.tv/intelorca"
-                                        target="_blank">IntelOrca</a
-                                    >.
-                                </li>
-                                <li>
-                                    Exclusive access to preview functionality if subscribed to
-                                    <a
-                                        class="font-medium text-blue-400 hover:text-blue-300"
-                                        href="https://twitch.tv/intelorca"
-                                        target="_blank">IntelOrca</a
-                                    >.
-                                </li>
-                            </ul>
-                        </Alert>
-                    {/if}
-                </div>
                 <div class="max-w-60">
                     <Label for="role" class="block mb-2">Role</Label>
                     {#if isAdmin}
@@ -279,6 +171,50 @@
                         bind:checked={shareHistory}
                         >Allow other users to view your randomizer history</Checkbox
                     >
+                </div>
+                <div class="mb-3">
+                    <Label for="role" class="block mb-2">Ko-fi</Label>
+                    <KofiConnection
+                        isMember={user.kofiMember}
+                        showBenefits={!(user.twitch?.isSubscribed || false)}
+                    />
+                </div>
+                <div class="max-w-5xl">
+                    <FormInput
+                        id="kofi-email"
+                        type="email"
+                        label="Ko-fi Email Address"
+                        placeholder={user.email}
+                        help="Set this if your ko-fi registered email address is different to your biorand email address."
+                        required={true}
+                        icon={EnvelopeSolid}
+                        data={kofiEmailData}
+                    >
+                        <div slot="right">
+                            {#if user.kofiEmail}
+                                {#if user.kofiEmailVerified}
+                                    <div class="text-sm text-green-400">Verified</div>
+                                {:else}
+                                    <div class="text-sm text-red-400">Unverified</div>
+                                {/if}
+                            {/if}
+                        </div>
+                        <div slot="button">
+                            {#if user.kofiEmail && !user.kofiEmailVerified}
+                                <Button on:click={reverifyKofiEmail}
+                                    >Re-send verification email</Button
+                                >
+                            {/if}
+                        </div>
+                    </FormInput>
+                </div>
+                <div class="mb-3">
+                    <Label for="role" class="block mb-2">Twitch</Label>
+                    <TwitchConnection
+                        userId={user.id}
+                        bind:twitch={user.twitch}
+                        showUnsubscribed={!user.kofiMember}
+                    />
                 </div>
                 {#if serverMessage}
                     <div>

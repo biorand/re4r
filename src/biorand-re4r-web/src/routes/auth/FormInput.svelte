@@ -28,23 +28,29 @@
 
 <div class="mb-2">
     <Label for={id} class="block mb-2" {color}>{label}</Label>
-    <Input
-        color={color || 'base'}
-        {id}
-        {type}
-        {placeholder}
-        {required}
-        {minlength}
-        {maxlength}
-        {disabled}
-        bind:value={data.value}
-    >
-        <svelte:component
-            this={icon}
-            slot="left"
-            class="w-5 h-5 text-gray-500 dark:text-gray-400"
-        />
-    </Input>
+    <div class="flex flex-col gap-3 md:flex-row">
+        <div class="grow">
+            <Input
+                color={color || 'base'}
+                {id}
+                {type}
+                {placeholder}
+                {required}
+                {minlength}
+                {maxlength}
+                {disabled}
+                bind:value={data.value}
+            >
+                <svelte:component
+                    this={icon}
+                    slot="left"
+                    class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                />
+                <slot slot="right" name="right" />
+            </Input>
+        </div>
+        <slot name="button" />
+    </div>
     {#if data.valid === false}
         <Helper class="mt-2" {color}>{data.message}</Helper>
     {/if}

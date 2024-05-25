@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
@@ -15,13 +16,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         private readonly DatabaseService _db;
         private readonly EmailService _emailService;
         private readonly TwitchService _twitchService;
+        private readonly UrlService _urlService;
         private readonly ILogger _logger;
 
-        public UserController(DatabaseService db, EmailService emailService, TwitchService twitchService) : base(db, twitchService)
+        public UserController(
+            DatabaseService db,
+            EmailService emailService,
+            TwitchService twitchService,
+            UrlService urlService) : base(db, twitchService)
         {
             _db = db;
             _emailService = emailService;
             _twitchService = twitchService;
+            _urlService = urlService;
             _logger = Log.ForContext<UserController>();
         }
 
@@ -39,6 +46,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             var descending = "desc".Equals(order, System.StringComparison.InvariantCultureIgnoreCase);
             var users = await _db.GetUsersAsync(sort, descending, LimitOptions.FromPage(page, itemsPerPage));
             return ResultListResult(page, itemsPerPage, users, GetUser);
+        }
+
+        [Route(HttpVerbs.Post, "/verify")]
+        public async Task<object> VerifyAsync([MyJsonData] UserVerifyRequest request)
+        {
+            var user = await _db.GetUserByKofiEmailToken(request.Token);
+            if (user == null)
+                return NotFoundResult();
+
+            if (user.KofiEmailTimestamp < DateTime.UtcNow - TimeSpan.FromMinutes(60))
+                return NotFoundResult();
+
+            user.KofiEmailTimestamp = null;
+            user.KofiEmailVerification = null;
+            await _db.UpdateUserAsync(user);
+            _logger.Information("User {UserId}[{UserName}] verified Ko-fi email {Email}", user.Id, user.Name, user.KofiEmail);
+            return EmptyResult();
         }
 
         [Route(HttpVerbs.Get, "/{id}")]
@@ -146,6 +170,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 user.Role = request.Role ?? user.Role;
             }
 
+            if (request.KofiEmail != null)
+            {
+                var newKofiEmail = request.KofiEmail.Trim().ToLowerInvariant();
+                if (user.KofiEmail != newKofiEmail)
+                {
+                    if (newKofiEmail == user.Email)
+                    {
+                        user.KofiEmail = null;
+                        user.KofiEmailTimestamp = null;
+                        user.KofiEmailVerification = null;
+                    }
+                    else
+                    {
+                        user.KofiEmail = newKofiEmail;
+                        user.KofiEmailTimestamp = DateTime.UtcNow;
+                        user.KofiEmailVerification = GetRandomEmailVerificationCode();
+                        await SendKofiEmailVerification(user);
+                    }
+                }
+            }
+
             user.ShareHistory = request.ShareHistory ?? user.ShareHistory;
 
             await _db.UpdateUserAsync(user);
@@ -173,6 +218,56 @@ The BioRand Team");
             };
         }
 
+        [Route(HttpVerbs.Post, "/{id}/reverifykofi")]
+        public async Task<object> ReverifyKofiAsync(int id)
+        {
+            var authorizedUser = await GetAuthorizedUserAsync(UserRoleKind.Pending);
+            if (authorizedUser == null)
+                return UnauthorizedResult();
+
+            var user = await _db.GetUserAsync(id);
+            if (user == null)
+                return NotFoundResult();
+
+            if (user.Role < UserRoleKind.Administrator && user.Id != user.Id)
+                return UnauthorizedResult();
+
+            if (user.KofiEmailVerification == null)
+            {
+                _logger.Information("User {UserId}[{UserName}] attempted to verify already verified ko-fi email", user.Id, user.Name);
+                return ErrorResult(System.Net.HttpStatusCode.BadRequest);
+            }
+
+            user.KofiEmailTimestamp = DateTime.UtcNow;
+            user.KofiEmailVerification = GetRandomEmailVerificationCode();
+            await _db.UpdateUserAsync(user);
+            _logger.Information("User {UserId}[{UserName}] requested new ko-fi email verification", user.Id, user.Name);
+
+            await SendKofiEmailVerification(user);
+            return EmptyResult();
+        }
+
+        private async Task SendKofiEmailVerification(UserDbModel user)
+        {
+            var url = _urlService.GetWebUrl($"user?action=verifykofi&token={user.KofiEmailVerification}");
+            await _emailService.SendEmailAsync(user.Name, user.KofiEmail!,
+                    "BioRand 4 - Verify Email",
+$@"Dear {user.Name},
+
+Please verify your Ko-fi email address by navigating to this link:
+{url}
+
+Kind regards,
+The BioRand Team");
+        }
+
+        private static string GetRandomEmailVerificationCode()
+        {
+            var randomBytes = new byte[16];
+            RandomNumberGenerator.Fill(randomBytes);
+            return BitConverter.ToString(randomBytes).Replace("-", "").ToLower();
+        }
+
         public class UserUpdateRequest
         {
             public string? Email { get; set; }
@@ -180,6 +275,12 @@ The BioRand Team");
             public UserRoleKind? Role { get; set; }
             public bool? ShareHistory { get; set; }
             public string? TwitchCode { get; set; }
+            public string? KofiEmail { get; set; }
+        }
+
+        public class UserVerifyRequest
+        {
+            public string? Token { get; set; }
         }
     }
 }

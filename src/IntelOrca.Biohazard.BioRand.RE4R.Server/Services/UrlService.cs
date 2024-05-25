@@ -16,5 +16,13 @@
                 return $"{baseUrl}{path}";
             return $"{baseUrl}/{path}";
         }
+
+        public string GetWebUrl(string path)
+        {
+            var baseUrl = _config?.Web ?? "";
+            if (baseUrl.EndsWith("/"))
+                return $"{baseUrl}{path}";
+            return $"{baseUrl}/{path}";
+        }
     }
 }

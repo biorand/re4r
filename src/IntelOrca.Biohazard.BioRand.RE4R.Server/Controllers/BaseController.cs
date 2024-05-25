@@ -153,6 +153,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 user.Role,
                 AvatarUrl = twitchModel == null ? GetAvatarUrl(user.Email) : twitchModel.TwitchProfileImageUrl,
                 user.ShareHistory,
+                user.KofiEmail,
+                KofiEmailVerified = user.KofiEmailVerification == null,
                 twitch = twitchModel == null ? null : new
                 {
                     DisplayName = twitchModel.TwitchDisplayName,
