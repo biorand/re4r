@@ -511,7 +511,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 
         public async Task<int?> FindKofiMatchAsync(string email)
         {
-            var result = await _conn.QueryAsync<int>(@"
+            var result = await _conn.QueryScalarsAsync<int>(@"
                 SELECT Id FROM user
                  WHERE Email = ?
                     OR (KofiEmail = ? AND KofiEmailVerification IS NULL)

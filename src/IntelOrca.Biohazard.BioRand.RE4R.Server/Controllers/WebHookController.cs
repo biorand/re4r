@@ -49,11 +49,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                         userId = await _databaseService.FindKofiMatchAsync(email);
                         if (userId != null)
                         {
-                            _logger.Information("Matched user {UserId} for ko-fi donation {MessageId}", userId, kofiData.MessageId);
+                            var user = await _databaseService.GetUserAsync(userId.Value);
+                            _logger.Information("Matched user {UserId}[{UserName}] for ko-fi donation {MessageId}", user.Id, user.Name, kofiData.MessageId);
                         }
                         else
                         {
-                            _logger.Information("Unable to find matching user for ko-fi donation {MessageId}", kofiData.MessageId);
+                            _logger.Information("Unable to find matching email {Email} for ko-fi donation {MessageId}", kofiData.Email, kofiData.MessageId);
                         }
                     }
                     catch (Exception ex)

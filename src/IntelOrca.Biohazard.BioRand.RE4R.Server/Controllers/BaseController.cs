@@ -101,7 +101,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             else if (user.Flags != originalFlags)
             {
                 await _db.UpdateUserAsync(user);
-                _logger.Information("Updated user {UserId}[{UserName}] flags", user.Id);
+                _logger.Information("Updated user {UserId}[{UserName}] flags", user.Id, user.Name);
             }
         }
 
