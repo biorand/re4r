@@ -12,7 +12,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
         public Guid MessageId { get; set; }
         [NotNull]
         public DateTime Timestamp { get; set; }
+        [Indexed]
         public int? UserId { get; set; }
+        [Indexed]
         public string? Email { get; set; }
         public decimal Price { get; set; }
         public string? TierName { get; set; }

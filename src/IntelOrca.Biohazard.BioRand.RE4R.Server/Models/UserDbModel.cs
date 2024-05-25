@@ -40,6 +40,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
         public string? KofiEmailVerification { get; set; }
         public DateTime? KofiEmailTimestamp { get; set; }
 
+        [Ignore]
+        public bool KofiMember
+        {
+            get => GetFlag(1);
+            set => SetFlag(1, value);
+        }
+
+        [Ignore]
+        public bool TwitchSubscriber
+        {
+            get => GetFlag(2);
+            set => SetFlag(2, value);
+        }
+
         private bool GetFlag(int i) => (Flags & (1 << i)) != 0;
         private void SetFlag(int i, bool value)
         {

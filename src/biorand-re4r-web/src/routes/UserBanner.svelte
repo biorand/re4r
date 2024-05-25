@@ -27,7 +27,8 @@
             title = 'Early Access Pending';
             body =
                 'Your account status is currently pending early access. ' +
-                'You will receive an email notification once access is granted.';
+                'You will receive an email notification once access is granted. ' +
+                'Alternatively you can <a class="text-blue-400 hover:text-blue-300" href="/user">subscribe</a> via Ko-fi or Twitch to gain access immediately.';
             break;
         case UserRole.Banned:
             icon = LockSolid;
@@ -52,6 +53,6 @@
         {title}
     </h1>
     <p class="font-light text-gray-500 md:text-lg xl:text-xl dark:text-gray-400">
-        {body}
+        {@html body}
     </p>
 </section>

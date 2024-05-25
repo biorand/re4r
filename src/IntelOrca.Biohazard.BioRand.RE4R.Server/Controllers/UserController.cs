@@ -62,6 +62,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             user.KofiEmailVerification = null;
             await _db.UpdateUserAsync(user);
             _logger.Information("User {UserId}[{UserName}] verified Ko-fi email {Email}", user.Id, user.Name, user.KofiEmail);
+
+            await _db.UpdateAllUnmatchedKofiMatchesAsync();
+
             return EmptyResult();
         }
 
@@ -175,7 +178,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 var newKofiEmail = request.KofiEmail.Trim().ToLowerInvariant();
                 if (user.KofiEmail != newKofiEmail)
                 {
-                    if (newKofiEmail == user.Email)
+                    if (newKofiEmail == "" || newKofiEmail == user.Email)
                     {
                         user.KofiEmail = null;
                         user.KofiEmailTimestamp = null;

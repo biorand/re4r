@@ -502,6 +502,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             await _conn.InsertAsync(kofi);
         }
 
+        public async Task<KofiDbModel[]> GetKofiByUserAsync(int userId)
+        {
+            return await _conn.Table<KofiDbModel>()
+                .Where(x => x.UserId == userId)
+                .ToArrayAsync();
+        }
+
         public async Task<int?> FindKofiMatchAsync(string email)
         {
             var result = await _conn.QueryAsync<int>(@"
@@ -512,6 +519,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             if (result.Count == 0)
                 return null;
             return result.First();
+        }
+
+        public async Task<int?> UpdateKofiMatchesAsync(string email)
+        {
+            var result = await _conn.QueryAsync<int>(@"
+                SELECT Id FROM user
+                 WHERE Email = ?
+                    OR (KofiEmail = ? AND KofiEmailVerification IS NULL)
+                 LIMIT 1", email, email);
+            if (result.Count == 0)
+                return null;
+            return result.First();
+        }
+
+        public async Task UpdateAllUnmatchedKofiMatchesAsync()
+        {
+            await _conn.ExecuteAsync(@"
+                UPDATE kofi
+                SET UserId = t.UserId
+                FROM (
+	                SELECT kofi.Id AS Id, user.Id AS UserId
+	                FROM kofi
+	                JOIN user ON user.Email = kofi.Email OR (user.KofiEmail = kofi.Email AND KofiEmailVerification IS NULL)
+	                WHERE kofi.UserId IS NULL
+                ) t
+                WHERE kofi.Id = t.Id");
         }
 
         private static async Task<LimitedResult<T>> ExecuteLimitedResult<T>(

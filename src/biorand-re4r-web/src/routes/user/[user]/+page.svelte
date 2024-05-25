@@ -186,7 +186,6 @@
                         label="Ko-fi Email Address"
                         placeholder={user.email}
                         help="Set this if your ko-fi registered email address is different to your biorand email address."
-                        required={true}
                         icon={EnvelopeSolid}
                         data={kofiEmailData}
                     >

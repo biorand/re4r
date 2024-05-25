@@ -69,51 +69,79 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
         protected async Task CheckUserSubscriptionAsync(UserDbModel user)
         {
-            if (!_twitchService.IsAvailable)
-                return;
-
+            var originalFlags = user.Flags;
             var originalRole = user.Role;
-            if (user.TwitchId == null)
+            if (originalRole is UserRoleKind.Pending
+                             or UserRoleKind.Banned
+                             or UserRoleKind.Administrator
+                             or UserRoleKind.System)
             {
-                if (user.Role == UserRoleKind.Standard)
-                {
-                    user.Role = UserRoleKind.EarlyAccess;
-                    await _db.UpdateUserAsync(user);
-                }
-            }
-            else if (user.Role == UserRoleKind.PendingEarlyAccess)
-            {
-                var twitchModel = await _twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1));
-                if (twitchModel?.IsSubscribed == true)
-                {
-                    user.Role = UserRoleKind.Standard;
-                    await _db.UpdateUserAsync(user);
-                }
-            }
-            else if (user.Role == UserRoleKind.EarlyAccess)
-            {
-                var twitchModel = await _twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(5));
-                if (twitchModel?.IsSubscribed == true)
-                {
-                    user.Role = UserRoleKind.Standard;
-                    await _db.UpdateUserAsync(user);
-                }
-            }
-            else if (user.Role == UserRoleKind.Standard)
-            {
-                var twitchModel = await _twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromDays(7));
-                if (twitchModel?.IsSubscribed != true)
-                {
-                    user.Role = UserRoleKind.EarlyAccess;
-                    await _db.UpdateUserAsync(user);
-                }
+                return;
             }
 
-            if (originalRole != user.Role)
+            var newRole = originalRole;
+            var twitchRole = await GetRoleKindFromTwitchAsync(user);
+            var kofiRole = await GetRoleKindFromKofiAsync(user);
+            if (twitchRole > newRole)
+                newRole = twitchRole;
+            if (kofiRole > newRole)
+                newRole = kofiRole;
+
+            // Don't downgrade role to no access
+            if (originalRole != UserRoleKind.PendingEarlyAccess && newRole == UserRoleKind.PendingEarlyAccess)
+                newRole = UserRoleKind.EarlyAccess;
+
+            if (newRole != originalRole)
             {
-                _logger.Information("Updating user {UserId}[{UserName}] role from {FromRole} to {ToRole}",
+                user.Role = newRole;
+                await _db.UpdateUserAsync(user);
+                _logger.Information("Updated user {UserId}[{UserName}] role from {FromRole} to {ToRole}",
                     user.Id, user.Name, originalRole, user.Role);
             }
+            else if (user.Flags != originalFlags)
+            {
+                await _db.UpdateUserAsync(user);
+                _logger.Information("Updated user {UserId}[{UserName}] flags", user.Id);
+            }
+        }
+
+        private async Task<UserRoleKind> GetRoleKindFromTwitchAsync(UserDbModel user)
+        {
+            if (!_twitchService.IsAvailable)
+                return UserRoleKind.PendingEarlyAccess;
+
+            var twitchModel = await _twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1));
+            if (twitchModel?.IsSubscribed == true)
+            {
+                user.TwitchSubscriber = true;
+                return UserRoleKind.Standard;
+            }
+            else
+            {
+                user.TwitchSubscriber = false;
+                return UserRoleKind.PendingEarlyAccess;
+            }
+        }
+
+        private async Task<UserRoleKind> GetRoleKindFromKofiAsync(UserDbModel user)
+        {
+            var kofis = await _db.GetKofiByUserAsync(user.Id);
+            var dt = DateTime.UtcNow - TimeSpan.FromDays(30);
+            var role = UserRoleKind.PendingEarlyAccess;
+            foreach (var kofi in kofis)
+            {
+                if (kofi.Timestamp >= dt)
+                {
+                    if (string.Equals(kofi.TierName, "BioRand Patron", StringComparison.OrdinalIgnoreCase))
+                    {
+                        user.KofiMember = true;
+                        return UserRoleKind.Standard;
+                    }
+                }
+                role = UserRoleKind.EarlyAccess;
+            }
+            user.KofiMember = false;
+            return role;
         }
 
         protected object EmptyResult()
@@ -155,6 +183,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 user.ShareHistory,
                 user.KofiEmail,
                 KofiEmailVerified = user.KofiEmailVerification == null,
+                user.KofiMember,
                 twitch = twitchModel == null ? null : new
                 {
                     DisplayName = twitchModel.TwitchDisplayName,
