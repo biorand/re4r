@@ -79,7 +79,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 HerbGRY => "Herb G+R+Y",
                 HerbGY => "Herb G+Y",
                 HerbR => "Herb R",
-                HerbRY => "Herb G+Y",
+                HerbRY => "Herb R+Y",
                 HerbY => "Herb Y",
                 _ => drop.Replace("-", " ").ToTitleCase(),
             };
