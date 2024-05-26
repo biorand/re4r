@@ -2444,7 +2444,17 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_003.scn.20",
       "chapter": 7,
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "guids": [
+            "1b9bc5ff-09be-4d1d-a143-38495e3d1830" // first garrador
+          ],
+          "preventDuplicate": true,
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_004.scn.20",
@@ -4078,7 +4088,8 @@
           ],
           "preventDuplicate": true,
           "exclude": [
-            "mendez_chase"
+            "mendez_chase",
+            "krauser_1"
           ]
         }
       ]
