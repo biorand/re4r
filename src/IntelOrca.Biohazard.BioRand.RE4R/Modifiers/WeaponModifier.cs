@@ -236,10 +236,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var maxUpper = originalMax + range;
             var max = _valueRng.NextFloat(maxLower, maxUpper);
 
-            for (var i = 1; i < stats.Length; i++)
-            {
-                stats[i].Value = Lerp(min, max, i / (stats.Length - 1.0f));
-            }
+            SetStats(stats, min, max, x => x);
         }
 
         private void RandomizeCapacity(WeaponStatModifier[] stats, RandomizerLogger logger)
@@ -255,10 +252,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var maxUpper = originalMax * 2;
             var max = _valueRng.Next(maxLower, maxUpper + 1);
 
-            for (var i = 0; i < stats.Length; i++)
-            {
-                stats[i].Value = (int)Math.Round(Lerp(min, max, i / (stats.Length - 1.0f)));
-            }
+            SetStats(stats, min, max, x => (int)Math.Round(x), includeBaseStat: true);
         }
 
         private void RandomizeReloadSpeed(WeaponStatModifier[] stats, RandomizerLogger logger)
@@ -274,10 +268,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var maxUpper = originalMax * 2;
             var max = _valueRng.NextFloat(maxLower, maxUpper);
 
-            for (var i = 1; i < stats.Length; i++)
-            {
-                stats[i].Value = Lerp(min, max, i / (stats.Length - 1.0f));
-            }
+            SetStats(stats, min, max, x => x);
         }
 
         private void RandomizeRateOfFire(WeaponStatModifier[] stats, RandomizerLogger logger)
@@ -289,14 +280,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var minLower = originalMin - (range / 2);
             var minUpper = originalMin * 2;
             var min = _valueRng.NextFloat(minLower, minUpper);
-            var maxLower = originalMax / 2;
+            var maxLower = originalMax / 4;
             var maxUpper = min;
             var max = _valueRng.NextFloat(maxLower, maxUpper);
 
-            for (var i = 1; i < stats.Length; i++)
-            {
-                stats[i].Value = Lerp(min, max, i / (stats.Length - 1.0f));
-            }
+            SetStats(stats, min, max, x => x);
         }
 
         private void RandomizeDurability(WeaponStatModifier[] stats, RandomizerLogger logger)
@@ -312,10 +300,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var maxUpper = originalMax * 2;
             var max = (int)MathF.Round(_valueRng.NextFloat(maxLower, maxUpper));
 
-            for (var i = 1; i < stats.Length; i++)
+            SetStats(stats, min, max, x => (int)MathF.Ceiling(x / 100) * 100);
+        }
+
+        private static void SetStats(WeaponStatModifier[] stats, float min, float max, Func<float, float> transform, bool includeBaseStat = false)
+        {
+            var start = includeBaseStat ? 0 : 1;
+            var last = includeBaseStat ? 0 : stats[0].Value;
+            for (var i = start; i < stats.Length; i++)
             {
                 var val = Lerp(min, max, i / (stats.Length - 1.0f));
-                stats[i].Value = (int)MathF.Ceiling(val / 100) * 100;
+                var tVal = transform(val);
+                if (min < max)
+                    tVal = Math.Max(last + 0.01f, tVal);
+                else
+                    tVal = Math.Min(last - 0.01f, tVal);
+                stats[i].Value = tVal;
+                last = tVal;
             }
         }
 
