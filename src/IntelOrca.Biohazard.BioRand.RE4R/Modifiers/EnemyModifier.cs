@@ -100,6 +100,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 MinMoneyQuantity = randomizer.GetConfigOption("enemy-drop-money-min", 100),
                 MaxMoneyQuantity = randomizer.GetConfigOption("enemy-drop-money-max", 1000),
             };
+            var ammoOnlyAvailableWeapons = randomizer.GetConfigOption("enemy-drop-ammo-only-available-weapons", true);
 
             _contextId = 5000;
             _uniqueHp = 1;
@@ -154,6 +155,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         .Where(x => !x.HasKeyItem)
                         .Where(x => x.Guid != new Guid("a61c62f3-52e7-4d78-a167-c99b84fcada9")) // Mendez (phase 1)
                         .ToImmutableArray();
+
+                    if (ammoOnlyAvailableWeapons)
+                    {
+                        randomItemSettings.ValidateDropKind = (drop) =>
+                        {
+                            var ammoType = DropKinds.GetAmmoType(drop);
+                            return ammoType == null || randomizer.ValuableDistributor.IsAmmoAvailableYet(ammoType.Value, chapter);
+                        };
+                    }
                     RandomizeEnemyDrops(randomizer, randomItemSettings, chapter, enemies, rng, logger);
                 }
                 logger.Pop();

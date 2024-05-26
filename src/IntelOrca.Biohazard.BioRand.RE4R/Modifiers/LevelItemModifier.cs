@@ -126,6 +126,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 MinMoneyQuantity = randomizer.GetConfigOption("item-drop-money-min", 100),
                 MaxMoneyQuantity = randomizer.GetConfigOption("item-drop-money-max", 1000),
             };
+            var ammoOnlyAvailableWeapons = randomizer.GetConfigOption("item-drop-ammo-only-available-weapons", true);
 
             logger.Push($"Randomizing items");
 
@@ -161,6 +162,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (levelItem.Include?.Length == 0)
                         continue;
 
+                    if (ammoOnlyAvailableWeapons)
+                    {
+                        randomItemSettings.ValidateDropKind = (drop) =>
+                        {
+                            var ammoType = DropKinds.GetAmmoType(drop);
+                            return ammoType == null || randomizer.ValuableDistributor.IsAmmoAvailableYet(ammoType.Value, levelItem.Chapter);
+                        };
+                    }
                     var randomItem = itemRandomizer.GetNextGeneralDrop(rng, randomItemSettings);
                     if (randomItem is Item newItem)
                     {

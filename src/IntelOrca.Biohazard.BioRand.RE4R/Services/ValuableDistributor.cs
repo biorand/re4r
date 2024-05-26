@@ -235,6 +235,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return builder.ToImmutable();
         }
 
+        public bool IsAmmoAvailableYet(int itemId, int chapter)
+        {
+            var itemRepo = ItemDefinitionRepository.Default;
+
+            var weapons = ItemDefinitionRepository.Default.KindToItemMap[ItemKinds.Weapon];
+            foreach (var weapon in weapons)
+            {
+                var ditem = _distributedItems.FirstOrDefault(x => x.Definition == weapon);
+                if (ditem == null)
+                    continue;
+
+                if (ditem.Chapter > chapter)
+                    continue;
+
+                var ammoDef = itemRepo.GetAmmo(weapon);
+                if (ammoDef?.Id == itemId)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private void LogDistribution(RandomizerLogger logger)
         {
             logger.Push("Valuable Distribution");

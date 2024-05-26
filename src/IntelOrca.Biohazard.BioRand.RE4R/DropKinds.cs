@@ -128,6 +128,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             };
         }
 
+        public static int? GetAmmoType(string dropKind)
+        {
+            return dropKind switch
+            {
+                AmmoHandgun => ItemIds.AmmoHandgun,
+                AmmoShotgun => ItemIds.AmmoShotgun,
+                AmmoRifle => ItemIds.AmmoRifle,
+                AmmoSmg => ItemIds.AmmoSmg,
+                AmmoMagnum => ItemIds.AmmoMagnum,
+                AmmoBolts => ItemIds.AmmoBolts,
+                AmmoMines => ItemIds.AmmoMines,
+                _ => null,
+            };
+        }
+
         public static (string BackgroundColor, string TextColor) GetColor(string category)
         {
             return GetCategory(category) switch

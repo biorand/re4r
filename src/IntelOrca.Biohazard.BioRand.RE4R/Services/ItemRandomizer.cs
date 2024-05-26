@@ -145,7 +145,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public Item? GetNextGeneralDrop(Rng rng, RandomItemSettings settings)
         {
             var bag = CreateGeneralItemPool(settings, rng);
-            var kind = bag.Next();
+
+            // TODO optimise this
+            string kind = bag.Next();
+            for (var i = 0; i < 1000; i++)
+            {
+                if (settings.ValidateDropKind?.Invoke(kind) != false)
+                {
+                    break;
+                }
+                kind = bag.Next();
+            }
             return GetRandomDrop(rng, kind, settings);
         }
 
@@ -282,6 +292,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public int MinMoneyQuantity { get; set; }
         public int MaxMoneyQuantity { get; set; }
         public Func<string, double>? ItemRatioKeyFunc { get; set; }
+        public Func<string, bool>? ValidateDropKind { get; set; }
 
         public double GetItemRatio(string dropKind)
         {

@@ -258,6 +258,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 100,
                 Default = 1000
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"item-drop-ammo-only-available-weapons",
+                Label = "Ammo for available weapons only",
+                Description = "Only drop ammo for weapons that are available before or in the chapter with the drop.",
+                Type = "switch",
+                Default = true
+            });
+
             group = page.CreateGroup("General Drops");
             foreach (var dropKind in DropKinds.Generic)
             {
@@ -412,6 +421,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 1,
                 Step = 0.01,
                 Default = 0.25
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-drop-ammo-only-available-weapons",
+                Label = "Ammo for available weapons only",
+                Description = "Only drop ammo for weapons that are available before or in the chapter with the drop.",
+                Type = "switch",
+                Default = true
             });
 
             group = page.CreateGroup("General Drops");
