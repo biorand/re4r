@@ -61,10 +61,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public const string CategoryResource = "Resource";
         public const string CategoryOther = "Other";
 
-        public static ImmutableArray<string> All => _generic.Concat(_highValue).ToImmutableArray();
-        public static ImmutableArray<string> GenericAll => _special.Concat(_generic).ToImmutableArray();
-        public static ImmutableArray<string> Generic => _generic.ToImmutableArray();
-        public static ImmutableArray<string> HighValue => _highValue.ToImmutableArray();
+        public static ImmutableArray<string> All => [.. _generic, .. _highValue];
+        public static ImmutableArray<string> GenericAll => [.. _special, .. _generic];
+        public static ImmutableArray<string> Generic => [.. _generic];
+        public static ImmutableArray<string> ShopCompatible => _generic.Except([Money]).ToImmutableArray();
+        public static ImmutableArray<string> HighValue => [.. _highValue];
 
         public static string GetLabel(string drop)
         {

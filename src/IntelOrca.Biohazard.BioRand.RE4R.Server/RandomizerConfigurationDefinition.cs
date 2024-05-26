@@ -154,7 +154,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
 
             group = page.CreateGroup("Max. Stock Increase per Chapter");
-            foreach (var kind in DropKinds.Generic)
+            foreach (var kind in DropKinds.ShopCompatible)
             {
                 group.Items.Add(new GroupItem()
                 {
@@ -569,8 +569,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             foreach (var enemyClass in enemyClassFactory.Classes)
             {
                 // Super iron maiden HP can't be changed
-                if (enemyClass.Key == "super_iron_maiden")
+                if (enemyClass.Key == "mendez_chase" ||
+                    enemyClass.Key == "super_iron_maiden")
+                {
                     continue;
+                }
 
                 group.Items.Add(new GroupItem()
                 {
