@@ -236,7 +236,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var maxUpper = originalMax + range;
             var max = _valueRng.NextFloat(maxLower, maxUpper);
 
-            for (var i = 0; i < stats.Length; i++)
+            for (var i = 1; i < stats.Length; i++)
             {
                 stats[i].Value = Lerp(min, max, i / (stats.Length - 1.0f));
             }
@@ -274,7 +274,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var maxUpper = originalMax * 2;
             var max = _valueRng.NextFloat(maxLower, maxUpper);
 
-            for (var i = 0; i < stats.Length; i++)
+            for (var i = 1; i < stats.Length; i++)
             {
                 stats[i].Value = Lerp(min, max, i / (stats.Length - 1.0f));
             }
@@ -289,11 +289,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var minLower = originalMin - (range / 2);
             var minUpper = originalMin * 2;
             var min = _valueRng.NextFloat(minLower, minUpper);
-            var maxLower = min;
-            var maxUpper = originalMax / 2;
+            var maxLower = originalMax / 2;
+            var maxUpper = min;
             var max = _valueRng.NextFloat(maxLower, maxUpper);
 
-            for (var i = 0; i < stats.Length; i++)
+            for (var i = 1; i < stats.Length; i++)
             {
                 stats[i].Value = Lerp(min, max, i / (stats.Length - 1.0f));
             }
@@ -312,7 +312,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var maxUpper = originalMax * 2;
             var max = (int)MathF.Round(_valueRng.NextFloat(maxLower, maxUpper));
 
-            for (var i = 0; i < stats.Length; i++)
+            for (var i = 1; i < stats.Length; i++)
             {
                 var val = Lerp(min, max, i / (stats.Length - 1.0f));
                 stats[i].Value = (int)MathF.Ceiling(val / 100) * 100;
