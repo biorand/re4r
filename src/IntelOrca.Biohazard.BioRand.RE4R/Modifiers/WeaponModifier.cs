@@ -251,13 +251,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var minLower = originalMin / 2;
             var minUpper = originalMin + (range / 2);
             var min = _valueRng.Next(minLower, minUpper + 1);
-            var maxLower = min;
+            var maxLower = min + 4;
             var maxUpper = originalMax * 2;
             var max = _valueRng.Next(maxLower, maxUpper + 1);
 
             for (var i = 0; i < stats.Length; i++)
             {
-                stats[i].Value = Lerp(min, max, i / (stats.Length - 1.0f));
+                stats[i].Value = (int)Math.Round(Lerp(min, max, i / (stats.Length - 1.0f)));
             }
         }
 
