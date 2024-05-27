@@ -291,7 +291,21 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc43/level_loc43.scn.20",
       "chapter": 1,
-      "description": "farm - animals"
+      "description": "farm - animals",
+      "restrictions": [
+        {
+          "guids": [
+            "09ea044f-52d4-4d8b-818c-c8c833743221",
+            "d6435c61-016a-4642-b9ef-ba77cd846689",
+            "7636e2b3-5651-4b92-b785-dc694be139c0",
+            "83af39cb-c79f-47ce-93db-90bf861e0305",
+            "d041f1e4-a079-4877-9fe5-f8fd40e0d848"
+          ],
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     // { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_100.scn.20", "chapter": 1 },
 
