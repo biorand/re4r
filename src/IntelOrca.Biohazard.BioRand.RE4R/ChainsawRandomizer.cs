@@ -24,6 +24,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private ImmutableArray<Area> _areas;
         private Rng _rng = new Rng();
 
+        public RandomizerLogger LoggerProcess => _loggerProcess;
+
         public EnemyClassFactory EnemyClassFactory { get; }
         public FileRepository FileRepository => _fileRepository;
 

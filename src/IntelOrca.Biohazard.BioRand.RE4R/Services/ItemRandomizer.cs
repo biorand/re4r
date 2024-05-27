@@ -242,33 +242,56 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         public Item? GetRandomTreasure(Rng rng, int classNumber)
         {
-            var min = GetMaxTreasureValue(classNumber + 1);
-            var max = GetMaxTreasureValue(classNumber);
-            return GetRandomTreasure(rng, min, max);
-        }
-
-        static int GetMaxTreasureValue(int cn)
-        {
-            var f = Math.Pow(Math.Clamp((6 - cn) / 5.0, 0, 1), 2);
-            var v = 2500 + ((30000 - 2500) * f);
-            return (int)Math.Clamp(v, 2500, 30000);
-        }
-
-        public Item? GetRandomTreasure(Rng rng, int minValue, int maxValue)
-        {
             var itemRepo = ItemDefinitionRepository.Default;
             var treasureItems = itemRepo.KindToItemMap[ItemKinds.Treasure]
-                .Shuffle(rng)
-                .OrderBy(x => x.Value)
-                .Where(x => x.Value >= minValue && x.Value <= maxValue)
-                .ToArray();
+                .Shuffle(rng) as IEnumerable<ItemDefinition>;
 
-            if (treasureItems.Length == 0)
+            if (classNumber <= 1)
             {
-                return new Item(ItemIds.Spinel);
+                treasureItems = treasureItems.Where(x => x.Value >= 15000);
+            }
+            else if (classNumber <= 2)
+            {
+                treasureItems = treasureItems.Where(x => x.Value > 10000 && x.Value < 15000);
+            }
+            else if (classNumber <= 4)
+            {
+                if (rng.NextProbability(25))
+                {
+                    treasureItems = treasureItems
+                        .Where(x => x.Class == "container")
+                        .Where(x => x.Value <= 10000);
+                }
+                else
+                {
+                    treasureItems = treasureItems
+                        .Where(x => string.IsNullOrEmpty(x.Class))
+                        .Where(x => x.Value > 6000 && x.Value <= 10000);
+                }
+            }
+            else if (classNumber <= 5)
+            {
+                if (rng.NextProbability(50))
+                {
+                    treasureItems = treasureItems
+                        .Where(x => x.Class == "round" || x.Class == "rectangle");
+                }
+                else
+                {
+                    treasureItems = treasureItems
+                        .Where(x => string.IsNullOrEmpty(x.Class))
+                        .Where(x => x.Value <= 6000);
+                }
+            }
+            else
+            {
+                treasureItems = treasureItems
+                    .Where(x => x.Value <= 2500)
+                    .Where(x => string.IsNullOrEmpty(x.Class));
             }
 
             var def = rng.Next(treasureItems);
+            _randomizer.LoggerProcess.LogLine($"Random treasure: Class {classNumber}, {def.Name} [{def.Class}] ({def.Value})");
             return new Item(def.Id, 1);
         }
 

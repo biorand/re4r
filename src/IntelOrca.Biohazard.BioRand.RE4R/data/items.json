@@ -765,30 +765,35 @@
     {
       "name": "Ruby",
       "kind": "treasure",
+      "class": "round",
       "id": 120830400,
       "value": 3000
     },
     {
       "name": "Emerald",
       "kind": "treasure",
+      "class": "rectangle",
       "id": 120832000,
       "value": 5000
     },
     {
       "name": "Sapphire",
       "kind": "treasure",
+      "class": "round",
       "id": 120833600,
       "value": 4000
     },
     {
       "name": "Yellow Diamond",
       "kind": "treasure",
+      "class": "round",
       "id": 120835200,
       "value": 7000
     },
     {
       "name": "Alexandrite",
       "kind": "treasure",
+      "class": "rectangle",
       "id": 120838400,
       "value": 6000
     },
@@ -799,8 +804,10 @@
       "value": 10000
     },
     {
-      "name": "L",
-      "id": 120841600
+      "name": "Gold Bar (L)",
+      "kind": "treasure",
+      "id": 120841600,
+      "value": 15000
     },
     {
       "name": "Gold Ingot",
@@ -859,6 +866,7 @@
     {
       "name": "Red Beryl",
       "kind": "treasure",
+      "class": "rectangle",
       "id": 120857600,
       "value": 9000
     },
@@ -893,36 +901,42 @@
     {
       "name": "Elegant Mask",
       "kind": "treasure",
+      "class": "container",
       "id": 122400000,
       "value": 5000
     },
     {
       "name": "Flagon",
       "kind": "treasure",
+      "class": "container",
       "id": 122401600,
       "value": 4000
     },
     {
       "name": "Butterfly Lamp",
       "kind": "treasure",
+      "class": "container",
       "id": 122403200,
       "value": 6000
     },
     {
       "name": "Elegant Crown",
       "kind": "treasure",
+      "class": "container",
       "id": 122404800,
       "value": 19000
     },
     {
       "name": "Golden Lynx",
       "kind": "treasure",
+      "class": "container",
       "id": 122406400,
       "value": 15000
     },
     {
       "name": "Extravagant Clock",
       "kind": "treasure",
+      "class": "container",
       "id": 122408000,
       "value": 9000
     },
@@ -935,6 +949,7 @@
     {
       "name": "Chalice of Atonement",
       "kind": "treasure",
+      "class": "container",
       "id": 122411200,
       "value": 7000
     },
