@@ -172,7 +172,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var infoValue = float.Parse(oldInfo);
             var infoMultiplier = infoValue / Convert.ToSingle(oldValue);
-            var newInfoValue = newValue * infoMultiplier;
+            var newInfoValue = (newValue * infoMultiplier) + 0.005;
             var fmt = "0.00";
             if (name == "Ammo Capacity")
                 fmt = "0";
