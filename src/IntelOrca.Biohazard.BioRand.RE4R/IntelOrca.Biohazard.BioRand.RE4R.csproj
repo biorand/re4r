@@ -5,6 +5,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="RectangleBinPacking" Version="1.0.2" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\REE\REE.csproj" />
     <ProjectReference Include="..\rsztool\RszTool\RszTool.csproj">
       <Private>False</Private>

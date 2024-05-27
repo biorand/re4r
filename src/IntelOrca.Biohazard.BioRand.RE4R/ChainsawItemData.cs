@@ -59,7 +59,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 {
                     var itemSize = def.ItemDefineData.ItemSize;
                     var weaponItemSize = def.WeaponDefineData.ItemSize;
-                    return itemSize.Kind > weaponItemSize.Kind ? itemSize : weaponItemSize;
+
+                    var itemDefinition = ItemDefinitionRepository.Default.Find(itemId);
+                    if (itemDefinition == null)
+                        return itemSize;
+
+                    var isWeapon =
+                        itemDefinition.Kind == ItemKinds.Weapon ||
+                        itemDefinition.Kind == ItemKinds.Grenade ||
+                        itemDefinition.Kind == ItemKinds.Knife;
+                    return isWeapon ? weaponItemSize : itemSize;
                 }
             }
             return new ItemSize(0);
@@ -101,6 +110,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public int Width => IsValid ? _sizes[kind, 1] : 1;
         public int Height => IsValid ? _sizes[kind, 0] : 1;
         public bool IsValid => kind >= 0 && kind < _sizes.Length;
+
+        public object Area => Width * Height;
+
         public override string ToString() => $"{Width}x{Height}";
 
         private static byte[,] _sizes =

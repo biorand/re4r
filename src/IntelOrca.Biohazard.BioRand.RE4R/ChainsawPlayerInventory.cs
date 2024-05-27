@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using RectangleBinPacking;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -70,47 +71,30 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public void AutoSort(ChainsawItemData itemData)
         {
             var items = Data[0].InventoryItems
-                .OrderByDescending(x => itemData.GetSize(x.Item.ItemId).Height)
-                .ThenByDescending(x => itemData.GetSize(x.Item.ItemId).Width)
+                .OrderByDescending(x => itemData.GetSize(x.Item.ItemId).Area)
                 .ToArray();
             Data[0].InventoryItems = items;
 
             var caseWidth = 10;
             var caseHeight = 7;
-            var x = 0;
-            var y = 0;
-            var rowHeight = 0;
+            var binPack = new MaxRectsBinPack<int>(caseWidth, caseHeight, FreeRectChoiceHeuristic.RectBestAreaFit);
+            var id = 0;
             foreach (var item in items)
             {
-                var itemId = item.Item.ItemId;
                 var size = itemData.GetSize(item.Item.ItemId);
-                var itemWidth = size.Width;
-                var itemHeight = size.Height;
-                var rotated = false;
-                if (size.Width > size.Height && size.Width <= rowHeight)
+                var packResult = binPack.Insert(id++, size.Width, size.Height);
+                if (packResult == null)
                 {
-                    itemWidth = size.Height;
-                    itemHeight = size.Width;
-                    rotated = true;
+                    item.SlotIndexColumn = -1;
+                    item.SlotIndexRow = -1;
+                    item.CurrDirection = 0;
                 }
-
-                if (x + itemWidth > caseWidth)
+                else
                 {
-                    y += rowHeight;
-                    x = 0;
-                    rowHeight = 0;
+                    item.SlotIndexColumn = packResult.X;
+                    item.SlotIndexRow = packResult.Y;
+                    item.CurrDirection = packResult.Rotate ? 1 : 0;
                 }
-
-                if (y + itemHeight >= caseHeight)
-                {
-                    continue;
-                }
-
-                item.SlotIndexColumn = x;
-                item.SlotIndexRow = y;
-                item.CurrDirection = rotated ? 1 : 0;
-                x += itemWidth;
-                rowHeight = Math.Max(rowHeight, itemHeight);
             }
         }
 
