@@ -14,6 +14,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             StaticChanges(randomizer, logger);
             DisableFirstAreaInhibitor(randomizer, logger);
             FixDeadEnemyCounters(randomizer, logger);
+            FixSpawnControllers(randomizer, logger);
             SlowDownFactoryDoor(randomizer, logger);
             IncreaseJetSkiTimer(randomizer, logger);
             if (randomizer.GetConfigOption<bool>("random-enemies"))
@@ -84,6 +85,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             }
                         }
                     }
+                }
+            }
+        }
+
+        private void FixSpawnControllers(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            logger.LogLine("Updating spawn controllers");
+            var areas = randomizer.Areas;
+
+            var throneRoomArea = areas.FirstOrDefault(x => x.FileName == "level_cp10_chp3_1_002.scn.20");
+            if (throneRoomArea != null)
+            {
+                var component = throneRoomArea.ScnFile.FindComponent(new Guid("b1729389-c445-4c24-b500-72007144dfe6"), "chainsaw.CharacterSpawnController");
+                if (component != null)
+                {
+                    var controller = new CharacterSpawnController(component);
+                    controller.SpawnCondition.Add(throneRoomArea.ScnFile, new Guid("0ef6f99b-43f7-41de-b22a-be79b599a469"));
                 }
             }
         }
