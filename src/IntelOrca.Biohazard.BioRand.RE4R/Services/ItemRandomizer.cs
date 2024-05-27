@@ -10,6 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         private readonly HashSet<int> _placedItemIds = new HashSet<int>();
         private readonly bool _allowBonusItems;
         private readonly Dictionary<RandomItemSettings, EndlessBag<string>> _generalDrops = new();
+        private Rng.Table<string?>? _treasureProbabilityTable;
 
         public int[] PlacedItemIds => _placedItemIds.ToArray();
         public ItemDefinition[] PlacedItems => _placedItemIds
@@ -232,12 +233,33 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return new Item(itemDef.Id, amount);
         }
 
-        public Item GetRandomMoney(Rng rng, RandomItemSettings settings)
+        public static Item GetRandomMoney(Rng rng, RandomItemSettings settings)
         {
             var min = Math.Max(settings.MinMoneyQuantity, 1);
             var max = Math.Min(settings.MaxMoneyQuantity, 1000000);
             var value = rng.Next(min, max + 1);
             return new Item(ItemIds.Money, value);
+        }
+
+        public Item? GetRandomTreasure(Rng rng)
+        {
+            var table = _treasureProbabilityTable;
+            if (table == null)
+            {
+                table = rng.CreateProbabilityTable<string?>();
+                table.Add("container", 0.1);
+                table.Add("rectangle", 0.2);
+                table.Add("round", 0.2);
+                table.Add(null, 0.5);
+                _treasureProbabilityTable = table;
+            }
+
+            var teasureClass = table.Next();
+            var itemRepo = ItemDefinitionRepository.Default;
+            var def = rng.Next(itemRepo.KindToItemMap[ItemKinds.Treasure]
+                .Where(x => x.Class == teasureClass));
+            _randomizer.LoggerProcess.LogLine($"Random treasure: {def.Name} [{def.Class}] ({def.Value})");
+            return new Item(def.Id, 1);
         }
 
         public Item? GetRandomTreasure(Rng rng, int classNumber)

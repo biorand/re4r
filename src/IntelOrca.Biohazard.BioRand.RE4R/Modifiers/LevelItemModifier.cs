@@ -149,11 +149,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var valuables = valuableDistributor.GetItems(chapter, ItemDiscovery.Item);
                 foreach (var valuable in valuables)
                 {
-                    var levelItem = valuableItems.Dequeue();
+                    if (!valuableItems.TryDequeue(out var levelItem))
+                        continue;
+
                     chapterItems.Remove(levelItem);
                     levelItem.NewItem = new Item(valuable.Definition.Id, 1);
                     LogItemChange(levelItem, logger);
                 }
+
+                // Treasure
+                var treasureRatio = randomizer.GetConfigOption<double>("item-treasure-drop-ratio", 0.1);
+                var treasureCount = (int)(chapterItems.Count * treasureRatio);
+                logger.Push("Treasure");
+                for (var i = 0; i < treasureCount; i++)
+                {
+                    if (!valuableItems.TryDequeue(out var levelItem))
+                        continue;
+
+                    chapterItems.Remove(levelItem);
+                    levelItem.NewItem = randomizer.ItemRandomizer.GetRandomTreasure(rng);
+                    LogItemChange(levelItem, logger);
+                }
+                logger.Pop();
 
                 // General items
                 var generalItems = chapterItems.Shuffle(rng).ToQueue();

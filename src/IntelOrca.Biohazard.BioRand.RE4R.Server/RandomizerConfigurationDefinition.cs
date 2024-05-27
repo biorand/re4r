@@ -241,7 +241,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Items.Add(new GroupItem()
             {
                 Id = $"item-drop-money-min",
-                Label = "Min. Money Drop",
+                Label = "Min. Money",
                 Type = "range",
                 Min = 100,
                 Max = 10000,
@@ -251,12 +251,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Items.Add(new GroupItem()
             {
                 Id = $"item-drop-money-max",
-                Label = "Max. Money Drop",
+                Label = "Max. Money",
                 Type = "range",
                 Min = 100,
                 Max = 10000,
                 Step = 100,
                 Default = 1000
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"item-treasure-drop-ratio",
+                Label = "Treasure Ratio",
+                Description = "The percentage of items that should be a treasure.",
+                Type = "percent",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 0.1
             });
             group.Items.Add(new GroupItem()
             {
@@ -558,6 +569,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
 
             group = page.CreateGroup("Bosses");
+            group.Warning = "Random boss health must be enabled for these values to take affect.";
             foreach (var boss in Bosses.All)
             {
                 group.Items.Add(new GroupItem()
@@ -583,6 +595,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
 
             group = page.CreateGroup("Enemies");
+            group.Warning = "Random enemy health must be enabled for these values to take affect.";
             foreach (var enemyClass in enemyClassFactory.Classes)
             {
                 // Super iron maiden HP can't be changed
