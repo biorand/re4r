@@ -1,14 +1,29 @@
 <script lang="ts">
-    import BioRandPagination from '$lib/BioRandPagination.svelte';
+    import BioRandResultPagination from '$lib/BioRandResultPagination.svelte';
+    import ErrorModal, { type ErrorModalContent } from '$lib/ErrorModal.svelte';
     import RoleBadge from '$lib/RoleBadge.svelte';
     import SortedTable, { type SortedTableData } from '$lib/SortedTable.svelte';
     import SortedTableHeader from '$lib/SortedTableHeader.svelte';
-    import TableTitle from '$lib/TableTitle.svelte';
     import Timestamp from '$lib/Timestamp.svelte';
-    import { getApi, type User, type UserQueryOptions, type UserQueryResult } from '$lib/api';
+    import {
+        UserRole,
+        getApi,
+        type User,
+        type UserQueryOptions,
+        type UserQueryResult
+    } from '$lib/api';
+    import { PageTitle } from '$lib/typography';
     import PageBody from '$lib/typography/PageBody.svelte';
     import { buildUrl, getLocation, tryParseInt } from '$lib/utility';
-    import { Avatar, TableBodyCell, TableBodyRow, TableHead } from 'flowbite-svelte';
+    import {
+        Avatar,
+        Button,
+        TableBodyCell,
+        TableBodyRow,
+        TableHead,
+        Tooltip
+    } from 'flowbite-svelte';
+    import { CaretRightSolid } from 'flowbite-svelte-icons';
     import { readable } from 'svelte/store';
 
     const queryParams = readable<UserQueryOptions>(undefined, (set) => {
@@ -48,6 +63,40 @@
     function getSearchUrl(query: { [key: string]: any }) {
         return buildUrl('users', query);
     }
+
+    let showingError: ErrorModalContent | undefined = undefined;
+
+    async function grantEarlyAccess(user: User) {
+        if (!searchResult) return;
+
+        try {
+            const api = getApi();
+            if (user.role == UserRole.Pending) {
+                await api.updateUser(user.id, {
+                    role: UserRole.PendingEarlyAccess
+                });
+            }
+            await api.updateUser(user.id, {
+                role: UserRole.EarlyAccess
+            });
+            searchResult = {
+                ...searchResult,
+                pageResults: searchResult.pageResults.map((x) => {
+                    if (x === user) {
+                        return { ...user, role: UserRole.EarlyAccess };
+                    } else {
+                        return x;
+                    }
+                })
+            };
+            data.items = searchResult.pageResults;
+        } catch (error) {
+            showingError = {
+                title: 'Grant Early Access Failed',
+                body: error instanceof Error ? error.message : ''
+            };
+        }
+    }
 </script>
 
 <svelte:head>
@@ -55,7 +104,7 @@
 </svelte:head>
 
 <PageBody>
-    <TableTitle title="Users" result={searchResult} />
+    <PageTitle class="grow">Users</PageTitle>
     {#if searchResult}
         <SortedTable {data} on:sort={sortTable} let:item={user}>
             <TableHead slot="header">
@@ -63,6 +112,7 @@
                 <SortedTableHeader>Email</SortedTableHeader>
                 <SortedTableHeader key="created">Joined</SortedTableHeader>
                 <SortedTableHeader key="role">Role</SortedTableHeader>
+                <SortedTableHeader></SortedTableHeader>
             </TableHead>
             <TableBodyRow class="text-base font-semibold">
                 <TableBodyCell tdClass="p-1">
@@ -80,12 +130,19 @@
                 <TableBodyCell tdClass="p-1">{user.email}</TableBodyCell>
                 <TableBodyCell tdClass="p-1"><Timestamp value={user.created} /></TableBodyCell>
                 <TableBodyCell tdClass="p-1"><RoleBadge role={user.role} /></TableBodyCell>
+                <TableBodyCell tdClass="p-1 flex justify-end">
+                    {#if user.role == UserRole.Pending || user.role == UserRole.PendingEarlyAccess}
+                        <Button
+                            on:click={() => grantEarlyAccess(user)}
+                            color="green"
+                            class="rounded-sm p-2"><CaretRightSolid class="w-3 h-3" /></Button
+                        >
+                        <Tooltip placement="bottom">Grant early access</Tooltip>
+                    {/if}
+                </TableBodyCell>
             </TableBodyRow>
         </SortedTable>
-        <BioRandPagination
-            page={searchResult.page}
-            pageCount={searchResult.pageCount}
-            href={getPageUrl}
-        />
+        <BioRandResultPagination result={searchResult} {getPageUrl} />
     {/if}
 </PageBody>
+<ErrorModal error={showingError} />
