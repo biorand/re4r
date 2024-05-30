@@ -65,6 +65,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                     catch (Exception ex)
                     {
                         _logger.Error(ex, "Failed to refresh Twitch information for user {UserId}", userId);
+                        if (twitchModel.LastUpdated < DateTime.UtcNow - TimeSpan.FromDays(5))
+                        {
+                            await DisconnectAsync(userId);
+                            _logger.Warning("Twitch information more than 5 days out of date. Disconnecting Twitch for User {UserId}", userId);
+                        }
                     }
                 }
             }
