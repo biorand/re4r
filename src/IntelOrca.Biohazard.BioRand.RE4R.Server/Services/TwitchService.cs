@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using Serilog;
 using TwitchLib.Api;
+using TwitchLib.Api.Auth;
 using TwitchLib.Api.Core.Exceptions;
 using TwitchLib.Api.Helix.Models.Users.GetUsers;
 
@@ -57,7 +58,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             {
                 if (twitchModel.LastUpdated < DateTime.UtcNow - refresh)
                 {
-                    return await RefreshAsync(userId, twitchModel.AccessToken, twitchModel.RefreshToken);
+                    try
+                    {
+                        return await RefreshAsync(userId, twitchModel.AccessToken, twitchModel.RefreshToken);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex, "Failed to refresh Twitch information for user {UserId}", userId);
+                    }
                 }
             }
             return twitchModel;
@@ -67,12 +75,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
         {
             var config = GetConfig();
             var api = GetApi();
-            var validation = await api.Auth.ValidateAccessTokenAsync(accessToken);
+            ValidateAccessTokenResponse? validation = null;
+            try
+            {
+                validation = await api.Auth.ValidateAccessTokenAsync(accessToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to validate access token for user {UserId}", userId);
+            }
             if (validation == null)
             {
-                var refreshResponse = await api.Auth.RefreshAuthTokenAsync(refreshToken, config.ClientSecret, config.ClientId);
-                accessToken = refreshResponse.AccessToken;
-                refreshToken = refreshResponse.RefreshToken;
+                try
+                {
+                    var refreshResponse = await api.Auth.RefreshAuthTokenAsync(refreshToken, config.ClientSecret, config.ClientId);
+                    accessToken = refreshResponse.AccessToken;
+                    refreshToken = refreshResponse.RefreshToken;
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Failed to refresh access token for user {UserId}", userId);
+                    throw;
+                }
             }
 
             var twitchUser = await GetUserInfoAsync(accessToken);
