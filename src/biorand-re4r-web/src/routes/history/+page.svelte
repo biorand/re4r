@@ -1,8 +1,7 @@
 <script lang="ts">
-    import BioRandPagination from '$lib/BioRandPagination.svelte';
+    import BioRandResultPagination from '$lib/BioRandResultPagination.svelte';
     import SortedTable, { type SortedTableData } from '$lib/SortedTable.svelte';
     import SortedTableHeader from '$lib/SortedTableHeader.svelte';
-    import TableTitle from '$lib/TableTitle.svelte';
     import Timestamp from '$lib/Timestamp.svelte';
     import { UserProfileManager } from '$lib/UserProfileManager';
     import {
@@ -12,6 +11,7 @@
         type RandoHistoryResult
     } from '$lib/api';
     import PageBody from '$lib/typography/PageBody.svelte';
+    import PageTitle from '$lib/typography/PageTitle.svelte';
     import { getUserManager } from '$lib/userManager';
     import { buildUrl, getLocation, tryParseInt } from '$lib/utility';
     import { Avatar, TableBodyCell, TableBodyRow, TableHead } from 'flowbite-svelte';
@@ -88,7 +88,7 @@
 </svelte:head>
 
 <PageBody>
-    <TableTitle title="History" result={searchResult} />
+    <PageTitle>History</PageTitle>
     {#if searchResult}
         <SortedTable {data} on:sort={sortTable} let:item>
             <TableHead slot="header">
@@ -135,10 +135,6 @@
                 >
             </TableBodyRow>
         </SortedTable>
-        <BioRandPagination
-            page={searchResult.page}
-            pageCount={searchResult.pageCount}
-            href={getPageUrl}
-        />
+        <BioRandResultPagination result={searchResult} {getPageUrl} />
     {/if}
 </PageBody>

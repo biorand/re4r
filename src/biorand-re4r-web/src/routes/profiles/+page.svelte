@@ -1,9 +1,8 @@
 <script lang="ts">
     import { page } from '$app/stores';
-    import BioRandPagination from '$lib/BioRandPagination.svelte';
-    import TableTitle from '$lib/TableTitle.svelte';
+    import BioRandResultPagination from '$lib/BioRandResultPagination.svelte';
     import { getApi, type ProfileQueryOptions, type ProfileQueryResult } from '$lib/api';
-    import { PageBody } from '$lib/typography';
+    import { PageBody, PageTitle } from '$lib/typography';
     import { buildUrl, getLocation, idleTimeout, tryParseInt } from '$lib/utility';
     import { Input, Label, Listgroup, ListgroupItem } from 'flowbite-svelte';
     import { BookmarkSolid, ShuffleOutline } from 'flowbite-svelte-icons';
@@ -78,7 +77,7 @@
 </svelte:head>
 
 <PageBody>
-    <TableTitle title="Community Profiles" result={searchResult} />
+    <PageTitle>Community Profiles</PageTitle>
     <form class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg w-full mb-4">
         <Label for="input-filter" class="block mb-2">Filter</Label>
         <Input bind:value={$filter} id="input-filter" type="text" />
@@ -130,10 +129,6 @@
                 </ListgroupItem>
             {/each}
         </Listgroup>
-        <BioRandPagination
-            page={searchResult.page}
-            pageCount={searchResult.pageCount}
-            href={getPageUrl}
-        />
+        <BioRandResultPagination result={searchResult} {getPageUrl} />
     {/if}
 </PageBody>
