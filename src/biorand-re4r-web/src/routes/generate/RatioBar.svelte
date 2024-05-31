@@ -28,10 +28,12 @@
                 total += value;
             }
         }
-        return Object.values(bars).map((x) => ({
-            category: x.category,
-            value: (x.value / total) * 100
-        }));
+        return Object.values(bars)
+            .map((x) => ({
+                category: x.category,
+                value: Math.ceil((x.value / total) * 100)
+            }))
+            .filter((x) => !isNaN(x.value));
     }
 </script>
 

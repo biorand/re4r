@@ -72,6 +72,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public class GroupItemCategory
         {
+            public GroupItemCategory() { }
+            public GroupItemCategory(ConfigCategory category)
+            {
+                Label = category.Label;
+                TextColor = category.TextColor;
+                BackgroundColor = category.BackgroundColor;
+            }
+
             public string? Label { get; set; }
             public string? TextColor { get; set; }
             public string? BackgroundColor { get; set; }
@@ -498,6 +506,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 {
                     Id = $"enemy-ratio-{enemyClass.Key}",
                     Label = enemyClass.Name,
+                    Category = new GroupItemCategory(enemyClass.Category),
                     Type = "range",
                     Min = 0,
                     Max = 1,
