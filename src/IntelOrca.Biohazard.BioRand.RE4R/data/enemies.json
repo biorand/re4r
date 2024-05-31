@@ -248,7 +248,6 @@
     { "id": 5814, "key": "molotov", "ranged": true },
     { "id": 5815, "key": "crossbow", "ranged": true },
     { "id": 5816, "key": "machete" },
-    { "id": 5817, "key": "axe" },
     { "id": 5818, "key": "sword" },
     { "id": 5821, "key": "shovel" },
     { "id": 5822, "key": "crowbar" },
@@ -275,7 +274,6 @@
         { "primary": "pitchfork" },
         { "primary": "torch" },
         { "primary": "hammer" },
-        { "primary": "axe" },
         { "primary": "shovel" },
         { "primary": "machete" }
       ],
