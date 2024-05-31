@@ -91,6 +91,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     {
                         var isEssential =
                             itemDefinition.Id == ItemIds.BiosensorScope ||
+                            itemDefinition.Id == ItemIds.RecipeBolts1Ammo ||
+                            itemDefinition.Id == ItemIds.RecipeMinesAmmo ||
                             itemDefinition.Id == ItemIds.RecipeFlashGrenade;
                         var chapter = isEssential
                             ? bag4.Next() // Ensure we get essential items before cabin

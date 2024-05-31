@@ -9,6 +9,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         private readonly ChainsawRandomizer _randomizer;
         private readonly HashSet<int> _placedItemIds = new HashSet<int>();
         private readonly bool _allowBonusItems;
+        private readonly bool _allowDlcItems;
         private readonly Dictionary<RandomItemSettings, EndlessBag<string>> _generalDrops = new();
         private Rng.Table<string?>? _treasureProbabilityTable;
 
@@ -17,10 +18,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             .Select(x => ItemDefinitionRepository.Default.Find(x)!)
             .ToArray();
 
-        public ItemRandomizer(ChainsawRandomizer randomizer, bool allowBonusItems)
+        public ItemRandomizer(ChainsawRandomizer randomizer)
         {
             _randomizer = randomizer;
-            _allowBonusItems = allowBonusItems;
+            _allowBonusItems = randomizer.GetConfigOption<bool>("allow-bonus-items");
+            _allowDlcItems = randomizer.GetConfigOption<bool>("allow-dlc-items");
         }
 
         public ItemDefinition? GetRandomWeapon(Rng rng, string? classification = null, bool allowReoccurance = true)
@@ -49,7 +51,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var itemRepo = ItemDefinitionRepository.Default;
             var poolEnumerable = itemRepo
                 .GetAll(ItemKinds.Attachment)
-                .Where(x => _allowBonusItems || !(x.Bonus ?? false));
+                .Where(IsItemSupported);
             if (!allowReoccurance)
             {
                 poolEnumerable = poolEnumerable
@@ -73,7 +75,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var itemRepo = ItemDefinitionRepository.Default;
             var poolEnumerable = itemRepo
                 .GetAll(kind, classification)
-                .Where(x => _allowBonusItems || !(x.Bonus ?? false));
+                .Where(IsItemSupported);
             if (!allowReoccurance)
             {
                 poolEnumerable = poolEnumerable
@@ -87,6 +89,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var chosen = rng.Next(pool);
             _placedItemIds.Add(chosen.Id);
             return chosen;
+        }
+
+        private bool IsItemSupported(ItemDefinition itemDefinition)
+        {
+            if (itemDefinition.Bonus)
+                return _allowBonusItems;
+            if (itemDefinition.Dlc)
+                return _allowDlcItems;
+            return true;
         }
 
         public Item? GetRandomDrop(Rng rng, string dropKind, RandomItemSettings settings)

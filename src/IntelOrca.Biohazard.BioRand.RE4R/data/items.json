@@ -1709,7 +1709,7 @@
       "kind": "weapon",
       "id": 278035456,
       "size": "3x2",
-      "bonus": true,
+      "dlc": true,
       "weaponId": 6000
     },
     {
@@ -1717,7 +1717,7 @@
       "kind": "weapon",
       "id": 278037056,
       "size": "5x1",
-      "bonus": true,
+      "dlc": true,
       "weaponId": 6001
     },
     {

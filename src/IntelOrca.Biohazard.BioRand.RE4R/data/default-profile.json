@@ -1,6 +1,7 @@
 {
   "enable-autosave-pro": false,
   "allow-bonus-items": false,
+  "allow-dlc-items": false,
   "valuable-limit-charm": 8,
   "random-merchant": true,
   "random-merchant-prices": true,

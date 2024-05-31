@@ -103,7 +103,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = $"allow-bonus-items",
                 Label = "Allow Bonus Weapons",
-                Description = "Let Biorand include the unlockable and DLC weapons in the pool. You must have them all unlocked.",
+                Description = "Let Biorand include the unlockable weapons (Primal Knife, Chicago Sweeper, Handcannon, Infinite Rocket Launcher) in the pool. You must have all the weapons unlocked.",
+                Type = "switch",
+                Default = false
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"allow-dlc-items",
+                Label = "Allow DLC Weapons",
+                Description = "Let Biorand include the DLC weapons (Sentinel Nine, Skull Shaker) in the pool. You must have all the DLC weapons installed and enabled.",
                 Type = "switch",
                 Default = false
             });

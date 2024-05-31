@@ -55,9 +55,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
             var areas = GetAreas();
 
-            _itemRandomizer = new ItemRandomizer(
-                this,
-                allowBonusItems: GetConfigOption<bool>("allow-bonus-items"));
+            _itemRandomizer = new ItemRandomizer(this);
 
             // Supplement files
             ApplyOverlay(Resources.supplement);
