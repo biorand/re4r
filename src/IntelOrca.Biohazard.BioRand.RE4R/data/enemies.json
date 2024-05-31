@@ -309,6 +309,7 @@
       "plaga": true,
       "ranged": true,
       "weapon": [
+        { "primary": "hatchet" },
         { "primary": "dynamite" },
         { "primary": "molotov" },
         { "primary": "crossbow" }
