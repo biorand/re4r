@@ -173,6 +173,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var infoValue = float.Parse(oldInfo);
             var infoMultiplier = infoValue / Convert.ToSingle(oldValue);
             var newInfoValue = (newValue * infoMultiplier) + 0.005;
+            if (name == "Rate of Fire")
+                newInfoValue = 1.8f - newValue * 0.36f;
+
             var fmt = "0.00";
             if (name == "Ammo Capacity")
                 fmt = "0";
@@ -275,10 +278,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var originalMin = stats[0].Value;
             var originalMax = stats.Last().Value;
-            var range = originalMax - originalMin;
+            var range = Math.Abs(originalMax - originalMin);
 
             var minLower = originalMin - (range / 2);
-            var minUpper = originalMin * 2;
+            var minUpper = originalMin + (range / 2);
             var min = _valueRng.NextFloat(minLower, minUpper);
             var maxLower = originalMax / 4;
             var maxUpper = min;
