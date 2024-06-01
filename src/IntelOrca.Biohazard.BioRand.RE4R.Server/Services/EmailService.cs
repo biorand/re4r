@@ -9,24 +9,30 @@ using MailMessage = System.Net.Mail.MailMessage;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 {
-    internal class EmailService(EmailConfig? config)
+    public class EmailService
     {
+        private readonly EmailConfig? _config;
         private readonly ILogger _logger = Log.ForContext<EmailService>();
+
+        public EmailService(Re4rConfiguration config)
+        {
+            _config = config.Email;
+        }
 
         public async Task SendEmailAsync(string name, string email, string subject, string body)
         {
-            if (string.IsNullOrEmpty(config?.From))
+            if (string.IsNullOrEmpty(_config?.From))
                 return;
 
             var to = $"{name} <{email}>";
             try
             {
                 using var smtpClient = new SmtpClient();
-                await smtpClient.ConnectAsync(config.Host, config.Port, SecureSocketOptions.None);
-                await smtpClient.AuthenticateAsync(config.Username, config.Password);
+                await smtpClient.ConnectAsync(_config.Host, _config.Port, SecureSocketOptions.None);
+                await smtpClient.AuthenticateAsync(_config.Username, _config.Password);
 
                 var message = MimeMessage.CreateFromMailMessage(new MailMessage(
-                    config.From,
+                    _config.From,
                     to,
                     subject,
                     body));

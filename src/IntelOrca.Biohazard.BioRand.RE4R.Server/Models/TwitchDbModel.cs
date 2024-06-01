@@ -4,7 +4,7 @@ using SQLite;
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
 {
     [Table("twitch")]
-    internal class TwitchDbModel
+    public class TwitchDbModel
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }

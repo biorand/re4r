@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if false
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -223,3 +224,4 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         }
     }
 }
+#endif

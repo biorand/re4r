@@ -11,31 +11,28 @@ using Swan;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 {
-    internal sealed class DatabaseService
+    public sealed class DatabaseService
     {
         private readonly SQLiteAsyncConnection _conn;
 
         public int SystemUserId => 1;
 
-        private DatabaseService(SQLiteAsyncConnection conn)
+        public DatabaseService(Re4rConfiguration config)
         {
-            _conn = conn;
+            var databaseConfig = config.Database;
+            var databasePath = (databaseConfig?.Path) ?? throw new Exception();
+            _conn = new SQLiteAsyncConnection(databasePath);
+            Initialize().Wait();
+        }
+
+        private async Task Initialize()
+        {
+            await _conn.CreateTablesAsync();
         }
 
         private QueryBuilder<T> BuildQuery<T>(string q, params object[] args) where T : new()
         {
             return new QueryBuilder<T>(_conn, q, args);
-        }
-
-        public static async Task<DatabaseService> CreateDefault()
-        {
-            var config = Re4rConfiguration.GetDefault();
-            var databaseConfig = config.Database;
-            var databasePath = (databaseConfig?.Path) ?? throw new Exception();
-            var db = new SQLiteAsyncConnection(databasePath);
-            var instance = new DatabaseService(db);
-            await instance.CreateTables();
-            return instance;
         }
 
         public async Task CreateTables()

@@ -4,7 +4,7 @@ using SQLite;
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
 {
     [Table("kofi")]
-    internal class KofiDbModel
+    public class KofiDbModel
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }

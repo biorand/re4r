@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 {
-    internal class RandomizerService
+    public class RandomizerService
     {
         private readonly Random _random = new Random();
         private readonly Dictionary<ulong, GenerateResult> _randos = new();

@@ -4,7 +4,7 @@ using SQLite;
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
 {
     [Table("rando")]
-    internal class RandoDbModel
+    public class RandoDbModel
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }

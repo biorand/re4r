@@ -1,0 +1,5 @@
+@HostAddress = http://localhost:10285
+@AuthToken = 56bcb5e55dd8a599d623bc7a60a102e6
+
+GET {{HostAddress}}/rando/history
+Authorization: Bearer {{AuthToken}}
