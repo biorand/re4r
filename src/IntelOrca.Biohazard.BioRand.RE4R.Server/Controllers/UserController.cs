@@ -1,75 +1,61 @@
-﻿#if false
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-using EmbedIO;
-using EmbedIO.Routing;
-using EmbedIO.WebApi;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.RestModels;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
-using Serilog;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
-    internal class UserController : BaseController
+    [ApiController]
+    [Route("user")]
+    public class UserController(
+        AuthService auth,
+        DatabaseService db,
+        EmailService emailService,
+        TwitchService twitchService,
+        UrlService urlService,
+        UserService userService,
+        ILogger<UserController> logger) : ControllerBase
     {
-        private readonly DatabaseService _db;
-        private readonly EmailService _emailService;
-        private readonly TwitchService _twitchService;
-        private readonly UrlService _urlService;
-        private readonly ILogger _logger;
-
-        public UserController(
-            DatabaseService db,
-            EmailService emailService,
-            TwitchService twitchService,
-            UrlService urlService) : base(db, twitchService)
+        [HttpGet]
+        public async Task<object> GetUsersAsync([FromQuery] string? sort, [FromQuery] string? order, [FromQuery] int page = 1)
         {
-            _db = db;
-            _emailService = emailService;
-            _twitchService = twitchService;
-            _urlService = urlService;
-            _logger = Log.ForContext<UserController>();
-        }
-
-        [Route(HttpVerbs.Get, "/")]
-        public async Task<object> GetUsersAsync([QueryField] string sort, [QueryField] string order, [QueryField] int page)
-        {
-            var authorizedUser = await GetAuthorizedUserAsync(UserRoleKind.Administrator);
+            var authorizedUser = await auth.GetAuthorizedUserAsync(UserRoleKind.Administrator);
             if (authorizedUser == null)
-                return UnauthorizedResult();
-
-            if (page <= 0)
-                page = 1;
+                return Unauthorized();
 
             var itemsPerPage = 25;
-            var descending = "desc".Equals(order, System.StringComparison.InvariantCultureIgnoreCase);
-            var users = await _db.GetUsersAsync(sort, descending, LimitOptions.FromPage(page, itemsPerPage));
-            return ResultListResult(page, itemsPerPage, users, GetUser);
+            var users = await db.GetUsersAsync(
+                SortOptions.FromQuery(sort, order, ["name", "created", "role"]),
+                LimitOptions.FromPage(page, itemsPerPage));
+            return ResultListResult.Map(page, itemsPerPage, users, userService.GetUser);
         }
 
-        [Route(HttpVerbs.Post, "/verify")]
-        public async Task<object> VerifyAsync([MyJsonData] UserVerifyRequest request)
+        [HttpPost("verify")]
+        public async Task<object> VerifyAsync([FromBody] UserVerifyRequest request)
         {
-            var user = await _db.GetUserByKofiEmailToken(request.Token);
+            var user = await db.GetUserByKofiEmailToken(request.Token);
             if (user == null)
-                return NotFoundResult();
+                return NotFound();
 
             if (user.KofiEmailTimestamp < DateTime.UtcNow - TimeSpan.FromMinutes(60))
-                return NotFoundResult();
+                return NotFound();
 
             user.KofiEmailTimestamp = null;
             user.KofiEmailVerification = null;
-            await _db.UpdateUserAsync(user);
-            _logger.Information("User {UserId}[{UserName}] verified Ko-fi email {Email}", user.Id, user.Name, user.KofiEmail);
+            await db.UpdateUserAsync(user);
+            logger.LogInformation("User {UserId}[{UserName}] verified Ko-fi email {Email}", user.Id, user.Name, user.KofiEmail);
 
-            await _db.UpdateAllUnmatchedKofiMatchesAsync();
+            await db.UpdateAllUnmatchedKofiMatchesAsync();
 
-            return EmptyResult();
+            return Empty;
         }
 
-        [Route(HttpVerbs.Get, "/{id}")]
+        [HttpGet("{id}")]
         public async Task<object> GetUserAsync(string id)
         {
             var processedId = (object)id;
@@ -78,61 +64,61 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 processedId = numericId;
             }
 
-            var authorizedUser = await GetAuthorizedUserAsync(UserRoleKind.Pending);
+            var authorizedUser = await auth.GetAuthorizedUserAsync(UserRoleKind.Pending);
             if (authorizedUser == null)
-                return UnauthorizedResult();
+                return Unauthorized();
 
             if (processedId is int userId)
             {
                 if (authorizedUser.Role < UserRoleKind.Administrator && authorizedUser.Id != userId)
-                    return UnauthorizedResult();
+                    return Unauthorized();
 
-                var user = await _db.GetUserAsync(userId);
+                var user = await db.GetUserAsync(userId);
                 if (user == null)
-                    return NotFoundResult();
+                    return NotFound();
 
-                var twitchModel = _twitchService.IsAvailable ? await _twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1)) : null;
-                return GetUser(user, twitchModel);
+                var twitchModel = twitchService.IsAvailable ? await twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1)) : null;
+                return userService.GetUser(user, twitchModel);
             }
             else
             {
                 if (authorizedUser.Role < UserRoleKind.Administrator && !string.Equals(authorizedUser.NameLowerCase, (string)processedId, StringComparison.OrdinalIgnoreCase))
-                    return UnauthorizedResult();
+                    return Unauthorized();
 
-                var user = await _db.GetUserAsync((string)processedId);
+                var user = await db.GetUserAsync((string)processedId);
                 if (user == null)
-                    return NotFoundResult();
+                    return NotFound();
 
-                var twitchModel = _twitchService.IsAvailable ? await _twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1)) : null;
-                return GetUser(user, twitchModel);
+                var twitchModel = twitchService.IsAvailable ? await twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1)) : null;
+                return userService.GetUser(user, twitchModel);
             }
         }
 
-        [Route(HttpVerbs.Put, "/{id}")]
-        public async Task<object> UpdateUserAsync(int id, [MyJsonData] UserUpdateRequest request)
+        [HttpPut("{id}")]
+        public async Task<object> UpdateUserAsync(int id, [FromBody] UserUpdateRequest request)
         {
-            var authorizedUser = await GetAuthorizedUserAsync(UserRoleKind.Pending);
+            var authorizedUser = await auth.GetAuthorizedUserAsync(UserRoleKind.Pending);
             if (authorizedUser == null)
-                return UnauthorizedResult();
+                return Unauthorized();
 
-            var user = await _db.GetUserAsync(id);
+            var user = await db.GetUserAsync(id);
             if (user == null)
-                return NotFoundResult();
+                return NotFound();
 
             if (authorizedUser.Role < UserRoleKind.Administrator && user.Id != authorizedUser.Id)
-                return UnauthorizedResult();
+                return Unauthorized();
 
             if (request.TwitchCode != null)
             {
                 if (request.TwitchCode == "")
                 {
-                    await _twitchService.DisconnectAsync(user.Id);
+                    await twitchService.DisconnectAsync(user.Id);
                     return new
                     {
                         Success = true
                     };
                 }
-                else if (!_twitchService.IsAvailable)
+                else if (!twitchService.IsAvailable)
                 {
                     var validationResult = new Dictionary<string, string>();
                     validationResult["twitchCode"] = "Twitch functionality is not available.";
@@ -146,7 +132,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 {
                     try
                     {
-                        await _twitchService.ConnectAsync(user.Id, request.TwitchCode);
+                        await twitchService.ConnectAsync(user.Id, request.TwitchCode);
                         return new
                         {
                             Success = true
@@ -197,14 +183,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
             user.ShareHistory = request.ShareHistory ?? user.ShareHistory;
 
-            await _db.UpdateUserAsync(user);
-            _logger.Information("User [{UserId}]{UserName} updated user {UserId}[{UserName}]",
+            await db.UpdateUserAsync(user);
+            logger.LogInformation("User [{UserId}]{UserName} updated user {UserId}[{UserName}]",
                 authorizedUser.Id, authorizedUser.Name, user.Id, user.Name);
 
             if (oldRole == UserRoleKind.PendingEarlyAccess &&
                 user.Role == UserRoleKind.EarlyAccess)
             {
-                await _emailService.SendEmailAsync(user.Name, user.Email,
+                await emailService.SendEmailAsync(user.Name, user.Email,
                     "BioRand 4 - Early Access",
 $@"Dear {user.Name},
 
@@ -222,39 +208,39 @@ The BioRand Team");
             };
         }
 
-        [Route(HttpVerbs.Post, "/{id}/reverifykofi")]
+        [HttpPost("{id}/reverifykofi")]
         public async Task<object> ReverifyKofiAsync(int id)
         {
-            var authorizedUser = await GetAuthorizedUserAsync(UserRoleKind.Pending);
+            var authorizedUser = await auth.GetAuthorizedUserAsync(UserRoleKind.Pending);
             if (authorizedUser == null)
-                return UnauthorizedResult();
+                return Unauthorized();
 
-            var user = await _db.GetUserAsync(id);
+            var user = await db.GetUserAsync(id);
             if (user == null)
-                return NotFoundResult();
+                return NotFound();
 
             if (user.Role < UserRoleKind.Administrator && user.Id != user.Id)
-                return UnauthorizedResult();
+                return Unauthorized();
 
             if (user.KofiEmailVerification == null)
             {
-                _logger.Information("User {UserId}[{UserName}] attempted to verify already verified ko-fi email", user.Id, user.Name);
-                return ErrorResult(System.Net.HttpStatusCode.BadRequest);
+                logger.LogInformation("User {UserId}[{UserName}] attempted to verify already verified ko-fi email", user.Id, user.Name);
+                return BadRequest();
             }
 
             user.KofiEmailTimestamp = DateTime.UtcNow;
             user.KofiEmailVerification = GetRandomEmailVerificationCode();
-            await _db.UpdateUserAsync(user);
-            _logger.Information("User {UserId}[{UserName}] requested new ko-fi email verification", user.Id, user.Name);
+            await db.UpdateUserAsync(user);
+            logger.LogInformation("User {UserId}[{UserName}] requested new ko-fi email verification", user.Id, user.Name);
 
             await SendKofiEmailVerification(user);
-            return EmptyResult();
+            return Empty;
         }
 
         private async Task SendKofiEmailVerification(UserDbModel user)
         {
-            var url = _urlService.GetWebUrl($"user?action=verifykofi&token={user.KofiEmailVerification}");
-            await _emailService.SendEmailAsync(user.Name, user.KofiEmail!,
+            var url = urlService.GetWebUrl($"user?action=verifykofi&token={user.KofiEmailVerification}");
+            await emailService.SendEmailAsync(user.Name, user.KofiEmail!,
                     "BioRand 4 - Verify Email",
 $@"Dear {user.Name},
 
@@ -288,4 +274,3 @@ The BioRand Team");
         }
     }
 }
-#endif

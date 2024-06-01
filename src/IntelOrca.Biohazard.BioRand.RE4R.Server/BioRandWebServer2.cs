@@ -33,6 +33,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddControllers().AddApplicationPart(typeof(BioRandWebServer2).Assembly);
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -45,8 +46,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseAuthorization();
 
             app.MapControllers();
 

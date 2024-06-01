@@ -426,34 +426,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return _conn.Table<UserDbModel>().FirstOrDefaultAsync(x => x.NameLowerCase == lowerName);
         }
 
-        public Task<LimitedResult<UserDbModel>> GetUsersAsync(string sort, bool descending, LimitOptions? limitOptions = null)
+        public Task<LimitedResult<UserDbModel>> GetUsersAsync(SortOptions? sortOptions = null, LimitOptions? limitOptions = null)
         {
-            var q = _conn.Table<UserDbModel>();
-            if (sort != null)
-            {
-                if (descending)
-                {
-                    q = sort.ToLowerInvariant() switch
-                    {
-                        "name" => q.OrderByDescending(x => x.NameLowerCase),
-                        "created" => q.OrderByDescending(x => x.Created),
-                        "role" => q.OrderByDescending(x => x.Role),
-                        _ => q
-                    };
-                }
-                else
-                {
-                    q = sort.ToLowerInvariant() switch
-                    {
-                        "name" => q.OrderBy(x => x.NameLowerCase),
-                        "created" => q.OrderBy(x => x.Created),
-                        "role" => q.OrderBy(x => x.Role),
-                        _ => q
-                    };
-                }
-            }
-
-            return ExecuteLimitedResult(q, limitOptions);
+            var q = BuildQuery<UserDbModel>("SELECT * FROM user");
+            return q.ExecuteLimitedAsync(sortOptions, limitOptions);
         }
 
         public async Task<TwitchDbModel> AddOrUpdateUserTwitchAsync(int userId, TwitchDbModel twitch)
