@@ -5,12 +5,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MimeKit;
-using Swan;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
@@ -119,7 +119,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 rando.UserId,
                 rando.UserName,
                 UserAvatarUrl = GetAvatarUrl(rando.UserEmail ?? ""),
-                Created = rando.Created.ToUnixEpochDate(),
+                Created = rando.Created.ToUnixTimeSeconds(),
                 rando.Version,
                 rando.ProfileId,
                 rando.ProfileName,
@@ -130,7 +130,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             };
         }
 
-        [HttpGet("/stats")]
+        [HttpGet("stats")]
         public async Task<object> GetStatsAsync()
         {
             return new

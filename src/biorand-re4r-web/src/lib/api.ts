@@ -329,7 +329,13 @@ export class BioRandApi {
         if (!req.ok) {
             throw new BioRandApiError(req.status)
         }
-        return await req.json();
+
+        const contentType = req.headers.get('content-type');
+        if (contentType?.startsWith('application/json')) {
+            return await req.json();
+        } else {
+            return <any>undefined;
+        }
     }
 
     private getUrl(query: string) {

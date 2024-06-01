@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using SQLite;
-using Swan;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 {

@@ -69,54 +69,5 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server {
                 return ((byte[])(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;!doctype html&gt;
-        ///&lt;html lang=&quot;en&quot; data-bs-theme=&quot;light&quot;&gt;
-        ///&lt;head&gt;
-        ///    &lt;meta charset=&quot;utf-8&quot;&gt;
-        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
-        ///    &lt;title&gt;BIORAND for Resident Evil 4&lt;/title&gt;
-        ///    &lt;link href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;
-        ///          integrity=&quot;sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN&quot; crossorigin=&quot;anonymous&quot;&gt;
-        ///&lt;/head&gt;
-        ///&lt;body&gt;
-        ///    &lt;div class=&quot;container my-3&quot;&gt;
-        ///        &lt;div class=&quot;card&quot;&gt;
-        ///    [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string index {
-            get {
-                return ResourceManager.GetString("index", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to (function () {
-        ///    const configDefMap = {};
-        ///
-        ///    function loadLocalData(key) {
-        ///        return JSON.parse(localStorage.getItem(key));
-        ///    }
-        ///
-        ///    function saveLocalData(key, value) {
-        ///        return localStorage.setItem(key, JSON.stringify(value));
-        ///    }
-        ///
-        ///    function getApiUrl(url) {
-        ///        var baseUrl = new URL(document.URL).origin;
-        ///        var url = baseUrl + `/api/${url}`;
-        ///        return url;
-        ///    }
-        ///
-        ///    function getConfigDefinition() {
-        ///        return new Promise((resolve, reject) =&gt; {
-        ///            fetch(ge [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string re4rr {
-            get {
-                return ResourceManager.GetString("re4rr", resourceCulture);
-            }
-        }
     }
 }

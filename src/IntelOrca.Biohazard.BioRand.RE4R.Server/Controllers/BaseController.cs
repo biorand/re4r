@@ -3,11 +3,11 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
-using Swan;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
@@ -58,7 +58,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             {
                 user.Id,
                 user.Name,
-                Created = user.Created.ToUnixEpochDate(),
+                Created = user.Created.ToUnixTimeSeconds(),
                 user.Email,
                 user.Role,
                 AvatarUrl = twitchModel == null ? GetAvatarUrl(user.Email) : twitchModel.TwitchProfileImageUrl,

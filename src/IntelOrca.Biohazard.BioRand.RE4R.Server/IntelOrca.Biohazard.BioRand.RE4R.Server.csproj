@@ -5,13 +5,16 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="EmbedIO" Version="3.5.2" />
+    <Content Include="favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="MailKit" Version="4.5.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="sqlite-net-static" Version="1.9.172" />
     <PackageReference Include="TwitchLib.Api" Version="3.9.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IntelOrca.Biohazard.BioRand.RE4R\IntelOrca.Biohazard.BioRand.RE4R.csproj" />
