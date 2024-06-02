@@ -9,6 +9,16 @@ const config = {
     darkMode: 'class',
     theme: {
         fontFamily: {
+            mono: [
+                'ui-monospace',
+                'SFMono-Regular',
+                'Menlo',
+                'Monaco',
+                'Consolas',
+                '"Liberation Mono"',
+                '"Courier New"',
+                'monospace'
+            ],
             sans: [
                 'Inter',
                 'ui-sans-serif',

@@ -8,6 +8,7 @@
         Avatar,
         DarkMode,
         Dropdown,
+        DropdownDivider,
         DropdownHeader,
         DropdownItem,
         NavBrand,
@@ -70,6 +71,8 @@
             <DropdownHeader>
                 <a class="block text-sm" href="/user/{currentUser.name}">{currentUser.name}</a>
             </DropdownHeader>
+            <DropdownItem href="/admin/patron">Patron</DropdownItem>
+            <DropdownDivider />
             <DropdownItem on:click={onSignOutClick}>Sign out</DropdownItem>
         </Dropdown>
         {#if accountAccessible}

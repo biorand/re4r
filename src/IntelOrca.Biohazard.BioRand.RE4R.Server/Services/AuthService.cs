@@ -135,5 +135,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             user.KofiMember = false;
             return role;
         }
+
+        public async Task<bool> IsAuthorized(UserRoleKind minimumRole = UserRoleKind.EarlyAccess)
+        {
+            var user = await GetAuthorizedUserAsync(minimumRole);
+            return user != null;
+        }
     }
 }

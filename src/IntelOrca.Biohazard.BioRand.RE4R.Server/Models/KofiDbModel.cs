@@ -20,4 +20,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
         public string? TierName { get; set; }
         public string Data { get; set; } = "";
     }
+
+    public class KofiUserDbViewModel : KofiDbModel
+    {
+        public string UserName { get; set; } = "";
+        public int UserRole { get; set; }
+        public string UserAvatarUrl { get; set; } = "";
+    }
 }

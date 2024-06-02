@@ -2,6 +2,12 @@ import { LocalStorageKeys, getLocalStorageManager } from "./localStorage";
 import { getUserManager } from "./userManager";
 import { buildUrl } from "./utility";
 
+export interface QueryOptions {
+    sort?: string;
+    order?: undefined | "asc" | "desc";
+    page?: number;
+}
+
 export type QueryResult<T> = {
     page: number;
     pageCount: number;
@@ -188,6 +194,25 @@ export interface StatsResult {
     userCount: number;
 }
 
+export interface LightUserInfo {
+    id: number;
+    name: string;
+    role: UserRole;
+    avatarUrl: string;
+}
+
+export type PatronDonationsResult = QueryResult<PatronDonationsItem>;
+export interface PatronDonationsItem {
+    id: number;
+    messageId: string;
+    timestamp: number;
+    email: string;
+    amount: number;
+    tierName: string;
+    payload: string;
+    user: LightUserInfo;
+}
+
 export class BioRandApiError extends Error {
     statusCode: number;
 
@@ -295,6 +320,10 @@ export class BioRandApi {
 
     async getRandoHistory(query: RandoHistoryQueryOptions) {
         return await this.get<RandoHistoryResult>("rando/history", query);
+    }
+
+    async getPatronDonations(query: QueryOptions) {
+        return await this.get<PatronDonationsResult>("patron/donations", query);
     }
 
     private async get<T>(query: string, body?: any) {
