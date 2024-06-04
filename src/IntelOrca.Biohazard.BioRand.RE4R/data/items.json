@@ -1708,6 +1708,7 @@
       "name": "Sentinel Nine",
       "kind": "weapon",
       "id": 278035456,
+      "class": "handgun",
       "size": "3x2",
       "dlc": true,
       "weaponId": 6000
@@ -1716,6 +1717,7 @@
       "name": "Skull Shaker",
       "kind": "weapon",
       "id": 278037056,
+      "class": "shotgun",
       "size": "5x1",
       "dlc": true,
       "weaponId": 6001

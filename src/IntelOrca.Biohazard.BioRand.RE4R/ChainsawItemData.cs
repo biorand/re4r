@@ -109,6 +109,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public int Kind => kind;
         public int Width => IsValid ? _sizes[kind, 1] : 1;
         public int Height => IsValid ? _sizes[kind, 0] : 1;
+        public int LongSide => Math.Max(Width, Height);
         public bool IsValid => kind >= 0 && kind < _sizes.Length;
 
         public object Area => Width * Height;

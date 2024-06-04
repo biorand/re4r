@@ -71,7 +71,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public void AutoSort(ChainsawItemData itemData)
         {
             var items = Data[0].InventoryItems
-                .OrderByDescending(x => itemData.GetSize(x.Item.ItemId).Area)
+                .OrderByDescending(x => itemData.GetSize(x.Item.ItemId).LongSide)
                 .ToArray();
             Data[0].InventoryItems = items;
 
