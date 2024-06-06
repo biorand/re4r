@@ -71,7 +71,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     return isWeapon ? weaponItemSize : itemSize;
                 }
             }
-            return new ItemSize(0);
+
+            var itemDefinition2 = ItemDefinitionRepository.Default.Find(itemId);
+            if (itemDefinition2?.Size == null)
+                return new ItemSize();
+
+            return ItemSize.Parse(itemDefinition2.Size);
         }
 
         public ChainsawItemDefinition[] Definitions
@@ -139,5 +144,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             { 4, 2 },
             { 6, 2 },
         };
+
+        public static ItemSize Parse(string size)
+        {
+            var wh = size.Split('x').Take(2).Select(int.Parse).ToArray();
+            for (int i = 0; i < _sizes.GetLength(0); i++)
+            {
+                if (_sizes[i, 0] == wh[0] && _sizes[i, 1] == wh[1])
+                {
+                    return new ItemSize(i);
+                }
+            }
+            throw new ArgumentException($"No size defined for {size}");
+        }
     }
 }

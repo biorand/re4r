@@ -1709,7 +1709,7 @@
       "kind": "weapon",
       "id": 278035456,
       "class": "handgun",
-      "size": "3x2",
+      "size": "2x3",
       "dlc": true,
       "weaponId": 6000
     },
@@ -1718,7 +1718,7 @@
       "kind": "weapon",
       "id": 278037056,
       "class": "shotgun",
-      "size": "5x1",
+      "size": "1x5",
       "dlc": true,
       "weaponId": 6001
     },
