@@ -46,5 +46,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 }
             });
         }
+
+        [HttpGet("daily")]
+        public async Task<object> GetKofiDaily()
+        {
+            if (!(await auth.IsAuthorized(UserRoleKind.Administrator)))
+                return Unauthorized();
+
+            return await db.GetKofiDaily();
+        }
     }
 }

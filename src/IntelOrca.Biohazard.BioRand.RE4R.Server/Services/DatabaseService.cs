@@ -532,6 +532,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 WHERE kofi.Id = t.Id");
         }
 
+        public async Task<KofiDailyDbViewModel[]> GetKofiDaily()
+        {
+            var result = await _conn.QueryAsync<KofiDailyDbViewModel>(@"
+                SELECT strftime('%Y-%m-%d', datetime((timestamp - 621355968000000000) / 10000000, 'unixepoch')) AS day,
+                       COUNT(*) AS Donations,
+                       SUM(Price) AS Amount
+                FROM kofi
+                GROUP BY day");
+            return [.. result];
+        }
+
         private static async Task<LimitedResult<T>> ExecuteLimitedResult<T>(
             AsyncTableQuery<T> query,
             LimitOptions? options) where T : new()

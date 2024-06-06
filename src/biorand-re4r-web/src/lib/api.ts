@@ -217,6 +217,12 @@ export interface PatronDonationsItem {
     user: LightUserInfo;
 }
 
+export type PatronDailyResult = {
+    day: string;
+    donations: number;
+    amount: number;
+}[];
+
 export class BioRandApiError extends Error {
     statusCode: number;
 
@@ -328,6 +334,10 @@ export class BioRandApi {
 
     async getPatronDonations(query: PatronQueryOptions) {
         return await this.get<PatronDonationsResult>("patron/donations", query);
+    }
+
+    async getPatronDaily() {
+        return await this.get<PatronDailyResult>("patron/daily");
     }
 
     private async get<T>(query: string, body?: any) {

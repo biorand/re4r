@@ -27,4 +27,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
         public int UserRole { get; set; }
         public string UserAvatarUrl { get; set; } = "";
     }
+
+    public class KofiDailyDbViewModel
+    {
+        public string Day { get; set; } = "";
+        public int Donations { get; set; }
+        public int Amount { get; set; }
+    }
 }
