@@ -9,8 +9,7 @@
         getApi,
         type PatronDonationsItem,
         type PatronDonationsResult,
-        type QueryOptions,
-        type UserQueryOptions
+        type PatronQueryOptions
     } from '$lib/api';
     import { PageTitle } from '$lib/typography';
     import PageBody from '$lib/typography/PageBody.svelte';
@@ -18,10 +17,11 @@
     import { Badge, Button, TableBodyCell, TableBodyRow, TableHead } from 'flowbite-svelte';
     import { readable } from 'svelte/store';
 
-    const queryParams = readable<UserQueryOptions>(undefined, (set) => {
+    const queryParams = readable<PatronQueryOptions>(undefined, (set) => {
         getLocation().subscribe((location) => {
             const searchParams = new URLSearchParams(location.search);
             set({
+                user: searchParams.get('user') || undefined,
                 sort: searchParams.get('sort') || undefined,
                 order: (searchParams.get('order') || undefined) as any,
                 page: tryParseInt(searchParams.get('page'))
@@ -29,7 +29,7 @@
         });
     });
 
-    let searchInput: QueryOptions;
+    let searchInput: PatronQueryOptions;
     let searchResult: PatronDonationsResult | undefined = undefined;
     let data: SortedTableData<PatronDonationsItem>;
     let getPageUrl: (page: number) => string;
@@ -64,7 +64,7 @@
 </script>
 
 <svelte:head>
-    <title>Users - BioRand 4</title>
+    <title>Patron Dashboard - BioRand 4</title>
 </svelte:head>
 
 <PageBody>
@@ -73,11 +73,11 @@
         <SortedTable {data} on:sort={sortTable} let:item={donation}>
             <TableHead slot="header">
                 <SortedTableHeader>Message Id</SortedTableHeader>
-                <SortedTableHeader>Timestamp</SortedTableHeader>
-                <SortedTableHeader>Ko-fi Email</SortedTableHeader>
-                <SortedTableHeader>Matched User</SortedTableHeader>
-                <SortedTableHeader align="right">Amount</SortedTableHeader>
-                <SortedTableHeader align="center">Tier</SortedTableHeader>
+                <SortedTableHeader key="timestamp">Timestamp</SortedTableHeader>
+                <SortedTableHeader key="email">Ko-fi Email</SortedTableHeader>
+                <SortedTableHeader key="username">Matched User</SortedTableHeader>
+                <SortedTableHeader key="price" align="right">Amount</SortedTableHeader>
+                <SortedTableHeader key="tiername" align="center">Tier</SortedTableHeader>
             </TableHead>
             <TableBodyRow class="text-base font-semibold">
                 <TableBodyCell tdClass="p-1 font-mono"

@@ -201,6 +201,10 @@ export interface LightUserInfo {
     avatarUrl: string;
 }
 
+export interface PatronQueryOptions extends QueryOptions {
+    user?: string;
+}
+
 export type PatronDonationsResult = QueryResult<PatronDonationsItem>;
 export interface PatronDonationsItem {
     id: number;
@@ -322,7 +326,7 @@ export class BioRandApi {
         return await this.get<RandoHistoryResult>("rando/history", query);
     }
 
-    async getPatronDonations(query: QueryOptions) {
+    async getPatronDonations(query: PatronQueryOptions) {
         return await this.get<PatronDonationsResult>("patron/donations", query);
     }
 

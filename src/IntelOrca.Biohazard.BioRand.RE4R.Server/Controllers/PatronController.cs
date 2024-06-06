@@ -12,7 +12,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
     public class PatronController(AuthService auth, DatabaseService db) : ControllerBase
     {
         [HttpGet("donations")]
-        public async Task<object> GetKofiDonations(string? sort, string? order, int page = 1)
+        public async Task<object> GetKofiDonations(string? user, string? sort, string? order, int page = 1)
         {
             if (!(await auth.IsAuthorized(UserRoleKind.Administrator)))
                 return Unauthorized();
@@ -25,7 +25,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
             var itemsPerPage = 25;
             var result = await db.GetKofiAsync(
-                SortOptions.FromQuery(sort, order, ["Timestamp", "UserId", "Email", "Price"]),
+                user,
+                SortOptions.FromQuery(sort, order, ["Timestamp", "UserName", "Email", "Price", "TierName"]),
                 LimitOptions.FromPage(page, itemsPerPage));
             return ResultListResult.Map(page, itemsPerPage, result, x => new
             {

@@ -474,12 +474,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             await _conn.InsertAsync(kofi);
         }
 
-        public Task<LimitedResult<KofiUserDbViewModel>> GetKofiAsync(SortOptions? sortOptions, LimitOptions? limitOptions)
+        public Task<LimitedResult<KofiUserDbViewModel>> GetKofiAsync(
+            string? userName,
+            SortOptions? sortOptions,
+            LimitOptions? limitOptions)
         {
             var q = BuildQuery<KofiUserDbViewModel>(@"
                 SELECT kofi.*, user.Name as UserName, user.Role as UserRole
                 FROM kofi
                 LEFT JOIN user ON kofi.UserId = user.Id");
+            q.WhereIf("user.Name = ?", userName);
             return q.ExecuteLimitedAsync(sortOptions, limitOptions);
         }
 
