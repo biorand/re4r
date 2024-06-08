@@ -45,6 +45,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var includeList = new[] {
                 @"natives/stm/_chainsaw/appsystem/inventory/inventorycatalog/.*",
                 @"natives/stm/_chainsaw/appsystem/ui/.*",
+                @"natives/stm/_chainsaw/appsystem/weapon/.*",
                 @"natives/stm/_chainsaw/appsystem/weaponcustom/.*",
                 @"natives/stm/_chainsaw/environment/scene/gimmick/.*",
                 @"natives/stm/_chainsaw/leveldesign/chapter/.*",

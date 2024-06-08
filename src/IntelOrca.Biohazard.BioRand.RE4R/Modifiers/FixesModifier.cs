@@ -25,6 +25,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 EnableProfessionalAutoSave(randomizer, logger);
             }
+            AllowLaserSightOnAnything(randomizer, logger);
         }
 
         private void StaticChanges(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -200,6 +201,52 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     controller.SpawnCondition.Add(scn, new Guid("6ac0d9ef-16d3-46e6-af89-4efb1f8370ac"));
                 }
             }
+        }
+
+        private void AllowLaserSightOnAnything(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            const string weaponPartsCombineDefinitionPath = "natives/stm/_chainsaw/appsystem/ui/userdata/weaponpartscombinedefinitionuserdata.user.2";
+            const string playerLaserSightControllerDefinitionPath = "natives/stm/_chainsaw/appsystem/weapon/lasersight/playerlasersightcontrolleruserdata.user.2";
+            const string weaponDetailCustomPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2";
+
+            var weaponIds = new[] { 4002, 4003, 4004 };
+
+            var fileRepository = randomizer.FileRepository;
+            fileRepository.ModifyUserFile(weaponPartsCombineDefinitionPath, (file, rsz) =>
+            {
+                var list = rsz.GetList("_Datas[6]._TargetItemIds");
+                list.Add(274838656);
+                list.Add(274840256);
+                list.Add(274841856);
+            });
+
+            fileRepository.ModifyUserFile(playerLaserSightControllerDefinitionPath, (file, rsz) =>
+            {
+                var list = rsz.GetList("_Settings");
+                foreach (var wp in weaponIds)
+                {
+                    var newItem = file.CloneInstance((RszInstance)list[0]!);
+                    newItem.Set("_WeaponID", wp);
+                    list.Add(newItem);
+                }
+            });
+
+            fileRepository.ModifyUserFile(weaponDetailCustomPath, (file, rsz) =>
+            {
+                var list = rsz.GetArray<RszInstance>("_WeaponDetailStages");
+                var attachment = list[0].Get<RszInstance>("_WeaponDetailCustom._AttachmentCustoms[0]")!;
+                foreach (var wp in weaponIds)
+                {
+                    foreach (var w in list)
+                    {
+                        if (w.Get<int>("_WeaponID") == wp)
+                        {
+                            var attachments = w.GetList("_WeaponDetailCustom._AttachmentCustoms");
+                            attachments.Add(file.CloneInstance(attachment));
+                        }
+                    }
+                }
+            });
         }
 
         private static readonly int[] _characterKindIds = new int[]

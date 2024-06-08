@@ -95,6 +95,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             SetGameFileData(path, value.ToByteArray());
         }
 
+        public void ModifyUserFile(string path, Action<RSZFile, RszInstance> callback)
+        {
+            var userFile = GetUserFile(path);
+            callback(userFile.RSZ!, userFile.RSZ!.ObjectList[0]);
+            SetUserFile(path, userFile);
+        }
+
         public PakFileBuilder GetOutputPakFile()
         {
             var builder = new PakFileBuilder();
