@@ -9,6 +9,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
     [ApiController]
     [Route("patron")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class PatronController(AuthService auth, DatabaseService db) : ControllerBase
     {
         [HttpGet("donations")]

@@ -11,6 +11,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
     [ApiController]
     [Route("webhook")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class WebHookController(
         DatabaseService databaseService,
         Re4rConfiguration config,
