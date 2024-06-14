@@ -7,35 +7,31 @@ using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using SQLite;
-using Swan;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 {
-    internal sealed class DatabaseService
+    public sealed class DatabaseService
     {
         private readonly SQLiteAsyncConnection _conn;
 
         public int SystemUserId => 1;
 
-        private DatabaseService(SQLiteAsyncConnection conn)
+        public DatabaseService(Re4rConfiguration config)
         {
-            _conn = conn;
+            var databaseConfig = config.Database;
+            var databasePath = (databaseConfig?.Path) ?? throw new Exception();
+            _conn = new SQLiteAsyncConnection(databasePath);
+            Initialize().Wait();
+        }
+
+        private async Task Initialize()
+        {
+            await _conn.CreateTablesAsync();
         }
 
         private QueryBuilder<T> BuildQuery<T>(string q, params object[] args) where T : new()
         {
             return new QueryBuilder<T>(_conn, q, args);
-        }
-
-        public static async Task<DatabaseService> CreateDefault()
-        {
-            var config = Re4rConfiguration.GetDefault();
-            var databaseConfig = config.Database;
-            var databasePath = (databaseConfig?.Path) ?? throw new Exception();
-            var db = new SQLiteAsyncConnection(databasePath);
-            var instance = new DatabaseService(db);
-            await instance.CreateTables();
-            return instance;
         }
 
         public async Task CreateTables()
@@ -429,34 +425,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return _conn.Table<UserDbModel>().FirstOrDefaultAsync(x => x.NameLowerCase == lowerName);
         }
 
-        public Task<LimitedResult<UserDbModel>> GetUsersAsync(string sort, bool descending, LimitOptions? limitOptions = null)
+        public Task<LimitedResult<UserDbModel>> GetUsersAsync(SortOptions? sortOptions = null, LimitOptions? limitOptions = null)
         {
-            var q = _conn.Table<UserDbModel>();
-            if (sort != null)
-            {
-                if (descending)
-                {
-                    q = sort.ToLowerInvariant() switch
-                    {
-                        "name" => q.OrderByDescending(x => x.NameLowerCase),
-                        "created" => q.OrderByDescending(x => x.Created),
-                        "role" => q.OrderByDescending(x => x.Role),
-                        _ => q
-                    };
-                }
-                else
-                {
-                    q = sort.ToLowerInvariant() switch
-                    {
-                        "name" => q.OrderBy(x => x.NameLowerCase),
-                        "created" => q.OrderBy(x => x.Created),
-                        "role" => q.OrderBy(x => x.Role),
-                        _ => q
-                    };
-                }
-            }
-
-            return ExecuteLimitedResult(q, limitOptions);
+            var q = BuildQuery<UserDbModel>("SELECT * FROM user");
+            return q.ExecuteLimitedAsync(sortOptions, limitOptions);
         }
 
         public async Task<TwitchDbModel> AddOrUpdateUserTwitchAsync(int userId, TwitchDbModel twitch)
@@ -502,6 +474,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             await _conn.InsertAsync(kofi);
         }
 
+        public Task<LimitedResult<KofiUserDbViewModel>> GetKofiAsync(
+            string? userName,
+            SortOptions? sortOptions,
+            LimitOptions? limitOptions)
+        {
+            var q = BuildQuery<KofiUserDbViewModel>(@"
+                SELECT kofi.*, user.Name as UserName, user.Role as UserRole
+                FROM kofi
+                LEFT JOIN user ON kofi.UserId = user.Id");
+            q.WhereIf("user.Name = ?", userName);
+            return q.ExecuteLimitedAsync(sortOptions, limitOptions);
+        }
+
         public async Task<KofiDbModel[]> GetKofiByUserAsync(int userId)
         {
             return await _conn.Table<KofiDbModel>()
@@ -545,6 +530,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 	                WHERE kofi.UserId IS NULL
                 ) t
                 WHERE kofi.Id = t.Id");
+        }
+
+        public async Task<KofiDailyDbViewModel[]> GetKofiDaily()
+        {
+            var result = await _conn.QueryAsync<KofiDailyDbViewModel>(@"
+                SELECT strftime('%Y-%m-%d', datetime((timestamp - 621355968000000000) / 10000000, 'unixepoch')) AS day,
+                       COUNT(*) AS Donations,
+                       SUM(Price) AS Amount
+                FROM kofi
+                GROUP BY day");
+            return [.. result];
         }
 
         private static async Task<LimitedResult<T>> ExecuteLimitedResult<T>(

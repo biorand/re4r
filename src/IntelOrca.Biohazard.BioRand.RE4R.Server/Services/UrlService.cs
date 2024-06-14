@@ -1,12 +1,12 @@
 ﻿namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 {
-    internal class UrlService
+    public class UrlService
     {
         private readonly UrlConfig? _config;
 
-        public UrlService(UrlConfig? config)
+        public UrlService(Re4rConfiguration config)
         {
-            _config = config;
+            _config = config.Url;
         }
 
         public string GetApiUrl(string path)

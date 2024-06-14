@@ -4,7 +4,7 @@ using SQLite;
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
 {
     [Table("kofi")]
-    internal class KofiDbModel
+    public class KofiDbModel
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
@@ -19,5 +19,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
         public decimal Price { get; set; }
         public string? TierName { get; set; }
         public string Data { get; set; } = "";
+    }
+
+    public class KofiUserDbViewModel : KofiDbModel
+    {
+        public string UserName { get; set; } = "";
+        public int UserRole { get; set; }
+        public string UserAvatarUrl { get; set; } = "";
+    }
+
+    public class KofiDailyDbViewModel
+    {
+        public string Day { get; set; } = "";
+        public int Donations { get; set; }
+        public int Amount { get; set; }
     }
 }

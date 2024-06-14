@@ -1,7 +1,34 @@
-GET http://localhost:10285/api/profile/ HTTP/1.1
-Authorization: Bearer 3c1cdd28dc812b99c4c5245c38c92550
+@HostAddress = http://localhost:10285
+@Authorization = Bearer 56bcb5e55dd8a599d623bc7a60a102e6
+
+GET {{HostAddress}}/profile/definition/
 
 ###
 
-GET http://localhost:10285/api/profile/search?q=h&sort=StarCount HTTP/1.1
-Authorization: Bearer 3c1cdd28dc812b99c4c5245c38c92550
+GET {{HostAddress}}/profile/
+Authorization: {{Authorization}}
+
+###
+
+GET {{HostAddress}}/profile/search?q=balance
+Authorization: {{Authorization}}
+
+###
+
+GET {{HostAddress}}/profile/search?user=7rayD
+Authorization: {{Authorization}}
+
+###
+
+GET {{HostAddress}}/profile/1
+Authorization: {{Authorization}}
+
+###
+
+POST {{HostAddress}}/profile/7/star
+Authorization: {{Authorization}}
+
+###
+
+DELETE {{HostAddress}}/profile/7/star
+Authorization: {{Authorization}}

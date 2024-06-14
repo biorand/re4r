@@ -2,29 +2,24 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using EmbedIO;
-using EmbedIO.Routing;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
-using Serilog;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
-    internal class AuthController : BaseController
+    [ApiController]
+    [Route("auth")]
+    public class AuthController(
+        AuthService auth,
+        DatabaseService db,
+        EmailService emailService,
+        UserService userService,
+        ILogger<AuthController> logger) : ControllerBase
     {
-        private readonly DatabaseService _db;
-        private readonly EmailService _emailService;
-        private readonly ILogger _logger;
-
-        public AuthController(DatabaseService db, EmailService emailService, TwitchService twitchService) : base(db, twitchService)
-        {
-            _db = db;
-            _emailService = emailService;
-            _logger = Log.ForContext<AuthController>();
-        }
-
-        [Route(HttpVerbs.Post, "/register")]
-        public async Task<object> RegisterAsync([MyJsonData] RegisterRequest req)
+        [HttpPost("register")]
+        public async Task<object> RegisterAsync([FromBody] RegisterRequest req)
         {
             var validationResult = new Dictionary<string, string>();
 
@@ -36,7 +31,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             }
             else
             {
-                var existingUserByEmail = await _db.GetUserByEmail(email);
+                var existingUserByEmail = await db.GetUserByEmail(email);
                 if (existingUserByEmail != null)
                 {
                     validationResult["email"] = "Email already registered.";
@@ -59,7 +54,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             }
             else
             {
-                var existingUserByName = await _db.GetUserByName(name);
+                var existingUserByName = await db.GetUserByName(name);
                 if (existingUserByName != null)
                 {
                     validationResult["name"] = "Name already registered.";
@@ -68,9 +63,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
             if (validationResult.Count == 0)
             {
-                _logger.Information("Creating user {Name} <{Email}>", email, name);
-                await _db.CreateUserAsync(email, name!);
-                await _emailService.SendEmailAsync(name!, email,
+                logger.LogInformation("Creating user {Name} <{Email}>", email, name);
+                await db.CreateUserAsync(email, name!);
+                await emailService.SendEmailAsync(name!, email,
                     "BioRand 4 - Early Access",
 $@"Dear {name},
 
@@ -89,7 +84,7 @@ The BioRand Team");
             }
             else
             {
-                _logger.Information("Register failed for {Name} <{Email}>", name, email);
+                logger.LogInformation("Register failed for {Name} <{Email}>", name, email);
                 return new
                 {
                     Success = false,
@@ -100,8 +95,8 @@ The BioRand Team");
             }
         }
 
-        [Route(HttpVerbs.Post, "/signin")]
-        public async Task<object> SignInAsync([MyJsonData] SignInRequest req)
+        [HttpPost("signin")]
+        public async Task<object> SignInAsync([FromBody] SignInRequest req)
         {
             var validationResult = new Dictionary<string, string>();
 
@@ -112,21 +107,21 @@ The BioRand Team");
             }
             else
             {
-                var user = await _db.GetUserByEmail(email);
+                var user = await db.GetUserByEmail(email);
                 if (user == null)
                 {
-                    _logger.Information("Sign in failed for {Email}, account not found", email);
+                    logger.LogInformation("Sign in failed for {Email}, account not found", email);
                     validationResult["email"] = "E-mail address not registered.";
                 }
                 else if (string.IsNullOrEmpty(req.Code))
                 {
-                    _logger.Information("User {UserId}[{UserName}] sign in attempted", user.Id, user.Name);
+                    logger.LogInformation("User {UserId}[{UserName}] sign in attempted", user.Id, user.Name);
 
-                    var token = await _db.CreateTokenAsync(user);
-                    _logger.Information("Auth token created for {UserId}[{UserName}]", user.Id, user.Name);
+                    var token = await db.CreateTokenAsync(user);
+                    logger.LogInformation("Auth token created for {UserId}[{UserName}]", user.Id, user.Name);
 
                     var code = token.Code.ToString("000000");
-                    await _emailService.SendEmailAsync(user.Name, user.Email,
+                    await emailService.SendEmailAsync(user.Name, user.Email,
                         "BioRand 4 - Sign In",
 $@"Dear {user.Name},
 
@@ -149,36 +144,36 @@ The BioRand Team");
                     var codeInvalid = !int.TryParse(req.Code, out var code);
                     if (!codeInvalid)
                     {
-                        var token = await _db.GetTokenAsync(user, code);
+                        var token = await db.GetTokenAsync(user, code);
                         if (token != null && token.LastUsed == null)
                         {
-                            _logger.Information("User {UserId}[{UserName}] signed in successfully", user.Id, user.Name);
+                            logger.LogInformation("User {UserId}[{UserName}] signed in successfully", user.Id, user.Name);
 
-                            if (!await _db.AdminUserExistsAsync())
+                            if (!await db.AdminUserExistsAsync())
                             {
                                 user.Role = UserRoleKind.Administrator;
-                                await _db.UpdateUserAsync(user);
-                                _logger.Information("User {UserId}[{UserName}] role set to {Role}", user.Id, user.Name, user.Role);
+                                await db.UpdateUserAsync(user);
+                                logger.LogInformation("User {UserId}[{UserName}] role set to {Role}", user.Id, user.Name, user.Role);
                             }
 
                             if (user.Role == UserRoleKind.Pending)
                             {
                                 user.Role = UserRoleKind.PendingEarlyAccess;
-                                await _db.UpdateUserAsync(user);
-                                _logger.Information("User {UserId}[{UserName}] role set to {Role}", user.Id, user.Name, user.Role);
+                                await db.UpdateUserAsync(user);
+                                logger.LogInformation("User {UserId}[{UserName}] role set to {Role}", user.Id, user.Name, user.Role);
                             }
 
-                            await _db.UseTokenAsync(token.Token);
-                            _logger.Information("Auth token verified for {UserId}[{UserName}]", user.Id, user.Name);
+                            await db.UseTokenAsync(token.Token);
+                            logger.LogInformation("Auth token verified for {UserId}[{UserName}]", user.Id, user.Name);
                             return new
                             {
                                 Success = true,
                                 token.Token,
-                                User = GetUser(user)
+                                User = userService.GetUser(user)
                             };
                         }
                     }
-                    _logger.Information("User {UserId}[{UserName}] sign in failed, code invalid", user.Id, user.Name);
+                    logger.LogInformation("User {UserId}[{UserName}] sign in failed, code invalid", user.Id, user.Name);
                     validationResult["code"] = "Code is invalid.";
                 }
             }
@@ -191,24 +186,24 @@ The BioRand Team");
             };
         }
 
-        [Route(HttpVerbs.Post, "/signout")]
+        [HttpPost("signout")]
         public async Task<object> SignOutAsync()
         {
-            var tokenString = GetAuthToken();
+            var tokenString = auth.GetAuthToken();
             if (tokenString == null)
-                return UnauthorizedResult();
+                return Unauthorized();
 
-            var token = await _db.GetTokenAsync(tokenString);
+            var token = await db.GetTokenAsync(tokenString);
             if (token == null)
-                return UnauthorizedResult();
+                return Unauthorized();
 
-            var user = await _db.GetUserAsync(token.UserId);
+            var user = await db.GetUserAsync(token.UserId);
 
-            await _db.DeleteTokenAsync(token.Id);
+            await db.DeleteTokenAsync(token.Id);
 
-            _logger.Information("User {UserId}[{UserName}] deleted token {TokenId}",
+            logger.LogInformation("User {UserId}[{UserName}] deleted token {TokenId}",
                 user?.Id, user?.Name, token.Id);
-            return EmptyResult();
+            return Empty;
         }
 
         private static bool IsValidEmailAddress([NotNullWhen(true)] string? email)
@@ -221,13 +216,13 @@ The BioRand Team");
             return true;
         }
 
-        internal class RegisterRequest
+        public class RegisterRequest
         {
             public string? Email { get; set; }
             public string? Name { get; set; }
         }
 
-        internal class SignInRequest
+        public class SignInRequest
         {
             public string? Email { get; set; }
             public string? Code { get; set; }

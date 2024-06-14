@@ -1,4 +1,6 @@
-POST http://localhost:10285/api/auth/register HTTP/1.1
+@HostAddress = http://localhost:10285
+
+POST {{HostAddress}}/auth/register
 content-type: application/json
 
 {
@@ -8,7 +10,7 @@ content-type: application/json
 
 ###
 
-POST http://localhost:10285/api/auth/signin HTTP/1.1
+POST {{HostAddress}}/auth/signin
 content-type: application/json
 
 {
@@ -17,10 +19,10 @@ content-type: application/json
 
 ###
 
-POST http://localhost:10285/api/auth/signin HTTP/1.1
+POST {{HostAddress}}/auth/signin
 content-type: application/json
 
 {
     "email": "intelorca@gmail.com",
-    "code": 968032
+    "code": "603159"
 }

@@ -1,40 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using EmbedIO;
-using EmbedIO.Routing;
-using EmbedIO.WebApi;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.RestModels;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
-using Serilog;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using static IntelOrca.Biohazard.BioRand.RE4R.Server.Services.DatabaseService;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
-    internal class ProfileController : BaseController
+    [Route("profile")]
+    public class ProfileController(
+        AuthService auth,
+        DatabaseService _db,
+        ILogger<ProfileController> _logger) : ControllerBase
     {
-        private readonly DatabaseService _db;
-        private readonly ILogger _logger;
-
-        public ProfileController(DatabaseService db, TwitchService twitchService) : base(db, twitchService)
-        {
-            _db = db;
-            _logger = Log.ForContext<AuthController>();
-        }
-
-        [Route(HttpVerbs.Get, "/")]
+        [HttpGet]
         public async Task<object> GetProfilesAsync()
         {
-            var authorizedUser = await GetAuthorizedUserAsync();
+            var authorizedUser = await auth.GetAuthorizedUserAsync();
             if (authorizedUser == null)
-                return UnauthorizedResult();
+                return Unauthorized();
 
             var profiles = await _db.GetProfilesForUserAsync(authorizedUser.Id);
             return profiles.Select(GetProfile).ToArray();
         }
 
-        [Route(HttpVerbs.Get, "/definition")]
+        [HttpGet("definition")]
         public Task<RandomizerConfigurationDefinition> GetConfigAsync()
         {
             var chainsawRandomizerFactory = ChainsawRandomizerFactory.Default;
@@ -44,29 +38,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             return Task.FromResult(configDefinition);
         }
 
-        [Route(HttpVerbs.Get, "/search")]
-        public async Task<object> SearchProfilesAsync([QueryField] string q, [QueryField] string user, [QueryField] int page)
+        [HttpGet("search")]
+        public async Task<object> SearchProfilesAsync([FromQuery] string? q, [FromQuery] string? user, [FromQuery] int page = 1)
         {
-            var authorizedUser = await GetAuthorizedUserAsync();
+            var authorizedUser = await auth.GetAuthorizedUserAsync();
             if (authorizedUser == null)
-                return UnauthorizedResult();
-
-            if (page <= 0)
-                page = 1;
+                return Unauthorized();
 
             var itemsPerPage = 25;
             var profiles = await _db.GetProfilesAsync(authorizedUser.Id, q, user,
                 new SortOptions("StarCount", true),
                 LimitOptions.FromPage(page, itemsPerPage));
-            return ResultListResult(page, itemsPerPage, profiles, GetProfile);
+            return ResultListResult.Map(page, itemsPerPage, profiles, GetProfile);
         }
 
-        [Route(HttpVerbs.Post, "/")]
-        public async Task<object> InsertProfileAsync([MyJsonData] UpdateProfileRequest body)
+        [HttpPost("")]
+        public async Task<object> InsertProfileAsync([FromBody] UpdateProfileRequest body)
         {
-            var authorizedUser = await GetAuthorizedUserAsync();
+            var authorizedUser = await auth.GetAuthorizedUserAsync();
             if (authorizedUser == null)
-                return UnauthorizedResult();
+                return Unauthorized();
 
             var config = RandomizerConfigurationDefinition.ProcessConfig(body.Config);
 
@@ -78,41 +69,41 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             };
 
             profile = await _db.CreateProfileAsync(profile, config);
-            _logger.Information("User [{UserId}]{UserName} created profile {Id}[{Name}]",
+            _logger.LogInformation("User [{UserId}]{UserName} created profile {Id}[{Name}]",
                 authorizedUser.Id, authorizedUser.Name, profile.Id, profile.Name);
             return await GetProfileAsync(profile.Id);
         }
 
-        [Route(HttpVerbs.Get, "/{id}")]
+        [HttpGet("{id}")]
         public async Task<object> GetProfileAsync(int id)
         {
-            var authorizedUser = await GetAuthorizedUserAsync();
+            var authorizedUser = await auth.GetAuthorizedUserAsync();
             if (authorizedUser == null)
-                return UnauthorizedResult();
+                return Unauthorized();
 
             var profile = await _db.GetProfileAsync(id, authorizedUser.Id);
             if (profile == null)
-                return NotFoundResult();
+                return NotFound();
 
             if (profile.UserId != authorizedUser.Id && !profile.Public && authorizedUser.Role != UserRoleKind.Administrator)
-                return ForbiddenResult();
+                return Forbid();
 
             return GetProfile(profile);
         }
 
-        [Route(HttpVerbs.Put, "/{id}")]
-        public async Task<object> UpdateProfileAsync(int id, [MyJsonData] UpdateProfileRequest body)
+        [HttpPut("{id}")]
+        public async Task<object> UpdateProfileAsync(int id, [FromBody] UpdateProfileRequest body)
         {
-            var authorizedUser = await GetAuthorizedUserAsync();
+            var authorizedUser = await auth.GetAuthorizedUserAsync();
             if (authorizedUser == null)
-                return UnauthorizedResult();
+                return Unauthorized();
 
             var profile = await _db.GetProfileAsync(id, authorizedUser.Id);
             if (profile == null)
-                return NotFoundResult();
+                return NotFound();
 
             if (authorizedUser.Role < UserRoleKind.Administrator && profile.UserId != authorizedUser.Id)
-                return UnauthorizedResult();
+                return Unauthorized();
 
             profile.Name = body.Name;
             profile.Description = body.Description;
@@ -122,64 +113,67 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
             await _db.UpdateProfileAsync(profile);
             await _db.SetProfileConfigAsync(id, config);
-            _logger.Information("User [{UserId}]{UserName} updated profile {Id}[{Name}]",
+            _logger.LogInformation("User [{UserId}]{UserName} updated profile {Id}[{Name}]",
                 authorizedUser.Id, authorizedUser.Name, profile.Id, profile.Name);
 
             return await GetProfileAsync(id);
         }
 
-        [Route(HttpVerbs.Delete, "/{id}")]
+        [HttpDelete("{id}")]
         public async Task<object> DeleteProfileAsync(int id)
         {
-            var authorizedUser = await GetAuthorizedUserAsync();
+            var authorizedUser = await auth.GetAuthorizedUserAsync();
             if (authorizedUser == null)
-                return UnauthorizedResult();
+                return Unauthorized();
 
             var profile = await _db.GetProfileAsync(id, authorizedUser.Id);
             if (profile == null)
-                return NotFoundResult();
+                return NotFound();
 
             if (authorizedUser.Role < UserRoleKind.Administrator && profile.UserId != authorizedUser.Id)
-                return UnauthorizedResult();
+                return Unauthorized();
 
             await _db.DeleteProfileAsync(id);
-            _logger.Information("User [{UserId}]{UserName} deleted profile {Id}[{Name}]",
+            _logger.LogInformation("User [{UserId}]{UserName} deleted profile {Id}[{Name}]",
                 authorizedUser.Id, authorizedUser.Name, profile.Id, profile.Name);
 
-            return EmptyResult();
+            return Empty;
         }
 
-        [Route(HttpVerbs.Any, "/{profileId}/star")]
+        [HttpPost("{profileId}/star")]
+        [HttpDelete("{profileId}/star")]
         public async Task<object> StarProfileAsync(int profileId)
         {
-            var authorizedUser = await GetAuthorizedUserAsync();
+            var authorizedUser = await auth.GetAuthorizedUserAsync();
             if (authorizedUser == null)
-                return UnauthorizedResult();
+                return Unauthorized();
 
-            var star = Request.HttpVerb switch
+            var star = Request.Method switch
             {
-                HttpVerbs.Post => true,
-                HttpVerbs.Delete => false,
+                string s when s == HttpMethods.Post => true,
+                string s when s == HttpMethods.Delete => false,
                 _ => (bool?)null
             };
             if (!star.HasValue)
-                return ErrorResult(HttpStatusCode.BadRequest);
+                return BadRequest();
 
             var profile = await _db.GetProfileAsync(profileId, authorizedUser.Id);
             if (profile == null)
-                return NotFoundResult();
+                return NotFound();
 
             await _db.StarProfileAsync(profileId, authorizedUser.Id, star.Value);
             if (star == true)
             {
+                _logger.LogInformation("User [{UserId}]{UserName} bookmarked profile {Id}[{Name}]",
+                    authorizedUser.Id, authorizedUser.Name, profile.Id, profile.Name);
             }
             else
             {
-                _logger.Information("User [{UserId}]{UserName} starred profile {Id}[{Name}]",
+                _logger.LogInformation("User [{UserId}]{UserName} unbookmarked profile {Id}[{Name}]",
                     authorizedUser.Id, authorizedUser.Name, profile.Id, profile.Name);
             }
 
-            return EmptyResult();
+            return Empty;
         }
 
         private object GetProfile(ExtendedProfileDbModel profile)

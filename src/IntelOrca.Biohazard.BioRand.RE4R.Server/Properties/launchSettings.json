@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "IntelOrca.Biohazard.BioRand.RE4R.Server": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:51050;http://localhost:51051"
+    }
+  }
+}

@@ -4,7 +4,7 @@ using SQLite;
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
 {
     [Table("user")]
-    internal class UserDbModel
+    public class UserDbModel
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }

@@ -2,6 +2,12 @@ import { LocalStorageKeys, getLocalStorageManager } from "./localStorage";
 import { getUserManager } from "./userManager";
 import { buildUrl } from "./utility";
 
+export interface QueryOptions {
+    sort?: string;
+    order?: undefined | "asc" | "desc";
+    page?: number;
+}
+
 export type QueryResult<T> = {
     page: number;
     pageCount: number;
@@ -188,6 +194,35 @@ export interface StatsResult {
     userCount: number;
 }
 
+export interface LightUserInfo {
+    id: number;
+    name: string;
+    role: UserRole;
+    avatarUrl: string;
+}
+
+export interface PatronQueryOptions extends QueryOptions {
+    user?: string;
+}
+
+export type PatronDonationsResult = QueryResult<PatronDonationsItem>;
+export interface PatronDonationsItem {
+    id: number;
+    messageId: string;
+    timestamp: number;
+    email: string;
+    amount: number;
+    tierName: string;
+    payload: string;
+    user: LightUserInfo;
+}
+
+export type PatronDailyResult = {
+    day: string;
+    donations: number;
+    amount: number;
+}[];
+
 export class BioRandApiError extends Error {
     statusCode: number;
 
@@ -297,6 +332,14 @@ export class BioRandApi {
         return await this.get<RandoHistoryResult>("rando/history", query);
     }
 
+    async getPatronDonations(query: PatronQueryOptions) {
+        return await this.get<PatronDonationsResult>("patron/donations", query);
+    }
+
+    async getPatronDaily() {
+        return await this.get<PatronDailyResult>("patron/daily");
+    }
+
     private async get<T>(query: string, body?: any) {
         return this.fetch<T>('GET', query, body);
     }
@@ -329,7 +372,13 @@ export class BioRandApi {
         if (!req.ok) {
             throw new BioRandApiError(req.status)
         }
-        return await req.json();
+
+        const contentType = req.headers.get('content-type');
+        if (contentType?.startsWith('application/json')) {
+            return await req.json();
+        } else {
+            return <any>undefined;
+        }
     }
 
     private getUrl(query: string) {

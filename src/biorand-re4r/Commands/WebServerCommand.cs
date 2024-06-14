@@ -25,7 +25,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         {
             var url = $"http://*:{settings.Port}/";
 
-            using var webServer = new BioRandWebServer();
+            await using var webServer = await BioRandWebServer.Create();
             await webServer.RunAsync(url);
 
             var browser = new Process()

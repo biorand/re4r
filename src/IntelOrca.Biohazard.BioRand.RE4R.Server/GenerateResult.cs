@@ -2,7 +2,7 @@
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server
 {
-    internal class GenerateResult
+    public class GenerateResult
     {
         public ulong Id { get; }
         public int Seed { get; }

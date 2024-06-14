@@ -110,7 +110,7 @@
     </div>
 {:else}
     <div class="p-4">
-        <div class="block w-1/2 mx-auto p-4 rounded-lg bg-gray-100 dark:bg-gray-700">
+        <div class="block mx-auto p-4 rounded-lg bg-gray-100 dark:bg-gray-700">
             <h1 class="text-3xl mb-4">Registration Successful</h1>
             <p>
                 Welcome <span class="text-gray-700 dark:text-blue-200">{registeredName}</span>,

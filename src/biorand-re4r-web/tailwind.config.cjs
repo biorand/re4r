@@ -4,11 +4,23 @@ const config = {
         "./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}",
     ],
     plugins: [
-        require('flowbite/plugin')
+        require('flowbite/plugin')({
+            charts: true
+        })
     ],
     darkMode: 'class',
     theme: {
         fontFamily: {
+            mono: [
+                'ui-monospace',
+                'SFMono-Regular',
+                'Menlo',
+                'Monaco',
+                'Consolas',
+                '"Liberation Mono"',
+                '"Courier New"',
+                'monospace'
+            ],
             sans: [
                 'Inter',
                 'ui-sans-serif',

@@ -1,6 +1,6 @@
 ﻿namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
 {
-    internal enum UserRoleKind
+    public enum UserRoleKind
     {
         Pending,
         PendingEarlyAccess,

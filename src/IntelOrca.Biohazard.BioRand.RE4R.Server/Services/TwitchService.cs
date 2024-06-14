@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
-using Serilog;
+using Microsoft.Extensions.Logging;
 using TwitchLib.Api;
 using TwitchLib.Api.Auth;
 using TwitchLib.Api.Core.Exceptions;
@@ -10,20 +10,29 @@ using TwitchLib.Api.Helix.Models.Users.GetUsers;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 {
-    internal class TwitchService(DatabaseService databaseService, TwitchConfig? twitchConfig)
+    public class TwitchService
     {
         private const string RedirectUri = "https://re4r.biorand.net/auth/twitch";
 
-        private readonly ILogger _logger = Log.ForContext<TwitchService>();
+        private readonly DatabaseService _databaseService;
+        private readonly TwitchConfig? _twitchConfig;
+        private readonly ILogger _logger;
+
+        public TwitchService(DatabaseService databaseService, Re4rConfiguration config, ILogger<TwitchService> logger)
+        {
+            _databaseService = databaseService;
+            _twitchConfig = config.Twitch;
+            _logger = logger;
+        }
 
         private TwitchConfig GetConfig()
         {
-            if (twitchConfig == null)
+            if (_twitchConfig == null)
                 throw new InvalidOperationException("Twitch credentials not set up.");
-            return twitchConfig;
+            return _twitchConfig;
         }
 
-        public bool IsAvailable => twitchConfig != null;
+        public bool IsAvailable => _twitchConfig != null;
 
         public async Task ConnectAsync(int userId, string code)
         {
@@ -33,24 +42,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 var api = GetApi();
                 var response = await api.Auth.GetAccessTokenFromCodeAsync(code, config.ClientSecret, RedirectUri);
                 var twitchModel = await RefreshAsync(userId, response.AccessToken, response.RefreshToken);
-                _logger.Information("Connected twitch for user {UserId} to {TwitchId}", userId, twitchModel.TwitchDisplayName);
+                _logger.LogInformation("Connected twitch for user {UserId} to {TwitchId}", userId, twitchModel.TwitchDisplayName);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Failed to connect twitch for user {UserId}", userId);
+                _logger.LogError(ex, "Failed to connect twitch for user {UserId}", userId);
                 throw;
             }
         }
 
         public async Task DisconnectAsync(int userId)
         {
-            await databaseService.DeleteUserTwitchAsync(userId);
-            _logger.Information("Disconnected twitch for user {UserId}", userId);
+            await _databaseService.DeleteUserTwitchAsync(userId);
+            _logger.LogInformation("Disconnected twitch for user {UserId}", userId);
         }
 
         public async Task<TwitchDbModel?> GetOrRefreshAsync(int userId, TimeSpan? refresh)
         {
-            var twitchModel = await databaseService.GetUserTwitchAsync(userId);
+            var twitchModel = await _databaseService.GetUserTwitchAsync(userId);
             if (twitchModel == null)
                 return null;
 
@@ -64,11 +73,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                     }
                     catch (Exception ex)
                     {
-                        _logger.Error(ex, "Failed to refresh Twitch information for user {UserId}", userId);
+                        _logger.LogError(ex, "Failed to refresh Twitch information for user {UserId}", userId);
                         if (twitchModel.LastUpdated < DateTime.UtcNow - TimeSpan.FromDays(5))
                         {
                             await DisconnectAsync(userId);
-                            _logger.Warning("Twitch information more than 5 days out of date. Disconnecting Twitch for User {UserId}", userId);
+                            _logger.LogWarning("Twitch information more than 5 days out of date. Disconnecting Twitch for User {UserId}", userId);
                         }
                     }
                 }
@@ -87,7 +96,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Failed to validate access token for user {UserId}", userId);
+                _logger.LogError(ex, "Failed to validate access token for user {UserId}", userId);
             }
             if (validation == null)
             {
@@ -99,14 +108,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex, "Failed to refresh access token for user {UserId}", userId);
+                    _logger.LogError(ex, "Failed to refresh access token for user {UserId}", userId);
                     throw;
                 }
             }
 
             var twitchUser = await GetUserInfoAsync(accessToken);
             var isSubscribed = await IsSubscribedAsync(accessToken, twitchUser.Id);
-            var twitchModel = await databaseService.AddOrUpdateUserTwitchAsync(userId, new TwitchDbModel()
+            var twitchModel = await _databaseService.AddOrUpdateUserTwitchAsync(userId, new TwitchDbModel()
             {
                 LastUpdated = DateTime.UtcNow,
                 AccessToken = accessToken,
@@ -116,7 +125,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 TwitchProfileImageUrl = twitchUser.ProfileImageUrl,
                 IsSubscribed = isSubscribed
             });
-            _logger.Information("Refreshed twitch info for user {UserId} under twitch name {TwitchDisplayName}", userId, twitchModel.TwitchDisplayName);
+            _logger.LogInformation("Refreshed twitch info for user {UserId} under twitch name {TwitchDisplayName}", userId, twitchModel.TwitchDisplayName);
             return twitchModel;
         }
 
@@ -143,7 +152,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Failed to check subscription for twitch user {UserId}", userId);
+                _logger.LogError(ex, "Failed to check subscription for twitch user {UserId}", userId);
                 return false;
             }
         }

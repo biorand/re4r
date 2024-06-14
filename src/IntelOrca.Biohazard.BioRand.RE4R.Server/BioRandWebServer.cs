@@ -1,75 +1,97 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using EmbedIO;
-using EmbedIO.Actions;
-using EmbedIO.Net;
-using EmbedIO.WebApi;
-using IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers;
-using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using MimeKit;
 using Serilog;
-using Swan.Logging;
-using ILogger = Serilog.ILogger;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server
 {
-    public class BioRandWebServer : IDisposable
+    public class BioRandWebServer : IAsyncDisposable
     {
-        private readonly ILogger _logger;
+        private readonly WebApplication _app;
 
-        public BioRandWebServer()
+        private BioRandWebServer(WebApplication app)
         {
-            _logger = ConfigureLogger();
+            _app = app;
         }
 
-        public void Dispose()
+        public static Task<BioRandWebServer> Create()
         {
+            var builder = WebApplication.CreateBuilder();
+            ConfigureLogger(builder);
+
+            // Add services to the container.
+            var config = Re4rConfiguration.GetDefault();
+            builder.Services.AddSingleton<Re4rConfiguration>(config);
+            builder.Services.AddSingleton<BioRandService>();
+            builder.Services.AddSingleton<DatabaseService>();
+            builder.Services.AddSingleton<EmailService>();
+            builder.Services.AddSingleton<TwitchService>();
+            builder.Services.AddSingleton<RandomizerService>();
+            builder.Services.AddSingleton<UrlService>();
+            builder.Services.AddSingleton<UserService>();
+
+            builder.Services.AddSingleton<AuthService>();
+
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddControllers().AddApplicationPart(typeof(BioRandWebServer).Assembly);
+
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
+            var app = builder.Build();
+
+            app.UseCors(policy =>
+            {
+                policy.AllowAnyOrigin();
+                policy.AllowAnyHeader();
+                policy.AllowAnyMethod();
+            });
+
+            // Configure the HTTP request pipeline.
+            // if (_app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.MapControllers();
+
+            app.Map("/", context =>
+            {
+                context.Response.Redirect("/swagger");
+                return Task.CompletedTask;
+            });
+
+            app.Map("/favicon.ico", async context =>
+            {
+                context.Response.ContentType = MimeTypes.GetMimeType("favicon.ico");
+                await context.Response.Body.WriteAsync(Resources.favicon);
+            });
+
+            return Task.FromResult(new BioRandWebServer(app));
+        }
+
+        public ValueTask DisposeAsync()
+        {
+            return _app.DisposeAsync();
         }
 
         public async Task RunAsync(string url)
         {
-            _logger.Information("Creating web server {Url}", url);
-            using var server = await CreateWebServer(url);
-            await server.RunAsync();
+            var bioRandService = _app.Services.GetService<BioRandService>();
+            if (bioRandService != null)
+            {
+                await bioRandService.Initialize();
+            }
+            await _app.RunAsync(url);
         }
 
-        private async Task<WebServer> CreateWebServer(string url)
-        {
-            EndPointManager.UseIpv6 = false;
-
-            var version = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
-            var config = Re4rConfiguration.GetDefault();
-            var randomizerService = new RandomizerService();
-            var dbService = await DatabaseService.CreateDefault();
-            var emailService = new EmailService(config.Email);
-            var twitchService = new TwitchService(dbService, config.Twitch!);
-            var urlService = new UrlService(config.Url);
-
-            await CreateDefaultProfiles(randomizerService, dbService);
-
-            var server = new WebServer(o => o
-                .WithUrlPrefix(url)
-                .WithMode(HttpListenerMode.EmbedIO))
-                .WithLocalSessionManager()
-                .WithCors()
-                .WithWebApi("/auth", SerializationCallback, m => m.WithController(() => new AuthController(dbService, emailService, twitchService)))
-                .WithWebApi("/profile", SerializationCallback, m => m.WithController(() => new ProfileController(dbService, twitchService)))
-                .WithWebApi("/rando", SerializationCallback, m => m.WithController(() => new RandoController(dbService, twitchService, randomizerService, urlService)))
-                .WithWebApi("/user", SerializationCallback, m => m.WithController(() => new UserController(dbService, emailService, twitchService, urlService)))
-                .WithWebApi("/webhook", SerializationCallback, m => m.WithController(() => new WebHookController(dbService, twitchService, config.Kofi)))
-                .WithWebApi("/", SerializationCallback, m => m.WithController(() => new MainController(dbService, twitchService, randomizerService)))
-                .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { Message = "Error" })));
-
-            // Listen for state changes.
-            server.StateChanged += (s, e) => $"WebServer New State - {e.NewState}".Info();
-            return server;
-        }
-
-        private static ILogger ConfigureLogger()
+        private static void ConfigureLogger(WebApplicationBuilder builder)
         {
             var logDirectory = Re4rConfiguration.GetLogDirectory();
             var logFile = Path.Combine(logDirectory, "api.biorand-re4r.log");
@@ -84,87 +106,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server
                 .WriteTo.Console()
                 .WriteTo.File(logFile, rollingInterval: RollingInterval.Day)
                 .CreateLogger();
-            return Log.ForContext<BioRandWebServer>();
-        }
 
-        private async Task CreateDefaultProfiles(RandomizerService randomizerService, DatabaseService dbService)
-        {
-            // Default profile
-            var randomizerConfig = await randomizerService.GetConfigAsync();
-            var defaultConfig = randomizerConfig.GetDefault();
-
-            var profile = await dbService.GetDefaultProfile();
-            if (profile == null)
-            {
-                var newProfile = new ProfileDbModel()
-                {
-                    UserId = dbService.SystemUserId,
-                    Created = DateTime.UtcNow,
-                    Name = "Default",
-                    Description = "The default profile.",
-                    Public = true
-                };
-
-                _logger.Information("Creating profile {Name} for default config", newProfile.Name);
-                await dbService.CreateProfileAsync(newProfile, defaultConfig);
-            }
-            else
-            {
-                profile.Description = "The default profile.";
-                profile.Public = true;
-
-                _logger.Information("Updating profile {Id} {Name} to default config", profile.Id, profile.Name);
-                await dbService.UpdateProfileAsync(profile);
-                await dbService.SetProfileConfigAsync(profile.Id, defaultConfig);
-            }
-        }
-
-        public static async Task SerializationCallback(IHttpContext context, object? data)
-        {
-            var content = JsonSerializer.SerializeToUtf8Bytes(data,
-                new JsonSerializerOptions()
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                });
-            context.Response.ContentEncoding = new UTF8Encoding(false);
-            context.Response.ContentType = MimeType.Json;
-            context.Response.ContentLength64 = content.LongLength;
-
-            using var stream = context.OpenResponseStream(preferCompression: false);
-            await stream.WriteAsync(content).ConfigureAwait(false);
-        }
-
-        private async Task StringContent(IHttpContext context, string contentType, string content)
-        {
-            var encoding = new UTF8Encoding(false);
-            var contentBytes = encoding.GetBytes(content);
-
-            context.Response.ContentType = contentType;
-            context.Response.ContentLength64 = contentBytes.LongLength;
-            using var writer = context.OpenResponseStream(preferCompression: false);
-            await writer.WriteAsync(contentBytes);
-        }
-
-        private async Task BinaryContent(IHttpContext context, string contentType, byte[] content)
-        {
-            context.Response.ContentType = contentType;
-            context.Response.ContentEncoding = null;
-            context.Response.ContentLength64 = content.LongLength;
-            using var writer = context.OpenResponseStream(preferCompression: false);
-            await writer.WriteAsync(content);
-        }
-
-        private string GetString(string fileName)
-        {
-#if DEBUG
-            var exeLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
-            var solutionLocation = Path.GetFullPath(Path.Combine(exeLocation, "..", "..", "..", "..", ".."));
-            var wwwroot = Path.Combine(solutionLocation, "src", "IntelOrca.Biohazard.BioRand.RE4R.Server", "wwwroot");
-            var path = Path.Combine(wwwroot, fileName);
-            return File.ReadAllText(path);
-#else
-            return Resources.ResourceManager.GetString(Path.GetFileNameWithoutExtension(fileName)) ?? "";
-#endif
+            builder.Host.UseSerilog();
         }
     }
 }

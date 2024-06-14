@@ -1,7 +1,10 @@
+@HostAddress = http://localhost:10285
+@Authorization = Bearer 56bcb5e55dd8a599d623bc7a60a102e6
+
 GET http://localhost:10285/user/ HTTP/1.1
-Authorization: Bearer 3c1cdd28dc812b99c4c5245c38c92550
+Authorization: {{Authorization}}
 
 ###
 
 GET http://localhost:10285/user/?sort=Name HTTP/1.1
-Authorization: Bearer 3c1cdd28dc812b99c4c5245c38c92550
+Authorization: {{Authorization}}

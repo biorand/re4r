@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿#if false
+using System.Reflection;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
@@ -46,3 +47,4 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         }
     }
 }
+#endif

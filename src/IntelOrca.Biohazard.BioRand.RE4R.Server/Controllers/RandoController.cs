@@ -1,48 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
-using EmbedIO;
-using EmbedIO.Routing;
-using EmbedIO.WebApi;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
-using Serilog;
-using Swan;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using MimeKit;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
-    internal class RandoController : BaseController
+    [ApiController]
+    [Route("rando")]
+    public class RandoController(
+        AuthService authService,
+        DatabaseService db,
+        RandomizerService randomizer,
+        UrlService urlService,
+        ILogger<RandoController> logger) : ControllerBase
     {
-        private readonly DatabaseService _db;
-        private readonly RandomizerService _randomizer;
-        private readonly UrlService _urlService;
-        private readonly ILogger _logger;
-
-        public RandoController(DatabaseService db, TwitchService twitchService, RandomizerService randomizer, UrlService urlService) : base(db, twitchService)
+        [HttpPost("generate")]
+        public async Task<object> GenerateAsync([FromBody] GenerateRequest request)
         {
-            _db = db;
-            _randomizer = randomizer;
-            _urlService = urlService;
-            _logger = Log.ForContext<RandoController>();
-        }
-
-        [Route(HttpVerbs.Post, "/generate")]
-        public async Task<object> GenerateAsync([MyJsonData] GenerateRequest request)
-        {
-            var user = await GetAuthorizedUserAsync();
+            var user = await authService.GetAuthorizedUserAsync();
             if (user == null)
-                return UnauthorizedResult();
+                return Unauthorized();
 
-            var profile = await _db.GetProfileAsync(request.ProfileId, user.Id);
+            var profile = await db.GetProfileAsync(request.ProfileId, user.Id);
             if (profile == null)
-                return NotFoundResult();
+                return NotFound();
 
             var config = RandomizerConfigurationDefinition.ProcessConfig(request.Config);
             var configJson = config.ToJson(indented: false);
 
-            var randoConfig = await _db.GetOrCreateRandoConfig(request.ProfileId, configJson);
-            var rando = await _db.CreateRando(new RandoDbModel()
+            var randoConfig = await db.GetOrCreateRandoConfig(request.ProfileId, configJson);
+            var rando = await db.CreateRando(new RandoDbModel()
             {
                 Created = DateTime.UtcNow,
                 Version = ChainsawRandomizerFactory.Default.GitHash,
@@ -50,39 +46,39 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 UserId = user.Id,
                 ConfigId = randoConfig.Id
             });
-            await _db.UpdateSeedCount(request.ProfileId);
+            await db.UpdateSeedCount(request.ProfileId);
 
-            _logger.Information("User [{UserId}]{UserName} generatating rando ProfileId = {ProfileId} ProfileName = {ProfileName} Seed = {Seed}",
+            logger.LogInformation("User [{UserId}]{UserName} generatating rando ProfileId = {ProfileId} ProfileName = {ProfileName} Seed = {Seed}",
                 user.Id, user.Name, request.ProfileId, profile.Name, request.Seed);
-            var result = await _randomizer.GenerateAsync(
+            var result = await randomizer.GenerateAsync(
                 (ulong)rando.Id,
                 profile.Name,
                 profile.Description,
                 profile.UserName,
                 request.Seed,
                 config);
-            _logger.Information("User [{UserId}]{UserName} generated rando {RandoId} ProfileId = {ProfileId} Seed = {Seed}",
+            logger.LogInformation("User [{UserId}]{UserName} generated rando {RandoId} ProfileId = {ProfileId} Seed = {Seed}",
                 user.Id, user.Name, result.Id, request.ProfileId, result.Seed);
             return new
             {
                 result = "success",
                 id = result.Id,
                 seed = result.Seed,
-                downloadUrl = _urlService.GetApiUrl($"rando/{result.Id}/download"),
-                downloadUrlMod = _urlService.GetApiUrl($"rando/{result.Id}/download?mod=true")
+                downloadUrl = urlService.GetApiUrl($"rando/{result.Id}/download"),
+                downloadUrlMod = urlService.GetApiUrl($"rando/{result.Id}/download?mod=true")
             };
         }
 
-        [Route(HttpVerbs.Get, "/history")]
+        [HttpGet("history")]
         public async Task<object> GetHistoryAsync(
-            [QueryField] string? sort = null,
-            [QueryField] string? order = null,
-            [QueryField] string? user = null,
-            [QueryField] int page = 1)
+            [FromQuery] string? sort = null,
+            [FromQuery] string? order = null,
+            [FromQuery] string? user = null,
+            [FromQuery] int page = 1)
         {
-            var authorizedUser = await GetAuthorizedUserAsync();
+            var authorizedUser = await authService.GetAuthorizedUserAsync();
             if (authorizedUser == null)
-                return UnauthorizedResult();
+                return Unauthorized();
 
             var viewerUserId = authorizedUser.Role < UserRoleKind.Administrator
                 ? authorizedUser.Id
@@ -90,9 +86,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             int? filterUserId = null;
             if (user != null)
             {
-                var filterUser = await _db.GetUserAsync(user);
+                var filterUser = await db.GetUserAsync(user);
                 if (filterUser == null)
-                    return NotFoundResult();
+                    return NotFound();
 
                 filterUserId = filterUser.Id;
             }
@@ -107,7 +103,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             }
 
             var itemsPerPage = 25;
-            var randos = await _db.GetRandosAsync(
+            var randos = await db.GetRandosAsync(
                 filterUserId,
                 viewerUserId,
                 SortOptions.FromQuery(sort, order, "Created"),
@@ -123,7 +119,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 rando.UserId,
                 rando.UserName,
                 UserAvatarUrl = GetAvatarUrl(rando.UserEmail ?? ""),
-                Created = rando.Created.ToUnixEpochDate(),
+                Created = rando.Created.ToUnixTimeSeconds(),
                 rando.Version,
                 rando.ProfileId,
                 rando.ProfileName,
@@ -134,25 +130,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             };
         }
 
-        [Route(HttpVerbs.Get, "/stats")]
+        [HttpGet("stats")]
         public async Task<object> GetStatsAsync()
         {
             return new
             {
-                RandoCount = await _db.CountRandos(),
-                ProfileCount = await _db.CountProfiles(),
-                UserCount = await _db.CountUsers(),
+                RandoCount = await db.CountRandos(),
+                ProfileCount = await db.CountProfiles(),
+                UserCount = await db.CountUsers(),
             };
         }
 
-        [Route(HttpVerbs.Get, "/{randoId}/download")]
-        public async Task DownloadAsync(long randoId, [QueryField] bool mod)
+        [HttpGet("{randoId}/download")]
+        public object Download(long randoId, [FromQuery] bool mod)
         {
-            var result = _randomizer.Find((ulong)randoId);
+            var result = randomizer.Find((ulong)randoId);
             if (result == null)
             {
-                UnauthorizedResult();
-                return;
+                return Unauthorized();
             }
 
             string contentName;
@@ -168,11 +163,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 contentData = result.ZipFile;
             }
 
-            Response.ContentType = MimeType.Default;
-            Response.ContentLength64 = contentData.LongLength;
-            Response.ContentEncoding = null;
-            Response.Headers["Content-Disposition"] = $"attachment; filename=\"{contentName}";
-            await Response.OutputStream.WriteAsync(contentData);
+            return File(contentData, MimeTypes.GetMimeType(contentName));
+        }
+
+        private static string GetAvatarUrl(string email)
+        {
+            var inputBytes = Encoding.ASCII.GetBytes(email.ToLower());
+            var hashBytes = SHA256.HashData(inputBytes);
+            var hashString = Convert.ToHexString(hashBytes).ToLowerInvariant();
+            return $"https://www.gravatar.com/avatar/{hashString}";
+        }
+
+        private object ResultListResult<TResult, TMapped>(
+            int page,
+            int itemsPerPage,
+            LimitedResult<TResult> result,
+            Func<TResult, TMapped> selector)
+        {
+            return new
+            {
+                Page = page,
+                PageCount = (result.Total + itemsPerPage - 1) / itemsPerPage,
+                TotalResults = result.Total,
+                PageStart = result.From,
+                PageEnd = result.To,
+                PageResults = result.Results.Select(selector).ToArray()
+            };
         }
 
         public class GenerateRequest

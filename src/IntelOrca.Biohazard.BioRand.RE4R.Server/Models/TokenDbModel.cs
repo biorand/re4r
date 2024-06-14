@@ -4,7 +4,7 @@ using SQLite;
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
 {
     [Table("token")]
-    internal class TokenDbModel
+    public class TokenDbModel
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
