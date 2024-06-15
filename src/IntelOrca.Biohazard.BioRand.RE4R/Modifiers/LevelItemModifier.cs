@@ -214,10 +214,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return null;
 
             var index = -1;
-            var valuableOrder = new[] { "bawk", "ashley", "smallkey", "long", "key", "display", "chest" };
+            var valuableOrder = new[] { "boss", "bawk", "ashley", "smallkey", "long", "key", "display", "chest" };
             foreach (var v in valuableOrder)
             {
-                if (rng.NextProbability(75))
+                if (v == "boss" || rng.NextProbability(75))
                 {
                     index = items.FindIndex(x => x.Valuable == v);
                     if (index != -1)

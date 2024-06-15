@@ -153,7 +153,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         .SelectMany(x => x.EnemySpawns)
                         .Where(x => !x.Enemy.Kind.NoItemDrop)
                         .Where(x => !x.HasKeyItem)
-                        .Where(x => x.Guid != new Guid("a61c62f3-52e7-4d78-a167-c99b84fcada9")) // Mendez (phase 1)
+                        .Where(x => x.OriginalEnemy.Kind.Key != "mendez_2") // Mendez (phase 1)
+                        .Where(x => x.OriginalEnemy.Kind.Key != "mendez_3") // Mendez (phase 2)
+                        .Where(x => x.OriginalEnemy.Kind.Key != "krauser_2") // Krauser
                         .ToImmutableArray();
 
                     if (ammoOnlyAvailableWeapons)
@@ -329,7 +331,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var spawn = spawnsLeft[j];
                 spawnsLeft.RemoveAt(j);
 
-                var classNumber = spawn.ChosenClass?.Class ?? 5;
+                var classNumber = spawn.ChosenClass?.Class ?? 1;
                 spawn.Enemy.ItemDrop = randomizer.ItemRandomizer.GetRandomTreasure(rng, classNumber);
                 logger.LogLine(spawn.Guid, spawn.Enemy.Kind, spawn.Enemy.ItemDrop!);
             }

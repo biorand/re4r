@@ -70,7 +70,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var numCharms = randomizer.GetConfigOption("valuable-limit-charm", 0);
 
             var bag4 = new EndlessBag<int>(rng, Enumerable.Range(1, 4));
-            var bag5_12 = new EndlessBag<int>(rng, Enumerable.Range(5, 8));
+            var bag5_11 = new EndlessBag<int>(rng, Enumerable.Range(5, 7));
             var bag14 = new EndlessBag<int>(rng, Enumerable.Range(1, 14));
             foreach (var kind in _kinds)
             {
@@ -83,7 +83,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     }
                     for (var i = 0; i < 6; i++)
                     {
-                        AddItem(bag5_12.Next(), itemDefinition);
+                        AddItem(bag5_11.Next(), itemDefinition);
                     }
                 }
                 else if (kind == ItemKinds.CaseSize)

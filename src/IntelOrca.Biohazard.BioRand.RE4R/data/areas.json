@@ -8385,7 +8385,17 @@
         }
       ]
     },
-    { "chapter": 6, "path": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_001_itemdata.user.2" },
+    {
+      "chapter": 6,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_001.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_001_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,34,268", // Mendez false eye after Mendez boss
+          "valuable": "boss"
+        }
+      ]
+    },
     {
       "chapter": 6,
       "path": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47.scn.20",
@@ -8678,7 +8688,17 @@
         }
       ]
     },
-    { "chapter": 14, "path": "natives/stm/_chainsaw/leveldesign/location/loc65/item_loc65.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc65/item_loc65_itemdata.user.2" },
+    {
+      "chapter": 14,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc65/item_loc65.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc65/item_loc65_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,68,3", // Fighting knife from Krauser
+          "valuable": "boss"
+        }
+      ]
+    },
     {
       "chapter": 15,
       "path": "natives/stm/_chainsaw/leveldesign/location/loc66/item_loc66.scn.20",
