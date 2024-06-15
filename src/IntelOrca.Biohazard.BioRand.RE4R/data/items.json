@@ -278,6 +278,7 @@
     {
       "name": "Broken Knife",
       "kind": "weapon",
+      "class": "knife",
       "id": 117604800
     },
     {

@@ -194,25 +194,41 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
-            group = page.CreateGroup("Weapons");
-            group.Items.Add(new GroupItem()
+
+            foreach (var x in new[] { "Primary", "Secondary" })
             {
-                Id = $"inventory-weapon-primary",
-                Label = "Primary Weapon",
-                Description = "The primary weapon you start off with in your inventory.",
-                Type = "dropdown",
-                Options = [.. ItemClasses.StartingWeapons],
-                Default = ItemClasses.Handgun
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"inventory-weapon-secondary",
-                Label = "Secondary Weapon",
-                Description = "An additional weapon you start off with in your inventory.",
-                Type = "dropdown",
-                Options = [.. ItemClasses.StartingWeapons],
-                Default = ItemClasses.Random
-            });
+                group = page.CreateGroup($"{x} Weapon");
+                foreach (var sw in ItemClasses.StartingWeapons)
+                {
+                    group.Items.Add(new GroupItem()
+                    {
+                        Id = $"inventory-weapon-{x.ToLowerInvariant()}-{sw}",
+                        Label = sw.ToTitleCase(),
+                        Type = "switch",
+                        Default = true
+                    });
+                }
+            }
+
+
+            // group.Items.Add(new GroupItem()
+            // {
+            //     Id = $"inventory-weapon-primary",
+            //     Label = "Primary Weapon",
+            //     Description = "The primary weapon you start off with in your inventory.",
+            //     Type = "dropdown",
+            //     Options = [.. ItemClasses.StartingWeapons],
+            //     Default = ItemClasses.Handgun
+            // });
+            // group.Items.Add(new GroupItem()
+            // {
+            //     Id = $"inventory-weapon-secondary",
+            //     Label = "Secondary Weapon",
+            //     Description = "An additional weapon you start off with in your inventory.",
+            //     Type = "dropdown",
+            //     Options = [.. ItemClasses.StartingWeapons],
+            //     Default = ItemClasses.Random
+            // });
 
             page = configDefinition.CreatePage("Items");
             group = page.CreateGroup("");

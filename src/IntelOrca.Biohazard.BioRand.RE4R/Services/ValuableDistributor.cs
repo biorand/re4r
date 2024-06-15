@@ -29,8 +29,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         private void RandomizeStartLoadout(ItemRandomizer itemRandomizer, Rng rng)
         {
-            var primaryWeaponKind = randomizer.GetConfigOption("inventory-weapon-primary", "handgun")!;
-            var secondaryWeaponKind = randomizer.GetConfigOption("inventory-weapon-secondary", "random")!;
+            var primaryWeaponKind = GetWeaponKind("inventory-weapon-primary", rng);
+            var secondaryWeaponKind = GetWeaponKind("inventory-weapon-secondary", rng);
             var primaryWeaponDefinition = itemRandomizer.GetRandomWeapon(rng, primaryWeaponKind, allowReoccurance: false);
             var secondaryWeaponDefinition = itemRandomizer.GetRandomWeapon(rng, secondaryWeaponKind, allowReoccurance: false);
             AddItem(0, primaryWeaponDefinition);
@@ -48,6 +48,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     }
                 }
             }
+        }
+
+        private string GetWeaponKind(string key, Rng rng)
+        {
+            var classes = new List<string>();
+            foreach (var sw in ItemClasses.StartingWeapons)
+            {
+                var fullKey = $"{key}-{sw}";
+                var value = randomizer.GetConfigOption(fullKey, true);
+                if (value)
+                {
+                    classes.Add(sw);
+                }
+            }
+            return rng.Next(classes);
         }
 
         private void RandomizeChapters(ItemRandomizer itemRandomizer, Rng rng)

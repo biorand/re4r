@@ -27,16 +27,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         public ItemDefinition? GetRandomWeapon(Rng rng, string? classification = null, bool allowReoccurance = true)
         {
-            var weaponKinds = new[] {
-                ItemClasses.None, ItemClasses.Handgun, ItemClasses.Shotgun,
-                ItemClasses.Rifle, ItemClasses.Smg, ItemClasses.Magnum,
-                ItemClasses.Bolt };
-
             if (classification == ItemClasses.None)
                 return null;
-
-            if (classification == ItemClasses.Random)
-                classification = rng.Next(weaponKinds);
 
             return GetRandomItemDefinition(rng, ItemKinds.Weapon, classification, allowReoccurance);
         }

@@ -4,9 +4,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public static class ItemClasses
     {
-        public const string None = "";
-        public const string Random = "random";
-
+        public const string None = "none";
         public const string Handgun = "handgun";
         public const string Shotgun = "shotgun";
         public const string Smg = "smg";
@@ -17,6 +15,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public const string Special = "special";
 
         public static ImmutableArray<string> StartingWeapons { get; } =
-            [None, Random, Handgun, Shotgun, Smg, Magnum, Rifle, Bolt];
+            [None, Handgun, Shotgun, Smg, Magnum, Rifle, Bolt];
     }
 }
