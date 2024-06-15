@@ -8405,29 +8405,172 @@
         }
       ]
     },
-    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_000.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_000_itemdata.user.2" },
+    {
+      "chapter": 7,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_000.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_000_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,11,250", // Vintage compass in chest (castle start)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,11,251", // Elegant Bangle in chest (castle catapults)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,11,253", // Elegant Perfume Bottle in chest (castle audience chamber)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,11,256", // Gold Bangle in chest (castle audience chamber upstairs)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,11,443", // Golden Hourglass in chest (castle audience chamber)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,11,475", // Gold Bar in small key drawer (castle audience chamber)
+          "valuable": "smallkey"
+        },
+        {
+          "contextId": "2,0,11,397", // Justitia Statue in cube box (castle audience chamber)
+          "valuable": "key",
+          "chapter": 9
+        }
+      ]
+    },
     { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_001_itemdata.user.2" },
     { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_002.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_002_itemdata.user.2" },
     { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_003.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_003_itemdata.user.2" },
     { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_004.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_004_itemdata.user.2" },
     { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_005.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_005_itemdata.user.2" },
     { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_007.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_007_itemdata.user.2" },
-    { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_000.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_000_itemdata.user.2" },
+    {
+      "chapter": 8,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_000.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_000_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,11,374", // Mirror with Pearls & Rubies in chest (wine cellar)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,11,272", // Extravagant Clock in chest (bindery)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,11,273", // Brass Pocket Watch in small key drawer (bindery)
+          "valuable": "smallkey"
+        },
+        {
+          "contextId": "2,0,11,271", // Ornate Necklace in chest (battlements)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,11,274", // Emerald in chest (battlements)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,11,399", // Ornate Beetle in small key drawer (battlements)
+          "valuable": "smallkey"
+        },
+        {
+          "contextId": "2,0,11,399", // Elegant Chessboard in chest (maze)
+          "valuable": "chest",
+          "chapter": 9
+        },
+        {
+          "contextId": "2,0,11,399", // Depraved Idol in chest (wine cellar)
+          "valuable": "ashley",
+          "chapter": 9
+        }
+      ]
+    },
     { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_002.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_002_itemdata.user.2" },
     { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_003.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_003_itemdata.user.2" },
     { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_004.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_004_itemdata.user.2" },
     { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_006.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_006_itemdata.user.2" },
-    { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_000.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_000_itemdata.user.2" },
+    {
+      "chapter": 9,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_000.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_000_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,11,399", // Butterfly Lamp in cube box (great hall)
+          "valuable": "key"
+        },
+        {
+          "contextId": "2,0,11,452", // Yellow Diamond in chest (gallery)
+          "valuable": "chest"
+        }
+      ]
+    },
     { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_002.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_002_itemdata.user.2" },
     { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_003.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_003_itemdata.user.2" },
     { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_004.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_004_itemdata.user.2" },
     { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_005.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_005_itemdata.user.2" },
-    { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc53/item_loc53.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc53/item_loc53_itemdata.user.2" },
-    { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_000.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_000_itemdata.user.2" },
+    {
+      "chapter": 10,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc53/item_loc53.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc53/item_loc53_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,11,406", // Elegant Perfume Bottle in chest (library)
+          "valuable": "chest",
+          "include": [ "treasure" ]
+        },
+        {
+          "contextId": "2,0,11,402", // Sapphire in chest (library)
+          "valuable": "chest",
+          "include": [ "treasure" ]
+        },
+        {
+          "contextId": "2,0,11,400", // Emerald in chest (mausoleum)
+          "valuable": "chest",
+          "include": [ "treasure" ]
+        },
+        {
+          "contextId": "2,0,11,394", // CQBR Assault Rifle in cube box (library)
+          "valuable": "key"
+        },
+        {
+          "contextId": "2,0,11,403", // Golden Lynx in cube box (library)
+          "valuable": "key"
+        }
+      ]
+    },
+    {
+      "chapter": 10,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_000.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_000_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,11,298", // Ornate Beetle in chest (ballroom)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,11,441", // Gold chicken egg in cube box (throne room)
+          "valuable": "key",
+          "chapter": 12
+        }
+      ]
+    },
     { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_001_itemdata.user.2" },
     { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_002.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_002_itemdata.user.2" },
     { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_003.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_003_itemdata.user.2" },
-    { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_004.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_004_itemdata.user.2" },
+    {
+      "chapter": 10,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_004.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_004_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,77,16", // Yellow Diamond in chest (verdudgo lab)
+          "valuable": "chest"
+        }
+      ]
+    },
     { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_005.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_005_itemdata.user.2" },
     {
       "chapter": 11,
@@ -8435,12 +8578,42 @@
       "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc55/item_loc55_itemdata.user.2",
       "items": [
         {
-          "contextId": "2,0,68,27", // Respawning boot knife
+          "contextId": "2,0,35,102", // Golden Hourglass in chest (mines)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,34,165", // Flagon in chest (stopover)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,17,338", // Gold bar in chest (hive)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,68,27", // Respawning boot knife (1st Krauser fight)
           "include": []
         }
       ]
     },
-    { "chapter": 12, "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_000.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_000_itemdata.user.2" },
+    {
+      "chapter": 12,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_000.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_000_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,11,375", // Gold bar in chest (clocktower)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,11,377", // Mirror with Pearls & Rubies in chest (clocktower)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,11,378", // Extravagant Clock in chest (clocktower)
+          "valuable": "chest"
+        }
+      ]
+    },
     { "chapter": 12, "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001_itemdata.user.2" },
     { "chapter": 12, "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_itemdata.user.2" },
     { "chapter": 16, "path": "natives/stm/_chainsaw/leveldesign/location/loc59/item_loc59.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc59/item_loc59_itemdata.user.2" },
