@@ -8223,7 +8223,26 @@
     { "chapter": 2, "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/item_cp10_chp1_2.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/item_cp10_chp1_2_itemdata.user.2" },
     { "chapter": 4, "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/item_cp10_chp2_1.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/item_cp10_chp2_1_itemdata.user.2" },
     { "chapter": 5, "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/item_cp10_chp2_2.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/item_cp10_chp2_2_itemdata.user.2" },
-    { "chapter": 1, "path": "natives/stm/_chainsaw/leveldesign/location/loc40/item_loc40.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc40/item_loc40_itemdata.user.2" },
+    {
+      "chapter": 1,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc40/item_loc40.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc40/item_loc40_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,12,192", // W-870 in frame
+          "valuable": "display"
+        },
+        {
+          "contextId": "2,0,12,359", // Vintage Compass in small key drawer
+          "valuable": "smallkey"
+        },
+        {
+          "contextId": "2,0,12,452", // Elegant Bangle in locked barn (village)
+          "valuable": "ashley",
+          "chapter": 5
+        }
+      ]
+    },
     {
       "chapter": 1,
       "path": "natives/stm/_chainsaw/leveldesign/location/loc43/item_loc43.scn.20",
@@ -8236,6 +8255,29 @@
         {
           "contextId": "2,0,12,468", // Dirty Pearl Pendant
           "include": []
+        },
+        {
+          "contextId": "2,0,12,238", // Flagon
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,12,356", // Pearl Bangle in Lakeside wayshrine box
+          "valuable": "key",
+          "chapter": 4
+        },
+        {
+          "contextId": "2,0,12,384", // Gold Bar in Lakeside cabin small key drawer
+          "valuable": "smallkey"
+        },
+        {
+          "contextId": "2,0,12,329", // Red Gemstone Ring where Luis was found
+          "valuable": "long",
+          "chapter": 4
+        },
+        {
+          "contextId": "2,0,12,355", // Antique Pipe in wayshrine box in farm
+          "valuable": "key",
+          "chapter": 5
         }
       ]
     },
@@ -8267,13 +8309,102 @@
         {
           "contextId": "2,0,12,466", // Dirty Pearl Pendant
           "include": []
+        },
+        {
+          "contextId": "2,0,12,264", // Elegant Mask (small key drawer in factory)
+          "valuable": "smallkey"
+        },
+        {
+          "contextId": "2,0,12,417", // Ruby in chest (Dynamite valley)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,12,278", // Sapphire in chest (After factory medallion door)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,12,457", // Antique Camera (In Mendez house attic)
+          "valuable": "ashley",
+          "chapter": 5
         }
       ]
     },
-    { "chapter": 3, "path": "natives/stm/_chainsaw/leveldesign/location/loc45/item_loc45.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc45/item_loc45_itemdata.user.2" },
-    { "chapter": 3, "path": "natives/stm/_chainsaw/leveldesign/location/loc46/item_loc46.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc46/item_loc46_itemdata.user.2" },
+    {
+      "chapter": 3,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc45/item_loc45.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc45/item_loc45_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,12,448", // Elegant Headdress in chest (Church basement)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,12,326", // Antique Pipe in chest (Fishing village)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,12,338", // Depraved Idol in hex puzzle (Del Lago docks)
+          "valuable": "key",
+          "chapter": 4
+        },
+        {
+          "contextId": "2,0,12,328", // Butterfly Lamp in wayshrine box (Quarry)
+          "valuable": "key",
+          "chapter": 4
+        },
+        {
+          "contextId": "2,0,12,378", // Yellow Diamond in small key drawer (church basement)
+          "valuable": "smallkey"
+        }
+      ]
+    },
+    {
+      "chapter": 3,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc46/item_loc46.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc46/item_loc46_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,12,374", // Splendid Bangle in wayshrine box (Bottom of cliffside)
+          "valuable": "key",
+          "chapter": 4
+        },
+        {
+          "contextId": "2,0,12,391", // Alexandrite in chest (Shipwreck)
+          "valuable": "chest",
+          "chapter": 4
+        },
+        {
+          "contextId": "2,0,12,388", // Red9 in chest (Shipwreck)
+          "valuable": "chest",
+          "chapter": 4
+        },
+        {
+          "contextId": "2,0,12,394", // Gold chicken egg (Bawk Island)
+          "valuable": "bawk",
+          "chapter": 4
+        }
+      ]
+    },
     { "chapter": 6, "path": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_001_itemdata.user.2" },
-    { "chapter": 6, "path": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_itemdata.user.2" },
+    {
+      "chapter": 6,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc47/item_loc47_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,17,310", // Yellow Diamond in chest (valley after cabin)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,34,217", // Chalice of Atonement (valley after cabin)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,34,209", // Elegant Headdress in wayshrine box (valley after cabin)
+          "valuable": "key"
+        }
+      ]
+    },
     { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_000.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_000_itemdata.user.2" },
     { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_001_itemdata.user.2" },
     { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_002.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_002_itemdata.user.2" },

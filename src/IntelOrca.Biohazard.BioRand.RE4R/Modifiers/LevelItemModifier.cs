@@ -104,11 +104,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     var contextId = ContextId.FromRsz(instance.Get<RszInstance>("ID")!);
                     var itemInfo = area.Items?.FirstOrDefault(x => x.CtxId == contextId);
-                    var levelItem = new LevelItem(area.Chapter, contextId, oldItemDef, oldItem.Value)
+                    var levelItem = new LevelItem(itemInfo?.Chapter ?? area.Chapter, contextId, oldItemDef, oldItem.Value)
                     {
                         Include = itemInfo?.Include,
                         Exclude = itemInfo?.Exclude,
-                        IsDlc = instance.Get<bool>("ItemStatic.IsDLC")
+                        IsDlc = instance.Get<bool>("ItemStatic.IsDLC"),
+                        Valuable = itemInfo?.Valuable
                     };
                     levelItems.Add(levelItem);
                 }
@@ -145,17 +146,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var valuableItems = chapterItems
                     .Where(x => x.Exclude == null && !x.IsDlc)
                     .Shuffle(rng)
-                    .ToQueue();
+                    .ToList();
+
                 var valuables = valuableDistributor.GetItems(chapter, ItemDiscovery.Item);
+                logger.Push("Valuables");
                 foreach (var valuable in valuables)
                 {
-                    if (!valuableItems.TryDequeue(out var levelItem))
-                        continue;
+                    var levelItem = TakeRandomHighValueItem(valuableItems, rng);
+                    if (levelItem == null)
+                        break;
 
                     chapterItems.Remove(levelItem);
                     levelItem.NewItem = new Item(valuable.Definition.Id, 1);
                     LogItemChange(levelItem, logger);
                 }
+                logger.Pop();
 
                 // Treasure
                 var treasureRatio = randomizer.GetConfigOption<double>("item-treasure-drop-ratio", 0.1);
@@ -163,8 +168,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Push("Treasure");
                 for (var i = 0; i < treasureCount; i++)
                 {
-                    if (!valuableItems.TryDequeue(out var levelItem))
-                        continue;
+                    var levelItem = TakeRandomHighValueItem(valuableItems, rng);
+                    if (levelItem == null)
+                        break;
 
                     chapterItems.Remove(levelItem);
                     levelItem.NewItem = randomizer.ItemRandomizer.GetRandomTreasure(rng);
@@ -173,6 +179,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Pop();
 
                 // General items
+                logger.Push("General");
                 var generalItems = chapterItems.Shuffle(rng).ToQueue();
                 while (generalItems.TryDequeue(out var levelItem))
                 {
@@ -195,9 +202,35 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }
                 logger.Pop();
+                logger.Pop();
             }
 
             logger.Pop();
+        }
+
+        private static LevelItem? TakeRandomHighValueItem(List<LevelItem> items, Rng rng)
+        {
+            if (items.Count == 0)
+                return null;
+
+            var index = -1;
+            var valuableOrder = new[] { "bawk", "ashley", "smallkey", "long", "key", "display", "chest" };
+            foreach (var v in valuableOrder)
+            {
+                if (rng.NextProbability(75))
+                {
+                    index = items.FindIndex(x => x.Valuable == v);
+                    if (index != -1)
+                        break;
+                }
+            }
+
+            if (index == -1)
+                index = rng.Next(0, items.Count);
+
+            var result = items[index];
+            items.RemoveAt(index);
+            return result;
         }
 
         private static void LogItemChange(LevelItem levelItem, RandomizerLogger logger)
@@ -350,10 +383,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public string[]? Include { get; set; }
             public string[]? Exclude { get; set; }
             public bool IsDlc { get; set; }
+            public string? Valuable { get; set; }
             public Item? NewItem { get; set; }
 
             public bool IsKey => OriginalDefinition.Kind == ItemKinds.Key;
             public bool CanChange => !IsKey && Include?.Length != 0;
+
+            public override string ToString() => $"Chapter {chapter} {ContextId} {NewItem ?? OriginalItem}";
         }
     }
 }

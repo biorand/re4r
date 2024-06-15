@@ -32,6 +32,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public string? ContextId { get; set; }
         public string[]? Include { get; set; }
         public string[]? Exclude { get; set; }
+        public string? Valuable { get; set; }
+        public int? Chapter { get; set; }
 
         public ContextId? CtxId
         {
