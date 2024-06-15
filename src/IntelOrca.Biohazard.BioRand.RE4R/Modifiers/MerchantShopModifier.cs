@@ -182,6 +182,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     item.MaxStock = 100;
                     RandomizePrice(item, spinel: false);
                 }
+
+                var rocketLauncher = CreateAvailableItem(ItemIds.RocketLauncher);
+                rocketLauncher.InitialStock = rng.Next(0, 2);
+                rocketLauncher.StockPerChapter = rng.NextFloat(0.5f, 2);
+                rocketLauncher.MaxStock = 2;
+                RandomizePrice(rocketLauncher, spinel: false);
             }
 
             private void DistributeMiscItems()
@@ -207,6 +213,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     item.UnlockChapter = rng.Next(1, 6);
                     RandomizePrice(item, spinel: true);
                 }
+
+                var infiniteRocketLauncher = CreateAvailableItem(ItemIds.RocketLauncherInfinite);
+                infiniteRocketLauncher.UnlockChapter = rng.Next(0, 6);
+                RandomizePrice(infiniteRocketLauncher, spinel: rng.NextProbability(10));
             }
 
             private void DistributeTreasures()
@@ -400,13 +410,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     item.SpinelPrice = item.ItemDefinition.Kind switch
                     {
+                        _ when itemId == ItemIds.ExclusiveUpgradeTicket => _rewardsRng.Next(15, 40),
+                        _ when itemId == ItemIds.RocketLauncherInfinite => _rewardsRng.Next(75, 100),
+                        _ when itemId == ItemIds.RocketLauncher => _rewardsRng.Next(10, 20),
                         ItemKinds.Weapon => _rewardsRng.Next(4, 13),
                         ItemKinds.Attachment => _rewardsRng.Next(4, 13),
                         ItemKinds.CaseSize => _rewardsRng.Next(6, 13),
                         ItemKinds.Armor => _rewardsRng.Next(4, 16),
-                        _ when itemId == ItemIds.ExclusiveUpgradeTicket => _rewardsRng.Next(15, 40),
                         _ => _rewardsRng.Next(1, 4),
                     };
+                }
+                else if (itemId == ItemIds.RocketLauncherInfinite)
+                {
+                    item.BuyPrice = ((double)rng.Next(2_000_000, 5_000_000)).RoundPrice();
+                    item.SellPrice = ((double)(item.BuyPrice * 3 / 4)).RoundPrice();
+                }
+                else if (itemId == ItemIds.RocketLauncher)
+                {
+                    item.BuyPrice = ((double)rng.Next(50_000, 250_000)).RoundPrice();
+                    item.SellPrice = ((double)(item.BuyPrice * 3 / 4)).RoundPrice();
                 }
                 else
                 {
