@@ -8617,15 +8617,101 @@
     { "chapter": 12, "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001_itemdata.user.2" },
     { "chapter": 12, "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_itemdata.user.2" },
     { "chapter": 16, "path": "natives/stm/_chainsaw/leveldesign/location/loc59/item_loc59.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc59/item_loc59_itemdata.user.2" },
-    { "chapter": 13, "path": "natives/stm/_chainsaw/leveldesign/location/loc60/item_loc60.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc60/item_loc60_itemdata.user.2" },
-    { "chapter": 13, "path": "natives/stm/_chainsaw/leveldesign/location/loc61/item_loc61.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc61/item_loc61_itemdata.user.2" },
+    {
+      "chapter": 13,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc60/item_loc60.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc60/item_loc60_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,35,107", // Pearl Bangle in chest (Wharf)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,35,56", // Golden Lynx in chest (Wharf Caves)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,75,5", // Elegant Crown in chest (Guard)
+          "valuable": "chest"
+        }
+      ]
+    },
+    {
+      "chapter": 13,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc61/item_loc61.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc61/item_loc61_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,34,75", // Velvet Blue in case (Surveillance)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,34,86", // Velvet Blue in case (Utilities)
+          "valuable": "chest"
+        },
+        {
+          "contextId": "2,0,34,163", // Biosensor Scope in case (Incubation Lab)
+          "valuable": "chest"
+        }
+      ]
+    },
     { "chapter": 13, "path": "natives/stm/_chainsaw/leveldesign/location/loc62/item_loc62.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc62/item_loc62_itemdata.user.2" },
-    { "chapter": 14, "path": "natives/stm/_chainsaw/leveldesign/location/loc63/item_loc63.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc63/item_loc63_itemdata.user.2" },
-    { "chapter": 14, "path": "natives/stm/_chainsaw/leveldesign/location/loc64/item_loc64.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc64/item_loc64_itemdata.user.2" },
+    {
+      "chapter": 14,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc63/item_loc63.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc63/item_loc63_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,35,66", // Ornate Necklace in case (Waste Disposal)
+          "valuable": "chest"
+        }
+      ]
+    },
+    {
+      "chapter": 14,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc64/item_loc64.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc64/item_loc64_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,35,69", // Gold Bar (L) in chest (Campsite)
+          "valuable": "chest"
+        }
+      ]
+    },
     { "chapter": 14, "path": "natives/stm/_chainsaw/leveldesign/location/loc65/item_loc65.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc65/item_loc65_itemdata.user.2" },
-    { "chapter": 15, "path": "natives/stm/_chainsaw/leveldesign/location/loc66/item_loc66.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc66/item_loc66_itemdata.user.2" },
-    { "chapter": 16, "path": "natives/stm/_chainsaw/leveldesign/location/loc67/item_loc67.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc67/item_loc67_itemdata.user.2" },
-    { "chapter": 16, "path": "natives/stm/_chainsaw/leveldesign/location/loc68/item_loc68.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc68/item_loc68_itemdata.user.2" },
+    {
+      "chapter": 15,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc66/item_loc66.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc66/item_loc66_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,34,160", // Staff of Royalty in chest (Cliffside ruins)
+          "valuable": "chest"
+        }
+      ]
+    },
+    {
+      "chapter": 16,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc67/item_loc67.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc67/item_loc67_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,35,100", // Splendid Bangle in chest (Specimen Storage)
+          "valuable": "chest"
+        }
+      ]
+    },
+    {
+      "chapter": 16,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc68/item_loc68.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc68/item_loc68_itemdata.user.2",
+      "items": [
+        {
+          "contextId": "2,0,35,113", // Gold Ingot in chest (Final merchant)
+          "valuable": "chest"
+        }
+      ]
+    },
     {
       "chapter": 16,
       "path": "natives/stm/_chainsaw/leveldesign/location/loc69/item_loc69.scn.20",
