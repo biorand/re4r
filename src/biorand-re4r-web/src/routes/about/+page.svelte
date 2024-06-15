@@ -42,7 +42,11 @@
         >
         <Li
             ><TwitchUser user="MightyKusKus" />
-            <span class="dark:text-gray-300">- Game asset modification</span></Li
+            <span class="dark:text-gray-300">- Game asset modification (inc. Del Orca)</span></Li
+        >
+        <Li
+            ><TwitchUser user="DoubleEdger" />
+            <span class="dark:text-gray-300">- Stress testing (10x enemy stability)</span></Li
         >
     </Ul>
 
@@ -51,7 +55,6 @@
         <Li><TwitchUser user="404scamnotfound" /></Li>
         <Li><TwitchUser user="7rayD" /></Li>
         <Li><TwitchUser user="Death2024" /></Li>
-        <Li><TwitchUser user="DoubleEdger" /></Li>
         <Li><TwitchUser user="ElonNuttMusk" /></Li>
         <Li
             ><TwitchUser
