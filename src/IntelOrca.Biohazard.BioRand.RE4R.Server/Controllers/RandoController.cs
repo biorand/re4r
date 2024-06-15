@@ -163,7 +163,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 contentData = result.ZipFile;
             }
 
-            return File(contentData, MimeTypes.GetMimeType(contentName));
+            return File(contentData, MimeTypes.GetMimeType(contentName), contentName);
         }
 
         private static string GetAvatarUrl(string email)
