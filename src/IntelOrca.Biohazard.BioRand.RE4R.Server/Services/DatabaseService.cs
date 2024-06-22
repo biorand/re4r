@@ -543,6 +543,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return [.. result];
         }
 
+        public async Task<DailyDbViewModel[]> GetSeedsDaily()
+        {
+            var result = await _conn.QueryAsync<DailyDbViewModel>(@"
+                SELECT strftime('%Y-%m-%d', datetime((Created - 621355968000000000) / 10000000, 'unixepoch')) AS Day,
+                       COUNT(*) AS Value
+                FROM rando
+                WHERE Day >= date('now', '-30 days')
+                GROUP BY Day");
+            return [.. result];
+        }
+
+        public async Task<DailyDbViewModel[]> GetTotalUsersDaily()
+        {
+            var result = await _conn.QueryAsync<DailyDbViewModel>(@"
+                SELECT Day, Value
+                FROM (
+                    SELECT Day, SUM(Value) OVER (ORDER BY Day) AS Value
+                    FROM (
+                        SELECT strftime('%Y-%m-%d', datetime((Created - 621355968000000000) / 10000000, 'unixepoch')) AS Day,
+                               COUNT(*) AS Value
+                        FROM user
+                        GROUP BY Day))
+                WHERE Day >= date('now', '-30 days')");
+            return [.. result];
+        }
+
         private static async Task<LimitedResult<T>> ExecuteLimitedResult<T>(
             AsyncTableQuery<T> query,
             LimitOptions? options) where T : new()

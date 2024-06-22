@@ -3,7 +3,7 @@
     import { getUserManager } from '$lib/userManager';
     import UserBanner from './UserBanner.svelte';
     import SignUp from './auth/SignUp.svelte';
-    import Generate from './generate/Generate.svelte';
+    import Home from './home/Home.svelte';
 
     const userManager = getUserManager();
     let isSignedIn = userManager.isSignedIn();
@@ -38,7 +38,7 @@
     {#if showBanner}
         <UserBanner {role} />
     {:else}
-        <Generate />
+        <Home />
     {/if}
 {:else}
     <SignUp />
