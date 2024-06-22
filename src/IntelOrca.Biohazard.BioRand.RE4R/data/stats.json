@@ -303,6 +303,10 @@
       "dataFields": [
         "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakStrength._DurabilityMaxScale"
       ],
+      "message": "Increase durability by 1.5x.",
+      "perkMessage": "1.5x Durability",
+      "minValue": 1.5,
+      "maxValue": 4,
       "include": [
         5000, // Combat Knife
         5001, // Fighting Knife

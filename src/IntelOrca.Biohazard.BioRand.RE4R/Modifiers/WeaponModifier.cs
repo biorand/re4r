@@ -402,8 +402,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             var rateString = rateValue.ToString();
-            metaRoot.Set(messageIdField.Path, CreateMsgEntry(randomExclusive.MessageId, rateString));
-            metaRoot.Set(perksMessageIdField.Path, CreateMsgEntry(randomExclusive.PerkMessageId, rateString));
+            metaRoot.Set(messageIdField.Path, CreateMsgEntry(randomExclusive.MessageId, randomExclusive.Message, rateString));
+            metaRoot.Set(perksMessageIdField.Path, CreateMsgEntry(randomExclusive.PerkMessageId, randomExclusive.PerkMessage, rateString));
 
             metaRoot.Set(rateValueField.Path, rateValue);
             logger.LogLine($"Setting exclusive to {randomExclusive.Name} Rate = {value}");
@@ -414,9 +414,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private Guid CreateMsgEntry(Guid original, string newValue)
+        private Guid CreateMsgEntry(Guid original, string ourString, string newValue)
         {
-            var entry = _msg.Duplicate(original);
+            var entry = original == default ?
+                _msg.Create(ourString) :
+                _msg.Duplicate(original);
+
             for (var i = 0; i < entry.Langs.Count; i++)
             {
                 var oldString = entry.Langs[i];
@@ -611,6 +614,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public int[] Include { get; set; } = [];
         public Guid MessageId { get; set; }
         public Guid PerkMessageId { get; set; }
+        public string Message { get; set; } = "";
+        public string PerkMessage { get; set; } = "";
         public float MinValue { get; set; }
         public float MaxValue { get; set; }
     }
