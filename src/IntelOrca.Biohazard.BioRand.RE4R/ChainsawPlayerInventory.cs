@@ -11,10 +11,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private const string InventoryCatalogPath = "natives/stm/_chainsaw/appsystem/inventory/inventorycatalog/inventorycatalog_main.user.2";
 
         private readonly UserFile _inventoryCatalog;
+        private readonly RszInstance _root;
 
         private ChainsawPlayerInventory(UserFile inventoryCatalog)
         {
             _inventoryCatalog = inventoryCatalog;
+            _root = _inventoryCatalog.RSZ!.ObjectList[0];
         }
 
         public static ChainsawPlayerInventory FromData(FileRepository fileRepository)
@@ -98,6 +100,56 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
+        public void AssignShortcuts()
+        {
+            var directionOrder = new int[] { 3, 1, 2, 0 };
+            var items = Data[0].InventoryItems.ToArray();
+            var equips = Data[0].EquipInfos;
+            var shortcuts = Data[0].ShortcutInfos;
+            var knifeShortcut = shortcuts.First(x => x.EquipType == 1);
+            var weaponShortcuts = shortcuts
+                .Where(x => x.EquipType == 0 && x.Direction != 4)
+                .OrderBy(x => x.ShortcutType)
+                .ThenBy(x => directionOrder[x.Direction])
+                .ToQueue();
+
+            var primaryDone = false;
+            var knifeDone = false;
+            foreach (var item in items)
+            {
+                var itemId = item.Item.ItemId;
+                var itemDefinition = ItemDefinitionRepository.Default.Find(itemId);
+                if (itemDefinition == null || (itemDefinition.Kind != ItemKinds.Weapon && itemDefinition.Kind != ItemKinds.Grenade))
+                    continue;
+
+                InventoryShortcutSaveData? shortcut = null;
+                if (itemDefinition.Class == ItemClasses.Knife)
+                {
+                    if (!knifeDone)
+                    {
+                        knifeDone = true;
+                        equips[1].Id = item.Item.Id;
+                    }
+                    shortcut = knifeShortcut;
+                }
+                else
+                {
+                    if (!primaryDone)
+                    {
+                        primaryDone = true;
+                        equips[0].Id = item.Item.Id;
+                    }
+                    weaponShortcuts.TryDequeue(out shortcut);
+                }
+                if (shortcut != null)
+                {
+                    shortcut.Id = item.Item.Id;
+                    shortcut.ItemId = itemId;
+                    shortcut.ItemCount = 1;
+                }
+            }
+        }
+
         private InventoryItem CreateInventoryItem(Item item, int count = 1)
         {
             var itemRepo = ItemDefinitionRepository.Default;
@@ -135,42 +187,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public int PTAS
         {
-            get
-            {
-                var root = _inventoryCatalog.RSZ!.ObjectList[0];
-                return root.Get<int>("_PTAS");
-            }
-            set
-            {
-                var root = _inventoryCatalog.RSZ!.ObjectList[0];
-                root.SetFieldValue("_PTAS", value);
-            }
+            get => _root.Get<int>("_PTAS");
+            set => _root.SetFieldValue("_PTAS", value);
         }
 
         public int SpinelCount
         {
-            get
-            {
-                var root = _inventoryCatalog.RSZ!.ObjectList[0];
-                return root.Get<int>("_SpinelCount");
-            }
-            set
-            {
-                var root = _inventoryCatalog.RSZ!.ObjectList[0];
-                root.SetFieldValue("_SpinelCount", value);
-            }
+            get => _root.Get<int>("_SpinelCount");
+            set => _root.SetFieldValue("_SpinelCount", value);
         }
 
-        public CatalogData[] Data
-        {
-            get
-            {
-                var root = _inventoryCatalog.RSZ!.ObjectList[0];
-                return root.GetList("_Datas")
-                    .Select(x => new CatalogData((RszInstance)x!))
-                    .ToArray();
-            }
-        }
+        public CatalogData[] Data => _root
+            .GetList("_Datas")
+            .Select(x => new CatalogData((RszInstance)x!))
+            .ToArray();
 
         public sealed class CatalogData(RszInstance _instance)
         {
@@ -200,6 +230,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             public UniqueItem[] UniqueItems => _instance.GetList("UniqueInventorySaveData.Items")
                 .Select(x => new UniqueItem((RszInstance)x!))
+                .ToArray();
+
+            public InventoryEquipSaveData[] EquipInfos => _instance
+                .GetArray<RszInstance>("InventoryData.EquipInfos")
+                .Select(x => new InventoryEquipSaveData(x))
+                .ToArray();
+
+            public InventoryShortcutSaveData[] ShortcutInfos => _instance
+                .GetArray<RszInstance>("InventoryData.ShortcutInfos")
+                .Select(x => new InventoryShortcutSaveData(x))
                 .ToArray();
 
             public int CharacterMaxHp
@@ -317,6 +357,46 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var itemName = ItemDefinitionRepository.Default.GetName(ItemId);
                 return $"{itemName} x{CurrentItemCount}";
             }
+        }
+
+        public class InventoryEquipSaveData(RszInstance _instance)
+        {
+            public Guid Id
+            {
+                get => _instance.Get<Guid>("ID");
+                set => _instance.Set("ID", value);
+            }
+
+            public override string ToString() => Id.ToString();
+        }
+
+        public class InventoryShortcutSaveData(RszInstance _instance)
+        {
+            public Guid Id
+            {
+                get => _instance.Get<Guid>("ID");
+                set => _instance.Set("ID", value);
+            }
+
+            public int EquipType => _instance.Get<int>("EquipType");
+
+            public int ShortcutType => _instance.Get<int>("ShortcutType");
+
+            public int Direction => _instance.Get<int>("Direction");
+
+            public int ItemId
+            {
+                get => _instance.Get<int>("ItemId");
+                set => _instance.Set("ItemId", value);
+            }
+
+            public int ItemCount
+            {
+                get => _instance.Get<int>("ItemCount");
+                set => _instance.Set("ItemCount", value);
+            }
+
+            public override string ToString() => $"Type = {ShortcutType} Direction = {Direction} Id = {Id}";
         }
     }
 }

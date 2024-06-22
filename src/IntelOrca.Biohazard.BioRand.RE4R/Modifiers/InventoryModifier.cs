@@ -85,6 +85,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             inventory.UpdateWeapons(itemData);
             inventory.AutoSort(itemData);
+            inventory.AssignShortcuts();
             inventory.Save(randomizer.FileRepository);
 
             foreach (var item in inventory.Data[0].InventoryItems)
