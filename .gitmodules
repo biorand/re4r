@@ -1,3 +1,7 @@
 [submodule "src/rsztool"]
 	path = src/rsztool
 	url = https://github.com/IntelOrca/RszTool.git
+[submodule "src/msg"]
+	path = src/msg
+	url = https://github.com/Namsku/MSG-Library.git
+	branch = intelorca/refactor

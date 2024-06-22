@@ -69,8 +69,33 @@
       ],
       "messageId": "09a22523-bd44-467b-8e19-aec7add301fa",
       "perkMessageId": "2702d827-edab-4aa4-91e5-70d411c3a452",
-      "fixedValue": 5,
-      "requires": "Ammo Capacity"
+      "minValue": 5,
+      "maxValue": 15,
+      "include": [
+        4000, // SG-09 R
+        4001, // Punisher
+        4002, // Red9
+        4003, // Blacktail
+        4004, // Matilda
+        4100, // W-870
+        4101, // Riot Gun
+        4102, // Striker
+        4200, // TMP
+        4201, // Chicago Sweeper
+        4202, // LE 5
+        4400, // SR M1903
+        4401, // Stingray
+        4402, // CQBR Assault
+        4500, // Broken Butterfly
+        4501, // Killer7
+        4502, // Handcannon
+        5000, // Combat Knife
+        5001, // Fighting Knife
+        5002, // Combat Knife
+        5006, // Primal Knife
+        6000, // Sentinel Nine
+        6001 // Skull Shaker
+      ]
     },
     {
       "name": "Power",
@@ -91,7 +116,34 @@
       ],
       "messageId": "fbf7fd02-c214-41de-91f1-5f4e26d2996c",
       "perkMessageId": "5825ecfd-166f-45ce-bf4e-10c2d8a3343e",
-      "fixedValue": 2
+      "minValue": 1.5,
+      "maxValue": 4,
+      "include": [
+        4000, // SG-09 R
+        4001, // Punisher
+        4002, // Red9
+        4003, // Blacktail
+        4004, // Matilda
+        4100, // W-870
+        4101, // Riot Gun
+        4102, // Striker
+        4200, // TMP
+        4201, // Chicago Sweeper
+        4202, // LE 5
+        4400, // SR M1903
+        4401, // Stingray
+        4402, // CQBR Assault
+        4500, // Broken Butterfly
+        4501, // Killer7
+        4502, // Handcannon
+        4600, // Bolt Thrower
+        5000, // Combat Knife
+        5001, // Fighting Knife
+        5002, // Combat Knife
+        5006, // Primal Knife
+        6000, // Sentinel Nine
+        6001 // Skull Shaker
+      ]
     },
     {
       "name": "Power (Shotgun)",
@@ -112,8 +164,14 @@
       ],
       "messageId": "fbf7fd02-c214-41de-91f1-5f4e26d2996c",
       "perkMessageId": "5825ecfd-166f-45ce-bf4e-10c2d8a3343e",
-      "fixedValue": 2,
-      "requires": "N/A"
+      "minValue": 1.5,
+      "maxValue": 4,
+      "include": [
+        4100, // W-870
+        4101, // Riot Gun
+        4102, // Striker
+        6001 // Skull Shaker
+      ]
     },
     {
       "name": "Penetration",
@@ -132,8 +190,24 @@
       ],
       "messageId": "28c947e0-235e-4423-b80d-c3358eae988b",
       "perkMessageId": "a9a87cb2-ffa3-4e9c-a950-0918836871da",
-      "fixedValue": 5,
-      "requires": "Ammo Capacity"
+      "minValue": 5,
+      "maxValue": 20,
+      "include": [
+        4000, // SG-09 R
+        4001, // Punisher
+        4002, // Red9
+        4003, // Blacktail
+        4004, // Matilda
+        4100, // W-870
+        4101, // Riot Gun
+        4102, // Striker
+        4200, // TMP
+        4201, // Chicago Sweeper
+        4202, // LE 5
+        4600, // Bolt Thrower
+        6000, // Sentinel Nine
+        6001 // Skull Shaker
+      ]
     },
     {
       "name": "Ammo Capacity",
@@ -152,8 +226,30 @@
       ],
       "messageId": "7fdcd8be-1308-457e-8824-e14bbef0bdb4",
       "perkMessageId": "dcf42fa5-a6ca-4b50-a154-eeac185e0f15",
-      "fixedValue": 2,
-      "requires": "Ammo Capacity"
+      "minValue": 1.5,
+      "maxValue": 4,
+      "include": [
+        4000, // SG-09 R
+        4001, // Punisher
+        4002, // Red9
+        4003, // Blacktail
+        4004, // Matilda
+        4100, // W-870
+        4101, // Riot Gun
+        4102, // Striker
+        4200, // TMP
+        4201, // Chicago Sweeper
+        4202, // LE 5
+        4400, // SR M1903
+        4401, // Stingray
+        4402, // CQBR Assault
+        4500, // Broken Butterfly
+        4501, // Killer7
+        4502, // Handcannon
+        4600, // Bolt Thrower
+        6000, // Sentinel Nine
+        6001 // Skull Shaker
+      ]
     },
     {
       "name": "Rate of Fire",
@@ -171,8 +267,27 @@
       ],
       "messageId": "8acca1f0-182b-4016-bc4d-49ca8dfc8d22",
       "perkMessageId": "8795e021-f2c8-4237-a0d2-b24eac1803e7",
-      "fixedValue": 2,
-      "requires": "Rate of Fire"
+      "minValue": 2,
+      "maxValue": 4,
+      "include": [
+        4000, // SG-09 R
+        4001, // Punisher
+        4002, // Red9
+        4003, // Blacktail
+        4004, // Matilda
+        4100, // W-870
+        4101, // Riot Gun
+        4102, // Striker
+        4400, // SR M1903
+        4401, // Stingray
+        4402, // CQBR Assault
+        4500, // Broken Butterfly
+        4501, // Killer7
+        4502, // Handcannon
+        4600, // Bolt Thrower
+        6000, // Sentinel Nine
+        6001 // Skull Shaker
+      ]
     },
     {
       "name": "Durability",
@@ -188,7 +303,12 @@
       "dataFields": [
         "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakStrength._DurabilityMaxScale"
       ],
-      "requires": "N/A"
+      "include": [
+        5000, // Combat Knife
+        5001, // Fighting Knife
+        5002, // Combat Knife
+        5006 // Primal Knife
+      ]
     },
     {
       "name": "Unlimited Ammunition",
@@ -206,7 +326,9 @@
       ],
       "messageId": "509c1e78-f34c-49c8-8847-168e8e61df04",
       "perkMessageId": "dcd5baea-8d01-4e4b-9c82-a87f0388a2d5",
-      "requires": "N/A"
+      "include": [
+        4201 // Chicago Sweeper
+      ]
     },
     {
       "name": "Attack Speed",
@@ -224,8 +346,14 @@
       ],
       "messageId": "ba1d62cd-c478-4089-b505-2b25acba9712",
       "perkMessageId": "47710f47-38fd-44fa-8767-a9f74a044260",
-      "fixedValue": 1.5,
-      "requires": "Durability"
+      "minValue": 1.5,
+      "maxValue": 4,
+      "include": [
+        5000, // Combat Knife
+        5001, // Fighting Knife
+        5002, // Combat Knife
+        5006 // Primal Knife
+      ]
     },
     {
       "name": "Unbreakable",
@@ -243,7 +371,9 @@
       ],
       "messageId": "8351af7a-856b-4346-8990-5af297d6e7ec",
       "perkMessageId": "9b5f9875-3859-462a-8065-3e26f2fe8ed3",
-      "requires": "N/A"
+      "include": [
+        5006 // Primal Knife
+      ]
     },
     {
       "name": "BlastRange_1011",
@@ -259,7 +389,7 @@
       "dataFields": [
         "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakBlastRange_1011._BlastRangeScale"
       ],
-      "requires": "N/A"
+      "include": []
     }
   ]
 }

@@ -49,7 +49,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 @"natives/stm/_chainsaw/appsystem/weaponcustom/.*",
                 @"natives/stm/_chainsaw/environment/scene/gimmick/.*",
                 @"natives/stm/_chainsaw/leveldesign/chapter/.*",
-                @"natives/stm/_chainsaw/leveldesign/location/.*"
+                @"natives/stm/_chainsaw/leveldesign/location/.*",
+                @"natives/stm/_chainsaw/message/mes_main_item/.*"
             }.Select(x => new Regex(x));
 
             foreach (var path in pakList.Entries)

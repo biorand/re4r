@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.IO;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using MsgTool;
 using REE;
 using RszTool;
 
@@ -100,6 +101,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var userFile = GetUserFile(path);
             callback(userFile.RSZ!, userFile.RSZ!.ObjectList[0]);
             SetUserFile(path, userFile);
+        }
+
+        public Msg GetMsgFile(string path)
+        {
+            return new Msg(GetGameFileData(path));
+        }
+
+        public void SetMsgFile(string path, Msg msg)
+        {
+            SetGameFileData(path, msg.Data.ToArray());
         }
 
         public PakFileBuilder GetOutputPakFile()

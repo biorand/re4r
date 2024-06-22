@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using MsgTool;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -13,6 +15,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private const string WeaponCustomUserDataPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weaponcustomuserdata.user.2";
         private const string WeaponDetailCustomUserDataPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2";
         private const string ItemDefinitionUserDataPath = "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2";
+        private const string WeaponCustomMsgPath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_wpcustom.msg.22";
 
         private bool _randomStats;
         private bool _randomPrices;
@@ -20,6 +23,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private Rng _priceRng = new();
         private Rng _valueRng = new();
         private Rng _exclusiveRng = new();
+        private Msg.Builder _msg = new();
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
@@ -73,6 +77,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!_randomStats && !_randomPrices && !_randomExclusives)
                 return;
 
+            _msg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath).ToBuilder();
+
             var itemRepo = ItemDefinitionRepository.Default;
             var mainFile = randomizer.FileRepository.GetUserFile(WeaponCustomUserDataPath);
             var detailFile = randomizer.FileRepository.GetUserFile(WeaponDetailCustomUserDataPath);
@@ -81,9 +87,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var stats = GetWeaponStats(randomizer);
             var weapons = stats.GroupBy(x => x.WeaponId);
+            var applicableWeapons = WeaponStatsDefinition.Exclusives.SelectMany(x => x.Include).Distinct().ToHashSet();
             foreach (var weaponStats in weapons)
             {
                 var weaponId = weaponStats.Key;
+                if (!applicableWeapons.Contains(weaponId))
+                    continue;
+
                 var weaponName = itemRepo.FromWeaponId(weaponId)?.Name ?? weaponId.ToString();
                 logger.Push(weaponName);
 
@@ -134,6 +144,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             randomizer.FileRepository.SetUserFile(WeaponDetailCustomUserDataPath, detailFile);
 
             UpdateItemDefinitions(randomizer);
+
+            randomizer.FileRepository.SetMsgFile(WeaponCustomMsgPath, _msg.ToMsg());
         }
 
         private void UpdateItemDefinitions(ChainsawRandomizer randomizer)
@@ -252,7 +264,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var minUpper = originalMin + (range / 2);
             var min = _valueRng.Next(minLower, minUpper + 1);
             var maxLower = min + 4;
-            var maxUpper = originalMax * 2;
+            var maxUpper = (int)Math.Round(originalMax * 1.5);
             var max = _valueRng.Next(maxLower, maxUpper + 1);
 
             SetStats(stats, min, max, x => (int)Math.Round(x), includeBaseStat: true);
@@ -350,7 +362,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .ToHashSet();
 
             var randomExclusive = WeaponStatsDefinition.Exclusives
-                .Where(x => x.Requires == null || availableStats.Contains(x.Requires))
+                .Where(x => x.Include.Contains(weaponId))
                 .Shuffle(_exclusiveRng)
                 .First();
 
@@ -369,34 +381,49 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var perksMessageIdField = GetProcessedField<Guid>(metaRoot, randomExclusive.MetaPerksMessageId, metaWeaponIndex, 0);
             var rateValueField = GetProcessedField<float>(metaRoot, randomExclusive.MetaRateValue, metaWeaponIndex, 0);
 
-            metaRoot.Set(messageIdField.Path, randomExclusive.MessageId);
-            metaRoot.Set(perksMessageIdField.Path, randomExclusive.PerkMessageId);
-
             float rateValue = 1.0f;
             object value = 1.0f;
             switch (randomExclusive.Category)
             {
                 case 3:
-                    rateValue = randomExclusive.FixedValue;
-                    value = Convert.ToInt32(rateValue);
+                    rateValue = _exclusiveRng.NextFloat(randomExclusive.MinValue, randomExclusive.MaxValue);
+                    rateValue = (int)Math.Round(rateValue);
+                    value = (int)rateValue;
                     break;
                 case 7:
                 case 9:
                     value = true;
                     break;
                 default:
-                    rateValue = randomExclusive.FixedValue;
+                    rateValue = _exclusiveRng.NextFloat(randomExclusive.MinValue, randomExclusive.MaxValue);
+                    rateValue = (int)(rateValue / 0.5) * 0.5f;
                     value = rateValue;
                     break;
             }
 
+            var rateString = rateValue.ToString();
+            metaRoot.Set(messageIdField.Path, CreateMsgEntry(randomExclusive.MessageId, rateString));
+            metaRoot.Set(perksMessageIdField.Path, CreateMsgEntry(randomExclusive.PerkMessageId, rateString));
+
             metaRoot.Set(rateValueField.Path, rateValue);
-            logger.LogLine($"Setting exclusive to {randomExclusive.Name} Rate = {randomExclusive.FixedValue}");
+            logger.LogLine($"Setting exclusive to {randomExclusive.Name} Rate = {value}");
             foreach (var field in randomExclusive.DataFields)
             {
                 var fieldField = GetProcessedField<object>(dataRoot, field, dataWeaponIndex, 0);
                 dataRoot.Set(fieldField.Path, value);
             }
+        }
+
+        private Guid CreateMsgEntry(Guid original, string newValue)
+        {
+            var entry = _msg.Duplicate(original);
+            for (var i = 0; i < entry.Langs.Count; i++)
+            {
+                var oldString = entry.Langs[i];
+                var newString = Regex.Replace(oldString, @"\d+([.,]\d+)?", newValue);
+                entry.Langs[i] = newString;
+            }
+            return entry.Guid;
         }
 
         private static int FindWeaponIndex(RszInstance root, string xpath, int weaponId)
@@ -581,10 +608,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public string MetaRateValue { get; set; } = "";
         public string MetaCost { get; set; } = "";
         public string[] DataFields { get; set; } = [];
-        public string? Requires { get; set; }
+        public int[] Include { get; set; } = [];
         public Guid MessageId { get; set; }
         public Guid PerkMessageId { get; set; }
-        public float FixedValue { get; set; }
+        public float MinValue { get; set; }
+        public float MaxValue { get; set; }
     }
 
     public abstract record WeaponStat(
