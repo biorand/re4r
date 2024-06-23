@@ -6,7 +6,7 @@
 </script>
 
 {#if chart}
-    <Card padding="sm">
+    <Card padding="sm" size="none">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             {chart.series[0].name}
         </h5>

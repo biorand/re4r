@@ -228,6 +228,7 @@ export interface HomeNewsResult {
 };
 
 export interface NewsItem {
+    id: number;
     date: string;
     timestamp: number;
     title: string;

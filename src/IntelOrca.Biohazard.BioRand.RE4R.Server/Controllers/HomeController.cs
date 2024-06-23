@@ -28,7 +28,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                     {
                         Date = new DateTime(2024, 6, 20).ToString("d MMMM"),
                         Timestamp = new DateTime(2024, 6, 18).ToUnixTimeSeconds(),
-                        Title = "Improved item drops",
+                        Title = "Another",
                         Body = "<p>Weapons and exclusives have been improved.<ul><li>Random weapon exclusive values</li><li>Weapon shortcuts now automatically applied</li></ul></p>"
                     }
                 }
