@@ -223,13 +223,15 @@ export type PatronDailyResult = {
     amount: number;
 }[];
 
-export interface HomeNewsResult {
-    items: NewsItem[];
-};
-
 export interface NewsItem {
     id: number;
     date: string;
+    timestamp: number;
+    title: string;
+    body: string;
+}
+
+export interface NewsItemRequest {
     timestamp: number;
     title: string;
     body: string;
@@ -362,8 +364,12 @@ export class BioRandApi {
         return await this.get<PatronDailyResult>("patron/daily");
     }
 
-    async getHomeNews() {
-        return await this.get<HomeNewsResult>("home/news");
+    async getNewsItems() {
+        return await this.get<NewsItem[]>("home/news");
+    }
+
+    async createNewsItem(req: NewsItemRequest) {
+        return await this.post<NewsItem>("home/news", req);
     }
 
     async getHomeStats() {

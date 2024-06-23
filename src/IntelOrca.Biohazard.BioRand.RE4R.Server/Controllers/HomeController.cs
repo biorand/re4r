@@ -1,38 +1,47 @@
-﻿using System;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Extensions;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.RestModels;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
     [ApiController]
     [Route("home")]
-    public class HomeController(DatabaseService db)
+    public class HomeController(
+        AuthService auth,
+        DatabaseService db,
+        ILogger<HomeController> logger) : ControllerBase
     {
         [HttpGet("news")]
-        public object GetNewsAsync()
+        public async Task<object> GetNewsAsync()
         {
-            return new
+            var newsItems = await db.GetNewsItems();
+            return newsItems
+                .Select(ConvertNewsItem)
+                .ToArray();
+        }
+
+        [HttpPost("news")]
+        public async Task<object> InsertNewsAsync([FromBody] NewsItemRequest request)
+        {
+            var user = await auth.GetAuthorizedUserAsync(UserRoleKind.Administrator);
+            if (user == null)
+                return Unauthorized();
+
+            var model = new NewsDbModel()
             {
-                Items = new[]
-                {
-                    new
-                    {
-                        Date = new DateTime(2024, 6, 20).ToString("d MMMM"),
-                        Timestamp = new DateTime(2024, 6, 20).ToUnixTimeSeconds(),
-                        Title = "Improved weapons",
-                        Body = "<p>Weapons and exclusives have been improved.<ul><li>Random weapon exclusive values</li><li>Weapon shortcuts now automatically applied</li></ul></p>"
-                    },
-                    new
-                    {
-                        Date = new DateTime(2024, 6, 20).ToString("d MMMM"),
-                        Timestamp = new DateTime(2024, 6, 18).ToUnixTimeSeconds(),
-                        Title = "Another",
-                        Body = "<p>Weapons and exclusives have been improved.<ul><li>Random weapon exclusive values</li><li>Weapon shortcuts now automatically applied</li></ul></p>"
-                    }
-                }
+                Timestamp = request.Timestamp.ToDateTime(),
+                Title = request.Title,
+                Body = request.Body
             };
+            await db.CreateNewsItem(model);
+            logger.LogInformation("User {UserId}[{UserName}] created news item {NewsId}", user.Id, user.Name, model.Id);
+
+            return ConvertNewsItem(model);
         }
 
         [HttpGet("stats")]
@@ -44,6 +53,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             {
                 Seeds = seeds,
                 TotalUsers = totalUsers
+            };
+        }
+
+        private object ConvertNewsItem(NewsDbModel model)
+        {
+            return new
+            {
+                Date = model.Timestamp.ToString("d MMMM"),
+                Timestamp = model.Timestamp.ToUnixTimeSeconds(),
+                Title = model.Title,
+                Body = model.Body,
             };
         }
     }

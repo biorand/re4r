@@ -1,26 +1,20 @@
 <script lang="ts">
     import { createChart } from '$lib/Chart.svelte';
     import DeleteConfirmModal from '$lib/DeleteConfirmModal.svelte';
-    import {
-        UserRole,
-        getApi,
-        type DailyResult,
-        type HomeNewsResult,
-        type NewsItem
-    } from '$lib/api';
+    import { UserRole, getApi, type DailyResult, type NewsItem } from '$lib/api';
     import { PageBody, PageTitle } from '$lib/typography';
     import { getUserManager } from '$lib/userManager';
-    import { Timeline } from 'flowbite-svelte';
+    import { Button, Timeline } from 'flowbite-svelte';
     import NewsItemEditModal from './NewsItemEditModal.svelte';
     import NewsItemView from './NewsItemView.svelte';
     import SideChart from './SideChart.svelte';
 
-    let newsResult: HomeNewsResult;
+    let newsItems: NewsItem[] = [];
     let seedChart: any;
     let totalUsersChart: any;
     const init = async () => {
         const api = getApi();
-        newsResult = await api.getHomeNews();
+        newsItems = await api.getNewsItems();
 
         const statsResult = await api.getHomeStats();
         seedChart = createDailyChart('Seeds', statsResult.seeds);
@@ -53,6 +47,17 @@
         return result;
     }
 
+    function createNewsItem() {
+        editingNewsItem = <NewsItem>{
+            id: 0,
+            title: '',
+            timestamp: Math.floor(Date.now() / 1000),
+            date: '',
+            body: ''
+        };
+        showEditModal = true;
+    }
+
     function editNewsItem(newsItem: NewsItem) {
         editingNewsItem = newsItem;
         showEditModal = true;
@@ -61,6 +66,21 @@
     function deleteNewsItem(newsItem: NewsItem) {
         editingNewsItem = newsItem;
         showDeleteModal = true;
+    }
+
+    async function saveNewsItem() {
+        if (!editingNewsItem) return;
+        if (editingNewsItem.id === 0) {
+            const api = getApi();
+            await api.createNewsItem({
+                timestamp: editingNewsItem.timestamp,
+                title: editingNewsItem.title,
+                body: editingNewsItem.body
+            });
+            showEditModal = false;
+            await init();
+        } else {
+        }
     }
 
     function deleteConfirmNewsItem() {
@@ -74,19 +94,22 @@
     <PageTitle>Home</PageTitle>
     <div class="lg:flex lg:gap-3">
         <div class="grow">
-            {#if newsResult}
-                <h2 class="text-2xl mb-4">Recent Updates</h2>
-                <Timeline>
-                    {#each newsResult.items as newsItem}
-                        <NewsItemView
-                            on:edit={() => editNewsItem(newsItem)}
-                            on:delete={() => deleteNewsItem(newsItem)}
-                            canEdit
-                            {newsItem}
-                        />
-                    {/each}
-                </Timeline>
+            <h2 class="text-2xl mb-4">Recent Updates</h2>
+            {#if canEdit}
+                <Button class="mb-4" on:click={() => createNewsItem()} size="lg" color="light"
+                    >Create news item</Button
+                >
             {/if}
+            <Timeline>
+                {#each newsItems as newsItem}
+                    <NewsItemView
+                        on:edit={() => editNewsItem(newsItem)}
+                        on:delete={() => deleteNewsItem(newsItem)}
+                        canEdit
+                        {newsItem}
+                    />
+                {/each}
+            </Timeline>
         </div>
         <div class="grow w-144 max-w-[40%]">
             <div class="flex flex-col gap-3">
@@ -96,5 +119,9 @@
         </div>
     </div>
 </PageBody>
-<NewsItemEditModal bind:open={showEditModal} newsItem={editingNewsItem} />
+<NewsItemEditModal
+    bind:open={showEditModal}
+    on:save={() => saveNewsItem()}
+    newsItem={editingNewsItem}
+/>
 <DeleteConfirmModal bind:open={showDeleteModal} on:delete={() => deleteConfirmNewsItem()} />

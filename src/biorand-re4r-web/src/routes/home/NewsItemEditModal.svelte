@@ -1,38 +1,41 @@
 <script lang="ts">
+    import DateTimeInput from '$lib/DateTimeInput.svelte';
     import type { NewsItem } from '$lib/api';
     import { Button, Input, Label, Modal, Textarea } from 'flowbite-svelte';
+    import { createEventDispatcher } from 'svelte';
+
+    const dispatch = createEventDispatcher();
 
     export let open = false;
     export let newsItem: NewsItem | undefined;
-
-    $: dateTimeValue = unix2datetime(newsItem?.timestamp || 0);
-
-    function unix2datetime(unixTimestamp: number) {
-        const date = new Date(unixTimestamp * 1000);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const hour = String(date.getHours()).padStart(2, '0');
-        const min = String(date.getMinutes()).padStart(2, '0');
-        return `${year}-${month}-${day}T${hour}:${min}`;
-    }
 </script>
 
 {#if newsItem}
     <Modal bind:open size="lg" autoclose={false} class="w-full">
-        <form class="flex flex-col space-y-6" action="#">
-            <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Edit News Item</h3>
+        <form class="flex flex-col space-y-6" on:submit={() => dispatch('save')}>
+            <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+                {#if newsItem.id === 0}
+                    Create News Item
+                {:else}
+                    Edit News Item
+                {/if}
+            </h3>
             <Label class="space-y-2">
                 <span>Date</span>
-                <Input type="datetime-local" name="date" required value={dateTimeValue} />
+                <DateTimeInput
+                    type="datetime-local"
+                    name="date"
+                    required
+                    bind:value={newsItem.timestamp}
+                />
             </Label>
             <Label class="space-y-2">
                 <span>Title</span>
-                <Input type="text" name="text" required value={newsItem.title} />
+                <Input type="text" name="text" required bind:value={newsItem.title} />
             </Label>
             <Label class="space-y-2">
                 <span>Body</span>
-                <Textarea class="font-mono" rows="5" value={newsItem.body}></Textarea>
+                <Textarea class="font-mono" rows="5" bind:value={newsItem.body}></Textarea>
             </Label>
             <Button type="submit" class="w-full1">Save changes</Button>
         </form>

@@ -9,5 +9,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Extensions
             var offset = new DateTimeOffset(dt);
             return offset.ToUnixTimeSeconds();
         }
+
+        public static DateTime ToDateTime(this int unixTimeSeconds)
+        {
+            var offset = DateTimeOffset.FromUnixTimeSeconds(unixTimeSeconds);
+            return offset.UtcDateTime;
+        }
     }
 }
