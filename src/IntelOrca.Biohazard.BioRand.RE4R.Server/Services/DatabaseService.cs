@@ -565,6 +565,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return [.. result];
         }
 
+        public async Task<NewsDbModel?> GetNewsItem(int id)
+        {
+            return await _conn.FindAsync<NewsDbModel>(id);
+        }
+
         public async Task CreateNewsItem(NewsDbModel newsItem)
         {
             await _conn.InsertAsync(newsItem);
@@ -577,7 +582,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 
         public async Task DeleteNewsItem(int id)
         {
-            await _conn.DeleteAsync(id);
+            await _conn.DeleteAsync<NewsDbModel>(id);
         }
 
         public async Task<NewsDbModel[]> GetNewsItems()

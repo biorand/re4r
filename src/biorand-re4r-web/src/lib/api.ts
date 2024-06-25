@@ -372,6 +372,14 @@ export class BioRandApi {
         return await this.post<NewsItem>("home/news", req);
     }
 
+    async updateNewsItem(id: number, req: NewsItemRequest) {
+        return await this.put(`home/news/${id}`, req);
+    }
+
+    async deleteNewsItem(id: number) {
+        return await this.delete(`home/news/${id}`);
+    }
+
     async getHomeStats() {
         return await this.get<HomeStatsResult>("home/stats");
     }

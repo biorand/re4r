@@ -70,23 +70,29 @@
 
     async function saveNewsItem() {
         if (!editingNewsItem) return;
+
+        const api = getApi();
+        const req = {
+            timestamp: editingNewsItem.timestamp,
+            title: editingNewsItem.title,
+            body: editingNewsItem.body
+        };
+
         if (editingNewsItem.id === 0) {
-            const api = getApi();
-            await api.createNewsItem({
-                timestamp: editingNewsItem.timestamp,
-                title: editingNewsItem.title,
-                body: editingNewsItem.body
-            });
-            showEditModal = false;
-            await init();
+            await api.createNewsItem(req);
         } else {
+            await api.updateNewsItem(editingNewsItem.id, req);
         }
+        showEditModal = false;
+        await init();
     }
 
-    function deleteConfirmNewsItem() {
+    async function deleteConfirmNewsItem() {
         if (!editingNewsItem) return;
 
-        alert(editingNewsItem.title);
+        const api = getApi();
+        await api.deleteNewsItem(editingNewsItem.id);
+        await init();
     }
 </script>
 
