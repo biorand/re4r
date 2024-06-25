@@ -223,6 +223,30 @@ export type PatronDailyResult = {
     amount: number;
 }[];
 
+export interface NewsItem {
+    id: number;
+    date: string;
+    timestamp: number;
+    title: string;
+    body: string;
+}
+
+export interface NewsItemRequest {
+    timestamp: number;
+    title: string;
+    body: string;
+}
+
+export interface DailyResult {
+    day: string;
+    value: number;
+}
+
+export interface HomeStatsResult {
+    seeds: DailyResult[],
+    totalUsers: DailyResult[]
+};
+
 export class BioRandApiError extends Error {
     statusCode: number;
 
@@ -338,6 +362,26 @@ export class BioRandApi {
 
     async getPatronDaily() {
         return await this.get<PatronDailyResult>("patron/daily");
+    }
+
+    async getNewsItems() {
+        return await this.get<NewsItem[]>("home/news");
+    }
+
+    async createNewsItem(req: NewsItemRequest) {
+        return await this.post<NewsItem>("home/news", req);
+    }
+
+    async updateNewsItem(id: number, req: NewsItemRequest) {
+        return await this.put(`home/news/${id}`, req);
+    }
+
+    async deleteNewsItem(id: number) {
+        return await this.delete(`home/news/${id}`);
+    }
+
+    async getHomeStats() {
+        return await this.get<HomeStatsResult>("home/stats");
     }
 
     private async get<T>(query: string, body?: any) {

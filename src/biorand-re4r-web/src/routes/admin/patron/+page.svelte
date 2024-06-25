@@ -1,6 +1,6 @@
 <script lang="ts">
     import BioRandResultPagination from '$lib/BioRandResultPagination.svelte';
-    import Chart from '$lib/Chart.svelte';
+    import Chart, { createChart } from '$lib/Chart.svelte';
     import ErrorModal, { type ErrorModalContent } from '$lib/ErrorModal.svelte';
     import SortedTable, { type SortedTableData } from '$lib/SortedTable.svelte';
     import SortedTableHeader from '$lib/SortedTableHeader.svelte';
@@ -69,48 +69,6 @@
 
     function formatCurrency(amount: number) {
         return '£' + amount.toFixed(2);
-    }
-
-    function createChart(
-        seriesName: string,
-        x: string[],
-        y: number[],
-        yFormatter?: (y: number) => string
-    ) {
-        return {
-            chart: {
-                type: 'area',
-                toolbar: { show: false }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            series: [
-                {
-                    name: seriesName,
-                    data: y
-                }
-            ],
-            xaxis: {
-                categories: x,
-                labels: {
-                    style: {
-                        fontFamily: 'Inter, sans-serif',
-                        cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
-                    }
-                }
-            },
-            yaxis: {
-                min: 0,
-                labels: {
-                    formatter: yFormatter,
-                    style: {
-                        fontFamily: 'Inter, sans-serif',
-                        cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
-                    }
-                }
-            }
-        };
     }
 
     async function getChartOptions() {

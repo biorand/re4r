@@ -24,17 +24,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             Initialize().Wait();
         }
 
-        private async Task Initialize()
-        {
-            await _conn.CreateTablesAsync();
-        }
-
         private QueryBuilder<T> BuildQuery<T>(string q, params object[] args) where T : new()
         {
             return new QueryBuilder<T>(_conn, q, args);
         }
 
-        public async Task CreateTables()
+        private async Task Initialize()
         {
             await _conn.CreateTableAsync<UserDbModel>();
             await _conn.CreateTableAsync<TokenDbModel>();
@@ -43,6 +38,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             await _conn.CreateTableAsync<RandoConfigDbModel>();
             await _conn.CreateTableAsync<TwitchDbModel>();
             await _conn.CreateTableAsync<KofiDbModel>();
+            await _conn.CreateTableAsync<NewsDbModel>();
             await _conn.ExecuteAsync(
                 @"CREATE TABLE IF NOT EXISTS ""profile_star"" (
                     ""ProfileId"" integer not null,
@@ -541,6 +537,60 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 FROM kofi
                 GROUP BY day");
             return [.. result];
+        }
+
+        public async Task<DailyDbViewModel[]> GetSeedsDaily()
+        {
+            var result = await _conn.QueryAsync<DailyDbViewModel>(@"
+                SELECT strftime('%Y-%m-%d', datetime((Created - 621355968000000000) / 10000000, 'unixepoch')) AS Day,
+                       COUNT(*) AS Value
+                FROM rando
+                WHERE Day >= date('now', '-30 days')
+                GROUP BY Day");
+            return [.. result];
+        }
+
+        public async Task<DailyDbViewModel[]> GetTotalUsersDaily()
+        {
+            var result = await _conn.QueryAsync<DailyDbViewModel>(@"
+                SELECT Day, Value
+                FROM (
+                    SELECT Day, SUM(Value) OVER (ORDER BY Day) AS Value
+                    FROM (
+                        SELECT strftime('%Y-%m-%d', datetime((Created - 621355968000000000) / 10000000, 'unixepoch')) AS Day,
+                               COUNT(*) AS Value
+                        FROM user
+                        GROUP BY Day))
+                WHERE Day >= date('now', '-30 days')");
+            return [.. result];
+        }
+
+        public async Task<NewsDbModel?> GetNewsItem(int id)
+        {
+            return await _conn.FindAsync<NewsDbModel>(id);
+        }
+
+        public async Task CreateNewsItem(NewsDbModel newsItem)
+        {
+            await _conn.InsertAsync(newsItem);
+        }
+
+        public async Task UpdateNewsItem(NewsDbModel newsItem)
+        {
+            await _conn.UpdateAsync(newsItem);
+        }
+
+        public async Task DeleteNewsItem(int id)
+        {
+            await _conn.DeleteAsync<NewsDbModel>(id);
+        }
+
+        public async Task<NewsDbModel[]> GetNewsItems()
+        {
+            return await _conn
+                .Table<NewsDbModel>()
+                .OrderByDescending(x => x.Timestamp)
+                .ToArrayAsync();
         }
 
         private static async Task<LimitedResult<T>> ExecuteLimitedResult<T>(
