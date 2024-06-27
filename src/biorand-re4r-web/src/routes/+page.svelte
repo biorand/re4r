@@ -28,7 +28,7 @@
 
 <svelte:head>
     {#if isSignedIn}
-        <title>Generate - BioRand 4</title>
+        <title>Home - BioRand 4</title>
     {:else}
         <title>Sign Up - BioRand 4</title>
     {/if}
