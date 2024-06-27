@@ -111,7 +111,7 @@
                     <NewsItemView
                         on:edit={() => editNewsItem(newsItem)}
                         on:delete={() => deleteNewsItem(newsItem)}
-                        canEdit
+                        {canEdit}
                         {newsItem}
                     />
                 {/each}

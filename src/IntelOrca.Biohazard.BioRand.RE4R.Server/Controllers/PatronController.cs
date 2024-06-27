@@ -4,13 +4,14 @@ using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.RestModels;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 {
     [ApiController]
     [Route("patron")]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class PatronController(AuthService auth, DatabaseService db) : ControllerBase
+    public class PatronController(AuthService auth, DatabaseService db, ILogger<PatronController> logger) : ControllerBase
     {
         [HttpGet("donations")]
         public async Task<object> GetKofiDonations(string? user, string? sort, string? order, int page = 1)
@@ -38,7 +39,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                 Amount = x.Price,
                 x.TierName,
                 Payload = x.Data,
-                User = new
+                User = x.UserId == null ? null : new
                 {
                     Id = x.UserId,
                     Name = x.UserName,
@@ -46,6 +47,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                     AvatarUrl = x.UserAvatarUrl
                 }
             });
+        }
+
+        [HttpPut("match")]
+        public async Task<object> UpdateDonationUser([FromBody] PatronUserMatchRequest req)
+        {
+            var authUser = await auth.GetAuthorizedUserAsync(UserRoleKind.Administrator);
+            if (authUser == null)
+                return Unauthorized();
+
+            var kofi = await db.GetKofiAsync(req.Id);
+            if (kofi == null)
+                return NotFound();
+
+            var user = await db.GetUserByName(req.UserName);
+            if (user == null)
+                return BadRequest();
+
+            kofi.UserId = user.Id;
+            await db.UpdateKofiAsync(kofi);
+            logger.LogInformation("User {UserId}[{UserName}] matched kofi {KofiId} with user {MatchedUserId}[{MatchedUserName}]",
+                authUser.Id, authUser.Name, kofi.Id, user.Id, user.Name);
+
+            return Ok();
         }
 
         [HttpGet("daily")]

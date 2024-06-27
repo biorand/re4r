@@ -6,7 +6,16 @@
     import PageBody from '$lib/typography/PageBody.svelte';
     import PageTitle from '$lib/typography/PageTitle.svelte';
     import { getUserManager } from '$lib/userManager';
-    import { Alert, Button, Checkbox, Helper, Label, Select, Spinner } from 'flowbite-svelte';
+    import {
+        Alert,
+        Button,
+        Checkbox,
+        Helper,
+        Input,
+        Label,
+        Select,
+        Spinner
+    } from 'flowbite-svelte';
     import {
         CloseCircleSolid,
         EnvelopeSolid,
@@ -126,6 +135,12 @@
                         account and use your Twitch profile picture.
                     </Alert>
                 </div>
+                {#if isAdmin}
+                    <div class="max-w-60">
+                        <Label for="id" class="block mb-2">User Id</Label>
+                        <Input class="mb-3" name="id" readonly value={user.id} />
+                    </div>
+                {/if}
                 <div class="max-w-3xl">
                     <FormInput
                         id="email"

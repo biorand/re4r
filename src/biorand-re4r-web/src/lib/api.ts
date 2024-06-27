@@ -364,6 +364,12 @@ export class BioRandApi {
         return await this.get<PatronDailyResult>("patron/daily");
     }
 
+    async updatePatronUser(id: number, userName: string) {
+        return await this.put("patron/match", {
+            id, userName
+        });
+    }
+
     async getNewsItems() {
         return await this.get<NewsItem[]>("home/news");
     }

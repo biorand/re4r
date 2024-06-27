@@ -11,7 +11,7 @@
 </script>
 
 {#if newsItem}
-    <Modal bind:open size="lg" autoclose={false} class="w-full">
+    <Modal bind:open size="lg" class="w-full">
         <form class="flex flex-col space-y-6" on:submit|preventDefault={() => dispatch('save')}>
             <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
                 {#if newsItem.id === 0}

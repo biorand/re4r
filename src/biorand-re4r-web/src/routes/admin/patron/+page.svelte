@@ -1,19 +1,20 @@
 <script lang="ts">
-    import BioRandResultPagination from '$lib/BioRandResultPagination.svelte';
-    import Chart, { createChart } from '$lib/Chart.svelte';
-    import ErrorModal, { type ErrorModalContent } from '$lib/ErrorModal.svelte';
-    import SortedTable, { type SortedTableData } from '$lib/SortedTable.svelte';
-    import SortedTableHeader from '$lib/SortedTableHeader.svelte';
-    import Timestamp from '$lib/Timestamp.svelte';
-    import UserWidget from '$lib/UserWidget.svelte';
     import {
         getApi,
         type PatronDonationsItem,
         type PatronDonationsResult,
         type PatronQueryOptions
     } from '$lib/api';
+    import BioRandResultPagination from '$lib/BioRandResultPagination.svelte';
+    import Chart, { createChart } from '$lib/Chart.svelte';
+    import ErrorModal, { type ErrorModalContent } from '$lib/ErrorModal.svelte';
+    import InputModal from '$lib/InputModal.svelte';
+    import SortedTable, { type SortedTableData } from '$lib/SortedTable.svelte';
+    import SortedTableHeader from '$lib/SortedTableHeader.svelte';
+    import Timestamp from '$lib/Timestamp.svelte';
     import { PageTitle } from '$lib/typography';
     import PageBody from '$lib/typography/PageBody.svelte';
+    import UserWidget from '$lib/UserWidget.svelte';
     import { buildUrl, getLocation, tryParseInt } from '$lib/utility';
     import {
         Badge,
@@ -24,6 +25,7 @@
         TableHead,
         Tabs
     } from 'flowbite-svelte';
+    import { EditOutline } from 'flowbite-svelte-icons';
     import { readable } from 'svelte/store';
 
     const queryParams = readable<PatronQueryOptions>(undefined, (set) => {
@@ -43,9 +45,8 @@
     let data: SortedTableData<PatronDonationsItem>;
     let getPageUrl: (page: number) => string;
     const api = getApi();
-    queryParams.subscribe(async (params) => {
-        searchInput = params;
-        searchResult = await api.getPatronDonations(params);
+    const refresh = async () => {
+        searchResult = await api.getPatronDonations(searchInput);
         data = {
             sort: searchInput.sort,
             order: searchInput.order,
@@ -54,6 +55,10 @@
         getPageUrl = (page: number) => {
             return getSearchUrl({ ...searchInput, page });
         };
+    };
+    queryParams.subscribe(async (params) => {
+        searchInput = params;
+        await refresh();
     });
 
     function sortTable(e: any) {
@@ -98,6 +103,25 @@
         optionsA = result[0];
         optionsB = result[1];
     });
+
+    let showUserMatchModal = false;
+    let userMatchDonationId: number | undefined;
+    let userMatchName = '';
+
+    function matchUser(donation: PatronDonationsItem) {
+        userMatchDonationId = donation.id;
+        userMatchName = donation.user?.name ?? '';
+        showUserMatchModal = true;
+    }
+
+    async function onSubmitUserMatch() {
+        if (userMatchDonationId) {
+            await api.updatePatronUser(userMatchDonationId, userMatchName);
+        }
+        showUserMatchModal = false;
+        userMatchName = '';
+        await refresh();
+    }
 </script>
 
 <svelte:head>
@@ -129,14 +153,21 @@
                         >
                         <TableBodyCell tdClass="p-1">{donation.email}</TableBodyCell>
                         <TableBodyCell tdClass="p-1">
-                            {#if donation.user}
-                                <UserWidget
-                                    user={donation.user}
-                                    href="/admin/patron?user={donation.user.name}"
-                                />
-                            {:else}
-                                <Button class="p-1 px-2" size="xs">Match User</Button>
-                            {/if}
+                            <div class="flex gap-2">
+                                <Button
+                                    on:click={() => matchUser(donation)}
+                                    color="dark"
+                                    class="!p-2"><EditOutline class="w-3 h-3" /></Button
+                                >
+                                {#if donation.user}
+                                    <UserWidget
+                                        user={donation.user}
+                                        href="/admin/patron?user={donation.user.name}"
+                                    />
+                                {:else}
+                                    (no match)
+                                {/if}
+                            </div>
                         </TableBodyCell>
                         <TableBodyCell tdClass="p-1 text-right"
                             >{formatCurrency(donation.amount)}</TableBodyCell
@@ -168,3 +199,10 @@
     </Tabs>
 </PageBody>
 <ErrorModal error={showingError} />
+<InputModal
+    bind:open={showUserMatchModal}
+    title="Enter user to match"
+    label="User Name"
+    bind:value={userMatchName}
+    on:submit={onSubmitUserMatch}
+/>

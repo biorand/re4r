@@ -465,9 +465,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             }
         }
 
-        public async Task InsertKofiAsync(KofiDbModel kofi)
+        public async Task CreateKofiAsync(KofiDbModel kofi)
         {
             await _conn.InsertAsync(kofi);
+        }
+
+        public Task<KofiDbModel> GetKofiAsync(int id)
+        {
+            return _conn.FindAsync<KofiDbModel>(id);
+        }
+
+        public async Task UpdateKofiAsync(KofiDbModel kofi)
+        {
+            await _conn.UpdateAsync(kofi);
         }
 
         public Task<LimitedResult<KofiUserDbViewModel>> GetKofiAsync(

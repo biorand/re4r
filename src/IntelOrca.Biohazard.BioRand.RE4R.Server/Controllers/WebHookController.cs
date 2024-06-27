@@ -72,7 +72,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
                     TierName = kofiData.TierName,
                     Data = data
                 };
-                await databaseService.InsertKofiAsync(kofiModel);
+                await databaseService.CreateKofiAsync(kofiModel);
                 logger.LogInformation("Ko-fi donation received {MessageId}", kofiData.MessageId);
                 return Empty;
             }
