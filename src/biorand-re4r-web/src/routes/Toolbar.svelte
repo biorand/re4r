@@ -72,6 +72,7 @@
                 <a class="block text-sm" href="/user/{currentUser.name}">{currentUser.name}</a>
             </DropdownHeader>
             {#if currentUser.role == UserRole.Administrator}
+                <DropdownItem href="/admin/token">Tokens</DropdownItem>
                 <DropdownItem href="/admin/patron">Patron</DropdownItem>
                 <DropdownDivider />
             {/if}

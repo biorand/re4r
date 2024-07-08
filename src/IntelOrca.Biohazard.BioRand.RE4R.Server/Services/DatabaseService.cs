@@ -140,6 +140,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return result;
         }
 
+        public Task<LimitedResult<TokenUserDbViewModel>> GetTokensAsync(
+            SortOptions? sortOptions = null,
+            LimitOptions? limitOptions = null)
+        {
+            var q = BuildQuery<TokenUserDbViewModel>(@"
+                SELECT t.*,
+                       u.Name as UserName,
+                       u.Email as UserEmail
+                FROM token AS t
+                LEFT JOIN user AS u ON t.UserId = u.Id");
+            return q.ExecuteLimitedAsync(sortOptions, limitOptions);
+        }
+
         public async Task<TokenDbModel?> GetTokenAsync(string token)
         {
             return await _conn.Table<TokenDbModel>()
@@ -166,6 +179,33 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             await _conn.Table<TokenDbModel>()
                 .Where(x => x.Id == tokenId)
                 .DeleteAsync();
+        }
+
+        public async Task DeleteExpiredTokens()
+        {
+            // Delete tokens that were never used
+            await _conn.ExecuteAsync(@"
+                DELETE
+                FROM (
+                    SELECT Id,
+                           datetime((Created - 621355968000000000) / 10000000, 'unixepoch') AS 'Created'
+                    FROM token
+                    WHERE LastUsed IS NULL
+                    AND Created < date('now', '-1 days')) t
+                WHERE token.Id = t.Id");
+
+            // Delete tokens that haven't been used in ages
+            await _conn.ExecuteAsync(@"
+                DELETE
+                FROM (
+                    SELECT Id,
+                           datetime((LastUsed - 621355968000000000) / 10000000, 'unixepoch') AS 'LastUsed'
+                    FROM (
+                        SELECT *
+                        FROM token
+                        WHERE LastUsed IS NOT NULL
+                    )
+                    WHERE LastUsed < date('now', '-30 days'))");
         }
 
         public async Task<ExtendedProfileDbModel?> GetProfileAsync(int id, int userId)
