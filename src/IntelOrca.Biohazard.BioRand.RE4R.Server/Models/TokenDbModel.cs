@@ -23,4 +23,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Models
 
         public DateTime? LastUsed { get; set; }
     }
+
+    public class TokenUserDbViewModel : TokenDbModel
+    {
+        public string UserName { get; set; } = "";
+        public string UserEmail { get; set; } = "";
+        public string UserAvatarUrl { get; set; } = "";
+    }
 }

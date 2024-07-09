@@ -2,7 +2,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.RestModels;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -204,6 +206,41 @@ The BioRand Team");
             logger.LogInformation("User {UserId}[{UserName}] deleted token {TokenId}",
                 user?.Id, user?.Name, token.Id);
             return Empty;
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpGet("tokens")]
+        public async Task<object> GetTokens(string? sort, string? order, int page = 1)
+        {
+            var user = await auth.GetAuthorizedUserAsync(UserRoleKind.Administrator);
+            if (user == null)
+                return Unauthorized();
+
+            if (sort == null)
+            {
+                sort = "Created";
+                order = "desc";
+            }
+
+            var itemsPerPage = 25;
+            var result = await db.GetTokensAsync(
+                SortOptions.FromQuery(sort, order, ["Created", "LastUsed", "UserName", "UserEmail"]),
+                LimitOptions.FromPage(page, itemsPerPage));
+            return ResultListResult.Map(page, itemsPerPage, result, x => new
+            {
+                x.Id,
+                Created = x.Created.ToUnixTimeSeconds(),
+                LastUsed = x.LastUsed?.ToUnixTimeSeconds(),
+                Code = x.Code.ToString(),
+                x.Token,
+                User = new
+                {
+                    Id = x.UserId,
+                    Name = x.UserName,
+                    Email = x.UserEmail,
+                    AvatarUrl = x.UserAvatarUrl
+                }
+            });
         }
 
         private static bool IsValidEmailAddress([NotNullWhen(true)] string? email)

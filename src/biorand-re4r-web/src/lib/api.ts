@@ -201,6 +201,10 @@ export interface LightUserInfo {
     avatarUrl: string;
 }
 
+export interface AdminLightUserInfo extends LightUserInfo {
+    email: string;
+}
+
 export interface PatronQueryOptions extends QueryOptions {
     user?: string;
 }
@@ -222,6 +226,16 @@ export type PatronDailyResult = {
     donations: number;
     amount: number;
 }[];
+
+export type TokenModelResult = QueryResult<TokenModel>;
+export interface TokenModel {
+    id: number;
+    created: number;
+    lastUsed: number | null;
+    code: string;
+    token: string;
+    user: AdminLightUserInfo;
+}
 
 export interface NewsItem {
     id: number;
@@ -368,6 +382,10 @@ export class BioRandApi {
         return await this.put("patron/match", {
             id, userName
         });
+    }
+
+    async getTokens(query: QueryOptions) {
+        return await this.get<TokenModelResult>("auth/tokens", query);
     }
 
     async getNewsItems() {
