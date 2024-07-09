@@ -67,6 +67,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             {
                 logger.LogInformation("Creating user {Name} <{Email}>", email, name);
                 await db.CreateUserAsync(email, name!);
+                await db.UpdateAllUnmatchedKofiMatchesAsync();
                 await emailService.SendEmailAsync(name!, email,
                     "BioRand 4 - Early Access",
 $@"Dear {name},
