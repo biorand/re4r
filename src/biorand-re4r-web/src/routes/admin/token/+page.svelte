@@ -1,16 +1,6 @@
 <script lang="ts">
-    import {
-        getApi,
-        type PatronDonationsItem,
-        type PatronDonationsResult,
-        type PatronQueryOptions,
-        type QueryOptions,
-        type TokenModel,
-        type TokenModelResult
-    } from '$lib/api';
+    import { getApi, type QueryOptions, type TokenModel, type TokenModelResult } from '$lib/api';
     import BioRandResultPagination from '$lib/BioRandResultPagination.svelte';
-    import ErrorModal, { type ErrorModalContent } from '$lib/ErrorModal.svelte';
-    import InputModal from '$lib/InputModal.svelte';
     import SortedTable, { type SortedTableData } from '$lib/SortedTable.svelte';
     import SortedTableHeader from '$lib/SortedTableHeader.svelte';
     import Timestamp from '$lib/Timestamp.svelte';
@@ -18,16 +8,7 @@
     import PageBody from '$lib/typography/PageBody.svelte';
     import UserWidget from '$lib/UserWidget.svelte';
     import { buildUrl, getLocation, tryParseInt } from '$lib/utility';
-    import {
-        Badge,
-        Button,
-        TabItem,
-        TableBodyCell,
-        TableBodyRow,
-        TableHead,
-        Tabs
-    } from 'flowbite-svelte';
-    import { EditOutline } from 'flowbite-svelte-icons';
+    import { Badge, TableBodyCell, TableBodyRow, TableHead } from 'flowbite-svelte';
     import { readable } from 'svelte/store';
 
     const queryParams = readable<QueryOptions>(undefined, (set) => {
@@ -101,9 +82,12 @@
                     <UserWidget user={token.user} href="/user/{token.user.name}" />
                 </TableBodyCell>
                 <TableBodyCell tdClass="p-1">{token.user.email}</TableBodyCell>
-                <TableBodyCell tdClass="p-1 font-mono">{token.token}</TableBodyCell>
+                <TableBodyCell tdClass="p-1 font-mono blur-sm hover:blur-none cursor-default">
+                    {token.token}
+                </TableBodyCell>
                 <TableBodyCell tdClass="p-1 text-center"
-                    ><Badge color="dark">{token.code}</Badge></TableBodyCell
+                    ><Badge color={token.lastUsed ? 'green' : 'dark'}>{token.code}</Badge
+                    ></TableBodyCell
                 >
             </TableBodyRow>
         </SortedTable>

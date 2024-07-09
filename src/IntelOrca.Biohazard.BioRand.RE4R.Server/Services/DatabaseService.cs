@@ -185,26 +185,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
         {
             // Delete tokens that were never used
             await _conn.ExecuteAsync(@"
-                DELETE
-                FROM (
-                    SELECT Id,
-                           datetime((Created - 621355968000000000) / 10000000, 'unixepoch') AS 'Created'
+                DELETE FROM token
+                WHERE Id IN (
+                    SELECT Id
                     FROM token
                     WHERE LastUsed IS NULL
-                    AND Created < date('now', '-1 days')) t
-                WHERE token.Id = t.Id");
+                      AND datetime((Created - 621355968000000000) / 10000000, 'unixepoch') < date('now', '-1 days'))");
 
             // Delete tokens that haven't been used in ages
             await _conn.ExecuteAsync(@"
-                DELETE
-                FROM (
-                    SELECT Id,
-                           datetime((LastUsed - 621355968000000000) / 10000000, 'unixepoch') AS 'LastUsed'
+                DELETE FROM token
+                WHERE Id IN (
+                    SELECT Id
                     FROM (
-                        SELECT *
+                        SELECT Id,
+                               datetime((LastUsed - 621355968000000000) / 10000000, 'unixepoch') AS 'LastUsed'
                         FROM token
-                        WHERE LastUsed IS NOT NULL
-                    )
+                        WHERE LastUsed IS NOT NULL)
                     WHERE LastUsed < date('now', '-30 days'))");
         }
 

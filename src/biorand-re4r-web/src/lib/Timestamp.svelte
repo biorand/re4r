@@ -2,13 +2,20 @@
     import { Tooltip } from 'flowbite-svelte';
 
     export let value: number;
-    $: date = new Date(value * 1000);
+    $: date = toLocaleDate(value);
     $: dateFriendly = date.toLocaleString();
     $: timeAgo = getTimeAgo(value);
 
+    function toLocaleDate(t: number) {
+        const date = new Date(t * 1000);
+        const timezoneOffset = date.getTimezoneOffset();
+        return new Date(date.getTime() - timezoneOffset * 60000);
+    }
+
     function getTimeAgo(timestamp: number) {
         const currentTime = new Date().getTime();
-        const timeDifference = currentTime - timestamp * 1000;
+        const localOffset = new Date().getTimezoneOffset() * 60000;
+        const timeDifference = currentTime - timestamp * 1000 + localOffset;
         if (timeDifference < 60000) {
             return 'A few seconds ago';
         }

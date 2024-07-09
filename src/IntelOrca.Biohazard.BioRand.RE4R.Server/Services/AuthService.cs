@@ -12,6 +12,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
         TwitchService twitchService,
         ILogger<AuthService> logger)
     {
+        private DateTime _lastTokenCleanUp;
+
+        private void CleanUpTokensIfTimeTo()
+        {
+            var now = DateTime.UtcNow;
+            if (now - _lastTokenCleanUp >= TimeSpan.FromDays(1))
+            {
+                _lastTokenCleanUp = now;
+                _ = db.DeleteExpiredTokens();
+            }
+        }
+
         public string? GetAuthToken()
         {
             var httpContext = httpContextAccessor.HttpContext;
@@ -48,6 +60,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                 var user = await db.GetUserByToken(token);
                 if (user != null)
                 {
+                    CleanUpTokensIfTimeTo();
                     await CheckUserSubscriptionAsync(user);
                 }
                 if (user != null && user.Role >= minimumRole)
@@ -59,7 +72,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             return null;
         }
 
-        protected async Task CheckUserSubscriptionAsync(UserDbModel user)
+        private async Task CheckUserSubscriptionAsync(UserDbModel user)
         {
             var originalFlags = user.Flags;
             var originalRole = user.Role;
