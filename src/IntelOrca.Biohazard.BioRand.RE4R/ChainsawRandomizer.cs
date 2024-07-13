@@ -158,6 +158,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 new InventoryModifier(),
                 new MerchantShopModifier(),
                 new WeaponModifier(),
+                new ItemModifier(),
                 new LevelItemModifier(),
                 new EnemyPlaceModifier(),
                 new EnemyModifier(),

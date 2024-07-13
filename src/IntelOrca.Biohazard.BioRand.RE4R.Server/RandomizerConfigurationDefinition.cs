@@ -194,6 +194,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"inventory-stack-multiplier",
+                Label = "Stack Multiplier",
+                Description = "Multiply every item stack size. This number will essentially be how many grenades or resources can be stacked.",
+                Type = "range",
+                Min = 1,
+                Max = 999,
+                Step = 1,
+                Default = 1
+            });
 
             foreach (var x in new[] { "Primary", "Secondary" })
             {
