@@ -2,6 +2,7 @@
     import LoadingButton from '$lib/LoadingButton.svelte';
     import type { ProfileViewModel } from '$lib/UserProfileManager';
     import { getApi, type GenerateResult } from '$lib/api';
+    import { getLocalStorageManager } from '$lib/localStorage';
     import { rng } from '$lib/utility';
     import { Alert, Button, ButtonGroup, Hr, Input, Label } from 'flowbite-svelte';
     import { CloseCircleSolid, ShuffleOutline } from 'flowbite-svelte-icons';
@@ -10,6 +11,7 @@
     export let profile: ProfileViewModel;
     export let generateResult: GenerateResult | undefined;
 
+    let lsManager = getLocalStorageManager();
     let seed = generateResult?.seed.toString() || '0';
     let generating = false;
     let generateError = '';
@@ -17,8 +19,15 @@
         seed = rng(100000, 1000000).toString();
     }
     if (!generateResult) {
-        onShuffleSeed();
+        const savedSeed = lsManager.getNumber('seed');
+        if (savedSeed) {
+            seed = savedSeed.toString();
+        } else {
+            onShuffleSeed();
+        }
     }
+
+    $: lsManager.set('seed', seed);
 
     async function onGenerate() {
         generating = true;
