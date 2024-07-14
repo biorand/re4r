@@ -180,6 +180,12 @@
             "875b72c1-3cab-4914-b77a-ae309ed8f459" // police on fire
           ],
           "horde": true
+        },
+        {
+          "guids": [
+            "87827167-575d-4f83-bba2-8c3b525332f5" // villager with pitchfork
+          ],
+          "lockWeapon": true
         }
         // TODO
         // {
@@ -191,6 +197,15 @@
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_030.scn.20",
       "chapter": 1,
       "description": "farm & ",
+      "restrictions": [
+        {
+          "guids": [
+            "ee20a0a5-eb61-497a-b373-a72cf53f47f0", // villager with pitchfork
+            "2cac2691-aed5-4a73-b646-6a882ee1b697" // villager with pitchfork
+          ],
+          "lockWeapon": true
+        }
+      ],
       "extra": [
         {
           "enemies": [

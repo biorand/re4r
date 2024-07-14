@@ -227,16 +227,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
 
                     // Set weapon
-                    if (ecd.Weapon.Length == 0)
+                    if (!spawn.LockWeapon)
                     {
-                        e.Weapon = 0;
-                        e.SecondaryWeapon = 0;
-                    }
-                    else
-                    {
-                        var weaponChoice = rng.Next(ecd.Weapon);
-                        e.Weapon = weaponChoice.Primary?.Id ?? 0;
-                        e.SecondaryWeapon = weaponChoice.Secondary?.Id ?? 0;
+                        if (ecd.Weapon.Length == 0)
+                        {
+                            e.Weapon = 0;
+                            e.SecondaryWeapon = 0;
+                        }
+                        else
+                        {
+                            var weaponChoice = rng.Next(ecd.Weapon);
+                            e.Weapon = weaponChoice.Primary?.Id ?? 0;
+                            e.SecondaryWeapon = weaponChoice.Secondary?.Id ?? 0;
+                        }
                     }
 
                     // Set any other custom fields
@@ -408,6 +411,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (restrictionBlock != null)
                 {
                     spawn.Horde = restrictionBlock.Horde;
+                    spawn.LockWeapon = restrictionBlock.LockWeapon;
                     spawn.PreventDuplicate = restrictionBlock.PreventDuplicate;
 
                     var includedClasses = restrictionBlock.Include;
@@ -416,7 +420,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         var excludedClasses = restrictionBlock.Exclude;
                         if (excludedClasses == null)
                         {
-                            if (!spawn.Horde && !spawn.PreventDuplicate)
+                            if (!spawn.Horde && !spawn.LockWeapon && !spawn.PreventDuplicate)
                             {
                                 enemyClasses = ImmutableArray<EnemyClassDefinition>.Empty;
                                 spawn.PreventDuplicate = true;

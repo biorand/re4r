@@ -9,6 +9,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public Enemy OriginalEnemy { get; }
         public Enemy Enemy { get; private set; }
         public bool Horde { get; set; }
+        public bool LockWeapon { get; set; }
         public bool PreventDuplicate { get; set; }
         public ImmutableArray<EnemyClassDefinition> PreferredClassPool { get; set; } = [];
         public ImmutableArray<EnemyClassDefinition> ClassPool { get; set; } = [];
@@ -27,7 +28,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public void ConvertType(Area area, EnemyKindDefinition kind)
         {
-            Enemy = area.ConvertTo(Enemy, kind);
+            var newEnemy = area.ConvertTo(Enemy, kind);
+            if (newEnemy != Enemy)
+                LockWeapon = false;
+            Enemy = newEnemy;
         }
 
         public bool Prefers(EnemyClassDefinition ecd)
@@ -42,6 +46,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var newEnemy = Area.Duplicate(Enemy, contextId);
             var result = new EnemySpawn(Area, Enemy, newEnemy);
             result.Horde = Horde;
+            result.LockWeapon = LockWeapon;
             result.ClassPool = ClassPool;
             result.PreferredClassPool = PreferredClassPool;
             result.ChosenClass = ChosenClass;

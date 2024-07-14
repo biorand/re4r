@@ -16,6 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         public Guid[]? Guids { get; set; }
         public bool Horde { get; set; }
+        public bool LockWeapon { get; set; }
         public bool PreventDuplicate { get; set; }
         public string[]? Include { get; set; }
         public string[]? Exclude { get; set; }
