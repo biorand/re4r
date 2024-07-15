@@ -10,6 +10,7 @@
         type RandoHistoryQueryOptions,
         type RandoHistoryResult
     } from '$lib/api';
+    import { getLocalStorageManager } from '$lib/localStorage';
     import PageBody from '$lib/typography/PageBody.svelte';
     import PageTitle from '$lib/typography/PageTitle.svelte';
     import { getUserManager } from '$lib/userManager';
@@ -49,6 +50,7 @@
 
     function loadConfig(item: RandoHistoryItem) {
         const userManager = getUserManager();
+        let lsManager = getLocalStorageManager();
         const profileManager = new UserProfileManager(
             api,
             userManager.info?.user.id || 0,
@@ -71,6 +73,7 @@
             isSelected: true,
             isOwner: true
         });
+        lsManager.set('seed', item.seed);
     }
 
     function sortTable(e: any) {
@@ -129,7 +132,7 @@
                 <TableBodyCell tdClass="p-1"
                     ><a
                         on:click={() => loadConfig(item)}
-                        href="/"
+                        href="/generate"
                         class="text-blue-400 hover:text-blue-300">Generate</a
                     ></TableBodyCell
                 >
