@@ -695,14 +695,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
 
             group = page.CreateGroup("Enemy Limits");
-            foreach (var stageId in StageIds.All)
+            foreach (var stage in StageIds.Stages)
             {
-                var stageName = StageIds.FromId(stageId)?.Name;
                 group.Items.Add(new GroupItem()
                 {
-                    Id = $"debug-stage-enemy-limit-{stageId}",
-                    Label = $"{stageId}: {stageName}",
-                    Description = stageName,
+                    Id = $"debug-stage-enemy-limit-{stage.Stage}",
+                    Label = $"{stage.Stage}: {stage.Name}",
+                    Description = stage.Name,
                     Type = "range",
                     Min = 0,
                     Max = 500,

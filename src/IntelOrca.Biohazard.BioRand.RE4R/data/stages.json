@@ -93,6 +93,8 @@
         { "chapter": 7, "stage": 50401, "name": "Main hall push ashley" },
         { "chapter": 7, "stage": 50500, "name": "Before first garradoor" },
         { "chapter": 7, "stage": 50501, "name": "Section with decapitation" },
+        { "chapter": 7, "stage": 50600, "name": "Outside water hall" },
+        { "chapter": 7, "stage": 50601, "name": "Water hall" },
 
         // Chapter 8 stages:
         { "chapter": 8, "stage": 51101, "name": "Starting area." },
