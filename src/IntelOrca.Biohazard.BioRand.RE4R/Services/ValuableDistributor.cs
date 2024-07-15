@@ -62,6 +62,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     classes.Add(sw);
                 }
             }
+            if (classes.Count == 0)
+                return ItemClasses.None;
             return rng.Next(classes);
         }
 
