@@ -7,15 +7,12 @@
     $: timeAgo = getTimeAgo(value);
 
     function toLocaleDate(t: number) {
-        const date = new Date(t * 1000);
-        const timezoneOffset = date.getTimezoneOffset();
-        return new Date(date.getTime() - timezoneOffset * 60000);
+        return new Date(t * 1000);
     }
 
     function getTimeAgo(timestamp: number) {
         const currentTime = new Date().getTime();
-        const localOffset = new Date().getTimezoneOffset() * 60000;
-        const timeDifference = currentTime - timestamp * 1000 + localOffset;
+        const timeDifference = currentTime - timestamp * 1000;
         if (timeDifference < 60000) {
             return 'A few seconds ago';
         }
