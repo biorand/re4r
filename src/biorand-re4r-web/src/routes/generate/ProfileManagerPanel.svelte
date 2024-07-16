@@ -13,8 +13,8 @@
 <div class="d-flex flex-column h-100">
     {#each groups as profileGroup}
         <div class="mb-3">
-            <h4 class="text-2xl">{profileGroup.category}</h4>
-            <ul class="mt-1 ml-4">
+            <h4 class="text-lg">{profileGroup.category}</h4>
+            <ul class="text-sm mt-1 ml-4">
                 {#each profileGroup.profiles as profile}
                     <ProfileManagerItem {profile} on:click={() => onSelectProfile(profile)} />
                 {/each}

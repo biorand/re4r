@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { PageBody } from '$lib/typography';
     import Generate from './Generate.svelte';
 </script>
 
@@ -7,6 +6,6 @@
     <title>Generate - BioRand 4</title>
 </svelte:head>
 
-<PageBody>
+<div class="w-full my-2 font-light">
     <Generate />
-</PageBody>
+</div>

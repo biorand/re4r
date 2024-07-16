@@ -31,11 +31,11 @@
         <Spinner class="mx-auto block" />
     </div>
 {:then}
-    <div class="flex flex-col grow lg:flex-row">
-        <div class="lg:w-1/3 lg:max-w-lg p-2 border-r border-gray-100 dark:border-gray-700">
+    <div class="flex flex-col grow xl:flex-row">
+        <div class="grow xl:max-w-lg p-2 border-r border-gray-100 dark:border-gray-700">
             <ProfileManagerPanel groups={$profileGroups} bind:selectedProfile={$selectedProfile} />
         </div>
-        <div class="grow flex m-2">
+        <div class="grow xl:w-2/3 m-2">
             {#if configDefinition && $selectedProfile}
                 <div class="w-full">
                     <ProfilePanel
