@@ -78,6 +78,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 : ChainsawRandomizerFactory.Default.ReadScnFile(data);
         }
 
+        public void ModifyScnFile(string path, Action<ScnFile> callback)
+        {
+            var scnFile = GetScnFile(path);
+            callback(scnFile);
+            SetScnFile(path, scnFile);
+        }
+
         public UserFile GetUserFile(string path)
         {
             var data = GetGameFileData(path);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
 using RszTool;
@@ -11,6 +12,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+            var rng = randomizer.CreateRng();
+
             StaticChanges(randomizer, logger);
             DisableFirstAreaInhibitor(randomizer, logger);
             FixDeadEnemyCounters(randomizer, logger);
@@ -26,6 +29,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 EnableProfessionalAutoSave(randomizer, logger);
             }
             AllowLaserSightOnAnything(randomizer, logger);
+            RandomizeFirstBearTrap(randomizer, logger, rng);
         }
 
         private void StaticChanges(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -246,6 +250,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         }
                     }
                 }
+            });
+        }
+
+        private void RandomizeFirstBearTrap(ChainsawRandomizer randomizer, RandomizerLogger logger, Rng rng)
+        {
+            const string scnPath = "natives/stm/_chainsaw/environment/scene/gimmick/st40/gimmick_st40_505_p000.scn.20";
+
+            if (rng.NextProbability(50))
+                return;
+
+            logger.LogLine("Randomize first bear trap location");
+            randomizer.FileRepository.ModifyScnFile(scnPath, scn =>
+            {
+                var bearTrapObject = scn.FindGameObject(new Guid("601d0ce7-ca40-40d0-bba9-73918a141a96"));
+                if (bearTrapObject == null)
+                    return;
+
+                var transform = bearTrapObject.FindComponent("via.Transform");
+                if (transform == null)
+                    return;
+
+                transform.Set("v0", new Vector4(-76.99f, 5.14f, 35.3336f, 0.0f));
             });
         }
 
