@@ -43,7 +43,6 @@
                     default:
                         if (kind == 'min') {
                             config[item.id] = item.min;
-                            console.log('a');
                         } else if (kind == 'mid') {
                             if (item.type == 'scale') {
                                 config[item.id] = 10000;
@@ -55,7 +54,8 @@
                         } else if (kind == 'rng') {
                             const range = item.max! - item.min!;
                             const value = item.min! + Math.random() * range;
-                            const rounded = ~~(value / item.step!) * item.step!;
+                            const step = item.step || 1;
+                            const rounded = ~~(value / step) * step;
                             const fixedRounded = parseFloat(rounded.toFixed(2));
                             config[item.id] = fixedRounded;
                         }
