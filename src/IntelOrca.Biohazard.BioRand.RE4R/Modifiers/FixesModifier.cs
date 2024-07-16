@@ -158,7 +158,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private void IncreaseJetSkiTimer(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             const string userFilePath = "natives/stm/_chainsaw/appsystem/ui/userdata/guiparamholdersettinguserdata.user.2";
-            const float updatedTimerSeconds = 6 * 60;
+            const float updatedTimerSeconds = 7 * 60;
 
             logger.LogLine($"Set jet ski timer to {updatedTimerSeconds} seconds");
 
