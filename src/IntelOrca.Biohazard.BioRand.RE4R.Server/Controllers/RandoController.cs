@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Services;
@@ -19,7 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
     public class RandoController(
         AuthService authService,
         DatabaseService db,
-        RandomizerService randomizer,
+        RandomizerService randomizerService,
         UrlService urlService,
         ILogger<RandoController> logger) : ControllerBase
     {
@@ -34,14 +33,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (profile == null)
                 return NotFound();
 
-            var config = RandomizerConfigurationDefinition.ProcessConfig(request.Config);
+            var randomizer = randomizerService.GetRandomizer();
+            var config = RandomizerConfiguration.FromDictionary(request.Config ?? []);
             var configJson = config.ToJson(indented: false);
 
             var randoConfig = await db.GetOrCreateRandoConfig(request.ProfileId, configJson);
             var rando = await db.CreateRando(new RandoDbModel()
             {
                 Created = DateTime.UtcNow,
-                Version = ChainsawRandomizerFactory.Default.GitHash,
+                Version = randomizer.BuildVersion,
                 Seed = request.Seed,
                 UserId = user.Id,
                 ConfigId = randoConfig.Id
@@ -50,7 +50,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
             logger.LogInformation("User [{UserId}]{UserName} generatating rando ProfileId = {ProfileId} ProfileName = {ProfileName} Seed = {Seed}",
                 user.Id, user.Name, request.ProfileId, profile.Name, request.Seed);
-            var result = await randomizer.GenerateAsync(
+            var result = await randomizerService.GenerateAsync(
                 (ulong)rando.Id,
                 profile.Name,
                 profile.Description,
@@ -144,7 +144,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         [HttpGet("{randoId}/download")]
         public object Download(long randoId, [FromQuery] bool mod)
         {
-            var result = randomizer.Find((ulong)randoId);
+            var result = randomizerService.Find((ulong)randoId);
             if (result == null)
             {
                 return Unauthorized();

@@ -4,7 +4,7 @@ using REE;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    public sealed class RandomizerOutput
+    public sealed class ChainsawRandomizerOutput
     {
         private byte[]? _zipFile;
         private byte[]? _modFile;
@@ -13,7 +13,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public PakFileBuilder PakFile { get; }
         public LogFiles LogFiles { get; }
 
-        internal RandomizerOutput(RandomizerInput input, PakFileBuilder pakFile, LogFiles logFiles)
+        internal ChainsawRandomizerOutput(RandomizerInput input, PakFileBuilder pakFile, LogFiles logFiles)
         {
             Input = input;
             PakFile = pakFile;

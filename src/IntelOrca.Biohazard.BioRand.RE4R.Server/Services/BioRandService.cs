@@ -18,8 +18,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
         private async Task CreateDefaultProfiles()
         {
             // Default profile
-            var randomizerConfig = await randomizerService.GetConfigAsync();
-            var defaultConfig = randomizerConfig.GetDefault();
+            var randomizer = randomizerService.GetRandomizer();
+            var defaultConfig = randomizer.DefaultConfiguration;
 
             var profile = await db.GetDefaultProfile();
             if (profile == null)

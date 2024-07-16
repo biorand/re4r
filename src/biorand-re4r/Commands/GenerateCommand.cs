@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.IO.Compression;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using REE;
 using Spectre.Console;
@@ -43,27 +44,39 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             if (!string.IsNullOrEmpty(settings.ConfigPath))
             {
                 var configJson = File.ReadAllText(settings.ConfigPath);
-                input.Configuration = RandomizerConfigurationDefinition.ProcessConfig(configJson);
+                input.Configuration = RandomizerConfiguration.FromJson(configJson);
             }
             var output = randomizer.Randomize(input);
 
             // Create log files
-            output.LogFiles.Input.WriteToFile("input.log");
-            output.LogFiles.Process.WriteToFile("process.log");
-            output.LogFiles.Output.WriteToFile("output.log");
+            foreach (var log in output.Logs)
+            {
+                log.Value.WriteToFile(log.Key);
+            }
 
+            // Find pak file
+            var pakFile = GetPakFile(output.PakOutput);
             var outputPath = settings.OutputPath!;
             if (outputPath.EndsWith(".pak"))
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
-                output.PakFile.ToByteArray().WriteToFile(outputPath);
+                pakFile.WriteToFile(outputPath);
             }
             else
             {
                 var pakList = chainsawRandomizerFactory.GetDefaultPakList();
-                await new PakFile(output.PakFile.ToByteArray()).ExtractAllAsync(pakList, outputPath);
+                await new PakFile(pakFile).ExtractAllAsync(pakList, outputPath);
             }
             return 0;
+        }
+
+        private static byte[] GetPakFile(byte[] zip)
+        {
+            var archive = new ZipArchive(new MemoryStream(zip));
+            var entry = archive.Entries.First(x => x.FullName.EndsWith(".pak"));
+            var output = new MemoryStream();
+            entry.Open().CopyTo(output);
+            return output.ToArray();
         }
     }
 }

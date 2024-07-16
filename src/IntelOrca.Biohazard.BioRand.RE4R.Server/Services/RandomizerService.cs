@@ -25,19 +25,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             }
         }
 
-        private IChainsawRandomizer GetRandomizer()
+        public IRandomizer GetRandomizer()
         {
             var chainsawRandomizerFactory = ChainsawRandomizerFactory.Default;
             var randomizer = chainsawRandomizerFactory.Create();
             return randomizer;
-        }
-
-        public Task<RandomizerConfigurationDefinition> GetConfigAsync()
-        {
-            var randomizer = GetRandomizer();
-            var enemyClassFactory = randomizer.EnemyClassFactory;
-            var configDefinition = RandomizerConfigurationDefinition.Create(enemyClassFactory);
-            return Task.FromResult(configDefinition);
         }
 
         public async Task<GenerateResult> GenerateAsync(
@@ -46,7 +38,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             string profileDescription,
             string profileAuthor,
             int seed,
-            Dictionary<string, object> config)
+            RandomizerConfiguration config)
         {
             await _mutex.WaitAsync();
             try
@@ -65,8 +57,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
                     Configuration = config
                 };
                 var output = randomizer.Randomize(input);
-                var outputFile = output.GetOutputZip();
-                var outputFileMod = output.GetOutputMod();
+                var outputFile = output.PakOutput;
+                var outputFileMod = output.FluffyOutput;
                 var result = new GenerateResult(id, seed, outputFile, outputFileMod);
                 _randos[id] = result;
                 return result;

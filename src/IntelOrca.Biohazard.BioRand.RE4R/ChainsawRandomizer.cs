@@ -11,7 +11,7 @@ using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal class ChainsawRandomizer : IChainsawRandomizer
+    internal class ChainsawRandomizer : IRandomizer
     {
         private FileRepository _fileRepository = new FileRepository();
         private readonly RandomizerLogger _loggerInput = new RandomizerLogger();
@@ -108,7 +108,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
 
             var logFiles = new LogFiles(_loggerInput.Output, _loggerProcess.Output, _loggerOutput.Output);
-            return new RandomizerOutput(input, _fileRepository.GetOutputPakFile(), logFiles);
+            var output = new ChainsawRandomizerOutput(input, _fileRepository.GetOutputPakFile(), logFiles);
+            return new RandomizerOutput(
+                output.GetOutputZip(),
+                output.GetOutputMod(),
+                new Dictionary<string, string>()
+                {
+                    ["input.log"] = _loggerInput.Output,
+                    ["process.log"] = _loggerProcess.Output,
+                    ["output.log"] = _loggerOutput.Output
+                });
         }
 
         private void ApplyOverlay(byte[] zipData)
@@ -196,5 +205,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             return _rng.NextFork();
         }
+
+        public object ConfigurationDefinition
+        {
+            get
+            {
+                var configDefinition = RandomizerConfigurationDefinition.Create(EnemyClassFactory);
+                return configDefinition;
+            }
+        }
+
+        public RandomizerConfiguration DefaultConfiguration
+        {
+            get
+            {
+                var def = RandomizerConfigurationDefinition.Create(EnemyClassFactory);
+                return def.GetDefault();
+            }
+        }
+
+        public string BuildVersion => ChainsawRandomizerFactory.Default.GitHash;
     }
 }

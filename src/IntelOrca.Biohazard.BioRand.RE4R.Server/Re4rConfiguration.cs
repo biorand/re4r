@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {

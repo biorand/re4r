@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.BioRand.RE4R.Server.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Server.Models;
 using SQLite;
 
@@ -302,7 +302,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
 
         public async Task<ProfileDbModel> CreateProfileAsync(
             ProfileDbModel profile,
-            Dictionary<string, object> config)
+            RandomizerConfiguration config)
         {
             await _conn.InsertAsync(profile);
             await SetProfileConfigAsync(profile.Id, config);
@@ -319,7 +319,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Services
             await _conn.ExecuteAsync("UPDATE profile SET Flags = Flags | 1 WHERE Id = ?", profileId);
         }
 
-        public async Task SetProfileConfigAsync(int profileId, Dictionary<string, object> config)
+        public async Task SetProfileConfigAsync(int profileId, RandomizerConfiguration config)
         {
             var newConfigData = config.ToJson(indented: false);
             var existingConfigId = await _conn.ExecuteScalarAsync<int>("SELECT ConfigId FROM profile WHERE Id = ?", profileId);

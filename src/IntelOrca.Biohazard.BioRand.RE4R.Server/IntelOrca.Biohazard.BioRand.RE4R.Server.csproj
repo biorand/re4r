@@ -17,6 +17,7 @@
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IntelOrca.Biohazard.BioRand.Common\IntelOrca.Biohazard.BioRand.Common.csproj" />
     <ProjectReference Include="..\IntelOrca.Biohazard.BioRand.RE4R\IntelOrca.Biohazard.BioRand.RE4R.csproj" />
   </ItemGroup>
   <ItemGroup>

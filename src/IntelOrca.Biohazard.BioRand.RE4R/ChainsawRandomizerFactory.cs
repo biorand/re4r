@@ -31,7 +31,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return new PakList(pakListText);
         }
 
-        public IChainsawRandomizer Create()
+        public IRandomizer Create()
         {
             var enemyClassFactory = EnemyClassFactory.Create();
             var randomizer = new ChainsawRandomizer(enemyClassFactory);

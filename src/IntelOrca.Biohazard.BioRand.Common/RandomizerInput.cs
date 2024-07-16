@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace IntelOrca.Biohazard.BioRand.RE4R
+﻿namespace IntelOrca.Biohazard.BioRand
 {
     public class RandomizerInput
     {
@@ -9,6 +7,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public string? ProfileDescription { get; set; }
         public string? ProfileAuthor { get; set; }
         public int Seed { get; set; }
-        public Dictionary<string, object> Configuration { get; set; } = new();
+        public RandomizerConfiguration Configuration { get; set; } = new();
     }
 }

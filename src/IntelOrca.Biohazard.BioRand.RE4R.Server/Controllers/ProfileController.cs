@@ -15,6 +15,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
     public class ProfileController(
         AuthService auth,
         DatabaseService _db,
+        RandomizerService randomizerService,
         ILogger<ProfileController> _logger) : ControllerBase
     {
         [HttpGet]
@@ -29,13 +30,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
         }
 
         [HttpGet("definition")]
-        public Task<RandomizerConfigurationDefinition> GetConfigAsync()
+        public object GetConfigAsync()
         {
-            var chainsawRandomizerFactory = ChainsawRandomizerFactory.Default;
-            var randomizer = chainsawRandomizerFactory.Create();
-            var enemyClassFactory = randomizer.EnemyClassFactory;
-            var configDefinition = RandomizerConfigurationDefinition.Create(enemyClassFactory);
-            return Task.FromResult(configDefinition);
+            var randomizer = randomizerService.GetRandomizer();
+            return randomizer.ConfigurationDefinition;
         }
 
         [HttpGet("search")]
@@ -59,7 +57,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             if (authorizedUser == null)
                 return Unauthorized();
 
-            var config = RandomizerConfigurationDefinition.ProcessConfig(body.Config);
+            var config = RandomizerConfiguration.FromDictionary(body.Config);
 
             var profile = new ProfileDbModel()
             {
@@ -109,7 +107,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
             profile.Description = body.Description;
             profile.Public = body.Public;
 
-            var config = RandomizerConfigurationDefinition.ProcessConfig(body.Config);
+            var config = RandomizerConfiguration.FromDictionary(body.Config);
 
             await _db.UpdateProfileAsync(profile);
             await _db.SetProfileConfigAsync(id, config);
@@ -178,11 +176,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Controllers
 
         private object GetProfile(ExtendedProfileDbModel profile)
         {
-            Dictionary<string, object>? config = null;
+            var randomizer = randomizerService.GetRandomizer();
+            RandomizerConfiguration? config = null;
             if (!string.IsNullOrEmpty(profile.Data))
             {
-                config = RandomizerConfigurationDefinition.ProcessConfig(profile.Data);
-                config = RandomizerConfigurationDefinition.AddDefaults(config);
+                config = randomizer.DefaultConfiguration + RandomizerConfiguration.FromJson(profile.Data);
             }
 
             return new

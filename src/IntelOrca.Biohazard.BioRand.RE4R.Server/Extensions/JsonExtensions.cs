@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 
-namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
+namespace IntelOrca.Biohazard.BioRand.RE4R.Server.Extensions
 {
     internal static class JsonExtensions
     {
@@ -33,33 +32,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
                     ReadCommentHandling = JsonCommentHandling.Skip,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 })!;
-        }
-
-        public static bool? GetBooleanProperty(this JsonElement element, string name)
-        {
-            return element.TryGetProperty(name, out var value) ? value.GetBoolean() : null;
-        }
-
-        public static int? GetInt32Property(this JsonElement element, string name)
-        {
-            return element.TryGetProperty(name, out var value) ? value.GetInt32() : null;
-        }
-
-        public static string? GetStringProperty(this JsonElement element, string name)
-        {
-            return element.TryGetProperty(name, out var value) ? value.GetString() : null;
-        }
-
-        public static object? GetValue(this JsonElement element)
-        {
-            return element.ValueKind switch
-            {
-                JsonValueKind.True => true,
-                JsonValueKind.False => true,
-                JsonValueKind.Number => element.GetDouble(),
-                JsonValueKind.Null => null,
-                _ => throw new NotSupportedException()
-            };
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 
-namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
+namespace IntelOrca.Biohazard.BioRand.Extensions
 {
     internal static class JsonExtensions
     {

@@ -721,13 +721,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return configDefinition;
         }
 
-        public Dictionary<string, object> GetDefault()
+        public RandomizerConfiguration GetDefault()
         {
             var defaultProfile = ChainsawRandomizerFactory.GetDefaultProfile();
             var defaultProfileJson = Encoding.UTF8.GetString(defaultProfile);
-            var defaultProfileDeserialized = ProcessConfig(defaultProfileJson);
+            var defaultProfileDeserialized = RandomizerConfiguration.FromJson(defaultProfileJson);
 
-            var result = new Dictionary<string, object>();
+            var result = new RandomizerConfiguration();
             foreach (var item in AllItems)
             {
                 result[item.Id!] = item.Default!;
@@ -735,17 +735,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 {
                     result[item.Id!] = defaultOverride;
                 }
-            }
-            return result;
-        }
-
-        public static Dictionary<string, object> AddDefaults(Dictionary<string, object> config)
-        {
-            var defaults = Create(EnemyClassFactory.Default).GetDefault();
-            var result = new Dictionary<string, object>(defaults);
-            foreach (var kvp in config)
-            {
-                result[kvp.Key] = kvp.Value;
             }
             return result;
         }
