@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
-using IntelOrca.Biohazard.BioRand.RE4R.Server;
+using IntelOrca.Biohazard.BioRand.Server;
 using Spectre.Console;
 using Spectre.Console.Cli;
 

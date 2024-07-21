@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "REE", "src\REE\REE.csproj",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntelOrca.Biohazard.BioRand.RE4R", "src\IntelOrca.Biohazard.BioRand.RE4R\IntelOrca.Biohazard.BioRand.RE4R.csproj", "{CCCDB04C-7D3B-425F-AC0E-C2EEC5A0C7BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntelOrca.Biohazard.BioRand.RE4R.Server", "src\IntelOrca.Biohazard.BioRand.RE4R.Server\IntelOrca.Biohazard.BioRand.RE4R.Server.csproj", "{4E5C6C0B-4E9B-44BC-97A1-FF553156562B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntelOrca.Biohazard.BioRand.Server", "src\IntelOrca.Biohazard.BioRand.Server\IntelOrca.Biohazard.BioRand.Server.csproj", "{4E5C6C0B-4E9B-44BC-97A1-FF553156562B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MsgTool", "src\msg\MsgTool\MsgTool.csproj", "{36409A3E-43AE-4CF8-9BA6-15B54E2B6998}"
 EndProject
