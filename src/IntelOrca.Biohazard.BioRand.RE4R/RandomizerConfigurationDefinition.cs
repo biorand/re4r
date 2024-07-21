@@ -372,14 +372,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"random-enemy-drops",
-                Label = "Random enemy drops",
-                Description = "Let Biorand randomize the enemy drops.",
-                Type = "switch",
-                Default = true
-            });
-            group.Items.Add(new GroupItem()
-            {
                 Id = $"extra-enemy-amount",
                 Label = "Extra Enemies",
                 Description = "The percentage of extra enemy spawns to add. (Includes peaceful areas, and boss arenas.)",
@@ -422,6 +414,56 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 10,
                 Step = 1,
                 Default = 6
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-scale-probability",
+                Label = "Unusual scale probability",
+                Description = "The percentage of enemies that are an unusual size.",
+                Type = "percent",
+                Min = 0.0,
+                Max = 1,
+                Step = 0.01,
+                Default = 0.0
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-scale-min",
+                Label = "Min. Enemy Scale",
+                Description = "The minimum scale multiplier of enemies.",
+                Type = "range",
+                Min = 0.25,
+                Max = 4.00,
+                Step = 0.05,
+                Default = 0.25
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-scale-max",
+                Label = "Max. Enemy Scale",
+                Description = "The maximum scale multiplier of enemies.",
+                Type = "range",
+                Min = 0.25,
+                Max = 4.00,
+                Step = 0.05,
+                Default = 2
+            });
+            group = page.CreateGroup("");
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"random-enemy-drops",
+                Label = "Random enemy drops",
+                Description = "Let Biorand randomize the enemy drops.",
+                Type = "switch",
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-drop-ammo-only-available-weapons",
+                Label = "Ammo for available weapons only",
+                Description = "Only drop ammo for weapons that are available before or in the chapter with the drop.",
+                Type = "switch",
+                Default = true
             });
             group.Items.Add(new GroupItem()
             {
@@ -475,14 +517,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 1,
                 Step = 0.01,
                 Default = 0.25
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"enemy-drop-ammo-only-available-weapons",
-                Label = "Ammo for available weapons only",
-                Description = "Only drop ammo for weapons that are available before or in the chapter with the drop.",
-                Type = "switch",
-                Default = true
             });
 
             group = page.CreateGroup("General Drops");

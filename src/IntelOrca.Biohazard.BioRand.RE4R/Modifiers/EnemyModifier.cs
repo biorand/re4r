@@ -168,6 +168,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                     RandomizeEnemyDrops(randomizer, randomItemSettings, chapter, enemies, rng, logger);
                 }
+
+                var enemyScaleProbability = randomizer.GetConfigOption<double>("enemy-scale-probability", 0);
+                if (enemyScaleProbability > 0)
+                {
+                    logger.Push("Randomizing scales");
+                    var spawns = areaByChapter
+                        .SelectMany(x => x)
+                        .SelectMany(x => x.EnemySpawns)
+                        .ToImmutableArray();
+                    if (enemyScaleProbability < 1)
+                    {
+                        var count = (int)(spawns.Length * enemyScaleProbability);
+                        spawns = spawns.Shuffle(rng).Take(count).ToImmutableArray();
+                    }
+                    RandomizeEnemyScales(randomizer, spawns, rng, logger);
+                }
+
                 logger.Pop();
             }
         }
@@ -349,6 +366,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             logger.Pop();
             logger.Pop();
+        }
+
+        private void RandomizeEnemyScales(
+            ChainsawRandomizer randomizer,
+            ImmutableArray<EnemySpawn> spawns,
+            Rng rng,
+            RandomizerLogger logger)
+        {
+            var min = Math.Clamp(randomizer.GetConfigOption("enemy-scale-min", 0.25f), 0.1f, 10.0f);
+            var max = Math.Clamp(randomizer.GetConfigOption("enemy-scale-max", 2.00f), 0.1f, 10.0f);
+            foreach (var spawn in spawns)
+            {
+                var scale = MathF.Round(rng.NextFloat(min, max) * 100) / 100;
+                spawn.Enemy.SetFieldValue("_BodyScale._IsFixedScale", true);
+                spawn.Enemy.SetFieldValue("_BodyScale._FixedScale", scale);
+            }
         }
 
         private int GetRandomHighClassEnemy(List<EnemySpawn> chapterSpawns, Rng rng, bool noHorde = false)
