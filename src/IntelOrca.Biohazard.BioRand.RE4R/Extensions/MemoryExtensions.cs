@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
 {
@@ -26,6 +27,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
         {
             using var fs = File.OpenWrite(path);
             fs.Write(data);
+        }
+
+        public static byte[] Ungzip(this byte[] input)
+        {
+            using var inputStream = new MemoryStream(input);
+            using var outputStream = new MemoryStream();
+            using var deflateStream = new GZipStream(inputStream, CompressionMode.Decompress);
+            deflateStream.CopyTo(outputStream);
+            return outputStream.ToArray();
         }
     }
 }

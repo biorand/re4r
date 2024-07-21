@@ -37,7 +37,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private static int DebugCode()
         {
-            var pakList = ChainsawRandomizerFactory.Default.GetDefaultPakList();
+            var pakList = Re4rRandomizer.GetDefaultPakList();
             var sb = new StringBuilder();
             var pak = new PatchedPakFile(@"F:\games\steamapps\common\RESIDENT EVIL 4  BIOHAZARD RE4\re_chunk_000.pak");
             var newPak = new PakFileBuilder();

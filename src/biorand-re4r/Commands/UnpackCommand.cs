@@ -35,8 +35,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 outputPath = Environment.CurrentDirectory;
             }
 
-            var crf = ChainsawRandomizerFactory.Default;
-            var pakList = crf.GetDefaultPakList();
+            var pakList = Re4rRandomizer.GetDefaultPakList();
 
             await pakFile.ExtractAllAsync(pakList, outputPath);
             return 0;

@@ -11,7 +11,7 @@ using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal class ChainsawRandomizer : IRandomizer
+    internal class ChainsawRandomizer
     {
         private FileRepository _fileRepository = new FileRepository();
         private readonly RandomizerLogger _loggerInput = new RandomizerLogger();
@@ -205,25 +205,5 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             return _rng.NextFork();
         }
-
-        public object ConfigurationDefinition
-        {
-            get
-            {
-                var configDefinition = RandomizerConfigurationDefinition.Create(EnemyClassFactory);
-                return configDefinition;
-            }
-        }
-
-        public RandomizerConfiguration DefaultConfiguration
-        {
-            get
-            {
-                var def = RandomizerConfigurationDefinition.Create(EnemyClassFactory);
-                return def.GetDefault();
-            }
-        }
-
-        public string BuildVersion => ChainsawRandomizerFactory.Default.GitHash;
     }
 }

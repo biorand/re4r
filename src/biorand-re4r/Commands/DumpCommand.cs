@@ -27,7 +27,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
         public override Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
-            var scnFile = ChainsawRandomizerFactory.Default.ReadScnFile(File.ReadAllBytes(settings.InputPath!));
+            var scnFile = Re4rRandomizer.ReadScnFile(File.ReadAllBytes(settings.InputPath!));
             var result = new Dictionary<string, object?>();
             result["GameObjects"] = scnFile.GameObjectDatas!.Select(SerializeGameObject);
             var output = JsonSerializer.Serialize(result, new JsonSerializerOptions()

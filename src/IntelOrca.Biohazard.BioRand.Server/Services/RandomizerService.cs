@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using IntelOrca.Biohazard.BioRand.RE4R;
 
 namespace IntelOrca.Biohazard.BioRand.Server.Services
 {
@@ -12,6 +12,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         private readonly Random _random = new Random();
         private readonly Dictionary<ulong, GenerateResult> _randos = new();
         private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
+
+        private readonly ImmutableArray<IRandomizer> _randomizers = [
+            new IntelOrca.Biohazard.BioRand.RE4R.Re4rRandomizer()
+        ];
 
         private void ExpireOldRandos()
         {
@@ -28,8 +32,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         public IRandomizer GetRandomizer()
         {
-            var chainsawRandomizerFactory = ChainsawRandomizerFactory.Default;
-            var randomizer = chainsawRandomizerFactory.Create();
+            const string className = "IntelOrca.Biohazard.BioRand.RE4R.Re4rRandomizer";
+            var randomizer = _randomizers.First(x => x.GetType().FullName == className);
             return randomizer;
         }
 

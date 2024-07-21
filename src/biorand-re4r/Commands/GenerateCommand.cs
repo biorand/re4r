@@ -19,6 +19,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             [CommandOption("-c|--config")]
             public string? ConfigPath { get; init; }
 
+            [CommandOption("-i|--input")]
+            public string? InputPath { get; init; }
+
             [CommandOption("-o|--output")]
             public string? OutputPath { get; init; }
         }
@@ -35,12 +38,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
         public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
-            var biorandConfig = Re4rConfiguration.GetDefault();
-            var chainsawRandomizerFactory = ChainsawRandomizerFactory.Default;
-            var randomizer = chainsawRandomizerFactory.Create();
+            var randomizer = GetRandomizer();
             var input = new RandomizerInput();
             input.Seed = settings.Seed;
-            input.GamePath = biorandConfig.GamePath;
+            input.GamePath = settings.InputPath;
             if (!string.IsNullOrEmpty(settings.ConfigPath))
             {
                 var configJson = File.ReadAllText(settings.ConfigPath);
@@ -64,7 +65,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             }
             else
             {
-                var pakList = chainsawRandomizerFactory.GetDefaultPakList();
+                var pakList = Re4rRandomizer.GetDefaultPakList();
                 await new PakFile(pakFile).ExtractAllAsync(pakList, outputPath);
             }
             return 0;
@@ -77,6 +78,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             var output = new MemoryStream();
             entry.Open().CopyTo(output);
             return output.ToArray();
+        }
+
+        private IRandomizer GetRandomizer()
+        {
+            return new Re4rRandomizer();
         }
     }
 }
