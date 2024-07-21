@@ -191,14 +191,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public T? GetConfigOption<T>(string key, T? defaultValue = default)
         {
-            if (_input.Configuration != null && _input.Configuration.TryGetValue(key, out var value))
-            {
-                return (T)Convert.ChangeType(value, typeof(T));
-            }
-            else
-            {
+            if (_input.Configuration == null)
                 return defaultValue;
-            }
+            return _input.Configuration.GetValueOrDefault<T>(key, defaultValue);
         }
 
         public Rng CreateRng()

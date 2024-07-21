@@ -44,6 +44,18 @@ namespace IntelOrca.Biohazard.BioRand
             return _dict.TryGetValue(key, out value);
         }
 
+        public T? GetValueOrDefault<T>(string key, T? defaultValue = default)
+        {
+            if (TryGetValue(key, out var value))
+            {
+                return (T)Convert.ChangeType(value, typeof(T));
+            }
+            else
+            {
+                return defaultValue;
+            }
+        }
+
         public string ToJson(bool indented)
         {
             return _dict.ToJson(indented);
