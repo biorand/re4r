@@ -73,17 +73,17 @@
             const api = getApi();
             if (user.role == UserRole.Pending) {
                 await api.updateUser(user.id, {
-                    role: UserRole.PendingEarlyAccess
+                    role: UserRole.PendingStandard
                 });
             }
             await api.updateUser(user.id, {
-                role: UserRole.EarlyAccess
+                role: UserRole.Standard
             });
             searchResult = {
                 ...searchResult,
                 pageResults: searchResult.pageResults.map((x) => {
                     if (x === user) {
-                        return { ...user, role: UserRole.EarlyAccess };
+                        return { ...user, role: UserRole.Standard };
                     } else {
                         return x;
                     }
@@ -92,7 +92,7 @@
             data.items = searchResult.pageResults;
         } catch (error) {
             showingError = {
-                title: 'Grant Early Access Failed',
+                title: 'Grant Access Failed',
                 body: error instanceof Error ? error.message : ''
             };
         }
@@ -137,7 +137,7 @@
                             color="green"
                             class="rounded-sm p-2"><CaretRightSolid class="w-3 h-3" /></Button
                         >
-                        <Tooltip placement="bottom">Grant early access</Tooltip>
+                        <Tooltip placement="bottom">Grant access</Tooltip>
                     {/if}
                 </TableBodyCell>
             </TableBodyRow>

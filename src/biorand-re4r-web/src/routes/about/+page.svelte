@@ -54,7 +54,7 @@
     <Ul>
         <Li><TwitchUser user="404scamnotfound" /></Li>
         <Li><TwitchUser user="7rayD" /></Li>
-        <Li><TwitchUser user="Death2024" /></Li>
+        <Li><TwitchUser user="DeathNoDamage" /></Li>
         <Li><TwitchUser user="ElonNuttMusk" /></Li>
         <Li
             ><TwitchUser

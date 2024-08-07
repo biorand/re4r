@@ -52,7 +52,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             await db.UseTokenAsync(token);
         }
 
-        public async Task<UserDbModel?> GetAuthorizedUserAsync(UserRoleKind minimumRole = UserRoleKind.EarlyAccess)
+        public async Task<UserDbModel?> GetAuthorizedUserAsync(UserRoleKind minimumRole = UserRoleKind.Standard)
         {
             var token = GetAuthToken();
             if (token != null)
@@ -92,10 +92,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             if (kofiRole > newRole)
                 newRole = kofiRole;
 
-            // Don't downgrade role to no access
-            if (originalRole != UserRoleKind.PendingEarlyAccess && newRole == UserRoleKind.PendingEarlyAccess)
-                newRole = UserRoleKind.EarlyAccess;
-
             if (newRole != originalRole)
             {
                 user.Role = newRole;
@@ -113,18 +109,18 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         private async Task<UserRoleKind> GetRoleKindFromTwitchAsync(UserDbModel user)
         {
             if (!twitchService.IsAvailable)
-                return UserRoleKind.PendingEarlyAccess;
+                return UserRoleKind.Standard;
 
             var twitchModel = await twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1));
             if (twitchModel?.IsSubscribed == true)
             {
                 user.TwitchSubscriber = true;
-                return UserRoleKind.Standard;
+                return UserRoleKind.Patron;
             }
             else
             {
                 user.TwitchSubscriber = false;
-                return UserRoleKind.PendingEarlyAccess;
+                return UserRoleKind.Standard;
             }
         }
 
@@ -132,7 +128,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         {
             var kofis = await db.GetKofiByUserAsync(user.Id);
             var dt = DateTime.UtcNow - TimeSpan.FromDays(30);
-            var role = UserRoleKind.PendingEarlyAccess;
+            var role = UserRoleKind.Standard;
             foreach (var kofi in kofis)
             {
                 if (kofi.Timestamp >= dt)
@@ -140,16 +136,15 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                     if (string.Equals(kofi.TierName, "BioRand Patron", StringComparison.OrdinalIgnoreCase))
                     {
                         user.KofiMember = true;
-                        return UserRoleKind.Standard;
+                        return UserRoleKind.Patron;
                     }
                 }
-                role = UserRoleKind.EarlyAccess;
             }
             user.KofiMember = false;
             return role;
         }
 
-        public async Task<bool> IsAuthorized(UserRoleKind minimumRole = UserRoleKind.EarlyAccess)
+        public async Task<bool> IsAuthorized(UserRoleKind minimumRole = UserRoleKind.Standard)
         {
             var user = await GetAuthorizedUserAsync(minimumRole);
             return user != null;

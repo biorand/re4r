@@ -51,11 +51,11 @@
 
     let roles = [
         { name: '(pending)', value: UserRole.Pending },
-        { name: 'Early Access (pending)', value: UserRole.PendingEarlyAccess },
+        { name: 'Standard (pending)', value: UserRole.PendingStandard },
         { name: 'Banned', value: UserRole.Banned },
-        { name: 'Early Access', value: UserRole.EarlyAccess },
-        { name: 'Tester', value: UserRole.Tester },
         { name: 'Standard', value: UserRole.Standard },
+        { name: 'Tester', value: UserRole.Tester },
+        { name: 'Patron', value: UserRole.Patron },
         { name: 'Administrator', value: UserRole.Administrator },
         { name: 'System', value: UserRole.System }
     ];

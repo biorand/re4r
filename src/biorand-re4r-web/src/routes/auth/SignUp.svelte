@@ -50,7 +50,7 @@
             <div class="sm:grow"></div>
             <div class="grow text-center sm:grow-0 sm:text-left">
                 <h1 class="text-5xl"><BioRandTitle /></h1>
-                <h2 class="text-2xl">Sign up for early access</h2>
+                <h2 class="text-2xl">Sign up for access</h2>
                 <div class="mt-4 w-64 mx-auto sm:mx-0">
                     <img
                         style="filter: blur(1px) sepia(50%); "
@@ -69,7 +69,7 @@
                             type="email"
                             label="Email Address"
                             required={true}
-                            placeholder="albert.wesker.umbrella.com"
+                            placeholder="albert.wesker@umbrella.com"
                             icon={EnvelopeSolid}
                             data={emailData}
                         />
@@ -116,10 +116,10 @@
                 Welcome <span class="text-gray-700 dark:text-blue-200">{registeredName}</span>,
             </p>
             <p class="indent-4">
-                You have successfully registered for early access. You can <a
+                You have successfully registered for access. You can now <a
                     class="font-medium text-primary-600 hover:underline dark:text-primary-500"
                     href="/login">login</a
-                > to check your status.
+                > to generate randomizers.
             </p>
         </div>
     </div>

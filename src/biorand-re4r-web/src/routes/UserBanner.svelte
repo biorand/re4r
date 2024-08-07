@@ -22,13 +22,12 @@
                 'Your account status is currently pending e-mail verification. ' +
                 'Please verify the e-mail address registered with the account.';
             break;
-        case UserRole.PendingEarlyAccess:
+        case UserRole.PendingStandard:
             icon = LockTimeSolid;
-            title = 'Early Access Pending';
+            title = 'Access Pending';
             body =
-                'Your account status is currently pending early access. ' +
-                'You will receive an email notification once access is granted. ' +
-                'Alternatively you can <a class="text-blue-400 hover:text-blue-300" href="/user">subscribe</a> via Ko-fi or Twitch to gain access immediately.';
+                'Your account status is currently pending access. ' +
+                'You will receive an email notification once access is granted.';
             break;
         case UserRole.Banned:
             icon = LockSolid;

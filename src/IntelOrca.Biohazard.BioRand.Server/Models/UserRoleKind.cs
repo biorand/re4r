@@ -3,11 +3,11 @@
     public enum UserRoleKind
     {
         Pending,
-        PendingEarlyAccess,
+        PendingStandard,
         Banned,
-        EarlyAccess,
-        Tester,
         Standard,
+        Tester,
+        Patron,
         Administrator,
         System
     }

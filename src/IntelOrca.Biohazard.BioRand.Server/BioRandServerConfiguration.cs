@@ -54,6 +54,7 @@ namespace IntelOrca.Biohazard.BioRand.Server
         public int Port { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }
+        public string? Test { get; set; }
     }
 
     public class UrlConfig

@@ -24,6 +24,9 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             if (string.IsNullOrEmpty(_config?.From))
                 return;
 
+            if (!string.IsNullOrEmpty(_config.Test))
+                email = _config.Test;
+
             var to = $"{name} <{email}>";
             try
             {

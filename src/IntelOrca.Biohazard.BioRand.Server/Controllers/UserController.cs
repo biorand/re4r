@@ -187,19 +187,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             logger.LogInformation("User [{UserId}]{UserName} updated user {UserId}[{UserName}]",
                 authorizedUser.Id, authorizedUser.Name, user.Id, user.Name);
 
-            if (oldRole == UserRoleKind.PendingEarlyAccess &&
-                user.Role == UserRoleKind.EarlyAccess)
+            if (oldRole == UserRoleKind.PendingStandard &&
+                user.Role == UserRoleKind.Standard)
             {
-                await emailService.SendEmailAsync(user.Name, user.Email,
-                    "BioRand 4 - Early Access",
-$@"Dear {user.Name},
-
-We are pleased to inform you that your request for early access has been approved.
-
-You should now be able to sign in and generate randomizers for Resident Evil 4 (2023).
-
-Kind regards,
-The BioRand Team");
+                await SendAccessGrantedEmailAsync(user);
             }
 
             return new
@@ -237,6 +228,32 @@ The BioRand Team");
             return Empty;
         }
 
+        [HttpPost("giveeveryoneaccess")]
+        public async Task<object> GiveAllUsersAccessAsync()
+        {
+            var authUser = await auth.GetAuthorizedUserAsync(UserRoleKind.Administrator);
+            if (authUser == null)
+                return Unauthorized();
+
+            var totalCount = 0;
+            var users = await db.GetUsersAsync();
+            foreach (var user in users.Results)
+            {
+                if (user.Role != UserRoleKind.PendingStandard)
+                    continue;
+
+                user.Role = UserRoleKind.Standard;
+                await db.UpdateUserAsync(user);
+                await SendAccessGrantedEmailAsync(user);
+                totalCount++;
+            }
+
+            return new
+            {
+                TotalUsersUpdated = totalCount
+            };
+        }
+
         private async Task SendKofiEmailVerification(UserDbModel user)
         {
             var url = urlService.GetWebUrl($"user?action=verifykofi&token={user.KofiEmailVerification}");
@@ -246,6 +263,20 @@ $@"Dear {user.Name},
 
 Please verify your Ko-fi email address by navigating to this link:
 {url}
+
+Kind regards,
+The BioRand Team");
+        }
+
+        private async Task SendAccessGrantedEmailAsync(UserDbModel user)
+        {
+            await emailService.SendEmailAsync(user.Name, user.Email,
+                                "BioRand 4",
+            $@"Dear {user.Name},
+
+We are pleased to inform you that you now have access to BioRand 4.
+
+You should now be able to sign in and generate randomizers for Resident Evil 4 (2023).
 
 Kind regards,
 The BioRand Team");

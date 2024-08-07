@@ -8,11 +8,11 @@
 
     const roles = [
         ['(pending)', 'pink'],
-        ['Early Access (pending)', 'pink'],
+        ['Standard (pending)', 'pink'],
         ['Banned', 'red'],
-        ['Early Access', 'yellow'],
+        ['Standard', 'yellow'],
         ['Tester', 'yellow'],
-        ['Subscriber', 'green'],
+        ['Patron', 'green'],
         ['Administrator', 'blue'],
         ['System', 'blue']
     ];

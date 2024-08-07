@@ -69,11 +69,11 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 await db.CreateUserAsync(email, name!);
                 await db.UpdateAllUnmatchedKofiMatchesAsync();
                 await emailService.SendEmailAsync(name!, email,
-                    "BioRand 4 - Early Access",
+                    "BioRand 4 - Access",
 $@"Dear {name},
 
-Thank you for registering for early access for BioRand: Resident Evil 4 (2023).
-You will be informed when you are granted early access.
+Thank you for registering for BioRand: Resident Evil 4 (2023).
+Sign in with your email address to generate randomizers.
 
 Kind regards,
 The BioRand Team");
@@ -161,7 +161,7 @@ The BioRand Team");
 
                             if (user.Role == UserRoleKind.Pending)
                             {
-                                user.Role = UserRoleKind.PendingEarlyAccess;
+                                user.Role = UserRoleKind.Standard;
                                 await db.UpdateUserAsync(user);
                                 logger.LogInformation("User {UserId}[{UserName}] role set to {Role}", user.Id, user.Name, user.Role);
                             }
