@@ -131,7 +131,7 @@
                 <TableBodyCell tdClass="p-1"><Timestamp value={user.created} /></TableBodyCell>
                 <TableBodyCell tdClass="p-1"><RoleBadge role={user.role} /></TableBodyCell>
                 <TableBodyCell tdClass="p-1 flex justify-end">
-                    {#if user.role == UserRole.Pending || user.role == UserRole.PendingEarlyAccess}
+                    {#if user.role == UserRole.Pending || user.role == UserRole.PendingStandard}
                         <Button
                             on:click={() => grantEarlyAccess(user)}
                             color="green"

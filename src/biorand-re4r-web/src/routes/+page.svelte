@@ -15,9 +15,9 @@
 
     function shouldShowBanner(role: UserRole | undefined) {
         switch (role) {
-            case UserRole.EarlyAccess:
-            case UserRole.Tester:
             case UserRole.Standard:
+            case UserRole.Tester:
+            case UserRole.Patron:
             case UserRole.Administrator:
                 return false;
             default:

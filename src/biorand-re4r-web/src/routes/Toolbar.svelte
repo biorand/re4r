@@ -25,7 +25,7 @@
     export let stats: StatsResult | undefined;
 
     $: role = currentUser?.role || UserRole.Pending;
-    $: accountAccessible = role >= UserRole.EarlyAccess && role != UserRole.System;
+    $: accountAccessible = role >= UserRole.Standard && role != UserRole.System;
     $: isAdmin = role == UserRole.Administrator;
 
     async function onSignOutClick() {
