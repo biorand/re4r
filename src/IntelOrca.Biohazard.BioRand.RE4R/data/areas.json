@@ -4095,7 +4095,15 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_003.scn.20",
-      "chapter": 10
+      "chapter": 10,
+      "restrictions": [
+        {
+          "guids": [
+            "0fc93d90-ba28-414d-9d2f-43c5a63a039c" // dead cloak
+          ],
+          "preventDuplicate": true
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_004.scn.20",
