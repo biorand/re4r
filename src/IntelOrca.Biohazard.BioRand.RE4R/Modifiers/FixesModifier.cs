@@ -109,6 +109,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     controller.SpawnCondition.Add(throneRoomArea.ScnFile, new Guid("0ef6f99b-43f7-41de-b22a-be79b599a469"));
                 }
             }
+
+            var checkpointArea = areas.FirstOrDefault(x => x.FileName == "level_loc47_002.scn.20");
+            if (checkpointArea != null)
+            {
+                var component = checkpointArea.ScnFile.FindComponent(new Guid("31f4c494-ea57-41dd-a209-52a6ddbc9423"), "chainsaw.CharacterSpawnController");
+                if (component != null)
+                {
+                    var controller = new CharacterSpawnController(component);
+                    controller.SpawnCondition.Flags = controller.SpawnCondition.Flags
+                        .RemoveAll(x => x.Flag == new Guid("6ac9f5b8-a8a6-4e43-9410-54908e542128"));
+                }
+            }
         }
 
         private void EnableProfessionalAutoSave(ChainsawRandomizer randomizer, RandomizerLogger logger)
