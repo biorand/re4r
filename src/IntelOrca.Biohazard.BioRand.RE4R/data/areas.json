@@ -3849,7 +3849,62 @@
               "x": 235,
               "y": -31,
               "z": 64
-            },
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_000.scn.20",
+      "chapter": 10
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_001.scn.20",
+      "chapter": 10
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_002.scn.20",
+      "chapter": 10,
+      "description": "Double garrador (Unicorn Horns) room",
+      "restrictions": [
+        {
+          "guids": [
+            "3ead6e3d-e86f-4749-bebf-318c147fd5ca",
+            "dc7c6111-38c2-4b14-b54f-ad8ba0f42c9a"
+          ],
+          "preventDuplicate": true,
+          "exclude": [
+            "mendez_chase",
+            "krauser_1"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_003.scn.20",
+      "chapter": 10,
+      "restrictions": [
+        {
+          "guids": [
+            "0fc93d90-ba28-414d-9d2f-43c5a63a039c" // dead cloak
+          ],
+          "preventDuplicate": true
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_004.scn.20",
+      "chapter": 10,
+      "restrictions": [
+        {
+          "guids": [
+            "902fe2d5-0816-4d48-845b-52efd751dec1" // verdugo
+          ]
+        }
+      ],
+      "extra": [
+        {
+          "enemies": [
             {
               "rw": -1.0,
               "rx": 0.0,
@@ -3879,7 +3934,12 @@
               "x": 197,
               "y": -30,
               "z": 1
-            },
+            }
+          ]
+        },
+        {
+          "condition": "64e93888-fccb-4aea-ad03-4d543afa2780",
+          "enemies": [
             {
               "rw": -0.87,
               "rx": 0.0,
@@ -4063,55 +4123,6 @@
               "y": -30,
               "z": 2
             }
-          ]
-        }
-      ]
-    },
-    {
-      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_000.scn.20",
-      "chapter": 10
-    },
-    {
-      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_001.scn.20",
-      "chapter": 10
-    },
-    {
-      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_002.scn.20",
-      "chapter": 10,
-      "description": "Double garrador (Unicorn Horns) room",
-      "restrictions": [
-        {
-          "guids": [
-            "3ead6e3d-e86f-4749-bebf-318c147fd5ca",
-            "dc7c6111-38c2-4b14-b54f-ad8ba0f42c9a"
-          ],
-          "preventDuplicate": true,
-          "exclude": [
-            "mendez_chase",
-            "krauser_1"
-          ]
-        }
-      ]
-    },
-    {
-      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_003.scn.20",
-      "chapter": 10,
-      "restrictions": [
-        {
-          "guids": [
-            "0fc93d90-ba28-414d-9d2f-43c5a63a039c" // dead cloak
-          ],
-          "preventDuplicate": true
-        }
-      ]
-    },
-    {
-      "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_004.scn.20",
-      "chapter": 10,
-      "restrictions": [
-        {
-          "guids": [
-            "902fe2d5-0816-4d48-845b-52efd751dec1" // verdugo
           ]
         }
       ]
