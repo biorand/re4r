@@ -8,7 +8,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Models
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
-        [NotNull]
+        [NotNull, Indexed]
         public DateTime Created { get; set; }
         [NotNull, Indexed]
         public int UserId { get; set; }
