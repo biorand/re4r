@@ -79,7 +79,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 newEnemy.SetFieldValue(f.name, oldValue!);
             }
 
-            return Reset(newEnemy);
+            // Clear certain fields
+            newEnemy.Weapon = 0;
+            newEnemy.SecondaryWeapon = 0;
+            newEnemy.MontageId = 0;
+
+            return newEnemy;
         }
 
         public Enemy Duplicate(Enemy enemy, int contextId)
@@ -88,15 +93,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var newComponent = GetMainEnemyComponent(newGameObject) ?? throw new Exception("Unable to find new enemy component for duplicated enemy.");
             var newEnemy = new Enemy(this, newGameObject, newComponent);
             newEnemy.ContextId = newEnemy.ContextId.WithIndex(contextId);
-            return Reset(newEnemy);
-        }
-
-        public Enemy Reset(Enemy enemy)
-        {
-            enemy.Weapon = 0;
-            enemy.SecondaryWeapon = 0;
-            enemy.MontageId = 0;
-            return enemy;
+            return newEnemy;
         }
     }
 }
