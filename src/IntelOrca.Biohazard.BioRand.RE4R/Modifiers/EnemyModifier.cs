@@ -266,9 +266,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         e.SetFieldValue(fd.Name, fieldValue);
                     }
 
-                    // If there are a lot of enemies, plaga seems to randomly crash the game
-                    // E.g. village, 360 zealots, 25 plaga will crash
-                    if (ecd.Plaga && spawns.Length < 100)
+                    if (ecd.Plaga)
                     {
                         RandomizeParasite(randomizer, e, parasiteRng);
                     }

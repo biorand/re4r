@@ -584,7 +584,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
 
             group = page.CreateGroup("Parasite");
-            group.Warning = "It is recommended to leave parasite at 0 as it currently causes some crashes.";
             group.Items.Add(new GroupItem()
             {
                 Id = $"parasite-ratio-none",
