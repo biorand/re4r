@@ -3465,17 +3465,7 @@
       "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_003.scn.20",
       "chapter": 9,
       "description": "knights outside of knighty-knight knights room",
-      "restrictions": [
-        {
-          "guids": [
-            "52061032-d686-401c-b1b7-ebdcd629e8ea"
-          ],
-          "exclude": [
-            "pig",
-            "mendez_chase"
-          ]
-        }
-      ]
+      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
     },
     // Disable random enemies for Ashley section for now
     // {
