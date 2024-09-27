@@ -1106,7 +1106,7 @@
     {
       "key": "pig",
       "kind": "pig",
-      "name": "Pig !!UNSTABLE!!",
+      "name": "Pig",
       "category": "Animal",
       "class": 9,
       "minHealth": 500,

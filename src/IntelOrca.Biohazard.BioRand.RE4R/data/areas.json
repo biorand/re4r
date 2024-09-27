@@ -20,7 +20,6 @@
             "52061032-d686-401c-b1b7-ebdcd629e8ea" // first villager coming down stairs
           ],
           "exclude": [
-            "pig",
             "mendez_2",
             "pesanta",
             "u3",
@@ -170,10 +169,7 @@
             "beeac7f4-214f-4b31-ad01-78fd82f1f584" // person in closet
           ],
           "horde": true,
-          "preventDuplicate": true,
-          "exclude": [
-            "pig"
-          ]
+          "preventDuplicate": true
         },
         {
           "guids": [
@@ -1725,7 +1721,6 @@
             "mendez_2",
             "mendez_chase",
             "pesanta",
-            "pig",
             "u3",
             "verdugo"
           ]

@@ -559,12 +559,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
 
             group = page.CreateGroup("Classes");
-            group.Warning = "It is recommended to leave pig, pesanta, u3, and krauser (mutated) at 0 as it currently causes some crashes.";
+            group.Warning = "It is recommended to leave pesanta, u3, and krauser (mutated) at 0 as it currently causes some crashes.";
             foreach (var enemyClass in enemyClassFactory.Classes)
             {
                 var defaultValue = 0.5;
-                if (enemyClass.Key == "pig" ||
-                    enemyClass.Key == "krauser_2" ||
+                if (enemyClass.Key == "krauser_2" ||
                     enemyClass.Key == "pesanta" ||
                     enemyClass.Key == "u3")
                 {

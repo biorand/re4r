@@ -435,6 +435,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             // Get all allowed enemy classes
             var enemyClasses = _allEnemyClasses;
+            if (!spawn.HasStaticSpawn)
+            {
+                enemyClasses = enemyClasses.RemoveAll(x => x.Key == "pig");
+            }
+
             var restrictions = area.Definition.Restrictions;
             if (restrictions != null)
             {
