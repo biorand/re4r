@@ -434,6 +434,10 @@
       "plaga": true,
       "weapon": [
         {
+          "primary": "hatchet",
+          "secondary": "wooden_shield"
+        },
+        {
           "primary": "morning_star",
           "secondary": "wooden_shield"
         }
@@ -617,14 +621,10 @@
       "plaga": true,
       "weapon": [
         {},
-        {
-          "primary": "shock_baton",
-          "secondary": "iron_shield"
-        },
+        { "primary": "crowbar" },
+        { "primary": "hatchet" },
         { "primary": "shock_baton" },
-        { "primary": "iron_shield" },
-        { "primary": "spiked_bat" },
-        { "primary": "crowbar" }
+        { "primary": "spiked_bat" }
       ],
       "field:_Ch1c0z2MontageID": [
         1017464743,
@@ -741,7 +741,7 @@
       "plaga": true,
       "weapon": [
         {
-          "primary": "shock_baton",
+          "primary": "hatchet",
           "secondary": "iron_shield"
         }
       ],
