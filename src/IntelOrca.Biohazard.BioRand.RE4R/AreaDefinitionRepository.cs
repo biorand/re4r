@@ -9,6 +9,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public AreaDefinition[] Areas { get; set; } = [];
         public ItemAreaDefinition[] Items { get; set; } = [];
+        public string[] Gimmicks { get; set; } = [];
 
         public static AreaDefinitionRepository GetRepository(Campaign campaign)
         {
