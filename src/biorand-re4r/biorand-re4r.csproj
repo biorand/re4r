@@ -12,7 +12,7 @@
     <ProjectReference Include="..\IntelOrca.Biohazard.BioRand.RE4R\IntelOrca.Biohazard.BioRand.RE4R.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Spectre.Console.Cli" Version="0.48.0" />
+    <PackageReference Include="Spectre.Console.Cli" Version="0.49.1" />
   </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="https://json.schemastore.org/lazydocker.json" /></VisualStudio></ProjectExtensions>
 </Project>
