@@ -4,14 +4,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public class WeaponChoice
     {
+        public EnemyKindDefinition? Kind { get; }
         public WeaponDefinition? Primary { get; }
         public WeaponDefinition? Secondary { get; }
 
-        public WeaponChoice(WeaponDefinition? primary = null, WeaponDefinition? secondary = null)
+        public WeaponChoice(EnemyKindDefinition? kind, WeaponDefinition? primary = null, WeaponDefinition? secondary = null)
         {
             if (primary == null && secondary != null)
                 throw new ArgumentNullException(nameof(primary));
 
+            Kind = kind;
             Primary = primary;
             Secondary = secondary;
         }

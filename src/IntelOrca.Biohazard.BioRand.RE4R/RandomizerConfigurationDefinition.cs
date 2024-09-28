@@ -221,26 +221,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 }
             }
 
-
-            // group.Items.Add(new GroupItem()
-            // {
-            //     Id = $"inventory-weapon-primary",
-            //     Label = "Primary Weapon",
-            //     Description = "The primary weapon you start off with in your inventory.",
-            //     Type = "dropdown",
-            //     Options = [.. ItemClasses.StartingWeapons],
-            //     Default = ItemClasses.Handgun
-            // });
-            // group.Items.Add(new GroupItem()
-            // {
-            //     Id = $"inventory-weapon-secondary",
-            //     Label = "Secondary Weapon",
-            //     Description = "An additional weapon you start off with in your inventory.",
-            //     Type = "dropdown",
-            //     Options = [.. ItemClasses.StartingWeapons],
-            //     Default = ItemClasses.Random
-            // });
-
             page = configDefinition.CreatePage("Items");
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()

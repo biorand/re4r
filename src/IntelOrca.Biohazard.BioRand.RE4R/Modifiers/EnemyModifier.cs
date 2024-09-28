@@ -84,6 +84,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 enemy.Guid,
                 enemy.StageID,
                 enemy.Kind.Key,
+                enemy.MontageId,
                 weapons,
                 enemy.Health?.ToString() ?? "*",
                 parasite,
@@ -217,7 +218,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 if (spawn.ChosenClass is EnemyClassDefinition ecd)
                 {
-                    spawn.ConvertType(area, ecd.Kind);
+                    // Determine weapon
+                    WeaponChoice? weaponChoice = null;
+                    if (!spawn.LockWeapon && ecd.Weapon.Length != 0)
+                    {
+                        weaponChoice = rng.Next(ecd.Weapon);
+                    }
+
+                    spawn.ConvertType(area, weaponChoice?.Kind ?? ecd.Kind);
 
                     // Reset various fields
                     var e = spawn.Enemy;
@@ -243,14 +251,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     // Set weapon
                     if (!spawn.LockWeapon)
                     {
-                        if (ecd.Weapon.Length == 0)
+                        if (weaponChoice == null)
                         {
                             e.Weapon = 0;
                             e.SecondaryWeapon = 0;
                         }
                         else
                         {
-                            var weaponChoice = rng.Next(ecd.Weapon);
                             e.Weapon = weaponChoice.Primary?.Id ?? 0;
                             e.SecondaryWeapon = weaponChoice.Secondary?.Id ?? 0;
                         }

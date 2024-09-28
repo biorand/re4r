@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -62,10 +63,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
+        private string MontageIdName
+        {
+            get
+            {
+                var arr = new[] { "_Ch1c0z2MontageID", "_Ch1c0z1MontageID", "_MontageID" };
+                foreach (var a in arr)
+                {
+                    if (MainComponent.Fields.Any(x => x.name == a))
+                    {
+                        return a;
+                    }
+                }
+                return arr.Last();
+            }
+        }
+
         public uint MontageId
         {
-            get => (uint?)GetFieldValue("_MontageID") ?? 0;
-            set => SetFieldValue("_MontageID", value);
+            get => (uint?)GetFieldValue(MontageIdName) ?? 0;
+            set => SetFieldValue(MontageIdName, value);
         }
 
         public int Weapon

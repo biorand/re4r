@@ -87,6 +87,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 {
                     foreach (var w in weapon.EnumerateArray())
                     {
+                        var wKindKey = w.GetStringProperty("kind");
+                        var wKind = wKindKey == null ? null : kindDefinitions.First(x => x.Key == wKindKey);
+
                         var primary = w.GetStringProperty("primary");
                         var secondary = w.GetStringProperty("secondary");
                         var primaryWeaponDef = primary == null
@@ -95,7 +98,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                         var secondaryWeaponDef = secondary == null
                             ? null
                             : weaponDefinitions.First(x => x.Key == secondary);
-                        weaponChoices.Add(new WeaponChoice(primaryWeaponDef, secondaryWeaponDef));
+                        weaponChoices.Add(new WeaponChoice(wKind, primaryWeaponDef, secondaryWeaponDef));
                     }
                 }
 

@@ -642,7 +642,6 @@
         2253052265,
         2348057730,
         2353979389,
-        2366387651,
         2438733595,
         244681229,
         2491554104,
@@ -702,7 +701,6 @@
         2253052265,
         2348057730,
         2353979389,
-        2366387651,
         2438733595,
         244681229,
         2491554104,
@@ -761,7 +759,6 @@
         2253052265,
         2348057730,
         2353979389,
-        2366387651,
         2438733595,
         244681229,
         2491554104,
@@ -875,6 +872,44 @@
       "field:_MontageID": 1106175613,
       "field:_RolePatternHash": 3727710285,
       "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "key": "brute_ranged",
+      "kind": "soldier",
+      "name": "Brute (Ranged)",
+      "category": "Brute",
+      "class": 5,
+      "minHealth": 5000,
+      "maxHealth": 10000,
+      "ranged": true,
+      "weapon": [
+        { "primary": "dynamite" },
+        { "primary": "molotov" },
+        { "primary": "crossbow" },
+        { "primary": "rpg" }
+      ],
+      "field:_Ch1c0z2MontageID": 2366387651
+    },
+    {
+      "key": "brute_weapon",
+      "kind": "villager",
+      "name": "Brute (Weapon)",
+      "category": "Brute",
+      "class": 5,
+      "minHealth": 5000,
+      "maxHealth": 10000,
+      "weapon": [
+        { "kind": "villager", "primary": "hatchet" },
+        { "kind": "villager", "primary": "knife" },
+        { "kind": "villager", "primary": "hoe" },
+        { "kind": "villager", "primary": "pitchfork" },
+        { "kind": "villager", "primary": "torch" },
+        { "kind": "villager", "primary": "shovel" },
+        { "kind": "villager", "primary": "machete" },
+        { "kind": "soldier", "primary": "hatchet", "secondary": "iron_shield" }
+      ],
+      "field:_MontageID": 2366387651,
+      "field:_Ch1c0z2MontageID": 2366387651
     },
     {
       "key": "armadura",
