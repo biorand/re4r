@@ -250,10 +250,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             if (table == null)
             {
                 table = rng.CreateProbabilityTable<string?>();
-                table.Add("container", 0.1);
-                table.Add("rectangle", 0.2);
-                table.Add("round", 0.2);
-                table.Add(null, 0.5);
+                table.Add("container", 0.05);
+                table.Add("rectangle", 0.95 / 2);
+                table.Add("round", 0.95 / 2);
+                table.Add(null, 1);
                 _treasureProbabilityTable = table;
             }
 
