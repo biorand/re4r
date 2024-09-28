@@ -55,6 +55,22 @@
       ]
     },
     {
+      "name": "Reload Speed (Rounds)",
+      "category": 7,
+      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
+      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
+      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._IndividualCustomCategory",
+      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._IndividualCustomCategory",
+      "meta": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._CustomReloadSpeed._ReloadSpeedCustomStages[{L}]",
+      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._ReloadSpeed._ReloadNums[{L}]",
+      "groups": [
+        { "min": 1, "max": 10, "minIncrement": 1, "include": [ 4400 ] }, // rifle
+        { "min": 1, "max": 10, "minIncrement": 1, "include": [ 4100, 4101, 4102, 6001 ] }, // shotgun
+        { "min": 1, "max": 10, "minIncrement": 1, "include": [ 4500, 4502 ] }, // magnum
+        { "min": 1, "max": 10, "minIncrement": 1, "include": [ 4600 ] } // bolt
+      ]
+    },
+    {
       "name": "Rate of Fire",
       "category": 8,
       "metaWeaponId": "_WeaponStages[{W}]._WeaponID",

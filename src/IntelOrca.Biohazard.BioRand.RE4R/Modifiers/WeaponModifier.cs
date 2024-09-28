@@ -166,7 +166,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 newInfoValue = 1.8f - newValue * 0.36f;
 
             var fmt = "0.00";
-            if (name == "Ammo Capacity")
+            if (name == "Ammo Capacity" || name == "Reload Speed (Rounds)")
                 fmt = "0";
             else if (name == "Durability")
                 fmt = "0.0";
@@ -268,8 +268,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (minIncrement >= 0 ? value < max : value > max)
                 {
                     var newValue = value + increment;
-                    if (newValue > max)
-                        newValue = max;
                     value = newValue;
                     stats[i].Value = newValue;
                 }
@@ -468,7 +466,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     {
                         if (metaCost.Value < 0)
                             metaCost = metaCost.WithValue(0);
-                        if (d.Name == "Ammo Capacity" || d.Name == "Durability")
+                        if (d.Name == "Ammo Capacity" || d.Name == "Reload Speed (Rounds)" || d.Name == "Durability")
                         {
                             if ((int)value.Value < 0)
                                 value = value.WithValue(int.Parse(metaInfo.Value));
