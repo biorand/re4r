@@ -8,7 +8,16 @@
       "metaCategory": "_WeaponStages[{W}]._WeaponCustom._Commons[{I}]._CommonCustomCategory",
       "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._CommonCustoms[{I}]._CommonCustomCategory",
       "meta": "_WeaponStages[{W}]._WeaponCustom._Commons[{I}]._CustomAttackUp._AttackUpCustomStages[{L}]",
-      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._CommonCustoms[{I}]._AttackUp._DamageRates[{L}]._BaseValue"
+      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._CommonCustoms[{I}]._AttackUp._DamageRates[{L}]._BaseValue",
+      "groups": [
+        { "min": 1, "max": 4, "minIncrement": 0.2, "include": [ 4000, 4001, 4002, 4003, 4004, 6000 ] }, // handgun
+        { "min": 1, "max": 4, "minIncrement": 0.2, "include": [ 4100, 4101, 4102, 6001 ] }, // shotgun
+        { "min": 1, "max": 5, "minIncrement": 0.2, "include": [ 4200, 4202, 4201 ] }, // smg
+        { "min": 1, "max": 4, "minIncrement": 0.2, "include": [ 4400, 4401, 4402 ] }, // rifle
+        { "min": 1, "max": 4, "minIncrement": 0.2, "include": [ 4500, 4501, 4502 ] }, // magnum
+        { "min": 1, "max": 4, "minIncrement": 0.2, "include": [ 5000, 5001, 5002, 5006 ] }, // knife
+        { "min": 2, "max": 8, "minIncrement": 0.2, "include": [ 4600 ] } // bolt
+      ]
     },
     {
       "name": "Ammo Capacity",
@@ -18,7 +27,16 @@
       "metaCategory": "_WeaponStages[{W}]._WeaponCustom._Commons[{I}]._CommonCustomCategory",
       "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._CommonCustoms[{I}]._CommonCustomCategory",
       "meta": "_WeaponStages[{W}]._WeaponCustom._Commons[{I}]._CustomAmmoMaxUp._AmmoMaxUpCustomStages[{L}]",
-      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._CommonCustoms[{I}]._AmmoMaxUp._AmmoMaxs[{L}]"
+      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._CommonCustoms[{I}]._AmmoMaxUp._AmmoMaxs[{L}]",
+      "groups": [
+        { "startMin": 5, "min": 20, "max": 50, "minIncrement": 4, "include": [ 4000, 4001, 4002, 4003, 4004, 6000 ] }, // handgun
+        { "startMin": 2, "min": 5, "max": 32, "minIncrement": 2, "include": [ 4100, 4101, 4102, 6001 ] }, // shotgun
+        { "startMin": 15, "min": 50, "max": 300, "minIncrement": 10, "include": [ 4200, 4202, 4201 ] }, // smg
+        { "startMin": 2, "min": 10, "max": 30, "minIncrement": 3, "include": [ 4400, 4401, 4402 ] }, // rifle
+        { "startMin": 16, "min": 24, "max": 100, "minIncrement": 5, "include": [ 4400, 4401, 4402 ] }, // rifle (cqbr)
+        { "startMin": 2, "min": 8, "max": 30, "minIncrement": 1, "include": [ 4500, 4501, 4502 ] }, // magnum
+        { "startMin": 1, "min": 10, "max": 50, "minIncrement": 2, "include": [ 4600 ] } // bolt
+      ]
     },
     {
       "name": "Reload Speed",
@@ -28,7 +46,13 @@
       "metaCategory": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._IndividualCustomCategory",
       "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._IndividualCustomCategory",
       "meta": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._CustomReloadSpeed._ReloadSpeedCustomStages[{L}]",
-      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._ReloadSpeed._ReloadSpeedRates[{L}]"
+      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._ReloadSpeed._ReloadSpeedRates[{L}]",
+      "groups": [
+        { "min": 1, "max": 3, "minIncrement": 0.2, "include": [ 4000, 4001, 4002, 4003, 4004, 6000 ] }, // handgun
+        { "min": 1, "max": 3, "minIncrement": 0.2, "include": [ 4200, 4202, 4201 ] }, // smg
+        { "min": 1, "max": 3, "minIncrement": 0.2, "include": [ 4401, 4402 ] }, // rifle
+        { "min": 1, "max": 3, "minIncrement": 0.2, "include": [ 4501 ] } // magnum
+      ]
     },
     {
       "name": "Rate of Fire",
@@ -38,7 +62,14 @@
       "metaCategory": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._IndividualCustomCategory",
       "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._IndividualCustomCategory",
       "meta": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._CustomRapid._RapidCustomStages[{L}]",
-      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._Rapid._RapidSpeed[{L}]"
+      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._Rapid._RapidSpeed[{L}]",
+      "groups": [
+        { "min": 3, "max": 0.25, "minIncrement": -0.2, "include": [ 4000, 4001, 4002, 4003, 4004, 6000 ] }, // handgun
+        { "min": 3, "max": 0.25, "minIncrement": -0.2, "include": [ 4100, 4101, 4102, 6001 ] }, // shotgun
+        { "min": 3, "max": 0.25, "minIncrement": -0.2, "include": [ 4400, 4401, 4402 ] }, // rifle
+        { "min": 3, "max": 0.25, "minIncrement": -0.2, "include": [ 4500, 4501, 4502 ] }, // magnum
+        { "min": 3, "max": 0.25, "minIncrement": -0.2, "include": [ 4600 ] } // bolt
+      ]
     },
     {
       "name": "Durability",
@@ -48,7 +79,10 @@
       "metaCategory": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._IndividualCustomCategory",
       "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._IndividualCustomCategory",
       "meta": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._CustomStrength._StrengthCustomStages[{L}]",
-      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._Strength._DurabilityMaxes[{L}]"
+      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._Strength._DurabilityMaxes[{L}]",
+      "groups": [
+        { "min": 1500, "max": 4000, "minIncrement": 100, "include": [ 5000, 5001, 5002, 5006 ] } // knife
+      ]
     }
   ],
   "exclusives": [

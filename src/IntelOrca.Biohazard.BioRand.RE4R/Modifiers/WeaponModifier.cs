@@ -86,6 +86,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var dataRoot = detailFile.RSZ!.ObjectList[0];
 
             var stats = GetWeaponStats(randomizer);
+
             var weapons = stats.GroupBy(x => x.WeaponId);
             var applicableWeapons = WeaponStatsDefinition.Exclusives.SelectMany(x => x.Include).Distinct().ToHashSet();
             foreach (var weaponStats in weapons)
@@ -97,48 +98,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var weaponName = itemRepo.FromWeaponId(weaponId)?.Name ?? weaponId.ToString();
                 logger.Push(weaponName);
 
-                var statKinds = weaponStats.GroupBy(x => x.Name);
-                foreach (var statKind in statKinds)
-                {
-                    var modifiedStats = statKind
-                        .OfType<WeaponUpgradeStat>()
-                        .Select(x => new WeaponStatModifier(x))
-                        .ToArray();
-
-                    if (!modifiedStats.Any())
-                        continue;
-
-                    RandomizeStats(modifiedStats, logger);
-                    foreach (var modifiedStat in modifiedStats)
-                    {
-                        var stat = modifiedStat.Stat;
-                        var statDef = WeaponStatsDefinition.Upgrades.First(x => x.Name == statKind.Key);
-                        if (_randomPrices)
-                        {
-                            metaRoot.Set(stat.Cost.Path, modifiedStat.Cost);
-                        }
-                        if (_randomStats)
-                        {
-                            metaRoot.Set(stat.Info.Path, GetInfo(stat.Name, stat.Info.Value, stat.Value.Value, modifiedStat.Value));
-                            if (stat.Value.Value is float)
-                            {
-                                dataRoot.Set(stat.Value.Path, modifiedStat.Value);
-                            }
-                            else if (stat.Value.Value is int)
-                            {
-                                dataRoot.Set(stat.Value.Path, (int)MathF.Round(modifiedStat.Value));
-                            }
-                        }
-                    }
-                }
-
-                if (_randomPrices)
-                    RandomizeExclusivePrices(metaRoot, stats, weaponId, logger);
-                if (_randomExclusives)
-                    RandomizeExclusive(metaRoot, dataRoot, stats, weaponId, logger);
+                stats = RandomizeStats(metaRoot, dataRoot, stats, weaponId, logger);
+                RandomizeExclusives(metaRoot, dataRoot, stats, weaponId, logger);
 
                 logger.Pop();
             }
+
+            SetWeaponStats(metaRoot, dataRoot, stats);
 
             randomizer.FileRepository.SetUserFile(WeaponCustomUserDataPath, mainFile);
             randomizer.FileRepository.SetUserFile(WeaponDetailCustomUserDataPath, detailFile);
@@ -146,6 +112,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             UpdateItemDefinitions(randomizer);
 
             randomizer.FileRepository.SetMsgFile(WeaponCustomMsgPath, _msg.ToMsg());
+        }
+
+        private static string GetLastArrayOfPath(string path)
+        {
+            var i = path.LastIndexOf('[');
+            if (i == -1)
+                return path;
+            return path.Substring(0, i);
         }
 
         private void UpdateItemDefinitions(ChainsawRandomizer randomizer)
@@ -182,6 +156,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private static string GetInfo(string name, string oldInfo, object oldValue, float newValue)
         {
+            if (newValue == Convert.ToSingle(oldValue))
+                return oldInfo;
+
             var infoValue = float.Parse(oldInfo);
             var infoMultiplier = infoValue / Convert.ToSingle(oldValue);
             var newInfoValue = (newValue * infoMultiplier) + 0.005;
@@ -200,22 +177,69 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return result;
         }
 
-        private void RandomizeStats(WeaponStatModifier[] stats, RandomizerLogger logger)
+        private ImmutableArray<WeaponStat> RandomizeStats(RszInstance metaRoot, RszInstance dataRoot, ImmutableArray<WeaponStat> stats, int weaponId, RandomizerLogger logger)
+        {
+            var result = stats;
+            var statKinds = stats.GroupBy(x => x.Name);
+            foreach (var statKind in statKinds)
+            {
+                var modifiedStats = statKind
+                    .Where(x => x.WeaponId == weaponId)
+                    .OfType<WeaponUpgradeStat>()
+                    .Select(x => new WeaponStatModifier(x))
+                    .ToList();
+
+                if (modifiedStats.Count == 0)
+                    continue;
+
+                // Remove the old stats
+                result = result.RemoveRange(modifiedStats.Select(x => x.Stat));
+
+                RandomizeStats(modifiedStats, logger);
+
+                foreach (var modifiedStat in modifiedStats)
+                {
+                    var stat = modifiedStat.Stat;
+                    var newStat = stat with
+                    {
+                        Cost = stat.Cost.WithValue(modifiedStat.Cost),
+                        Info = stat.Info.WithValue(GetInfo(stat.Name, stat.Info.Value, stat.Value.Value, modifiedStat.Value)),
+                        Value = stat.Value.WithValue(stat.Value.Value is float
+                            ? (object)(float)modifiedStat.Value
+                            : (object)(int)MathF.Round(modifiedStat.Value))
+                    };
+                    result = result.Add(newStat);
+                }
+            }
+            return result;
+        }
+
+        private void RandomizeStats(List<WeaponStatModifier> stats, RandomizerLogger logger)
         {
             if (_randomStats)
             {
-                var name = stats[0].Stat.Name;
-                if (name == "Power")
-                    RandomizePower(stats, logger);
-                if (name == "Ammo Capacity")
-                    RandomizeCapacity(stats, logger);
-                if (name == "Reload Speed")
-                    RandomizeReloadSpeed(stats, logger);
-                if (name == "Rate of Fire")
-                    RandomizeRateOfFire(stats, logger);
-                if (name == "Durability")
-                    RandomizeDurability(stats, logger);
-                LogValueChange(stats, logger);
+                var firstStat = stats[0].Stat;
+                var lastStat = stats[^1].Stat;
+
+                var name = firstStat.Name;
+                var upgradeDef = WeaponStatsDefinition.Upgrades.First(x => x.Name == name);
+                var group = upgradeDef.Groups.First(x => x.Include.Contains(firstStat.WeaponId));
+                var startValue = group.StartMin == 0
+                    ? Convert.ToSingle(firstStat.Value.Value)
+                    : _valueRng.NextFloat(group.StartMin, group.Min);
+
+                var groupMin = group.Min;
+                var groupMax = group.Max;
+                if (_valueRng.NextProbability(75))
+                {
+                    groupMax = groupMin + ((groupMax - groupMin) / 2);
+                }
+
+                var max = groupMin < groupMax
+                    ? Math.Max(startValue, _valueRng.NextFloat(groupMin, groupMax + 1))
+                    : Math.Min(startValue, _valueRng.NextFloat(groupMax, groupMin + 1));
+                RandomizeStats(stats, startValue, max, group.MinIncrement, group.StartMin != 0);
+                LogValueChange(stats, firstStat, lastStat, logger);
             }
             if (_randomPrices)
             {
@@ -227,112 +251,58 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private static void LogValueChange(WeaponStatModifier[] stats, RandomizerLogger logger)
+        private static void RandomizeStats(
+            List<WeaponStatModifier> stats,
+            float startValue,
+            float max,
+            float minIncrement,
+            bool fromStart)
         {
-            var name = stats[0].Stat.Name;
-            var format = stats.First().Stat.Value.Value is float ? "0.00" : "0";
-            var originalMin = Convert.ToSingle(stats.First().Stat.Value.Value).ToString(format);
-            var originalMax = Convert.ToSingle(stats.Last().Stat.Value.Value).ToString(format);
+            var startI = fromStart ? 0 : 1;
+            var increment = minIncrement >= 0
+                ? MathF.Max(minIncrement, (max - startValue) / 4.0f)
+                : MathF.Min(minIncrement, (max - startValue) / 4.0f);
+            var value = startValue;
+            for (var i = startI; i < 5; i++)
+            {
+                if (minIncrement >= 0 ? value < max : value > max)
+                {
+                    var newValue = value + increment;
+                    if (newValue > max)
+                        newValue = max;
+                    value = newValue;
+                    stats[i].Value = newValue;
+                }
+                else
+                {
+                    stats.RemoveRange(i, stats.Count - i);
+                    break;
+                }
+            }
+        }
+
+        private static void LogValueChange(
+            List<WeaponStatModifier> stats,
+            WeaponUpgradeStat originalFirst,
+            WeaponUpgradeStat originalLast,
+            RandomizerLogger logger)
+        {
+            var name = originalFirst.Name;
+            var format = originalFirst.Value.Value is float ? "0.00" : "0";
+            var originalMin = Convert.ToSingle(originalFirst.Value.Value).ToString(format);
+            var originalMax = Convert.ToSingle(originalLast.Value.Value).ToString(format);
             var min = Convert.ToSingle(stats.First().Value).ToString(format);
             var max = Convert.ToSingle(stats.Last().Value).ToString(format);
-            logger.LogLine($"{name} {originalMin} - {originalMax} -> {min} - {max}");
+            var ratio = stats.Last().Value / Convert.ToSingle(originalLast.Value.Value) * 100;
+            logger.LogLine($"{name} {originalMin} - {originalMax} -> {min} - {max} ({ratio:0}%)");
         }
 
-        private void RandomizePower(WeaponStatModifier[] stats, RandomizerLogger logger)
+        private void RandomizeExclusives(RszInstance metaRoot, RszInstance dataRoot, ImmutableArray<WeaponStat> stats, int weaponId, RandomizerLogger logger)
         {
-            var originalMin = stats[0].Value;
-            var originalMax = stats.Last().Value;
-            var range = originalMax - originalMin;
-
-            var minLower = originalMin / 2;
-            var minUpper = originalMin + (range / 2);
-            var min = _valueRng.NextFloat(minLower, minUpper);
-            var maxLower = min;
-            var maxUpper = originalMax + range;
-            var max = _valueRng.NextFloat(maxLower, maxUpper);
-
-            SetStats(stats, min, max, x => x);
-        }
-
-        private void RandomizeCapacity(WeaponStatModifier[] stats, RandomizerLogger logger)
-        {
-            var originalMin = (int)stats[0].Value;
-            var originalMax = (int)stats.Last().Value;
-            var range = originalMax - originalMin;
-
-            var minLower = originalMin / 2;
-            var minUpper = originalMin + (range / 2);
-            var min = _valueRng.Next(minLower, minUpper + 1);
-            var maxLower = min + 4;
-            var maxUpper = (int)Math.Round(originalMax * 1.5);
-            var max = _valueRng.Next(maxLower, maxUpper + 1);
-
-            SetStats(stats, min, max, x => (int)Math.Round(x), includeBaseStat: true);
-        }
-
-        private void RandomizeReloadSpeed(WeaponStatModifier[] stats, RandomizerLogger logger)
-        {
-            var originalMin = stats[0].Value;
-            var originalMax = stats.Last().Value;
-            var range = originalMax - originalMin;
-
-            var minLower = originalMin / 2;
-            var minUpper = originalMin + (range / 2);
-            var min = _valueRng.NextFloat(minLower, minUpper);
-            var maxLower = min;
-            var maxUpper = originalMax * 2;
-            var max = _valueRng.NextFloat(maxLower, maxUpper);
-
-            SetStats(stats, min, max, x => x);
-        }
-
-        private void RandomizeRateOfFire(WeaponStatModifier[] stats, RandomizerLogger logger)
-        {
-            var originalMin = stats[0].Value;
-            var originalMax = stats.Last().Value;
-            var range = Math.Abs(originalMax - originalMin);
-
-            var minLower = originalMin - (range / 2);
-            var minUpper = originalMin + (range / 2);
-            var min = _valueRng.NextFloat(minLower, minUpper);
-            var maxLower = originalMax / 4;
-            var maxUpper = min;
-            var max = _valueRng.NextFloat(maxLower, maxUpper);
-
-            SetStats(stats, min, max, x => x);
-        }
-
-        private void RandomizeDurability(WeaponStatModifier[] stats, RandomizerLogger logger)
-        {
-            var originalMin = (int)stats[0].Value;
-            var originalMax = (int)stats.Last().Value;
-            var range = originalMax - originalMin;
-
-            var minLower = originalMin / 2;
-            var minUpper = originalMax + (range / 2);
-            var min = (int)MathF.Round(_valueRng.NextFloat(minLower, minUpper));
-            var maxLower = min;
-            var maxUpper = originalMax * 2;
-            var max = (int)MathF.Round(_valueRng.NextFloat(maxLower, maxUpper));
-
-            SetStats(stats, min, max, x => (int)MathF.Ceiling(x / 100) * 100);
-        }
-
-        private static void SetStats(WeaponStatModifier[] stats, float min, float max, Func<float, float> transform, bool includeBaseStat = false)
-        {
-            var start = includeBaseStat ? 0 : 1;
-            var last = includeBaseStat ? 0 : stats[0].Value;
-            for (var i = start; i < stats.Length; i++)
-            {
-                var val = Lerp(min, max, i / (stats.Length - 1.0f));
-                var tVal = transform(val);
-                if (min < max)
-                    tVal = Math.Max(last + 0.01f, tVal);
-                else
-                    tVal = Math.Min(last - 0.01f, tVal);
-                stats[i].Value = tVal;
-                last = tVal;
-            }
+            if (_randomPrices)
+                RandomizeExclusivePrices(metaRoot, stats, weaponId, logger);
+            if (_randomExclusives)
+                RandomizeExclusive(metaRoot, dataRoot, stats, weaponId, logger);
         }
 
         private void RandomizeExclusivePrices(RszInstance metaRoot, ImmutableArray<WeaponStat> stats, int weaponId, RandomizerLogger logger)
@@ -356,11 +326,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             int weaponId,
             RandomizerLogger logger)
         {
-            var availableStats = stats
-                .Where(x => x.WeaponId == weaponId)
-                .Select(x => x.Name)
-                .ToHashSet();
-
             var randomExclusive = WeaponStatsDefinition.Exclusives
                 .Where(x => x.Include.Contains(weaponId))
                 .Shuffle(_exclusiveRng)
@@ -554,6 +519,41 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return [.. stats];
         }
 
+        private void SetWeaponStats(RszInstance metaRoot, RszInstance dataRoot, ImmutableArray<WeaponStat> stats)
+        {
+            // Limit arrays to correct number
+            var aa = stats
+                .OfType<WeaponUpgradeStat>()
+                .GroupBy(x => (x.WeaponId, x.Name));
+            foreach (var a in aa)
+            {
+                var levels = a.Count();
+                var firstLevel = a.First();
+                var metaArrayPath = GetLastArrayOfPath(firstLevel.Cost.Path);
+                var dataArrayPath = GetLastArrayOfPath(firstLevel.Value.Path);
+                var metaArray = metaRoot.GetList(metaArrayPath);
+                var dataArray = dataRoot.GetList(dataArrayPath);
+                while (metaArray.Count > levels)
+                    metaArray.RemoveAt(metaArray.Count - 1);
+                while (dataArray.Count > levels)
+                    dataArray.RemoveAt(dataArray.Count - 1);
+            }
+
+            foreach (var stat in stats)
+            {
+                metaRoot.Set(stat.Cost.Path, stat.Cost.Value);
+                dataRoot.Set(stat.Value.Path, stat.Value.Value);
+
+                if (stat is WeaponExclusiveStat exclusive)
+                {
+                }
+                else if (stat is WeaponUpgradeStat upgrade)
+                {
+                    metaRoot.Set(stat.Info.Path, stat.Info.Value);
+                }
+            }
+        }
+
         private static WeaponRszField<T> GetProcessedField<T>(RszInstance instance, string xpath, int w, int i, int l = 0)
         {
             var processedPath = ProcessPath(xpath, w, i, l);
@@ -596,6 +596,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public string DataCategory { get; set; } = "";
         public string Meta { get; set; } = "";
         public string Data { get; set; } = "";
+        public WeaponUpgradeDefinitionGroup[] Groups { get; set; } = [];
+    }
+
+    public class WeaponUpgradeDefinitionGroup
+    {
+        public float StartMin { get; set; }
+        public float Min { get; set; }
+        public float Max { get; set; }
+        public float MinIncrement { get; set; }
+        public int[] Include { get; set; } = [];
     }
 
     public class WeaponExclusiveDefinition
@@ -648,11 +658,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
     }
 
-    public class WeaponStatModifier(WeaponStat stat)
+    public class WeaponStatModifier(WeaponUpgradeStat stat)
     {
-        public WeaponStat Stat => stat;
+        public WeaponUpgradeStat Stat => stat;
         public int Cost { get; set; } = stat.Cost.Value;
         public float Value { get; set; } = Convert.ToSingle(stat.Value.Value);
+
+        public override string ToString() => $"Cost = {Cost} Value = {Value}";
     }
 
     public readonly struct WeaponRszField<T>(string path, T value)
