@@ -568,34 +568,37 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = $"parasite-ratio-none",
                 Label = "None",
+                Category = new GroupItemCategory(new ConfigCategory("None", "#696", "#fff")),
                 Description = "No Plaga",
                 Type = "range",
                 Min = 0,
                 Max = 1,
                 Step = 0.01,
-                Default = 0
+                Default = 0.85
             });
             group.Items.Add(new GroupItem()
             {
                 Id = $"parasite-ratio-a",
                 Label = "Plaga Guadaña",
+                Category = new GroupItemCategory(new ConfigCategory("Guadaña", "#ff0", "#000")),
                 Description = "Tenticle Plaga that slice you",
                 Type = "range",
                 Min = 0,
                 Max = 1,
                 Step = 0.01,
-                Default = 0
+                Default = 0.1
             });
             group.Items.Add(new GroupItem()
             {
                 Id = $"parasite-ratio-b",
                 Label = "Plaga Mandíbula",
+                Category = new GroupItemCategory(new ConfigCategory("Mandíbula", "#f00", "#fff")),
                 Description = "Hungry Plaga that eat your head",
                 Type = "range",
                 Min = 0,
                 Max = 1,
                 Step = 0.01,
-                Default = 0
+                Default = 0.05
             });
 
             page = configDefinition.CreatePage("Health");
