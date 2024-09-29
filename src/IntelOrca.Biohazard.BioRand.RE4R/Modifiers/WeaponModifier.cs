@@ -10,12 +10,13 @@ using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
-    internal class WeaponModifier : Modifier
+    internal partial class WeaponModifier : Modifier
     {
         private const string WeaponCustomUserDataPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weaponcustomuserdata.user.2";
         private const string WeaponDetailCustomUserDataPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2";
         private const string ItemDefinitionUserDataPath = "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2";
         private const string WeaponCustomMsgPath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_wpcustom.msg.22";
+        private const string ShopMsgPath = "natives/stm/_chainsaw/message/mes_main_sys/ch_mes_main_sys_shop.msg.22";
 
         private bool _randomStats;
         private bool _randomPrices;
@@ -26,6 +27,40 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private Msg.Builder _msg = new();
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            var mainFile = randomizer.FileRepository.GetUserFile(WeaponCustomUserDataPath);
+            var detailFile = randomizer.FileRepository.GetUserFile(WeaponDetailCustomUserDataPath);
+            var wpCustomMsg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath);
+            var shopMsg = randomizer.FileRepository.GetMsgFile(ShopMsgPath);
+
+            var weaponStatCollection = new WeaponStatCollection(mainFile, detailFile);
+            foreach (var wp in weaponStatCollection.Weapons)
+            {
+                logger.Push($"Weapon {wp.Name}");
+                foreach (var m in wp.Modifiers)
+                {
+                    if (m is IWeaponUpgrade u)
+                    {
+                        var message = wpCustomMsg.GetString(u.MessageId, LanguageId.English);
+
+                        logger.Push($"Upgrade ({message})");
+                        foreach (var l in u.Levels)
+                        {
+                            logger.LogLine($"Cost = {l.Cost} Info = {l.Info} Value = {l.Value}");
+                        }
+                        logger.Pop();
+                    }
+                    else if (m is IWeaponExclusive e)
+                    {
+                        var perkMessage = wpCustomMsg.GetString(e.PerkMessageId, LanguageId.English);
+                        logger.LogLine($"Exclusive ({perkMessage}) Cost = {e.Cost}");
+                    }
+                }
+                logger.Pop();
+            }
+        }
+
+        private void LogStateOld(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var itemRepo = ItemDefinitionRepository.Default;
             var stats = GetWeaponStats(randomizer);
@@ -65,6 +100,78 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         }
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            var shopMsg = randomizer.FileRepository.GetMsgFile(ShopMsgPath).ToBuilder();
+            var wpMsg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath).ToBuilder();
+            var mainFile = randomizer.FileRepository.GetUserFile(WeaponCustomUserDataPath);
+            var detailFile = randomizer.FileRepository.GetUserFile(WeaponDetailCustomUserDataPath);
+
+            shopMsg.SetStringAll(new Guid("db128948-0960-4147-814d-fec706a5c34a"), "Penetration Power");
+
+            var weaponStatCollection = new WeaponStatCollection(mainFile, detailFile);
+            foreach (var wp in weaponStatCollection.Weapons)
+            {
+                if (wp.Id == 4000)
+                {
+                    // wp.RemoveUpgrade(0);
+                    // var p = (PenetrationUpgrade)wp.AddUpgrade();
+                    // p.MessageId = wpCustomMsgBuilder.Create("Increase penetration power.").Guid;
+                    // p.Levels = ImmutableArray.Create<PenetrationUpgradeLevel>(
+                    //     new PenetrationUpgradeLevel(0, "1", 1),
+                    //     new PenetrationUpgradeLevel(1000, "2", 2),
+                    //     new PenetrationUpgradeLevel(2000, "3", 3),
+                    //     new PenetrationUpgradeLevel(4000, "4", 4),
+                    //     new PenetrationUpgradeLevel(6000, "5", 5)
+                    // );
+                    // wp.RemoveExclusive(0);
+                    // wp.AddExclusive(1);
+                    // wp.AddExclusive(4);
+                }
+                foreach (var u in wp.Modifiers)
+                {
+                    if (u is PowerUpgrade pu)
+                    {
+                        var levels = pu.Levels.ToArray();
+                        var multiplier = _valueRng.NextDouble(0.5, 2);
+                        for (var i = 1; i < levels.Length; i++)
+                        {
+                            var newValue = (float)(levels[i].Value * multiplier);
+                            levels[i] = levels[i] with
+                            {
+                                Cost = (levels[i].Cost * multiplier).RoundPrice(),
+                                Info = newValue.ToString("0.00"),
+                                Value = (float)(levels[i].Value * multiplier)
+                            };
+                        }
+                        pu.Levels = [.. levels];
+                    }
+                    else if (u is AmmoCapacityUpgrade au)
+                    {
+                        var levels = au.Levels.ToArray();
+                        var multiplier = _valueRng.NextDouble(0.5, 2);
+                        for (var i = 1; i < levels.Length; i++)
+                        {
+                            var newValue = (float)(levels[i].Value * multiplier);
+                            levels[i] = levels[i] with
+                            {
+                                Cost = (levels[i].Cost * multiplier).RoundPrice(),
+                                Info = newValue.ToString("0"),
+                                Value = (int)(levels[i].Value * multiplier)
+                            };
+                        }
+                        au.Levels = [.. levels];
+                    }
+                }
+            }
+            weaponStatCollection.Apply();
+
+            randomizer.FileRepository.SetUserFile(WeaponCustomUserDataPath, mainFile);
+            randomizer.FileRepository.SetUserFile(WeaponDetailCustomUserDataPath, detailFile);
+            randomizer.FileRepository.SetMsgFile(WeaponCustomMsgPath, wpMsg.ToMsg());
+            randomizer.FileRepository.SetMsgFile(ShopMsgPath, shopMsg.ToMsg());
+        }
+
+        private void ApplyOld(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var rng = randomizer.CreateRng();
             _priceRng = rng.NextFork();
@@ -417,6 +524,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var detailFile = randomizer.FileRepository.GetUserFile(WeaponDetailCustomUserDataPath);
             var metaRoot = mainFile.RSZ!.ObjectList[0];
             var dataRoot = detailFile.RSZ!.ObjectList[0];
+
+            var weaponCustomUserdata = mainFile.RszParser.Deserialize<chainsaw.WeaponCustomUserdata>(metaRoot);
+            var weaponDetailCustomUserdata = detailFile.RszParser.Deserialize<chainsaw.WeaponDetailCustomUserdata>(dataRoot);
 
             var stats = new List<WeaponStat>();
             var def = WeaponStatsDefinition;
