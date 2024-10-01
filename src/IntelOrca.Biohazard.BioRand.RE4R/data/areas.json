@@ -1464,6 +1464,10 @@
             "b2afc4ab-a617-4e2d-81b2-1b94d66e1b60"
           ],
           "exclude": [
+            "villager_range",
+            "zealot_range",
+            "soldier_range",
+            "brute_range",
             "arana",
             "colmillos",
             "krauser_1",
@@ -1476,7 +1480,8 @@
             "mendez_chase",
             "verdugo",
             "mendez_2",
-            "cow"
+            "cow",
+            "pig"
           ]
         }
       ]
