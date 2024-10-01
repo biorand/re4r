@@ -2539,13 +2539,18 @@
             "8f329f90-3776-4519-a3d0-6cd9ca7f0d64", // ashley target
             "0003ddf2-1d36-40c6-ba37-ffe598772afe" // ashley target
           ],
-          "include": [
-            "villager",
-            "zealot",
-            "zealot_shield",
-            "soldier",
-            "soldier_shield",
-            "brute_hammer"
+          "exclude": [
+            "colmillos",
+            "super-colmillos",
+            "garrador",
+            "mendez_chase",
+            "verdugo",
+            "mendez_2",
+            "krauser_2",
+            "pesanta",
+            "u3",
+            "cow",
+            "pig"
           ]
         },
         {
@@ -2567,6 +2572,7 @@
             "gold-armadura",
             "mendez_2",
             "mendez_chase",
+            "pig",
             "super-colmillos",
             "verdugo"
           ]
