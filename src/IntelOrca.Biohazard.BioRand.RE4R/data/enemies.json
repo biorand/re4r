@@ -874,9 +874,9 @@
       "field:_PreFirstForceMovePatternHash": 2180083513
     },
     {
-      "key": "brute_ranged",
+      "key": "brute_range",
       "kind": "soldier",
-      "name": "Brute (Ranged)",
+      "name": "Brute (Ranged Attack)",
       "category": "Brute",
       "class": 5,
       "minHealth": 5000,
