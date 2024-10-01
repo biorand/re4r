@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Data;
 using System.Linq;
-using System.Text.RegularExpressions;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using MsgTool;
 using RszTool;
@@ -21,18 +20,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private bool _randomStats;
         private bool _randomPrices;
         private bool _randomExclusives;
-        private Rng _priceRng = new();
-        private Rng _valueRng = new();
-        private Rng _exclusiveRng = new();
-        private Msg.Builder _msg = new();
+        private Func<string, Guid> _addMessage = _ => default;
+        private Dictionary<int, int> _startAmmoCapacity = new();
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var mainFile = randomizer.FileRepository.GetUserFile(WeaponCustomUserDataPath);
             var detailFile = randomizer.FileRepository.GetUserFile(WeaponDetailCustomUserDataPath);
             var wpCustomMsg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath);
-            var shopMsg = randomizer.FileRepository.GetMsgFile(ShopMsgPath);
-
             var weaponStatCollection = new WeaponStatCollection(mainFile, detailFile);
             foreach (var wp in weaponStatCollection.Weapons)
             {
@@ -41,18 +36,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     if (m is IWeaponUpgrade u)
                     {
-                        var message = wpCustomMsg.GetString(u.MessageId, LanguageId.English);
+                        var message = wpCustomMsg.GetString(u.MessageId, LanguageId.English)?.Replace("\r\n", " ");
 
                         logger.Push($"Upgrade ({message})");
                         foreach (var l in u.Levels)
                         {
-                            logger.LogLine($"Cost = {l.Cost} Info = {l.Info} Value = {l.Value}");
+                            logger.LogLine($"{l}");
                         }
                         logger.Pop();
                     }
                     else if (m is IWeaponExclusive e)
                     {
-                        var perkMessage = wpCustomMsg.GetString(e.PerkMessageId, LanguageId.English);
+                        var perkMessage = wpCustomMsg.GetString(e.PerkMessageId, LanguageId.English)?.Replace("\r\n", " ");
                         logger.LogLine($"Exclusive ({perkMessage}) Cost = {e.Cost}");
                     }
                 }
@@ -60,123 +55,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void LogStateOld(ChainsawRandomizer randomizer, RandomizerLogger logger)
-        {
-            var itemRepo = ItemDefinitionRepository.Default;
-            var stats = GetWeaponStats(randomizer);
-            foreach (var weaponId in stats.GroupBy(x => x.WeaponId))
-            {
-                var weapon = itemRepo.FromWeaponId(weaponId.Key);
-                var weaponName = weapon?.Name ?? weaponId.Key.ToString();
-
-                logger.Push($"Weapon {weaponName}");
-                foreach (var upgradeName in weaponId.OfType<WeaponUpgradeStat>().GroupBy(x => x.Name))
-                {
-                    logger.Push(upgradeName.Key);
-                    foreach (var stat in upgradeName.OrderBy(x => x.Level))
-                    {
-                        var value = stat.Value;
-                        if (value.Value is float f)
-                            value = value.WithValue(f.ToString("0.00"));
-                        logger.LogLine($"Level = {stat.Level} Cost = {stat.Cost} Info = {stat.Info} Value = {value}");
-                    }
-                    logger.Pop();
-                }
-
-                // Exclusive
-                var exclusives = weaponId.OfType<WeaponExclusiveStat>().ToArray();
-                if (exclusives.Length > 0)
-                {
-                    logger.Push($"Exclusive: {exclusives[0].Name} Cost = {exclusives[0].Cost}");
-                    foreach (var exclusive in weaponId.OfType<WeaponExclusiveStat>())
-                    {
-                        logger.LogLine($"Field = {GetFieldName(exclusive.Value.Path)} Value = {exclusive.Value.Value}");
-                    }
-                    logger.Pop();
-                }
-
-                logger.Pop();
-            }
-        }
-
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var shopMsg = randomizer.FileRepository.GetMsgFile(ShopMsgPath).ToBuilder();
-            var wpMsg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath).ToBuilder();
-            var mainFile = randomizer.FileRepository.GetUserFile(WeaponCustomUserDataPath);
-            var detailFile = randomizer.FileRepository.GetUserFile(WeaponDetailCustomUserDataPath);
+            _startAmmoCapacity.Clear();
 
-            shopMsg.SetStringAll(new Guid("db128948-0960-4147-814d-fec706a5c34a"), "Penetration Power");
-
-            var weaponStatCollection = new WeaponStatCollection(mainFile, detailFile);
-            foreach (var wp in weaponStatCollection.Weapons)
-            {
-                if (wp.Id == 4000)
-                {
-                    // wp.RemoveUpgrade(0);
-                    // var p = (PenetrationUpgrade)wp.AddUpgrade();
-                    // p.MessageId = wpCustomMsgBuilder.Create("Increase penetration power.").Guid;
-                    // p.Levels = ImmutableArray.Create<PenetrationUpgradeLevel>(
-                    //     new PenetrationUpgradeLevel(0, "1", 1),
-                    //     new PenetrationUpgradeLevel(1000, "2", 2),
-                    //     new PenetrationUpgradeLevel(2000, "3", 3),
-                    //     new PenetrationUpgradeLevel(4000, "4", 4),
-                    //     new PenetrationUpgradeLevel(6000, "5", 5)
-                    // );
-                    // wp.RemoveExclusive(0);
-                    // wp.AddExclusive(1);
-                    // wp.AddExclusive(4);
-                }
-                foreach (var u in wp.Modifiers)
-                {
-                    if (u is PowerUpgrade pu)
-                    {
-                        var levels = pu.Levels.ToArray();
-                        var multiplier = _valueRng.NextDouble(0.5, 2);
-                        for (var i = 1; i < levels.Length; i++)
-                        {
-                            var newValue = (float)(levels[i].Value * multiplier);
-                            levels[i] = levels[i] with
-                            {
-                                Cost = (levels[i].Cost * multiplier).RoundPrice(),
-                                Info = newValue.ToString("0.00"),
-                                Value = (float)(levels[i].Value * multiplier)
-                            };
-                        }
-                        pu.Levels = [.. levels];
-                    }
-                    else if (u is AmmoCapacityUpgrade au)
-                    {
-                        var levels = au.Levels.ToArray();
-                        var multiplier = _valueRng.NextDouble(0.5, 2);
-                        for (var i = 1; i < levels.Length; i++)
-                        {
-                            var newValue = (float)(levels[i].Value * multiplier);
-                            levels[i] = levels[i] with
-                            {
-                                Cost = (levels[i].Cost * multiplier).RoundPrice(),
-                                Info = newValue.ToString("0"),
-                                Value = (int)(levels[i].Value * multiplier)
-                            };
-                        }
-                        au.Levels = [.. levels];
-                    }
-                }
-            }
-            weaponStatCollection.Apply();
-
-            randomizer.FileRepository.SetUserFile(WeaponCustomUserDataPath, mainFile);
-            randomizer.FileRepository.SetUserFile(WeaponDetailCustomUserDataPath, detailFile);
-            randomizer.FileRepository.SetMsgFile(WeaponCustomMsgPath, wpMsg.ToMsg());
-            randomizer.FileRepository.SetMsgFile(ShopMsgPath, shopMsg.ToMsg());
-        }
-
-        private void ApplyOld(ChainsawRandomizer randomizer, RandomizerLogger logger)
-        {
             var rng = randomizer.CreateRng();
-            _priceRng = rng.NextFork();
-            _valueRng = rng.NextFork();
-            _exclusiveRng = rng.NextFork();
+            var priceRng = rng.NextFork();
+            var valueRng = rng.NextFork();
 
             _randomStats = randomizer.GetConfigOption<bool>("random-weapon-stats");
             _randomPrices = randomizer.GetConfigOption<bool>("random-weapon-upgrade-prices");
@@ -184,49 +69,315 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!_randomStats && !_randomPrices && !_randomExclusives)
                 return;
 
-            _msg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath).ToBuilder();
-
-            var itemRepo = ItemDefinitionRepository.Default;
+            var shopMsg = randomizer.FileRepository.GetMsgFile(ShopMsgPath).ToBuilder();
+            var wpMsg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath).ToBuilder();
             var mainFile = randomizer.FileRepository.GetUserFile(WeaponCustomUserDataPath);
             var detailFile = randomizer.FileRepository.GetUserFile(WeaponDetailCustomUserDataPath);
-            var metaRoot = mainFile.RSZ!.ObjectList[0];
-            var dataRoot = detailFile.RSZ!.ObjectList[0];
 
-            var stats = GetWeaponStats(randomizer);
+            shopMsg.SetStringAll(new Guid("6f60b94f-1766-4c98-8335-a69958e2d927"), "Critical Hit Rate");
+            shopMsg.SetStringAll(new Guid("db128948-0960-4147-814d-fec706a5c34a"), "Penetration Power");
+            _addMessage = (s) => wpMsg.Create(s).Guid;
 
-            var weapons = stats.GroupBy(x => x.WeaponId);
-            var applicableWeapons = WeaponStatsDefinition.Exclusives.SelectMany(x => x.Include).Distinct().ToHashSet();
-            foreach (var weaponStats in weapons)
+            var weaponStatCollection = new WeaponStatCollection(mainFile, detailFile);
+            foreach (var wp in weaponStatCollection.Weapons)
             {
-                var weaponId = weaponStats.Key;
-                if (!applicableWeapons.Contains(weaponId))
-                    continue;
-
-                var weaponName = itemRepo.FromWeaponId(weaponId)?.Name ?? weaponId.ToString();
-                logger.Push(weaponName);
-
-                stats = RandomizeStats(metaRoot, dataRoot, stats, weaponId, logger);
-                RandomizeExclusives(metaRoot, dataRoot, stats, weaponId, logger);
-
-                logger.Pop();
+                RandomizeWeaponStats(wp, valueRng);
             }
-
-            SetWeaponStats(metaRoot, dataRoot, stats);
+            weaponStatCollection.Apply();
 
             randomizer.FileRepository.SetUserFile(WeaponCustomUserDataPath, mainFile);
             randomizer.FileRepository.SetUserFile(WeaponDetailCustomUserDataPath, detailFile);
+            randomizer.FileRepository.SetMsgFile(WeaponCustomMsgPath, wpMsg.ToMsg());
+            randomizer.FileRepository.SetMsgFile(ShopMsgPath, shopMsg.ToMsg());
 
             UpdateItemDefinitions(randomizer);
-
-            randomizer.FileRepository.SetMsgFile(WeaponCustomMsgPath, _msg.ToMsg());
         }
 
-        private static string GetLastArrayOfPath(string path)
+        private void RandomizeWeaponStats(WeaponStats wp, Rng rng)
         {
-            var i = path.LastIndexOf('[');
-            if (i == -1)
-                return path;
-            return path.Substring(0, i);
+            var group = WeaponStatsDefinition.Groups.FirstOrDefault(x => x.Include.Contains(wp.Id));
+            if (group == null)
+                return;
+
+            if (_randomExclusives)
+                wp.Modifiers = wp.Modifiers.RemoveAll(x => x is IWeaponExclusive);
+
+            var rngSuper = () => rng.NextProbability(2);
+            if (group.Power != null)
+            {
+                RandomizePower(wp, RandomizeFromRanges(rng, group.Power, 0.1f, rngSuper()));
+                if (_randomExclusives)
+                    AddExclusive(wp, WeaponUpgradeKind.Power, rng.NextFloat(1.5f, 4));
+            }
+            if (group.AmmoCapacity != null)
+            {
+                var values = RandomizeFromRanges(rng, group.AmmoCapacity, 1, rngSuper()).Select(x => (int)MathF.Round(x)).ToArray();
+                _startAmmoCapacity[wp.Id] = values[0];
+                RandomizeAmmoCapacity(wp, values);
+                if (_randomExclusives)
+                    AddExclusive(wp, WeaponUpgradeKind.AmmoCapacity, rng.NextFloat(1.5f, 4));
+            }
+
+            if (group.CriticalRate != null && wp.Modifiers.Any(x => x.Kind == WeaponUpgradeKind.CriticalRate))
+            {
+                if (rng.NextProbability(50))
+                    RandomizeCriticalRate(wp, RandomizeFromRanges(rng, group.CriticalRate, 1, rngSuper()));
+                else
+                    AddExclusive(wp, WeaponUpgradeKind.CriticalRate, rng.Next(5, 21));
+            }
+            if (group.Penetration != null && wp.Modifiers.Any(x => x.Kind == WeaponUpgradeKind.Penetration))
+            {
+                if (rng.NextProbability(50))
+                    RandomizePenetration(wp, RandomizeFromRanges(rng, group.Penetration, 1, rngSuper()));
+                else
+                    AddExclusive(wp, WeaponUpgradeKind.Penetration, rng.Next(5, 21));
+            }
+
+            var mask = 0b11;
+            if (group.ReloadSpeed != null && group.ReloadRounds != null)
+            {
+                mask = rng.NextProbability(50) ? 0b01 : 0b10;
+            }
+            if (group.ReloadSpeed != null && (mask & 0b01) != 0)
+            {
+                RandomizeReloadSpeed(wp, RandomizeFromRanges(rng, group.ReloadSpeed, 0.1f, rngSuper()));
+            }
+            if (group.ReloadRounds != null && (mask & 0b10) != 0)
+            {
+                var values = RandomizeFromRanges(rng, group.ReloadRounds, 1, rngSuper()).Select(x => (int)MathF.Round(x)).ToArray();
+                RandomizeReloadRounds(wp, values);
+            }
+
+            if (group.FireRate != null)
+            {
+                RandomizeFireRate(wp, RandomizeFromRanges(rng, group.FireRate, 0.1f, rngSuper()));
+                if (_randomExclusives)
+                    AddExclusive(wp, WeaponUpgradeKind.FireRate, rng.NextFloat(1.5f, 4));
+            }
+
+            if (_randomExclusives)
+            {
+                wp.Modifiers = wp.Modifiers
+                    .Shuffle(rng)
+                    .Take(5)
+                    .OrderBy(x => x.Kind)
+                    .ToImmutableArray();
+            }
+            else
+            {
+                wp.Modifiers = wp.Modifiers
+                    .Shuffle(rng)
+                    .OrderByDescending(x => x is IWeaponExclusive)
+                    .Take(5)
+                    .OrderBy(x => x.Kind)
+                    .ToImmutableArray();
+            }
+        }
+
+        private float[] RandomizeFromRanges(Rng rng, float[][] ranges, float minDelta, bool super)
+        {
+            bool reverse = false;
+            for (var i = 0; i < ranges.Length; i++)
+            {
+                if (ranges[i][0] > ranges[i][1])
+                {
+                    (ranges[i][0], ranges[i][1]) = (ranges[i][1], ranges[i][0]);
+                    reverse = true;
+                }
+            }
+
+            var min = MathF.Round(rng.NextFloat(ranges[0][0], ranges[0][1]), 1);
+            var max = !super
+                ? MathF.Round(rng.NextFloat(ranges[1][0], ranges[1][1]), 1)
+                : MathF.Round(rng.NextFloat(ranges[2][0], ranges[2][1]), 1);
+            var delta = !reverse
+                ? Math.Max(minDelta, MathF.Round((max - min) / 5, 1))
+                : Math.Min(minDelta, -MathF.Round((min - max) / 5, 1));
+            return Enumerable.Range(0, 5).Select(x => min + (delta * x)).ToArray();
+        }
+
+        private void RandomizePower(WeaponStats stat, float[] values)
+        {
+            var power = stat.Modifiers.OfType<PowerUpgrade>().First();
+            var levels = power.Levels.ToArray();
+            var multiplier = float.Parse(levels[0].Info);
+            for (var i = 0; i < 5; i++)
+            {
+                levels[i] = power.Levels[i] with
+                {
+                    Damage = values[i],
+                    Wince = values[i],
+                    Break = values[i],
+                    Stopping = values[i],
+                    ExplosionRadiusScale = values[i],
+                    ExplosionSensorRadiusScale = values[i],
+                    Info = (values[i] * multiplier).ToString("0.00")
+                };
+            }
+            power.Levels = [.. levels];
+        }
+
+        private void RandomizeAmmoCapacity(WeaponStats stat, int[] values)
+        {
+            var ammoCapacity = stat.Modifiers.OfType<AmmoCapacityUpgrade>().First();
+            var levels = ammoCapacity.Levels.ToArray();
+            for (var i = 0; i < 5; i++)
+            {
+                levels[i] = ammoCapacity.Levels[i] with { Value = values[i], Info = values[i].ToString() };
+            }
+            ammoCapacity.Levels = [.. levels];
+        }
+
+        private void RandomizeCriticalRate(WeaponStats stat, float[] values)
+        {
+            var cost = new[] { 0, 10_000, 15_000, 20_000, 30_000 };
+            stat.Modifiers = stat.Modifiers.Add(new CriticalRateUpgrade
+            {
+                MessageId = _addMessage("Increase critical hit rate."),
+                Levels = values.Zip(cost).Select(x =>
+                {
+                    var value = (int)MathF.Round(x.First);
+                    return new CriticalRateUpgradeLevel(x.Second, value.ToString(), value);
+                }).ToImmutableArray()
+            });
+        }
+
+        private void RandomizePenetration(WeaponStats stat, float[] values)
+        {
+            var cost = new[] { 0, 10_000, 15_000, 20_000, 30_000 };
+            stat.Modifiers = stat.Modifiers.Add(new PenetrationUpgrade
+            {
+                MessageId = _addMessage("Increase penetration."),
+                Levels = values.Zip(cost).Select(x =>
+                {
+                    var value = (int)MathF.Round(x.First);
+                    return new PenetrationUpgradeLevel(x.Second, value.ToString(), value);
+                }).ToImmutableArray()
+            });
+        }
+
+        private void RandomizeReloadSpeed(WeaponStats stat, float[] values)
+        {
+            var reloadSpeed = stat.Modifiers.OfType<ReloadSpeedUpgrade>().First();
+            reloadSpeed.MessageId = new Guid("a3e8cc54-b462-4be3-9e77-e6660ecf0e17");
+            var levels = reloadSpeed.Levels.ToArray();
+            for (var i = 0; i < 5; i++)
+            {
+                var original = levels[0].Speed;
+                if (original <= 0)
+                    original = 1;
+
+                var value = MathF.Round(original * values[i], 2);
+                levels[i] = reloadSpeed.Levels[i] with { Num = 0, Speed = value, Info = values[i].ToString("0.00") };
+            }
+            reloadSpeed.Levels = [.. levels];
+        }
+
+        private void RandomizeReloadRounds(WeaponStats stat, int[] values)
+        {
+            var reloadSpeed = stat.Modifiers.OfType<ReloadSpeedUpgrade>().First();
+            reloadSpeed.MessageId = new Guid("173bfc85-dbf2-4d39-8ba9-6e5284990c63");
+            var levels = reloadSpeed.Levels.ToArray();
+            for (var i = 0; i < 5; i++)
+            {
+                levels[i] = reloadSpeed.Levels[i] with { Num = values[i], Speed = 0, Info = values[i].ToString() };
+            }
+            reloadSpeed.Levels = [.. levels];
+        }
+
+        private void RandomizeFireRate(WeaponStats stat, float[] values)
+        {
+            var fireRate = stat.Modifiers.OfType<FireRateUpgrade>().First();
+            var levels = fireRate.Levels.ToArray();
+            var infoMultiplier = float.Parse(levels[0].Info) / levels[0].Speed;
+            for (var i = 0; i < 5; i++)
+            {
+                var value = MathF.Round(levels[0].Speed * values[i], 2);
+                var info = 1 / values[i];
+                levels[i] = fireRate.Levels[i] with { Speed = value, Info = info.ToString("0.00") };
+            }
+            fireRate.Levels = [.. levels];
+        }
+
+        private void AddExclusive(WeaponStats wp, WeaponUpgradeKind kind, float rate)
+        {
+            rate = MathF.Round(rate / 0.5f) * 0.5f;
+            wp.Modifiers = wp.Modifiers.Add(kind switch
+            {
+                WeaponUpgradeKind.CriticalRate =>
+                    new WeaponExclusive
+                    {
+                        Kind = WeaponUpgradeKind.CriticalRate,
+                        RateValue = rate,
+                        MessageId = _addMessage($"Increase the critical hit rate by {rate}x."),
+                        PerkMessageId = _addMessage($"{rate}x Critical Hit Rate")
+                    },
+                WeaponUpgradeKind.AmmoCapacity =>
+                    new WeaponExclusive
+                    {
+                        Kind = WeaponUpgradeKind.AmmoCapacity,
+                        RateValue = rate,
+                        MessageId = _addMessage($"Increase ammo capacity by {rate}x."),
+                        PerkMessageId = _addMessage($"{rate}x Ammo Capacity")
+                    },
+                WeaponUpgradeKind.Power =>
+                    new WeaponExclusive
+                    {
+                        Kind = WeaponUpgradeKind.Power,
+                        RateValue = rate,
+                        MessageId = _addMessage($"Increase power by {rate}x."),
+                        PerkMessageId = _addMessage($"{rate}x Power")
+                    },
+                WeaponUpgradeKind.Penetration =>
+                    new WeaponExclusive
+                    {
+                        Kind = WeaponUpgradeKind.Penetration,
+                        RateValue = rate,
+                        MessageId = _addMessage($"Penetrate through {rate} targets."),
+                        PerkMessageId = _addMessage($"{rate}x Penetration Power")
+                    },
+                WeaponUpgradeKind.FireRate =>
+                    new WeaponExclusive
+                    {
+                        Kind = WeaponUpgradeKind.FireRate,
+                        RateValue = rate,
+                        MessageId = _addMessage($"Increase rate of fire by {rate}x."),
+                        PerkMessageId = _addMessage($"{rate}x Rate of Fire")
+                    },
+                WeaponUpgradeKind.Durability =>
+                    new WeaponExclusive
+                    {
+                        Kind = WeaponUpgradeKind.Durability,
+                        RateValue = rate,
+                        MessageId = _addMessage($"Increase durability by {rate}x."),
+                        PerkMessageId = _addMessage($"{rate}x Durability")
+                    },
+                WeaponUpgradeKind.CombatSpeed =>
+                    new WeaponExclusive
+                    {
+                        Kind = WeaponUpgradeKind.CombatSpeed,
+                        RateValue = rate,
+                        MessageId = _addMessage($"Increase attack speed by {rate}x."),
+                        PerkMessageId = _addMessage($"{rate}x Attack Speed")
+                    },
+                WeaponUpgradeKind.UnlimitedAmmo =>
+                    new WeaponExclusive
+                    {
+                        Kind = WeaponUpgradeKind.UnlimitedAmmo,
+                        RateValue = 1,
+                        MessageId = _addMessage("Unlimited Ammo"),
+                        PerkMessageId = _addMessage("Unlimited Ammo")
+                    },
+                WeaponUpgradeKind.Indestructible =>
+                    new WeaponExclusive
+                    {
+                        Kind = WeaponUpgradeKind.Indestructible,
+                        RateValue = 1,
+                        MessageId = _addMessage("Becomes indestructible."),
+                        PerkMessageId = _addMessage("Indestructible")
+                    },
+                _ => throw new NotSupportedException()
+            });
         }
 
         private void UpdateItemDefinitions(ChainsawRandomizer randomizer)
@@ -234,12 +385,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var userFile = randomizer.FileRepository.GetUserFile(ItemDefinitionUserDataPath);
             if (userFile == null)
                 return;
-
-            var stats = GetWeaponStats(randomizer);
-            var baseStats = stats
-                .OfType<WeaponUpgradeStat>()
-                .Where(x => x.Level == 0 && x.Name == "Ammo Capacity")
-                .ToArray();
 
             var itemRepo = ItemDefinitionRepository.Default;
             var root = userFile.RSZ!.ObjectList[0];
@@ -251,438 +396,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (itemDef == null)
                     continue;
 
-                var stat = baseStats.FirstOrDefault(x => x.WeaponId == itemDef.WeaponId);
-                if (stat == null)
-                    continue;
-
-                item.Set("_WeaponDefineData._AmmoMax", (int)stat.Value.Value);
+                if (itemDef.WeaponId != null && _startAmmoCapacity.TryGetValue(itemDef.WeaponId.Value, out var ammoCapacity))
+                {
+                    item.Set("_WeaponDefineData._AmmoMax", ammoCapacity);
+                }
             }
 
             randomizer.FileRepository.SetUserFile(ItemDefinitionUserDataPath, userFile);
-        }
-
-        private static string GetInfo(string name, string oldInfo, object oldValue, float newValue)
-        {
-            if (newValue == Convert.ToSingle(oldValue))
-                return oldInfo;
-
-            var infoValue = float.Parse(oldInfo);
-            var infoMultiplier = infoValue / Convert.ToSingle(oldValue);
-            var newInfoValue = (newValue * infoMultiplier) + 0.005;
-            if (name == "Rate of Fire")
-                newInfoValue = 1.8f - newValue * 0.36f;
-
-            var fmt = "0.00";
-            if (name == "Ammo Capacity" || name == "Reload Speed (Rounds)")
-                fmt = "0";
-            else if (name == "Durability")
-                fmt = "0.0";
-            else if (newInfoValue >= 10)
-                fmt = "0.0";
-
-            var result = newInfoValue.ToString(fmt);
-            return result;
-        }
-
-        private ImmutableArray<WeaponStat> RandomizeStats(RszInstance metaRoot, RszInstance dataRoot, ImmutableArray<WeaponStat> stats, int weaponId, RandomizerLogger logger)
-        {
-            var result = stats;
-            var statKinds = stats.GroupBy(x => x.Name);
-            foreach (var statKind in statKinds)
-            {
-                var modifiedStats = statKind
-                    .Where(x => x.WeaponId == weaponId)
-                    .OfType<WeaponUpgradeStat>()
-                    .Select(x => new WeaponStatModifier(x))
-                    .ToList();
-
-                if (modifiedStats.Count == 0)
-                    continue;
-
-                // Remove the old stats
-                result = result.RemoveRange(modifiedStats.Select(x => x.Stat));
-
-                RandomizeStats(modifiedStats, logger);
-
-                foreach (var modifiedStat in modifiedStats)
-                {
-                    var stat = modifiedStat.Stat;
-                    var newStat = stat with
-                    {
-                        Cost = stat.Cost.WithValue(modifiedStat.Cost),
-                        Info = stat.Info.WithValue(GetInfo(stat.Name, stat.Info.Value, stat.Value.Value, modifiedStat.Value)),
-                        Value = stat.Value.WithValue(stat.Value.Value is float
-                            ? (object)(float)modifiedStat.Value
-                            : (object)(int)MathF.Round(modifiedStat.Value))
-                    };
-                    result = result.Add(newStat);
-                }
-            }
-            return result;
-        }
-
-        private void RandomizeStats(List<WeaponStatModifier> stats, RandomizerLogger logger)
-        {
-            if (_randomStats)
-            {
-                var firstStat = stats[0].Stat;
-                var lastStat = stats[^1].Stat;
-
-                var name = firstStat.Name;
-                var upgradeDef = WeaponStatsDefinition.Upgrades.First(x => x.Name == name);
-                var group = upgradeDef.Groups.First(x => x.Include.Contains(firstStat.WeaponId));
-                var startValue = group.StartMin == 0
-                    ? Convert.ToSingle(firstStat.Value.Value)
-                    : _valueRng.NextFloat(group.StartMin, group.Min);
-
-                var groupMin = group.Min;
-                var groupMax = group.Max;
-                if (_valueRng.NextProbability(75))
-                {
-                    groupMax = groupMin + ((groupMax - groupMin) / 2);
-                }
-
-                var max = groupMin < groupMax
-                    ? Math.Max(startValue, _valueRng.NextFloat(groupMin, groupMax + 1))
-                    : Math.Min(startValue, _valueRng.NextFloat(groupMax, groupMin + 1));
-                RandomizeStats(stats, startValue, max, group.MinIncrement, group.StartMin != 0);
-                LogValueChange(stats, firstStat, lastStat, logger);
-            }
-            if (_randomPrices)
-            {
-                var priceRatio = _priceRng.NextDouble(0.5, 2);
-                foreach (var stat in stats)
-                {
-                    stat.Cost = (stat.Cost * priceRatio).RoundPrice();
-                }
-            }
-        }
-
-        private static void RandomizeStats(
-            List<WeaponStatModifier> stats,
-            float startValue,
-            float max,
-            float minIncrement,
-            bool fromStart)
-        {
-            var startI = fromStart ? 0 : 1;
-            var increment = minIncrement >= 0
-                ? MathF.Max(minIncrement, (max - startValue) / 4.0f)
-                : MathF.Min(minIncrement, (max - startValue) / 4.0f);
-            var value = startValue;
-            for (var i = startI; i < 5; i++)
-            {
-                if (minIncrement >= 0 ? value < max : value > max)
-                {
-                    var newValue = value + increment;
-                    value = newValue;
-                    stats[i].Value = newValue;
-                }
-                else
-                {
-                    stats.RemoveRange(i, stats.Count - i);
-                    break;
-                }
-            }
-        }
-
-        private static void LogValueChange(
-            List<WeaponStatModifier> stats,
-            WeaponUpgradeStat originalFirst,
-            WeaponUpgradeStat originalLast,
-            RandomizerLogger logger)
-        {
-            var name = originalFirst.Name;
-            var format = originalFirst.Value.Value is float ? "0.00" : "0";
-            var originalMin = Convert.ToSingle(originalFirst.Value.Value).ToString(format);
-            var originalMax = Convert.ToSingle(originalLast.Value.Value).ToString(format);
-            var min = Convert.ToSingle(stats.First().Value).ToString(format);
-            var max = Convert.ToSingle(stats.Last().Value).ToString(format);
-            var ratio = stats.Last().Value / Convert.ToSingle(originalLast.Value.Value) * 100;
-            logger.LogLine($"{name} {originalMin} - {originalMax} -> {min} - {max} ({ratio:0}%)");
-        }
-
-        private void RandomizeExclusives(RszInstance metaRoot, RszInstance dataRoot, ImmutableArray<WeaponStat> stats, int weaponId, RandomizerLogger logger)
-        {
-            if (_randomPrices)
-                RandomizeExclusivePrices(metaRoot, stats, weaponId, logger);
-            if (_randomExclusives)
-                RandomizeExclusive(metaRoot, dataRoot, stats, weaponId, logger);
-        }
-
-        private void RandomizeExclusivePrices(RszInstance metaRoot, ImmutableArray<WeaponStat> stats, int weaponId, RandomizerLogger logger)
-        {
-            var firstExclusiveStat = stats
-                .OfType<WeaponExclusiveStat>()
-                .FirstOrDefault(x => x.WeaponId == weaponId);
-
-            if (firstExclusiveStat == null)
-                return;
-
-            var cost = _priceRng.Next(50, 151) * 1000;
-            metaRoot.Set(firstExclusiveStat.Cost.Path, cost);
-            logger.LogLine($"Exclusive Cost = {cost}");
-        }
-
-        private void RandomizeExclusive(
-            RszInstance metaRoot,
-            RszInstance dataRoot,
-            ImmutableArray<WeaponStat> stats,
-            int weaponId,
-            RandomizerLogger logger)
-        {
-            var randomExclusive = WeaponStatsDefinition.Exclusives
-                .Where(x => x.Include.Contains(weaponId))
-                .Shuffle(_exclusiveRng)
-                .First();
-
-            var metaWeaponIndex = FindWeaponIndex(metaRoot, randomExclusive.MetaWeaponId, weaponId);
-            var dataWeaponIndex = FindWeaponIndex(dataRoot, randomExclusive.DataWeaponId, weaponId);
-            if (metaWeaponIndex == -1 || dataWeaponIndex == -1)
-                return;
-
-            var metaCategoryField = GetProcessedField<int>(metaRoot, randomExclusive.MetaCategory, metaWeaponIndex, 0);
-            metaRoot.Set(metaCategoryField.Path, randomExclusive.Category);
-
-            var dataCategoryField = GetProcessedField<int>(dataRoot, randomExclusive.DataCategory, dataWeaponIndex, 0);
-            dataRoot.Set(dataCategoryField.Path, randomExclusive.Category);
-
-            var messageIdField = GetProcessedField<Guid>(metaRoot, randomExclusive.MetaMessageId, metaWeaponIndex, 0);
-            var perksMessageIdField = GetProcessedField<Guid>(metaRoot, randomExclusive.MetaPerksMessageId, metaWeaponIndex, 0);
-            var rateValueField = GetProcessedField<float>(metaRoot, randomExclusive.MetaRateValue, metaWeaponIndex, 0);
-
-            float rateValue = 1.0f;
-            object value = 1.0f;
-            switch (randomExclusive.Category)
-            {
-                case 3:
-                    rateValue = _exclusiveRng.NextFloat(randomExclusive.MinValue, randomExclusive.MaxValue);
-                    rateValue = (int)Math.Round(rateValue);
-                    value = (int)rateValue;
-                    break;
-                case 7:
-                case 9:
-                    value = true;
-                    break;
-                default:
-                    rateValue = _exclusiveRng.NextFloat(randomExclusive.MinValue, randomExclusive.MaxValue);
-                    rateValue = (int)(rateValue / 0.5) * 0.5f;
-                    value = rateValue;
-                    break;
-            }
-
-            var rateString = rateValue.ToString();
-            metaRoot.Set(messageIdField.Path, CreateMsgEntry(randomExclusive.MessageId, randomExclusive.Message, rateString));
-            metaRoot.Set(perksMessageIdField.Path, CreateMsgEntry(randomExclusive.PerkMessageId, randomExclusive.PerkMessage, rateString));
-
-            metaRoot.Set(rateValueField.Path, rateValue);
-            logger.LogLine($"Setting exclusive to {randomExclusive.Name} Rate = {value}");
-            foreach (var field in randomExclusive.DataFields)
-            {
-                var fieldField = GetProcessedField<object>(dataRoot, field, dataWeaponIndex, 0);
-                dataRoot.Set(fieldField.Path, value);
-            }
-        }
-
-        private Guid CreateMsgEntry(Guid original, string ourString, string newValue)
-        {
-            var entry = original == default ?
-                _msg.Create(ourString) :
-                _msg.Duplicate(original);
-
-            for (var i = 0; i < entry.Langs.Count; i++)
-            {
-                var oldString = entry.Langs[i];
-                var newString = Regex.Replace(oldString, @"\d+([.,]\d+)?", newValue);
-                entry.Langs[i] = newString;
-            }
-            return entry.Guid;
-        }
-
-        private static int FindWeaponIndex(RszInstance root, string xpath, int weaponId)
-        {
-            for (var w = 0; w < 100; w++)
-            {
-                var weaponPath = ProcessPath(xpath, w, 0);
-                var weaponIdField = GetProcessedField<int>(root, weaponPath, w, 0);
-                if (weaponIdField.Value == weaponId)
-                {
-                    return w;
-                }
-            }
-            return -1;
-        }
-
-        private static float Lerp(float a, float b, float t)
-        {
-            return a + ((b - a) * t);
-        }
-
-        private ImmutableArray<WeaponStat> GetWeaponStats(ChainsawRandomizer randomizer)
-        {
-            var mainFile = randomizer.FileRepository.GetUserFile(WeaponCustomUserDataPath);
-            var detailFile = randomizer.FileRepository.GetUserFile(WeaponDetailCustomUserDataPath);
-            var metaRoot = mainFile.RSZ!.ObjectList[0];
-            var dataRoot = detailFile.RSZ!.ObjectList[0];
-
-            var weaponCustomUserdata = mainFile.RszParser.Deserialize<chainsaw.WeaponCustomUserdata>(metaRoot);
-            var weaponDetailCustomUserdata = detailFile.RszParser.Deserialize<chainsaw.WeaponDetailCustomUserdata>(dataRoot);
-
-            var stats = new List<WeaponStat>();
-            var def = WeaponStatsDefinition;
-            foreach (var d in def.Upgrades)
-            {
-                var costs = new Dictionary<(int, int), WeaponRszField<int>>();
-                var infos = new Dictionary<(int, int), WeaponRszField<string>>();
-                var values = new Dictionary<(int, int), WeaponRszField<object>>();
-
-                for (var w = 0; w < 100; w++)
-                {
-                    for (var i = 0; i < 10; i++)
-                    {
-                        for (var l = 0; l < 10; l++)
-                        {
-                            var metaWeaponId = metaRoot.Get<int?>(ProcessPath(d.MetaWeaponId, w, i, l), relaxed: true);
-                            var metaCategory = metaRoot.Get<int?>(ProcessPath(d.MetaCategory, w, i, l), relaxed: true);
-                            var metaCostPath = ProcessPath(d.Meta, w, i, l) + "._Cost";
-                            var metaCost = metaRoot.Get<int?>(metaCostPath, relaxed: true);
-                            var metaInfoPath = ProcessPath(d.Meta, w, i, l) + "._Info";
-                            var metaInfo = metaRoot.Get<string?>(metaInfoPath, relaxed: true);
-                            if (metaWeaponId != null && metaCategory == d.Category && metaCost != null)
-                            {
-                                costs[(metaWeaponId.Value, l)] = new WeaponRszField<int>(metaCostPath, metaCost.Value);
-                                infos[(metaWeaponId.Value, l)] = new WeaponRszField<string>(metaInfoPath, metaInfo ?? "");
-                            }
-
-                            var dataWeaponId = dataRoot.Get<int?>(ProcessPath(d.DataWeaponId, w, i, l), relaxed: true);
-                            var dataCategory = dataRoot.Get<int?>(ProcessPath(d.DataCategory, w, i, l), relaxed: true);
-                            var dataPath = ProcessPath(d.Data, w, i, l);
-                            var data = dataRoot.Get(dataPath, relaxed: true);
-                            if (dataWeaponId != null && dataCategory == d.Category && data != null)
-                            {
-                                values[(dataWeaponId.Value, l)] = new WeaponRszField<object>(dataPath, data);
-                            }
-                        }
-                    }
-                }
-
-                foreach (var kvp in costs)
-                {
-                    var metaWeaponId = kvp.Key.Item1;
-                    var level = kvp.Key.Item2;
-                    var metaCost = kvp.Value;
-                    infos.TryGetValue((metaWeaponId, level), out var metaInfo);
-                    if (values.TryGetValue((metaWeaponId, level), out var value))
-                    {
-                        if (metaCost.Value < 0)
-                            metaCost = metaCost.WithValue(0);
-                        if (d.Name == "Ammo Capacity" || d.Name == "Reload Speed (Rounds)" || d.Name == "Durability")
-                        {
-                            if ((int)value.Value < 0)
-                                value = value.WithValue(int.Parse(metaInfo.Value));
-                        }
-                        else
-                        {
-                            if ((float)value.Value < 0)
-                                value = value.WithValue(1.0f);
-                        }
-                        stats.Add(new WeaponUpgradeStat(
-                            d.Name,
-                            metaWeaponId,
-                            level,
-                            metaCost,
-                            metaInfo,
-                            value));
-                    }
-                }
-            }
-
-            foreach (var e in def.Exclusives)
-            {
-                for (var w = 0; w < 100; w++)
-                {
-                    for (var i = 0; i < 10; i++)
-                    {
-                        var dataCategory = dataRoot.Get<int?>(ProcessPath(e.DataCategory, w, i), relaxed: true);
-                        if ((dataCategory ?? -1) != e.Category)
-                            continue;
-
-                        var dataWeaponId = dataRoot.Get<int?>(ProcessPath(e.DataWeaponId, w, i), relaxed: true);
-                        var metaCost = GetProcessedField<int>(metaRoot, e.MetaCost, w, i);
-                        foreach (var field in e.DataFields)
-                        {
-                            var dataPath = ProcessPath(field, w, i);
-                            var value = dataRoot.Get(dataPath, relaxed: true);
-                            stats.Add(new WeaponExclusiveStat(
-                                e.Name,
-                                dataWeaponId!.Value,
-                                metaCost,
-                                new WeaponRszField<string>(),
-                                new WeaponRszField<object>(dataPath, value!)));
-                        }
-                    }
-                }
-            }
-
-            return [.. stats];
-        }
-
-        private void SetWeaponStats(RszInstance metaRoot, RszInstance dataRoot, ImmutableArray<WeaponStat> stats)
-        {
-            // Limit arrays to correct number
-            var aa = stats
-                .OfType<WeaponUpgradeStat>()
-                .GroupBy(x => (x.WeaponId, x.Name));
-            foreach (var a in aa)
-            {
-                var levels = a.Count();
-                var firstLevel = a.First();
-                var metaArrayPath = GetLastArrayOfPath(firstLevel.Cost.Path);
-                var dataArrayPath = GetLastArrayOfPath(firstLevel.Value.Path);
-                var metaArray = metaRoot.GetList(metaArrayPath);
-                var dataArray = dataRoot.GetList(dataArrayPath);
-                while (metaArray.Count > levels)
-                    metaArray.RemoveAt(metaArray.Count - 1);
-                while (dataArray.Count > levels)
-                    dataArray.RemoveAt(dataArray.Count - 1);
-            }
-
-            foreach (var stat in stats)
-            {
-                metaRoot.Set(stat.Cost.Path, stat.Cost.Value);
-                dataRoot.Set(stat.Value.Path, stat.Value.Value);
-
-                if (stat is WeaponExclusiveStat exclusive)
-                {
-                }
-                else if (stat is WeaponUpgradeStat upgrade)
-                {
-                    metaRoot.Set(stat.Info.Path, stat.Info.Value);
-                }
-            }
-        }
-
-        private static WeaponRszField<T> GetProcessedField<T>(RszInstance instance, string xpath, int w, int i, int l = 0)
-        {
-            var processedPath = ProcessPath(xpath, w, i, l);
-            var value = instance.Get<T?>(processedPath, relaxed: true);
-            return new WeaponRszField<T>(processedPath, value!);
-        }
-
-        private static string ProcessPath(string xpath, int w, int i, int l = 0)
-        {
-            return xpath
-                .Replace("{W}", w.ToString())
-                .Replace("{I}", i.ToString())
-                .Replace("{L}", l.ToString());
-        }
-
-        private static string GetFieldName(string xpath)
-        {
-            var i = xpath.LastIndexOf('.');
-            if (i == -1)
-                return xpath;
-            return xpath[(i + 1)..];
         }
 
         private static WeaponStatsDefinition WeaponStatsDefinition { get; } = Resources.stats.DeserializeJson<WeaponStatsDefinition>();
@@ -690,97 +410,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
     public class WeaponStatsDefinition
     {
-        public WeaponUpgradeDefinition[] Upgrades { get; set; } = [];
-        public WeaponExclusiveDefinition[] Exclusives { get; set; } = [];
+        public WeaponStatGroup[] Groups { get; set; } = [];
     }
 
-    public class WeaponUpgradeDefinition
+    public class WeaponStatGroup
     {
-        public string Name { get; set; } = "";
-        public int Category { get; set; }
-        public string MetaWeaponId { get; set; } = "";
-        public string DataWeaponId { get; set; } = "";
-        public string MetaCategory { get; set; } = "";
-        public string DataCategory { get; set; } = "";
-        public string Meta { get; set; } = "";
-        public string Data { get; set; } = "";
-        public WeaponUpgradeDefinitionGroup[] Groups { get; set; } = [];
-    }
-
-    public class WeaponUpgradeDefinitionGroup
-    {
-        public float StartMin { get; set; }
-        public float Min { get; set; }
-        public float Max { get; set; }
-        public float MinIncrement { get; set; }
         public int[] Include { get; set; } = [];
-    }
-
-    public class WeaponExclusiveDefinition
-    {
-        public string Name { get; set; } = "";
-        public int Category { get; set; }
-        public string MetaWeaponId { get; set; } = "";
-        public string MetaCategory { get; set; } = "";
-        public string DataWeaponId { get; set; } = "";
-        public string DataCategory { get; set; } = "";
-        public string MetaMessageId { get; set; } = "";
-        public string MetaPerksMessageId { get; set; } = "";
-        public string MetaRateValue { get; set; } = "";
-        public string MetaCost { get; set; } = "";
-        public string[] DataFields { get; set; } = [];
-        public int[] Include { get; set; } = [];
-        public Guid MessageId { get; set; }
-        public Guid PerkMessageId { get; set; }
-        public string Message { get; set; } = "";
-        public string PerkMessage { get; set; } = "";
-        public float MinValue { get; set; }
-        public float MaxValue { get; set; }
-    }
-
-    public abstract record WeaponStat(
-        string Name,
-        int WeaponId,
-        WeaponRszField<int> Cost,
-        WeaponRszField<string> Info,
-        WeaponRszField<object> Value)
-    {
-    }
-
-    public record WeaponUpgradeStat(
-        string Name,
-        int WeaponId,
-        int Level,
-        WeaponRszField<int> Cost,
-        WeaponRszField<string> Info,
-        WeaponRszField<object> Value) : WeaponStat(Name, WeaponId, Cost, Info, Value)
-    {
-    }
-
-    public record WeaponExclusiveStat(
-        string Name,
-        int WeaponId,
-        WeaponRszField<int> Cost,
-        WeaponRszField<string> Info,
-        WeaponRszField<object> Value) : WeaponStat(Name, WeaponId, Cost, Info, Value)
-    {
-    }
-
-    public class WeaponStatModifier(WeaponUpgradeStat stat)
-    {
-        public WeaponUpgradeStat Stat => stat;
-        public int Cost { get; set; } = stat.Cost.Value;
-        public float Value { get; set; } = Convert.ToSingle(stat.Value.Value);
-
-        public override string ToString() => $"Cost = {Cost} Value = {Value}";
-    }
-
-    public readonly struct WeaponRszField<T>(string path, T value)
-    {
-        public string Path => path;
-        public T Value => value;
-
-        public WeaponRszField<T> WithValue(T value) => new WeaponRszField<T>(path, value);
-        public override string? ToString() => Value?.ToString() ?? base.ToString();
+        public float[][]? Power { get; set; }
+        public float[][]? AmmoCapacity { get; set; }
+        public float[][]? CriticalRate { get; set; }
+        public float[][]? Penetration { get; set; }
+        public float[][]? ReloadSpeed { get; set; }
+        public float[][]? ReloadRounds { get; set; }
+        public float[][]? FireRate { get; set; }
     }
 }

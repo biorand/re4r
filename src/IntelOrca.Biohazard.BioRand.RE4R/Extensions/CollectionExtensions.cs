@@ -7,6 +7,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
 {
     public static class CollectionExtensions
     {
+        public static T? GetItem<T>(this List<T> list, int index)
+        {
+            return list.Count <= index ? default : list[index];
+        }
+
+        public static void SetItem<T>(this List<T> list, int index, T value)
+        {
+            if (list.Count <= index)
+                list.Resize(index + 1);
+            list[index] = value;
+        }
+
         public static void Resize<T>(this List<T> list, int count)
         {
             if (list.Count > count)
