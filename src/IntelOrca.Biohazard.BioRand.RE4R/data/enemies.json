@@ -950,22 +950,6 @@
       "field:_BodyScale._FixedScale": 1.4
     },
     {
-      "key": "chainsaw_mercenaries",
-      "kind": "chainsaw_mercenaries",
-      "name": "Chainsaw (Mercenaries)",
-      "category": "Chainsaw",
-      "class": 5,
-      "minHealth": 5000,
-      "maxHealth": 10000,
-      "field:_MontageID": [
-        1106175613,
-        3313117636,
-        2693883502
-      ],
-      "field:_RolePatternHash": 2180083513,
-      "field:_PreFirstForceMovePatternHash": 2180083513
-    },
-    {
       "key": "chainsaw",
       "kind": "chainsaw",
       "name": "Chainsaw (Normal)",
