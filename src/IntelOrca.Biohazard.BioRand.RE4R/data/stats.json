@@ -1,449 +1,129 @@
 {
-  "upgrades": [
+  "groups": [
     {
-      "name": "Power",
-      "category": 0,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._Commons[{I}]._CommonCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._CommonCustoms[{I}]._CommonCustomCategory",
-      "meta": "_WeaponStages[{W}]._WeaponCustom._Commons[{I}]._CustomAttackUp._AttackUpCustomStages[{L}]",
-      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._CommonCustoms[{I}]._AttackUp._DamageRates[{L}]._BaseValue",
-      "groups": [
-        { "min": 1, "max": 4, "minIncrement": 0.2, "include": [ 4000, 4001, 4002, 4003, 4004, 6000 ] }, // handgun
-        { "min": 1, "max": 4, "minIncrement": 0.2, "include": [ 4100, 4101, 4102, 6001 ] }, // shotgun
-        { "min": 1, "max": 5, "minIncrement": 0.2, "include": [ 4200, 4202, 4201 ] }, // smg
-        { "min": 1, "max": 4, "minIncrement": 0.2, "include": [ 4400, 4401, 4402 ] }, // rifle
-        { "min": 1, "max": 4, "minIncrement": 0.2, "include": [ 4500, 4501, 4502 ] }, // magnum
-        { "min": 1, "max": 4, "minIncrement": 0.2, "include": [ 5000, 5001, 5002, 5006 ] }, // knife
-        { "min": 2, "max": 8, "minIncrement": 0.2, "include": [ 4600 ] } // bolt
-      ]
-    },
-    {
-      "name": "Ammo Capacity",
-      "category": 2,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._Commons[{I}]._CommonCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._CommonCustoms[{I}]._CommonCustomCategory",
-      "meta": "_WeaponStages[{W}]._WeaponCustom._Commons[{I}]._CustomAmmoMaxUp._AmmoMaxUpCustomStages[{L}]",
-      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._CommonCustoms[{I}]._AmmoMaxUp._AmmoMaxs[{L}]",
-      "groups": [
-        { "startMin": 5, "min": 20, "max": 50, "minIncrement": 4, "include": [ 4000, 4001, 4002, 4003, 4004, 6000 ] }, // handgun
-        { "startMin": 2, "min": 5, "max": 32, "minIncrement": 2, "include": [ 4100, 4101, 4102, 6001 ] }, // shotgun
-        { "startMin": 15, "min": 50, "max": 300, "minIncrement": 10, "include": [ 4200, 4202, 4201 ] }, // smg
-        { "startMin": 2, "min": 10, "max": 30, "minIncrement": 3, "include": [ 4400, 4401, 4402 ] }, // rifle
-        { "startMin": 16, "min": 24, "max": 100, "minIncrement": 5, "include": [ 4400, 4401, 4402 ] }, // rifle (cqbr)
-        { "startMin": 2, "min": 8, "max": 30, "minIncrement": 1, "include": [ 4500, 4501, 4502 ] }, // magnum
-        { "startMin": 1, "min": 10, "max": 50, "minIncrement": 2, "include": [ 4600 ] } // bolt
-      ]
-    },
-    {
-      "name": "Reload Speed",
-      "category": 7,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._IndividualCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._IndividualCustomCategory",
-      "meta": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._CustomReloadSpeed._ReloadSpeedCustomStages[{L}]",
-      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._ReloadSpeed._ReloadSpeedRates[{L}]",
-      "groups": [
-        { "min": 1, "max": 3, "minIncrement": 0.2, "include": [ 4000, 4001, 4002, 4003, 4004, 6000 ] }, // handgun
-        { "min": 1, "max": 3, "minIncrement": 0.2, "include": [ 4200, 4202, 4201 ] }, // smg
-        { "min": 1, "max": 3, "minIncrement": 0.2, "include": [ 4401, 4402 ] }, // rifle
-        { "min": 1, "max": 3, "minIncrement": 0.2, "include": [ 4501 ] } // magnum
-      ]
-    },
-    {
-      "name": "Reload Speed (Rounds)",
-      "category": 7,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._IndividualCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._IndividualCustomCategory",
-      "meta": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._CustomReloadSpeed._ReloadSpeedCustomStages[{L}]",
-      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._ReloadSpeed._ReloadNums[{L}]",
-      "groups": [
-        { "min": 1, "max": 10, "minIncrement": 1, "include": [ 4400 ] }, // rifle
-        { "min": 1, "max": 10, "minIncrement": 1, "include": [ 4100, 4101, 4102, 6001 ] }, // shotgun
-        { "min": 1, "max": 10, "minIncrement": 1, "include": [ 4500, 4502 ] }, // magnum
-        { "min": 1, "max": 10, "minIncrement": 1, "include": [ 4600 ] } // bolt
-      ]
-    },
-    {
-      "name": "Rate of Fire",
-      "category": 8,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._IndividualCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._IndividualCustomCategory",
-      "meta": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._CustomRapid._RapidCustomStages[{L}]",
-      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._Rapid._RapidSpeed[{L}]",
-      "groups": [
-        { "min": 3, "max": 0.25, "minIncrement": -0.2, "include": [ 4000, 4001, 4002, 4003, 4004, 6000 ] }, // handgun
-        { "min": 3, "max": 0.25, "minIncrement": -0.2, "include": [ 4100, 4101, 4102, 6001 ] }, // shotgun
-        { "min": 3, "max": 0.25, "minIncrement": -0.2, "include": [ 4400, 4401, 4402 ] }, // rifle
-        { "min": 3, "max": 0.25, "minIncrement": -0.2, "include": [ 4500, 4501, 4502 ] }, // magnum
-        { "min": 3, "max": 0.25, "minIncrement": -0.2, "include": [ 4600 ] } // bolt
-      ]
-    },
-    {
-      "name": "Durability",
-      "category": 6,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._IndividualCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._IndividualCustomCategory",
-      "meta": "_WeaponStages[{W}]._WeaponCustom._Individuals[{I}]._CustomStrength._StrengthCustomStages[{L}]",
-      "data": "_WeaponDetailStages[{W}]._WeaponDetailCustom._IndividualCustoms[{I}]._Strength._DurabilityMaxes[{L}]",
-      "groups": [
-        { "min": 1500, "max": 4000, "minIncrement": 100, "include": [ 5000, 5001, 5002, 5006 ] } // knife
-      ]
-    }
-  ],
-  "exclusives": [
-    {
-      "name": "Critical Rate",
-      "category": 0,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
-      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
-      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
-      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
-      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
-      "dataFields": [
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCriticalRate._CriticalRateNormalScale",
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCriticalRate._CriticalRateFitScale"
-      ],
-      "messageId": "09a22523-bd44-467b-8e19-aec7add301fa",
-      "perkMessageId": "2702d827-edab-4aa4-91e5-70d411c3a452",
-      "minValue": 5,
-      "maxValue": 15,
       "include": [
         4000, // SG-09 R
-        4001, // Punisher
         4002, // Red9
         4003, // Blacktail
         4004, // Matilda
+        6000 // Sentinel Nine
+      ],
+      "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
+      "ammoCapacity": [ [ 4, 12 ], [ 8, 24 ], [ 24, 64 ] ],
+      "criticalRate": [ [ 1, 1 ], [ 5, 10 ], [ 10, 20 ] ],
+      "penetration": [ [ 1, 1 ], [ 5, 5 ], [ 5, 10 ] ],
+      "reloadSpeed": [ [ 1, 1 ], [ 1, 2 ], [ 2, 4 ] ],
+      "fireRate": [ [ 1, 1 ], [ 0.7, 0.4 ], [ 0.4, 0.1 ] ]
+    },
+    {
+      "include": [
+        4001 // Punisher
+      ],
+      "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
+      "ammoCapacity": [ [ 4, 12 ], [ 8, 24 ], [ 24, 64 ] ],
+      "criticalRate": [ [ 1, 1 ], [ 5, 10 ], [ 10, 20 ] ],
+      "penetration": [ [ 2, 2 ], [ 5, 5 ], [ 5, 10 ] ],
+      "reloadSpeed": [ [ 1, 1 ], [ 1, 2 ], [ 2, 4 ] ],
+      "fireRate": [ [ 1, 1 ], [ 0.7, 0.4 ], [ 0.4, 0.1 ] ]
+    },
+    {
+      "include": [
         4100, // W-870
         4101, // Riot Gun
         4102, // Striker
+        6001 // Skull Shaker
+      ],
+      "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
+      "ammoCapacity": [ [ 2, 12 ], [ 4, 16 ], [ 16, 32 ] ],
+      "criticalRate": [ [ 1, 1 ], [ 10, 20 ], [ 20, 40 ] ],
+      "penetration": [ [ 1, 1 ], [ 5, 5 ], [ 5, 10 ] ],
+      "reloadSpeed": [ [ 1, 1 ], [ 2, 3 ], [ 3, 4 ] ],
+      "reloadRounds": [ [ 1, 1 ], [ 1, 6 ], [ 6, 12 ] ],
+      "fireRate": [ [ 1, 1 ], [ 0.7, 0.4 ], [ 0.4, 0.1 ] ]
+    },
+    {
+      "include": [
         4200, // TMP
         4201, // Chicago Sweeper
-        4202, // LE 5
-        4400, // SR M1903
-        4401, // Stingray
-        4402, // CQBR Assault
+        4202 // LE 5
+      ],
+      "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
+      "ammoCapacity": [ [ 15, 30 ], [ 30, 200 ], [ 200, 500 ] ],
+      "criticalRate": [ [ 1, 1 ], [ 5, 10 ], [ 10, 20 ] ],
+      "penetration": [ [ 1, 1 ], [ 5, 5 ], [ 5, 10 ] ],
+      "reloadSpeed": [ [ 1, 1 ], [ 1, 2 ], [ 2, 4 ] ]
+    },
+    {
+      "include": [
+        4400 // SR M1903
+      ],
+      "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
+      "ammoCapacity": [ [ 2, 8 ], [ 8, 16 ], [ 16, 32 ] ],
+      "criticalRate": [ [ 1, 1 ], [ 20, 40 ], [ 40, 80 ] ],
+      "reloadSpeed": [ [ 1, 1 ], [ 2, 3 ], [ 3, 4 ] ],
+      "reloadRounds": [ [ 1, 1 ], [ 4, 8 ], [ 8, 16 ] ],
+      "fireRate": [ [ 1, 1 ], [ 0.7, 0.4 ], [ 0.4, 0.1 ] ]
+    },
+    {
+      "include": [
+        4401 // Stingray
+      ],
+      "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
+      "ammoCapacity": [ [ 6, 12 ], [ 12, 24 ], [ 24, 64 ] ],
+      "criticalRate": [ [ 1, 1 ], [ 20, 40 ], [ 40, 80 ] ],
+      "reloadSpeed": [ [ 1, 1 ], [ 1, 2 ], [ 2, 4 ] ],
+      "fireRate": [ [ 1, 1 ], [ 0.7, 0.4 ], [ 0.4, 0.1 ] ]
+    },
+    {
+      "include": [
+        4401 // CQBR Assault
+      ],
+      "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
+      "ammoCapacity": [ [ 15, 25 ], [ 25, 50 ], [ 50, 100 ] ],
+      "criticalRate": [ [ 1, 1 ], [ 10, 20 ], [ 20, 40 ] ],
+      "reloadSpeed": [ [ 1, 1 ], [ 1, 2 ], [ 2, 4 ] ]
+    },
+    {
+      "include": [
         4500, // Broken Butterfly
-        4501, // Killer7
-        4502, // Handcannon
-        5000, // Combat Knife
-        5001, // Fighting Knife
-        5002, // Combat Knife
-        5006, // Primal Knife
-        6000, // Sentinel Nine
-        6001 // Skull Shaker
-      ]
+        4502 // Handcannon
+      ],
+      "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
+      "ammoCapacity": [ [ 2, 6 ], [ 6, 12 ], [ 12, 32 ] ],
+      "reloadSpeed": [ [ 1, 1 ], [ 1, 2 ], [ 2, 4 ] ],
+      "reloadRounds": [ [ 1, 1 ], [ 2, 6 ], [ 6, 12 ] ],
+      "fireRate": [ [ 1, 1 ], [ 0.7, 0.4 ], [ 0.4, 0.1 ] ]
     },
     {
-      "name": "Power",
-      "category": 1,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
-      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
-      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
-      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
-      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
-      "dataFields": [
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAttackUp._DamageRateScale",
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAttackUp._WinceRateScale",
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAttackUp._BreakRateScale",
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAttackUp._StoppingRateScale"
-      ],
-      "messageId": "fbf7fd02-c214-41de-91f1-5f4e26d2996c",
-      "perkMessageId": "5825ecfd-166f-45ce-bf4e-10c2d8a3343e",
-      "minValue": 1.5,
-      "maxValue": 4,
       "include": [
-        4000, // SG-09 R
-        4001, // Punisher
-        4002, // Red9
-        4003, // Blacktail
-        4004, // Matilda
-        4100, // W-870
-        4101, // Riot Gun
-        4102, // Striker
-        4200, // TMP
-        4201, // Chicago Sweeper
-        4202, // LE 5
-        4400, // SR M1903
-        4401, // Stingray
-        4402, // CQBR Assault
-        4500, // Broken Butterfly
-        4501, // Killer7
-        4502, // Handcannon
-        4600, // Bolt Thrower
-        5000, // Combat Knife
-        5001, // Fighting Knife
-        5002, // Combat Knife
-        5006, // Primal Knife
-        6000, // Sentinel Nine
-        6001 // Skull Shaker
-      ]
+        4501 // Killer7
+      ],
+      "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
+      "ammoCapacity": [ [ 2, 6 ], [ 6, 12 ], [ 12, 32 ] ],
+      "reloadSpeed": [ [ 1, 1 ], [ 1, 2 ], [ 2, 4 ] ],
+      "fireRate": [ [ 1, 1 ], [ 0.7, 0.4 ], [ 0.4, 0.1 ] ]
     },
     {
-      "name": "Power (Shotgun)",
-      "category": 2,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
-      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
-      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
-      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
-      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
-      "dataFields": [
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakShotGunAroundAttackUp._DamageRateScale",
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakShotGunAroundAttackUp._WinceRateScale",
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakShotGunAroundAttackUp._BreakRateScale",
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakShotGunAroundAttackUp._StoppingRateScale"
-      ],
-      "messageId": "fbf7fd02-c214-41de-91f1-5f4e26d2996c",
-      "perkMessageId": "5825ecfd-166f-45ce-bf4e-10c2d8a3343e",
-      "minValue": 1.5,
-      "maxValue": 4,
-      "include": [
-        4100, // W-870
-        4101, // Riot Gun
-        4102, // Striker
-        6001 // Skull Shaker
-      ]
-    },
-    {
-      "name": "Penetration",
-      "category": 3,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
-      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
-      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
-      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
-      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
-      "dataFields": [
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakThroughNum._ThroughNumNormal",
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakThroughNum._ThroughNumFit"
-      ],
-      "messageId": "28c947e0-235e-4423-b80d-c3358eae988b",
-      "perkMessageId": "a9a87cb2-ffa3-4e9c-a950-0918836871da",
-      "minValue": 5,
-      "maxValue": 20,
-      "include": [
-        4000, // SG-09 R
-        4001, // Punisher
-        4002, // Red9
-        4003, // Blacktail
-        4004, // Matilda
-        4100, // W-870
-        4101, // Riot Gun
-        4102, // Striker
-        4200, // TMP
-        4201, // Chicago Sweeper
-        4202, // LE 5
-        4600, // Bolt Thrower
-        6000, // Sentinel Nine
-        6001 // Skull Shaker
-      ]
-    },
-    {
-      "name": "Ammo Capacity",
-      "category": 4,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
-      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
-      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
-      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
-      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
-      "dataFields": [
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAmmoMaxUp._AmmoMaxScale",
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakAmmoMaxUp._ReloadNumScale"
-      ],
-      "messageId": "7fdcd8be-1308-457e-8824-e14bbef0bdb4",
-      "perkMessageId": "dcf42fa5-a6ca-4b50-a154-eeac185e0f15",
-      "minValue": 1.5,
-      "maxValue": 4,
-      "include": [
-        4000, // SG-09 R
-        4001, // Punisher
-        4002, // Red9
-        4003, // Blacktail
-        4004, // Matilda
-        4100, // W-870
-        4101, // Riot Gun
-        4102, // Striker
-        4200, // TMP
-        4201, // Chicago Sweeper
-        4202, // LE 5
-        4400, // SR M1903
-        4401, // Stingray
-        4402, // CQBR Assault
-        4500, // Broken Butterfly
-        4501, // Killer7
-        4502, // Handcannon
-        4600, // Bolt Thrower
-        6000, // Sentinel Nine
-        6001 // Skull Shaker
-      ]
-    },
-    {
-      "name": "Rate of Fire",
-      "category": 5,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
-      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
-      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
-      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
-      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
-      "dataFields": [
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakRapid._RapidSpeedScale"
-      ],
-      "messageId": "8acca1f0-182b-4016-bc4d-49ca8dfc8d22",
-      "perkMessageId": "8795e021-f2c8-4237-a0d2-b24eac1803e7",
-      "minValue": 2,
-      "maxValue": 4,
-      "include": [
-        4000, // SG-09 R
-        4001, // Punisher
-        4002, // Red9
-        4003, // Blacktail
-        4004, // Matilda
-        4100, // W-870
-        4101, // Riot Gun
-        4102, // Striker
-        4400, // SR M1903
-        4401, // Stingray
-        4402, // CQBR Assault
-        4500, // Broken Butterfly
-        4501, // Killer7
-        4502, // Handcannon
-        4600, // Bolt Thrower
-        6000, // Sentinel Nine
-        6001 // Skull Shaker
-      ]
-    },
-    {
-      "name": "Durability",
-      "category": 6,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
-      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
-      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
-      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
-      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
-      "dataFields": [
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakStrength._DurabilityMaxScale"
-      ],
-      "message": "Increase durability by 1.5x.",
-      "perkMessage": "1.5x Durability",
-      "minValue": 1.5,
-      "maxValue": 4,
       "include": [
         5000, // Combat Knife
         5001, // Fighting Knife
-        5002, // Combat Knife
         5006 // Primal Knife
-      ]
+      ],
+      "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
+      "criticalRate": [ [ 1, 1 ], [ 10, 20 ], [ 20, 40 ] ],
+      "durability": [ [ 1000, 1000 ], [ 1600, 3200 ], [ 3200, 6400 ] ]
     },
     {
-      "name": "Unlimited Ammunition",
-      "category": 7,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
-      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
-      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
-      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
-      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
-      "dataFields": [
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakOKReload._IsOKReload"
-      ],
-      "messageId": "509c1e78-f34c-49c8-8847-168e8e61df04",
-      "perkMessageId": "dcd5baea-8d01-4e4b-9c82-a87f0388a2d5",
       "include": [
-        4201 // Chicago Sweeper
-      ]
-    },
-    {
-      "name": "Attack Speed",
-      "category": 8,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
-      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
-      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
-      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
-      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
-      "dataFields": [
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCombatSpeed._CombatSpeed"
+        4600 // Bolt Thrower
       ],
-      "messageId": "ba1d62cd-c478-4089-b505-2b25acba9712",
-      "perkMessageId": "47710f47-38fd-44fa-8767-a9f74a044260",
-      "minValue": 1.5,
-      "maxValue": 4,
-      "include": [
-        5000, // Combat Knife
-        5001, // Fighting Knife
-        5002, // Combat Knife
-        5006 // Primal Knife
-      ]
-    },
-    {
-      "name": "Unbreakable",
-      "category": 9,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
-      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
-      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
-      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
-      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
-      "dataFields": [
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakUnbreakable._IsUnbreakable"
-      ],
-      "messageId": "8351af7a-856b-4346-8990-5af297d6e7ec",
-      "perkMessageId": "9b5f9875-3859-462a-8065-3e26f2fe8ed3",
-      "include": [
-        5006 // Primal Knife
-      ]
-    },
-    {
-      "name": "BlastRange_1011",
-      "category": 10,
-      "metaWeaponId": "_WeaponStages[{W}]._WeaponID",
-      "dataWeaponId": "_WeaponDetailStages[{W}]._WeaponID",
-      "metaCategory": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._LimitBreakCustomCategory",
-      "dataCategory": "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakCustomCategory",
-      "metaMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._MessageId",
-      "metaPerksMessageId": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._PerksMessageId",
-      "metaRateValue": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._RateValue",
-      "metaCost": "_WeaponStages[{W}]._WeaponCustom._LimitBreak[{I}]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost",
-      "dataFields": [
-        "_WeaponDetailStages[{W}]._WeaponDetailCustom._LimitBreakCustoms[{I}]._LimitBreakBlastRange_1011._BlastRangeScale"
-      ],
-      "include": []
+      "power": [ [ 1, 1 ], [ 5, 10 ], [ 10, 20 ] ],
+      "ammoCapacity": [ [ 3, 6 ], [ 20, 40 ], [ 40, 80 ] ],
+      "criticalRate": [ [ 1, 1 ], [ 25, 50 ], [ 50, 100 ] ],
+      "penetration": [ [ 1, 1 ], [ 5, 5 ], [ 5, 10 ] ],
+      "reloadSpeed": [ [ 1, 1 ], [ 1, 2 ], [ 2, 4 ] ],
+      "reloadRounds": [ [ 1, 1 ], [ 5, 10 ], [ 10, 20 ] ],
+      "fireRate": [ [ 1, 1 ], [ 0.7, 0.4 ], [ 0.4, 0.1 ] ]
     }
   ]
 }

@@ -30,6 +30,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             AllowLaserSightOnAnything(randomizer, logger);
             RandomizeFirstBearTrap(randomizer, logger, rng);
+            EnableInstantBuy(randomizer, logger);
         }
 
         private void StaticChanges(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -284,6 +285,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     return;
 
                 transform.Set("v0", new Vector4(-76.99f, 5.14f, 35.3336f, 0.0f));
+            });
+        }
+
+        private void EnableInstantBuy(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            const string userFilePath = "natives/stm/_chainsaw/appsystem/ui/userdata/guiparamholdersettinguserdata.user.2";
+
+            logger.LogLine($"Set purchase hold time to 0");
+
+            var fileRepository = randomizer.FileRepository;
+            fileRepository.ModifyUserFile(userFilePath, (file, rsz) =>
+            {
+                rsz.Set("_InGameShopGuiParamHolder._HoldTime_Purchase", 0.0f);
             });
         }
 
