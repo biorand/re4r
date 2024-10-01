@@ -59,13 +59,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         internal interface IWeaponUpgrade : IWeaponModifier
         {
             IReadOnlyList<IWeaponUpgradeLevel> Levels { get; }
+            ImmutableArray<int> Cost { get; set; }
         }
 
         internal interface IWeaponExclusive : IWeaponModifier
         {
             public Guid PerkMessageId { get; }
             public float RateValue { get; }
-            public int Cost { get; }
+            public int Cost { get; set; }
         }
 
         internal interface IWeaponUpgradeLevel
@@ -112,6 +113,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         internal class WeaponStats
         {
             private readonly RaderChartGuiSingleSettingData _radar;
+            private readonly ImmutableArray<AttachmentCustom> _attachments;
 
             public int Id { get; }
             public ImmutableArray<IWeaponModifier> Modifiers { get; set; }
@@ -120,6 +122,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 Id = main._WeaponID;
                 _radar = main._RaderChartGuiSingleSettingData;
+                _attachments = [.. detail._WeaponDetailCustom._AttachmentCustoms];
 
                 var modifiers = ImmutableArray.CreateBuilder<IWeaponModifier>();
                 foreach (var c in main._WeaponCustom._Commons)
@@ -204,6 +207,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         {
                             _CommonCustoms = raws.OfType<CommonCustom>().ToList(),
                             _IndividualCustoms = raws.OfType<IndividualCustom>().ToList(),
+                            _AttachmentCustoms = _attachments.ToList(),
                             _LimitBreakCustoms = raws.OfType<LimitBreakCustom>().ToList()
                         }
                     };
@@ -270,6 +274,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
             IReadOnlyList<IWeaponUpgradeLevel> IWeaponUpgrade.Levels => Levels;
+            public ImmutableArray<int> Cost
+            {
+                get => Levels.Select(x => x.Cost).ToImmutableArray();
+                set => Levels = Levels.Zip(value).Select(x => x.First with { Cost = x.Second }).ToImmutableArray();
+            }
 
             private static float GetValue(List<CurveVariable> list, int index) => list.Count > index ? list[index]._BaseValue : 0;
             private static float GetValue(List<float> list, int index) => list.Count > index ? list[index] : 0;
@@ -343,6 +352,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }
             }
+            public ImmutableArray<int> Cost
+            {
+                get => Levels.Select(x => x.Cost).ToImmutableArray();
+                set => Levels = Levels.Zip(value).Select(x => x.First with { Cost = x.Second }).ToImmutableArray();
+            }
             IReadOnlyList<IWeaponUpgradeLevel> IWeaponUpgrade.Levels => Levels;
         }
 
@@ -390,6 +404,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         detail._DurabilityMaxes[i] = value[i].Value;
                     }
                 }
+            }
+            public ImmutableArray<int> Cost
+            {
+                get => Levels.Select(x => x.Cost).ToImmutableArray();
+                set => Levels = Levels.Zip(value).Select(x => x.First with { Cost = x.Second }).ToImmutableArray();
             }
             IReadOnlyList<IWeaponUpgradeLevel> IWeaponUpgrade.Levels => Levels;
         }
@@ -458,6 +477,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }
             }
+            public ImmutableArray<int> Cost
+            {
+                get => Levels.Select(x => x.Cost).ToImmutableArray();
+                set => Levels = Levels.Zip(value).Select(x => x.First with { Cost = x.Second }).ToImmutableArray();
+            }
             IReadOnlyList<IWeaponUpgradeLevel> IWeaponUpgrade.Levels => Levels;
         }
 
@@ -524,6 +548,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         detail._ThroughNum_Normal[i] = value[i].Value;
                     }
                 }
+            }
+            public ImmutableArray<int> Cost
+            {
+                get => Levels.Select(x => x.Cost).ToImmutableArray();
+                set => Levels = Levels.Zip(value).Select(x => x.First with { Cost = x.Second }).ToImmutableArray();
             }
             IReadOnlyList<IWeaponUpgradeLevel> IWeaponUpgrade.Levels => Levels;
         }
@@ -612,6 +641,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }
             }
+            public ImmutableArray<int> Cost
+            {
+                get => Levels.Select(x => x.Cost).ToImmutableArray();
+                set => Levels = Levels.Zip(value).Select(x => x.First with { Cost = x.Second }).ToImmutableArray();
+            }
             IReadOnlyList<IWeaponUpgradeLevel> IWeaponUpgrade.Levels => Levels;
         }
 
@@ -696,6 +730,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             detail._PumpActionRapidSpeed[i] = value[i].PumpSpeed;
                     }
                 }
+            }
+            public ImmutableArray<int> Cost
+            {
+                get => Levels.Select(x => x.Cost).ToImmutableArray();
+                set => Levels = Levels.Zip(value).Select(x => x.First with { Cost = x.Second }).ToImmutableArray();
             }
             IReadOnlyList<IWeaponUpgradeLevel> IWeaponUpgrade.Levels => Levels;
         }

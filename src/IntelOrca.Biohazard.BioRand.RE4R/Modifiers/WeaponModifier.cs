@@ -17,9 +17,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private const string WeaponCustomMsgPath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_wpcustom.msg.22";
         private const string ShopMsgPath = "natives/stm/_chainsaw/message/mes_main_sys/ch_mes_main_sys_shop.msg.22";
 
-        private bool _randomStats;
-        private bool _randomPrices;
-        private bool _randomExclusives;
         private Func<string, Guid> _addMessage = _ => default;
         private Dictionary<int, int> _startAmmoCapacity = new();
 
@@ -63,10 +60,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var priceRng = rng.NextFork();
             var valueRng = rng.NextFork();
 
-            _randomStats = randomizer.GetConfigOption<bool>("random-weapon-stats");
-            _randomPrices = randomizer.GetConfigOption<bool>("random-weapon-upgrade-prices");
-            _randomExclusives = randomizer.GetConfigOption<bool>("random-weapon-exclusives");
-            if (!_randomStats && !_randomPrices && !_randomExclusives)
+            var randomStats = randomizer.GetConfigOption<bool>("random-weapon-stats");
+            var randomPrices = randomizer.GetConfigOption<bool>("random-weapon-upgrade-prices");
+            var randomExclusives = randomizer.GetConfigOption<bool>("random-weapon-exclusives");
+            if (!randomStats && !randomPrices && !randomExclusives)
                 return;
 
             var shopMsg = randomizer.FileRepository.GetMsgFile(ShopMsgPath).ToBuilder();
@@ -81,7 +78,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var weaponStatCollection = new WeaponStatCollection(mainFile, detailFile);
             foreach (var wp in weaponStatCollection.Weapons)
             {
-                RandomizeWeaponStats(wp, valueRng);
+                LogWeaponChanges(wp, logger, () =>
+                {
+                    RandomizeStats(wp, valueRng, randomExclusives);
+                    if (randomPrices)
+                    {
+                        RandomizePrices(rng, wp);
+                    }
+                });
             }
             weaponStatCollection.Apply();
 
@@ -93,20 +97,43 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             UpdateItemDefinitions(randomizer);
         }
 
-        private void RandomizeWeaponStats(WeaponStats wp, Rng rng)
+        private void LogWeaponChanges(WeaponStats wp, RandomizerLogger logger, Action action)
+        {
+            var before = CalculateTop(wp, WeaponUpgradeKind.Power, 0);
+            action();
+            var after = CalculateTop(wp, WeaponUpgradeKind.Power, before.Item2);
+            logger.LogLine($"{wp.Name} | {before.Item2:0.00} ({before.Item1:N0}pts.) | {after.Item2:0.00} ({after.Item1:N0}pts.)");
+        }
+
+        private static (int, float) CalculateTop(WeaponStats wp, WeaponUpgradeKind kind, float fallback)
+        {
+            var upgrade = wp.Modifiers.OfType<IWeaponUpgrade>().FirstOrDefault(x => x.Kind == kind);
+            var exclusive = wp.Modifiers.OfType<IWeaponExclusive>().FirstOrDefault(x => x.Kind == kind);
+
+            var cost = upgrade == null ? 0 : upgrade.Cost.Skip(1).Sum();
+            var info = upgrade == null ? fallback : float.Parse(upgrade.Levels[^1].Info);
+            if (exclusive != null)
+            {
+                cost += exclusive.Cost;
+                info *= exclusive.RateValue;
+            }
+            return (cost, info);
+        }
+
+        private void RandomizeStats(WeaponStats wp, Rng rng, bool randomExclusives)
         {
             var group = WeaponStatsDefinition.Groups.FirstOrDefault(x => x.Include.Contains(wp.Id));
             if (group == null)
                 return;
 
-            if (_randomExclusives)
+            if (randomExclusives)
                 wp.Modifiers = wp.Modifiers.RemoveAll(x => x is IWeaponExclusive);
 
             var rngSuper = () => rng.NextProbability(2);
             if (group.Power != null)
             {
                 RandomizePower(wp, RandomizeFromRanges(rng, group.Power, 0.1f, rngSuper()));
-                if (_randomExclusives)
+                if (randomExclusives)
                     AddExclusive(wp, WeaponUpgradeKind.Power, rng.NextFloat(1.5f, 4));
             }
             if (group.AmmoCapacity != null)
@@ -114,7 +141,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var values = RandomizeFromRanges(rng, group.AmmoCapacity, 1, rngSuper()).Select(x => (int)MathF.Round(x)).ToArray();
                 _startAmmoCapacity[wp.Id] = values[0];
                 RandomizeAmmoCapacity(wp, values);
-                if (_randomExclusives)
+                if (randomExclusives)
                     AddExclusive(wp, WeaponUpgradeKind.AmmoCapacity, rng.NextFloat(1.5f, 4));
             }
 
@@ -151,11 +178,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (group.FireRate != null)
             {
                 RandomizeFireRate(wp, RandomizeFromRanges(rng, group.FireRate, 0.1f, rngSuper()));
-                if (_randomExclusives)
+                if (randomExclusives)
                     AddExclusive(wp, WeaponUpgradeKind.FireRate, rng.NextFloat(1.5f, 4));
             }
 
-            if (_randomExclusives)
+            if (randomExclusives)
             {
                 wp.Modifiers = wp.Modifiers
                     .Shuffle(rng)
@@ -378,6 +405,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     },
                 _ => throw new NotSupportedException()
             });
+        }
+
+        private void RandomizePrices(Rng rng, WeaponStats wp)
+        {
+            foreach (var m in wp.Modifiers)
+            {
+                if (m is IWeaponUpgrade upgrade)
+                {
+                    var scale = rng.NextDouble(0.5, 2);
+                    upgrade.Cost = upgrade.Cost.Select(x => (x * scale).RoundPrice()).ToImmutableArray();
+                }
+                else if (m is IWeaponExclusive exclusive)
+                {
+                    exclusive.Cost = rng.Next(5, 15) * 10_000;
+                }
+            }
         }
 
         private void UpdateItemDefinitions(ChainsawRandomizer randomizer)
