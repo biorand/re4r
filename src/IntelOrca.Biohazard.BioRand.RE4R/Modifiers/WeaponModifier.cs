@@ -191,6 +191,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 AddExclusive(wp, WeaponUpgradeKind.FireRate, rng.NextFloat(1.5f, 4));
             }
 
+            if (group.Durability != null)
+            {
+                RandomizeDurability(wp, RandomizeFromRanges(rng, group.Durability, 100, rngSuper()).Select(x => (int)MathF.Round(x)).ToArray());
+                AddExclusive(wp, WeaponUpgradeKind.Durability, rng.NextFloat(1.5f, 4));
+                AddExclusive(wp, WeaponUpgradeKind.CombatSpeed, rng.NextFloat(1.5f, 4));
+            }
+
             var exclusives = wp.Modifiers.OfType<IWeaponExclusive>().ToImmutableArray();
             var upgrades = wp.Modifiers.Except(exclusives).ToImmutableArray();
             if (randomUpgrades & randomExclusives)
@@ -354,6 +361,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             fireRate.Levels = [.. levels];
         }
 
+        private void RandomizeDurability(WeaponStats stat, int[] values)
+        {
+            var durability = stat.Modifiers.OfType<DurabilityUpgrade>().First();
+            var levels = durability.Levels.ToArray();
+            for (var i = 0; i < 5; i++)
+            {
+                levels[i] = durability.Levels[i] with { Value = values[i], Info = values[i].ToString() };
+            }
+            durability.Levels = [.. levels];
+        }
+
         private void AddExclusive(WeaponStats wp, WeaponUpgradeKind kind, float rate)
         {
             rate = MathF.Round(rate / 0.5f) * 0.5f;
@@ -503,5 +521,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public float[][]? ReloadSpeed { get; set; }
         public float[][]? ReloadRounds { get; set; }
         public float[][]? FireRate { get; set; }
+        public float[][]? Durability { get; set; }
     }
 }
