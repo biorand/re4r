@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using IntelOrca.Biohazard.BioRand.RE4R.Commands;
 using REE;
@@ -16,6 +17,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 config.PropagateExceptions();
                 config.Settings.ApplicationName = "biorand-re4r";
+                config.Settings.ApplicationVersion = GetVersion();
                 config.AddCommand<WebServerCommand>("web-server")
                     .WithDescription("Runs a local web server for generating randos")
                     .WithExample("web-server", "-p", "8080");
@@ -93,6 +95,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var s = sb.ToString();
             newPak.Save(@"G:\re4r\extract\custom.pak", PakFlags.ZSTD);
             return 0;
+        }
+
+        private static string GetVersion()
+        {
+            return GetGitHash();
+        }
+
+        private static string GetGitHash()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            if (assembly == null)
+                return string.Empty;
+
+            var attribute = assembly
+                .GetCustomAttributes<AssemblyInformationalVersionAttribute>()
+                .FirstOrDefault();
+            if (attribute == null)
+                return string.Empty;
+
+            var rev = attribute.InformationalVersion;
+            var plusIndex = rev.IndexOf('+');
+            if (plusIndex != -1)
+            {
+                return rev.Substring(plusIndex + 1);
+            }
+            return rev;
         }
     }
 }
