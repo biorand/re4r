@@ -196,6 +196,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 RandomizeDurability(wp, RandomizeFromRanges(rng, group.Durability, 100, rngSuper()).Select(x => (int)MathF.Round(x)).ToArray());
                 AddExclusive(wp, WeaponUpgradeKind.Durability, rng.NextFloat(1.5f, 4));
                 AddExclusive(wp, WeaponUpgradeKind.CombatSpeed, rng.NextFloat(1.5f, 4));
+
+                // Knives seem to break on hardcore if upgrades are different
+                randomUpgrades = false;
             }
 
             var exclusives = wp.Modifiers.OfType<IWeaponExclusive>().ToImmutableArray();
@@ -204,7 +207,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 wp.Modifiers = wp.Modifiers
                     .Shuffle(rng)
-                    .OrderByDescending(x => x is IWeaponRepair)
+                    .OrderByDescending(x => x is RepairUpgrade)
+                    .ThenByDescending(x => x is PolishUpgrade)
                     .Take(5)
                     .ToImmutableArray();
             }
@@ -213,7 +217,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 wp.Modifiers = wp.Modifiers
                     .RemoveAll(x => x is IWeaponExclusive && x.Kind != originalExclusiveType)
                     .Shuffle(rng)
-                    .OrderByDescending(x => x is IWeaponRepair)
+                    .OrderByDescending(x => x is RepairUpgrade)
+                    .ThenByDescending(x => x is PolishUpgrade)
                     .ThenByDescending(x => x is IWeaponExclusive)
                     .Take(5)
                     .ToImmutableArray();
@@ -367,7 +372,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var levels = durability.Levels.ToArray();
             for (var i = 0; i < 5; i++)
             {
-                levels[i] = durability.Levels[i] with { Value = values[i], Info = values[i].ToString() };
+                levels[i] = durability.Levels[i] with { Value = values[i], Info = (values[i] / 1000.0).ToString("0.0") };
             }
             durability.Levels = [.. levels];
         }
