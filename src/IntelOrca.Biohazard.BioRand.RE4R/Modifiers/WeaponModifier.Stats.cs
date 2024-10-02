@@ -17,6 +17,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             Invalid = -1,
             Power,
+            PowerShotGunAround,
             CriticalRate,
             Penetration,
             AmmoCapacity,
@@ -786,7 +787,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             [
                 WeaponUpgradeKind.CriticalRate,
                 WeaponUpgradeKind.Power,
-                WeaponUpgradeKind.Invalid,
+                WeaponUpgradeKind.PowerShotGunAround,
                 WeaponUpgradeKind.Penetration,
                 WeaponUpgradeKind.AmmoCapacity,
                 WeaponUpgradeKind.FireRate,
