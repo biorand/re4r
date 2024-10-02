@@ -204,7 +204,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             CasePerk,
             Recipe,
             SmallKey,
-            Charm,
+            Charm
         ];
     }
 }

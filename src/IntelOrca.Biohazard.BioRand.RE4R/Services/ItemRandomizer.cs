@@ -146,20 +146,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             };
         }
 
-        public Item? GetNextGeneralDrop(Rng rng, RandomItemSettings settings)
+        private bool TryGetRandomDropKind(Rng rng, RandomItemSettings settings, Func<string, bool> validate, out string kind)
         {
             var bag = CreateGeneralItemPool(settings, rng);
-
-            // TODO optimise this
-            string kind = bag.Next();
+            kind = bag.Next();
             for (var i = 0; i < 1000; i++)
             {
-                if (settings.ValidateDropKind?.Invoke(kind) != false)
+                if (validate(kind))
                 {
-                    break;
+                    return true;
                 }
                 kind = bag.Next();
             }
+            return false;
+        }
+
+        public Item? GetNextGeneralDrop(Rng rng, RandomItemSettings settings)
+        {
+            TryGetRandomDropKind(rng, settings, x => settings.ValidateDropKind?.Invoke(x) != false, out var kind);
             return GetRandomDrop(rng, kind, settings);
         }
 
@@ -318,6 +322,43 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var def = rng.Next(treasureItems);
             _randomizer.LoggerProcess.LogLine($"Random treasure: Class {classNumber}, {def.Name} [{def.Class}] ({def.Value})");
             return new Item(def.Id, 1);
+        }
+
+        public Item? GetRandomLargeAmmoSupply(Rng rng, int classNumber, RandomItemSettings settings)
+        {
+            var pool = new[] {
+                DropKinds.AmmoHandgun,
+                DropKinds.AmmoShotgun,
+                DropKinds.AmmoRifle,
+                DropKinds.AmmoSmg,
+                DropKinds.AmmoMagnum,
+                DropKinds.AmmoBolts,
+                DropKinds.AmmoMines,
+                DropKinds.GrenadeFlash,
+                DropKinds.GrenadeHeavy,
+                DropKinds.GrenadeLight
+            }.Where(x => settings.ValidateDropKind?.Invoke(x) != false).ToHashSet();
+
+            if (TryGetRandomDropKind(rng, settings, x => pool.Contains(x), out var kind))
+            {
+                if (GetRandomDrop(rng, kind, settings) is Item item)
+                {
+                    var def = ItemDefinitionRepository.Default.Find(item.Id);
+                    if (def != null)
+                    {
+                        var multiplier = (10 - classNumber) / 2;
+                        var stack = def.Id switch
+                        {
+                            ItemIds.GrenadeLight => 2,
+                            ItemIds.GrenadeFlash => 1.5,
+                            ItemIds.GrenadeHeavy => 1,
+                            _ => Math.Max(1, def.Stack)
+                        };
+                        return new Item(item.Id, (int)Math.Round(stack * multiplier));
+                    }
+                }
+            }
+            return null;
         }
 
         public static Item GetRandomGunpowder(Rng rng)

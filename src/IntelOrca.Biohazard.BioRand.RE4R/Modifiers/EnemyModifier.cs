@@ -340,22 +340,41 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             logger.Pop();
 
-            // Treasure
+            // Treasure & ammo supply
             var treasureRatio = randomizer.GetConfigOption<double>("enemy-treasure-drop-ratio");
             var treasureCount = (int)(spawnsLeft.Count * treasureRatio);
-            logger.Push("Treasure");
-            for (var i = 0; i < treasureCount; i++)
-            {
-                if (spawnsLeft.Count == 0)
-                    break;
+            var ammoSupplyRatio = randomizer.GetConfigOption<double>("enemy-ammosupply-drop-ratio");
+            var ammoSupplyCount = (int)(spawnsLeft.Count * ammoSupplyRatio);
 
+            logger.Push("Treasure & large ammo supplies");
+            while (spawnsLeft.Count > 0)
+            {
                 var j = GetRandomHighClassEnemy(spawnsLeft, rng);
                 var spawn = spawnsLeft[j];
-                spawnsLeft.RemoveAt(j);
-
                 var classNumber = spawn.ChosenClass?.Class ?? 1;
-                spawn.Enemy.ItemDrop = randomizer.ItemRandomizer.GetRandomTreasure(rng, classNumber);
-                logger.LogLine(spawn.Guid, spawn.Enemy.Kind, spawn.Enemy.ItemDrop!);
+                Item? item = null;
+                if (treasureCount > 0 && (ammoSupplyCount == 0 || rng.NextProbability(50)))
+                {
+                    item = randomizer.ItemRandomizer.GetRandomTreasure(rng, classNumber);
+                    if (item != null)
+                        treasureCount--;
+                }
+                else if (ammoSupplyCount > 0)
+                {
+                    item = randomizer.ItemRandomizer.GetRandomLargeAmmoSupply(rng, classNumber, randomItemSettings);
+                    if (item != null)
+                        ammoSupplyCount--;
+                }
+                if (item != null)
+                {
+                    spawnsLeft.RemoveAt(j);
+                    spawn.Enemy.ItemDrop = item;
+                    logger.LogLine(spawn.Guid, spawn.Enemy.Kind, spawn.Enemy.ItemDrop!);
+                }
+                else
+                {
+                    break;
+                }
             }
             logger.Pop();
 

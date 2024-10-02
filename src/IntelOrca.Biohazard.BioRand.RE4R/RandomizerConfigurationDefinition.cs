@@ -498,6 +498,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.01,
                 Default = 0.25
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-ammosupply-drop-ratio",
+                Label = "Large Ammo Supply Drop Ratio",
+                Description = "The percentage of enemies that should drop a large supply of ammo. Tougher enemies are more likely to drop large ammo supplies. The amount of ammo dropped is based on the toughness of the enemy.",
+                Type = "percent",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 0.05
+            });
 
             group = page.CreateGroup("General Drops");
             foreach (var dropKind in DropKinds.GenericAll)
