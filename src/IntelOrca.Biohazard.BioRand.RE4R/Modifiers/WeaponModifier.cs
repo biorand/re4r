@@ -331,11 +331,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             for (var i = 0; i < 5; i++)
             {
                 var original = levels[0].Speed;
+                var originalInfo = float.Parse(levels[0].Info);
                 if (original <= 0)
+                {
                     original = 1;
-
+                    originalInfo = 1;
+                }
                 var value = MathF.Round(original * values[i], 2);
-                levels[i] = reloadSpeed.Levels[i] with { Num = 0, Speed = value, Info = values[i].ToString("0.00") };
+                var infoMultiplier = originalInfo / original;
+                var info = infoMultiplier * value;
+
+                levels[i] = reloadSpeed.Levels[i] with { Num = 0, Speed = value, Info = info.ToString("0.00") };
             }
             reloadSpeed.Levels = [.. levels];
         }
@@ -360,7 +366,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             for (var i = 0; i < 5; i++)
             {
                 var value = MathF.Round(levels[0].Speed * values[i], 2);
-                var info = 1 / values[i];
+                var info = (levels[0].Speed + levels[0].Speed - levels[i].Speed) * infoMultiplier;
                 levels[i] = fireRate.Levels[i] with { Speed = value, Info = info.ToString("0.00") };
             }
             fireRate.Levels = [.. levels];
