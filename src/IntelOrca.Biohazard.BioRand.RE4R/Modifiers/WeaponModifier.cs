@@ -145,14 +145,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 AddExclusive(wp, WeaponUpgradeKind.AmmoCapacity, rng.NextFloat(1.5f, 4));
             }
 
-            if (group.CriticalRate != null && wp.Modifiers.Any(x => x.Kind == WeaponUpgradeKind.CriticalRate))
+            if (group.CriticalRate != null)
             {
                 if (rng.NextProbability(50))
                     RandomizeCriticalRate(wp, RandomizeFromRanges(rng, group.CriticalRate, 1, rngSuper()));
                 else
                     AddExclusive(wp, WeaponUpgradeKind.CriticalRate, rng.Next(5, 21));
             }
-            if (group.Penetration != null && wp.Modifiers.Any(x => x.Kind == WeaponUpgradeKind.Penetration))
+            if (group.Penetration != null)
             {
                 if (rng.NextProbability(50))
                     RandomizePenetration(wp, RandomizeFromRanges(rng, group.Penetration, 1, rngSuper()));
