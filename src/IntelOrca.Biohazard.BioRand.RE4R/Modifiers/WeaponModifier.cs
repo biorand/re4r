@@ -186,6 +186,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 wp.Modifiers = wp.Modifiers
                     .Shuffle(rng)
+                    .OrderByDescending(x => x is IWeaponRepair)
                     .Take(5)
                     .OrderBy(x => x.Kind)
                     .ToImmutableArray();
@@ -194,7 +195,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 wp.Modifiers = wp.Modifiers
                     .Shuffle(rng)
-                    .OrderByDescending(x => x is IWeaponExclusive)
+                    .OrderByDescending(x => x is IWeaponRepair)
+                    .ThenByDescending(x => x is IWeaponExclusive)
                     .Take(5)
                     .OrderBy(x => x.Kind)
                     .ToImmutableArray();

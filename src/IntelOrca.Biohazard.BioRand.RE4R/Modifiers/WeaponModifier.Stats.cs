@@ -26,6 +26,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             Durability,
             UnlimitedAmmo,
             Indestructible,
+            Repair,
+            Polish,
         }
 
         internal class Categories
@@ -52,8 +54,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             WeaponUpgradeKind Kind { get; }
             object Main { get; }
-            object Detail { get; }
+            object? Detail { get; }
             Guid MessageId { get; }
+        }
+
+        internal interface IWeaponRepair : IWeaponUpgrade
+        {
         }
 
         internal interface IWeaponUpgrade : IWeaponModifier
@@ -141,8 +147,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 foreach (var i in main._WeaponCustom._Individuals)
                 {
                     var d = detail._WeaponDetailCustom._IndividualCustoms.FirstOrDefault(x => x._IndividualCustomCategory == i._IndividualCustomCategory);
-                    if (d == null)
-                        continue;
+                    d ??= new IndividualCustom();
 
                     if (i._IndividualCustomCategory == Categories.Reload)
                         continue;
@@ -153,8 +158,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Categories.Penetration => new PenetrationUpgrade(i._CustomThroughNum, d._ThroughNums),
                         Categories.UsableAmmoList => throw new NotSupportedException(),
                         Categories.Reload => throw new NotSupportedException(),
-                        Categories.Repair => throw new NotSupportedException(),
-                        Categories.Polish => throw new NotSupportedException(),
+                        Categories.Repair => new RepairUpgrade(i._CustomRepair),
+                        Categories.Polish => new PolishUpgrade(i._CustomPolish),
                         Categories.Durability => new DurabilityUpgrade(i._CustomStrength, d._Strength),
                         Categories.ReloadSpeed => new ReloadSpeedUpgrade(i._CustomReloadSpeed, d._ReloadSpeed),
                         Categories.FireRate => new FireRateUpgrade(i._CustomRapid, d._Rapid),
@@ -361,6 +366,80 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         }
 
         internal record AmmoUpgradeLevel(int Cost, string Info, int Value) : IWeaponUpgradeLevel
+        {
+        }
+
+        internal class RepairUpgrade(CustomRepair main) : IWeaponRepair
+        {
+            public WeaponUpgradeKind Kind => WeaponUpgradeKind.Repair;
+            public object Main => new Individual()
+            {
+                _IndividualCustomCategory = Categories.Repair,
+                _CustomRepair = main
+            };
+            public object? Detail => null;
+            public Guid MessageId => main._MessageId;
+            public ImmutableArray<RepairUpgradeLevel> Levels
+            {
+                get
+                {
+                    var result = ImmutableArray.CreateBuilder<RepairUpgradeLevel>();
+                    for (var i = 0; i < main._RepairCustomStages.Count; i++)
+                    {
+                        var cost = main._RepairCustomStages[i]._Cost;
+                        var info = main._RepairCustomStages[i]._Info;
+                        result.Add(new RepairUpgradeLevel(cost, info));
+                    }
+                    return result.ToImmutable();
+                }
+                set => throw new NotSupportedException();
+            }
+            public ImmutableArray<int> Cost
+            {
+                get => Levels.Select(x => x.Cost).ToImmutableArray();
+                set => Levels = Levels.Zip(value).Select(x => x.First with { Cost = x.Second }).ToImmutableArray();
+            }
+            IReadOnlyList<IWeaponUpgradeLevel> IWeaponUpgrade.Levels => Levels;
+        }
+
+        internal record RepairUpgradeLevel(int Cost, string Info) : IWeaponUpgradeLevel
+        {
+        }
+
+        internal class PolishUpgrade(CustomPolish main) : IWeaponRepair
+        {
+            public WeaponUpgradeKind Kind => WeaponUpgradeKind.Polish;
+            public object Main => new Individual()
+            {
+                _IndividualCustomCategory = Categories.Polish,
+                _CustomPolish = main
+            };
+            public object? Detail => null;
+            public Guid MessageId => main._MessageId;
+            public ImmutableArray<PolishUpgradeLevel> Levels
+            {
+                get
+                {
+                    var result = ImmutableArray.CreateBuilder<PolishUpgradeLevel>();
+                    for (var i = 0; i < main._PolishCustomStages.Count; i++)
+                    {
+                        var cost = main._PolishCustomStages[i]._Cost;
+                        var info = main._PolishCustomStages[i]._Info;
+                        result.Add(new PolishUpgradeLevel(cost, info));
+                    }
+                    return result.ToImmutable();
+                }
+                set => throw new NotSupportedException();
+            }
+            public ImmutableArray<int> Cost
+            {
+                get => Levels.Select(x => x.Cost).ToImmutableArray();
+                set => Levels = Levels.Zip(value).Select(x => x.First with { Cost = x.Second }).ToImmutableArray();
+            }
+            IReadOnlyList<IWeaponUpgradeLevel> IWeaponUpgrade.Levels => Levels;
+        }
+
+        internal record PolishUpgradeLevel(int Cost, string Info) : IWeaponUpgradeLevel
         {
         }
 
