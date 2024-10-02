@@ -162,6 +162,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
+                Id = "random-weapon-upgrades",
+                Label = "Random Weapon Upgrades",
+                Description = "Let Biorand randomize the weapon upgrades.",
+                Type = "switch",
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
                 Id = $"random-weapon-exclusives",
                 Label = "Random Weapon Exclusives",
                 Description = "Let Biorand randomize the weapon exclusive upgrades.",

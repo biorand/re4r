@@ -7,6 +7,7 @@
   "random-merchant-prices": true,
   "random-weapon-stats": true,
   "random-weapon-upgrade-prices": true,
+  "random-weapon-upgrades": false,
   "random-weapon-exclusives": true,
   "merchant-stock-max-ammo-handgun": 0,
   "merchant-stock-max-ammo-shotgun": 0,

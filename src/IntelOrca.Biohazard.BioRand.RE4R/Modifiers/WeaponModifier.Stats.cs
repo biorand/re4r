@@ -58,7 +58,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             Guid MessageId { get; }
         }
 
-        internal interface IWeaponRepair : IWeaponUpgrade
+        internal interface IWeaponRepair : IWeaponModifier
         {
         }
 
@@ -379,27 +379,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             };
             public object? Detail => null;
             public Guid MessageId => main._MessageId;
-            public ImmutableArray<RepairUpgradeLevel> Levels
-            {
-                get
-                {
-                    var result = ImmutableArray.CreateBuilder<RepairUpgradeLevel>();
-                    for (var i = 0; i < main._RepairCustomStages.Count; i++)
-                    {
-                        var cost = main._RepairCustomStages[i]._Cost;
-                        var info = main._RepairCustomStages[i]._Info;
-                        result.Add(new RepairUpgradeLevel(cost, info));
-                    }
-                    return result.ToImmutable();
-                }
-                set => throw new NotSupportedException();
-            }
-            public ImmutableArray<int> Cost
-            {
-                get => Levels.Select(x => x.Cost).ToImmutableArray();
-                set => Levels = Levels.Zip(value).Select(x => x.First with { Cost = x.Second }).ToImmutableArray();
-            }
-            IReadOnlyList<IWeaponUpgradeLevel> IWeaponUpgrade.Levels => Levels;
         }
 
         internal record RepairUpgradeLevel(int Cost, string Info) : IWeaponUpgradeLevel
@@ -416,27 +395,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             };
             public object? Detail => null;
             public Guid MessageId => main._MessageId;
-            public ImmutableArray<PolishUpgradeLevel> Levels
-            {
-                get
-                {
-                    var result = ImmutableArray.CreateBuilder<PolishUpgradeLevel>();
-                    for (var i = 0; i < main._PolishCustomStages.Count; i++)
-                    {
-                        var cost = main._PolishCustomStages[i]._Cost;
-                        var info = main._PolishCustomStages[i]._Info;
-                        result.Add(new PolishUpgradeLevel(cost, info));
-                    }
-                    return result.ToImmutable();
-                }
-                set => throw new NotSupportedException();
-            }
-            public ImmutableArray<int> Cost
-            {
-                get => Levels.Select(x => x.Cost).ToImmutableArray();
-                set => Levels = Levels.Zip(value).Select(x => x.First with { Cost = x.Second }).ToImmutableArray();
-            }
-            IReadOnlyList<IWeaponUpgradeLevel> IWeaponUpgrade.Levels => Levels;
         }
 
         internal record PolishUpgradeLevel(int Cost, string Info) : IWeaponUpgradeLevel
