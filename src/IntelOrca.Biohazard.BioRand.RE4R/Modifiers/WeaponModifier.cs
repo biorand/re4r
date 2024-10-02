@@ -337,7 +337,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Kind = WeaponUpgradeKind.CriticalRate,
                         RateValue = rate,
                         MessageId = _addMessage($"Increase the critical hit rate by {rate}x."),
-                        PerkMessageId = _addMessage($"{rate}x Critical Hit Rate")
+                        PerkMessageId = _addMessage($"{rate}x Critical Hit Rate"),
+                        Cost = 80000
                     },
                 WeaponUpgradeKind.AmmoCapacity =>
                     new WeaponExclusive
@@ -345,7 +346,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Kind = WeaponUpgradeKind.AmmoCapacity,
                         RateValue = rate,
                         MessageId = _addMessage($"Increase ammo capacity by {rate}x."),
-                        PerkMessageId = _addMessage($"{rate}x Ammo Capacity")
+                        PerkMessageId = _addMessage($"{rate}x Ammo Capacity"),
+                        Cost = 70000
                     },
                 WeaponUpgradeKind.Power =>
                     new WeaponExclusive
@@ -353,7 +355,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Kind = WeaponUpgradeKind.Power,
                         RateValue = rate,
                         MessageId = _addMessage($"Increase power by {rate}x."),
-                        PerkMessageId = _addMessage($"{rate}x Power")
+                        PerkMessageId = _addMessage($"{rate}x Power"),
+                        Cost = 100000
                     },
                 WeaponUpgradeKind.Penetration =>
                     new WeaponExclusive
@@ -361,7 +364,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Kind = WeaponUpgradeKind.Penetration,
                         RateValue = rate,
                         MessageId = _addMessage($"Penetrate through {rate} targets."),
-                        PerkMessageId = _addMessage($"{rate}x Penetration Power")
+                        PerkMessageId = _addMessage($"{rate}x Penetration Power"),
+                        Cost = 70000
                     },
                 WeaponUpgradeKind.FireRate =>
                     new WeaponExclusive
@@ -369,7 +373,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Kind = WeaponUpgradeKind.FireRate,
                         RateValue = rate,
                         MessageId = _addMessage($"Increase rate of fire by {rate}x."),
-                        PerkMessageId = _addMessage($"{rate}x Rate of Fire")
+                        PerkMessageId = _addMessage($"{rate}x Rate of Fire"),
+                        Cost = 80000
                     },
                 WeaponUpgradeKind.Durability =>
                     new WeaponExclusive
@@ -377,7 +382,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Kind = WeaponUpgradeKind.Durability,
                         RateValue = rate,
                         MessageId = _addMessage($"Increase durability by {rate}x."),
-                        PerkMessageId = _addMessage($"{rate}x Durability")
+                        PerkMessageId = _addMessage($"{rate}x Durability"),
+                        Cost = 80000
                     },
                 WeaponUpgradeKind.CombatSpeed =>
                     new WeaponExclusive
@@ -385,7 +391,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Kind = WeaponUpgradeKind.CombatSpeed,
                         RateValue = rate,
                         MessageId = _addMessage($"Increase attack speed by {rate}x."),
-                        PerkMessageId = _addMessage($"{rate}x Attack Speed")
+                        PerkMessageId = _addMessage($"{rate}x Attack Speed"),
+                        Cost = 60000
                     },
                 WeaponUpgradeKind.UnlimitedAmmo =>
                     new WeaponExclusive
@@ -393,7 +400,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Kind = WeaponUpgradeKind.UnlimitedAmmo,
                         RateValue = 1,
                         MessageId = _addMessage("Unlimited Ammo"),
-                        PerkMessageId = _addMessage("Unlimited Ammo")
+                        PerkMessageId = _addMessage("Unlimited Ammo"),
+                        Cost = 10000
                     },
                 WeaponUpgradeKind.Indestructible =>
                     new WeaponExclusive
@@ -401,7 +409,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Kind = WeaponUpgradeKind.Indestructible,
                         RateValue = 1,
                         MessageId = _addMessage("Becomes indestructible."),
-                        PerkMessageId = _addMessage("Indestructible")
+                        PerkMessageId = _addMessage("Indestructible"),
+                        Cost = 10000
                     },
                 _ => throw new NotSupportedException()
             });
