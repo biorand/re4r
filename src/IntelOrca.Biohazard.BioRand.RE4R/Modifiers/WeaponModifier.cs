@@ -230,8 +230,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private float[] RandomizeFromRanges(Rng rng, float[][] ranges, float minDelta, bool super)
         {
             bool reverse = false;
+            ranges = ranges.ToArray();
             for (var i = 0; i < ranges.Length; i++)
             {
+                ranges[i] = ranges[i].ToArray();
                 if (ranges[i][0] > ranges[i][1])
                 {
                     (ranges[i][0], ranges[i][1]) = (ranges[i][1], ranges[i][0]);
