@@ -9,6 +9,8 @@
   "random-weapon-upgrade-prices": true,
   "random-weapon-upgrades": true,
   "random-weapon-exclusives": true,
+  "weapon-exclusive-power-min": 1.5,
+  "weapon-exclusive-power-max": 2.5,
   "merchant-stock-max-ammo-handgun": 0,
   "merchant-stock-max-ammo-shotgun": 0,
   "merchant-stock-max-ammo-rifle": 0,

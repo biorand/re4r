@@ -81,7 +81,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 LogWeaponChanges(wp, logger, () =>
                 {
-                    RandomizeStats(wp, valueRng, randomUpgrades, randomExclusives);
+                    RandomizeStats(randomizer, wp, valueRng, randomUpgrades, randomExclusives);
                     if (randomPrices)
                     {
                         RandomizePrices(rng, wp);
@@ -121,7 +121,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return (cost, info);
         }
 
-        private void RandomizeStats(WeaponStats wp, Rng rng, bool randomUpgrades, bool randomExclusives)
+        private void RandomizeStats(ChainsawRandomizer randomizer, WeaponStats wp, Rng rng, bool randomUpgrades, bool randomExclusives)
         {
             var group = WeaponStatsDefinition.Groups.FirstOrDefault(x => x.Include.Contains(wp.Id));
             if (group == null)
@@ -135,7 +135,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (group.Power != null)
             {
                 RandomizePower(wp, RandomizeFromRanges(rng, group.Power, 0.1f, rngSuper()));
-                AddExclusive(wp, WeaponUpgradeKind.Power, rng.NextFloat(1.5f, 2.5f));
+
+                var min = (float)Math.Clamp(randomizer.GetConfigOption<double>("weapon-exclusive-power-min"), 1.5, 100);
+                var max = (float)Math.Clamp(randomizer.GetConfigOption<double>("weapon-exclusive-power-max"), 1.5, 100);
+                AddExclusive(wp, WeaponUpgradeKind.Power, rng.NextFloat(min, max));
             }
             if (group.AmmoCapacity != null)
             {

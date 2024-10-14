@@ -176,6 +176,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-exclusive-power-min",
+                Label = "Exclusive Power Min.",
+                Description = "The minimum multiplier value a power exclusive upgrade can be.",
+                Type = "range",
+                Default = 1.5,
+                Min = 1.5,
+                Max = 100,
+                Step = 0.25
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-exclusive-power-max",
+                Label = "Exclusive Power Max.",
+                Description = "The maximum multiplier value a power exclusive upgrade can be.",
+                Type = "range",
+                Default = 2.5,
+                Min = 1.5,
+                Max = 100,
+                Step = 0.25
+            });
 
             group = page.CreateGroup("Max. Stock Increase per Chapter");
             foreach (var kind in DropKinds.ShopCompatible)
