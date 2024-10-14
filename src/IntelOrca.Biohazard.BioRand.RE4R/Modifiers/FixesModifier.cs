@@ -31,6 +31,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             AllowLaserSightOnAnything(randomizer, logger);
             RandomizeFirstBearTrap(randomizer, logger, rng);
             EnableInstantBuy(randomizer, logger);
+            ImproveBoltThrower(randomizer, logger);
         }
 
         private void StaticChanges(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -298,6 +299,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             fileRepository.ModifyUserFile(userFilePath, (file, rsz) =>
             {
                 rsz.Set("_InGameShopGuiParamHolder._HoldTime_Purchase", 0.0f);
+            });
+        }
+
+        private void ImproveBoltThrower(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            const string userFilePath = "natives/stm/_chainsaw/appsystem/weapon/weaponequipparamcataloguserdata.user.2";
+
+            logger.LogLine($"Make bolt thrower fully automatic");
+
+            var fileRepository = randomizer.FileRepository;
+            fileRepository.ModifyUserFile(userFilePath, (file, rsz) =>
+            {
+                rsz.Set("_DataTable[18]._WeaponStructureParam.TypeOfReload", 0);
+                rsz.Set("_DataTable[18]._WeaponStructureParam.TypeOfShoot", 1);
             });
         }
 
