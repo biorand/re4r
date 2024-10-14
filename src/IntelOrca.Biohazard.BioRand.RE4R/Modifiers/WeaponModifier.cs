@@ -131,18 +131,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             wp.Modifiers = wp.Modifiers.RemoveAll(x => x is IWeaponExclusive);
             var originalCount = wp.Modifiers.Length;
 
-            var rngSuper = () => rng.NextProbability(2);
+            var rngSuper = () => rng.NextProbability(20);
             if (group.Power != null)
             {
                 RandomizePower(wp, RandomizeFromRanges(rng, group.Power, 0.1f, rngSuper()));
-                AddExclusive(wp, WeaponUpgradeKind.Power, rng.NextFloat(1.5f, 4));
+                AddExclusive(wp, WeaponUpgradeKind.Power, rng.NextFloat(1.5f, 2.5f));
             }
             if (group.AmmoCapacity != null)
             {
                 var values = RandomizeFromRanges(rng, group.AmmoCapacity, 1, rngSuper()).Select(x => (int)MathF.Round(x)).ToArray();
                 _startAmmoCapacity[wp.Id] = values[0];
                 RandomizeAmmoCapacity(wp, values);
-                AddExclusive(wp, WeaponUpgradeKind.AmmoCapacity, rng.NextFloat(1.5f, 4));
+                AddExclusive(wp, WeaponUpgradeKind.AmmoCapacity, rng.Next(2, 5));
             }
 
             if (group.CriticalRate != null)
@@ -387,7 +387,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void AddExclusive(WeaponStats wp, WeaponUpgradeKind kind, float rate)
         {
-            rate = MathF.Round(rate / 0.5f) * 0.5f;
+            rate = MathF.Round(rate / 0.25f) * 0.25f;
             wp.Modifiers = wp.Modifiers.Add(kind switch
             {
                 WeaponUpgradeKind.CriticalRate =>
