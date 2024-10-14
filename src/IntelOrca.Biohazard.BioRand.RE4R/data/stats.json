@@ -76,7 +76,7 @@
     },
     {
       "include": [
-        4401 // CQBR Assault
+        4402 // CQBR Assault
       ],
       "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
       "ammoCapacity": [ [ 15, 25 ], [ 25, 50 ], [ 50, 100 ] ],
