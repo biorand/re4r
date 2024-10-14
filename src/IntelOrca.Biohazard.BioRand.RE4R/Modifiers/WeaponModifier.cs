@@ -209,6 +209,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .Shuffle(rng)
                     .OrderByDescending(x => x is RepairUpgrade)
                     .ThenByDescending(x => x is PolishUpgrade)
+                    .ThenByDescending(x => x is PowerUpgrade)
                     .Take(5)
                     .ToImmutableArray();
             }
@@ -219,6 +220,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .Shuffle(rng)
                     .OrderByDescending(x => x is RepairUpgrade)
                     .ThenByDescending(x => x is PolishUpgrade)
+                    .ThenByDescending(x => x is PowerUpgrade)
                     .ThenByDescending(x => x is IWeaponExclusive)
                     .Take(5)
                     .ToImmutableArray();
