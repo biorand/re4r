@@ -237,6 +237,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     e.ForceParasiteAppearance = false;
                     e.ParasiteAppearanceProbability = 0;
 
+                    // Fix first plaga mandibula zealot which is invincible
+                    // unless role is reset
+                    if (e.RolePatternHash == 3243946825)
+                        e.RolePatternHash = 1615772969;
+
                     // Reset orientation (when converting sideways novistadors)
                     var transform = e.GameObject.FindComponent("via.Transform");
                     if (transform != null)
