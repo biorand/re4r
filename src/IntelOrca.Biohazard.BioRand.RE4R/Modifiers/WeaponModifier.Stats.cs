@@ -852,6 +852,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     detail._LimitBreakRapid._RapidSpeedScale = value;
                     detail._LimitBreakStrength._DurabilityMaxScale = (int)value;
                     detail._LimitBreakOKReload._IsOKReload = true;
+                    detail._LimitBreakCombatSpeed._CombatSpeed = value;
                     detail._LimitBreakUnbreakable._IsUnbreakable = true;
                 }
             }

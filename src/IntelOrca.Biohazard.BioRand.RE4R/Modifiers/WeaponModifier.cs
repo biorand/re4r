@@ -195,7 +195,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 RandomizeDurability(wp, RandomizeFromRanges(rng, group.Durability, 100, rngSuper()).Select(x => (int)MathF.Round(x)).ToArray());
                 AddExclusive(wp, WeaponUpgradeKind.Durability, rng.NextFloat(1.5f, 4));
-                AddExclusive(wp, WeaponUpgradeKind.CombatSpeed, rng.NextFloat(1.5f, 4));
+                AddExclusive(wp, WeaponUpgradeKind.CombatSpeed, rng.NextFloat(1.5f, 3));
 
                 // Knives seem to break on hardcore if upgrades are different
                 randomUpgrades = false;
@@ -227,7 +227,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             else if (!randomUpgrades && randomExclusives)
             {
-                var exclusive = wp.Modifiers.OfType<IWeaponExclusive>().Shuffle(rng).First();
+                var exclusive = exclusives.Shuffle(rng).First();
                 wp.Modifiers = wp.Modifiers
                     .Take(originalCount)
                     .Append(exclusive)
