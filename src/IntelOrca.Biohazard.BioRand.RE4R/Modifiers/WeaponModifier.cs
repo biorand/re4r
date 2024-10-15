@@ -127,7 +127,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (group == null)
                 return;
 
-            var originalExclusiveType = wp.Modifiers.OfType<IWeaponExclusive>().First().Kind;
+            var originalExclusive = wp.Modifiers.OfType<IWeaponExclusive>().First();
             wp.Modifiers = wp.Modifiers.RemoveAll(x => x is IWeaponExclusive);
             var originalCount = wp.Modifiers.Length;
 
@@ -219,7 +219,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             else if (randomUpgrades && !randomExclusives)
             {
                 wp.Modifiers = wp.Modifiers
-                    .RemoveAll(x => x is IWeaponExclusive && x.Kind != originalExclusiveType)
+                    .RemoveAll(x => x is IWeaponExclusive && x.Kind != originalExclusive.Kind)
                     .Shuffle(rng)
                     .OrderByDescending(x => x is RepairUpgrade)
                     .ThenByDescending(x => x is PolishUpgrade)
@@ -240,6 +240,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 wp.Modifiers = upgrades
                     .Take(originalCount)
+                    .Append(originalExclusive)
                     .ToImmutableArray();
             }
         }
