@@ -5943,6 +5943,7 @@
       ],
       "extra": [
         {
+          "skipCondition": "e1941e95-5b28-4c0c-91d7-744b5d81b79a",
           "enemies": [
             {
               "rw": 0.19,
@@ -6352,7 +6353,12 @@
               "x": 32,
               "y": 16,
               "z": -118
-            },
+            }
+          ]
+        },
+        {
+          "condition": "80f4d85a-bc81-45a3-adf0-bbaf955306e7",
+          "enemies": [
             {
               "rw": 1.0,
               "rx": 0.0,
