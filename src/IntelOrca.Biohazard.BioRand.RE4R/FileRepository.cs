@@ -12,7 +12,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         private readonly PatchedPakFile? _inputPakFile;
         private readonly string? _inputGamePath;
-        private ConcurrentDictionary<string, byte[]> _outputFiles = new ConcurrentDictionary<string, byte[]>();
+        private ConcurrentDictionary<string, byte[]> _outputFiles = new(StringComparer.OrdinalIgnoreCase);
 
         public FileRepository()
         {
