@@ -68,6 +68,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return values.ElementAt(i);
         }
 
+        public T NextOf8020<T>(params T[] values)
+        {
+            for (var i = 0; i < values.Length - 1; i++)
+            {
+                if (NextProbability(80))
+                {
+                    return values[i];
+                }
+            }
+            return values[^1];
+        }
+
         public double NextGaussian(double mean, double stdDev)
         {
             var u1 = 1.0 - _random.NextDouble();

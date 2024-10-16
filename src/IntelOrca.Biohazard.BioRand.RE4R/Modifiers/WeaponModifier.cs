@@ -42,10 +42,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         }
                         logger.Pop();
                     }
+                    else if (m is IWeaponRepair r)
+                    {
+                        var message = wpCustomMsg.GetString(r.MessageId, LanguageId.English)?.Replace("\r\n", " ");
+
+                        logger.Push($"Repair ({message})");
+                        logger.LogLine($"{r.Kind} {{ ... }}");
+                        logger.Pop();
+                    }
                     else if (m is IWeaponExclusive e)
                     {
                         var perkMessage = wpCustomMsg.GetString(e.PerkMessageId, LanguageId.English)?.Replace("\r\n", " ");
-                        logger.LogLine($"Exclusive ({perkMessage}) Cost = {e.Cost}");
+                        logger.Push($"Exclusive ({perkMessage})");
+                        logger.LogLine($"{e.Kind} {{ Cost = {e.Cost} Rate = {e.RateValue} }}");
+                        logger.Pop();
                     }
                 }
                 logger.Pop();
@@ -81,7 +91,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 LogWeaponChanges(wp, logger, () =>
                 {
-                    RandomizeStats(randomizer, wp, valueRng, randomUpgrades, randomExclusives);
+                    if (randomExclusives)
+                    {
+                        RandomizeExclusives(randomizer, wp, valueRng);
+                    }
+                    RandomizeStats(randomizer, wp, valueRng, randomUpgrades);
                     if (randomPrices)
                     {
                         RandomizePrices(rng, wp);
@@ -121,46 +135,33 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return (cost, info);
         }
 
-        private void RandomizeStats(ChainsawRandomizer randomizer, WeaponStats wp, Rng rng, bool randomUpgrades, bool randomExclusives)
+        private void RandomizeStats(ChainsawRandomizer randomizer, WeaponStats wp, Rng rng, bool randomUpgrades)
         {
-            var group = WeaponStatsDefinition.Groups.FirstOrDefault(x => x.Include.Contains(wp.Id));
+            var group = GetWeaponStatsGroup(wp);
             if (group == null)
                 return;
 
-            var originalExclusive = wp.Modifiers.OfType<IWeaponExclusive>().First();
-            wp.Modifiers = wp.Modifiers.RemoveAll(x => x is IWeaponExclusive);
-            var originalCount = wp.Modifiers.Length;
+            var exclusives = wp.Modifiers.OfType<IWeaponExclusive>().ToImmutableArray();
 
             var rngSuper = () => rng.NextProbability(20);
             if (group.Power != null)
             {
                 RandomizePower(wp, RandomizeFromRanges(rng, group.Power, 0.1f, rngSuper()));
-
-                var min = (float)Math.Clamp(randomizer.GetConfigOption<double>("weapon-exclusive-power-min"), 1.5, 100);
-                var max = (float)Math.Clamp(randomizer.GetConfigOption<double>("weapon-exclusive-power-max"), 1.5, 100);
-                AddExclusive(wp, WeaponUpgradeKind.Power, rng.NextFloat(min, max));
             }
             if (group.AmmoCapacity != null)
             {
                 var values = RandomizeFromRanges(rng, group.AmmoCapacity, 1, rngSuper()).Select(x => (int)MathF.Round(x)).ToArray();
                 _startAmmoCapacity[wp.Id] = values[0];
                 RandomizeAmmoCapacity(wp, values);
-                AddExclusive(wp, WeaponUpgradeKind.AmmoCapacity, rng.Next(2, 5));
             }
 
-            if (group.CriticalRate != null)
+            if (group.CriticalRate != null && !exclusives.Any(x => x.Kind == WeaponUpgradeKind.CriticalRate))
             {
-                if (rng.NextProbability(50))
-                    RandomizeCriticalRate(wp, RandomizeFromRanges(rng, group.CriticalRate, 1, rngSuper()));
-                else
-                    AddExclusive(wp, WeaponUpgradeKind.CriticalRate, rng.Next(5, 21));
+                RandomizeCriticalRate(wp, RandomizeFromRanges(rng, group.CriticalRate, 1, rngSuper()));
             }
-            if (group.Penetration != null)
+            if (group.Penetration != null && !exclusives.Any(x => x.Kind == WeaponUpgradeKind.Penetration))
             {
-                if (rng.NextProbability(50))
-                    RandomizePenetration(wp, RandomizeFromRanges(rng, group.Penetration, 1, rngSuper()));
-                else
-                    AddExclusive(wp, WeaponUpgradeKind.Penetration, rng.Next(5, 21));
+                RandomizePenetration(wp, RandomizeFromRanges(rng, group.Penetration, 1, rngSuper()));
             }
 
             var mask = 0b11;
@@ -191,58 +192,85 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (group.FireRate != null)
             {
                 RandomizeFireRate(wp, RandomizeFromRanges(rng, group.FireRate, 0.1f, rngSuper()));
-                AddExclusive(wp, WeaponUpgradeKind.FireRate, rng.NextFloat(1.5f, 4));
             }
 
             if (group.Durability != null)
             {
                 RandomizeDurability(wp, RandomizeFromRanges(rng, group.Durability, 100, rngSuper()).Select(x => (int)MathF.Round(x)).ToArray());
-                AddExclusive(wp, WeaponUpgradeKind.Durability, rng.NextFloat(1.5f, 4));
-                AddExclusive(wp, WeaponUpgradeKind.CombatSpeed, rng.NextFloat(1.5f, 3));
 
                 // Knives seem to break on hardcore if upgrades are different
                 randomUpgrades = false;
             }
 
-            var exclusives = wp.Modifiers.OfType<IWeaponExclusive>().ToImmutableArray();
-            var upgrades = wp.Modifiers.Except(exclusives).ToImmutableArray();
-            if (randomUpgrades & randomExclusives)
+            if (randomUpgrades)
             {
                 wp.Modifiers = wp.Modifiers
                     .Shuffle(rng)
-                    .OrderByDescending(x => x is RepairUpgrade)
+                    .OrderByDescending(x => x is IWeaponExclusive)
+                    .ThenByDescending(x => x is RepairUpgrade)
                     .ThenByDescending(x => x is PolishUpgrade)
                     .ThenByDescending(x => x is PowerUpgrade)
                     .Take(5)
-                    .ToImmutableArray();
-            }
-            else if (randomUpgrades && !randomExclusives)
-            {
-                wp.Modifiers = wp.Modifiers
-                    .RemoveAll(x => x is IWeaponExclusive && x.Kind != originalExclusive.Kind)
-                    .Shuffle(rng)
-                    .OrderByDescending(x => x is RepairUpgrade)
-                    .ThenByDescending(x => x is PolishUpgrade)
-                    .ThenByDescending(x => x is PowerUpgrade)
-                    .ThenByDescending(x => x is IWeaponExclusive)
-                    .Take(5)
-                    .ToImmutableArray();
-            }
-            else if (!randomUpgrades && randomExclusives)
-            {
-                var exclusive = exclusives.Shuffle(rng).First();
-                wp.Modifiers = wp.Modifiers
-                    .Take(originalCount)
-                    .Append(exclusive)
                     .ToImmutableArray();
             }
             else
             {
-                wp.Modifiers = upgrades
-                    .Take(originalCount)
-                    .Append(originalExclusive)
+                wp.Modifiers = wp.Modifiers
+                    .Take(5)
                     .ToImmutableArray();
             }
+        }
+
+        private void RandomizeExclusives(ChainsawRandomizer randomizer, WeaponStats wp, Rng rng)
+        {
+            var group = GetWeaponStatsGroup(wp);
+            if (group == null)
+                return;
+
+            var exclusives = ImmutableArray.CreateBuilder<IWeaponExclusive>();
+            var exclusiveCount = rng.NextOf8020(1, 2, 3, 4);
+            if (group.Power != null)
+            {
+                var min = (float)Math.Clamp(randomizer.GetConfigOption<double>("weapon-exclusive-power-min"), 1.5, 100);
+                var max = (float)Math.Clamp(randomizer.GetConfigOption<double>("weapon-exclusive-power-max"), 1.5, 100);
+                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.Power, rng.NextFloat(min, max)));
+            }
+            if (group.AmmoCapacity != null)
+            {
+                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.AmmoCapacity, rng.Next(2, 5)));
+            }
+            if (group.CriticalRate != null)
+            {
+                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.CriticalRate, rng.Next(5, 21)));
+            }
+            if (group.Penetration != null)
+            {
+                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.Penetration, rng.Next(5, 21)));
+            }
+            if (group.FireRate != null)
+            {
+                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.FireRate, rng.NextFloat(1.5f, 4)));
+            }
+            if (group.Durability != null)
+            {
+                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.Durability, rng.NextFloat(1.5f, 4)));
+                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.CombatSpeed, rng.NextFloat(1.5f, 3)));
+
+                // Knives seem to break on hardcore if upgrades are different
+                exclusiveCount = 1;
+            }
+            var newExclusives = exclusives
+                .Shuffle(rng)
+                .Take(exclusiveCount)
+                .ToImmutableArray();
+            wp.Modifiers = wp.Modifiers
+                .RemoveAll(x => x is IWeaponExclusive)
+                .AddRange(newExclusives);
+        }
+
+        private WeaponStatGroup? GetWeaponStatsGroup(WeaponStats wp)
+        {
+            return WeaponStatsDefinition.Groups.FirstOrDefault(x => x.Include.Contains(wp.Id));
         }
 
         private float[] RandomizeFromRanges(Rng rng, float[][] ranges, float minDelta, bool super)
@@ -389,10 +417,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             durability.Levels = [.. levels];
         }
 
-        private void AddExclusive(WeaponStats wp, WeaponUpgradeKind kind, float rate)
+        private IWeaponExclusive CreateExclusive(WeaponStats wp, WeaponUpgradeKind kind, float rate)
         {
             rate = MathF.Round(rate / 0.25f) * 0.25f;
-            wp.Modifiers = wp.Modifiers.Add(kind switch
+            return kind switch
             {
                 WeaponUpgradeKind.CriticalRate =>
                     new WeaponExclusive
@@ -476,7 +504,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Cost = 10000
                     },
                 _ => throw new NotSupportedException()
-            });
+            };
         }
 
         private void RandomizePrices(Rng rng, WeaponStats wp)
