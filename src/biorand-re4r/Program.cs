@@ -33,6 +33,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 config.AddCommand<DumpCommand>("dump")
                     .WithDescription("Dumps an SCN file to JSON")
                     .WithExample("dump", "input.scn");
+                config.AddCommand<MsgCommand>("msg")
+                    .WithDescription("Lists strings in an MSG file")
+                    .WithExample("msg", "input.msg.22");
             });
             return app.Run(args);
         }

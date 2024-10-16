@@ -12,6 +12,10 @@
     "dump": {
       "commandName": "Project",
       "commandLineArgs": "dump \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\\natives\\stm\\_chainsaw\\environment\\scene\\gimmick\\st40\\gimmick_st40_502_p000.scn.20\""
+    },
+    "msg": {
+      "commandName": "Project",
+      "commandLineArgs": "msg \"G:\\re4r\\extract\\patch_000\\natives\\stm\\_chainsaw\\message\\mes_main_cs\\ch_mes_main_csa117.msg.22\""
     }
   }
 }
