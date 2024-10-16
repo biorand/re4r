@@ -3934,7 +3934,7 @@
           ]
         },
         {
-          "condition": "64e93888-fccb-4aea-ad03-4d543afa2780",
+          "condition": "d724c48f-63f7-46fb-a1f2-77e666abfba7",
           "enemies": [
             {
               "rw": -0.87,
@@ -4154,6 +4154,7 @@
       "chapter": 11,
       "extra": [
         {
+          "skipCondition": "b39ba3c1-6388-43cc-8771-4027233dba01",
           "enemies": [
             {
               "rw": 0.54,
@@ -4283,7 +4284,12 @@
               "x": 131,
               "y": -8,
               "z": 21
-            },
+            }
+          ]
+        },
+        {
+          "condition": "9d8200eb-85b8-4cca-92af-b95917da8db3",
+          "enemies": [
             {
               "rw": 0.04,
               "rx": 0.0,
@@ -4431,6 +4437,7 @@
       ],
       "extra": [
         {
+          "condition": "b39ba3c1-6388-43cc-8771-4027233dba01",
           "enemies": [
             {
               "rw": 0.15,
