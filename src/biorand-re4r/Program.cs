@@ -43,11 +43,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private static int DebugCode()
         {
             var pakList = Re4rRandomizer.GetDefaultPakList();
+
+            var gamePath = "G:\\re4r\\vanilla";
+            var corePath = Path.Combine(gamePath, "re_chunk_000.pak");
+            var dlcPaths = Directory.GetFiles(Path.Combine(gamePath, "dlc"), "*.pak");
+
             var sb = new StringBuilder();
-            var pak = new PatchedPakFile(@"F:\games\steamapps\common\RESIDENT EVIL 4  BIOHAZARD RE4\re_chunk_000.pak");
+            var pak = new PatchedPakFile(corePath);
             var newPak = new PakFileBuilder();
 
             var includeList = new[] {
+                @"natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_140[12]/.*",
                 @"natives/stm/_chainsaw/appsystem/inventory/inventorycatalog/.*",
                 @"natives/stm/_chainsaw/appsystem/ui/.*",
                 @"natives/stm/_chainsaw/appsystem/weapon/.*",

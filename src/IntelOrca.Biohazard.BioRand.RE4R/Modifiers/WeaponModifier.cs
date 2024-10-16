@@ -13,7 +13,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         private const string WeaponCustomUserDataPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weaponcustomuserdata.user.2";
         private const string WeaponDetailCustomUserDataPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2";
-        private const string ItemDefinitionUserDataPath = "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2";
         private const string WeaponCustomMsgPath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_wpcustom.msg.22";
         private const string ShopMsgPath = "natives/stm/_chainsaw/message/mes_main_sys/ch_mes_main_sys_shop.msg.22";
 
@@ -525,27 +524,37 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void UpdateItemDefinitions(ChainsawRandomizer randomizer)
         {
-            var userFile = randomizer.FileRepository.GetUserFile(ItemDefinitionUserDataPath);
-            if (userFile == null)
-                return;
-
-            var itemRepo = ItemDefinitionRepository.Default;
-            var root = userFile.RSZ!.ObjectList[0];
-            var items = root.GetArray<RszInstance>("_Datas");
-            foreach (var item in items)
+            var files = new[]
             {
-                var itemId = item.Get<int>("_ItemId");
-                var itemDef = itemRepo.Find(itemId);
-                if (itemDef == null)
+                "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2",
+                "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1401/itemdefinitionuserdata_dlc_1401.user.2",
+                "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1402/itemdefinitionuserdata_dlc_1402.user.2"
+            };
+
+            foreach (var file in files)
+            {
+                var userFile = randomizer.FileRepository.GetUserFile(file);
+                if (userFile == null)
                     continue;
 
-                if (itemDef.WeaponId != null && _startAmmoCapacity.TryGetValue(itemDef.WeaponId.Value, out var ammoCapacity))
+                var itemRepo = ItemDefinitionRepository.Default;
+                var root = userFile.RSZ!.ObjectList[0];
+                var items = root.GetArray<RszInstance>("_Datas");
+                foreach (var item in items)
                 {
-                    item.Set("_WeaponDefineData._AmmoMax", ammoCapacity);
-                }
-            }
+                    var itemId = item.Get<int>("_ItemId");
+                    var itemDef = itemRepo.Find(itemId);
+                    if (itemDef == null)
+                        continue;
 
-            randomizer.FileRepository.SetUserFile(ItemDefinitionUserDataPath, userFile);
+                    if (itemDef.WeaponId != null && _startAmmoCapacity.TryGetValue(itemDef.WeaponId.Value, out var ammoCapacity))
+                    {
+                        item.Set("_WeaponDefineData._AmmoMax", ammoCapacity);
+                    }
+                }
+
+                randomizer.FileRepository.SetUserFile(file, userFile);
+            }
         }
 
         private static WeaponStatsDefinition WeaponStatsDefinition { get; } = Resources.stats.DeserializeJson<WeaponStatsDefinition>();
