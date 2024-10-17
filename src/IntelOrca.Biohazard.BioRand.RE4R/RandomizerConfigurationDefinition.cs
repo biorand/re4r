@@ -1,90 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using static IntelOrca.Biohazard.BioRand.RandomizerConfigurationDefinition;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    public class RandomizerConfigurationDefinition
+    public static class Re4rRandomizerConfigurationDefinition
     {
-        public List<Page> Pages { get; set; } = [];
-
-        [JsonIgnore]
-        public IEnumerable<GroupItem> AllItems
-        {
-            get
-            {
-                foreach (var p in Pages)
-                {
-                    foreach (var g in p.Groups)
-                    {
-                        foreach (var i in g.Items)
-                        {
-                            yield return i;
-                        }
-                    }
-                }
-            }
-        }
-
-        public Page CreatePage(string label)
-        {
-            var result = new Page(label);
-            Pages.Add(result);
-            return result;
-        }
-
-        public class Page(string label)
-        {
-            public string Label { get; set; } = label;
-            public List<Group> Groups { get; set; } = [];
-
-            public Group CreateGroup(string label)
-            {
-                var result = new Group(label);
-                Groups.Add(result);
-                return result;
-            }
-        }
-
-        public class Group(string label)
-        {
-            public string Label { get; set; } = label;
-            public string? Warning { get; set; }
-            public List<GroupItem> Items { get; set; } = [];
-        }
-
-        public class GroupItem
-        {
-            public string? Id { get; set; }
-            public string? Label { get; set; }
-            public string? Description { get; set; }
-            public GroupItemCategory? Category { get; set; }
-            public string? Type { get; set; }
-            public int? Size { get; set; }
-            public double? Min { get; set; }
-            public double? Max { get; set; }
-            public double? Step { get; set; }
-            public string[]? Options { get; set; }
-            public object? Default { get; set; }
-        }
-
-        public class GroupItemCategory
-        {
-            public GroupItemCategory() { }
-            public GroupItemCategory(ConfigCategory category)
-            {
-                Label = category.Label;
-                TextColor = category.TextColor;
-                BackgroundColor = category.BackgroundColor;
-            }
-
-            public string? Label { get; set; }
-            public string? TextColor { get; set; }
-            public string? BackgroundColor { get; set; }
-        }
-
         public static RandomizerConfigurationDefinition Create(EnemyClassFactory enemyClassFactory)
         {
             var configDefinition = new RandomizerConfigurationDefinition();
@@ -755,7 +676,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 });
             }
 
-            var defaultProfile = configDefinition.GetDefault();
+            var defaultProfileBytes = ChainsawRandomizerFactory.GetDefaultProfile();
+            var defaultProfileJson = Encoding.UTF8.GetString(defaultProfileBytes);
+            var defaultProfile = RandomizerConfiguration.FromJson(defaultProfileJson);
             foreach (var item in configDefinition.AllItems)
             {
                 if (defaultProfile.TryGetValue(item.Id!, out var defaultOverride))
@@ -764,73 +687,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 }
             }
             return configDefinition;
-        }
-
-        public RandomizerConfiguration GetDefault()
-        {
-            var defaultProfile = ChainsawRandomizerFactory.GetDefaultProfile();
-            var defaultProfileJson = Encoding.UTF8.GetString(defaultProfile);
-            var defaultProfileDeserialized = RandomizerConfiguration.FromJson(defaultProfileJson);
-
-            var result = new RandomizerConfiguration();
-            foreach (var item in AllItems)
-            {
-                result[item.Id!] = item.Default!;
-                if (defaultProfileDeserialized.TryGetValue(item.Id!, out var defaultOverride))
-                {
-                    result[item.Id!] = defaultOverride;
-                }
-            }
-            return result;
-        }
-
-        public static Dictionary<string, object> ProcessConfig(string configJson)
-        {
-            var deserialized = configJson.DeserializeJson<Dictionary<string, object>>();
-            return ProcessConfig(deserialized);
-        }
-
-        public static Dictionary<string, object> ProcessConfig(Dictionary<string, object>? config)
-        {
-            var result = new Dictionary<string, object>();
-            if (config != null)
-            {
-                foreach (var kvp in config)
-                {
-                    var value = ProcessConfigValue(kvp.Value);
-                    if (value is not null)
-                        result[kvp.Key] = value;
-                }
-            }
-            return result;
-        }
-
-        private static object? ProcessConfigValue(object? value)
-        {
-            if (value is JsonElement element)
-            {
-                return element.ValueKind switch
-                {
-                    JsonValueKind.Null => null,
-                    JsonValueKind.True => true,
-                    JsonValueKind.False => false,
-                    JsonValueKind.Number => ProcessNumber(element.GetDouble()),
-                    JsonValueKind.String => element.GetString(),
-                    _ => null
-                };
-            }
-            return value;
-        }
-
-        private static object? ProcessNumber(double d)
-        {
-            var l = (long)d;
-            if (l == d)
-            {
-                int i = (int)l;
-                return i == l ? i : (object)l;
-            }
-            return d;
         }
     }
 }

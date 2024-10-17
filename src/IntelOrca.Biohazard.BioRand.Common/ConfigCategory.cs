@@ -1,4 +1,4 @@
-﻿namespace IntelOrca.Biohazard.BioRand.RE4R
+﻿namespace IntelOrca.Biohazard.BioRand
 {
     public sealed class ConfigCategory(string text, string backgroundColor, string textColor)
     {

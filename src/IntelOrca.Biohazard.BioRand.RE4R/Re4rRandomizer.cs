@@ -8,8 +8,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     public class Re4rRandomizer : IRandomizer
     {
         public string BuildVersion => ChainsawRandomizerFactory.Default.GitHash;
-        public object ConfigurationDefinition => RandomizerConfigurationDefinition.Create(EnemyClassFactory.Default);
-        public RandomizerConfiguration DefaultConfiguration => RandomizerConfigurationDefinition.Create(EnemyClassFactory.Default).GetDefault();
+        public RandomizerConfigurationDefinition ConfigurationDefinition => Re4rRandomizerConfigurationDefinition.Create(EnemyClassFactory.Default);
+        public RandomizerConfiguration DefaultConfiguration => Re4rRandomizerConfigurationDefinition.Create(EnemyClassFactory.Default).GetDefault();
 
         public RandomizerOutput Randomize(RandomizerInput input)
         {

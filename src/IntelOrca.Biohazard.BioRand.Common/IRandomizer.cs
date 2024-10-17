@@ -2,7 +2,7 @@
 {
     public interface IRandomizer
     {
-        object ConfigurationDefinition { get; }
+        RandomizerConfigurationDefinition ConfigurationDefinition { get; }
         RandomizerConfiguration DefaultConfiguration { get; }
 
         /// <summary>
