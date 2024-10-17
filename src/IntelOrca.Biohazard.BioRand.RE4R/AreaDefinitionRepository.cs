@@ -4,17 +4,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public class AreaDefinitionRepository
     {
-        private static AreaDefinitionRepository? _default;
+        private static AreaDefinitionRepository? _leon;
+        private static AreaDefinitionRepository? _ada;
 
-        public AreaDefinition[] Areas { get; set; } = new AreaDefinition[0];
-        public ItemAreaDefinition[] Items { get; set; } = new ItemAreaDefinition[0];
+        public AreaDefinition[] Areas { get; set; } = [];
+        public ItemAreaDefinition[] Items { get; set; } = [];
 
-        public static AreaDefinitionRepository Default
+        public static AreaDefinitionRepository Leon
         {
             get
             {
-                _default ??= Resources.areas.DeserializeJson<AreaDefinitionRepository>();
-                return _default;
+                _leon ??= Resources.areas.DeserializeJson<AreaDefinitionRepository>();
+                return _leon;
+            }
+        }
+
+        public static AreaDefinitionRepository Ada
+        {
+            get
+            {
+                _ada ??= Resources.areas_sw.DeserializeJson<AreaDefinitionRepository>();
+                return _ada;
             }
         }
     }

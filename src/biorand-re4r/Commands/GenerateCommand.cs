@@ -55,6 +55,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 log.Value.WriteToFile(log.Key);
             }
 
+            output.PakOutput.WriteToFile("biorand-re4r-357436.zip");
+            output.FluffyOutput.WriteToFile("biorand-re4r-357436-mod.zip");
+
             // Find pak file
             var pakFile = GetPakFile(output.PakOutput);
             var outputPath = settings.OutputPath!;

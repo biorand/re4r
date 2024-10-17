@@ -14,7 +14,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var itemRepo = ItemDefinitionRepository.Default;
             var fileRepository = randomizer.FileRepository;
-            foreach (var area in AreaDefinitionRepository.Default.Items)
+            foreach (var area in AreaDefinitionRepository.Leon.Items)
             {
                 if (area.DataPath == null)
                     continue;
@@ -78,7 +78,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var itemRepo = ItemDefinitionRepository.Default;
             var levelItems = ImmutableArray.CreateBuilder<LevelItem>();
-            foreach (var area in AreaDefinitionRepository.Default.Items)
+            foreach (var area in AreaDefinitionRepository.Leon.Items)
             {
                 if (area.DataPath == null)
                     continue;
@@ -243,7 +243,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var map = levelItems.ToDictionary(x => x.ContextId);
             var itemRepo = ItemDefinitionRepository.Default;
             var fileRepository = randomizer.FileRepository;
-            foreach (var area in AreaDefinitionRepository.Default.Items)
+            foreach (var area in AreaDefinitionRepository.Leon.Items)
             {
                 var userFile = fileRepository.GetUserFile(area.DataPath);
                 if (userFile == null)
@@ -278,7 +278,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var map = levelItems.ToDictionary(x => x.ContextId);
             var fileRepository = randomizer.FileRepository;
-            foreach (var area in AreaDefinitionRepository.Default.Items)
+            foreach (var area in AreaDefinitionRepository.Leon.Items)
             {
                 if (area.Path == null)
                     continue;

@@ -1,0 +1,40 @@
+{
+  "areas": [
+    // Chapter 1 (Pesanta, Castle Catapults)
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc50/level_loc50_100.scn.20",
+      "chapter": 1,
+      "restrictions": [
+        {
+          "guids": [
+            "8a8fc458-170c-41dd-a86b-e3461d140d6d", // catapult zealot
+            "3d856215-0c3d-474b-b260-10287c179ac3" // catapult zealot
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc50/level_loc50_200.scn.20",
+      "chapter": 1,
+      "restrictions": [
+        {
+          "guids": [
+            "ddb8d7b7-f339-4118-92ae-0bc710665597", // catapult zealot
+            "6aa2ce50-8755-4d25-b6f2-4bb81f46ed4b", // catapult zealot
+            "37162bf4-f041-409c-872b-176b6924f2f9" // catapult zealot
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc50/level_loc50_300.scn.20",
+      "chapter": 1
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_1/level_cp11_chp1_1.scn.20",
+      "chapter": 2
+    }
+  ],
+  "items": [
+  ]
+}

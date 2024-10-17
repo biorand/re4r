@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using REE;
 
@@ -11,9 +12,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public RandomizerInput Input { get; }
         public PakFileBuilder PakFile { get; }
-        public LogFiles LogFiles { get; }
+        public Dictionary<string, string> LogFiles { get; }
 
-        internal ChainsawRandomizerOutput(RandomizerInput input, PakFileBuilder pakFile, LogFiles logFiles)
+        internal ChainsawRandomizerOutput(RandomizerInput input, PakFileBuilder pakFile, Dictionary<string, string> logFiles)
         {
             Input = input;
             PakFile = pakFile;
@@ -50,11 +51,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private ZipFileBuilder BuildZipFile(string logPrefix = "")
         {
-            return new ZipFileBuilder()
-                .AddEntry($"{logPrefix}config.json", Encoding.UTF8.GetBytes(Input.Configuration.ToJson()))
-                .AddEntry($"{logPrefix}input.log", Encoding.UTF8.GetBytes(LogFiles.Input))
-                .AddEntry($"{logPrefix}process.log", Encoding.UTF8.GetBytes(LogFiles.Process))
-                .AddEntry($"{logPrefix}output.log", Encoding.UTF8.GetBytes(LogFiles.Output));
+            var builder = new ZipFileBuilder();
+            builder.AddEntry($"{logPrefix}config.json", Encoding.UTF8.GetBytes(Input.Configuration.ToJson()));
+            foreach (var logFile in LogFiles)
+            {
+                builder.AddEntry($"{logPrefix}{logFile.Key}", Encoding.UTF8.GetBytes(logFile.Value));
+            }
+            return builder;
         }
 
         private byte[] GetModInfo()

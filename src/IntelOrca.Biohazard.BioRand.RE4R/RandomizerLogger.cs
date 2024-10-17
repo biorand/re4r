@@ -4,7 +4,14 @@ using System.Text;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal class RandomizerLogger
+    internal sealed class RandomizerLoggerIO
+    {
+        public RandomizerLogger Input { get; } = new();
+        public RandomizerLogger Process { get; } = new();
+        public RandomizerLogger Output { get; } = new();
+    }
+
+    internal sealed class RandomizerLogger
     {
         private readonly StringBuilder _sb = new StringBuilder();
         private readonly string _hr = new string('-', 80);

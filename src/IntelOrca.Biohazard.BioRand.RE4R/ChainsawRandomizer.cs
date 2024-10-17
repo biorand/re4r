@@ -14,17 +14,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     internal class ChainsawRandomizer
     {
         private FileRepository _fileRepository = new FileRepository();
-        private readonly RandomizerLogger _loggerInput = new RandomizerLogger();
-        private readonly RandomizerLogger _loggerProcess = new RandomizerLogger();
-        private readonly RandomizerLogger _loggerOutput = new RandomizerLogger();
         private RandomizerInput _input = new RandomizerInput();
         private ValuableDistributor? _valuableDistributor;
         private ItemRandomizer? _itemRandomizer;
-        private readonly ImmutableArray<Modifier> _modifiers = GetModifiers();
+        private ImmutableArray<Modifier> _modifiers = GetModifiers();
         private ImmutableArray<Area> _areas;
         private Rng _rng = new Rng();
-
-        public RandomizerLogger LoggerProcess => _loggerProcess;
 
         public EnemyClassFactory EnemyClassFactory { get; }
         public FileRepository FileRepository => _fileRepository;
@@ -32,6 +27,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public ValuableDistributor ValuableDistributor => _valuableDistributor!;
         public ItemRandomizer ItemRandomizer => _itemRandomizer!;
         public ImmutableArray<Area> Areas => _areas;
+        public Campaign Campaign { get; private set; }
 
         public ChainsawRandomizer(EnemyClassFactory enemyClassFactory)
         {
@@ -46,26 +42,66 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 _fileRepository = new FileRepository(input.GamePath);
             }
 
-            foreach (var logger in new[] { _loggerInput, _loggerProcess, _loggerOutput })
-            {
-                logger.LogHr();
-                logger.LogVersion();
-                logger.LogLine($"Seed = {input.Seed}");
-                logger.LogHr();
-            }
-            var areas = GetAreas();
+            var logFiles = new Dictionary<string, string>();
 
-            _itemRandomizer = new ItemRandomizer(this);
+#if DEBUG
+            var campaigns = new[] { Campaign.Leon, Campaign.Ada };
+#else
+            var campaigns = new[] { Campaign.Leon };
+#endif
+            foreach (var campaign in campaigns)
+            {
+                var log = Randomize(input, campaign);
+
+                var name = campaign.ToString().ToLowerInvariant();
+                logFiles[$"input_{name}.log"] = log.Input.Output;
+                logFiles[$"process_{name}.log"] = log.Process.Output;
+                logFiles[$"output_{name}.log"] = log.Output.Output;
+            }
+
+            var output = new ChainsawRandomizerOutput(input, _fileRepository.GetOutputPakFile(), logFiles);
+            return new RandomizerOutput(
+                output.GetOutputZip(),
+                output.GetOutputMod(),
+                logFiles);
+        }
+
+        public RandomizerLoggerIO Randomize(RandomizerInput input, Campaign campaign)
+        {
+            Campaign = campaign;
+            if (campaign == Campaign.Ada)
+            {
+                _modifiers =
+                [
+                    new EnemyModifier()
+                ];
+            }
+
+            var logger = new RandomizerLoggerIO();
+            foreach (var l in new[] { logger.Input, logger.Process, logger.Output })
+            {
+                l.LogHr();
+                l.LogVersion();
+                l.LogLine($"Seed = {input.Seed}");
+                l.LogLine($"Campaign = {campaign}");
+                l.LogHr();
+            }
+            var areas = GetAreas(campaign);
+
+            _itemRandomizer = new ItemRandomizer(this, logger.Process);
 
             // Supplement files
-            ApplyOverlay(Resources.supplement);
-            ApplyOverlay(Resources.delorca);
+            if (campaign == Campaign.Leon)
+            {
+                ApplyOverlay(Resources.supplement);
+                ApplyOverlay(Resources.delorca);
+            }
 
             var rng = new Rng(input.Seed);
             _rng = rng;
 
             _valuableDistributor = new ValuableDistributor(this);
-            _valuableDistributor.Setup(_itemRandomizer, _rng, _loggerProcess);
+            _valuableDistributor.Setup(_itemRandomizer, _rng, logger.Process);
 
             var inventoryRng = CreateRng();
             var merchantRng = CreateRng();
@@ -77,19 +113,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // Input
             IterateModifiers((n, m) =>
             {
-                _loggerInput.Push(n);
-                m.LogState(this, _loggerInput);
-                _loggerInput.Pop();
-                _loggerInput.LogHr();
+                logger.Input.Push(n);
+                m.LogState(this, logger.Input);
+                logger.Input.Pop();
+                logger.Input.LogHr();
             });
 
             // Apply modifiers
             IterateModifiers((n, m) =>
             {
-                _loggerProcess.Push(n);
-                m.Apply(this, _loggerProcess);
-                _loggerProcess.Pop();
-                _loggerProcess.LogHr();
+                logger.Process.Push(n);
+                m.Apply(this, logger.Process);
+                logger.Process.Pop();
+                logger.Process.LogHr();
             });
 
             // Save area files
@@ -101,23 +137,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // Output
             IterateModifiers((n, m) =>
             {
-                _loggerOutput.Push(n);
-                m.LogState(this, _loggerOutput);
-                _loggerOutput.Pop();
-                _loggerOutput.LogHr();
+                logger.Output.Push(n);
+                m.LogState(this, logger.Output);
+                logger.Output.Pop();
+                logger.Output.LogHr();
             });
 
-            var logFiles = new LogFiles(_loggerInput.Output, _loggerProcess.Output, _loggerOutput.Output);
-            var output = new ChainsawRandomizerOutput(input, _fileRepository.GetOutputPakFile(), logFiles);
-            return new RandomizerOutput(
-                output.GetOutputZip(),
-                output.GetOutputMod(),
-                new Dictionary<string, string>()
-                {
-                    ["input.log"] = _loggerInput.Output,
-                    ["process.log"] = _loggerProcess.Output,
-                    ["output.log"] = _loggerOutput.Output
-                });
+            return logger;
         }
 
         private void ApplyOverlay(byte[] zipData)
@@ -133,9 +159,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        private List<Area> GetAreas()
+        private List<Area> GetAreas(Campaign campaign)
         {
-            var areaRepo = AreaDefinitionRepository.Default;
+            var areaRepo = campaign == Campaign.Leon
+                ? AreaDefinitionRepository.Leon
+                : AreaDefinitionRepository.Ada;
             var areas = new List<Area>();
             foreach (var areaDef in areaRepo.Areas)
             {
