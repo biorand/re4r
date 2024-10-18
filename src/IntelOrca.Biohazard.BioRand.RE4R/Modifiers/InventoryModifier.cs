@@ -10,13 +10,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            _inventory ??= ChainsawPlayerInventory.FromData(randomizer.FileRepository);
+            _inventory ??= ChainsawPlayerInventory.FromData(randomizer.FileRepository, randomizer.Campaign);
             var inventory = _inventory;
 
             logger.LogLine($"PTAS = {inventory.PTAS}");
             logger.LogLine($"Spinels = {inventory.SpinelCount}");
 
-            var itemsById = inventory.Data[0].InventoryItems
+            var itemsById = inventory.PlayerData.InventoryItems
                 .GroupBy(x => x.Item.ItemId)
                 .OrderBy(x => x.Key)
                 .ToArray();
@@ -30,7 +30,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            _inventory ??= ChainsawPlayerInventory.FromData(randomizer.FileRepository);
+            _inventory ??= ChainsawPlayerInventory.FromData(randomizer.FileRepository, randomizer.Campaign);
             var inventory = _inventory;
 
             var itemRandomizer = randomizer.ItemRandomizer;
@@ -88,7 +88,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             inventory.AssignShortcuts();
             inventory.Save(randomizer.FileRepository);
 
-            foreach (var item in inventory.Data[0].InventoryItems)
+            foreach (var item in inventory.PlayerData.InventoryItems)
             {
                 var size = itemData.GetSize(item.Item.ItemId);
                 var width = size.Width;
@@ -97,7 +97,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     (width, height) = (height, width);
                 }
-                logger.LogLine($"Add item {item.Item} {item.Item.CurrentItemCount} ({item.SlotIndexColumn}, {item.SlotIndexRow}) ({width}x{height})");
+                logger.LogLine($"Add item {item.Item} {item.Item.CurrentItemCount} ({item.SlotIndexColumn}, {item.SlotIndexRow}) ({width}x{height}) Rotation = {item.CurrDirection}");
             }
         }
     }

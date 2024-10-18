@@ -48,6 +48,7 @@
     {
       "name": "Bolts",
       "kind": "ammo",
+      "mode": "main",
       "id": 112808000,
       "value": 250,
       "class": "bolt",
@@ -73,6 +74,7 @@
       "name": "SW - Blast Arrows",
       "kind": "ammo",
       "mode": "sw",
+      "class": "bolt",
       "id": 112480000
     },
     {
@@ -1383,6 +1385,7 @@
     {
       "name": "SG-09 R",
       "kind": "weapon",
+      "mode": "main",
       "id": 274835456,
       "size": "3x2",
       "class": "handgun",
@@ -1391,6 +1394,7 @@
     {
       "name": "Punisher",
       "kind": "weapon",
+      "mode": "main",
       "id": 274837056,
       "size": "3x2",
       "class": "handgun",
@@ -1399,6 +1403,7 @@
     {
       "name": "Red9",
       "kind": "weapon",
+      "mode": "main",
       "id": 274838656,
       "size": "3x2",
       "class": "handgun",
@@ -1407,6 +1412,7 @@
     {
       "name": "Blacktail",
       "kind": "weapon",
+      "mode": "main",
       "id": 274840256,
       "size": "2x2",
       "class": "handgun",
@@ -1415,6 +1421,7 @@
     {
       "name": "Matilda",
       "kind": "weapon",
+      "mode": "main",
       "id": 274841856,
       "size": "3x2",
       "class": "handgun",
@@ -1431,6 +1438,7 @@
     {
       "name": "W-870",
       "kind": "weapon",
+      "mode": "main",
       "id": 274995456,
       "size": "8x2",
       "class": "shotgun",
@@ -1439,6 +1447,7 @@
     {
       "name": "Riot Gun",
       "kind": "weapon",
+      "mode": "main",
       "id": 274997056,
       "size": "8x2",
       "class": "shotgun",
@@ -1447,6 +1456,7 @@
     {
       "name": "Striker",
       "kind": "weapon",
+      "mode": "main",
       "id": 274998656,
       "size": "4x2",
       "class": "shotgun",
@@ -1455,6 +1465,7 @@
     {
       "name": "TMP",
       "kind": "weapon",
+      "mode": "main",
       "id": 275155456,
       "size": "3x2",
       "class": "smg",
@@ -1463,6 +1474,7 @@
     {
       "name": "Chicago Sweeper",
       "kind": "weapon",
+      "mode": "main",
       "id": 275157056,
       "class": "smg",
       "bonus": true,
@@ -1471,6 +1483,7 @@
     {
       "name": "LE 5",
       "kind": "weapon",
+      "mode": "main",
       "id": 275158656,
       "size": "6x2",
       "class": "smg",
@@ -1479,6 +1492,7 @@
     {
       "name": "SR M1903",
       "kind": "weapon",
+      "mode": "main",
       "id": 275475456,
       "size": "9x1",
       "class": "rifle",
@@ -1487,6 +1501,7 @@
     {
       "name": "Stingray",
       "kind": "weapon",
+      "mode": "main",
       "id": 275477056,
       "size": "7x2",
       "class": "rifle",
@@ -1495,6 +1510,7 @@
     {
       "name": "CQBR Assault Rifle",
       "kind": "weapon",
+      "mode": "main",
       "id": 275478656,
       "size": "7x2",
       "class": "rifle",
@@ -1503,6 +1519,7 @@
     {
       "name": "Broken Butterfly",
       "kind": "weapon",
+      "mode": "main",
       "id": 275635456,
       "size": "3x2",
       "class": "magnum",
@@ -1511,6 +1528,7 @@
     {
       "name": "Killer7",
       "kind": "weapon",
+      "mode": "main",
       "id": 275637056,
       "size": "3x2",
       "class": "magnum",
@@ -1519,6 +1537,7 @@
     {
       "name": "Handcannon",
       "kind": "weapon",
+      "mode": "main",
       "id": 275638656,
       "class": "magnum",
       "bonus": true,
@@ -1527,6 +1546,7 @@
     {
       "name": "Bolt Thrower",
       "kind": "weapon",
+      "mode": "main",
       "id": 275795456,
       "size": "4x2",
       "class": "bolt",
@@ -1584,6 +1604,7 @@
     {
       "name": "Combat Knife",
       "kind": "weapon",
+      "mode": "main",
       "id": 276435456,
       "size": "1x3",
       "class": "knife",
@@ -1592,6 +1613,7 @@
     {
       "name": "Fighting Knife",
       "kind": "weapon",
+      "mode": "main",
       "id": 276437056,
       "size": "1x4",
       "class": "knife",
@@ -1622,6 +1644,7 @@
     {
       "name": "Primal Knife",
       "kind": "weapon",
+      "mode": "main",
       "id": 276445056,
       "class": "knife",
       "bonus": true,
@@ -1711,6 +1734,7 @@
     {
       "name": "Sentinel Nine",
       "kind": "weapon",
+      "mode": "main",
       "id": 278035456,
       "class": "handgun",
       "size": "2x3",
@@ -1720,6 +1744,7 @@
     {
       "name": "Skull Shaker",
       "kind": "weapon",
+      "mode": "main",
       "id": 278037056,
       "class": "shotgun",
       "size": "1x5",
@@ -1731,6 +1756,8 @@
       "kind": "weapon",
       "mode": "sw",
       "id": 278195456,
+      "class": "shotgun",
+      "size": "2x6",
       "weaponId": 6100
     },
     {
@@ -1738,6 +1765,8 @@
       "kind": "weapon",
       "mode": "sw",
       "id": 278197056,
+      "class": "smg",
+      "bonus": true,
       "weaponId": 6101
     },
     {
@@ -1745,6 +1774,7 @@
       "kind": "weapon",
       "mode": "sw",
       "id": 278198656,
+      "class": "bolt",
       "weaponId": 6102
     },
     {
@@ -1756,6 +1786,8 @@
       "kind": "weapon",
       "mode": "sw",
       "id": 278200256,
+      "size": "2x2",
+      "class": "handgun",
       "weaponId": 6103
     },
     {
@@ -1763,6 +1795,8 @@
       "kind": "weapon",
       "mode": "sw",
       "id": 278201856,
+      "size": "3x2",
+      "class": "smg",
       "weaponId": 6104
     },
     {
@@ -1770,13 +1804,17 @@
       "kind": "weapon",
       "mode": "sw",
       "id": 278203456,
+      "size": "7x2",
+      "class": "rifle",
       "weaponId": 6105
     },
     {
       "name": "SW - Rocket Launcher",
       "kind": "weapon",
-      "mode": "sw",
+      "mode": "disabled",
       "id": 278205056,
+      "size": "8x2",
+      "class": "special",
       "weaponId": 6106
     },
     {
@@ -1784,6 +1822,8 @@
       "kind": "weapon",
       "mode": "sw",
       "id": 278206656,
+      "size": "3x1",
+      "class": "knife",
       "weaponId": 6107
     },
     {
@@ -1791,6 +1831,7 @@
       "kind": "weapon",
       "mode": "sw",
       "id": 278208256,
+      "class": "knife",
       "weaponId": 6108
     },
     {
@@ -1801,8 +1842,10 @@
     {
       "name": "SW - Infinite Rocket Launcher",
       "kind": "weapon",
-      "mode": "sw",
+      "mode": "disabled",
       "id": 278213056,
+      "size": "8x2",
+      "class": "special",
       "weaponId": 6111
     },
     {
@@ -1810,6 +1853,8 @@
       "kind": "weapon",
       "mode": "sw",
       "id": 278214656,
+      "size": "3x2",
+      "class": "handgun",
       "weaponId": 6112
     },
     {
@@ -1817,6 +1862,8 @@
       "kind": "weapon",
       "mode": "sw",
       "id": 278216256,
+      "size": "3x2",
+      "class": "handgun",
       "weaponId": 6113
     },
     {
@@ -1824,6 +1871,8 @@
       "kind": "weapon",
       "mode": "sw",
       "id": 278217856,
+      "size": "9x1",
+      "class": "rifle",
       "weaponId": 6114
     },
     {

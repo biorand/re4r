@@ -8,21 +8,30 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class ChainsawPlayerInventory
     {
-        private const string InventoryCatalogPath = "natives/stm/_chainsaw/appsystem/inventory/inventorycatalog/inventorycatalog_main.user.2";
+        private const string InventoryCatalogPathLeon = "natives/stm/_chainsaw/appsystem/inventory/inventorycatalog/inventorycatalog_main.user.2";
+        private const string InventoryCatalogPathAda = "natives/stm/_anotherorder/appsystem/inventory/inventorycatalog/inventorycatalog_ao.user.2";
 
+        private readonly string _path;
         private readonly UserFile _inventoryCatalog;
         private readonly RszInstance _root;
+        private readonly int _index;
 
-        private ChainsawPlayerInventory(UserFile inventoryCatalog)
+        private ChainsawPlayerInventory(string path, UserFile inventoryCatalog, int index)
         {
+            _path = path;
             _inventoryCatalog = inventoryCatalog;
             _root = _inventoryCatalog.RSZ!.ObjectList[0];
+            _index = index;
         }
 
-        public static ChainsawPlayerInventory FromData(FileRepository fileRepository)
+        public static ChainsawPlayerInventory FromData(FileRepository fileRepository, Campaign campaign)
         {
-            var inventoryCatalog = GetUserFile(fileRepository, InventoryCatalogPath);
-            return new ChainsawPlayerInventory(inventoryCatalog);
+            var path = campaign == Campaign.Leon
+                ? InventoryCatalogPathLeon
+                : InventoryCatalogPathAda;
+            var inventoryCatalog = GetUserFile(fileRepository, path);
+            var index = campaign == Campaign.Leon ? 0 : 1;
+            return new ChainsawPlayerInventory(path, inventoryCatalog, index);
         }
 
         private static UserFile GetUserFile(FileRepository fileRepository, string path)
@@ -35,12 +44,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public void Save(FileRepository fileRepository)
         {
-            fileRepository.SetGameFileData(InventoryCatalogPath, _inventoryCatalog.ToByteArray());
+            fileRepository.SetGameFileData(_path, _inventoryCatalog.ToByteArray());
         }
 
         public void ClearItems()
         {
-            Data[0].InventoryItems = [];
+            PlayerData.InventoryItems = [];
         }
 
         public void AddItem(Item item)
@@ -48,14 +57,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var inventoryItem = CreateInventoryItem(item);
             inventoryItem.SlotIndexColumn = 5;
 
-            var items = Data[0].InventoryItems.ToList();
+            var items = PlayerData.InventoryItems.ToList();
             items.Add(inventoryItem);
-            Data[0].InventoryItems = items.ToArray();
+            PlayerData.InventoryItems = items.ToArray();
         }
 
         public void UpdateWeapons(ChainsawItemData itemData)
         {
-            foreach (var item in Data[0].InventoryItems)
+            foreach (var item in PlayerData.InventoryItems)
             {
                 if (item.Item is WeaponItemStack weaponStack)
                 {
@@ -72,10 +81,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public void AutoSort(ChainsawItemData itemData)
         {
-            var items = Data[0].InventoryItems
+            var items = PlayerData.InventoryItems
                 .OrderByDescending(x => itemData.GetSize(x.Item.ItemId).LongSide)
                 .ToArray();
-            Data[0].InventoryItems = items;
+            PlayerData.InventoryItems = items;
 
             var caseWidth = 10;
             var caseHeight = 7;
@@ -103,9 +112,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public void AssignShortcuts()
         {
             var directionOrder = new int[] { 3, 1, 2, 0 };
-            var items = Data[0].InventoryItems.ToArray();
-            var equips = Data[0].EquipInfos;
-            var shortcuts = Data[0].ShortcutInfos;
+            var items = PlayerData.InventoryItems.ToArray();
+            var equips = PlayerData.EquipInfos;
+            var shortcuts = PlayerData.ShortcutInfos;
             var knifeShortcut = shortcuts.First(x => x.EquipType == 1);
             var weaponShortcuts = shortcuts
                 .Where(x => x.EquipType == 0 && x.Direction != 4)
@@ -201,6 +210,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             .GetList("_Datas")
             .Select(x => new CatalogData((RszInstance)x!))
             .ToArray();
+
+        public CatalogData PlayerData => Data[_index];
 
         public sealed class CatalogData(RszInstance _instance)
         {

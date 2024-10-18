@@ -73,6 +73,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 _modifiers =
                 [
+                    new InventoryModifier(),
                     new EnemyModifier()
                 ];
             }

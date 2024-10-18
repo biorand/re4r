@@ -35,7 +35,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             var releventItems = Items
                 .Where(x => !string.IsNullOrEmpty(x.Kind))
-                .Where(x => string.IsNullOrEmpty(x.Mode))
                 .ToArray();
 
             Kinds = releventItems
