@@ -57,6 +57,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 @"natives/stm/_anotherorder/appsystem/ui/.*",
                 @"natives/stm/_anotherorder/appsystem/weapon/.*",
                 @"natives/stm/_anotherorder/appsystem/weaponcustom/.*",
+                @"natives/stm/_anotherorder/environment/scene/gimmick/.*",
                 @"natives/stm/_anotherorder/leveldesign/chapter/.*",
                 @"natives/stm/_anotherorder/leveldesign/location/.*",
                 @"natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_140[12]/.*",

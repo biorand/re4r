@@ -14,38 +14,55 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var rng = randomizer.CreateRng();
 
-            StaticChanges(randomizer, logger);
-            DisableFirstAreaInhibitor(randomizer, logger);
+            // Once
+            EnableInstantBuy(randomizer, logger);
+
+            if (randomizer.Campaign == Campaign.Leon)
+            {
+                AllowLaserSightOnAnything(randomizer, logger);
+                ImproveBoltThrower(randomizer, logger);
+                DisableFirstAreaInhibitor(randomizer, logger);
+                ForceNgPlusMerchantLeon(randomizer, logger);
+                RandomizeFirstBearTrap(randomizer, logger, rng);
+                SlowDownFactoryDoor(randomizer, logger);
+                if (randomizer.GetConfigOption<bool>("random-enemies"))
+                {
+                    ImproveKnightyKnightKnightRoom(randomizer, logger);
+                }
+                IncreaseJetSkiTimer(randomizer, logger);
+            }
+            else
+            {
+                ForceNgPlusMerchantAda(randomizer, logger);
+            }
+
             FixDeadEnemyCounters(randomizer, logger);
             FixSpawnControllers(randomizer, logger);
-            SlowDownFactoryDoor(randomizer, logger);
-            IncreaseJetSkiTimer(randomizer, logger);
-            if (randomizer.GetConfigOption<bool>("random-enemies"))
-            {
-                ImproveKnightyKnightKnightRoom(randomizer, logger);
-            }
             if (randomizer.GetConfigOption<bool>("enable-autosave-pro"))
             {
                 EnableProfessionalAutoSave(randomizer, logger);
             }
-            AllowLaserSightOnAnything(randomizer, logger);
-            RandomizeFirstBearTrap(randomizer, logger, rng);
-            EnableInstantBuy(randomizer, logger);
-            ImproveBoltThrower(randomizer, logger);
         }
 
-        private void StaticChanges(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        private void ForceNgPlusMerchantLeon(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var path = "natives/stm/_chainsaw/environment/scene/gimmick/st40/gimmick_st40_502_p000.scn.20";
-            var fileRepository = randomizer.FileRepository;
-            var data = fileRepository.GetGameFileData(path);
-            if (data == null)
-                return;
+            randomizer.FileRepository.ModifyScnFile(path, scn =>
+            {
+                scn.RemoveGameObject(new Guid("ca0ac85f-1238-49d9-a0fb-0d58a42487a1")); // merchant
+                scn.RemoveGameObject(new Guid("4a975fc1-2e1c-4fd3-a49a-1f35d6a30f0f")); // merchant flame
+            });
+        }
 
-            var scn = ChainsawRandomizerFactory.Default.ReadScnFile(data);
-            scn.RemoveGameObject(new Guid("ca0ac85f-1238-49d9-a0fb-0d58a42487a1"));
-            scn.RemoveGameObject(new Guid("4a975fc1-2e1c-4fd3-a49a-1f35d6a30f0f"));
-            fileRepository.SetGameFileData(path, scn.ToByteArray());
+        private void ForceNgPlusMerchantAda(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            var path = "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_501_ao.scn.20";
+            randomizer.FileRepository.ModifyScnFile(path, scn =>
+            {
+                scn.RemoveGameObject(new Guid("41a87b99-d47f-438d-a686-f19e6865379e")); // merchant
+                scn.RemoveGameObject(new Guid("33ba7a17-4b7d-4a23-b272-c5afcd62f3f1")); // merchant flame
+                scn.RemoveGameObject(new Guid("bf5cc10b-ff6b-46be-99e3-814629dfcff8")); // typwriter
+            });
         }
 
         private void DisableFirstAreaInhibitor(ChainsawRandomizer randomizer, RandomizerLogger logger)

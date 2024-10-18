@@ -15,6 +15,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         private FileRepository _fileRepository = new FileRepository();
         private RandomizerInput _input = new RandomizerInput();
+        private bool _supplementApplied;
         private ValuableDistributor? _valuableDistributor;
         private ItemRandomizer? _itemRandomizer;
         private ImmutableArray<Modifier> _modifiers = GetModifiers();
@@ -73,6 +74,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 _modifiers =
                 [
+                    new FixesModifier(),
                     new InventoryModifier(),
                     new EnemyModifier()
                 ];
@@ -87,16 +89,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 l.LogLine($"Campaign = {campaign}");
                 l.LogHr();
             }
+
+            ApplySupplement();
+
             var areas = GetAreas(campaign);
 
             _itemRandomizer = new ItemRandomizer(this, logger.Process);
-
-            // Supplement files
-            if (campaign == Campaign.Leon)
-            {
-                ApplyOverlay(Resources.supplement);
-                ApplyOverlay(Resources.delorca);
-            }
 
             var rng = new Rng(input.Seed);
             _rng = rng;
@@ -145,6 +143,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
 
             return logger;
+        }
+
+        private void ApplySupplement()
+        {
+            // Supplement files
+            if (!_supplementApplied)
+            {
+                _supplementApplied = true;
+                ApplyOverlay(Resources.supplement);
+                ApplyOverlay(Resources.delorca);
+            }
         }
 
         private void ApplyOverlay(byte[] zipData)
