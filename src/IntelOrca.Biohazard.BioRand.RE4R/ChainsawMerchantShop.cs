@@ -7,27 +7,42 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class ChainsawMerchantShop
     {
-        private const string ItemSettingsPath = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopitemsettinguserdata.user.2";
-        private const string StockAdditionSettingsPath = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopstockadditionsettinguserdata.user.2";
-        private const string RewardSettingsPath = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshoprewardsettinguserdata.user.2";
+        private const string ItemSettingsPathLeon = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopitemsettinguserdata.user.2";
+        private const string StockAdditionSettingsPathLeon = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopstockadditionsettinguserdata.user.2";
+        private const string RewardSettingsPathLeon = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshoprewardsettinguserdata.user.2";
+        private const string ItemSettingsPathAda = "natives/stm/_anotherorder/appsystem/ui/userdata/ingameshopitemsettinguserdata_ao.user.2";
+        private const string StockAdditionSettingsPathAda = "natives/stm/_anotherorder/appsystem/ui/userdata/ingameshopstockadditionsettinguserdata_ao.user.2";
+        private const string RewardSettingsPathAda = "natives/stm/_anotherorder/appsystem/ui/userdata/ingameshoprewardsettinguserdata_ao.user.2";
+
+        private readonly Campaign _campaign;
+        private readonly string _itemSettingsPath;
+        private readonly string _stockAdditionSettingsPath;
+        private readonly string _rewardSettingsPath;
         private readonly UserFile _itemSettings;
         private readonly UserFile _stockAdditionSettings;
         private readonly UserFile _rewardSettings;
 
-        private ChainsawMerchantShop(UserFile itemSettings, UserFile stockAdditionSettings, UserFile rewardSettings)
+        private ChainsawMerchantShop(FileRepository fileRepository, Campaign campaign)
         {
-            _itemSettings = itemSettings;
-            _stockAdditionSettings = stockAdditionSettings;
-            _rewardSettings = rewardSettings;
+            _campaign = campaign;
+            if (campaign == Campaign.Leon)
+            {
+                _itemSettingsPath = ItemSettingsPathLeon;
+                _stockAdditionSettingsPath = StockAdditionSettingsPathLeon;
+                _rewardSettingsPath = RewardSettingsPathLeon;
+            }
+            else
+            {
+                _itemSettingsPath = ItemSettingsPathAda;
+                _stockAdditionSettingsPath = StockAdditionSettingsPathAda;
+                _rewardSettingsPath = RewardSettingsPathAda;
+            }
+            _itemSettings = GetUserFile(fileRepository, _itemSettingsPath);
+            _stockAdditionSettings = GetUserFile(fileRepository, _stockAdditionSettingsPath);
+            _rewardSettings = GetUserFile(fileRepository, _rewardSettingsPath);
         }
 
-        public static ChainsawMerchantShop FromData(FileRepository fileRepository)
-        {
-            var itemSettings = GetUserFile(fileRepository, ItemSettingsPath);
-            var stockAdditionSettings = GetUserFile(fileRepository, StockAdditionSettingsPath);
-            var rewardSettings = GetUserFile(fileRepository, RewardSettingsPath);
-            return new ChainsawMerchantShop(itemSettings, stockAdditionSettings, rewardSettings);
-        }
+        public static ChainsawMerchantShop FromData(FileRepository fileRepository, Campaign campaign) => new ChainsawMerchantShop(fileRepository, campaign);
 
         private static UserFile GetUserFile(FileRepository fileRepository, string path)
         {
@@ -39,9 +54,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public void Save(FileRepository fileRepository)
         {
-            fileRepository.SetGameFileData(ItemSettingsPath, _itemSettings.ToByteArray());
-            fileRepository.SetGameFileData(StockAdditionSettingsPath, _stockAdditionSettings.ToByteArray());
-            fileRepository.SetGameFileData(RewardSettingsPath, _rewardSettings.ToByteArray());
+            fileRepository.SetGameFileData(_itemSettingsPath, _itemSettings.ToByteArray());
+            fileRepository.SetGameFileData(_stockAdditionSettingsPath, _stockAdditionSettings.ToByteArray());
+            fileRepository.SetGameFileData(_rewardSettingsPath, _rewardSettings.ToByteArray());
         }
 
         public void ClearRewards()

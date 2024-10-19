@@ -258,6 +258,7 @@
     {
       "name": "Matilda Stock",
       "kind": "attachment",
+      "mode": "main",
       "id": 116009600,
       "weapons": [ 274841856 ]
     },
@@ -1083,6 +1084,7 @@
     {
       "name": "Recipe: Bolts",
       "kind": "recipe",
+      "mode": "main",
       "id": 124329600
     },
     {
@@ -1096,6 +1098,7 @@
     {
       "name": "Recipe: Attachable Mines",
       "kind": "recipe",
+      "mode": "main",
       "id": 124334400
     },
     {

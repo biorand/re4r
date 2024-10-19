@@ -70,20 +70,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         private void RandomizeChapters(ItemRandomizer itemRandomizer, Rng rng)
         {
             var numCharms = randomizer.GetConfigOption("valuable-limit-charm", 0);
+            var numSmallKeysPerBag = 6;
 
             var bag4 = new EndlessBag<int>(rng, Enumerable.Range(1, 4));
             var bag5_11 = new EndlessBag<int>(rng, Enumerable.Range(5, 7));
             var bag14 = new EndlessBag<int>(rng, Enumerable.Range(1, 14));
+            if (randomizer.Campaign == Campaign.Ada)
+            {
+                numSmallKeysPerBag = 3;
+                bag4 = new EndlessBag<int>(rng, [1, 2, 3]);
+                bag5_11 = new EndlessBag<int>(rng, [4, 5]);
+                bag14 = new EndlessBag<int>(rng, Enumerable.Range(1, 7));
+            }
+
             foreach (var kind in _kinds)
             {
                 if (kind == ItemKinds.SmallKey)
                 {
                     var itemDefinition = ItemDefinitionRepository.Default.Find(ItemIds.SmallKey);
-                    for (var i = 0; i < 6; i++)
+                    for (var i = 0; i < numSmallKeysPerBag; i++)
                     {
                         AddItem(bag4.Next(), itemDefinition);
                     }
-                    for (var i = 0; i < 6; i++)
+                    for (var i = 0; i < numSmallKeysPerBag; i++)
                     {
                         AddItem(bag5_11.Next(), itemDefinition);
                     }
@@ -112,7 +121,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                             itemDefinition.Id == ItemIds.RecipeMinesAmmo ||
                             itemDefinition.Id == ItemIds.RecipeFlashGrenade;
                         var chapter = isEssential
-                            ? bag4.Next() // Ensure we get essential items before cabin
+                            ? bag4.Next() // Ensure we get essential items before cabin (or castle for SW)
                             : bag14.Next();
 
                         AddItem(chapter, itemDefinition);

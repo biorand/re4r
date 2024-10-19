@@ -12,7 +12,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            _shop ??= ChainsawMerchantShop.FromData(randomizer.FileRepository);
+            _shop ??= ChainsawMerchantShop.FromData(randomizer.FileRepository, randomizer.Campaign);
             var shop = _shop;
             var itemRepo = ItemDefinitionRepository.Default;
 
@@ -20,8 +20,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .GroupBy(x => x.UnlockChapter)
                 .ToDictionary(x => x.Key, x => x.ToArray());
 
+            var firstChapter = randomizer.Campaign == Campaign.Leon ? 0 : 17;
             var chapterRewards = shop.Rewards
-                .GroupBy(x => x.StartChapter)
+                .GroupBy(x => x.StartChapter == 0 ? firstChapter : x.StartChapter)
                 .ToDictionary(x => x.Key, x => x.OrderBy(x => x.SpinelCount).ToArray());
 
             var chapters = chapterItems.Keys
@@ -35,7 +36,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var pushedHeading = false;
                 var rewards = chapterRewards.GetValueOrDefault(chapter, []);
                 var items = chapterItems.GetValueOrDefault(chapter, []);
-                var chapterNumber = chapter + 1;
+                var chapterNumber = GetChapterNumber(chapter);
+                if (chapterNumber < 0)
+                    continue;
+
                 foreach (var reward in rewards)
                 {
                     var item = itemRepo.Find(reward.ItemId);
@@ -74,7 +78,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         logger.Push();
                         foreach (var sale in shopItem.Sales)
                         {
-                            logger.LogLine($"{-sale.SaleRate}% discount between chapter {sale.StartTiming + 1} and {sale.EndTiming + 1}");
+                            var startChapter = GetChapterNumber(sale.StartTiming);
+                            var endChapter = GetChapterNumber(sale.EndTiming);
+                            logger.LogLine($"{-sale.SaleRate}% discount between chapter {startChapter} and {endChapter}");
                         }
                         logger.Pop();
                     }
@@ -82,6 +88,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (pushedHeading)
                     logger.Pop();
             }
+
+            int GetChapterNumber(int chapter) => randomizer.Campaign == Campaign.Ada ? chapter - 16 : chapter + 1;
         }
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -89,7 +97,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("random-merchant"))
                 return;
 
-            _shop ??= ChainsawMerchantShop.FromData(randomizer.FileRepository);
+            _shop ??= ChainsawMerchantShop.FromData(randomizer.FileRepository, randomizer.Campaign);
 
             var rng = randomizer.CreateRng();
             var internalRandomizer = new ShopRandomizer(rng, randomizer, _shop, logger);
@@ -113,6 +121,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             private readonly Rng _priceRng = rng.NextFork();
 
             private ItemRandomizer ItemRandomizer => randomizer.ItemRandomizer;
+
+            private int ConvertChapterNumber(int chapter) => randomizer.Campaign == Campaign.Ada ? Math.Max(17, chapter + 16) : chapter;
 
             public void Go()
             {
@@ -195,7 +205,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 for (var i = 0; i < rng.Next(1, 3); i++)
                 {
                     var item = CreateAvailableItem(ItemIds.ExclusiveUpgradeTicket);
-                    item.UnlockChapter = rng.Next(1, 10);
+                    item.UnlockChapter = rng.Next(1, randomizer.Campaign == Campaign.Leon ? 10 : 8);
                     RandomizePrice(item, spinel: true);
                 }
 
@@ -232,7 +242,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 foreach (var treasure in treasures)
                 {
                     var item = CreateAvailableItem(treasure);
-                    item.UnlockChapter = rng.Next(0, 10);
+                    item.UnlockChapter = rng.Next(0, randomizer.Campaign == Campaign.Leon ? 10 : 8);
                     RandomizePrice(item, spinel: true);
                 }
             }
@@ -275,12 +285,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         return;
 
                     var unlockChapter = item.UnlockChapter;
-                    if (unlockChapter == 1)
-                        unlockChapter = 0;
+                    var convertedUnlockChapter = unlockChapter <= 1
+                        ? 0
+                        : ConvertChapterNumber(unlockChapter);
 
-                    var reward = shop.AddReward(new Item(item.ItemDefinition.Id, item.Quantity), item.SpinelPrice, item.UnlimitedReward, unlockChapter);
+                    var reward = shop.AddReward(
+                        new Item(item.ItemDefinition.Id, item.Quantity),
+                        item.SpinelPrice,
+                        item.UnlimitedReward,
+                        convertedUnlockChapter);
                     // logger.LogLine($"Add reward {reward.RewardId} {item} Cost = {reward.SpinelCount} spinel Chapter = {reward.StartChapter}");
                 }
+            }
+
+            private bool IsSupportedItem(ItemDefinition item)
+            {
+                var mode = item.Mode;
+                if (string.IsNullOrEmpty(mode))
+                    return true;
+                if (randomizer.Campaign == Campaign.Leon && mode == "main")
+                    return true;
+                if (randomizer.Campaign == Campaign.Ada && mode == "sw")
+                    return true;
+                return false;
             }
 
             private void SetShop()
@@ -296,18 +323,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         if (shopItem.BuyPrice != -1)
                         {
                             var itemDefinition = itemRepo.Find(shopItem.ItemId);
-                            if (itemDefinition != null)
+                            if (itemDefinition == null || IsSupportedItem(itemDefinition))
                             {
-                                item = new AvailableItem(itemDefinition);
-                                RandomizePrice(item, spinel: false);
-                                shopItem.BuyPrice = item.BuyPrice;
-                                shopItem.SellPrice = item.SellPrice;
-                            }
+                                if (itemDefinition != null)
+                                {
+                                    item = new AvailableItem(itemDefinition);
+                                    RandomizePrice(item, spinel: false);
+                                    shopItem.BuyPrice = item.BuyPrice;
+                                    shopItem.SellPrice = item.SellPrice;
+                                }
 
-                            shopItem.UnlockCondition = 4;
-                            shopItem.UnlockFlag = Guid.Empty;
-                            shopItem.UnlockChapter = 0;
-                            shopItem.SpCondition = 1;
+                                shopItem.UnlockCondition = 4;
+                                shopItem.UnlockFlag = Guid.Empty;
+                                shopItem.UnlockChapter = ConvertChapterNumber(0);
+                                shopItem.SpCondition = 1;
+                            }
                         }
                     }
                     else
@@ -316,7 +346,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         shopItem.SellPrice = item.SellPrice;
                         shopItem.UnlockCondition = 2;
                         shopItem.UnlockFlag = Guid.Empty;
-                        shopItem.UnlockChapter = Math.Max(0, item.UnlockChapter - 1);
+                        shopItem.UnlockChapter = ConvertChapterNumber(Math.Max(0, item.UnlockChapter - 1));
                         shopItem.SpCondition = 1;
                         shopItem.EnableStockSetting = item.MaxStock != 0;
                         shopItem.EnableSelectCount = item.MaxStock != 0;
@@ -325,9 +355,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
 
                     // Make items unlock at first chapter work
-                    if (shopItem.UnlockCondition != 4 && shopItem.UnlockChapter <= 0)
+                    if (shopItem.UnlockCondition != 4 && (shopItem.UnlockChapter <= 0 || shopItem.UnlockChapter == 17))
                     {
-                        shopItem.UnlockChapter = 0;
+                        shopItem.UnlockChapter = ConvertChapterNumber(0);
                         shopItem.UnlockCondition = 0;
                         shopItem.SpCondition = 0;
                     }
@@ -341,7 +371,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     // Sale change
                     if ((item?.Discount ?? 0) != 0)
                     {
-                        shopItem.SetSale(shop, item!.DiscountStartChapter, item.DiscountEndChapter, -item.Discount);
+                        shopItem.SetSale(
+                            shop,
+                            ConvertChapterNumber(item!.DiscountStartChapter),
+                            ConvertChapterNumber(item.DiscountEndChapter),
+                            -item.Discount);
                         // logger.LogLine($"    {item.Discount}% discount at chapter {item.DiscountStartChapter} to {item.DiscountEndChapter}");
                     }
                     else
