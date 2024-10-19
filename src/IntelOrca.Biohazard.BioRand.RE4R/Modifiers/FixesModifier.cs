@@ -23,6 +23,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 ImproveBoltThrower(randomizer, logger);
                 DisableFirstAreaInhibitor(randomizer, logger);
                 ForceNgPlusMerchantLeon(randomizer, logger);
+                ForceWindmillMerchantLeon(randomizer, logger);
                 RandomizeFirstBearTrap(randomizer, logger, rng);
                 SlowDownFactoryDoor(randomizer, logger);
                 if (randomizer.GetConfigOption<bool>("random-enemies"))
@@ -51,6 +52,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 scn.RemoveGameObject(new Guid("ca0ac85f-1238-49d9-a0fb-0d58a42487a1")); // merchant
                 scn.RemoveGameObject(new Guid("4a975fc1-2e1c-4fd3-a49a-1f35d6a30f0f")); // merchant flame
+            });
+        }
+
+        private void ForceWindmillMerchantLeon(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            var path = "natives/stm/_chainsaw/environment/scene/gimmick/st43/gimmick_st43_901.scn.20";
+            randomizer.FileRepository.ModifyScnFile(path, scn =>
+            {
+                scn.RemoveGameObject(new Guid("92503f9d-48cf-43b0-896f-ac4fd8c1220b")); // merchant
             });
         }
 
