@@ -298,18 +298,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
-            private bool IsSupportedItem(ItemDefinition item)
-            {
-                var mode = item.Mode;
-                if (string.IsNullOrEmpty(mode))
-                    return true;
-                if (randomizer.Campaign == Campaign.Leon && mode == "main")
-                    return true;
-                if (randomizer.Campaign == Campaign.Ada && mode == "sw")
-                    return true;
-                return false;
-            }
-
             private void SetShop()
             {
                 var itemRandomizer = randomizer.ItemRandomizer;
@@ -323,7 +311,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         if (shopItem.BuyPrice != -1)
                         {
                             var itemDefinition = itemRepo.Find(shopItem.ItemId);
-                            if (itemDefinition == null || IsSupportedItem(itemDefinition))
+                            if (itemDefinition == null || itemDefinition.SupportsCampaign(randomizer.Campaign))
                             {
                                 if (itemDefinition != null)
                                 {

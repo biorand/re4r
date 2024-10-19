@@ -87,11 +87,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         private bool IsItemSupported(ItemDefinition itemDefinition)
         {
-            if (itemDefinition.Mode == "main")
-                return _randomizer.Campaign == Campaign.Leon;
-            else if (itemDefinition.Mode == "sw")
-                return _randomizer.Campaign == Campaign.Ada;
-            else if (!string.IsNullOrEmpty(itemDefinition.Mode))
+            if (!itemDefinition.SupportsCampaign(_randomizer.Campaign))
                 return false;
             if (itemDefinition.Bonus)
                 return _allowBonusItems;

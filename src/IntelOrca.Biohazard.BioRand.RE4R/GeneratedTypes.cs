@@ -253,7 +253,7 @@ namespace chainsaw
         }
         internal class Strength
         {
-            public System.Collections.Generic.List<System.Int32> _DurabilityMaxes { get; set; }
+            public System.Collections.Generic.List<System.Int32> _DurabilityMaxes { get; set; } = [];
         }
         internal class LimitBreakCriticalRate
         {
@@ -530,7 +530,7 @@ namespace chainsaw
         internal class CustomStrength
         {
             public System.Guid _MessageId { get; set; }
-            public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.StrengthCustomStage> _StrengthCustomStages { get; set; }
+            public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.StrengthCustomStage> _StrengthCustomStages { get; set; } = [];
         }
         internal class AmmoMaxUpParam
         {
@@ -623,7 +623,7 @@ namespace chainsaw
         {
             public System.Int32 _Cost { get; set; }
             public System.String _Info { get; set; }
-            public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.StrengthParam> _StrengthParams { get; set; }
+            public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.StrengthParam> _StrengthParams { get; set; } = [];
         }
         internal class ItemStage
         {

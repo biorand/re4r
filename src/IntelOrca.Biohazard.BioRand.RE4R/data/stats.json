@@ -6,7 +6,9 @@
         4002, // Red9
         4003, // Blacktail
         4004, // Matilda
-        6000 // Sentinel Nine
+        6000, // Sentinel Nine
+        6103, // Blacktail AC (SW)
+        6113 // Red9 (SW)
       ],
       "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
       "ammoCapacity": [ [ 4, 12 ], [ 8, 24 ], [ 24, 64 ] ],
@@ -17,7 +19,8 @@
     },
     {
       "include": [
-        4001 // Punisher
+        4001, // Punisher
+        6112 // Punisher MC (SW)
       ],
       "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
       "ammoCapacity": [ [ 4, 12 ], [ 8, 24 ], [ 24, 64 ] ],
@@ -31,7 +34,8 @@
         4100, // W-870
         4101, // Riot Gun
         4102, // Striker
-        6001 // Skull Shaker
+        6001, // Skull Shaker
+        6100 // Sawed-off W-870 (SW)
       ],
       "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
       "ammoCapacity": [ [ 2, 12 ], [ 4, 16 ], [ 16, 32 ] ],
@@ -45,7 +49,8 @@
       "include": [
         4200, // TMP
         4201, // Chicago Sweeper
-        4202 // LE 5
+        4202, // LE 5
+        6104 // TMP (SW)
       ],
       "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
       "ammoCapacity": [ [ 15, 30 ], [ 30, 200 ], [ 200, 500 ] ],
@@ -55,7 +60,8 @@
     },
     {
       "include": [
-        4400 // SR M1903
+        4400, // SR M1903
+        6114 // SR M1903 (SW)
       ],
       "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
       "ammoCapacity": [ [ 2, 8 ], [ 8, 16 ], [ 16, 32 ] ],
@@ -66,7 +72,8 @@
     },
     {
       "include": [
-        4401 // Stingray
+        4401, // Stingray
+        6105 // Stingray (SW)
       ],
       "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
       "ammoCapacity": [ [ 6, 12 ], [ 12, 24 ], [ 24, 64 ] ],
@@ -107,11 +114,19 @@
       "include": [
         5000, // Combat Knife
         5001, // Fighting Knife
-        5006 // Primal Knife
+        5006, // Primal Knife
+        6107 // Tactical Knife (SW)
       ],
       "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
       "criticalRate": [ [ 1, 1 ], [ 10, 20 ], [ 20, 40 ] ],
       "durability": [ [ 1000, 1000 ], [ 1600, 3200 ], [ 3200, 6400 ] ]
+    },
+    {
+      "include": [
+        6108 // Elite Knife (SW)
+      ],
+      "power": [ [ 1, 1 ], [ 1.5, 3 ], [ 3, 8 ] ],
+      "criticalRate": [ [ 1, 1 ], [ 10, 20 ], [ 20, 40 ] ]
     },
     {
       "include": [
@@ -124,6 +139,13 @@
       "reloadSpeed": [ [ 1, 1 ], [ 2, 4 ], [ 4, 8 ] ],
       "reloadRounds": [ [ 1, 1 ], [ 5, 10 ], [ 10, 20 ] ],
       "fireRate": [ [ 1, 1 ], [ 0.7, 0.4 ], [ 0.4, 0.1 ] ]
+    },
+    {
+      "include": [
+        6102 // Blast Crossbow (SW)
+      ],
+      "power": [ [ 1, 1 ], [ 1.5, 2 ], [ 2, 3 ] ],
+      "reloadSpeed": [ [ 1, 1 ], [ 1, 2 ], [ 2, 4 ] ]
     }
   ]
 }

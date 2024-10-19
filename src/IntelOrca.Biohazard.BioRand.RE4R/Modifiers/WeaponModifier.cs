@@ -11,22 +11,37 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
     internal partial class WeaponModifier : Modifier
     {
-        private const string WeaponCustomUserDataPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weaponcustomuserdata.user.2";
-        private const string WeaponDetailCustomUserDataPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2";
         private const string WeaponCustomMsgPath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_wpcustom.msg.22";
         private const string ShopMsgPath = "natives/stm/_chainsaw/message/mes_main_sys/ch_mes_main_sys_shop.msg.22";
 
         private Func<string, Guid> _addMessage = _ => default;
         private Dictionary<int, int> _startAmmoCapacity = new();
 
+        private static string GetMainPath(ChainsawRandomizer randomizer)
+        {
+            return randomizer.Campaign == Campaign.Leon ?
+                "natives/stm/_chainsaw/appsystem/weaponcustom/weaponcustomuserdata.user.2" :
+                "natives/stm/_anotherorder/appsystem/weaponcustom/weaponcustomuserdata_ao.user.2";
+        }
+
+        private static string GetDetailPath(ChainsawRandomizer randomizer)
+        {
+            return randomizer.Campaign == Campaign.Leon ?
+                "natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2" :
+                "natives/stm/_anotherorder/appsystem/weaponcustom/weapondetailcustomuserdata_ao.user.2";
+        }
+
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var mainFile = randomizer.FileRepository.GetUserFile(WeaponCustomUserDataPath);
-            var detailFile = randomizer.FileRepository.GetUserFile(WeaponDetailCustomUserDataPath);
+            var mainFile = randomizer.FileRepository.GetUserFile(GetMainPath(randomizer));
+            var detailFile = randomizer.FileRepository.GetUserFile(GetDetailPath(randomizer));
             var wpCustomMsg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath);
             var weaponStatCollection = new WeaponStatCollection(mainFile, detailFile);
             foreach (var wp in weaponStatCollection.Weapons)
             {
+                if (wp.ItemDefinition?.SupportsCampaign(randomizer.Campaign) != true)
+                    continue;
+
                 logger.Push($"Weapon {wp.Name}");
                 foreach (var m in wp.Modifiers)
                 {
@@ -78,8 +93,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var shopMsg = randomizer.FileRepository.GetMsgFile(ShopMsgPath).ToBuilder();
             var wpMsg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath).ToBuilder();
-            var mainFile = randomizer.FileRepository.GetUserFile(WeaponCustomUserDataPath);
-            var detailFile = randomizer.FileRepository.GetUserFile(WeaponDetailCustomUserDataPath);
+            var mainFile = randomizer.FileRepository.GetUserFile(GetMainPath(randomizer));
+            var detailFile = randomizer.FileRepository.GetUserFile(GetDetailPath(randomizer));
 
             shopMsg.SetStringAll(new Guid("6f60b94f-1766-4c98-8335-a69958e2d927"), "Critical Hit Rate");
             shopMsg.SetStringAll(new Guid("db128948-0960-4147-814d-fec706a5c34a"), "Penetration Power");
@@ -88,6 +103,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var weaponStatCollection = new WeaponStatCollection(mainFile, detailFile);
             foreach (var wp in weaponStatCollection.Weapons)
             {
+                if (wp.ItemDefinition?.SupportsCampaign(randomizer.Campaign) != true)
+                    continue;
+
                 LogWeaponChanges(wp, logger, () =>
                 {
                     if (randomExclusives)
@@ -103,8 +121,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             weaponStatCollection.Apply();
 
-            randomizer.FileRepository.SetUserFile(WeaponCustomUserDataPath, mainFile);
-            randomizer.FileRepository.SetUserFile(WeaponDetailCustomUserDataPath, detailFile);
+            randomizer.FileRepository.SetUserFile(GetMainPath(randomizer), mainFile);
+            randomizer.FileRepository.SetUserFile(GetDetailPath(randomizer), detailFile);
             randomizer.FileRepository.SetMsgFile(WeaponCustomMsgPath, wpMsg.ToMsg());
             randomizer.FileRepository.SetMsgFile(ShopMsgPath, shopMsg.ToMsg());
 
@@ -407,7 +425,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void RandomizeDurability(WeaponStats stat, int[] values)
         {
-            var durability = stat.Modifiers.OfType<DurabilityUpgrade>().First();
+            var durability = stat.Modifiers.OfType<DurabilityUpgrade>().FirstOrDefault();
+            if (durability == null)
+            {
+                var cost = new[] { 0, 5_000, 10_000, 15_000, 20_000 };
+                durability = new DurabilityUpgrade
+                {
+                    MessageId = _addMessage("Increase durability."),
+                    Levels = [.. cost.Select(x => new DurabilityUpgradeLevel(x, "0.0", 0))]
+                };
+                stat.Modifiers = stat.Modifiers.Add(durability);
+            }
             var levels = durability.Levels.ToArray();
             for (var i = 0; i < 5; i++)
             {
@@ -524,14 +552,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void UpdateItemDefinitions(ChainsawRandomizer randomizer)
         {
-            var files = new[]
-            {
-                "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2",
-                "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1401/itemdefinitionuserdata_dlc_1401.user.2",
-                "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1402/itemdefinitionuserdata_dlc_1402.user.2"
-            };
-
-            foreach (var file in files)
+            foreach (var file in GetDataFiles(randomizer))
             {
                 var userFile = randomizer.FileRepository.GetUserFile(file);
                 if (userFile == null)
@@ -554,6 +575,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
 
                 randomizer.FileRepository.SetUserFile(file, userFile);
+            }
+        }
+
+        private static string[] GetDataFiles(ChainsawRandomizer randomizer)
+        {
+            if (randomizer.Campaign == Campaign.Leon)
+            {
+                return
+                [
+                    "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2",
+                    "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1401/itemdefinitionuserdata_dlc_1401.user.2",
+                    "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1402/itemdefinitionuserdata_dlc_1402.user.2"
+                ];
+            }
+            else
+            {
+                return
+                [
+                    "natives/stm/_anotherorder/appsystem/ui/userdata/itemdefinitionuserdata_ao.user.2",
+                    "natives/stm/_anotherorder/appsystem/ui/userdata/itemdefinitionuserdata_ovr_ao.user.2"
+                ];
             }
         }
 

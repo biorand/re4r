@@ -70,18 +70,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public RandomizerLoggerIO Randomize(RandomizerInput input, Campaign campaign)
         {
             Campaign = campaign;
-            if (campaign == Campaign.Ada)
-            {
-                _modifiers =
-                [
-                    new FixesModifier(),
-                    new InventoryModifier(),
-                    new MerchantShopModifier(),
-                    new ItemModifier(),
-                    new LevelItemModifier(),
-                    new EnemyModifier()
-                ];
-            }
 
             var logger = new RandomizerLoggerIO();
             foreach (var l in new[] { logger.Input, logger.Process, logger.Output })

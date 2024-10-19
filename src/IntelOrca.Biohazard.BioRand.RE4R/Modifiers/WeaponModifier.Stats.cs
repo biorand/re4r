@@ -124,6 +124,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             public int Id { get; }
             public ImmutableArray<IWeaponModifier> Modifiers { get; set; }
+            public ItemDefinition? ItemDefinition => ItemDefinitionRepository.Default.FromWeaponId(Id);
 
             public WeaponStats(WeaponStage main, WeaponDetailStage detail)
             {
@@ -404,6 +405,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         internal class DurabilityUpgrade(CustomStrength main, Strength detail) : IWeaponUpgrade
         {
+            public DurabilityUpgrade() : this(new CustomStrength(), new Strength()) { }
+
             public WeaponUpgradeKind Kind => WeaponUpgradeKind.AmmoCapacity;
             public object Main => new Individual()
             {
@@ -415,7 +418,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 _IndividualCustomCategory = Categories.Durability,
                 _Strength = detail
             };
-            public Guid MessageId => main._MessageId;
+            public Guid MessageId
+            {
+                get => main._MessageId;
+                set => main._MessageId = value;
+            }
             public ImmutableArray<DurabilityUpgradeLevel> Levels
             {
                 get

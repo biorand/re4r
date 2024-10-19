@@ -1558,12 +1558,14 @@
     {
       "name": "it_wp4600_10_0",
       "id": 275795616,
-      "weaponId": 4701
+      "weaponId": 4701,
+      "mode": "disabled"
     },
     {
       "name": "it_wp4701_00_0",
       "id": 275957056,
-      "weaponId": 4702
+      "weaponId": 4702,
+      "mode": "disabled"
     },
     {
       "name": "it_wp4702_00_0",

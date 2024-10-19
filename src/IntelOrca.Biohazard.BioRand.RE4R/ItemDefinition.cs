@@ -22,5 +22,17 @@
         public int Height => int.Parse((Size ?? "2x2").Split('x')[1]);
 
         public override string ToString() => Name ?? Id.ToString();
+
+        public bool SupportsCampaign(Campaign campaign)
+        {
+            var mode = Mode;
+            if (mode == "main")
+                return campaign == Campaign.Leon;
+            else if (mode == "sw")
+                return campaign == Campaign.Ada;
+            else if (!string.IsNullOrEmpty(mode))
+                return false;
+            return true;
+        }
     }
 }
