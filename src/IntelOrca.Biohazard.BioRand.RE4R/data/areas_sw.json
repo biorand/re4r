@@ -36,5 +36,6 @@
     }
   ],
   "items": [
+    { "chapter": 1, "path": "natives/stm/_anotherorder/leveldesign/location/loc50/item_loc50.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc50/item_loc50_itemdata.user.2" }
   ]
 }

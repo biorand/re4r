@@ -14,7 +14,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var itemRepo = ItemDefinitionRepository.Default;
             var fileRepository = randomizer.FileRepository;
-            foreach (var area in AreaDefinitionRepository.Leon.Items)
+            var areaRepository = AreaDefinitionRepository.GetRepository(randomizer.Campaign);
+            foreach (var area in areaRepository.Items)
             {
                 if (area.DataPath == null)
                     continue;
@@ -62,10 +63,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("random-items"))
                 return;
 
-            var fileRepository = randomizer.FileRepository;
             var rng = randomizer.CreateRng();
 
-            var levelItems = GetAllItems(fileRepository);
+            var levelItems = GetAllItems(randomizer);
             RandomizeItems(randomizer, levelItems, rng, logger);
             UpdateItemData(randomizer, levelItems);
             if (!randomizer.GetConfigOption<bool>("preserve-item-models"))
@@ -74,11 +74,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private ImmutableArray<LevelItem> GetAllItems(FileRepository fileRepository)
+        private ImmutableArray<LevelItem> GetAllItems(ChainsawRandomizer randomizer)
         {
             var itemRepo = ItemDefinitionRepository.Default;
             var levelItems = ImmutableArray.CreateBuilder<LevelItem>();
-            foreach (var area in AreaDefinitionRepository.Leon.Items)
+            var fileRepository = randomizer.FileRepository;
+            var areaRepository = AreaDefinitionRepository.GetRepository(randomizer.Campaign);
+            foreach (var area in areaRepository.Items)
             {
                 if (area.DataPath == null)
                     continue;
@@ -243,7 +245,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var map = levelItems.ToDictionary(x => x.ContextId);
             var itemRepo = ItemDefinitionRepository.Default;
             var fileRepository = randomizer.FileRepository;
-            foreach (var area in AreaDefinitionRepository.Leon.Items)
+            var areaRepository = AreaDefinitionRepository.GetRepository(randomizer.Campaign);
+            foreach (var area in areaRepository.Items)
             {
                 var userFile = fileRepository.GetUserFile(area.DataPath);
                 if (userFile == null)
@@ -278,7 +281,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var map = levelItems.ToDictionary(x => x.ContextId);
             var fileRepository = randomizer.FileRepository;
-            foreach (var area in AreaDefinitionRepository.Leon.Items)
+            var areaRepository = AreaDefinitionRepository.GetRepository(randomizer.Campaign);
+            foreach (var area in areaRepository.Items)
             {
                 if (area.Path == null)
                     continue;

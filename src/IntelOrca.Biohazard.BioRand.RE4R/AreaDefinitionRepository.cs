@@ -10,6 +10,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public AreaDefinition[] Areas { get; set; } = [];
         public ItemAreaDefinition[] Items { get; set; } = [];
 
+        public static AreaDefinitionRepository GetRepository(Campaign campaign)
+        {
+            return campaign == Campaign.Leon ? Leon : Ada;
+        }
+
         public static AreaDefinitionRepository Leon
         {
             get
