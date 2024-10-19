@@ -12,7 +12,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var fileRepository = randomizer.FileRepository;
-            foreach (var path in AreaDefinitionRepository.Default.Gimmicks)
+            var areaRepo = randomizer.Campaign == Campaign.Leon
+                ? AreaDefinitionRepository.Leon
+                : AreaDefinitionRepository.Ada;
+            foreach (var path in areaRepo.Gimmicks)
             {
                 logger.Push($"{Path.GetFileName(path)}");
 
@@ -31,7 +34,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var fileRepository = randomizer.FileRepository;
-            foreach (var path in AreaDefinitionRepository.Default.Gimmicks)
+            var areaRepo = randomizer.Campaign == Campaign.Leon
+                ? AreaDefinitionRepository.Leon
+                : AreaDefinitionRepository.Ada;
+            foreach (var path in areaRepo.Gimmicks)
             {
                 logger.Push($"{Path.GetFileName(path)}");
 
@@ -92,7 +98,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 var gmComponent = gameObject.Components.FirstOrDefault(x => x.Name.StartsWith("chainsaw.Gm"));
                 if (gmComponent == null)
-                    return null;
+                {
+                    return new Gimmick(gameObject, "Unknown", contextId, ImmutableDictionary<string, object>.Empty);
+                }
 
                 var kind = gmComponent.RszClass.name.Split('.').Last();
                 var properties = new Dictionary<string, object>();
