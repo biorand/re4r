@@ -103,6 +103,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             var buffer = new byte[16];
             _random.NextBytes(buffer);
+            buffer[8] = (byte)(0x40 | (buffer[8] & 0x0F));
             return new Guid(buffer);
         }
 

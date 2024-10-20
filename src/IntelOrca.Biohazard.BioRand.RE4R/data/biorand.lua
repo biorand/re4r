@@ -36,18 +36,20 @@ function getPlayerInfo()
     local characterManager = sdk.get_managed_singleton("chainsaw.CharacterManager")
     local player = characterManager:getPlayerContextRef()
     if player then
-        local transform = player:get_BodyGameObject():get_Transform()
-        local pos = transform:get_Position()
-        local rot = transform:get_Rotation()
-        return {
-            stage = player:get_CurrentStageID(),
-            position = pos,
-            rotation = rot,
-            direction = quaternionToEulerDegrees(rot).yaw
-        }
-    else
-        return nil
+        local body = player:get_BodyGameObject()
+        if body ~= nil then
+            local transform = player:get_BodyGameObject():get_Transform()
+            local pos = transform:get_Position()
+            local rot = transform:get_Rotation()
+            return {
+                stage = player:get_CurrentStageID(),
+                position = pos,
+                rotation = rot,
+                direction = quaternionToEulerDegrees(rot).yaw
+            }
+        end
     end
+    return nil
 end
 
 function getComponents(typeName)
@@ -101,6 +103,10 @@ end
 function SpawnControllerDisplayer:begin()
     re.on_frame(function()
         local playerInfo = getPlayerInfo()
+        if playerInfo == nil then
+            return
+        end
+
         local playerPosition = playerInfo.position
         local components = getComponents("chainsaw.Ch1c0SpawnParamCommon")
         for index, component in ipairs(components) do
@@ -111,18 +117,20 @@ function SpawnControllerDisplayer:begin()
             if distance < 25 then
                 local spawnName = gameObject:get_Name()
                 local spawnController = getSpawnController(gameObject)
-                local spawnControllerGuid = spawnController:get_GUID():call("ToString()")
-                local spawnCondition = spawnController:get_SpawnCondition():get_CheckFlags()
-                if #spawnCondition == 0 then
-                    spawnCondition = ''
-                else
-                    spawnCondition = spawnCondition[0]:get_CheckFlag():call("ToString()")
-                end
-                local top = pos + Vector3f.new(0, 2, 0)
-                local text_pos = top + Vector3f.new(0, 0.5, 0)
-                draw.capsule(pos, top, 0.05, 0xFFFFFFFF, 0xFF0000FF)
-                if distance < 10 then
-                    draw.world_text(spawnName .. "\n" .. "Controller: " .. spawnControllerGuid .. "\nCondition:\n  " .. spawnCondition, text_pos, 0xFFFFFFFF)
+                if spawnController ~= nil then
+                    local spawnControllerGuid = spawnController:get_GUID():call("ToString()")
+                    local spawnCondition = spawnController:get_SpawnCondition():get_CheckFlags()
+                    if #spawnCondition == 0 then
+                        spawnCondition = ''
+                    else
+                        spawnCondition = spawnCondition[0]:get_CheckFlag():call("ToString()")
+                    end
+                    local top = pos + Vector3f.new(0, 2, 0)
+                    local text_pos = top + Vector3f.new(0, 0.5, 0)
+                    draw.capsule(pos, top, 0.05, 0xFFFFFFFF, 0xFF0000FF)
+                    if distance < 10 then
+                        draw.world_text(spawnName .. "\n" .. "Controller: " .. spawnControllerGuid .. "\nCondition:\n  " .. spawnCondition, text_pos, 0xFFFFFFFF)
+                    end
                 end
             end
         end
@@ -242,6 +250,10 @@ end)
 
 re.on_frame(function()
     local playerInfo = getPlayerInfo()
+    if playerInfo == nil then
+        return
+    end
+
     local enemies = getExtraEnemyPositions()
     for i, enemy in ipairs(enemies) do
         local pos = Vector3f.new(enemy.x, enemy.y, enemy.z)

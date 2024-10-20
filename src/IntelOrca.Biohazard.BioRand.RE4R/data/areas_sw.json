@@ -2,6 +2,205 @@
   "areas": [
     // Chapter 1 (Pesanta, Castle Catapults)
     {
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp0_1/level_cp11_chp0_1.scn.20",
+      "chapter": 1,
+      "restrictions": [
+        {
+          "guids": [
+            // pesanta & phantoms
+            "09daf2a1-f3ac-42fd-af68-d7f5bad710d1",
+            "33bda65f-fa3a-4385-a2c7-92786d5f0b6f",
+            "eb3c928c-2763-4b41-9d3c-52a877b5926e",
+            "8f074c94-1558-42c7-a229-06df8003c838",
+            "7fa95596-fa15-46b4-ac47-9c9bb6959b4d",
+            "c28b1d60-0a4c-445d-9685-4c944a088af6",
+            "06006f15-15c0-4b9e-b4ec-a1ce7c7448ef",
+            "10fd570d-1c56-4cd5-a957-4df333513591",
+            "bff1c4b6-06b0-4fde-8545-6f662b3d715e",
+            "93209a64-6cc9-4deb-adf9-829b3186cfe7",
+            "c9210318-c74a-40c9-80d4-adb1bed5377f",
+            "2e66805d-5d5b-4b89-8198-be5613097dda",
+            "cf4f0bc7-04b8-4bbc-bcd6-3ebe8c0455de",
+            "407d5ed5-faae-44a8-86ad-6eed26b9489a",
+            "c5d8dd84-4fc1-4d59-a410-40262422f661",
+            "520a4075-f439-468d-876b-8cf20aebe6d7",
+            "3ed53c74-4de6-4bda-be94-e00eb8a531fb",
+            "2774472d-7e71-43cc-8259-d1fefe5ee949",
+            "3c088daa-fc5f-41ad-aa06-abf5d1cf18df",
+            "09264deb-78a3-4f46-b0a3-a7f19bbd3a42",
+            "e8a318e4-a757-4fe0-99df-ddb848eaa693",
+            "934c2317-47f6-4dd6-87ea-ba1fc79f66a9",
+            "cf02e0db-4506-43b5-848e-8f7c90545340",
+            "e01e9440-43ff-41a2-b2cd-9ad914b80803",
+            "c2de3d51-435d-4b22-9892-0a9a41c54336",
+            "038b3c6f-e1d0-4903-b19c-2cc2f2074ec4",
+            "43ced140-d3d4-41f2-83a8-d7a25f3cfe1c",
+            "288b45b5-93c0-4810-a8fd-8a39e63623df",
+            "ab9d6923-3d93-4276-b9fa-17b2d36661b9",
+            "e9960359-75bd-47c7-84fa-7ee99575cc5f",
+            "7260226e-5aeb-4a99-94e6-71de863cbfec",
+            "e257ac55-a383-4f22-a314-5450da7725d1",
+            "7a1fbb0c-18ef-4287-a38b-8604b491d7fd",
+            "e3fbe93f-57d4-4ef9-aa56-fecdc86d546e",
+            "2942f502-6e11-4a45-ab90-d10e0d703205",
+            "a991e916-6532-4884-9d91-0bb519c23353",
+            "16e4b24b-81cf-4fe7-914d-c55c5b5b00a2",
+            "aa056341-a4ad-4c3b-b8d4-5b3cc5d5d3c8",
+            "c1bd225e-3635-43f1-80bf-d580b50f6c92",
+            "5dc0e042-8ba0-4539-915d-d0818e14ffd7",
+            "148a6732-1bc2-4d2a-a433-c8bdaae13214",
+            "45d454d9-336b-47c9-8bf3-b8d4f608664f",
+            "5899c4e8-8e14-44ab-8a48-f4e358955e92",
+            "8bacaa4e-77ed-4beb-a496-cad93d9cd8e0",
+            "e7db629a-25b2-497e-9cbe-49d06b00de1b",
+            "1f7b0029-8205-4a4f-8ba8-be85a2525c1a",
+            "81fc29ce-6292-4385-b8ab-ec0ee75719c0",
+            "457a4b4c-b767-41e7-a366-2b55667ce329",
+            "a9410566-e866-4c0e-b4ca-7e68d8395845",
+            "4724eac4-aba3-414d-a12b-fa6fbe8fcf71",
+            "6428b298-7cd5-4323-a296-4b63cbde84aa",
+            "0390645d-0983-4d33-8d48-41f663abe549",
+            "631816b7-fdea-4eac-a719-7fcfa73f0063",
+            "8624a9b0-353b-43f6-b934-14fadccf090a",
+            "8f998e37-233d-4381-b8df-d9d0ec1deefb",
+            "888401fe-c037-4092-92c2-cccf498d1c71",
+            "73053a52-a658-444c-a4ce-ce5ecb816bb4",
+            "62a8d226-659e-44c3-bfab-bb178e10fc1c",
+            "64bddffd-76d2-437c-8b33-f5bd84058f7c",
+            "ec477269-df9e-4fc0-91b0-f31749adb200",
+            "810a2d98-0246-4999-bcfa-d3dd4dcfed74",
+            "fa02c753-340f-4396-a2c0-3905c0bb85bf",
+            "b5b53346-d837-4850-b23f-38e1d52fbd9d",
+            "d08115ac-37b4-4d2a-b088-badb7b9406a1",
+            "736e5092-1012-4312-9fc4-3309d7ab5867",
+            "e565986b-266c-41a5-b26d-05fe779540a1",
+            "ae22bc5a-6d3c-492b-99ae-a16e3377c9a3",
+            "d3497176-5073-41ae-962d-71a9f38826b7",
+            "892d6aad-7bea-49f2-ba51-0b7f9402e261",
+            "e7192435-0d07-4dbe-a73c-793a4d647148",
+            "982b74e8-a04d-427e-a8b7-ad0f08df37fe",
+            "90683d5a-5d7e-43ce-a0bb-d71acbfbee5e",
+            "e380bf11-dc04-4422-a8cf-1f4a471b457f",
+            "d1296ddf-a7ae-4875-af87-2fa8d2672cda",
+            "a12ebb20-3b42-4621-9a32-9e9ad2ebc51d",
+            "a9f5c5c9-264c-4c94-8678-6b29918c5ca2",
+            "583b6579-f696-4520-970c-8c053203d263",
+            "e74a8fbd-d853-473b-97c2-00c65dedeaac",
+            "d1a85c47-7765-49ba-afd8-4b5b42bdcd4c",
+            "03d0abaf-679a-430f-b4d9-d4d087e424cf",
+            "d3fc78ba-6e4d-4df3-9350-35b1e1010ab8",
+            "1be9871e-861c-4b93-9b3f-e72ec0a97969",
+            "76560042-9d85-4ca9-a570-7414bb23c844",
+            "8920cd5a-387c-4322-9331-e15ccfcb01cf",
+            "9022d513-956a-45fd-882b-dd5143c9dfc3",
+            "58830e42-8162-44ec-9fb6-75c43d71fd6d",
+            "13dd7b32-836f-4a57-97c1-b39e84dce2d8",
+            "89bfec29-a11f-4b2c-9027-cc89baf3ee3f",
+            "8e9d007e-2961-45e6-8719-ec26919c8b49",
+            "1797ea75-fcdf-473d-b30b-b3c18fb3c966",
+            "c84a40fb-5d6b-41ae-94dc-b37bbdea6501",
+            "0bf7306b-6358-4fd4-8d69-93923cf36e7b",
+            "8da3c794-83e7-4c46-b1b1-be26b30b88da",
+            "e3355bf3-6edb-49bf-b200-9369658f6411",
+            "61c7e9ce-ea7a-488d-97cd-f4fe0e49d438",
+            "d63fdff3-b9f9-462e-95ac-d8d0c11ef1dc",
+            "26a93255-b14e-4e5a-801c-478c95d28188",
+            "5fcabfbe-a254-4cd5-bcf6-994482ec8d71",
+            "30b9af8b-57fa-436a-87bb-203358651340",
+            "512f7419-3879-44d8-99a2-090b7ac522c8",
+            "6df04842-9148-432b-adf6-75309af8d000",
+            "895c1028-17f3-445d-9c9e-1cc7bf9abb1c",
+            "55171050-c653-414a-93c0-5166096c7719",
+            "89d26ffb-24d2-40c8-9871-40aa88b5060c",
+            "cd4377ca-1e75-4b34-84e9-ccefcd7dc4af",
+            "99114936-7020-4d17-89a2-13874b704661",
+            "ed0ed7df-db46-4820-a7c3-15924bd2628a",
+            "4ee210ae-f56a-43dc-bcd2-b5b436352af8",
+            "f7c102d5-44d6-4091-bd97-9ea799638440",
+            "e0c7d67a-2d31-4002-9e8b-0478cb3867fb",
+            "f2c808e7-8eb7-42c5-a8b6-fb035f63ec50",
+            "e6bdf05b-f77e-42b2-a77d-56e9e7fe1413",
+            "5367270f-acc3-464d-8f8c-8e701136da05",
+            "ebd9382b-6757-4ab7-8854-5e9257edd043",
+            "22547491-8a61-41a4-a9cd-e56f8caa854b",
+            "52ce1a9a-c40e-4309-b598-112524d1af06",
+            "2e4bb968-8be5-4e7a-9fd2-707559d3fc8d",
+            "70b5219b-442c-45d4-9ab0-c7bae8961908",
+            "329d2702-fb2a-4a40-8979-7ce87b5aa6a5",
+            "ec175883-51e8-47e8-bbc2-6bf244742bf1",
+            "670c9fdc-3df1-4122-89b2-0d9448debf39",
+            "6a6f4958-c696-42f3-ae87-35e86dd2f240",
+            "f89f8347-898f-4a40-a81a-e3ccfb2f65d7",
+            "3cc9a4df-f9f8-4a1a-974b-632075b98408",
+            "6bc11b33-2dde-46c5-906c-4cb879683c13",
+            "cc1f3297-cae5-4f29-b553-a7d7166a46f8",
+            "afda2a8a-10d2-4d8c-9e14-c27bfe1b8cc2",
+            "aef55de1-d9a2-4832-94a8-68473dd59dcb",
+            "88bb7cce-d257-491d-9107-16f98728d9b3"
+          ]
+        }
+      ],
+      "extra": [
+        {
+          "skipCondition": "2e7583f9-0162-49c0-a0b2-f9ca1355d17c",
+          "enemies": [
+            {
+              "direction": 94,
+              "small": true,
+              "stage": 50500,
+              "x": -136,
+              "y": 12,
+              "z": 38
+            },
+            {
+              "direction": -83,
+              "small": true,
+              "stage": 50500,
+              "x": -127,
+              "y": 12,
+              "z": 36
+            }
+          ]
+        },
+        {
+          "condition": "16bc856a-0e68-4c7b-b03c-80240d5270e7",
+          "skipCondition": "8d172089-227c-4922-918d-85d9ca803af0",
+          "enemies": [
+            {
+              "small": true,
+              "stage": 50401,
+              "x": -122,
+              "y": 10,
+              "z": 52,
+              "findPlayer": true
+            },
+            {
+              "small": true,
+              "stage": 50401,
+              "x": -122,
+              "y": 10,
+              "z": 52,
+              "findPlayer": true
+            }
+          ]
+        },
+        {
+          "condition": "283f50f0-3286-43e9-90a1-57bb906303d3",
+          "skipCondition": "8d172089-227c-4922-918d-85d9ca803af0",
+          "enemies": [
+            {
+              "direction": -90,
+              "stage": 50400,
+              "x": -175,
+              "y": 10,
+              "z": 52,
+              "findPlayer": true
+            }
+          ]
+        }
+      ]
+    },
+    {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc50/level_loc50_100.scn.20",
       "chapter": 1,
       "restrictions": [
@@ -33,9 +232,135 @@
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_1/level_cp11_chp1_1.scn.20",
       "chapter": 2
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc47/level_loc47.scn.20",
+      "chapter": 2
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc43/level_loc43.scn.20",
+      "chapter": 2
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc45/level_loc45.scn.20",
+      "chapter": 2,
+      "extra": [
+        {
+          "enemies": [
+            {
+              "direction": -58,
+              "small": true,
+              "stage": 45401,
+              "x": 94,
+              "y": 10,
+              "z": 103
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc40/level_loc40.scn.20",
+      "chapter": 2,
+      "extra": [
+        {
+          "condition": "ac431e91-dc27-44f7-9860-d28b0997759d",
+          "skipCondition": "696bb6e5-9c27-4483-a857-84bbca690f6b",
+          "enemies": [
+            {
+              "direction": 76,
+              "small": true,
+              "stage": 40213,
+              "x": 38,
+              "y": 1,
+              "z": 7
+            },
+            {
+              "direction": -9,
+              "small": true,
+              "stage": 40213,
+              "x": 32,
+              "y": 1,
+              "z": 15
+            }
+          ]
+        },
+        {
+          "condition": "696bb6e5-9c27-4483-a857-84bbca690f6b",
+          "skipCondition": "fec37180-ceb6-41c3-b713-c144702216ec",
+          "enemies": [
+            {
+              "direction": 108,
+              "stage": 40200,
+              "x": -23,
+              "y": 0,
+              "z": 6,
+              "findPlayer": true
+            },
+            {
+              "direction": 176,
+              "stage": 40200,
+              "x": -10,
+              "y": 0,
+              "z": 11,
+              "findPlayer": true
+            },
+            {
+              "direction": 5,
+              "stage": 40200,
+              "x": 14,
+              "y": 0,
+              "z": -16,
+              "findPlayer": true
+            },
+            {
+              "direction": -159,
+              "stage": 40200,
+              "x": 17,
+              "y": 1,
+              "z": 7,
+              "findPlayer": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc44/level_loc44.scn.20",
+      "chapter": 2,
+      "extra": [
+        {
+          "condition": "b9700373-2c85-4ae3-966d-9fac1b6b9938",
+          "skipCondition": "fec37180-ceb6-41c3-b713-c144702216ec",
+          "enemies": [
+            {
+              "direction": 135,
+              "small": true,
+              "stage": 44100,
+              "x": -16,
+              "y": 4,
+              "z": 46
+            },
+            {
+              "direction": 14,
+              "small": true,
+              "stage": 44102,
+              "x": -17,
+              "y": 5,
+              "z": 71
+            }
+          ]
+        }
+      ]
     }
   ],
   "items": [
-    { "chapter": 1, "path": "natives/stm/_anotherorder/leveldesign/location/loc50/item_loc50.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc50/item_loc50_itemdata.user.2" }
+    { "chapter": 1, "path": "natives/stm/_anotherorder/leveldesign/location/loc50/item_loc50.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc50/item_loc50_itemdata.user.2" },
+    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_1/item_cp11_chp1_1.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_1/item_cp11_chp1_1_itemdata.user.2" },
+    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc47/item_loc47.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc47/item_loc47_itemdata.user.2" },
+    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc43/item_loc43.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc43/item_loc43_itemdata.user.2" },
+    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc45/item_loc45.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc45/item_loc45_itemdata.user.2" },
+    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc40/item_loc40.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc40/item_loc40_itemdata.user.2" },
+    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc44/item_loc44.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc44/item_loc44_itemdata.user.2" }
   ]
 }

@@ -154,6 +154,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         .Where(x => x.OriginalEnemy.Kind.Key != "mendez_2") // Mendez (phase 1)
                         .Where(x => x.OriginalEnemy.Kind.Key != "mendez_3") // Mendez (phase 2)
                         .Where(x => x.OriginalEnemy.Kind.Key != "krauser_2") // Krauser
+                        .Where(x => x.OriginalEnemy.Kind.Key != "pesanta_phantom") // Pesanta (phantom)
+                        .Where(x => x.OriginalEnemy.Kind.Key != "pesanta") // Pesanta
                         .ToImmutableArray();
 
                     if (ammoOnlyAvailableWeapons)
@@ -509,35 +511,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     enemyLimit = maxPerStage;
                 }
 
-                var stageSpawns = g.ToArray();
+                var stageSpawns = g.Where(x => !x.PreventDuplicate).ToArray();
                 var newEnemyCount = Math.Min(enemyLimit, stageSpawns.Length * multiplier);
                 var delta = (int)Math.Round(newEnemyCount - stageSpawns.Length);
                 if (delta != 0)
                 {
-                    var duplicatableEnemies = stageSpawns
-                        .Where(x => !x.PreventDuplicate)
-                        .ToArray();
-                    if (duplicatableEnemies.Length != 0)
+                    var bag = new EndlessBag<EnemySpawn>(rng, stageSpawns);
+                    while (delta > 0)
                     {
-                        var bag = new EndlessBag<EnemySpawn>(rng, duplicatableEnemies);
-                        while (delta > 0)
-                        {
-                            var enemyToDuplicate = bag.Next();
-                            var stageId = enemyToDuplicate.Enemy.StageID;
-                            if (!_stageEnemyCount.TryGetValue(stageId, out var currentStageIdCount))
-                                _stageEnemyCount[stageId] = 0;
+                        var enemyToDuplicate = bag.Next();
+                        var stageId = enemyToDuplicate.Enemy.StageID;
+                        if (!_stageEnemyCount.TryGetValue(stageId, out var currentStageIdCount))
+                            _stageEnemyCount[stageId] = 0;
 
-                            if (currentStageIdCount < maxPerStage)
-                            {
-                                var newEnemy = enemyToDuplicate.Duplicate(GetNextContextId());
-                                newList.Add(newEnemy);
-                                _stageEnemyCount[stageId]++;
-                                delta--;
-                            }
-                            else
-                            {
-                                break;
-                            }
+                        if (currentStageIdCount < maxPerStage)
+                        {
+                            var newEnemy = enemyToDuplicate.Duplicate(GetNextContextId());
+                            newList.Add(newEnemy);
+                            _stageEnemyCount[stageId]++;
+                            delta--;
+                        }
+                        else
+                        {
+                            break;
                         }
                     }
                 }

@@ -152,7 +152,8 @@
       "key": "pesanta_phantom",
       "componentName": "chainsaw.Ch4faz0SpawnParam",
       "prefab": "_AnotherOrder/AppSystem/Character/Prefab/ch4faz0SpawnParam.pfb",
-      "closed": true
+      "closed": true,
+      "noItemDrop": true
     },
     {
       "key": "pesanta",

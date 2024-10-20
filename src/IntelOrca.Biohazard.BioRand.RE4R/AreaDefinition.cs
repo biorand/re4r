@@ -23,6 +23,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
     public class AreaExtra
     {
+        public string? Kind { get; set; }
         public string? Condition { get; set; }
         public string? SkipCondition { get; set; }
         public AreaExtraEnemy[]? Enemies { get; set; }
@@ -36,5 +37,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public int Z { get; set; }
         public bool Small { get; set; }
         public bool Ranged { get; set; }
+        public int Direction { get; set; }
+        public bool FindPlayer { get; set; }
     }
 }
