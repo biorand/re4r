@@ -160,7 +160,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var exclusives = wp.Modifiers.OfType<IWeaponExclusive>().ToImmutableArray();
 
-            var rngSuper = () => rng.NextProbability(20);
+            var rngSuper = () => rng.NextProbability(5);
             if (group.Power != null)
             {
                 RandomizePower(wp, RandomizeFromRanges(rng, group.Power, 0.1f, rngSuper()));
@@ -256,7 +256,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.AmmoCapacity, rng.Next(2, 5)));
             }
-            if (group.CriticalRate != null)
+            if (group.CriticalRate != null && wp.Id != 4600)
             {
                 exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.CriticalRate, rng.Next(5, 21)));
             }
