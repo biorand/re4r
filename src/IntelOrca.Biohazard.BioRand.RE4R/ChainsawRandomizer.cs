@@ -70,6 +70,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public RandomizerLoggerIO Randomize(RandomizerInput input, Campaign campaign)
         {
             Campaign = campaign;
+            _modifiers = GetModifiers();
 
             var logger = new RandomizerLoggerIO();
             foreach (var l in new[] { logger.Input, logger.Process, logger.Output })

@@ -352,6 +352,497 @@
           ]
         }
       ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_1/level_cp11_chp2_1.scn.20",
+      "chapter": 3,
+      "restrictions": [
+        {
+          "guids": [
+            "bb2a1147-5eff-46a7-a1b9-76a3d09c06b6",
+            "7a5110d1-f7cb-40dc-83ca-7f9ca3cc7bf0",
+            "7d247c22-a763-421a-9523-3c5ec022e893"
+          ]
+        }
+      ],
+      "extra": [
+        {
+          // enemies in Mendez house
+          "skipCondition": "d9df2598-1ffe-442f-bc3e-745291a7f13b",
+          "enemies": [
+            {
+              "direction": 173,
+              "small": true,
+              "stage": 44110,
+              "x": 14,
+              "y": 13,
+              "z": 99
+            },
+            {
+              "direction": 168,
+              "small": true,
+              "stage": 44110,
+              "x": 11,
+              "y": 9,
+              "z": 109
+            },
+            {
+              "direction": -18,
+              "small": true,
+              "stage": 44110,
+              "x": 3,
+              "y": 9,
+              "z": 97
+            },
+            {
+              "direction": -104,
+              "small": true,
+              "stage": 44110,
+              "x": 12,
+              "y": 9,
+              "z": 98
+            }
+          ]
+        },
+        {
+          // enemy in bedroom when key is picked up
+          "condition": "58499a9d-af3d-4f6e-9df5-7b8e2602190e",
+          "skipCondition": "d9df2598-1ffe-442f-bc3e-745291a7f13b",
+          "enemies": [
+            {
+              "direction": 83,
+              "stage": 44110,
+              "x": 8,
+              "y": 13,
+              "z": 107
+            }
+          ]
+        },
+        {
+          // enemies outside of factory
+          "enemies": [
+            {
+              "direction": -115,
+              "small": true,
+              "stage": 44300,
+              "x": 49,
+              "y": -4,
+              "z": 187,
+              "findPlayer": true
+            },
+            {
+              "direction": 69,
+              "stage": 44200,
+              "x": 6,
+              "y": -1,
+              "z": 170
+            }
+          ]
+        },
+        {
+          // enemies in factory on way down
+          "enemies": [
+            {
+              "direction": 170,
+              "stage": 44410,
+              "x": 4,
+              "y": -6,
+              "z": 229
+            }
+          ]
+        },
+        {
+          // enemies in factory on way up
+          "condition": "d9df2598-1ffe-442f-bc3e-745291a7f13b",
+          "enemies": [
+            {
+              "direction": -145,
+              "small": true,
+              "stage": 44410,
+              "x": 15,
+              "y": -6,
+              "z": 227
+            },
+            {
+              "direction": 0,
+              "small": true,
+              "stage": 44410,
+              "x": 13,
+              "y": -6,
+              "z": 216
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_2/level_cp11_chp2_2.scn.20",
+      "chapter": 3,
+      "extra": [
+        {
+          // enemies outside Mendez house on way back from factory
+          "condition": "d9df2598-1ffe-442f-bc3e-745291a7f13b",
+          "enemies": [
+            {
+              "direction": 57,
+              "stage": 44101,
+              "x": -11,
+              "y": 8,
+              "z": 93
+            },
+            {
+              "direction": 129,
+              "stage": 44101,
+              "x": -8,
+              "y": 9,
+              "z": 106
+            }
+          ]
+        }
+        // {
+        //   "condition": "f0dfc060-3264-4e4e-8b75-d0da7f488c9d"
+        // }
+      ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_1/level_cp11_chp3_1.scn.20",
+      "chapter": 4,
+      "extra": [
+        {
+          "enemies": [
+            {
+              "direction": 8,
+              "small": true,
+              "stage": 51858,
+              "x": -28,
+              "y": 22,
+              "z": -23
+            },
+            {
+              "direction": -123,
+              "small": true,
+              "stage": 51858,
+              "x": -27,
+              "y": 18,
+              "z": -20
+            }
+          ]
+        },
+        {
+          // after fire
+          "condition": "0870aade-e2bf-4b75-bff2-7556d8f09f84",
+          "enemies": [
+            {
+              "direction": 7,
+              "stage": 51858,
+              "x": -41,
+              "y": 6,
+              "z": -21
+            },
+            {
+              "direction": 87,
+              "stage": 51858,
+              "x": -46,
+              "y": 6,
+              "z": -18
+            },
+            {
+              "direction": -83,
+              "small": true,
+              "stage": 51858,
+              "x": -41,
+              "y": 10,
+              "z": -18
+            },
+            {
+              "direction": -74,
+              "small": true,
+              "stage": 51858,
+              "x": -41,
+              "y": 14,
+              "z": -18
+            }
+          ]
+        },
+        {
+          // after Luis splits off
+          "condition": "4ab1f833-9da4-416a-ad2c-1a068123b87c",
+          "enemies": [
+            {
+              "direction": -2,
+              "stage": 51850,
+              "x": -31,
+              "y": 26,
+              "z": -46
+            },
+            {
+              "direction": 1,
+              "stage": 51850,
+              "x": -31,
+              "y": 26,
+              "z": -57
+            }
+          ]
+        },
+        {
+          // in bindery
+          "condition": "fc144424-0a9d-4020-a3ad-c6985fbcebc2",
+          "skipCondition": "ce59d5e1-2378-4afb-be7c-98aa46a99f57",
+          "enemies": [
+            {
+              "direction": -134,
+              "stage": 51502,
+              "x": 2,
+              "y": 27,
+              "z": -32
+            },
+            {
+              "direction": 26,
+              "stage": 51502,
+              "x": -8,
+              "y": 27,
+              "z": -38
+            },
+            {
+              "direction": 103,
+              "stage": 51502,
+              "x": -3,
+              "y": 27,
+              "z": -34
+            }
+          ]
+        },
+        {
+          // after Leon encounter on wall bridges
+          "enemies": [
+            {
+              "direction": -92,
+              "small": true,
+              "stage": 51851,
+              "x": 13,
+              "y": 21,
+              "z": -27
+            },
+            {
+              "direction": -85,
+              "small": true,
+              "stage": 51851,
+              "x": 24,
+              "y": 21,
+              "z": -28
+            }
+          ]
+        },
+        {
+          // in front of wall trap
+          "enemies": [
+            {
+              "direction": 100,
+              "stage": 51854,
+              "x": 21,
+              "y": 17,
+              "z": -8
+            }
+          ]
+        },
+        {
+          // wall trap begin
+          "condition": "f113410d-1355-4deb-8e6e-875e728e08d4",
+          "enemies": [
+            {
+              "direction": 93,
+              "stage": 51855,
+              "x": 8,
+              "y": 17,
+              "z": -8
+            }
+          ]
+        },
+        {
+          // wall trap return
+          "condition": "8bdeedac-debc-4f40-a554-405544bd5710",
+          "skipCondition": "b6398a59-a627-4662-a859-0f7013e8833b",
+          "enemies": [
+            {
+              "direction": -88,
+              "stage": 51855,
+              "x": 2,
+              "y": 17,
+              "z": -8
+            }
+          ]
+        },
+        {
+          // after lantern placed
+          "condition": "b414f084-15be-45b4-9666-9cb29c8106b6",
+          "enemies": [
+            {
+              "direction": 92,
+              "stage": 51854,
+              "x": 24,
+              "y": 19,
+              "z": -15,
+              "findPlayer": true
+            }
+          ]
+        },
+        {
+          // bottom of stairs before wine bottle room
+          "enemies": [
+            {
+              "direction": -84,
+              "stage": 51857,
+              "x": 11,
+              "y": 13,
+              "z": 8
+            }
+          ]
+        },
+        {
+          // bottom of ladder after wine bottle room
+          "condition": "4ed9cc6e-4e38-4163-a8b5-0389b11655c2",
+          "enemies": [
+            {
+              "direction": -175,
+              "stage": 51857,
+              "x": 25,
+              "y": 13,
+              "z": 14
+            }
+          ]
+        },
+        {
+          // before maze
+          "enemies": [
+            {
+              "direction": -139,
+              "stage": 51100,
+              "x": 25,
+              "y": 21,
+              "z": 59
+            },
+            {
+              "direction": 175,
+              "stage": 51100,
+              "x": 19,
+              "y": 21,
+              "z": 48
+            },
+            {
+              "direction": 97,
+              "stage": 51100,
+              "x": 27,
+              "y": 21,
+              "z": 40
+            },
+            {
+              "direction": 94,
+              "stage": 51101,
+              "x": 31,
+              "y": 21,
+              "z": 30
+            },
+            {
+              "direction": -88,
+              "stage": 51200,
+              "x": 47,
+              "y": 21,
+              "z": 40
+            }
+          ]
+        },
+        {
+          // after the maze
+          "enemies": [
+            {
+              "direction": 2,
+              "stage": 51202,
+              "x": 85,
+              "y": 27,
+              "z": 10
+            },
+            {
+              "direction": 1,
+              "stage": 51202,
+              "x": 76,
+              "y": 27,
+              "z": 6
+            },
+            {
+              "direction": -178,
+              "small": true,
+              "stage": 51202,
+              "x": 81,
+              "y": 27,
+              "z": 9
+            },
+            {
+              "direction": 3,
+              "stage": 51600,
+              "x": 76,
+              "y": 27,
+              "z": -11
+            },
+            {
+              "direction": -86,
+              "stage": 51600,
+              "x": 81,
+              "y": 23,
+              "z": -27
+            }
+          ]
+        },
+        {
+          // embattlements
+          "enemies": [
+            {
+              "direction": -5,
+              "stage": 51600,
+              "x": 82,
+              "y": 27,
+              "z": -90
+            },
+            {
+              "direction": -156,
+              "stage": 51600,
+              "x": 83,
+              "y": 27,
+              "z": -78
+            },
+            {
+              "direction": 17,
+              "stage": 51870,
+              "x": 84,
+              "y": 23,
+              "z": -93
+            },
+            {
+              "direction": 115,
+              "stage": 51870,
+              "x": 86,
+              "y": 23,
+              "z": -87
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc51/level_loc51_chp3_1.scn.20",
+      "restrictions": [
+        {
+          "guids": [
+            "1a4b7f3e-01fe-47b4-a23d-628aa94b5978"
+          ],
+          "exclude": [
+            "krauser_1",
+            "krauser_2",
+            "mendez_chase",
+            "pesanta",
+            "u3"
+          ]
+        }
+      ]
     }
   ],
   "items": [
@@ -361,6 +852,10 @@
     { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc43/item_loc43.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc43/item_loc43_itemdata.user.2" },
     { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc45/item_loc45.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc45/item_loc45_itemdata.user.2" },
     { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc40/item_loc40.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc40/item_loc40_itemdata.user.2" },
-    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc44/item_loc44.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc44/item_loc44_itemdata.user.2" }
+    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc44/item_loc44.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc44/item_loc44_itemdata.user.2" },
+    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_2/item_cp11_chp1_2.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_2/item_cp11_chp1_2_itemdata.user.2" },
+    { "chapter": 3, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_1/item_cp11_chp2_1.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_1/item_cp11_chp2_1_itemdata.user.2" },
+    { "chapter": 3, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_2/item_cp11_chp2_2.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_2/item_cp11_chp2_2_itemdata.user.2" },
+    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc51/item_loc51.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc51/item_loc51_itemdata.user.2" }
   ]
 }
