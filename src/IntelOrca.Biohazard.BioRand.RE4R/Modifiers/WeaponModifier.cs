@@ -5,7 +5,6 @@ using System.Data;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using MsgTool;
-using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -552,51 +551,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void UpdateItemDefinitions(ChainsawRandomizer randomizer)
         {
-            foreach (var file in GetDataFiles(randomizer))
+            var itemRepo = ItemDefinitionRepository.Default;
+            var itemData = ChainsawItemData.FromRandomizer(randomizer);
+            foreach (var item in itemData.Definitions)
             {
-                var userFile = randomizer.FileRepository.GetUserFile(file);
-                if (userFile == null)
+                var itemDef = itemRepo.Find(item.ItemId);
+                if (itemDef == null)
                     continue;
 
-                var itemRepo = ItemDefinitionRepository.Default;
-                var root = userFile.RSZ!.ObjectList[0];
-                var items = root.GetArray<RszInstance>("_Datas");
-                foreach (var item in items)
+                if (itemDef.WeaponId != null && _startAmmoCapacity.TryGetValue(itemDef.WeaponId.Value, out var ammoCapacity))
                 {
-                    var itemId = item.Get<int>("_ItemId");
-                    var itemDef = itemRepo.Find(itemId);
-                    if (itemDef == null)
-                        continue;
-
-                    if (itemDef.WeaponId != null && _startAmmoCapacity.TryGetValue(itemDef.WeaponId.Value, out var ammoCapacity))
-                    {
-                        item.Set("_WeaponDefineData._AmmoMax", ammoCapacity);
-                    }
+                    item.WeaponDefineData.AmmoMax = ammoCapacity;
                 }
-
-                randomizer.FileRepository.SetUserFile(file, userFile);
             }
-        }
-
-        private static string[] GetDataFiles(ChainsawRandomizer randomizer)
-        {
-            if (randomizer.Campaign == Campaign.Leon)
-            {
-                return
-                [
-                    "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2",
-                    "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1401/itemdefinitionuserdata_dlc_1401.user.2",
-                    "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1402/itemdefinitionuserdata_dlc_1402.user.2"
-                ];
-            }
-            else
-            {
-                return
-                [
-                    "natives/stm/_anotherorder/appsystem/ui/userdata/itemdefinitionuserdata_ao.user.2",
-                    "natives/stm/_anotherorder/appsystem/ui/userdata/itemdefinitionuserdata_ovr_ao.user.2"
-                ];
-            }
+            itemData.Save();
         }
 
         private static WeaponStatsDefinition WeaponStatsDefinition { get; } = Resources.stats.DeserializeJson<WeaponStatsDefinition>();

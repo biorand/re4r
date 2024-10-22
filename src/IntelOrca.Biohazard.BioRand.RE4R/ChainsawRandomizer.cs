@@ -99,8 +99,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var enemyRng = CreateRng();
             var itemRng = CreateRng();
 
-            var itemData = ChainsawItemData.FromData(_fileRepository);
-
             // Input
             IterateModifiers((n, m) =>
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using RszTool;
@@ -7,34 +8,45 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal sealed class ChainsawItemData
     {
-        private readonly static string[] g_dataFiles = new[]
-        {
-            "natives/stm/_anotherorder/appsystem/ui/userdata/itemdefinitionuserdata_ao.user.2",
-            "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2",
-            "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1401/itemdefinitionuserdata_dlc_1401.user.2",
-            "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1402/itemdefinitionuserdata_dlc_1402.user.2"
-        };
+        private readonly FileRepository _fileRepository;
+        private readonly (string Path, UserFile Data)[] _itemDefinitions;
 
-        private readonly UserFile[] _itemDefinitions;
-
-        private ChainsawItemData(UserFile[] itemDefinitions)
+        private ChainsawItemData(FileRepository repository, (string, UserFile)[] itemDefinitions)
         {
+            _fileRepository = repository;
             _itemDefinitions = itemDefinitions;
         }
 
-        public static ChainsawItemData FromData(FileRepository fileRepository)
+        public static ChainsawItemData FromRandomizer(ChainsawRandomizer randomizer)
         {
-            var itemDefinitions = g_dataFiles
-                .Select(fileRepository.GetUserFile)
+            var files = new List<string>();
+            if (randomizer.Campaign == Campaign.Leon)
+            {
+                files.Add("natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2");
+                if (randomizer.GetConfigOption<bool>("allow-dlc-items"))
+                {
+                    files.Add("natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1401/itemdefinitionuserdata_dlc_1401.user.2");
+                    files.Add("natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1402/itemdefinitionuserdata_dlc_1402.user.2");
+                }
+            }
+            else
+            {
+                files.Add("natives/stm/_anotherorder/appsystem/ui/userdata/itemdefinitionuserdata_ao.user.2");
+                files.Add("natives/stm/_anotherorder/appsystem/ui/userdata/itemdefinitionuserdata_ovr_ao.user.2");
+            }
+
+            var fileRepository = randomizer.FileRepository;
+            var itemDefinitions = files
+                .Select(x => (x, fileRepository.GetUserFile(x)))
                 .ToArray();
-            return new ChainsawItemData(itemDefinitions);
+            return new ChainsawItemData(fileRepository, itemDefinitions);
         }
 
-        public void Save(FileRepository fileRepository)
+        public void Save()
         {
-            for (var i = 0; i < g_dataFiles.Length; i++)
+            for (var i = 0; i < _itemDefinitions.Length; i++)
             {
-                fileRepository.SetUserFile(g_dataFiles[i], _itemDefinitions[i]);
+                _fileRepository.SetUserFile(_itemDefinitions[i].Path, _itemDefinitions[i].Data);
             }
         }
 
@@ -92,7 +104,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public ChainsawItemDefinition[] Definitions =>
             _itemDefinitions.SelectMany(x =>
-                x.RSZ!.ObjectList[0].GetList("_Datas")
+                x.Data.RSZ!.ObjectList[0].GetList("_Datas")
                     .Select(x => new ChainsawItemDefinition((RszInstance)x!))
                     .ToArray())
                 .ToArray();
@@ -109,13 +121,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             public RszInstance Instance => _instance;
 
             public ItemSize ItemSize => new ItemSize(_instance.Get<int>("_ItemSize")!);
-            public int StackMax => _instance.Get<int>("_StackMax")!;
+            public int StackMax
+            {
+                get => _instance.Get<int>("_StackMax")!;
+                set => _instance.Set("_StackMax", value);
+            }
             public int DefaultDurabilityMax => _instance.Get<int>("_DefaultDurabilityMax")!;
         }
 
         public sealed class WeaponDefineData(RszInstance instance) : ItemDefineData(instance)
         {
-            public int AmmoMax => Instance.Get<int>("_AmmoMax")!;
+            public int AmmoMax
+            {
+                get => Instance.Get<int>("_AmmoMax")!;
+                set => Instance.Set("_AmmoMax", value);
+            }
             public int AmmoCost => Instance.Get<int>("_AmmoCost")!;
         }
     }
