@@ -34,6 +34,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             else
             {
                 ForceNgPlusMerchantAda(randomizer, logger);
+                if (randomizer.GetConfigOption<bool>("random-enemies"))
+                {
+                    ImproveAdaKnightRoom(randomizer, logger);
+                }
             }
 
             FixDeadEnemyCounters(randomizer, logger);
@@ -330,6 +334,45 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 rsz.Set("_DataTable[18]._WeaponStructureParam.TypeOfReload", 0);
                 rsz.Set("_DataTable[18]._WeaponStructureParam.TypeOfShoot", 1);
+            });
+        }
+
+        private void ImproveAdaKnightRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            var area = randomizer.Areas.FirstOrDefault(x => x.FileName == "level_loc51_chp3_1.scn.20");
+            if (area == null)
+                return;
+
+            var scn = area.ScnFile;
+
+            // Top floor (triggered by silver bottle)
+            var spawnControllerComponent = scn.FindComponent(new Guid("d82d24e0-cac6-471e-9b2e-808f84053fb9"), "chainsaw.CharacterSpawnController");
+            if (spawnControllerComponent != null)
+            {
+                var controller = new CharacterSpawnController(spawnControllerComponent);
+                controller.SpawnCondition.Add(scn, new Guid("b9a3aaa9-700c-4e5c-a31f-df66bfbda362"));
+            }
+
+            // Bottom floor (triggered by gold bottle)
+            spawnControllerComponent = scn.FindComponent(new Guid("0d4eea6c-2722-43fd-b887-830fd4c915dd"), "chainsaw.CharacterSpawnWaveController");
+            if (spawnControllerComponent != null)
+            {
+                var controller = new CharacterSpawnController(spawnControllerComponent);
+                controller.SpawnCondition.Add(scn, new Guid("84b73ea9-8de6-492d-a479-45f988e06492"));
+            }
+
+            // Remove the tsuitates (since they don't break if we switch out the armaduras)
+            var gimmickPath = "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_857_ao.scn.20";
+            randomizer.FileRepository.ModifyScnFile(gimmickPath, scn2 =>
+            {
+                scn2.RemoveGameObject(new Guid("1f1c503b-b032-43da-9e3a-792960586343"));
+                scn2.RemoveGameObject(new Guid("4b30301b-aca4-4199-9745-91acad51ece3"));
+                scn2.RemoveGameObject(new Guid("b76e9b43-a4b7-4d8e-871a-30a67d34b544"));
+                scn2.RemoveGameObject(new Guid("9502ec07-cdb8-4107-a4bc-9e76cc029ec0"));
+                scn2.RemoveGameObject(new Guid("581cace6-a401-42e0-9dd7-383aafbdd551"));
+                scn2.RemoveGameObject(new Guid("06815784-ae02-49b4-b3d6-c7528fcf3d54"));
+                scn2.RemoveGameObject(new Guid("ace7c27b-1cf1-4bb7-bb68-798101d596ef"));
+                scn2.RemoveGameObject(new Guid("9c389ab6-c2b3-488e-b9a9-304ef4831d59"));
             });
         }
 
