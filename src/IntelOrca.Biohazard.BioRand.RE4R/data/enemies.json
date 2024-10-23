@@ -98,6 +98,12 @@
       "closed": true
     },
     {
+      "key": "el_gigante_ada",
+      "componentName": "chainsaw.Ch4f9z0SpawnParam",
+      "prefab": "_AnotherOrder/AppSystem/Character/Prefab/ch4f9z0SpawnParam.pfb",
+      "closed": true
+    },
+    {
       "key": "dellago",
       "componentName": "chainsaw.Ch1f1z0SpawnParam",
       "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1f1z0SpawnParam.pfb",

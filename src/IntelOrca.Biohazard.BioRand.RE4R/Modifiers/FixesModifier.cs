@@ -37,6 +37,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (randomizer.GetConfigOption<bool>("random-enemies"))
                 {
                     ImproveAdaKnightRoom(randomizer, logger);
+                    ImproveAdaGarradorRoom(randomizer, logger);
                 }
             }
 
@@ -374,6 +375,31 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 scn2.RemoveGameObject(new Guid("ace7c27b-1cf1-4bb7-bb68-798101d596ef"));
                 scn2.RemoveGameObject(new Guid("9c389ab6-c2b3-488e-b9a9-304ef4831d59"));
             });
+        }
+
+        private void ImproveAdaGarradorRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            var area = randomizer.Areas.FirstOrDefault(x => x.FileName == "level_loc55.scn.20");
+            if (area == null)
+                return;
+
+            // Spawn enemies when doors shut, otherwise enemies (originally garradors)
+            // can't be hurt and they leave the area and attack you prematurely.
+            var controllerGuids = new[] {
+                new Guid("f5402bf4-4c55-4332-86c0-53851701e532"), // standard
+                new Guid("4924d5ff-3905-421f-b6b3-1d30d900be95") // pro
+            };
+
+            var scn = area.ScnFile;
+            foreach (var controllerGuid in controllerGuids)
+            {
+                var spawnControllerComponent = scn.FindComponent(controllerGuid, "chainsaw.CharacterSpawnController");
+                if (spawnControllerComponent != null)
+                {
+                    var controller = new CharacterSpawnController(spawnControllerComponent);
+                    controller.SpawnCondition.Add(scn, new Guid("40807771-38e9-4ec8-a240-d75f4fdff461"));
+                }
+            }
         }
 
         private static readonly int[] _characterKindIds = new int[]

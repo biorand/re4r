@@ -229,6 +229,7 @@
       "path": "natives/stm/_anotherorder/leveldesign/location/loc50/level_loc50_300.scn.20",
       "chapter": 1
     },
+    // Chapter 2 (Checkpoint, Church, Pesanta)
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_1/level_cp11_chp1_1.scn.20",
       "chapter": 2
@@ -353,6 +354,32 @@
         }
       ]
     },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_2/level_cp11_chp1_2.scn.20",
+      "chapter": 2,
+      "restrictions": [
+        {
+          "guids": [
+            "2b7268ca-f11a-4143-9969-cb500b4b7301",
+            "82597fbf-d245-4de3-85d8-7072c2d60fb3",
+            "6e0120af-95ce-4700-8e16-a9b9f466b885",
+            "12a93bdb-f76b-484f-829c-8679e6f45df5",
+            "d33d8bf7-90c1-42d5-831b-64513f836fe8",
+            "3c3eec3d-724b-46d1-b262-b72139d90f49",
+            "3bc9baa5-a1ae-4b01-ba9d-da3f30adf45b",
+            "0652786e-e56a-49f4-9ae2-8dcf9593fb49",
+            "d30ceaf2-672b-46f1-b57a-d0701ae754f4",
+            "c568fc40-190e-44d0-b194-a333bd491be0",
+            "4ad9f25c-d04f-405e-bd28-16370ea521a3",
+            "b931b3ed-f3d5-45ec-81eb-c81cb448357e",
+            "86662e91-ef79-4913-bc1f-0b6bbfcca204",
+            "eebc019b-1015-47f0-a01f-c8ca259a8fa6",
+            "49dddaa3-cf59-44ed-9929-c9b10a3ad7d2"
+          ]
+        }
+      ]
+    },
+    // Chapter 3 (Mendez House, Factory, Village, Farm, El Gigante)
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_1/level_cp11_chp2_1.scn.20",
       "chapter": 3,
@@ -504,6 +531,7 @@
         // }
       ]
     },
+    // Chapter 4 (Luis Fire, Bindery, Knights, Maze, Embattlements)
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_1/level_cp11_chp3_1.scn.20",
       "chapter": 4,
@@ -829,6 +857,7 @@
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc51/level_loc51_chp3_1.scn.20",
+      "chapter": 4,
       "restrictions": [
         {
           "guids": [
@@ -840,6 +869,297 @@
             "mendez_chase",
             "pesanta",
             "u3"
+          ]
+        }
+      ]
+    },
+    // Chapter 5 (Embattlements, Caverns, Double Garrador, U3, Clocktower)
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_2/level_cp11_chp3_2.scn.20",
+      "chapter": 5,
+      "extra": [
+        {
+          // Castle embattlements start
+          "enemies": [
+            {
+              "direction": -153,
+              "findPlayer": true,
+              "stage": 51600,
+              "x": 77,
+              "y": 27,
+              "z": -97
+            },
+            {
+              "direction": 160,
+              "stage": 51600,
+              "x": 58,
+              "y": 27,
+              "z": -113
+            },
+            {
+              "direction": 125,
+              "findPlayer": true,
+              "stage": 51600,
+              "x": 21,
+              "y": 27,
+              "z": -120
+            },
+            {
+              "direction": -58,
+              "stage": 51600,
+              "x": 46,
+              "y": 31,
+              "z": -111
+            }
+          ]
+        },
+        {
+          // Before cavens
+          "enemies": [
+            {
+              "direction": -110,
+              "stage": 55850,
+              "x": 37,
+              "y": 13,
+              "z": -118
+            },
+            {
+              "direction": -179,
+              "stage": 55850,
+              "x": 65,
+              "y": -29,
+              "z": -114
+            }
+          ]
+        },
+        {
+          // Just before U3 first phase
+          "skipCondition": "1ea60f26-e525-4ef2-ac0b-78bdd07ed961",
+          "enemies": [
+            {
+              "direction": -176,
+              "small": true,
+              "stage": 55200,
+              "x": 135,
+              "y": 1,
+              "z": 38
+            },
+            {
+              "direction": -117,
+              "small": true,
+              "stage": 55200,
+              "x": 137,
+              "y": 1,
+              "z": 32
+            }
+          ]
+        },
+        {
+          // U3 first phase
+          "condition": "1ea60f26-e525-4ef2-ac0b-78bdd07ed961",
+          "skipCondition": "e794dfa4-d9bd-4e35-8ccd-b4fd1e3c6399",
+          "enemies": [
+            {
+              "direction": 23,
+              "stage": 55860,
+              "x": 129,
+              "y": -57,
+              "z": 106,
+              "findPlayer": true
+            },
+            {
+              "direction": 84,
+              "stage": 55860,
+              "x": 125,
+              "y": -57,
+              "z": 111,
+              "findPlayer": true
+            }
+          ]
+        },
+        {
+          // Straight after U3 first phase dies
+          "condition": "d6e6fde3-9208-4077-a2b8-271e12c01c09",
+          "skipCondition": "e794dfa4-d9bd-4e35-8ccd-b4fd1e3c6399",
+          "enemies": [
+            {
+              "direction": -66,
+              "stage": 55860,
+              "x": 143,
+              "y": -57,
+              "z": 113,
+              "findPlayer": true
+            }
+          ]
+        },
+        {
+          // U3 second phase
+          "condition": "e794dfa4-d9bd-4e35-8ccd-b4fd1e3c6399",
+          "enemies": [
+            {
+              "direction": 60,
+              "stage": 55860,
+              "x": 111,
+              "y": -62,
+              "z": 83,
+              "findPlayer": true
+            },
+            {
+              "direction": 10,
+              "stage": 55860,
+              "x": 122,
+              "y": -62,
+              "z": 77,
+              "findPlayer": true
+            },
+            {
+              "direction": -8,
+              "stage": 55860,
+              "x": 128,
+              "y": -62,
+              "z": 79,
+              "findPlayer": true
+            },
+            {
+              "direction": 111,
+              "stage": 55860,
+              "x": 114,
+              "y": -62,
+              "z": 92,
+              "findPlayer": true
+            }
+          ]
+        },
+        {
+          // After U3, on path out of mine
+          "condition": "ac01c1e3-7a77-46aa-a5e0-557771245ca0",
+          "enemies": [
+            {
+              "direction": 152,
+              "small": true,
+              "stage": 55300,
+              "x": 183,
+              "y": -42,
+              "z": 50
+            },
+            {
+              "direction": -19,
+              "small": true,
+              "stage": 55300,
+              "x": 189,
+              "y": -44,
+              "z": 56
+            },
+            {
+              "direction": -26,
+              "stage": 55302,
+              "x": 207,
+              "y": -18,
+              "z": 50
+            },
+            {
+              "direction": 166,
+              "stage": 55302,
+              "x": 190,
+              "y": -6,
+              "z": 48
+            }
+          ]
+        },
+        {
+          // Clocktower
+          "enemies": [
+            {
+              "direction": -88,
+              "stage": 56104,
+              "x": 201,
+              "y": 46,
+              "z": -88
+            }
+          ]
+        },
+        {
+          // Cliffside
+          "enemies": [
+            {
+              "direction": -28,
+              "stage": 56201,
+              "x": 301,
+              "y": 48,
+              "z": -115
+            },
+            {
+              "direction": 152,
+              "stage": 56201,
+              "x": 297,
+              "y": 48,
+              "z": -104
+            }
+          ]
+        },
+        {
+          // Dock
+          "enemies": [
+            {
+              "direction": -1,
+              "stage": 56302,
+              "x": 349,
+              "y": -7,
+              "z": -75
+            },
+            {
+              "direction": 3,
+              "stage": 56302,
+              "x": 336,
+              "y": -7,
+              "z": -76
+            },
+            {
+              "direction": -87,
+              "stage": 56302,
+              "x": 342,
+              "y": -7,
+              "z": -62
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc55/level_loc55.scn.20",
+      "chapter": 5,
+      "restrictions": [
+        {
+          "guids": [
+            "d3c407a9-08cd-416c-b978-cd7c1c9908b3", // u3 (phase 1)
+            "56ca7658-5434-4d3b-8622-9a9891e1daa1", // u3 (phase 2)
+            "143966b9-0ce5-4b70-a467-0fe98ac27823", // novistador
+            "85b869ee-885e-450a-8889-4c08d0cc2079", // novistador
+            "3bd367b5-71ce-4680-ab1d-4cf089e19c04", // novistador
+            "6a6134d5-8668-4023-a9ab-60506d3fdb9e", // novistador
+            "078c9a3c-0687-4c75-a0d2-b65a772f06ea", // novistador
+            "76929440-6b96-4fbb-9983-9657652547a8", // novistador
+            "f4dd8fd3-b607-4456-be44-b9e48d883494", // novistador
+            "fe739f81-8cfc-42f0-8246-1bf716ed4ae2", // novistador
+            "8c2769af-5ce7-4b9e-9ed2-716db061762e", // novistador
+            "9b6d7e72-e1ba-4afe-9f0c-b65c54b99f49", // novistador
+            "34ed6a18-c0b4-40de-b781-80420dae8274", // novistador
+            "1c094d1a-3783-4733-afe3-39847f7caf2a", // novistador
+            "2117da55-6e86-4cd1-8c14-03300b701bbd", // novistador
+            "fb1c8cd0-5139-466b-8ebf-499b3d142ee2" // novistador
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc56/level_loc56.scn.20",
+      "chapter": 5,
+      "restrictions": [
+        {
+          "guids": [
+            "8b3d4abd-c4ed-4252-aaf2-990c4506f81e", // novistador (request)
+            "0bae95e0-bd9a-40b7-9b95-00a0220c9bf5", // novistador (request)
+            "9e339555-5396-45ee-8746-47adb1fb5a70" // novistador (request)
           ]
         }
       ]
@@ -856,6 +1176,9 @@
     { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_2/item_cp11_chp1_2.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_2/item_cp11_chp1_2_itemdata.user.2" },
     { "chapter": 3, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_1/item_cp11_chp2_1.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_1/item_cp11_chp2_1_itemdata.user.2" },
     { "chapter": 3, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_2/item_cp11_chp2_2.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_2/item_cp11_chp2_2_itemdata.user.2" },
-    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc51/item_loc51.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc51/item_loc51_itemdata.user.2" }
+    { "chapter": 4, "path": "natives/stm/_anotherorder/leveldesign/location/loc51/item_loc51.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc51/item_loc51_itemdata.user.2" },
+    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_2/item_cp11_chp3_2.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_2/item_cp11_chp3_2_itemdata.user.2" },
+    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc55/item_loc55.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc55/item_loc55_itemdata.user.2" },
+    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc56/item_loc56.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc56/item_loc56_itemdata.user.2" }
   ]
 }

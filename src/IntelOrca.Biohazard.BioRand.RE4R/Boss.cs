@@ -13,7 +13,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
     public static class Bosses
     {
-        public static ImmutableArray<Boss> All { get; } = [
+        public static ImmutableArray<Boss> Leon { get; } = [
             new Boss("dellago", "Del Lago", new Guid("ae0f964e-c6c1-456c-8eaa-a2e3ee6dac42")),
             new Boss("elgigante-1", "El Gigante (Village)", new Guid("484ec7c2-ded4-49d7-819b-23f6e23a208a")),
             new Boss("mendez-1", "Mendez (Phase 1)", new Guid("a61c62f3-52e7-4d78-a167-c99b84fcada9")),
@@ -28,6 +28,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             new Boss("krauser-4", "Krauser Fight 3", new Guid("a241d88c-1eea-48c2-8261-3f31716e4dfa")),
             new Boss("sadler", "Sadler", new Guid("cacdb0fa-b472-4567-9dbd-8cb1cafa9c57")),
         ];
+
+        public static ImmutableArray<Boss> Ada { get; } = [
+            new Boss("pesanta-1", "Pesanta (Ch. 1)", new Guid("33bda65f-fa3a-4385-a2c7-92786d5f0b6f")),
+            new Boss("pesanta-2", "Pesanta (Ch. 2)", new Guid("2b7268ca-f11a-4143-9969-cb500b4b7301")),
+            new Boss("elgigante-4", "El Gigante (Farm)", new Guid("afac38f0-0c3c-4e19-8058-fed0d7105fd3")),
+            new Boss("u3-1", "U3 (Phase 1)", new Guid("56ca7658-5434-4d3b-8622-9a9891e1daa1")),
+            new Boss("u3-2", "U3 (Phase 2)", new Guid("aa862ced-d677-42bd-8542-fbbbe038a16f")),
+        ];
+
+        public static ImmutableArray<Boss> All { get; } = [.. Leon, .. Ada];
 
         public static bool IsBoss(Guid guid) => GetBoss(guid) != null;
         public static Boss? GetBoss(Guid guid) => All.FirstOrDefault(x => x.Guid == guid);
