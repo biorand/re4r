@@ -1483,6 +1483,11 @@
             "cow",
             "pig"
           ]
+        },
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
         }
       ]
     },
@@ -1505,7 +1510,6 @@
       "extra": [
         {
           "enemies": [
-
             {
               "rw": -0.75,
               "rx": 0.0,
@@ -1699,15 +1703,36 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47.scn.20",
-      "chapter": 6
+      "chapter": 6,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_000.scn.20",
-      "chapter": 6
+      "chapter": 6,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_001.scn.20",
-      "chapter": 6
+      "chapter": 6,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_002.scn.20",
@@ -1729,6 +1754,11 @@
             "u3",
             "verdugo"
           ]
+        },
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
         }
       ]
     },
@@ -1742,6 +1772,11 @@
             "a61c62f3-52e7-4d78-a167-c99b84fcada9",
             "aa862ced-d677-42bd-8542-fbbbe038a16f",
             "751b4a9f-909c-4a31-a57b-e72c1936d615"
+          ]
+        },
+        {
+          "exclude": [
+            "mendez_chase"
           ]
         }
       ],
@@ -1815,7 +1850,14 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc47/level_loc47_004.scn.20",
-      "chapter": 6
+      "chapter": 6,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
 
     // Chapter 7 (castle entrance, prison, water hall)
