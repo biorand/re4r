@@ -1163,6 +1163,559 @@
           ]
         }
       ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp4_1/level_cp11_chp4_1.scn.20",
+      "chapter": 6,
+      "extra": [
+        {
+          // Island start
+          "enemies": [
+            {
+              "direction": 94,
+              "stage": 64200,
+              "x": 61,
+              "y": 29,
+              "z": -156
+            },
+            {
+              "direction": 111,
+              "stage": 64103,
+              "x": 76,
+              "y": 23,
+              "z": -144
+            },
+            {
+              "direction": 120,
+              "small": true,
+              "stage": 64103,
+              "x": 79,
+              "y": 23,
+              "z": -149
+            },
+            {
+              "direction": -65,
+              "small": true,
+              "stage": 64101,
+              "x": 66,
+              "y": 26,
+              "z": -182
+            }
+          ]
+        },
+        {
+          // Straight after leon/ashley cutscene
+          "enemies": [
+            {
+              "condition": "8f9af929-4fd5-43ea-8e4f-c559cb910240",
+              "direction": 2,
+              "stage": 61000,
+              "x": 42,
+              "y": 22,
+              "z": -85,
+              "findPlayer": true
+            }
+          ]
+        },
+        {
+          // On route to fridge room
+          "enemies": [
+            {
+              "direction": -177,
+              "stage": 61850,
+              "x": 54,
+              "y": 22,
+              "z": -59
+            },
+            {
+              "direction": -86,
+              "stage": 61852,
+              "x": 72,
+              "y": 17,
+              "z": -65
+            },
+            {
+              "direction": -80,
+              "small": true,
+              "stage": 61204,
+              "x": 100,
+              "y": 11,
+              "z": -44
+            },
+            {
+              "direction": -91,
+              "stage": 61204,
+              "x": 105,
+              "y": 15,
+              "z": -42
+            },
+            {
+              "direction": 91,
+              "stage": 61300,
+              "x": 107,
+              "y": 17,
+              "z": -58
+            },
+            {
+              "direction": -84,
+              "stage": 61302,
+              "x": 113,
+              "y": 18,
+              "z": -70
+            },
+            {
+              "direction": 6,
+              "stage": 61302,
+              "x": 102,
+              "y": 18,
+              "z": -71
+            },
+            {
+              "direction": 5,
+              "stage": 61400,
+              "x": 109,
+              "y": 18,
+              "z": -95
+            }
+          ]
+        },
+        {
+          // Fridge room
+          "enemies": [
+            {
+              "direction": -162,
+              "small": true,
+              "stage": 61305,
+              "x": 94,
+              "y": 19,
+              "z": -88
+            }
+          ]
+        },
+        {
+          // After pulling plug out fridge room
+          "condition": "cf43c5fd-212c-45cf-981a-d7a5f0e38c73",
+          "enemies": [
+            {
+              "direction": 3,
+              "small": true,
+              "stage": 61305,
+              "x": 94,
+              "y": 19,
+              "z": -98,
+              "findPlayer": true
+            },
+            {
+              "direction": -87,
+              "stage": 61302,
+              "x": 101,
+              "y": 18,
+              "z": -82
+            },
+            {
+              "direction": -1,
+              "small": true,
+              "stage": 61500,
+              "x": 83,
+              "y": 17,
+              "z": -64
+            },
+            {
+              "direction": 147,
+              "small": true,
+              "stage": 61500,
+              "x": 85,
+              "y": 17,
+              "z": -52
+            },
+            {
+              "direction": 180,
+              "small": true,
+              "stage": 61504,
+              "x": 74,
+              "y": 17,
+              "z": -71
+            },
+            {
+              "direction": 91,
+              "small": true,
+              "stage": 61851,
+              "x": 58,
+              "y": 22,
+              "z": -71
+            },
+            {
+              "direction": 91,
+              "small": true,
+              "stage": 61851,
+              "x": 66,
+              "y": 22,
+              "z": -65
+            }
+          ]
+        },
+        {
+          // After using plug to open door
+          "condition": "ff1caaea-d774-4903-9ae3-cd349ee0ff79",
+          "enemies": [
+            {
+              "direction": 6,
+              "small": true,
+              "stage": 61852,
+              "x": 53,
+              "y": 17,
+              "z": -55,
+              "findPlayer": true
+            },
+            {
+              "direction": -88,
+              "small": true,
+              "stage": 61852,
+              "x": 68,
+              "y": 17,
+              "z": -65,
+              "findPlayer": true
+            }
+          ]
+        },
+        {
+          // before cable car
+          "enemies": [
+            {
+              "direction": 3,
+              "stage": 60850,
+              "x": 87,
+              "y": 17,
+              "z": -33
+            },
+            {
+              "direction": -178,
+              "stage": 60850,
+              "x": 87,
+              "y": 17,
+              "z": -24
+            },
+            {
+              "direction": -156,
+              "stage": 60850,
+              "x": 92,
+              "y": 21,
+              "z": -13
+            },
+            {
+              "direction": -180,
+              "stage": 60850,
+              "x": 84,
+              "y": 21,
+              "z": -14
+            },
+            {
+              "direction": 180,
+              "small": true,
+              "stage": 60850,
+              "x": 92,
+              "y": 21,
+              "z": 12
+            },
+            {
+              "direction": 138,
+              "small": true,
+              "stage": 60850,
+              "x": 81,
+              "y": 21,
+              "z": -3,
+              "ranged": true
+            }
+          ]
+        },
+        {
+          // merchant after cable car
+          "enemies": [
+            {
+              "direction": 0,
+              "stage": 60865,
+              "x": 95,
+              "y": 4,
+              "z": 111
+            },
+            {
+              "direction": -86,
+              "stage": 60865,
+              "x": 100,
+              "y": 4,
+              "z": 114
+            },
+            {
+              "direction": -17,
+              "stage": 60865,
+              "x": 97,
+              "y": 4,
+              "z": 141
+            }
+          ]
+        },
+        {
+          // When jumping down and turrets start firing
+          "condition": "18bcf504-c8f5-46df-8b63-e2386a983166",
+          "enemies": [
+            {
+              "direction": 84,
+              "stage": 60865,
+              "x": 88,
+              "y": 1,
+              "z": 158,
+              "findPlayer": true
+            },
+            {
+              "direction": 125,
+              "stage": 60865,
+              "x": 60,
+              "y": 6,
+              "z": 192,
+              "findPlayer": true
+            },
+            {
+              "direction": 137,
+              "stage": 60865,
+              "x": 55,
+              "y": 5,
+              "z": 197,
+              "findPlayer": true
+            },
+            {
+              "direction": 132,
+              "stage": 60865,
+              "x": 55,
+              "y": 7,
+              "z": 177,
+              "findPlayer": true
+            }
+          ]
+        },
+        {
+          // Just before going down into lab hole
+          "enemies": [
+            {
+              "direction": 23,
+              "stage": 60861,
+              "x": 11,
+              "y": 10,
+              "z": 204
+            },
+            {
+              "direction": -155,
+              "stage": 60861,
+              "x": 25,
+              "y": 6,
+              "z": 235
+            }
+          ]
+        },
+        {
+          // After lifting rock out of the way
+          "condition": "cb6ef243-71b4-43e4-9cd5-30ad530037d2",
+          "enemies": [
+            {
+              "direction": -89,
+              "stage": 60871,
+              "x": 38,
+              "y": 1,
+              "z": 254
+            },
+            {
+              "direction": -179,
+              "stage": 60871,
+              "x": 38,
+              "y": 1,
+              "z": 259
+            }
+          ]
+        },
+        {
+          // On route to lasers
+          "enemies": [
+            {
+              "direction": 5,
+              "stage": 60872,
+              "x": 38,
+              "y": 1,
+              "z": 267
+            },
+            {
+              "direction": -158,
+              "stage": 60881,
+              "x": 54,
+              "y": -4,
+              "z": 250
+            },
+            {
+              "direction": 90,
+              "stage": 60880,
+              "x": 50,
+              "y": -4,
+              "z": 259
+            }
+          ]
+        },
+        {
+          // When being chased by first martinico
+          "condition": "17401901-3522-4628-b009-281939f1442d",
+          "skipCondition": "e6f43b86-950e-4230-84a7-3b4b7449a5e7",
+          "enemies": [
+            {
+              "direction": 89,
+              "stage": 60880,
+              "x": 49,
+              "y": -4,
+              "z": 255
+            }
+          ]
+        },
+        {
+          // Before first laser
+          "condition": "4047a30c-57c6-4450-9edf-b6c17586696a",
+          "enemies": [
+            {
+              "direction": -179,
+              "stage": 60871,
+              "x": 44,
+              "y": 1,
+              "z": 254
+            }
+          ]
+        },
+        {
+          // After first laser
+          "condition": "cc66bcc9-060e-45f9-af6a-f8e4630b33c9",
+          "enemies": [
+            {
+              "direction": -2,
+              "stage": 60874,
+              "x": 43,
+              "y": 1,
+              "z": 233,
+              "findPlayer": true
+            }
+          ]
+        },
+        {
+          // After lasers
+          "condition": "d7b0f4b9-c56b-43b1-b578-3a56e2aa50bb",
+          "enemies": [
+            {
+              "direction": -2,
+              "stage": 60874,
+              "x": 43,
+              "y": 1,
+              "z": 233,
+              "findPlayer": true
+            },
+            {
+              "direction": -176,
+              "small": true,
+              "stage": 60873,
+              "x": 79,
+              "y": 0,
+              "z": 260
+            }
+          ]
+        },
+        {
+          // Room where you arm bombs
+          "enemies": [
+            {
+              "direction": -51,
+              "stage": 60873,
+              "x": 85,
+              "y": 0,
+              "z": 256
+            }
+          ]
+        },
+        {
+          // On way out
+          "condition": "7b6caa97-5372-4806-adf9-f03152e11bfe",
+          "enemies": [
+            {
+              "direction": 91,
+              "stage": 60871,
+              "x": 51,
+              "y": 1,
+              "z": 254
+            },
+            {
+              "direction": 87,
+              "stage": 60871,
+              "x": 62,
+              "y": 1,
+              "z": 253
+            },
+            {
+              "direction": 91,
+              "stage": 60874,
+              "x": 35,
+              "y": 1,
+              "z": 233
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc64/level_loc64.scn.20",
+      "chapter": 6
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc62/level_loc62.scn.20",
+      "chapter": 6
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc61/level_loc61.scn.20",
+      "chapter": 6
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc60/level_loc60_100.scn.20",
+      "chapter": 6,
+      "restrictions": [
+        {
+          "guids": [
+            "c9874217-d888-491d-a543-1ce66ac8974b", // cable car enemy
+            "03591605-c7ef-4914-b59c-7d30c02f9d3d", // cable car enemy
+            "95aeb8db-12cc-472e-b1e1-c7d61724bd53", // cable car enemy
+            "9dc131eb-fb7b-4208-bf2b-f3a15ff2bfc1", // cable car enemy
+            "de15bf2d-6db2-49ed-aca8-dbb31e322df9", // cable car enemy
+            "fb0a6d25-aa1e-47d1-a353-74c64389499e", // cable car enemy
+            "b85ca58a-7be1-419c-8b98-7f421d0695a6", // cable car enemy
+            "89c37c71-3729-4d1e-94eb-5ec538429afa", // cable car enemy
+            "4d8a0e77-2864-4f2f-89fa-858afb5597c6", // cable car enemy
+            "1c48a264-cf7f-4151-a088-4bce83e879aa", // cable car enemy
+            "5aca924b-a0ea-4f5d-adf7-c155af64e71b", // cable car enemy
+            "4b96ae6b-fa33-4ce4-b767-32cb182790d5", // cable car enemy
+            "c9af63b7-2b1a-4c48-a7d7-ff63e879d2df" // cable car enemy
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc60/level_loc60_200.scn.20",
+      "chapter": 6,
+      "restrictions": [
+        {
+          "guids": [
+            "b66cfd0f-1bab-4e98-a3cf-136073031d4d", // soldier (turret)
+            "f0ecb11b-b59c-436e-b1b4-94228a1ef6b1", // soldier (turret)
+            "437b0b13-f5b4-4484-bdc5-e1d5c005e505", // soldier (turret)
+            "17d985b7-cb12-4b7a-a65a-325bf9a2a1b8", // novistador (request)
+            "63dff196-74e2-44d5-a4a5-dc1dc00d525b", // novistador (request)
+            "3bb1155e-712a-4dfe-8f93-0445c5f7f0f2", // novistador (request)
+            "925ce2b2-810a-4626-82be-1740c41af5ff", // martinico
+            "ca8fb4b5-6416-4201-b44c-a166950aae36", // martinico
+            "7fd3a938-0824-420b-a5ad-6da669663c79", // martinico
+            "7a252fee-5b32-4f55-8732-a6066aaa95ae", // martinico
+            "1c6f36bc-b18b-4d84-9611-bc7b912b0b9c" // martinico
+          ]
+        }
+      ]
     }
   ],
   "items": [
@@ -1179,6 +1732,10 @@
     { "chapter": 4, "path": "natives/stm/_anotherorder/leveldesign/location/loc51/item_loc51.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc51/item_loc51_itemdata.user.2" },
     { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_2/item_cp11_chp3_2.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_2/item_cp11_chp3_2_itemdata.user.2" },
     { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc55/item_loc55.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc55/item_loc55_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc56/item_loc56.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc56/item_loc56_itemdata.user.2" }
+    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc56/item_loc56.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc56/item_loc56_itemdata.user.2" },
+    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc64/item_loc64.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc64/item_loc64_itemdata.user.2" },
+    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc62/item_loc62.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc62/item_loc62_itemdata.user.2" },
+    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc61/item_loc61.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc61/item_loc61_itemdata.user.2" },
+    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc60/item_loc60.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc60/item_loc60_itemdata.user.2" }
   ]
 }
