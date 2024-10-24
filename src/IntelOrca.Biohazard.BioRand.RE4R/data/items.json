@@ -655,7 +655,8 @@
       "name": "SW - Jacket",
       "kind": "key",
       "mode": "sw",
-      "id": 120480000
+      "id": 120480000,
+      "value": 5000
     },
     {
       "name": "it_sm75_301_00_0",
@@ -663,21 +664,24 @@
     },
     {
       "name": "SW - Beret",
-      "kind": "key",
+      "kind": "treasure",
       "mode": "sw",
-      "id": 120483200
+      "id": 120483200,
+      "value": 10000
     },
     {
       "name": "SW - Housekeeper's Barrette",
-      "kind": "key",
+      "kind": "treasure",
       "mode": "sw",
-      "id": 120484800
+      "id": 120484800,
+      "value": 20000
     },
     {
       "name": "SW - Glasses",
-      "kind": "key",
+      "kind": "treasure",
       "mode": "sw",
-      "id": 120486400
+      "id": 120486400,
+      "value": 3500
     },
     {
       "name": "Spinel",
