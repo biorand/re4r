@@ -187,6 +187,13 @@
       "closed": true
     },
     {
+      "key": "sadler_human",
+      "componentName": "chainsaw.Ch4fez0SpawnParam",
+      "prefab": "_AnotherOrder/AppSystem/Character/Prefab/ch4fez0SpawnParam.pfb",
+      "closed": true,
+      "noItemDrop": true
+    },
+    {
       "key": "ashley_2",
       "componentName": "chainsaw.Ch2a3z0SpawnParam",
       "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch2a3z0SpawnParam.pfb",

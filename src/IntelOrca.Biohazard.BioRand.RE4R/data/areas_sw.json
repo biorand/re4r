@@ -1716,6 +1716,178 @@
           ]
         }
       ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp5_1/level_cp11_chp5_1.scn.20",
+      "chapter": 7,
+      "restrictions": [
+        {
+          "guids": [
+            "71c38980-cf1a-4040-aa93-708a290529ee" // sadler
+          ]
+        }
+      ],
+      "extra": [
+        {
+          // After walking up stairs at start
+          "condition": "1c275875-1b97-49f9-993e-6df401e7eed6",
+          "enemies": [
+            {
+              "direction": 171,
+              "small": true,
+              "stage": 59200,
+              "x": -309,
+              "y": 24,
+              "z": -198,
+              "findPlayer": true
+            }
+          ]
+        },
+        {
+          "skipCondition": "ea7547fd-9ede-45f9-a70d-2804c1cae4c7",
+          "enemies": [
+            {
+              "direction": 116,
+              "stage": 69900,
+              "x": -226,
+              "y": 64,
+              "z": -158
+            },
+            {
+              "direction": 3,
+              "stage": 69900,
+              "x": -204,
+              "y": 60,
+              "z": -160
+            },
+            {
+              "direction": 6,
+              "stage": 68206,
+              "x": -186,
+              "y": 66,
+              "z": -185
+            },
+            {
+              "direction": -86,
+              "stage": 68204,
+              "x": -173,
+              "y": 66,
+              "z": -186
+            },
+            {
+              "direction": 129,
+              "stage": 68204,
+              "x": -157,
+              "y": 66,
+              "z": -189
+            },
+            {
+              "direction": 99,
+              "stage": 68203,
+              "x": -136,
+              "y": 66,
+              "z": -196
+            },
+            {
+              "direction": -132,
+              "stage": 68203,
+              "x": -123,
+              "y": 66,
+              "z": -190
+            }
+          ]
+        },
+        {
+          // Salder
+          "condition": "ea7547fd-9ede-45f9-a70d-2804c1cae4c7",
+          "enemies": [
+            {
+              "direction": 114,
+              "stage": 68101,
+              "x": -132,
+              "y": 62,
+              "z": -168,
+              "findPlayer": true
+            },
+            {
+              "direction": 73,
+              "stage": 68101,
+              "x": -133,
+              "y": 62,
+              "z": -174,
+              "findPlayer": true
+            },
+            {
+              "direction": 3,
+              "stage": 68101,
+              "x": -104,
+              "y": 61,
+              "z": -176,
+              "findPlayer": true
+            },
+            {
+              "direction": -166,
+              "stage": 68101,
+              "x": -103,
+              "y": 61,
+              "z": -167,
+              "findPlayer": true
+            },
+            {
+              "direction": -89,
+              "stage": 68101,
+              "x": -100,
+              "y": 61,
+              "z": -171,
+              "findPlayer": true
+            },
+            {
+              "direction": 180,
+              "stage": 68101,
+              "x": -117,
+              "y": 61,
+              "z": -167,
+              "findPlayer": true
+            }
+          ]
+        },
+        {
+          // At Ashley
+          "condition": "6dec272e-6d20-4a06-8e5f-39f90c42f358",
+          "enemies": [
+            {
+              "direction": -60,
+              "stage": 68206,
+              "x": -180,
+              "y": 66,
+              "z": -188
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc59/enemy.scn.20",
+      "chapter": 7
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc69/enemy_before.scn.20",
+      "chapter": 7
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc69/enemy_after.scn.20",
+      "chapter": 7
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc68/level_loc68.scn.20",
+      "chapter": 7,
+      "restrictions": [
+        {
+          "guids": [
+            "02a64cfc-b818-4d02-9877-651886fe1127" // novistador ceiling
+          ]
+        }
+      ]
     }
   ],
   "items": [
@@ -1736,6 +1908,10 @@
     { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc64/item_loc64.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc64/item_loc64_itemdata.user.2" },
     { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc62/item_loc62.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc62/item_loc62_itemdata.user.2" },
     { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc61/item_loc61.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc61/item_loc61_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc60/item_loc60.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc60/item_loc60_itemdata.user.2" }
+    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc60/item_loc60.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc60/item_loc60_itemdata.user.2" },
+    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp5_1/item_cp11_chp5_1.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp5_1/item_cp11_chp5_1_itemdata.user.2" },
+    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc59/item_loc59.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc59/item_loc59_itemdata.user.2" },
+    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc69/item_loc69.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc69/item_loc69_itemdata.user.2" },
+    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc68/item_loc68.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc68/item_loc68_itemdata.user.2" }
   ]
 }
