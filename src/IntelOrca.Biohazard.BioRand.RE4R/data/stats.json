@@ -89,7 +89,8 @@
     },
     {
       "include": [
-        4201 // Chicago Sweeper
+        4201, // Chicago Sweeper
+        6101 // Chicago Sweeper (SW)
       ],
       "power": [ [ 1, 1 ], [ 2, 4 ], [ 4, 5 ] ],
       "ammoCapacity": [ [ 15, 30 ], [ 30, 200 ], [ 200, 500 ] ],
