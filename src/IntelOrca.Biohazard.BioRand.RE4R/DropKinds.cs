@@ -16,6 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public const string AmmoMagnum = "ammo-magnum";
         public const string AmmoBolts = "ammo-bolts";
         public const string AmmoMines = "ammo-mines";
+        public const string AmmoArrows = "ammo-arrows";
         public const string Fas = "fas";
         public const string Fish = "fish";
         public const string EggBrown = "egg-brown";
@@ -99,6 +100,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 AmmoMagnum => CategoryAmmo,
                 AmmoBolts => CategoryAmmo,
                 AmmoMines => CategoryAmmo,
+                AmmoArrows => CategoryAmmo,
                 Fas => CategoryHealth,
                 Fish => CategoryHealth,
                 EggBrown => CategoryHealth,
@@ -139,6 +141,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 AmmoMagnum => ItemIds.AmmoMagnum,
                 AmmoBolts => ItemIds.AmmoBolts,
                 AmmoMines => ItemIds.AmmoMines,
+                AmmoArrows => ItemIds.AmmoArrows,
                 _ => null,
             };
         }
@@ -170,6 +173,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             AmmoMagnum,
             AmmoBolts,
             AmmoMines,
+            AmmoArrows,
             Fas,
             Fish,
             EggBrown,
