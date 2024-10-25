@@ -40,6 +40,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public static ImmutableArray<Boss> All { get; } = [.. Leon, .. Ada];
 
+        public static ImmutableArray<Boss> GetByCampaign(Campaign campaign) => campaign == Campaign.Leon ? Leon : Ada;
         public static bool IsBoss(Guid guid) => GetBoss(guid) != null;
         public static Boss? GetBoss(Guid guid) => All.FirstOrDefault(x => x.Guid == guid);
     }

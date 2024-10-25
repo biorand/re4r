@@ -578,32 +578,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Default = false
             });
 
-            group = page.CreateGroup("Bosses");
-            group.Warning = "Random boss health must be enabled for these values to take affect.";
-            foreach (var boss in Bosses.All)
-            {
-                group.Items.Add(new GroupItem()
-                {
-                    Id = $"boss-health-min-{boss.Key}",
-                    Label = $"Min. {boss.Name} HP",
-                    Type = "scale",
-                    Min = 0,
-                    Max = 1_000_000,
-                    Step = 1_000,
-                    Default = 10_000
-                });
-                group.Items.Add(new GroupItem()
-                {
-                    Id = $"boss-health-max-{boss.Key}",
-                    Label = $"Max. {boss.Name} HP",
-                    Type = "scale",
-                    Min = 0,
-                    Max = 1_000_000,
-                    Step = 1_000,
-                    Default = 100_000
-                });
-            }
-
             group = page.CreateGroup("Enemies");
             group.Warning = "Random enemy health must be enabled for these values to take affect.";
             foreach (var enemyClass in enemyClassFactory.Classes)
@@ -635,6 +609,35 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Step = 1,
                     Default = enemyClass.MaxHealth
                 });
+            }
+
+            foreach (var campaign in new[] { Campaign.Leon, Campaign.Ada })
+            {
+                group = page.CreateGroup($"Bosses ({campaign})");
+                group.Warning = "Random boss health must be enabled for these values to take affect.";
+                foreach (var boss in Bosses.GetByCampaign(campaign))
+                {
+                    group.Items.Add(new GroupItem()
+                    {
+                        Id = $"boss-health-min-{boss.Key}",
+                        Label = $"Min. {boss.Name} HP",
+                        Type = "scale",
+                        Min = 0,
+                        Max = 1_000_000,
+                        Step = 1_000,
+                        Default = 10_000
+                    });
+                    group.Items.Add(new GroupItem()
+                    {
+                        Id = $"boss-health-max-{boss.Key}",
+                        Label = $"Max. {boss.Name} HP",
+                        Type = "scale",
+                        Min = 0,
+                        Max = 1_000_000,
+                        Step = 1_000,
+                        Default = 100_000
+                    });
+                }
             }
 
             page = configDefinition.CreatePage("Debug");

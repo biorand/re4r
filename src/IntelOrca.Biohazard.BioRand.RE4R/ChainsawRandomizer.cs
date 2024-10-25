@@ -45,11 +45,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var logFiles = new Dictionary<string, string>();
 
-#if DEBUG
-            var campaigns = new[] { Campaign.Leon, Campaign.Ada };
-#else
             var campaigns = new[] { Campaign.Leon };
-#endif
+            if (input.Configuration.GetValueOrDefault("separate-ways", false))
+            {
+                campaigns = [Campaign.Leon, Campaign.Ada];
+            }
+
             foreach (var campaign in campaigns)
             {
                 var log = Randomize(input, campaign);

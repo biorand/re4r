@@ -1841,7 +1841,8 @@
       "mode": "sw",
       "id": 278208256,
       "class": "knife",
-      "weaponId": 6108
+      "weaponId": 6108,
+      "bonus": true
     },
     {
       "name": "it_wp6109_00_0",

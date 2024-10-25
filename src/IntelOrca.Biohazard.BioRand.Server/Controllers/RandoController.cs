@@ -35,6 +35,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
             var randomizer = randomizerService.GetRandomizer();
             var config = RandomizerConfiguration.FromDictionary(request.Config ?? []);
+
+            // Separate ways early access
+            config["separate-ways"] = user.Role == UserRoleKind.Tester || user.Role == UserRoleKind.Administrator;
+
             var configJson = config.ToJson(indented: false);
 
             var randoConfig = await db.GetOrCreateRandoConfig(request.ProfileId, configJson);

@@ -78,6 +78,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             var originalRole = user.Role;
             if (originalRole is UserRoleKind.Pending
                              or UserRoleKind.Banned
+                             or UserRoleKind.Tester
                              or UserRoleKind.Administrator
                              or UserRoleKind.System)
             {
