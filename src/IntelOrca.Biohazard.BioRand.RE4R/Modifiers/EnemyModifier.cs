@@ -303,8 +303,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var windowEnd = 1.0;
             if (progressiveDifficulty)
             {
-                windowStart = (chapter - 1) / 16.0;
-                windowEnd = chapter / 16.0;
+                var numChapters = randomizer.Campaign == Campaign.Leon ? 16 : 7;
+                windowStart = (chapter - 1) / (double)numChapters;
+                windowEnd = chapter / (double)numChapters;
             }
 
             logger.Push($"Chapter {chapter}");
