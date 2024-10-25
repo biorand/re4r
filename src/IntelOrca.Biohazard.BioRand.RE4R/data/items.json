@@ -74,7 +74,7 @@
       "name": "SW - Blast Arrows",
       "kind": "ammo",
       "mode": "sw",
-      "class": "bolt",
+      "class": "arrow",
       "id": 112480000
     },
     {
@@ -1783,7 +1783,7 @@
       "kind": "weapon",
       "mode": "sw",
       "id": 278198656,
-      "class": "bolt",
+      "class": "arrow",
       "weaponId": 6102
     },
     {
