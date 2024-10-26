@@ -239,10 +239,6 @@
       "chapter": 2
     },
     {
-      "path": "natives/stm/_anotherorder/leveldesign/location/loc43/level_loc43.scn.20",
-      "chapter": 2
-    },
-    {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc45/level_loc45.scn.20",
       "chapter": 2,
       "extra": [
@@ -529,6 +525,17 @@
         // {
         //   "condition": "f0dfc060-3264-4e4e-8b75-d0da7f488c9d"
         // }
+      ]
+    },
+    {
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc43/level_loc43.scn.20",
+      "chapter": 3,
+      "restrictions": [
+        {
+          "guids": [
+            "afac38f0-0c3c-4e19-8058-fed0d7105fd3"
+          ]
+        }
       ]
     },
     // Chapter 4 (Luis Fire, Bindery, Knights, Maze, Embattlements)
