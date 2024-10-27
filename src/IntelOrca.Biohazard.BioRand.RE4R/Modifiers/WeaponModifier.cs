@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Data;
 using System.Linq;
+using System.Text.Json.Serialization;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using MsgTool;
 
@@ -112,10 +113,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         RandomizeExclusives(randomizer, wp, valueRng);
                     }
                     RandomizeStats(randomizer, wp, valueRng, randomUpgrades);
-                    if (randomPrices)
-                    {
-                        RandomizePrices(rng, wp);
-                    }
+                    RandomizePrices(rng, wp, randomPrices);
                 });
             }
             weaponStatCollection.Apply();
@@ -533,18 +531,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             };
         }
 
-        private void RandomizePrices(Rng rng, WeaponStats wp)
+        private void RandomizePrices(Rng rng, WeaponStats wp, bool randomPrices)
         {
+            var group = GetWeaponStatsGroup(wp);
             foreach (var m in wp.Modifiers)
             {
                 if (m is IWeaponUpgrade upgrade)
                 {
-                    var scale = rng.NextDouble(0.5, 2);
-                    upgrade.Cost = upgrade.Cost.Select(x => (x * scale).RoundPrice()).ToImmutableArray();
+                    if (m.Kind == WeaponUpgradeKind.Power && group?.PowerCost != null)
+                        upgrade.Cost = [.. group.PowerCost];
+                    if (m.Kind == WeaponUpgradeKind.AmmoCapacity && group?.AmmoCapacityCost != null)
+                        upgrade.Cost = [.. group.AmmoCapacityCost];
+                    if (m.Kind == WeaponUpgradeKind.ReloadSpeed && group?.ReloadSpeedCost != null)
+                        upgrade.Cost = [.. group.ReloadSpeedCost];
+
+                    if (randomPrices)
+                    {
+                        var scale = rng.NextDouble(0.5, 2);
+                        upgrade.Cost = upgrade.Cost.Select(x => (x * scale).RoundPrice()).ToImmutableArray();
+                    }
                 }
                 else if (m is IWeaponExclusive exclusive)
                 {
-                    exclusive.Cost = rng.Next(5, 15) * 10_000;
+                    if (randomPrices)
+                    {
+                        exclusive.Cost = rng.Next(5, 15) * 10_000;
+                    }
                 }
             }
         }
@@ -586,5 +598,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public float[][]? ReloadRounds { get; set; }
         public float[][]? FireRate { get; set; }
         public float[][]? Durability { get; set; }
+
+        [JsonPropertyName("power:cost")]
+        public int[]? PowerCost { get; set; }
+        [JsonPropertyName("ammoCapacity:cost")]
+        public int[]? AmmoCapacityCost { get; set; }
+        [JsonPropertyName("reloadSpeed:cost")]
+        public int[]? ReloadSpeedCost { get; set; }
     }
 }
