@@ -75,6 +75,7 @@
       "kind": "ammo",
       "mode": "sw",
       "class": "arrow",
+      "stack": 10,
       "id": 112480000
     },
     {

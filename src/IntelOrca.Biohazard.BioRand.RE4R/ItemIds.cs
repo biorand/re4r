@@ -9,7 +9,7 @@
         public const int AmmoMagnum = 112801600;
         public const int AmmoBolts = 112808000;
         public const int AmmoMines = 117603200;
-        public const int AmmoArrows = 278198656;
+        public const int AmmoArrows = 112480000;
         public const int Money = 124000000;
         public const int FirstAidSpray = 114416000;
         public const int HerbG = 114400000;

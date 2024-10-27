@@ -178,6 +178,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     var ratio = settings.GetItemRatio(dropKind);
                     if (ratio > 0)
                     {
+                        if (_randomizer.Campaign == Campaign.Leon && dropKind == DropKinds.AmmoArrows)
+                            continue;
+
                         ratios.Add(dropKind, ratio);
                     }
                 }
@@ -265,6 +268,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var teasureClass = table.Next();
             var itemRepo = ItemDefinitionRepository.Default;
             var def = rng.Next(itemRepo.KindToItemMap[ItemKinds.Treasure]
+                .Where(x => x.SupportsCampaign(_randomizer.Campaign))
                 .Where(x => x.Class == teasureClass));
             _logger.LogLine($"Random treasure: {def.Name} [{def.Class}] ({def.Value})");
             return new Item(def.Id, 1);
@@ -274,6 +278,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         {
             var itemRepo = ItemDefinitionRepository.Default;
             var treasureItems = itemRepo.KindToItemMap[ItemKinds.Treasure]
+                .Where(x => x.SupportsCampaign(_randomizer.Campaign))
                 .Shuffle(rng) as IEnumerable<ItemDefinition>;
 
             if (classNumber <= 1)
