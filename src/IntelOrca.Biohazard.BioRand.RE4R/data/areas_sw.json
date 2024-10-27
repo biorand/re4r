@@ -1428,6 +1428,7 @@
         },
         {
           // merchant after cable car
+          "condition": "cc6104eb-8d5e-44d9-ae35-fbefdf2ba771",
           "enemies": [
             {
               "direction": 0,
