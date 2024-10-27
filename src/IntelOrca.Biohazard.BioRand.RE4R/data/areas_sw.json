@@ -621,7 +621,7 @@
         },
         {
           // in bindery
-          "condition": "fc144424-0a9d-4020-a3ad-c6985fbcebc2",
+          "condition": "ad489639-1eaf-4d49-b82a-9791de414ad0",
           "skipCondition": "ce59d5e1-2378-4afb-be7c-98aa46a99f57",
           "enemies": [
             {
@@ -644,27 +644,6 @@
               "x": -3,
               "y": 27,
               "z": -34
-            }
-          ]
-        },
-        {
-          // after Leon encounter on wall bridges
-          "enemies": [
-            {
-              "direction": -92,
-              "small": true,
-              "stage": 51851,
-              "x": 13,
-              "y": 21,
-              "z": -27
-            },
-            {
-              "direction": -85,
-              "small": true,
-              "stage": 51851,
-              "x": 24,
-              "y": 21,
-              "z": -28
             }
           ]
         },
@@ -866,6 +845,18 @@
       "path": "natives/stm/_anotherorder/leveldesign/location/loc51/level_loc51_chp3_1.scn.20",
       "chapter": 4,
       "restrictions": [
+        {
+          "guids": [
+            "34ede7c5-f7bb-4cec-acd6-9c563b6197b3", // zealot (crossbow) at cage fight
+            "520a78bd-23dd-4f53-81cb-b1ff7ce11af9", // zealot (crossbow) at cage fight
+            "ab2fb0c0-d7f3-499c-bbd7-c8ae077f1bbc", // zealot (crossbow) at cage fight
+            "16a47761-f8a0-4b63-8fa5-5832a1c6828d", // zealot (crossbow) at cage fight
+            "5d27dc30-d263-45e7-8151-9ebe69b3c46c", // zealot (crossbow) at cage fight
+            "ac86625f-d7ea-44ab-a05f-4f384397eef6", // zealot (crossbow) at cage fight
+            "7a813144-e784-4523-960d-cf05697ef63b", // zealot (crossbow) at cage fight
+            "53212245-0156-4d87-a726-6d2a250f0737"  // zealot (crossbow) at cage fight
+          ]
+        },
         {
           "guids": [
             "1a4b7f3e-01fe-47b4-a23d-628aa94b5978"

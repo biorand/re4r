@@ -396,6 +396,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 controller.SpawnCondition.Add(scn, new Guid("84b73ea9-8de6-492d-a479-45f988e06492"));
             }
 
+            // There is one enemy that you can't seem to damage,
+            // so disable all no damage flags.
+            var noDamageEnemies = new Guid[]
+            {
+                new Guid("8168407b-a4f3-48fb-a553-39527eaab8ce"),
+                new Guid("4a43992c-71b0-4a2e-ba91-9a588716f255"),
+                new Guid("025c604b-e2ac-4c15-afc8-166d95a56618")
+            };
+            foreach (var guid in noDamageEnemies)
+            {
+                var go = scn.FindGameObject(guid);
+                if (go == null)
+                    continue;
+
+                var spawn = go.Components.FirstOrDefault(x => x.Name.Contains("SpawnParam"));
+                if (spawn == null)
+                    continue;
+
+                var checkFlags = spawn.GetList("_NoDamageCtrlFlag._CheckFlags");
+                checkFlags.Clear();
+            }
+
             // Remove the tsuitates (since they don't break if we switch out the armaduras)
             var gimmickPath = "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_857_ao.scn.20";
             randomizer.FileRepository.ModifyScnFile(gimmickPath, scn2 =>
