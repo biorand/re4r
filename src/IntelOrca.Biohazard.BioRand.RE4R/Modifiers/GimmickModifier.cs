@@ -46,10 +46,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var gimmicks = GetGimmicksFromScn(scnFile);
                     foreach (var g in gimmicks)
                     {
-                        if (g.Kind == "GmSmoothWoodBox")
+                        if (g.Kind == "GmChicken")
                         {
-                            var component = g.GameObject.FindComponent("chainsaw.GmSmoothWoodBox");
-                            component?.Set("_RandomDropItemNum", 6);
+                            SetChickenDropItem(g, new Item(ItemIds.RocketLauncher, 1));
                         }
                     }
                 });
@@ -71,6 +70,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
             return result.ToArray();
+        }
+
+        private static void SetChickenDropItem(Gimmick gimmick, Item item)
+        {
+            var gmChicken = gimmick.GameObject.FindComponent("chainsaw.GmChicken");
+            if (gmChicken != null)
+            {
+                var paramObject = gimmick.GameObject
+                    .GetChildren()
+                    .FirstOrDefault(x => x.Name == "ParamObject");
+                if (paramObject != null)
+                {
+                    var gmOptionDropItem = paramObject.FindComponent("chainsaw.GmOptionDropItem");
+                    if (gmOptionDropItem != null)
+                    {
+                        gmChicken.Set("_LaysEgg", true);
+                        gmOptionDropItem.Set("ID", item.Id);
+                        gmOptionDropItem.Set("Count", item.Count);
+                    }
+                }
+            }
         }
 
         private class Gimmick
