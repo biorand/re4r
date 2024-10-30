@@ -216,7 +216,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return null;
 
             var index = -1;
-            var valuableOrder = new[] { "boss", "bawk", "ashley", "smallkey", "long", "key", "display", "chest" };
+            var valuableOrder = new[] { "boss", "multikey", "bawk", "ashley", "smallkey", "long", "key", "display", "chest" };
             foreach (var v in valuableOrder)
             {
                 if (v == "boss" || rng.NextProbability(75))

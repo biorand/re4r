@@ -8319,7 +8319,8 @@
         },
         {
           "contextId": "2,0,12,359", // Vintage Compass in small key drawer
-          "valuable": "smallkey"
+          "valuable": "smallkey",
+          "chapter": 5
         },
         {
           "contextId": "2,0,12,452", // Elegant Bangle in locked barn (village)
@@ -8352,7 +8353,8 @@
         },
         {
           "contextId": "2,0,12,384", // Gold Bar in Lakeside cabin small key drawer
-          "valuable": "smallkey"
+          "valuable": "smallkey",
+          "chapter": 4
         },
         {
           "contextId": "2,0,12,329", // Red Gemstone Ring where Luis was found
@@ -8429,7 +8431,7 @@
         },
         {
           "contextId": "2,0,12,338", // Depraved Idol in hex puzzle (Del Lago docks)
-          "valuable": "key",
+          "valuable": "multikey",
           "chapter": 4
         },
         {
