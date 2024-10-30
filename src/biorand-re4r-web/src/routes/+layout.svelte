@@ -17,17 +17,19 @@
         await userManager.refresh();
     })();
 
-    const lsManager = getLocalStorageManager();
-    let stats = lsManager.get<StatsResult>(LocalStorageKeys.Stats);
-    let refreshStats = async () => {
-        try {
-            const api = getApi();
-            stats = await api.getStats();
-            lsManager.set(LocalStorageKeys.Stats, stats);
-        } catch {}
-    };
-    refreshStats();
-    setInterval(() => refreshStats(), 60000);
+    // Disable showing seed stats on toolbar since polling is too stressful on server
+    let stats = undefined;
+    // const lsManager = getLocalStorageManager();
+    // let stats = lsManager.get<StatsResult>(LocalStorageKeys.Stats);
+    // let refreshStats = async () => {
+    //     try {
+    //         const api = getApi();
+    //         stats = await api.getStats();
+    //         lsManager.set(LocalStorageKeys.Stats, stats);
+    //     } catch {}
+    // };
+    // refreshStats();
+    // setInterval(() => refreshStats(), 60000);
 </script>
 
 {#await init}
