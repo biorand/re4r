@@ -1,7 +1,13 @@
 <script lang="ts">
     import { createChart } from '$lib/Chart.svelte';
     import DeleteConfirmModal from '$lib/DeleteConfirmModal.svelte';
-    import { UserRole, getApi, type DailyResult, type NewsItem } from '$lib/api';
+    import {
+        UserRole,
+        getApi,
+        type DailyResult,
+        type MonthlyResult,
+        type NewsItem
+    } from '$lib/api';
     import { PageBody, PageTitle } from '$lib/typography';
     import { getUserManager } from '$lib/userManager';
     import { Button, Timeline } from 'flowbite-svelte';
@@ -18,7 +24,7 @@
 
         const statsResult = await api.getHomeStats();
         seedChart = createDailyChart('Seeds', statsResult.seeds);
-        totalUsersChart = createDailyChart('Registered Users', statsResult.totalUsers);
+        totalUsersChart = createMonthlyChart('Registered Users', statsResult.totalUsers);
     };
     init();
 
@@ -44,6 +50,19 @@
         );
         result.xaxis.axisTicks.show = true;
         result.xaxis.labels.show = false;
+        return result;
+    }
+
+    function createMonthlyChart(title: string, monthly: MonthlyResult[]) {
+        const months = monthly.map((x) => {
+            const dt = new Date(x.month);
+            return new Intl.DateTimeFormat('en-US', { month: 'short' }).format(dt);
+        });
+        const result = createChart(
+            title,
+            months,
+            monthly.map((x) => x.value)
+        );
         return result;
     }
 

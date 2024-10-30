@@ -80,7 +80,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         public async Task<object> GetStatsAsync()
         {
             var seeds = await db.GetSeedsDaily();
-            var totalUsers = await db.GetTotalUsersDaily();
+            var totalUsers = await db.GetTotalUsersMonthly();
             return new
             {
                 Seeds = seeds,

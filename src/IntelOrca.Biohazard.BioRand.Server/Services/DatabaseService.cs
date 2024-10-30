@@ -426,12 +426,12 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         public async Task<int> CountProfiles()
         {
-            return await _conn.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM rando");
+            return await _conn.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM profile");
         }
 
         public async Task<int> CountUsers()
         {
-            return await _conn.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM rando");
+            return await _conn.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM user");
         }
 
         public async Task<bool> AdminUserExistsAsync()
@@ -592,23 +592,23 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 SELECT strftime('%Y-%m-%d', datetime((Created - 621355968000000000) / 10000000, 'unixepoch')) AS Day,
                        COUNT(*) AS Value
                 FROM rando
-                WHERE Day >= date('now', '-30 days')
+                WHERE Day >= date('now', '-30 days') AND Day < date('now')
                 GROUP BY Day");
             return [.. result];
         }
 
-        public async Task<DailyDbViewModel[]> GetTotalUsersDaily()
+        public async Task<MonthlyDbViewModel[]> GetTotalUsersMonthly()
         {
-            var result = await _conn.QueryAsync<DailyDbViewModel>(@"
-                SELECT Day, Value
+            var result = await _conn.QueryAsync<MonthlyDbViewModel>(@"
+                SELECT date(Month || '-01', '+1 month') AS Month, Value
                 FROM (
-                    SELECT Day, SUM(Value) OVER (ORDER BY Day) AS Value
+                    SELECT Month, SUM(Value) OVER (ORDER BY Month) AS Value
                     FROM (
-                        SELECT strftime('%Y-%m-%d', datetime((Created - 621355968000000000) / 10000000, 'unixepoch')) AS Day,
+                        SELECT strftime('%Y-%m', datetime((Created - 621355968000000000) / 10000000, 'unixepoch')) AS Month,
                                COUNT(*) AS Value
                         FROM user
-                        GROUP BY Day))
-                WHERE Day >= date('now', '-30 days')");
+                        GROUP BY Month))
+                WHERE Month >= date('now', '-12 months')");
             return [.. result];
         }
 

@@ -256,9 +256,14 @@ export interface DailyResult {
     value: number;
 }
 
+export interface MonthlyResult {
+    month: string;
+    value: number;
+}
+
 export interface HomeStatsResult {
     seeds: DailyResult[],
-    totalUsers: DailyResult[]
+    totalUsers: MonthlyResult[]
 };
 
 export class BioRandApiError extends Error {
