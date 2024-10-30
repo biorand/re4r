@@ -867,7 +867,8 @@
       "name": "Gold Monocle",
       "kind": "treasure",
       "id": 120854400,
-      "value": 30000
+      "value": 30000,
+      "mode": "main"
     },
     {
       "name": "Lip Rouge",
