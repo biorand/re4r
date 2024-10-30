@@ -16,6 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             // Once
             EnableInstantBuy(randomizer, logger);
+            EnableEarlyUpgrades(randomizer, logger);
 
             if (randomizer.Campaign == Campaign.Leon)
             {
@@ -241,6 +242,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var controller = new CharacterSpawnController(spawnControllerComponent);
                     controller.SpawnCondition.Add(scn, new Guid("6ac0d9ef-16d3-46e6-af89-4efb1f8370ac"));
                 }
+            }
+        }
+
+        private void EnableEarlyUpgrades(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            var fileRepository = randomizer.FileRepository;
+            if (randomizer.Campaign == Campaign.Leon)
+            {
+                var path = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopupdateflagcataloguserdata.user.2";
+                fileRepository.ModifyUserFile(path, (rsz, root) =>
+                {
+                    for (var i = 0; i <= 2; i++)
+                    {
+                        root.GetList($"_Datas[{i}]._Flags").Add(0);
+                        root.GetList($"_Datas[{i}]._SaleFlags").Add(0);
+                    }
+                });
+            }
+            else
+            {
+                var path = "natives/stm/_anotherorder/appsystem/ui/userdata/ingameshopupdateflagcataloguserdata_ao.user.2";
+                fileRepository.ModifyUserFile(path, (rsz, root) =>
+                {
+                    root.GetList($"_Datas[18]._Flags").Add(17);
+                    root.GetList($"_Datas[18]._SaleFlags").Add(17);
+                });
             }
         }
 

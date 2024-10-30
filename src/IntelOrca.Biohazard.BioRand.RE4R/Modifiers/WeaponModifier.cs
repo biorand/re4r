@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using MsgTool;
+using RszTool;
+using static chainsaw.WeaponDetailCustomUserdata;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -124,6 +126,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             randomizer.FileRepository.SetMsgFile(ShopMsgPath, shopMsg.ToMsg());
 
             UpdateItemDefinitions(randomizer);
+            UpdateUnlocks(randomizer, weaponStatCollection);
         }
 
         private void LogWeaponChanges(WeaponStats wp, RandomizerLogger logger, Action action)
@@ -577,6 +580,71 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
             itemData.Save();
+        }
+
+        private void UpdateUnlocks(ChainsawRandomizer randomizer, WeaponStatCollection weaponStats)
+        {
+            var itemRepo = ItemDefinitionRepository.Default;
+            var path = randomizer.Campaign == Campaign.Leon
+                ? "natives/stm/_chainsaw/appsystem/ui/userdata/weaponcustomunlocksettinguserdata.user.2"
+                : "natives/stm/_anotherorder/appsystem/ui/userdata/weaponcustomunlocksettinguserdata_ao.user.2";
+            var findFlag = randomizer.Campaign == Campaign.Leon
+                ? 0
+                : 17;
+            randomizer.FileRepository.ModifyUserFile(path, (rsz, root) =>
+            {
+                var userData = rsz.RszParser.Deserialize<chainsaw.WeaponCustomUnlockSettingUserdata>(root);
+                foreach (var w in userData._Settings)
+                {
+                    var itemDefinition = itemRepo.Find(w._ItemId);
+                    if (itemDefinition == null)
+                        continue;
+
+                    var stats = weaponStats.Weapons.FirstOrDefault(x => x.Id == itemDefinition.WeaponId);
+                    if (stats == null)
+                        continue;
+
+                    var categories = stats.Modifiers
+                        .Where(x => x is not IWeaponExclusive)
+                        .Select(x => GetItemCustomCategory(x.Kind))
+                        .Order()
+                        .ToArray();
+
+                    // Disable all chapters
+                    for (var i = 0; i < w._Datas.Count; i++)
+                    {
+                        w._Datas[i]._IsApply = false;
+                    }
+
+                    // Enable first chapter
+                    var firstChapterEntry = w._Datas.First(x => x._FlagType == findFlag);
+                    firstChapterEntry._IsApply = true;
+                    firstChapterEntry._UnlockDatas = categories.Select(x => new chainsaw.WeaponCustomUnlocksingleSetting.UnlockData()
+                    {
+                        _CustomCategory = x,
+                        _UnlockLevel = 4
+                    }).ToList();
+                }
+
+                rsz.InstanceCopyValues(rsz.ObjectList[0], rsz.RszParser.Serialize(userData));
+            });
+        }
+
+        private static int GetItemCustomCategory(WeaponUpgradeKind kind)
+        {
+            return kind switch
+            {
+                WeaponUpgradeKind.Power or WeaponUpgradeKind.PowerShotGunAround => 0,
+                WeaponUpgradeKind.AmmoCapacity => 2,
+                WeaponUpgradeKind.CriticalRate => 3,
+                WeaponUpgradeKind.Penetration => 4,
+                WeaponUpgradeKind.Repair => 7,
+                WeaponUpgradeKind.Polish => 8,
+                WeaponUpgradeKind.Durability => 9,
+                WeaponUpgradeKind.ReloadSpeed => 10,
+                WeaponUpgradeKind.FireRate => 11,
+                _ => throw new NotSupportedException()
+            };
         }
 
         private static WeaponStatsDefinition WeaponStatsDefinition { get; } = Resources.stats.DeserializeJson<WeaponStatsDefinition>();

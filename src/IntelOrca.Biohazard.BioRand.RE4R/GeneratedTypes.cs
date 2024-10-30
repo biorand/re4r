@@ -652,6 +652,26 @@ namespace chainsaw
             public chainsaw.RaderChartGuiSingleSettingData _RaderChartGuiSingleSettingData { get; set; }
         }
     }
+    internal class WeaponCustomUnlockSettingUserdata
+    {
+        public System.Collections.Generic.List<chainsaw.WeaponCustomUnlocksingleSetting> _Settings { get; set; }
+    }
+    internal class WeaponCustomUnlocksingleSetting
+    {
+        public System.Int32 _ItemId { get; set; }
+        public System.Collections.Generic.List<Data> _Datas { get; set; } = [];
+        internal class UnlockData
+        {
+            public System.Int32 _CustomCategory { get; set; }
+            public System.Int32 _UnlockLevel { get; set; }
+        }
+        internal class Data
+        {
+            public System.Int32 _FlagType { get; set; }
+            public System.Boolean _IsApply { get; set; }
+            public System.Collections.Generic.List<chainsaw.WeaponCustomUnlocksingleSetting.UnlockData> _UnlockDatas { get; set; } = [];
+        }
+    }
 }
 namespace via
 {
