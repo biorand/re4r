@@ -9,6 +9,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 {
     public class RandomizerService
     {
+        private readonly static TimeSpan DownloadExpireTime = TimeSpan.FromHours(1);
+
         private readonly Random _random = new Random();
         private readonly Dictionary<ulong, GenerateResult> _randos = new();
         private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
@@ -23,7 +25,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             foreach (var kvp in _randos.ToArray())
             {
                 var age = now - kvp.Value.CreatedAt;
-                if (age.TotalHours > 6)
+                if (age > DownloadExpireTime)
                 {
                     _randos.Remove(kvp.Key);
                 }
