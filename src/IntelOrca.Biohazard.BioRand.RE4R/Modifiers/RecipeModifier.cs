@@ -99,6 +99,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                         _GenerateNumMin = -1
                                     }
                                 }
+                            },
+                            new ItemCraftResultSetting()
+                            {
+                                _Difficulty = 20,
+                                _Result = new ItemCraftResult()
+                                {
+                                    _ItemID = recipe.Output.Id,
+                                    _GeneratedNumMin = recipe.Output.Count,
+                                    _GeneratedNumMax = recipe.Output.Count,
+                                    _GenerateNumUniqueSetting = new ItemCraftGenerateNumUniqueSetting()
+                                    {
+                                        _ItemId = -1,
+                                        _Durability = -1,
+                                        _GenerateNum = -1,
+                                        _GenerateNumMin = -1
+                                    }
+                                }
                             }
                         ]
                     };
