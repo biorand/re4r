@@ -1,0 +1,119 @@
+{
+  "recipes": [
+    {
+      "name": "5 gunpowder + 25 handgun = 30 smg",
+      "id": 21,
+      "after": 0,
+      "category": 1,
+      "input": [
+        {
+          "id": 117600000, // gunpowder
+          "count": 5
+        },
+        {
+          "id": 112800000, // handgun
+          "count": 25
+        }
+      ],
+      "output": {
+        "id": 112806400, // smg
+        "count": 30
+      }
+    },
+    {
+      "name": "5 gunpowder + 60 smg = 12 handgun",
+      "id": 22,
+      "category": 1,
+      "input": [
+        {
+          "id": 117600000, // gunpowder
+          "count": 5
+        },
+        {
+          "id": 112806400, // smg
+          "count": 60
+        }
+      ],
+      "output": {
+        "id": 112800000, // handgun
+        "count": 12
+      }
+    },
+    {
+      "name": "7 gunpowder + 8 shotgun = 4 rifle",
+      "id": 23,
+      "category": 1,
+      "input": [
+        {
+          "id": 117600000, // gunpowder
+          "count": 7
+        },
+        {
+          "id": 112803200, // shotgun
+          "count": 8
+        }
+      ],
+      "output": {
+        "id": 112804800, // rifle
+        "count": 4
+      }
+    },
+    {
+      "name": "7 gunpowder + 8 rifle = 4 shotgun",
+      "id": 24,
+      "category": 1,
+      "input": [
+        {
+          "id": 117600000, // gunpowder
+          "count": 7
+        },
+        {
+          "id": 112804800, // rifle
+          "count": 8
+        }
+      ],
+      "output": {
+        "id": 112803200, // shotgun
+        "count": 4
+      }
+    },
+    {
+      "name": "12 gunpowder + 50 handgun = 3 magnum",
+      "id": 25,
+      "category": 1,
+      "input": [
+        {
+          "id": 117600000, // gunpowder
+          "count": 12
+        },
+        {
+          "id": 112800000, // handgun
+          "count": 50
+        }
+      ],
+      "output": {
+        "id": 112801600, // magnum
+        "count": 3
+      }
+    },
+    {
+      "name": "1 resource (s) + 3 hand grenade = 1 heavy grenade",
+      "id": 26,
+      "category": 2,
+      "input": [
+        {
+          "id": 117606400, // resource
+          "count": 1
+        },
+        {
+          "id": 277075456, // hand grenade
+          "count": 3
+        }
+      ],
+      "output": {
+        "id": 277077056, // heavy grenade
+        "count": 1
+      }
+    }
+  ]
+}

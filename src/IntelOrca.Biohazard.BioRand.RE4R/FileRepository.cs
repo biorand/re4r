@@ -93,6 +93,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 : ChainsawRandomizerFactory.Default.ReadUserFile(data);
         }
 
+        public T DeserializeUserFile<T>(string path)
+        {
+            var userFile = GetUserFile(path);
+            return userFile.RSZ!.RszParser.Deserialize<T>(userFile.RSZ.ObjectList[0]);
+        }
+
         public void SetScnFile(string path, ScnFile value)
         {
             SetGameFileData(path, value.ToByteArray());

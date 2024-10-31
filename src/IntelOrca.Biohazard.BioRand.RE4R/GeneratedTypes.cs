@@ -672,12 +672,64 @@ namespace chainsaw
             public System.Collections.Generic.List<chainsaw.WeaponCustomUnlocksingleSetting.UnlockData> _UnlockDatas { get; set; } = [];
         }
     }
+    internal class ItemCraftBonusSetting
+    {
+        public System.Collections.Generic.List<Data> _Datas { get; set; } = [];
+        internal class Data
+        {
+            public System.Int32 _HasCount { get; set; }
+            public System.Int32 _BonusCount { get; set; }
+            public System.Single _Probability { get; set; }
+        }
+    }
+    internal class ItemCraftGenerateNumUniqueSetting
+    {
+        public System.Int32 _ItemId { get; set; }
+        public System.Int32 _GenerateNumMin { get; set; }
+        public System.Int32 _Durability { get; set; }
+        public System.Int32 _GenerateNum { get; set; }
+    }
+    internal class ItemCraftMaterial
+    {
+        public System.Int32 _ItemID { get; set; }
+        public System.Int32 _RequiredNum { get; set; }
+    }
+    internal class ItemCraftRecipe
+    {
+        public System.Collections.Generic.List<chainsaw.ItemCraftResultSetting> _ResultSettings { get; set; } = [];
+        public System.Collections.Generic.List<chainsaw.ItemCraftMaterial> _RequiredItems { get; set; } = [];
+        public chainsaw.ItemCraftBonusSetting _BonusSetting { get; set; } = new();
+        public System.Int32 _RecipeID { get; set; }
+        public System.Int32 _Category { get; set; }
+        public System.Single _CraftTime { get; set; }
+        public System.Boolean _DrawWave { get; set; }
+    }
+    internal class ItemCraftResult
+    {
+        public System.Int32 _ItemID { get; set; }
+        public System.Int32 _GeneratedNumMin { get; set; }
+        public System.Int32 _GeneratedNumMax { get; set; }
+        public chainsaw.ItemCraftGenerateNumUniqueSetting _GenerateNumUniqueSetting { get; set; } = new();
+        public via.AnimationCurve _ProbabilityCurve { get; set; } = new();
+        public System.Boolean _IsEnableProbabilityCurve { get; set; }
+    }
+    internal class ItemCraftResultSetting
+    {
+        public System.Int32 _Difficulty { get; set; }
+        public chainsaw.ItemCraftResult _Result { get; set; } = new();
+    }
+    internal class ItemCraftSettingUserdata
+    {
+        public System.Collections.Generic.List<System.Int32> _MaterialItemIds { get; set; } = [];
+        public System.Collections.Generic.List<System.Int32> _RecipeIdOrders { get; set; } = [];
+        public System.Collections.Generic.List<chainsaw.ItemCraftRecipe> _Datas { get; set; } = [];
+    }
 }
 namespace via
 {
     internal class AnimationCurve
     {
-        public System.Collections.Generic.List<System.Numerics.Vector4> v0 { get; set; }
+        public System.Collections.Generic.List<System.Numerics.Vector4> v0 { get; set; } = [];
         public System.Single v1 { get; set; }
         public System.Single v2 { get; set; }
         public System.Int32 v3 { get; set; }
