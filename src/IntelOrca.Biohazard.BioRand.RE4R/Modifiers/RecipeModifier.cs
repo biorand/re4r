@@ -62,6 +62,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+            if (!randomizer.GetConfigOption<bool>("inventory-additional-recipes"))
+                return;
+
             var path = GetPath(randomizer.Campaign);
             var fileRepository = randomizer.FileRepository;
             fileRepository.ModifyUserFile(path, (rsz, root) =>

@@ -45,6 +45,7 @@
   "merchant-stock-max-token-gold": 0,
   "random-inventory": true,
   "inventory-stack-multiplier": 1,
+  "inventory-additional-recipes": true,
   "inventory-weapon-primary-none": false,
   "inventory-weapon-primary-handgun": true,
   "inventory-weapon-primary-shotgun": false,

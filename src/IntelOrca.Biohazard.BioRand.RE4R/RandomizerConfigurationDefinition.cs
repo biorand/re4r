@@ -156,6 +156,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 1,
                 Default = 1
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"inventory-additional-recipes",
+                Label = "Additional Recipes",
+                Description = "Adds additional recipes for crafting ammo from other ammo. Warning: replaces herb recipes which may be unwanted when stack multiplier is enabled.",
+                Type = "switch",
+                Default = true
+            });
 
             foreach (var x in new[] { "Primary", "Secondary" })
             {
