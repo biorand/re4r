@@ -724,6 +724,25 @@ namespace chainsaw
         public System.Collections.Generic.List<System.Int32> _RecipeIdOrders { get; set; } = [];
         public System.Collections.Generic.List<chainsaw.ItemCraftRecipe> _Datas { get; set; } = [];
     }
+    internal class InGameShopStockAdditionSettingUserdata
+    {
+        public System.Collections.Generic.List<chainsaw.InGameShopStockAdditionSingleSetting> _Settings { get; set; } = [];
+    }
+    internal class InGameShopStockAdditionSingleSetting
+    {
+        public System.Int32 _FlagType { get; set; }
+        public System.Collections.Generic.List<Setting> _Settings { get; set; } = [];
+        internal class Data
+        {
+            public System.Int32 _AddItemId { get; set; }
+            public System.Int32 _AddCount { get; set; }
+        }
+        internal class Setting
+        {
+            public System.Int32 _Difficulty { get; set; }
+            public System.Collections.Generic.List<chainsaw.InGameShopStockAdditionSingleSetting.Data> _Datas { get; set; } = [];
+        }
+    }
 }
 namespace via
 {

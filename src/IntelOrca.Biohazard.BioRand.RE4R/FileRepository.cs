@@ -99,6 +99,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return userFile.RSZ!.RszParser.Deserialize<T>(userFile.RSZ.ObjectList[0]);
         }
 
+        public void SerializeUserFile<T>(string path, T value)
+        {
+            var userFile = GetUserFile(path);
+            userFile.RSZ!.InstanceCopyValues(
+                userFile.RSZ!.ObjectList[0],
+                userFile.RszParser.Serialize(value)!);
+            SetUserFile(path, userFile);
+        }
+
         public void SetScnFile(string path, ScnFile value)
         {
             SetGameFileData(path, value.ToByteArray());

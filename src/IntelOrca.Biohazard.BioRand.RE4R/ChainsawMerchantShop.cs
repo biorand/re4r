@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+﻿using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using RszTool;
+using System;
+using System.Linq;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -19,8 +19,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly string _stockAdditionSettingsPath;
         private readonly string _rewardSettingsPath;
         private readonly UserFile _itemSettings;
-        private readonly UserFile _stockAdditionSettings;
+        private readonly chainsaw.InGameShopStockAdditionSettingUserdata _stockAdditionSettings;
         private readonly UserFile _rewardSettings;
+
+        public chainsaw.InGameShopStockAdditionSettingUserdata StockAdditions => _stockAdditionSettings;
 
         private ChainsawMerchantShop(FileRepository fileRepository, Campaign campaign)
         {
@@ -38,7 +40,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 _rewardSettingsPath = RewardSettingsPathAda;
             }
             _itemSettings = GetUserFile(fileRepository, _itemSettingsPath);
-            _stockAdditionSettings = GetUserFile(fileRepository, _stockAdditionSettingsPath);
+            _stockAdditionSettings = fileRepository.DeserializeUserFile<chainsaw.InGameShopStockAdditionSettingUserdata>(_stockAdditionSettingsPath);
             _rewardSettings = GetUserFile(fileRepository, _rewardSettingsPath);
         }
 
@@ -55,7 +57,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public void Save(FileRepository fileRepository)
         {
             fileRepository.SetGameFileData(_itemSettingsPath, _itemSettings.ToByteArray());
-            fileRepository.SetGameFileData(_stockAdditionSettingsPath, _stockAdditionSettings.ToByteArray());
+            fileRepository.SerializeUserFile(_stockAdditionSettingsPath, _stockAdditionSettings);
             fileRepository.SetGameFileData(_rewardSettingsPath, _rewardSettings.ToByteArray());
         }
 
@@ -96,13 +98,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             get => _itemSettings.RSZ!.ObjectList[0].GetList("_Datas")
                 .Select(x => new ShopItem((RszInstance)x!))
-                .ToArray();
-        }
-
-        public StockAddition[] StockAdditions
-        {
-            get => _stockAdditionSettings.RSZ!.ObjectList[0].GetList("_Settings")
-                .Select(x => new StockAddition((RszInstance)x!))
                 .ToArray();
         }
 
@@ -357,45 +352,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             public override string ToString()
             {
                 return $"Discount = {SaleRate}% Start = {StartTiming} End = {EndTiming}";
-            }
-        }
-
-        public sealed class StockAddition(RszInstance _instance)
-        {
-            public int Chapter => _instance.Get<int>("_FlagType");
-            public StockAdditionEntry[] Entries => _instance.GetList("_Settings")
-                .Select(x => new StockAdditionEntry((RszInstance)x!))
-                .ToArray();
-
-            public override string ToString()
-            {
-                return $"Chapter = {Chapter}";
-            }
-        }
-
-        public sealed class StockAdditionEntry(RszInstance _instance)
-        {
-            public int Difficulty => _instance.Get<int>("_Difficulty");
-            public StockAdditionData[] Items => _instance.GetList("_Datas")
-                .Select(x => new StockAdditionData((RszInstance)x!))
-                .ToArray();
-
-            public override string ToString()
-            {
-                return $"Difficulty = {Difficulty}";
-            }
-        }
-
-        public sealed class StockAdditionData(RszInstance _instance)
-        {
-            public int ItemId => _instance.Get<int>("_AddItemId");
-            public int Count => _instance.Get<int>("_AddCount");
-
-            public override string ToString()
-            {
-                var itemDefinition = ItemDefinitionRepository.Default.Find(ItemId);
-                var itemName = itemDefinition?.Name ?? ItemId.ToString();
-                return $"Item = {itemName} Count = {Count}";
             }
         }
 

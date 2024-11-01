@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
+using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -135,6 +136,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 SetRewards();
                 SetShop();
+                SetStock();
                 shop.Save(randomizer.FileRepository);
             }
 
@@ -369,6 +371,46 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     else
                     {
                         shopItem.Sales = [];
+                    }
+                }
+            }
+
+            private void SetStock()
+            {
+                // Clear all existing stock
+                foreach (var stockAddition in shop.StockAdditions._Settings)
+                {
+                    stockAddition._Settings =
+                    [
+                        new chainsaw.InGameShopStockAdditionSingleSetting.Setting()
+                        {
+                            _Difficulty = 20,
+                            _Datas = []
+                        }
+                    ];
+                }
+
+                // Add stock for each item that gets new stock per chapter
+                foreach (var item in _availableItems)
+                {
+                    if (item.StockPerChapter == 0)
+                        continue;
+
+                    var stock = 0.0f;
+                    foreach (var stockAddition in shop.StockAdditions._Settings)
+                    {
+                        var take = (int)stock;
+                        stock -= take;
+                        if (take > 0)
+                        {
+                            var entry = stockAddition._Settings[0];
+                            entry._Datas.Add(new chainsaw.InGameShopStockAdditionSingleSetting.Data()
+                            {
+                                _AddItemId = item.ItemDefinition.Id,
+                                _AddCount = take
+                            });
+                        }
+                        stock += item.StockPerChapter;
                     }
                 }
             }
