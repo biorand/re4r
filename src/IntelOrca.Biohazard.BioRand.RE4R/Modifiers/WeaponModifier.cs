@@ -163,7 +163,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var rngSuper = () => rng.NextProbability(5);
             if (group.Power != null)
             {
-                RandomizePower(wp, RandomizeFromRanges(rng, group.Power, 0.1f, rngSuper()));
+                RandomizePower(wp, RandomizeFromRanges(rng, group.Power, 0.01f, rngSuper()));
             }
             if (group.AmmoCapacity != null)
             {
@@ -198,7 +198,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             if (group.ReloadSpeed != null && (mask & 0b01) != 0)
             {
-                RandomizeReloadSpeed(wp, RandomizeFromRanges(rng, group.ReloadSpeed, 0.1f, rngSuper()));
+                RandomizeReloadSpeed(wp, RandomizeFromRanges(rng, group.ReloadSpeed, 0.01f, rngSuper()));
             }
             if (group.ReloadRounds != null && (mask & 0b10) != 0)
             {
@@ -208,7 +208,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             if (group.FireRate != null)
             {
-                RandomizeFireRate(wp, RandomizeFromRanges(rng, group.FireRate, 0.1f, rngSuper()));
+                RandomizeFireRate(wp, RandomizeFromRanges(rng, group.FireRate, 0.01f, rngSuper()));
             }
 
             if (group.Durability != null)
