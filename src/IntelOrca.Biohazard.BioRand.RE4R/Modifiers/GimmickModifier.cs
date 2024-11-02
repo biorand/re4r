@@ -33,6 +33,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+            // No more chicken rocket launchers
+            return;
+
+#pragma warning disable CS0162 // Unreachable code detected
             var fileRepository = randomizer.FileRepository;
             var areaRepo = randomizer.Campaign == Campaign.Leon
                 ? AreaDefinitionRepository.Leon
@@ -55,6 +59,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 logger.Pop();
             }
+#pragma warning restore CS0162 // Unreachable code detected
         }
 
         private static Gimmick[] GetGimmicksFromScn(ScnFile scnFile)
