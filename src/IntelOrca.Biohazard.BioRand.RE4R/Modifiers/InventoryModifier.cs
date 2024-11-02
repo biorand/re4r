@@ -24,7 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 var item = itemGroup.First();
                 var count = itemGroup.Sum(x => x.Item.CurrentItemCount);
-                logger.LogLine($"{item} {count}");
+                logger.LogLine($"{item.Item.ItemName} {count}");
             }
         }
 
@@ -60,29 +60,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
-            // Other stuff
-            var randomKinds = new[] {
-                ItemKinds.Fish,
-                ItemKinds.Health,
-                ItemKinds.Egg,
-                ItemKinds.Grenade,
-                ItemKinds.Knife,
-                ItemKinds.Gunpowder,
-                ItemKinds.Resource };
-
-            var kinds = new List<string>();
-            for (var i = 0; i < 10; i++)
-            {
-                kinds.Add(rng.Next(randomKinds));
-            }
-
-            foreach (var kind in kinds)
-            {
-                var randomItem = itemRandomizer.GetRandomItemDefinition(rng, kind);
-                if (randomItem != null)
-                    inventory.AddItem(new Item(randomItem.Id, -1));
-            }
-
+            AddRandomStuff(randomizer, inventory, rng);
             inventory.UpdateWeapons(itemData);
             inventory.AutoSort(itemData);
             inventory.AssignShortcuts();
@@ -97,7 +75,37 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     (width, height) = (height, width);
                 }
-                logger.LogLine($"Add item {item.Item} {item.Item.CurrentItemCount} ({item.SlotIndexColumn}, {item.SlotIndexRow}) ({width}x{height}) Rotation = {item.CurrDirection}");
+                logger.LogLine($"Add item {item.Item} ({item.SlotIndexColumn}, {item.SlotIndexRow}) ({width}x{height}) Rotation = {item.CurrDirection}");
+            }
+        }
+
+        private void AddRandomStuff(ChainsawRandomizer randomizer, ChainsawPlayerInventory inventory, Rng rng, int count = 10)
+        {
+            var randomKinds = new[] {
+                ItemKinds.Fish,
+                ItemKinds.Fish,
+                ItemKinds.Health,
+                ItemKinds.Health,
+                ItemKinds.Egg,
+                ItemKinds.Egg,
+                ItemKinds.Grenade,
+                ItemKinds.Grenade,
+                ItemKinds.Knife,
+                ItemKinds.Knife,
+                ItemKinds.Gunpowder,
+                ItemKinds.Gunpowder,
+                ItemKinds.Resource,
+                ItemKinds.Resource
+            };
+
+            var itemRandomizer = randomizer.ItemRandomizer;
+            var bag = new EndlessBag<string>(rng, randomKinds);
+            for (var i = 0; i < count; i++)
+            {
+                var kind = bag.Next();
+                var randomItem = itemRandomizer.GetRandomItemDefinition(rng, kind);
+                if (randomItem != null)
+                    inventory.AddItem(new Item(randomItem.Id, -1));
             }
         }
     }

@@ -363,11 +363,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 set => _instance.Set("_CurrentItemCount", value);
             }
 
-            public override string ToString()
-            {
-                var itemName = ItemDefinitionRepository.Default.GetName(ItemId);
-                return $"{itemName} x{CurrentItemCount}";
-            }
+            public string ItemName => ItemDefinitionRepository.Default.GetName(ItemId);
+
+            public override string ToString() => $"{ItemName} x{CurrentItemCount}";
         }
 
         public class InventoryEquipSaveData(RszInstance _instance)
