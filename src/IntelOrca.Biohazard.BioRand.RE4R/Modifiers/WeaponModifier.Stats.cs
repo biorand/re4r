@@ -407,7 +407,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             public DurabilityUpgrade() : this(new CustomStrength(), new Strength()) { }
 
-            public WeaponUpgradeKind Kind => WeaponUpgradeKind.AmmoCapacity;
+            public WeaponUpgradeKind Kind => WeaponUpgradeKind.Durability;
             public object Main => new Individual()
             {
                 _IndividualCustomCategory = Categories.Durability,
@@ -465,7 +465,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         internal class CriticalRateUpgrade(CustomCriticalRate main, CriticalRate detail) : IWeaponUpgrade
         {
             public CriticalRateUpgrade() : this(new CustomCriticalRate(), new CriticalRate()) { }
-            public WeaponUpgradeKind Kind => WeaponUpgradeKind.Penetration;
+            public WeaponUpgradeKind Kind => WeaponUpgradeKind.CriticalRate;
             public object Main => new Individual()
             {
                 _IndividualCustomCategory = Categories.CriticalRate,
