@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Runtime.InteropServices;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Services
@@ -99,15 +100,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 }
                 else if (kind == ItemKinds.CaseSize)
                 {
+                    int[] chapterMax = randomizer.Campaign == Campaign.Leon
+                        ? [3, 5, 10, 12]
+                        : [3, 4, 5, 6];
+
+                    var chapters = new List<int>();
+                    var endlessBag = new EndlessBag<int>(rng);
+                    for (var i = 0; i < chapterMax.Length; i++)
+                    {
+                        var lastChapterMax = i == 0 ? 0 : chapterMax[i - 1];
+                        endlessBag.AddRange(Enumerable.Range(lastChapterMax + 1, chapterMax[i] - lastChapterMax));
+                        chapters.Add(endlessBag.Next());
+                    }
+                    chapters.Sort();
+
                     // Place case sizes in order
                     var items = ItemDefinitionRepository.Default.KindToItemMap[kind]
                         .Where(x => !itemRandomizer.IsItemPlaced(x.Id))
+                        .Zip(chapters)
                         .ToArray();
-
-                    var chapters = bag14.Next(items.Length).Order().ToArray();
-                    for (var i = 0; i < items.Length; i++)
+                    foreach (var (item, chapter) in items)
                     {
-                        AddItem(chapters[i], items[i]);
+                        AddItem(chapter, item);
                     }
                 }
                 else

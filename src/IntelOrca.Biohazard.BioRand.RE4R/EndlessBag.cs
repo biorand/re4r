@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand
 {
@@ -16,10 +18,27 @@ namespace IntelOrca.Biohazard.BioRand
         {
         }
 
+        public EndlessBag(Rng rng)
+        {
+            _rng = rng;
+        }
+
         public EndlessBag(Rng rng, IEnumerable<T> items)
         {
             _rng = rng;
             _allItems.AddRange(items);
+        }
+
+        public void AddRange(IEnumerable<T> items)
+        {
+            var remainingItems = _items.Concat(items).Shuffle(_rng);
+
+            _allItems.AddRange(items);
+            _items.Clear();
+            foreach (var item in remainingItems)
+            {
+                _items.Enqueue(item);
+            }
         }
 
         public T Next()
