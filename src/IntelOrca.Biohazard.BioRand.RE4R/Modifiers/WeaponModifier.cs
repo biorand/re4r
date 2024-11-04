@@ -258,7 +258,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             if (group.CriticalRate != null && wp.Id != 4600)
             {
-                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.CriticalRate, rng.Next(5, 21)));
+                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.CriticalRate, rng.Next(4, 13)));
             }
             if (group.Penetration != null)
             {
