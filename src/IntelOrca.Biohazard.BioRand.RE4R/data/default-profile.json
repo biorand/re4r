@@ -2,6 +2,7 @@
   "enable-autosave-pro": false,
   "allow-bonus-items": false,
   "allow-dlc-items": false,
+  "early-case-drops": true,
   "valuable-limit-charm": 8,
   "random-merchant": true,
   "random-merchant-prices": true,

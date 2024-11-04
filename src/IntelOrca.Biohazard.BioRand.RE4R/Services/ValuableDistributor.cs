@@ -110,10 +110,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 }
                 else if (kind == ItemKinds.CaseSize)
                 {
-                    int[] chapterMax = randomizer.Campaign == Campaign.Leon
-                        ? [3, 5, 10, 12]
-                        : [3, 4, 5, 6];
-
+                    int[] chapterMax = randomizer.GetConfigOption<bool>("early-case-drops")
+                        ? randomizer.Campaign == Campaign.Leon
+                            ? [3, 5, 10, 12]
+                            : [3, 4, 5, 6]
+                        : randomizer.Campaign == Campaign.Leon
+                            ? [16, 16, 16, 16]
+                            : [7, 7, 7, 7];
                     var chapters = new List<int>();
                     var endlessBag = new EndlessBag<int>(rng);
                     for (var i = 0; i < chapterMax.Length; i++)
