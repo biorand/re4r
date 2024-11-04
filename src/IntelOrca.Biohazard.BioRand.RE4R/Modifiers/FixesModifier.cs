@@ -25,7 +25,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     ImproveBoltThrower(randomizer, logger);
                 }
 
-                AllowLaserSightOnAnything(randomizer, logger);
                 DisableFirstAreaInhibitor(randomizer, logger);
                 ForceNgPlusMerchantLeon(randomizer, logger);
                 RandomizeFirstBearTrap(randomizer, logger, rng);
@@ -47,6 +46,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
+            AllowLaserSightOnAnything(randomizer, logger);
             FixDeadEnemyCounters(randomizer, logger);
             FixSpawnControllers(randomizer, logger);
             if (randomizer.GetConfigOption<bool>("enable-autosave-pro"))
@@ -277,31 +277,40 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void AllowLaserSightOnAnything(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            const string weaponPartsCombineDefinitionPath = "natives/stm/_chainsaw/appsystem/ui/userdata/weaponpartscombinedefinitionuserdata.user.2";
-            const string playerLaserSightControllerDefinitionPath = "natives/stm/_chainsaw/appsystem/weapon/lasersight/playerlasersightcontrolleruserdata.user.2";
-            const string weaponDetailCustomPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2";
+            var weaponPartsCombineDefinitionPath = "natives/stm/_chainsaw/appsystem/ui/userdata/weaponpartscombinedefinitionuserdata.user.2";
+            var playerLaserSightControllerDefinitionPath = "natives/stm/_chainsaw/appsystem/weapon/lasersight/playerlasersightcontrolleruserdata.user.2";
+            var weaponDetailCustomPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2";
 
             var weaponIds = new[] { 4002, 4003, 4004 };
+
+            if (randomizer.Campaign == Campaign.Ada)
+            {
+                weaponPartsCombineDefinitionPath = "natives/stm/_anotherorder/appsystem/ui/userdata/weaponpartscombinedefinitionuserdata_ao.user.2";
+                weaponDetailCustomPath = "natives/stm/_anotherorder/appsystem/weaponcustom/weapondetailcustomuserdata_ao.user.2";
+                weaponIds = [6111, 6113];
+            }
 
             var fileRepository = randomizer.FileRepository;
             fileRepository.ModifyUserFile(weaponPartsCombineDefinitionPath, (file, rsz) =>
             {
                 var list = rsz.GetList("_Datas[6]._TargetItemIds");
-                list.Add(274838656);
-                list.Add(274840256);
-                list.Add(274841856);
+                list.Add(278200256); // SW - Blacktail AC
+                list.Add(278216256); // SW - Red 9
             });
 
-            fileRepository.ModifyUserFile(playerLaserSightControllerDefinitionPath, (file, rsz) =>
+            if (randomizer.Campaign == Campaign.Leon)
             {
-                var list = rsz.GetList("_Settings");
-                foreach (var wp in weaponIds)
+                fileRepository.ModifyUserFile(playerLaserSightControllerDefinitionPath, (file, rsz) =>
                 {
-                    var newItem = file.CloneInstance((RszInstance)list[0]!);
-                    newItem.Set("_WeaponID", wp);
-                    list.Add(newItem);
-                }
-            });
+                    var list = rsz.GetList("_Settings");
+                    foreach (var wp in weaponIds)
+                    {
+                        var newItem = file.CloneInstance((RszInstance)list[0]!);
+                        newItem.Set("_WeaponID", wp);
+                        list.Add(newItem);
+                    }
+                });
+            }
 
             fileRepository.ModifyUserFile(weaponDetailCustomPath, (file, rsz) =>
             {
