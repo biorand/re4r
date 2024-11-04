@@ -31,7 +31,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         private void RandomizeStartLoadout(ItemRandomizer itemRandomizer, Rng rng)
         {
             var primaryWeaponKind = GetWeaponKind("inventory-weapon-primary", rng);
-            var secondaryWeaponKind = GetWeaponKind("inventory-weapon-secondary", rng);
+            var secondaryWeaponKind = GetWeaponKind("inventory-weapon-secondary", rng, primaryWeaponKind);
             var primaryWeaponDefinition = itemRandomizer.GetRandomWeapon(rng, primaryWeaponKind, allowReoccurance: false);
             var secondaryWeaponDefinition = itemRandomizer.GetRandomWeapon(rng, secondaryWeaponKind, allowReoccurance: false);
             AddItem(0, primaryWeaponDefinition);
@@ -51,7 +51,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             }
         }
 
-        private string GetWeaponKind(string key, Rng rng)
+        private string GetWeaponKind(string key, Rng rng, string? avoid = null)
         {
             var classes = new List<string>();
             foreach (var sw in ItemClasses.StartingWeapons)
@@ -63,6 +63,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     classes.Add(sw);
                 }
             }
+
+            if (avoid != null)
+            {
+                var exceptAvoid = classes.Except([avoid]).ToList();
+                if (exceptAvoid.Count >= 1 && !exceptAvoid.Contains(ItemClasses.None))
+                {
+                    classes = exceptAvoid;
+                }
+            }
+
             if (classes.Count == 0)
                 return ItemClasses.None;
             return rng.Next(classes);
