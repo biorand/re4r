@@ -119,6 +119,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 100,
                 Step = 0.25
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"merchant-buy-hold-time",
+                Label = "Purchase Hold Time",
+                Description = "The number of seconds you need to hold the purchase button down for. Setting to 0 is convenient for buying individual bullets.",
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.05,
+                Default = 0
+            });
 
             group = page.CreateGroup("Max. Stock Increase per Chapter");
             foreach (var kind in DropKinds.ShopCompatible)

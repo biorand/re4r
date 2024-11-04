@@ -15,7 +15,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var rng = randomizer.CreateRng();
 
             // Once
-            EnableInstantBuy(randomizer, logger);
+            SetBuyHoldTime(randomizer, logger);
             EnableEarlyUpgrades(randomizer, logger);
 
             if (randomizer.Campaign == Campaign.Leon)
@@ -339,17 +339,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             });
         }
 
-        private void EnableInstantBuy(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        private void SetBuyHoldTime(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             const string userFilePath = "natives/stm/_chainsaw/appsystem/ui/userdata/guiparamholdersettinguserdata.user.2";
-
-            logger.LogLine($"Set purchase hold time to 0");
-
-            var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile(userFilePath, (file, rsz) =>
+            var time = randomizer.GetConfigOption<double>("merchant-buy-hold-time", 0.6);
+            if (time != 0.6)
             {
-                rsz.Set("_InGameShopGuiParamHolder._HoldTime_Purchase", 0.0f);
-            });
+                time = Math.Clamp(time, 0, 1);
+
+                logger.LogLine($"Set purchase hold time to {time:0.00}");
+                var fileRepository = randomizer.FileRepository;
+                fileRepository.ModifyUserFile(userFilePath, (file, rsz) =>
+                {
+                    rsz.Set("_InGameShopGuiParamHolder._HoldTime_Purchase", (float)time);
+                });
+            }
         }
 
         private void ImproveBoltThrower(ChainsawRandomizer randomizer, RandomizerLogger logger)
