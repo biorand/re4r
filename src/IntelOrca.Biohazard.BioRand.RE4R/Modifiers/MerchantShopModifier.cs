@@ -137,7 +137,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 SetRewards();
                 SetShop();
                 SetStock();
+                SetSellPrice(ItemIds.SmallKey, _priceRng.Next(1, 6) * 10_000);
                 shop.Save(randomizer.FileRepository);
+            }
+
+            private void SetSellPrice(int itemId, int price)
+            {
+                var shopItem = shop.ShopItems.First(x => x.ItemId == itemId);
+                shopItem.SellPrice = price;
             }
 
             private void DistributeValuables()
