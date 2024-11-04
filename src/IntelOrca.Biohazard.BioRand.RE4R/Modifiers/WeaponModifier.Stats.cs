@@ -501,7 +501,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     main._CriticalRateCustomStages.Resize(value.Length);
                     detail._CriticalRate_Normal.Resize(value.Length);
-                    detail._CriticalRate_Fit.Resize(0);
+                    detail._CriticalRate_Fit.Resize(value.Length);
                     for (var i = 0; i < main._CriticalRateCustomStages.Count; i++)
                     {
                         main._CriticalRateCustomStages[i] ??= new CriticalRateCustomStage();
@@ -515,10 +515,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                 {
                                     _Level = i,
                                     _CriticalRate = 0
+                                },
+                                new CriticalRateParam()
+                                {
+                                    _Level = i,
+                                    _CriticalRate = 1
                                 }
                             ];
                         }
                         detail._CriticalRate_Normal[i] = value[i].Value;
+                        detail._CriticalRate_Fit[i] = value[i].Value;
                     }
                 }
             }

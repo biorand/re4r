@@ -1,13 +1,11 @@
-﻿using System;
+﻿using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using MsgTool;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Data;
 using System.Linq;
 using System.Text.Json.Serialization;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using MsgTool;
-using RszTool;
-using static chainsaw.WeaponDetailCustomUserdata;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
