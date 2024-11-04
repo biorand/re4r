@@ -20,8 +20,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             if (randomizer.Campaign == Campaign.Leon)
             {
+                if (randomizer.GetConfigOption<bool>("automatic-bolt-thrower", true))
+                {
+                    ImproveBoltThrower(randomizer, logger);
+                }
+
                 AllowLaserSightOnAnything(randomizer, logger);
-                ImproveBoltThrower(randomizer, logger);
                 DisableFirstAreaInhibitor(randomizer, logger);
                 ForceNgPlusMerchantLeon(randomizer, logger);
                 RandomizeFirstBearTrap(randomizer, logger, rng);

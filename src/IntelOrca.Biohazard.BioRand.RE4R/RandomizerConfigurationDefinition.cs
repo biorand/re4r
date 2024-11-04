@@ -46,6 +46,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
+                Id = $"automatic-bolt-thrower",
+                Label = "Automatic Bolt Thrower",
+                Description = "If enabled, the bolt thrower can be repeatedly fired without loading a new bolt each time.",
+                Type = "switch",
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
                 Id = $"valuable-limit-charm",
                 Label = "Charms",
                 Description = "The number of different charms to include in the seed.",

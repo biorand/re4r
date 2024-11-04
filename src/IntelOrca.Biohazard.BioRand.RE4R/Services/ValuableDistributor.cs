@@ -110,7 +110,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 }
                 else if (kind == ItemKinds.CaseSize)
                 {
-                    int[] chapterMax = randomizer.GetConfigOption<bool>("early-case-drops")
+                    int[] chapterMax = randomizer.GetConfigOption<bool>("early-case-drops", true)
                         ? randomizer.Campaign == Campaign.Leon
                             ? [3, 5, 10, 12]
                             : [3, 4, 5, 6]
