@@ -22,6 +22,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public ContextId WithIndex(int value) => new ContextId(Category, Kind, Group, value);
 
+        public void CopyTo(RszInstance instance)
+        {
+            instance.Set("_Category", Category);
+            instance.Set("_Kind", Kind);
+            instance.Set("_Group", Group);
+            instance.Set("_Index", Index);
+        }
+
         public override string ToString() => $"CTXID({Category},{Kind},{Group},{Index})";
 
         public override bool Equals(object? obj)
