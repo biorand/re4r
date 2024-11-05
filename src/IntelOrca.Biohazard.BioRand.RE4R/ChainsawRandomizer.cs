@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
@@ -230,6 +231,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public Rng CreateRng()
         {
             return _rng.NextFork();
+        }
+
+        public bool HasSpecialTouch(string kind)
+        {
+            if (!GetConfigOption("enable-special", true))
+                return false;
+
+            var special = GetConfigOption<string>("special");
+            var present = special?.Split(',').Contains(kind) == true;
+            return present;
         }
     }
 }

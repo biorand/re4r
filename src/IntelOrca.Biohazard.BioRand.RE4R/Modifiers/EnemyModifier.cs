@@ -324,6 +324,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             Rng rng,
             RandomizerLogger logger)
         {
+            var goldBarOnly = randomizer.HasSpecialTouch("goldbar");
+
             logger.Push($"Chapter {chapter}");
             var spawnsLeft = chapterSpawns
                 .OrderByDescending(x => x.Enemy.Health ?? 0)
@@ -362,7 +364,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 spawnsLeft.RemoveAt(j);
 
                 var classNumber = spawn.ChosenClass?.Class ?? 1;
-                spawn.Enemy.ItemDrop = randomizer.ItemRandomizer.GetRandomTreasure(rng, classNumber);
+                spawn.Enemy.ItemDrop = goldBarOnly
+                    ? new Item(120840000, 1)
+                    : randomizer.ItemRandomizer.GetRandomTreasure(rng, classNumber);
                 logger.LogLine(spawn.Guid, spawn.Enemy.Kind, spawn.Enemy.ItemDrop!);
             }
             logger.Pop();
@@ -371,7 +375,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var itemRandomizer = randomizer.ItemRandomizer;
             foreach (var spawn in spawnsLeft)
             {
-                spawn.Enemy.ItemDrop = itemRandomizer.GetNextGeneralDrop(rng, randomItemSettings);
+                spawn.Enemy.ItemDrop = goldBarOnly
+                    ? new Item(120840000, 1)
+                    : itemRandomizer.GetNextGeneralDrop(rng, randomItemSettings);
                 logger.LogLine(spawn.Guid, (object?)spawn.Enemy.ItemDrop ?? "(none)");
             }
             logger.Pop();

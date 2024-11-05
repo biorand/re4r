@@ -680,6 +680,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Warning = "These options are only for testing / debugging the randomizer.";
             group.Items.Add(new GroupItem()
             {
+                Id = $"enable-special",
+                Label = "Enable Personal Touch",
+                Description = "Enables a personal touch or meme for the current user.",
+                Type = "switch",
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
                 Id = $"debug-unique-enemy-hp",
                 Label = "Unique Enemy HP",
                 Description = "Gives every single enemy a unique HP value. Used to identify enemies within the game files.",
