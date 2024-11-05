@@ -139,7 +139,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = $"merchant-buy-hold-time",
                 Label = "Purchase Hold Time",
-                Description = "The number of seconds you need to hold the purchase button down for. Setting to 0 is convenient for buying individual bullets.",
+                Description = "The number of seconds you need to hold the purchase button down for. Setting to 0 is convenient for buying individual bullets. Vanilla game uses 0.6.",
                 Type = "range",
                 Min = 0,
                 Max = 1,
