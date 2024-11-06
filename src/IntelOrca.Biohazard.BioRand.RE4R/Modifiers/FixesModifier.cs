@@ -53,6 +53,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 EnableProfessionalAutoSave(randomizer, logger);
             }
+
+            ChangeMessages(randomizer, logger);
         }
 
         private void ForceNgPlusMerchantLeon(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -509,6 +511,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     controller.SpawnCondition.Add(scn, new Guid("40807771-38e9-4ec8-a240-d75f4fdff461"));
                 }
             }
+        }
+
+        private void ChangeMessages(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            if (!randomizer.HasSpecialTouch("bawk"))
+                return;
+
+            const string itemNamePath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_name.msg.22";
+            const string itemDescPath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_caption.msg.22";
+
+            var fileRepository = randomizer.FileRepository;
+            var msg = fileRepository.GetMsgFile(itemNamePath).ToBuilder();
+            msg.SetStringAll(new Guid("fcac600e-8386-4221-906c-004c37c7f2b2"), "Soup Trooper Egg");
+            msg.SetStringAll(new Guid("0588065f-4b31-40ca-8ff0-3789a1e23e8f"), "Soup Stirrer Egg");
+            msg.SetStringAll(new Guid("9a941943-186f-4050-9e28-71bce241be54"), "Bawkbasoup Egg");
+            fileRepository.SetMsgFile(itemNamePath, msg.ToMsg());
+
+            msg = fileRepository.GetMsgFile(itemDescPath).ToBuilder();
+            msg.SetStringAll(new Guid("7c4d5ec3-76ab-4e1c-a4aa-5dd704b252da"), "A Soup Trooper egg. Can be used to restore a sloppy amount of health.");
+            msg.SetStringAll(new Guid("6c76bdbf-d110-4faa-8a0a-fc2a4d098ea0"), "A Soup Stirrer egg. Can be used to avoid 1998.");
+            msg.SetStringAll(new Guid("8adebd37-0254-4889-9706-c150e06e3603"), "A highly valued Bawkbasoup egg. Can be used to restore a poggers amount of health.");
+            fileRepository.SetMsgFile(itemDescPath, msg.ToMsg());
         }
 
         private static readonly int[] _characterKindIds = new int[]
