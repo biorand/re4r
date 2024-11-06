@@ -174,6 +174,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 gimmickTransform.Set("v1", CreateRotation(placement.Rotation));
                 gimmickTransform.Set("v2", new Vector4(1, 1, 1, 0));
 
+                if (kind == "Biorand_ExplosionWoodenBoxFake")
+                {
+                    AddChildHide(gimmick, 0, "Before", "BombObj");
+                    AddChildDisp(gimmick, 0, "After");
+                    AddChildEffect(FindChildRecursive(gimmick, "EffectObj")!, 0, "EffectObj");
+                }
                 if (kind == "Biorand_WoodenBarrel" || kind == "Biorand_WoodenBox")
                 {
                     AddChildHide(gimmick, 0, "Before");
@@ -253,6 +259,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             private static ScnFile.GameObjectData? FindChildRecursive(ScnFile.GameObjectData parent, string name)
             {
+                if (parent.Name == name)
+                    return parent;
+
                 foreach (var child in parent.Children)
                 {
                     if (child.Name == name)
