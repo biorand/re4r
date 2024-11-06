@@ -294,8 +294,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             fileRepository.ModifyUserFile(weaponPartsCombineDefinitionPath, (file, rsz) =>
             {
                 var list = rsz.GetList("_Datas[6]._TargetItemIds");
-                list.Add(278200256); // SW - Blacktail AC
-                list.Add(278216256); // SW - Red 9
+                if (randomizer.Campaign == Campaign.Leon)
+                {
+                    list.Add(274838656); // Red9
+                    list.Add(274840256); // Blacktail
+                    list.Add(274841856); // Matilda
+                }
+                else
+                {
+                    list.Add(278200256); // SW - Blacktail AC
+                    list.Add(278216256); // SW - Red 9
+                }
             });
 
             if (randomizer.Campaign == Campaign.Leon)
