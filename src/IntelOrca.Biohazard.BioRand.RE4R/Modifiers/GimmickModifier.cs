@@ -176,33 +176,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 if (kind == "Biorand_WoodenBarrel" || kind == "Biorand_WoodenBox")
                 {
-                    var gimmickObjectHideSettings = gimmick.FindComponent("chainsaw.ObjectHideSettings");
-                    if (gimmickObjectHideSettings != null)
-                    {
-                        var before = gimmick.Children.FirstOrDefault(x => x.Name == "Before");
-                        if (before != null)
-                        {
-                            gimmickObjectHideSettings.Set("_Params._Params[0].Hide[0]", before.Guid);
-                        }
-
-                        var after = gimmick.Children.FirstOrDefault(x => x.Name == "After");
-                        if (after != null)
-                        {
-                            gimmickObjectHideSettings.Set("_Params._Params[0].Disp[0]", after.Guid);
-                        }
-                    }
+                    AddChildHide(gimmick, 0, "Before");
+                    AddChildDisp(gimmick, 0, "After");
                 }
                 else if (kind == "Biorand_MerchantTorch")
                 {
-                    var gimmickEffectsPlaySettings = gimmick.FindComponent("chainsaw.EffectsPlaySettings");
-                    if (gimmickEffectsPlaySettings != null)
-                    {
-                        var vfxParent = gimmick.Children.FirstOrDefault(x => x.Name == "VFXParent");
-                        if (vfxParent != null)
-                        {
-                            gimmickEffectsPlaySettings.Set("_Params._Params[0].Plays[0].TargetParent", vfxParent.Guid);
-                        }
-                    }
+                    AddChildEffect(gimmick, 0, "VFXParent");
+                }
+                else if (kind == "Biorand_Tripwire")
+                {
+                    AddChildHide(gimmick, 0, "Sender", "Laser", "Receiver");
+                    AddChildHide(gimmick, 1, "Sender", "Laser", "Receiver");
+                    AddChildHide(gimmick, 2, "Laser", "Battery");
+                    AddChildHide(gimmick, 3, "Sender", "Laser", "Receiver");
+                    AddChildEffect(gimmick, 0, "EffectPos_Sender", "EffectPos_Receiver");
+                    AddChildEffect(gimmick, 1, "EffectPos_Sender", "EffectPos_Receiver");
+                    FindChildRecursive(gimmick, "GimmickAimAssist")!
+                        .FindComponent("chainsaw.GimmickAimAssist")!
+                        .Set("_TargetObjRef", FindChildRecursive(gimmick, "AimAssistPointObj")!.Guid);
                 }
 
                 AddCondition(filePair.Scene, gimmick, placement);
@@ -216,9 +207,67 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 dataList.Add(userData);
             }
 
+            private static void AddChildHide(ScnFile.GameObjectData gimmick, int index, params string[] targetChildNames)
+            {
+                AddChildHideDisp("Hide", gimmick, index, targetChildNames);
+            }
+
+            private static void AddChildDisp(ScnFile.GameObjectData gimmick, int index, params string[] targetChildNames)
+            {
+                AddChildHideDisp("Disp", gimmick, index, targetChildNames);
+            }
+
+            private static void AddChildHideDisp(string kind, ScnFile.GameObjectData gimmick, int index, params string[] targetChildNames)
+            {
+                var gimmickObjectHideSettings = gimmick.FindComponent("chainsaw.ObjectHideSettings");
+                if (gimmickObjectHideSettings != null)
+                {
+                    var list = gimmickObjectHideSettings.GetList($"_Params._Params[{index}].{kind}");
+                    list.Clear();
+                    foreach (var name in targetChildNames)
+                    {
+                        var child = FindChildRecursive(gimmick, name);
+                        if (child != null)
+                        {
+                            list.Add(child.Guid);
+                        }
+                    }
+                }
+            }
+
+            private static void AddChildEffect(ScnFile.GameObjectData gimmick, int index, params string[] targetChildNames)
+            {
+                var gimmickEffectsPlaySettings = gimmick.FindComponent("chainsaw.EffectsPlaySettings");
+                if (gimmickEffectsPlaySettings != null)
+                {
+                    for (var i = 0; i < targetChildNames.Length; i++)
+                    {
+                        var child = FindChildRecursive(gimmick, targetChildNames[i]);
+                        if (child != null)
+                        {
+                            gimmickEffectsPlaySettings.Set($"_Params._Params[{index}].Plays[{i}].TargetParent", child.Guid);
+                        }
+                    }
+                }
+            }
+
+            private static ScnFile.GameObjectData? FindChildRecursive(ScnFile.GameObjectData parent, string name)
+            {
+                foreach (var child in parent.Children)
+                {
+                    if (child.Name == name)
+                        return child;
+
+                    var d = FindChildRecursive(child, name);
+                    if (d != null)
+                        return d;
+                }
+                return null;
+            }
+
             private static void AddCondition(ScnFile scn, ScnFile.GameObjectData gimmick, GimmickPlacement placement)
             {
-                if (string.IsNullOrEmpty(placement.Condition) || placement.Chapter == 0)
+                if (string.IsNullOrEmpty(placement.Condition) && placement.Chapter == 0)
                     return;
 
                 var paramObject = gimmick.Children.First(x => x.Name == "ParamObject");
