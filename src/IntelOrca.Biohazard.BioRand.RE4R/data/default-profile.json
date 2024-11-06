@@ -5,6 +5,7 @@
   "early-case-drops": true,
   "automatic-bolt-thrower": true,
   "valuable-limit-charm": 8,
+  "extra-merchants": true,
   "random-merchant": true,
   "random-merchant-prices": true,
   "random-weapon-stats": true,

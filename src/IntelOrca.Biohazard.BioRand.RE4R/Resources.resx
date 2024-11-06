@@ -133,6 +133,12 @@
   <data name="enemies" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>data\enemies.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="gimmick_template" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>data\gimmick.template.scn.20;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="gimmicks" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>data\gimmicks.csv;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="items" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>data\items.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
