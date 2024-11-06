@@ -174,8 +174,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             config["separate-ways"] = user.Role == UserRoleKind.Tester || user.Role == UserRoleKind.Administrator;
 
             var specials = new List<string>();
-            if (user.NameLowerCase == "doubleedger")
-                specials.Add("goldbar");
+            if (user.NameLowerCase == "bawkbasoup")
+                specials.Add("bawk");
+            // if (user.NameLowerCase == "doubleedger")
+            //     specials.Add("goldbar");
             config["special"] = string.Join(",", specials);
         }
 

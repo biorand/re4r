@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.BioRand.RE4R.Models;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -39,6 +42,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (randomizer.Campaign != Campaign.Leon)
                 return;
 
+            var bawk = randomizer.HasSpecialTouch("bawk");
+            var extraMerchants = randomizer.GetConfigOption("extra-merchants", true);
+
             var fileRepository = randomizer.FileRepository;
             var areaRepo = randomizer.Campaign == Campaign.Leon
                 ? AreaDefinitionRepository.Leon
@@ -46,9 +52,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var gimmickPaths = areaRepo.Gimmicks.ToArray();
 
             var factory = new GimmickFactory(randomizer, gimmickPaths);
-            factory.AddGimmick("Biorand_WoodenBarrel", 40501, new Vector3(-255, 6, 50));
-            factory.AddGimmick("Biorand_MerchantTorch", 40200, new Vector3(23.8f, 2.1f, -27.0f));
-            factory.AddGimmick("Biorand_Merchant", 40200, new Vector3(22.9f, 2.2f, -31.3f));
+            var placements = GimmickPlacement.GetPlacements();
+            foreach (var placement in placements)
+            {
+                var kind = placement.Kind;
+                if (kind == "bawk" && !bawk)
+                    continue;
+
+                if (kind.Contains("Merchant") && !extraMerchants)
+                    continue;
+
+                factory.AddGimmick(placement);
+            }
             factory.SaveAll();
         }
 
@@ -142,22 +157,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
-            public void AddGimmick(string name, int stage, Vector3 position)
+            public void AddGimmick(GimmickPlacement placement)
             {
                 var contextId = GetNewContextId();
-                var filePair = GetScnForStage(stage);
+                var filePair = GetScnForStage(placement.Stage);
 
-                var gimmick = CloneGimmickFromTemplate(name);
+                var kind = placement.Kind;
+                if (kind == "bawk") kind = "Biorand_Chicken";
+                var gimmick = CloneGimmickFromTemplate(kind);
 
                 var gimmickCore = gimmick.FindComponent("chainsaw.GimmickCore")!;
                 contextId.CopyTo(gimmickCore.Get<RszInstance>("_ID")!);
 
                 var gimmickTransform = gimmick.FindComponent("via.Transform")!;
-                gimmickTransform.Set("v0", new Vector4(position, 1));
-                gimmickTransform.Set("v1", new Vector4(0, 0, 0, 1));
+                gimmickTransform.Set("v0", new Vector4(placement.Position, 1));
+                gimmickTransform.Set("v1", CreateRotation(placement.Rotation));
                 gimmickTransform.Set("v2", new Vector4(1, 1, 1, 0));
 
-                if (name == "Biorand_WoodenBarrel")
+                if (kind == "Biorand_WoodenBarrel" || kind == "Biorand_WoodenBox")
                 {
                     var gimmickObjectHideSettings = gimmick.FindComponent("chainsaw.ObjectHideSettings");
                     if (gimmickObjectHideSettings != null)
@@ -175,7 +192,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         }
                     }
                 }
-                else if (name == "Biorand_MerchantTorch")
+                else if (kind == "Biorand_MerchantTorch")
                 {
                     var gimmickEffectsPlaySettings = gimmick.FindComponent("chainsaw.EffectsPlaySettings");
                     if (gimmickEffectsPlaySettings != null)
@@ -188,6 +205,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }
 
+                AddCondition(filePair.Scene, gimmick, placement);
+
                 filePair.Scene.ImportGameObject(gimmick);
 
                 var userData = filePair.User.RSZ!.CreateInstance("chainsaw.GimmickSaveDataTable.Data");
@@ -195,6 +214,58 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 userData.GetList("Save.Attr").AddRange([(byte)0, (byte)0, (byte)0, (byte)0]);
                 var dataList = filePair.User.RSZ.ObjectList[0].GetList("Datas");
                 dataList.Add(userData);
+            }
+
+            private static void AddCondition(ScnFile scn, ScnFile.GameObjectData gimmick, GimmickPlacement placement)
+            {
+                if (string.IsNullOrEmpty(placement.Condition) || placement.Chapter == 0)
+                    return;
+
+                var paramObject = gimmick.Children.First(x => x.Name == "ParamObject");
+                var stratumBool = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.StratumBool");
+                stratumBool.Set("Value", true);
+                stratumBool.Set("_Enable.Logic", 1);
+
+                if (!string.IsNullOrEmpty(placement.Condition))
+                {
+                    var particleFlag = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.ParticleFlag");
+                    var fc = new FlagCondition(particleFlag.Get<RszInstance>("Flags")!);
+                    var f = CheckFlagInfo.Create(scn, Guid.Parse(placement.Condition));
+                    f.CompareValue = false;
+                    fc.Flags = [f];
+                    var container = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.Container");
+                    container.Set("_Data", particleFlag);
+                    stratumBool.GetList("_Enable.Matters").Add(container);
+                }
+                if (placement.Chapter != 0)
+                {
+                    var particleChapter = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.ParticleChapter");
+                    particleChapter.Set("Compare", 1);
+                    particleChapter.Set("Chapter", placement.Chapter);
+                    var container = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.Container");
+                    container.Set("_Data", particleChapter);
+                    stratumBool.GetList("_Enable.Matters").Add(container);
+                }
+
+                var gmOptionHide = scn.RSZ!.CreateInstance("chainsaw.GmOptionHide");
+                gmOptionHide.Set("v0", (byte)1);
+                gmOptionHide.GetList("Rule").Add(stratumBool);
+                paramObject.Components.Add(gmOptionHide);
+
+                if (gimmick.Name == "Biorand_MerchantTorch")
+                {
+                    var objectHide = scn.RSZ!.CreateInstance("chainsaw.ObjectHide");
+                    objectHide.Set("v0", (byte)1);
+                    objectHide.GetList("Settings").Add(stratumBool.Clone());
+                    paramObject.Components.Add(objectHide);
+                }
+            }
+
+            private static Vector4 CreateRotation(Vector3 euler)
+            {
+                const float toRad = MathF.PI / 180.0f;
+                var q = Quaternion.CreateFromYawPitchRoll(euler.X * toRad, euler.Y * toRad, euler.Z * toRad);
+                return new Vector4(q.X, q.Y, q.Z, q.W);
             }
 
             private ContextId GetNewContextId()
@@ -306,6 +377,68 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     foreach (var c in FindAllComponents(child, name))
                         yield return c;
                 }
+            }
+        }
+
+        private sealed class GimmickPlacement
+        {
+            public string Kind { get; }
+            public int Stage { get; }
+            public Vector3 Position { get; }
+            public Vector3 Rotation { get; }
+            public string Condition { get; }
+            public int Chapter { get; }
+
+            private GimmickPlacement(string[] p)
+            {
+                Kind = p[0];
+                Stage = int.Parse(p[1]);
+                Position = new Vector3(
+                    float.Parse(p[2]),
+                    float.Parse(p[3]),
+                    float.Parse(p[4]));
+                Rotation = new Vector3(
+                    float.Parse(p[5]),
+                    float.Parse(p[6]),
+                    float.Parse(p[7]));
+                Condition = p[8];
+                Chapter = string.IsNullOrEmpty(p[9]) ? 0 : ConvertChapter(int.Parse(p[9]));
+            }
+
+            public static ImmutableArray<GimmickPlacement> GetPlacements()
+            {
+                return Encoding.UTF8.GetString(Resources.gimmicks)
+                    .Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(x => x.Trim())
+                    .Where(x => !x.StartsWith("#") || x.Length == 0)
+                    .Skip(1)
+                    .Select(x => new GimmickPlacement(x.Split(',')))
+                    .ToImmutableArray();
+            }
+
+            private static int ConvertChapter(int chapter)
+            {
+                var chapters = new int[]
+                {
+                    21000,// 0
+                    21100,// 1
+                    21200,// 2
+                    21300,// 3
+                    22100,// 4
+                    22200,// 5
+                    22300,// 6
+                    23100,// 7
+                    23200,// 8
+                    23300,// 9
+                    24100,// 10
+                    24200,// 11
+                    24300,// 12
+                    25100,// 13
+                    25200,// 14
+                    25300,// 15
+                    25400 // 16
+                };
+                return chapters[chapter];
             }
         }
     }
