@@ -1,11 +1,11 @@
-﻿using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using MsgTool;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Data;
 using System.Linq;
 using System.Text.Json.Serialization;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using MsgTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -307,9 +307,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 ? MathF.Round(rng.NextFloat(ranges[1][0], ranges[1][1]), 1)
                 : MathF.Round(rng.NextFloat(ranges[2][0], ranges[2][1]), 1);
             var delta = !reverse
-                ? Math.Max(minDelta, MathF.Round((max - min) / 5, 1))
-                : Math.Min(minDelta, -MathF.Round((min - max) / 5, 1));
-            return Enumerable.Range(0, 5).Select(x => min + (delta * x)).ToArray();
+                ? Math.Max(minDelta, (max - min) / 4)
+                : Math.Min(minDelta, -(min - max) / 4);
+            return Enumerable.Range(0, 5).Select(x => MathF.Round(min + (delta * x), 1)).ToArray();
         }
 
         private void RandomizePower(WeaponStats stat, float[] values)
@@ -353,7 +353,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 Levels = values.Zip(cost).Select(x =>
                 {
                     var value = (int)MathF.Round(x.First);
-                    return new CriticalRateUpgradeLevel(x.Second, value.ToString(), value);
+                    return new CriticalRateUpgradeLevel(x.Second, $"{value}%", value);
                 }).ToImmutableArray()
             });
         }
