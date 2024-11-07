@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntelOrca.Biohazard.BioRand
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MsgTool", "src\msg\MsgTool\MsgTool.csproj", "{36409A3E-43AE-4CF8-9BA6-15B54E2B6998}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelOrca.Biohazard.BioRand.Common", "src\IntelOrca.Biohazard.BioRand.Common\IntelOrca.Biohazard.BioRand.Common.csproj", "{7F6A38D7-42A4-4000-951F-8EEE304A1AB1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,10 +47,6 @@ Global
 		{36409A3E-43AE-4CF8-9BA6-15B54E2B6998}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36409A3E-43AE-4CF8-9BA6-15B54E2B6998}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36409A3E-43AE-4CF8-9BA6-15B54E2B6998}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F6A38D7-42A4-4000-951F-8EEE304A1AB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F6A38D7-42A4-4000-951F-8EEE304A1AB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F6A38D7-42A4-4000-951F-8EEE304A1AB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F6A38D7-42A4-4000-951F-8EEE304A1AB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,7 +58,6 @@ Global
 		{CCCDB04C-7D3B-425F-AC0E-C2EEC5A0C7BB} = {C63AE2CF-8873-4DD8-9E14-01E099F90870}
 		{4E5C6C0B-4E9B-44BC-97A1-FF553156562B} = {C63AE2CF-8873-4DD8-9E14-01E099F90870}
 		{36409A3E-43AE-4CF8-9BA6-15B54E2B6998} = {C63AE2CF-8873-4DD8-9E14-01E099F90870}
-		{7F6A38D7-42A4-4000-951F-8EEE304A1AB1} = {C63AE2CF-8873-4DD8-9E14-01E099F90870}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5780D5E9-A2CD-4CCE-AF3A-F785EC19D2AB}

@@ -5,10 +5,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="IntelOrca.Biohazard.BioRand.Common" Version="1.0.0" />
     <PackageReference Include="RectangleBinPacking" Version="1.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IntelOrca.Biohazard.BioRand.Common\IntelOrca.Biohazard.BioRand.Common.csproj" />
     <ProjectReference Include="..\msg\MsgTool\MsgTool.csproj" />
     <ProjectReference Include="..\REE\REE.csproj" />
     <ProjectReference Include="..\rsztool\RszTool\RszTool.csproj">

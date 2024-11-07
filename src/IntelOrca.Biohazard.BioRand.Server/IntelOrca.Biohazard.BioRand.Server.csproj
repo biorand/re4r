@@ -8,6 +8,7 @@
     <Content Include="favicon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="IntelOrca.Biohazard.BioRand.Common" Version="1.0.0" />
     <PackageReference Include="MailKit" Version="4.7.1.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
@@ -17,7 +18,6 @@
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IntelOrca.Biohazard.BioRand.Common\IntelOrca.Biohazard.BioRand.Common.csproj" />
     <ProjectReference Include="..\IntelOrca.Biohazard.BioRand.RE4R\IntelOrca.Biohazard.BioRand.RE4R.csproj" />
   </ItemGroup>
   <ItemGroup>

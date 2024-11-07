@@ -14,7 +14,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
             public int Id { get; set; }
             public int Category { get; set; }
             public RecipeInputOutput[] Input { get; set; } = [];
-            public RecipeInputOutput Output { get; set; }
+            public RecipeInputOutput Output { get; set; } = new();
         }
 
         public class RecipeInputOutput
