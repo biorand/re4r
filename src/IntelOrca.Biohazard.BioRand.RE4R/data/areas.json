@@ -865,6 +865,9 @@
             "baf97a3d-4d25-44cb-bef0-f9529c03d6af", // viper
             "0d960ac3-6fee-4f3e-8d0c-0b44abc97ffe" // viper
           ],
+          "exclude": [
+            "pig"
+          ],
           "preventDuplicate": true
         }
       ]
@@ -2970,7 +2973,19 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc51/level_loc51_002.scn.20",
-      "chapter": 8
+      "chapter": 8,
+      "restrictions": [
+        {
+          "guids": [
+            "c945e837-d835-4cc0-943e-0d22b7c35f10",
+            "a677b77b-c774-457e-81b8-535487fa601f",
+            "72f26ef7-bcdc-47f3-bb36-ac74a04c0a1a"
+          ],
+          "exclude": [
+            "pig"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc51/level_loc51_003.scn.20",
