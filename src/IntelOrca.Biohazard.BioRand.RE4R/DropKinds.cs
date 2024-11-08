@@ -42,6 +42,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public const string ResourceSmall = "resource-small";
         public const string TokenSilver = "token-silver";
         public const string TokenGold = "token-gold";
+        public const string RocketLauncher = "rocket-launcher";
 
         // High value
         public const string Attachment = "attachment";
@@ -65,7 +66,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public static ImmutableArray<string> All => [.. _generic, .. _highValue];
         public static ImmutableArray<string> GenericAll => [.. _special, .. _generic];
         public static ImmutableArray<string> Generic => [.. _generic];
-        public static ImmutableArray<string> ShopCompatible => _generic.Except([Money]).ToImmutableArray();
+        public static ImmutableArray<string> ShopCompatible => new[] { RocketLauncher }
+            .Concat(_generic)
+            .Except([Money])
+            .ToImmutableArray();
         public static ImmutableArray<string> HighValue => [.. _highValue];
 
         public static string GetLabel(string drop)

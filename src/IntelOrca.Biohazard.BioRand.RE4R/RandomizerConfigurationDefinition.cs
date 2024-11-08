@@ -157,18 +157,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.25
             });
 
-            group = page.CreateGroup("Max. Stock Increase per Chapter");
+            group = page.CreateGroup("Stock Increase per Chapter");
             foreach (var kind in DropKinds.ShopCompatible)
             {
                 group.Items.Add(new GroupItem()
                 {
-                    Id = $"merchant-stock-max-{kind}",
-                    Label = DropKinds.GetLabel(kind),
-                    Type = "range",
+                    Id = $"merchant-stock-min-{kind}",
+                    Label = $"Min. {DropKinds.GetLabel(kind)}",
+                    Type = "scale",
                     Min = 0,
-                    Max = 100,
+                    Max = 10000,
                     Step = 1,
-                    Default = kind.Contains("ammo") ? 0 : 5
+                    Default = 0
+                });
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"merchant-stock-max-{kind}",
+                    Label = $"Max. {DropKinds.GetLabel(kind)}",
+                    Type = "scale",
+                    Min = 0,
+                    Max = 10000,
+                    Step = 1,
+                    Default = 0
                 });
             }
 

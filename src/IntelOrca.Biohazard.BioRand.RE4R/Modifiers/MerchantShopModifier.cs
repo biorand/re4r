@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
-using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -184,7 +183,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var itemRandomizer = randomizer.ItemRandomizer;
                 var settings = new RandomItemSettings();
 
-                foreach (var kind in DropKinds.Generic)
+                foreach (var kind in DropKinds.ShopCompatible)
                 {
                     var minStock = randomizer.GetConfigOption($"merchant-stock-min-{kind}", 0);
                     var maxStock = randomizer.GetConfigOption($"merchant-stock-max-{kind}", 0);
@@ -197,16 +196,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     var item = CreateAvailableItem(drop.Value.Id);
                     item.InitialStock = rng.Next(minStock, maxStock + 1);
-                    item.StockPerChapter = rng.NextFloat(minStock, maxStock);
-                    item.MaxStock = 100;
+                    item.StockPerChapter = rng.NextFloat(Math.Max(minStock, 0.1f), maxStock);
+                    item.MaxStock = 1000;
                     RandomizePrice(item, spinel: false);
                 }
-
-                var rocketLauncher = CreateAvailableItem(ItemIds.RocketLauncher);
-                rocketLauncher.InitialStock = rng.Next(0, 2);
-                rocketLauncher.StockPerChapter = rng.NextFloat(0.5f, 2);
-                rocketLauncher.MaxStock = 2;
-                RandomizePrice(rocketLauncher, spinel: false);
             }
 
             private void DistributeMiscItems()

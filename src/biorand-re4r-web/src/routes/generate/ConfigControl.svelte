@@ -7,7 +7,10 @@
     export let definition: ConfigOption;
     export let config: Config;
 
-    const initialValue = definition.id in config ? config[definition.id] : definition.default;
+    const initialValue =
+        (definition.id in config ? config[definition.id] : definition.default) ??
+        definition.default;
+    console.log(definition.id, initialValue);
     let value = writable<any>(initialValue);
     let transformed = getTransformed(value, definition);
     let formatted = transformed.formatted;

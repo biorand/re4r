@@ -136,6 +136,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 DropKinds.ResourceSmall => new Item(ItemIds.ResourcesSmall, 1),
                 DropKinds.TokenSilver => new Item(ItemIds.TokenSilver, 1),
                 DropKinds.TokenGold => new Item(ItemIds.TokenGold, 1),
+                DropKinds.RocketLauncher => new Item(ItemIds.RocketLauncher, 1),
 
                 // High value
                 DropKinds.Attachment => GetRandomSingleItem(rng, ItemKinds.Attachment),
