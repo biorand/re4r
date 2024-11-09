@@ -12,6 +12,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             [Description("Input file to dump")]
             [CommandArgument(0, "<input>")]
             public string? InputPath { get; init; }
+
+            [CommandOption("--show-name")]
+            public bool ShowName { get; set; }
         }
 
         public override ValidationResult Validate(CommandContext context, Settings settings)
@@ -32,7 +35,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 var str = (msgFile.GetString(entry.Guid, LanguageId.English) ?? "")
                     .Replace("\r\n", "\n")
                     .Replace("\n", " ");
-                Console.WriteLine($"{entry.Guid} {str}");
+                if (settings.ShowName)
+                    Console.WriteLine($"{entry.Guid} {entry.Name} {str}");
+                else
+                    Console.WriteLine($"{entry.Guid} {str}");
             }
             return Task.FromResult(0);
         }

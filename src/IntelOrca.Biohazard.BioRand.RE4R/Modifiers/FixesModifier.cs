@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
+using MsgTool;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -34,6 +35,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     ImproveKnightyKnightKnightRoom(randomizer, logger);
                 }
                 IncreaseJetSkiTimer(randomizer, logger);
+                FixCharmDescriptions(randomizer, logger);
             }
             else
             {
@@ -533,6 +535,40 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             msg.SetStringAll(new Guid("6c76bdbf-d110-4faa-8a0a-fc2a4d098ea0"), "A Soup Stirrer egg. Can be used to avoid 1998.");
             msg.SetStringAll(new Guid("8adebd37-0254-4889-9706-c150e06e3603"), "A highly valued Bawkbasoup egg. Can be used to restore a poggers amount of health.");
             fileRepository.SetMsgFile(itemDescPath, msg.ToMsg());
+        }
+
+        private void FixCharmDescriptions(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            var fileRepository = randomizer.FileRepository;
+
+            var charmStatusPath = "natives/stm/_chainsaw/appsystem/ui/userdata/charmeffectsettinguserdata.user.2";
+            var itemMessagePath = "natives/stm/_chainsaw/appsystem/ui/userdata/itemmessageidsettinguserdata.user.2";
+            var itemMsgPath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_caption.msg.22";
+            var statusMsgPath = "natives/stm/_chainsaw/message/mes_main_charm/ch_mes_main_statuseffect.msg.22";
+
+            var charmStatus = fileRepository.DeserializeUserFile<chainsaw.CharmEffectSettingUserdata>(charmStatusPath);
+            var itemMessage = fileRepository.DeserializeUserFile<chainsaw.ItemMessageIdSettingUserdata>(itemMessagePath);
+            var statusMsg = fileRepository.GetMsgFile(statusMsgPath);
+            var statusMsgBuilder = fileRepository.GetMsgFile(statusMsgPath).ToBuilder();
+            var itemMsg = fileRepository.GetMsgFile(itemMsgPath).ToBuilder();
+            foreach (var item in itemMessage._Settings)
+            {
+                var status = charmStatus._Settings.FirstOrDefault(x => x._ItemId == item._ItemId);
+                if (status == null)
+                    continue;
+
+                var effect = status._Effects[0];
+                var effectMsgName = $"CH_Mes_Main_StatusEffectID_{effect._StatusEffectID:00_000_000_0}";
+                var effectMsg = statusMsg.GetString(effectMsgName, LanguageId.English) ?? "(no string)";
+                var formattedMsg = string.Format(effectMsg, effect._Value);
+                itemMsg.SetStringAll(item._CaptionMsgId, formattedMsg);
+                if (statusMsgBuilder.Entries.Any(x => x.Name == effectMsgName))
+                {
+                    statusMsgBuilder.SetStringAll(effectMsgName, formattedMsg);
+                }
+            }
+            fileRepository.SetMsgFile(itemMsgPath, itemMsg.ToMsg());
+            fileRepository.SetMsgFile(statusMsgPath, statusMsgBuilder.ToMsg());
         }
 
         private static readonly int[] _characterKindIds = new int[]

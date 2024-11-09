@@ -743,6 +743,32 @@ namespace chainsaw
             public System.Collections.Generic.List<chainsaw.InGameShopStockAdditionSingleSetting.Data> _Datas { get; set; } = [];
         }
     }
+    internal class ItemMessageIdSettingUserdata
+    {
+        public System.Collections.Generic.List<Setting> _Settings { get; set; } = [];
+        internal class Setting
+        {
+            public System.UInt32 _VariationHash { get; set; }
+            public System.UInt32 _ExContentsGroupHash { get; set; }
+            public System.Int32 _ItemId { get; set; }
+            public System.Guid _NameMsgId { get; set; }
+            public System.Guid _CaptionMsgId { get; set; }
+        }
+    }
+    internal class CharmEffectSettingUserdata
+    {
+        public System.Collections.Generic.List<chainsaw.CharmEffectSingleSettingData> _Settings { get; set; } = [];
+    }
+    internal class CharmEffectSingleSettingData
+    {
+        public System.Int32 _ItemId { get; set; }
+        public System.Collections.Generic.List<chainsaw.StatusEffectSetting> _Effects { get; set; } = [];
+    }
+    internal class StatusEffectSetting
+    {
+        public System.Int32 _StatusEffectID { get; set; }
+        public System.Single _Value { get; set; }
+    }
 }
 namespace via
 {
