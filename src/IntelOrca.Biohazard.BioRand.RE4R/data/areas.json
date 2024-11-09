@@ -864,11 +864,7 @@
             "2abd079a-7e11-4ac5-bb07-c3f54754b23c", // viper
             "baf97a3d-4d25-44cb-bef0-f9529c03d6af", // viper
             "0d960ac3-6fee-4f3e-8d0c-0b44abc97ffe" // viper
-          ],
-          "exclude": [
-            "pig"
-          ],
-          "preventDuplicate": true
+          ]
         }
       ]
     },

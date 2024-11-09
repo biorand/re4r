@@ -331,6 +331,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .OrderByDescending(x => x.Enemy.Health ?? 0)
                 .ToList();
 
+            // Vipers always have viper drop
+            for (var i = 0; i < spawnsLeft.Count; i++)
+            {
+                if (spawnsLeft[i].Enemy.Kind.Key == "viper")
+                {
+                    spawnsLeft[i].Enemy.ItemDrop = new Item(ItemIds.Viper, 1);
+                    spawnsLeft.RemoveAt(i);
+                    i--;
+                }
+            }
+
             // Valuables
             var weaponDrops = randomizer.ValuableDistributor
                 .GetItems(chapter, ItemDiscovery.Enemy)

@@ -31,6 +31,7 @@
         public const int ResourcesSmall = 117606400;
         public const int ResourcesLarge = 117601600;
         public const int Gunpowder = 117600000;
+        public const int Viper = 114422400;
 
         public const int SmallKey = 119244800;
         public const int TokenSilver = 119286400;
