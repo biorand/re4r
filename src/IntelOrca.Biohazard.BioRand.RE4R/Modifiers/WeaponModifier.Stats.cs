@@ -31,6 +31,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             Polish,
         }
 
+        internal enum WeaponUpgradePath
+        {
+            None,
+            PowerDamage,
+            PowerWince,
+            PowerBreak,
+            PowerStopping,
+            PowerExplosionRadiusScale,
+            PowerExplosionSensorRadiusScale,
+            CriticalRate,
+            Penetration,
+            AmmoCapacity,
+            ReloadSpeed,
+            ReloadRounds,
+            FireRate,
+            CombatSpeed,
+            Durability,
+        }
+
         internal class Categories
         {
             public const int Power = 0;
@@ -579,7 +598,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     main._ThroughNumCustomStages.Resize(value.Length);
                     detail._ThroughNum_Normal.Resize(value.Length);
-                    detail._ThroughNum_Fit.Resize(0);
+                    detail._ThroughNum_Fit.Resize(value.Length);
                     for (var i = 0; i < main._ThroughNumCustomStages.Count; i++)
                     {
                         var l = main._ThroughNumCustomStages[i] ??= new ThroughNumCustomStage();
@@ -593,10 +612,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                 {
                                     _Level = i,
                                     _ThroughNum = 0
+                                },
+                                new ThroughNumParam()
+                                {
+                                    _Level = i,
+                                    _ThroughNum = 1
                                 }
                             ];
                         }
                         detail._ThroughNum_Normal[i] = value[i].Value;
+                        detail._ThroughNum_Fit[i] = value[i].Value;
                     }
                 }
             }

@@ -213,9 +213,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] stats {
+        internal static byte[] wpstats {
             get {
-                object obj = ResourceManager.GetObject("stats", resourceCulture);
+                object obj = ResourceManager.GetObject("wpstats", resourceCulture);
                 return ((byte[])(obj));
             }
         }
