@@ -17,7 +17,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             // We swap to invariant culture so , is decimal point
             var backupCulture = Thread.CurrentThread.CurrentCulture;
+            var backupCultureUi = Thread.CurrentThread.CurrentUICulture;
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
             try
             {
                 var randomizer = ChainsawRandomizerFactory.Default.Create();
@@ -26,6 +28,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             finally
             {
                 Thread.CurrentThread.CurrentCulture = backupCulture;
+                Thread.CurrentThread.CurrentUICulture = backupCultureUi;
             }
         }
 
