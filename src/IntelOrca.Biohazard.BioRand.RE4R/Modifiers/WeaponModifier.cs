@@ -158,9 +158,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var exclusives = wp.Modifiers.OfType<IWeaponExclusive>().ToImmutableArray();
 
-            if (RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerDamage) is StatRange damage)
+            if (RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerDamage) is StatRange pDamage)
             {
-                RandomizePower(wp, damage);
+                var pWince = RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerWince)!.Value;
+                var pBreak = RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerBreak)!.Value;
+                var pStopping = RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerStopping)!.Value;
+                var pExplosion = RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerExplosionRadiusScale);
+                var pExplosionSensor = RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerExplosionSensorRadiusScale);
+                RandomizePower(wp, pDamage, pWince, pBreak, pStopping, pExplosion, pExplosionSensor);
             }
 
             if (RandomizeFromRanges(rng, wp, WeaponUpgradePath.AmmoCapacity) is StatRange ammoCapacity)
@@ -327,6 +332,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (l1min == 0)
                 return null;
 
+            if (table.GetValue(wp.Id, $"{property}/level 5 (high roller)/min") == 0)
+                highRoller = "";
+
             var l1max = table.GetValue(wp.Id, $"{property}/level 1/max");
             var l5min = table.GetValue(wp.Id, $"{property}/level 5{highRoller}/min");
             var l5max = table.GetValue(wp.Id, $"{property}/level 5{highRoller}/max");
@@ -379,7 +387,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             };
         }
 
-        private void RandomizePower(WeaponStats stat, StatRange sr)
+        private void RandomizePower(
+            WeaponStats stat,
+            StatRange pDamage,
+            StatRange pWince,
+            StatRange pBreak,
+            StatRange pStopping,
+            StatRange? pExplosion,
+            StatRange? pExplosionSensor)
         {
             var power = stat.Modifiers.OfType<PowerUpgrade>().First();
             var levels = power.Levels.ToArray();
@@ -388,14 +403,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 levels[i] = power.Levels[i] with
                 {
-                    Cost = sr.Cost[i],
-                    Damage = sr.Values[i],
-                    Wince = sr.Values[i],
-                    Break = sr.Values[i],
-                    Stopping = sr.Values[i],
-                    ExplosionRadiusScale = sr.Values[i],
-                    ExplosionSensorRadiusScale = sr.Values[i],
-                    Info = (sr.Values[i] * multiplier).ToString("0.00")
+                    Cost = pDamage.Cost[i],
+                    Damage = pDamage.Values[i],
+                    Wince = pWince.Values[i],
+                    Break = pBreak.Values[i],
+                    Stopping = pStopping.Values[i],
+                    ExplosionRadiusScale = pExplosion?.Values[i] ?? 0,
+                    ExplosionSensorRadiusScale = pExplosionSensor?.Values[i] ?? 0,
+                    Info = (pDamage.Values[i] * multiplier).ToString("0.00")
                 };
             }
             power.Levels = [.. levels];
@@ -404,6 +419,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             SetBaseStat(stat, WeaponUpgradePath.PowerWince, levels[0].Wince);
             SetBaseStat(stat, WeaponUpgradePath.PowerBreak, levels[0].Break);
             SetBaseStat(stat, WeaponUpgradePath.PowerStopping, levels[0].Stopping);
+            SetBaseStat(stat, WeaponUpgradePath.PowerExplosionRadiusScale, levels[0].ExplosionRadiusScale);
+            SetBaseStat(stat, WeaponUpgradePath.PowerExplosionSensorRadiusScale, levels[0].ExplosionSensorRadiusScale);
         }
 
         private void RandomizeAmmoCapacity(WeaponStats stat, StatRange sr)
