@@ -25,11 +25,11 @@ Biorand_WoodenBox,40501,-191.7,9.7,91.1,0,0,0,,
 Biorand_WoodenBarrel,40502,-199.9,9.7,74.7,0,0,0,,
 Biorand_TableDrawer,40502,-179.9,9.7,58.5,44.03,0,0,,
 Biorand_Typewriter,40502,-180.14,10.63,58.75,44.6,0,0,,
-# Biorand_Tripwire,45410,111.807,-2.966,45.227,47.1,0,0,,
+Biorand_Tripwire,45410,111.807,-2.966,45.227,47.1,0,0,,
 Biorand_MerchantTorch,40200,27.4,2.1,-28.7,0,0,0,03383ad9-2e0e-41f1-8b76-89c07b44fd47,1
 Biorand_Merchant,40200,23.1,2.2,-31.1,104,0,0,03383ad9-2e0e-41f1-8b76-89c07b44fd47,1
 Biorand_MerchantTorch,45200,111.5,10.34,111.3,0,0,0,,5
 Biorand_Merchant,45200,114.58,10.27,111.47,-64.3,0,0,,5
-# Biorand_Tripwire,50200,-298.110,-0.15,65.264,0,0,0,,
+Biorand_Tripwire,50200,-298.110,-0.15,65.264,0,0,0,,
 Biorand_WoodenBox,50300,-249.3,-1,48,0,0,0,,
-# Biorand_AshleyLocker,50300,-214.79,4.07,57.62,0,0,0,,
+Biorand_AshleyLocker,50300,-214.79,4.07,57.62,0,0,0,,

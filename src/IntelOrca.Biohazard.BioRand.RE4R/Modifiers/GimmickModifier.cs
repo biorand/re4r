@@ -230,6 +230,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 var kind = placement.Kind;
                 if (kind == "bawk") kind = "Biorand_Chicken";
+                if (kind == "Biorand_WoodenBarrel") kind = "Biorand_ExplosionWoodenBarrelFake";
+                if (kind == "Biorand_WoodenBox") kind = "Biorand_ExplosionWoodenBoxFake";
+
                 var gimmick = CloneGimmickFromTemplate(kind);
 
                 var gimmickCore = gimmick.FindComponent("chainsaw.GimmickCore")!;
@@ -240,7 +243,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 gimmickTransform.Set("v1", CreateRotation(placement.Rotation));
                 gimmickTransform.Set("v2", new Vector4(1, 1, 1, 0));
 
-                if (kind == "Biorand_ExplosionWoodenBoxFake")
+                if (kind == "Biorand_ExplosionWoodenBoxFake" || kind == "Biorand_ExplosionWoodenBarrelFake")
                 {
                     AddChildHide(gimmick, 0, "Before", "BombObj");
                     AddChildDisp(gimmick, 0, "After");
@@ -394,7 +397,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             private ContextId GetNewContextId()
             {
-                return new ContextId(1, 0, 1, _contextId++);
+                return new ContextId(5, 0, 1, _contextId++);
             }
 
             private class FilePair

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Text.Json;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using RszTool;
 using Spectre.Console;
 using Spectre.Console.Cli;
@@ -27,14 +28,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
         public override Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
-            var scnFile = Re4rRandomizer.ReadScnFile(File.ReadAllBytes(settings.InputPath!));
-            var result = new Dictionary<string, object?>();
-            result["GameObjects"] = scnFile.GameObjectDatas!.Select(SerializeGameObject);
-            var output = JsonSerializer.Serialize(result, new JsonSerializerOptions()
+            var path = settings.InputPath!;
+            if (path.EndsWith(".user.2", StringComparison.OrdinalIgnoreCase))
             {
-                WriteIndented = true
-            });
-            Console.WriteLine(output);
+                var userFile = Re4rRandomizer.ReadUserFile(File.ReadAllBytes(path));
+                Console.WriteLine(userFile.RSZ!.ObjectList[0].ToSimpleJson());
+            }
+            else
+            {
+                var scnFile = Re4rRandomizer.ReadScnFile(File.ReadAllBytes(path));
+                var result = new Dictionary<string, object?>();
+                result["GameObjects"] = scnFile.GameObjectDatas!.Select(SerializeGameObject);
+                var output = JsonSerializer.Serialize(result, new JsonSerializerOptions()
+                {
+                    WriteIndented = true
+                });
+                Console.WriteLine(output);
+            }
             return Task.FromResult(0);
         }
 

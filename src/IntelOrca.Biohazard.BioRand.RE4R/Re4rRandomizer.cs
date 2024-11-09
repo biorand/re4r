@@ -43,5 +43,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             return ChainsawRandomizerFactory.Default.ReadScnFile(data);
         }
+
+        public static UserFile ReadUserFile(byte[] data)
+        {
+            return ChainsawRandomizerFactory.Default.ReadUserFile(data);
+        }
     }
 }

@@ -157,6 +157,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
             for (var i = 0; i < instance.Fields.Length; i++)
             {
                 var field = instance.Fields[i];
+                if (instance.Values.Length <= i)
+                    continue;
+
                 var value = instance.Values[i];
                 if (value is RszInstance child)
                 {
