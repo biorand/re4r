@@ -7,6 +7,7 @@ using System.Numerics;
 using System.Text;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -42,6 +43,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (randomizer.Campaign != Campaign.Leon)
                 return;
 
+            var rng = randomizer.CreateRng();
+            ModifyCrowDrops(randomizer, logger, rng);
+
             var bawk = randomizer.HasSpecialTouch("bawk");
             var extraMerchants = randomizer.GetConfigOption("extra-merchants", true);
 
@@ -65,6 +69,42 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 factory.AddGimmick(placement);
             }
             factory.SaveAll();
+        }
+
+        private void ModifyCrowDrops(ChainsawRandomizer randomizer, RandomizerLogger logger, Rng rng)
+        {
+            var fileRepository = randomizer.FileRepository;
+            var itemRandomizer = randomizer.ItemRandomizer;
+            var randomItemSettings = new RandomItemSettings
+            {
+                ItemRatioKeyFunc = (dropKind) => randomizer.GetConfigOption<double>($"enemy-drop-ratio-{dropKind}"),
+                MinAmmoQuantity = randomizer.GetConfigOption("enemy-drop-ammo-min", 0.1),
+                MaxAmmoQuantity = randomizer.GetConfigOption("enemy-drop-ammo-max", 1.0),
+                MinMoneyQuantity = randomizer.GetConfigOption("enemy-drop-money-min", 100),
+                MaxMoneyQuantity = randomizer.GetConfigOption("enemy-drop-money-max", 1000),
+            };
+
+            var areaRepo = randomizer.Campaign == Campaign.Leon
+                ? AreaDefinitionRepository.Leon
+                : AreaDefinitionRepository.Ada;
+            foreach (var path in areaRepo.Gimmicks)
+            {
+                logger.Push($"{Path.GetFileName(path)}");
+
+                fileRepository.ModifyScnFile(path, scnFile =>
+                {
+                    var gimmicks = GetGimmicksFromScn(scnFile);
+                    foreach (var g in gimmicks)
+                    {
+                        if (g.Kind == "GmCrow")
+                        {
+                            RandomizeGmOptionDropItem(g, itemRandomizer, randomItemSettings, rng);
+                        }
+                    }
+                });
+
+                logger.Pop();
+            }
         }
 
         private void ModifyChickens(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -106,6 +146,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
             return result.ToArray();
+        }
+
+        private static void RandomizeGmOptionDropItem(Gimmick g, ItemRandomizer itemRandomizer, RandomItemSettings randomItemSettings, Rng rng)
+        {
+            var paramObject = g.GameObject.GetChildren().FirstOrDefault(x => x.Name == "ParamObject");
+            if (paramObject != null)
+            {
+                var gmOptionDropItem = paramObject.FindComponent("chainsaw.GmOptionDropItem");
+                if (gmOptionDropItem != null)
+                {
+                    if (itemRandomizer.GetNextGeneralDrop(rng, randomItemSettings) is Item drop)
+                    {
+                        drop = new Item(ItemIds.HerbRY, 1);
+
+                        gmOptionDropItem.Set("ID", drop.Id);
+                        gmOptionDropItem.Set("Count", drop.Count);
+                    }
+                }
+            }
         }
 
         private static void SetChickenDropItem(Gimmick gimmick, Item item)
@@ -404,7 +463,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var kind = gmComponent.RszClass.name.Split('.').Last();
                 var properties = new Dictionary<string, object>();
 
-                if (kind == "GmSmoothWoodBox")
+                if (kind == "GmCrow")
+                {
+                    var paramObject = gameObject
+                        .GetChildren()
+                        .FirstOrDefault(x => x.Name == "ParamObject");
+                    if (paramObject != null)
+                    {
+                        var gmOptionDropItem = paramObject.FindComponent("chainsaw.GmOptionDropItem");
+                        if (gmOptionDropItem != null)
+                        {
+                            properties["Item"] = new Item(
+                                gmOptionDropItem.Get<int>("ID"),
+                                gmOptionDropItem.Get<int>("Count"));
+                        }
+                    }
+                }
+                else if (kind == "GmSmoothWoodBox")
                 {
                     var dropCount = gmComponent.Get<int>("_RandomDropItemNum");
                     properties["DropCount"] = dropCount;
