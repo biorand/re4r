@@ -165,8 +165,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var pStopping = RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerStopping)!.Value;
                 var pExplosion = RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerExplosionRadiusScale);
                 var pExplosionSensor = RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerExplosionSensorRadiusScale);
-                RandomizePower(wp, pDamage, pWince, pBreak, pStopping, pExplosion, pExplosionSensor);
+                RandomizePower(wp, pDamage, pDamage, pWince, pBreak, pStopping, pExplosion, pExplosionSensor);
             }
+
+            // if (RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerDamage) is StatRange pDamage)
+            // {
+            //     RandomizePower(wp, pDamage, pDamage, null, null, null, null, null);
+            // 
+            //     var pWince = RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerWince)!.Value;
+            //     var pBreak = RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerBreak)!.Value;
+            //     var pStopping = RandomizeFromRanges(rng, wp, WeaponUpgradePath.PowerStopping)!.Value;
+            //     RandomizePower(wp, pStopping, null, pWince, pBreak, pStopping, null, null, "Increase stopping power.");
+            // }
 
             if (RandomizeFromRanges(rng, wp, WeaponUpgradePath.AmmoCapacity) is StatRange ammoCapacity)
             {
@@ -258,40 +268,50 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void RandomizeExclusives(ChainsawRandomizer randomizer, WeaponStats wp, Rng rng)
         {
-            var exclusives = ImmutableArray.CreateBuilder<IWeaponExclusive>();
-            var exclusiveCount = rng.NextOf8020(1, 2, 3, 4);
-            if (Supports(wp, WeaponUpgradePath.PowerDamage))
+            var itemRepo = ItemDefinitionRepository.Default;
+            var paths = new[]
             {
-                var min = (float)Math.Clamp(randomizer.GetConfigOption<double>("weapon-exclusive-power-min"), 1.5, 100);
-                var max = (float)Math.Clamp(randomizer.GetConfigOption<double>("weapon-exclusive-power-max"), 1.5, 100);
-                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.Power, rng.NextFloat(min, max)));
-            }
-            if (Supports(wp, WeaponUpgradePath.AmmoCapacity))
-            {
-                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.AmmoCapacity, rng.Next(2, 5)));
-            }
-            if (Supports(wp, WeaponUpgradePath.CriticalRate) && wp.Id != 4600) // Bolt thrower
-            {
-                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.CriticalRate, rng.Next(4, 13)));
-            }
-            if (Supports(wp, WeaponUpgradePath.Penetration))
-            {
-                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.Penetration, rng.Next(5, 21)));
-            }
-            if (Supports(wp, WeaponUpgradePath.FireRate))
-            {
-                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.FireRate, rng.NextFloat(1.5f, 4)));
-            }
-            if (Supports(wp, WeaponUpgradePath.Durability))
-            {
-                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.Durability, rng.NextFloat(1.5f, 4)));
-                exclusives.Add(CreateExclusive(wp, WeaponUpgradeKind.CombatSpeed, rng.NextFloat(1.5f, 3)));
+                WeaponUpgradePath.PowerDamage,
+                WeaponUpgradePath.PowerStopping,
+                WeaponUpgradePath.AmmoCapacity,
+                WeaponUpgradePath.CriticalRate,
+                WeaponUpgradePath.Penetration,
+                WeaponUpgradePath.FireRate,
+                WeaponUpgradePath.Durability,
+                WeaponUpgradePath.CombatSpeed
+            };
 
-                // Knives seem to break on hardcore if upgrades are different
+            var exclusives = new List<IWeaponExclusive>();
+            foreach (var path in paths)
+            {
+                var property = $"{WeaponStatTable.GetPropertyName(path)}";
+                var min = WeaponStatTable.Default.GetValue(wp.Id, $"{property}/exclusive/min");
+                var max = WeaponStatTable.Default.GetValue(wp.Id, $"{property}/exclusive/max");
+                if (min == 0)
+                    continue;
+
+                if (path == WeaponUpgradePath.PowerDamage)
+                {
+                    min = (float)Math.Clamp(randomizer.GetConfigOption<double>("weapon-exclusive-power-min"), 1.5, 100);
+                    max = (float)Math.Clamp(randomizer.GetConfigOption<double>("weapon-exclusive-power-max"), 1.5, 100);
+                }
+
+                var value = rng.NextFloat(min, max);
+                exclusives.Add(CreateExclusive(wp, path, value));
+            }
+
+
+            var exclusiveCount = rng.NextOf8020(1, 2, 3, 4);
+
+            // Knives seem to break on hardcore if upgrades are different
+            if (itemRepo.FromWeaponId(wp.Id)!.Class == ItemClasses.Knife)
+            {
                 exclusiveCount = 1;
             }
+
             var newExclusives = exclusives
                 .Shuffle(rng)
+                .DistinctBy(x => x.Kind)
                 .Take(exclusiveCount)
                 .ToImmutableArray();
             wp.Modifiers = wp.Modifiers
@@ -389,38 +409,54 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void RandomizePower(
             WeaponStats stat,
-            StatRange pDamage,
-            StatRange pWince,
-            StatRange pBreak,
-            StatRange pStopping,
+            StatRange pMain,
+            StatRange? pDamage,
+            StatRange? pWince,
+            StatRange? pBreak,
+            StatRange? pStopping,
             StatRange? pExplosion,
-            StatRange? pExplosionSensor)
+            StatRange? pExplosionSensor,
+            string? message = null)
         {
-            var power = stat.Modifiers.OfType<PowerUpgrade>().First();
-            var levels = power.Levels.ToArray();
-            var multiplier = float.Parse(levels[0].Info);
-            for (var i = 0; i < 5; i++)
+            var power = new PowerUpgrade();
+            if (message == null)
             {
-                levels[i] = power.Levels[i] with
-                {
-                    Cost = pDamage.Cost[i],
-                    Damage = pDamage.Values[i],
-                    Wince = pWince.Values[i],
-                    Break = pBreak.Values[i],
-                    Stopping = pStopping.Values[i],
-                    ExplosionRadiusScale = pExplosion?.Values[i] ?? 0,
-                    ExplosionSensorRadiusScale = pExplosionSensor?.Values[i] ?? 0,
-                    Info = (pDamage.Values[i] * multiplier).ToString("0.00")
-                };
+                power = stat.Modifiers.OfType<PowerUpgrade>().First();
             }
+            else
+            {
+                power.MessageId = _addMessage(message);
+                stat.Modifiers = stat.Modifiers.Add(power);
+            }
+
+            var multiplier = message != null ? 1 : float.Parse(power.Levels[0].Info);
+            var levels = Enumerable.Range(0, 5)
+                .Select(i => new PowerUpgradeLevel(
+                    pMain.Cost[i],
+                    (pMain.Values[i] * multiplier).ToString("0.00"),
+                    pDamage?.Values[i] ?? 0,
+                    pWince?.Values[i] ?? 0,
+                    pBreak?.Values[i] ?? 0,
+                    pStopping?.Values[i] ?? 0,
+                    pExplosion?.Values[i] ?? 0,
+                    pExplosionSensor?.Values[i] ?? 0))
+                .ToImmutableArray();
             power.Levels = [.. levels];
 
-            SetBaseStat(stat, WeaponUpgradePath.PowerDamage, levels[0].Damage);
-            SetBaseStat(stat, WeaponUpgradePath.PowerWince, levels[0].Wince);
-            SetBaseStat(stat, WeaponUpgradePath.PowerBreak, levels[0].Break);
-            SetBaseStat(stat, WeaponUpgradePath.PowerStopping, levels[0].Stopping);
-            SetBaseStat(stat, WeaponUpgradePath.PowerExplosionRadiusScale, levels[0].ExplosionRadiusScale);
-            SetBaseStat(stat, WeaponUpgradePath.PowerExplosionSensorRadiusScale, levels[0].ExplosionSensorRadiusScale);
+            setBaseStat(WeaponUpgradePath.PowerDamage, pDamage);
+            setBaseStat(WeaponUpgradePath.PowerWince, pWince);
+            setBaseStat(WeaponUpgradePath.PowerBreak, pBreak);
+            setBaseStat(WeaponUpgradePath.PowerStopping, pStopping);
+            setBaseStat(WeaponUpgradePath.PowerExplosionRadiusScale, pExplosion);
+            setBaseStat(WeaponUpgradePath.PowerExplosionSensorRadiusScale, pExplosionSensor);
+
+            void setBaseStat(WeaponUpgradePath path, StatRange? sr)
+            {
+                if (sr != null)
+                {
+                    SetBaseStat(stat, path, sr.Value.Values[0]);
+                }
+            }
         }
 
         private void RandomizeAmmoCapacity(WeaponStats stat, StatRange sr)
@@ -554,48 +590,57 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             durability.Levels = [.. levels];
         }
 
-        private IWeaponExclusive CreateExclusive(WeaponStats wp, WeaponUpgradeKind kind, float rate)
+        private IWeaponExclusive CreateExclusive(WeaponStats wp, WeaponUpgradePath path, float rate)
         {
             rate = MathF.Round(rate / 0.25f) * 0.25f;
-            return kind switch
+            return path switch
             {
-                WeaponUpgradeKind.CriticalRate =>
-                    new WeaponExclusive
-                    {
-                        Kind = WeaponUpgradeKind.CriticalRate,
-                        RateValue = rate,
-                        MessageId = _addMessage($"Increase the critical hit rate by {rate}x."),
-                        PerkMessageId = _addMessage($"{rate}x Critical Hit Rate"),
-                        Cost = 80000
-                    },
-                WeaponUpgradeKind.AmmoCapacity =>
-                    new WeaponExclusive
-                    {
-                        Kind = WeaponUpgradeKind.AmmoCapacity,
-                        RateValue = rate,
-                        MessageId = _addMessage($"Increase ammo capacity by {rate}x."),
-                        PerkMessageId = _addMessage($"{rate}x Ammo Capacity"),
-                        Cost = 70000
-                    },
-                WeaponUpgradeKind.Power =>
+                WeaponUpgradePath.PowerDamage =>
                     new WeaponExclusive
                     {
                         Kind = WeaponUpgradeKind.Power,
                         RateValue = rate,
-                        MessageId = _addMessage($"Increase power by {rate}x."),
-                        PerkMessageId = _addMessage($"{rate}x Power"),
+                        MessageId = _addMessage($"Increase damage by {rate}x."),
+                        PerkMessageId = _addMessage($"{rate}x Damage"),
                         Cost = 100000
+                    }.WithPower(rate, 1, 1, 1),
+                WeaponUpgradePath.PowerStopping =>
+                    new WeaponExclusive
+                    {
+                        Kind = WeaponUpgradeKind.Power,
+                        RateValue = rate,
+                        MessageId = _addMessage($"Increase stopping power by {rate}x."),
+                        PerkMessageId = _addMessage($"{rate}x Stopping Power"),
+                        Cost = 100000
+                    }.WithPower(1, rate, 1, rate),
+                WeaponUpgradePath.CriticalRate =>
+                    new WeaponExclusive
+                    {
+                        Kind = WeaponUpgradeKind.CriticalRate,
+                        RateValue = MathF.Round(rate),
+                        MessageId = _addMessage($"Increase the critical hit rate by {rate}x."),
+                        PerkMessageId = _addMessage($"{rate}x Critical Hit Rate"),
+                        Cost = 80000
                     },
-                WeaponUpgradeKind.Penetration =>
+                WeaponUpgradePath.Penetration =>
                     new WeaponExclusive
                     {
                         Kind = WeaponUpgradeKind.Penetration,
-                        RateValue = rate,
+                        RateValue = MathF.Round(rate),
                         MessageId = _addMessage($"Penetrate through {rate} targets."),
                         PerkMessageId = _addMessage($"{rate}x Penetration Power"),
                         Cost = 70000
                     },
-                WeaponUpgradeKind.FireRate =>
+                WeaponUpgradePath.AmmoCapacity =>
+                    new WeaponExclusive
+                    {
+                        Kind = WeaponUpgradeKind.AmmoCapacity,
+                        RateValue = MathF.Round(rate),
+                        MessageId = _addMessage($"Increase ammo capacity by {rate}x."),
+                        PerkMessageId = _addMessage($"{rate}x Ammo Capacity"),
+                        Cost = 70000
+                    },
+                WeaponUpgradePath.FireRate =>
                     new WeaponExclusive
                     {
                         Kind = WeaponUpgradeKind.FireRate,
@@ -604,7 +649,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         PerkMessageId = _addMessage($"{rate}x Rate of Fire"),
                         Cost = 80000
                     },
-                WeaponUpgradeKind.Durability =>
+                WeaponUpgradePath.Durability =>
                     new WeaponExclusive
                     {
                         Kind = WeaponUpgradeKind.Durability,
@@ -613,7 +658,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         PerkMessageId = _addMessage($"{rate}x Durability"),
                         Cost = 80000
                     },
-                WeaponUpgradeKind.CombatSpeed =>
+                WeaponUpgradePath.CombatSpeed =>
                     new WeaponExclusive
                     {
                         Kind = WeaponUpgradeKind.CombatSpeed,
@@ -622,7 +667,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         PerkMessageId = _addMessage($"{rate}x Attack Speed"),
                         Cost = 60000
                     },
-                WeaponUpgradeKind.UnlimitedAmmo =>
+                WeaponUpgradePath.UnlimitedAmmo =>
                     new WeaponExclusive
                     {
                         Kind = WeaponUpgradeKind.UnlimitedAmmo,
@@ -631,7 +676,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         PerkMessageId = _addMessage("Unlimited Ammo"),
                         Cost = 10000
                     },
-                WeaponUpgradeKind.Indestructible =>
+                WeaponUpgradePath.Indestructible =>
                     new WeaponExclusive
                     {
                         Kind = WeaponUpgradeKind.Indestructible,

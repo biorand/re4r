@@ -48,6 +48,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             FireRate,
             CombatSpeed,
             Durability,
+            UnlimitedAmmo,
+            Indestructible,
         }
 
         internal class Categories
@@ -247,6 +249,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         internal class PowerUpgrade(CustomAttackUp main, AttackUp detail) : IWeaponUpgrade
         {
+            public PowerUpgrade() : this(new CustomAttackUp(), new AttackUp()) { }
+
             public WeaponUpgradeKind Kind => WeaponUpgradeKind.Power;
             public object Main => new Common()
             {
@@ -258,7 +262,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 _CommonCustomCategory = Categories.Power,
                 _AttackUp = detail
             };
-            public Guid MessageId => main._MessageId;
+            public Guid MessageId
+            {
+                get => main._MessageId;
+                set => main._MessageId = value;
+            }
             public ImmutableArray<PowerUpgradeLevel> Levels
             {
                 get
@@ -282,20 +290,49 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
                 set
                 {
-                    if (value.Length > main._AttackUpCustomStages.Count)
-                        throw new NotSupportedException();
                     main._AttackUpCustomStages.Resize(value.Length);
                     for (var i = 0; i < main._AttackUpCustomStages.Count; i++)
                     {
                         main._AttackUpCustomStages[i] ??= new AttackUpCustomStage();
                         main._AttackUpCustomStages[i]._Cost = value[i].Cost;
                         main._AttackUpCustomStages[i]._Info = value[i].Info;
-                        SetValue(detail._DamageRates, i, value[i].Damage);
-                        SetValue(detail._WinceRates, i, value[i].Wince);
-                        SetValue(detail._BreakRates, i, value[i].Break);
-                        SetValue(detail._StoppingRates, i, value[i].Stopping);
-                        SetValue(detail._ExplosionRadiusScale, i, value[i].ExplosionRadiusScale);
-                        SetValue(detail._ExplosionSensorRadiusScale, i, value[i].ExplosionSensorRadiusScale);
+
+                        main._AttackUpCustomStages[i]._AttackUpParams.Clear();
+                        if (i != 0)
+                        {
+                            var entries = new[] {
+                                value[i].Damage,
+                                value[i].Wince,
+                                value[i].Break,
+                                value[i].Stopping,
+                                value[i].ExplosionRadiusScale,
+                                value[i].ExplosionSensorRadiusScale
+                            };
+                            for (var j = 0; j < entries.Length; j++)
+                            {
+                                if (entries[j] != 0)
+                                {
+                                    main._AttackUpCustomStages[i]._AttackUpParams.Add(new AttackUpParam()
+                                    {
+                                        _Level = i,
+                                        _AttackUp = j
+                                    });
+                                }
+                            }
+                        }
+
+                        if (value[i].Damage != 0)
+                            SetValue(detail._DamageRates, i, value[i].Damage);
+                        if (value[i].Wince != 0)
+                            SetValue(detail._WinceRates, i, value[i].Wince);
+                        if (value[i].Break != 0)
+                            SetValue(detail._BreakRates, i, value[i].Break);
+                        if (value[i].Stopping != 0)
+                            SetValue(detail._StoppingRates, i, value[i].Stopping);
+                        if (value[i].ExplosionRadiusScale != 0)
+                            SetValue(detail._ExplosionRadiusScale, i, value[i].ExplosionRadiusScale);
+                        if (value[i].ExplosionSensorRadiusScale != 0)
+                            SetValue(detail._ExplosionSensorRadiusScale, i, value[i].ExplosionSensorRadiusScale);
                     }
                 }
             }
@@ -903,6 +940,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (first != null)
                         first._Cost = value;
                 }
+            }
+
+            public WeaponExclusive WithPower(float pDamage, float pWince, float pBreak, float pStopping)
+            {
+                detail._LimitBreakAttackUp._DamageRateScale = pDamage;
+                detail._LimitBreakAttackUp._WinceRateScale = pWince;
+                detail._LimitBreakAttackUp._BreakRateScale = pBreak;
+                detail._LimitBreakAttackUp._StoppingRateScale = pStopping;
+                return this;
             }
         }
     }

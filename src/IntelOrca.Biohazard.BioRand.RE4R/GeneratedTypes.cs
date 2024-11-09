@@ -111,7 +111,7 @@ namespace chainsaw
         internal class CurveVariable
         {
             public System.Single _BaseValue { get; set; }
-            public via.AnimationCurve _RateCurve { get; set; }
+            public via.AnimationCurve _RateCurve { get; set; } = new();
         }
     }
     internal class WeaponDetailCustomUserdata
@@ -182,12 +182,12 @@ namespace chainsaw
         }
         internal class AttackUp
         {
-            public System.Collections.Generic.List<chainsaw.ShellBaseAttackInfo.CurveVariable> _DamageRates { get; set; }
-            public System.Collections.Generic.List<chainsaw.ShellBaseAttackInfo.CurveVariable> _WinceRates { get; set; }
-            public System.Collections.Generic.List<chainsaw.ShellBaseAttackInfo.CurveVariable> _BreakRates { get; set; }
-            public System.Collections.Generic.List<chainsaw.ShellBaseAttackInfo.CurveVariable> _StoppingRates { get; set; }
-            public System.Collections.Generic.List<System.Single> _ExplosionRadiusScale { get; set; }
-            public System.Collections.Generic.List<System.Single> _ExplosionSensorRadiusScale { get; set; }
+            public System.Collections.Generic.List<chainsaw.ShellBaseAttackInfo.CurveVariable> _DamageRates { get; set; } = [];
+            public System.Collections.Generic.List<chainsaw.ShellBaseAttackInfo.CurveVariable> _WinceRates { get; set; } = [];
+            public System.Collections.Generic.List<chainsaw.ShellBaseAttackInfo.CurveVariable> _BreakRates { get; set; } = [];
+            public System.Collections.Generic.List<chainsaw.ShellBaseAttackInfo.CurveVariable> _StoppingRates { get; set; } = [];
+            public System.Collections.Generic.List<System.Single> _ExplosionRadiusScale { get; set; } = [];
+            public System.Collections.Generic.List<System.Single> _ExplosionSensorRadiusScale { get; set; } = [];
         }
         internal class LimitBreakBlastRange_1011
         {
@@ -469,7 +469,7 @@ namespace chainsaw
         internal class CustomAttackUp
         {
             public System.Guid _MessageId { get; set; }
-            public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.AttackUpCustomStage> _AttackUpCustomStages { get; set; }
+            public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.AttackUpCustomStage> _AttackUpCustomStages { get; set; } = [];
         }
         internal class CustomStage
         {
@@ -504,7 +504,7 @@ namespace chainsaw
         {
             public System.Int32 _Cost { get; set; }
             public System.String _Info { get; set; }
-            public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.AttackUpParam> _AttackUpParams { get; set; }
+            public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.AttackUpParam> _AttackUpParams { get; set; } = [];
         }
         internal class AmmoMaxUpCustomStage
         {
