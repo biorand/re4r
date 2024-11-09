@@ -233,7 +233,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (kind == "Biorand_WoodenBarrel") kind = "Biorand_ExplosionWoodenBarrelFake";
                 if (kind == "Biorand_WoodenBox") kind = "Biorand_ExplosionWoodenBoxFake";
 
-                var gimmick = CloneGimmickFromTemplate(kind);
+                var gimmick = filePair.Scene.ImportGameObject(GetGimmickFromTemplate(kind));
 
                 var gimmickCore = gimmick.FindComponent("chainsaw.GimmickCore")!;
                 contextId.CopyTo(gimmickCore.Get<RszInstance>("_ID")!);
@@ -243,37 +243,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 gimmickTransform.Set("v1", CreateRotation(placement.Rotation));
                 gimmickTransform.Set("v2", new Vector4(1, 1, 1, 0));
 
-                if (kind == "Biorand_ExplosionWoodenBoxFake" || kind == "Biorand_ExplosionWoodenBarrelFake")
-                {
-                    AddChildHide(gimmick, 0, "Before", "BombObj");
-                    AddChildDisp(gimmick, 0, "After");
-                    AddChildEffect(FindChildRecursive(gimmick, "EffectObj")!, 0, "EffectObj");
-                }
-                if (kind == "Biorand_WoodenBarrel" || kind == "Biorand_WoodenBox")
-                {
-                    AddChildHide(gimmick, 0, "Before");
-                    AddChildDisp(gimmick, 0, "After");
-                }
-                else if (kind == "Biorand_MerchantTorch")
-                {
-                    AddChildEffect(gimmick, 0, "VFXParent");
-                }
-                else if (kind == "Biorand_Tripwire")
-                {
-                    AddChildHide(gimmick, 0, "Sender", "Laser", "Receiver");
-                    AddChildHide(gimmick, 1, "Sender", "Laser", "Receiver");
-                    AddChildHide(gimmick, 2, "Laser", "Battery");
-                    AddChildHide(gimmick, 3, "Sender", "Laser", "Receiver");
-                    AddChildEffect(gimmick, 0, "EffectPos_Sender", "EffectPos_Receiver");
-                    AddChildEffect(gimmick, 1, "EffectPos_Sender", "EffectPos_Receiver");
-                    FindChildRecursive(gimmick, "GimmickAimAssist")!
-                        .FindComponent("chainsaw.GimmickAimAssist")!
-                        .Set("_TargetObjRef", FindChildRecursive(gimmick, "AimAssistPointObj")!.Guid);
-                }
-
                 AddCondition(filePair.Scene, gimmick, placement);
-
-                filePair.Scene.ImportGameObject(gimmick);
 
                 var userData = filePair.User.RSZ!.CreateInstance("chainsaw.GimmickSaveDataTable.Data");
                 contextId.CopyTo(userData.Get<RszInstance>("ID")!);
@@ -306,6 +276,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         {
                             list.Add(child.Guid);
                         }
+                    }
+                }
+            }
+
+            private static void UpdateObjectEffectManager(ScnFile.GameObjectData gimmick, string targetChildName)
+            {
+                var gimmickObjectEffectManager = gimmick.FindComponent("via.effect.script.ObjectEffectManager");
+                if (gimmickObjectEffectManager != null)
+                {
+                    var child = FindChildRecursive(gimmick, targetChildName);
+                    if (child != null)
+                    {
+                        gimmickObjectEffectManager.Set($"TargetGameObject", child.Guid);
                     }
                 }
             }
@@ -426,7 +409,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private static ScnFile.GameObjectData CloneGimmickFromTemplate(string name)
+        private static ScnFile.GameObjectData GetGimmickFromTemplate(string name)
         {
             var template = _template;
             if (template == null)
@@ -435,10 +418,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 _template = template;
             }
 
-            var gameObject = template
+            return template
                 .IterAllGameObjects()
                 .First(x => x.Name == name);
-            return (ScnFile.GameObjectData)gameObject.Clone();
         }
 
         private class Gimmick
