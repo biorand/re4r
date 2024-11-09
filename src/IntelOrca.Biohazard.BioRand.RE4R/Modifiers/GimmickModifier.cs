@@ -44,7 +44,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return;
 
             var rng = randomizer.CreateRng();
-            ModifyCrowDrops(randomizer, logger, rng);
+            ModifyExistingGimmicks(randomizer, logger, rng);
 
             var bawk = randomizer.HasSpecialTouch("bawk");
             var extraMerchants = randomizer.GetConfigOption("extra-merchants", true);
@@ -71,7 +71,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             factory.SaveAll();
         }
 
-        private void ModifyCrowDrops(ChainsawRandomizer randomizer, RandomizerLogger logger, Rng rng)
+        private void ModifyExistingGimmicks(ChainsawRandomizer randomizer, RandomizerLogger logger, Rng rng)
         {
             var fileRepository = randomizer.FileRepository;
             var itemRandomizer = randomizer.ItemRandomizer;
@@ -99,6 +99,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         if (g.Kind == "GmCrow")
                         {
                             RandomizeGmOptionDropItem(g, itemRandomizer, randomItemSettings, rng);
+                        }
+                        else if (g.Kind == "GmHidingLocker")
+                        {
+                            if (g.GameObject.GetChildren().FirstOrDefault(x => x.Name == "ParamObject") is ScnFile.GameObjectData paramObject)
+                            {
+                                scnFile.RemoveGameObject(paramObject);
+                            }
                         }
                     }
                 });
