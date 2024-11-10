@@ -57,6 +57,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             ChangeMessages(randomizer, logger);
+            FixNovisNavigation(randomizer, logger);
         }
 
         private void ForceNgPlusMerchantLeon(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -569,6 +570,45 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             fileRepository.SetMsgFile(itemMsgPath, itemMsg.ToMsg());
             fileRepository.SetMsgFile(statusMsgPath, statusMsgBuilder.ToMsg());
+        }
+
+        private void FixNovisNavigation(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            var pathFormatLeon = "natives/stm/_chainsaw/appsystem/navigation/loc{0}/navigation_loc{1}.scn.20";
+            var pathFormatAda = "natives/stm/_anotherorder/appsystem/navigation/loc{0}/navigation_loc{1}.scn.20";
+            var locationsLeon = new[]
+            {
+                4000, 4010, 4011, 4300, 4310, 4400, 4410, 4500, 4510, 4600, 4610, 4700, 4710,
+                5000, 5010, 5100, 5110, 5200, 5300, 5400, 5410, 5500, 5510, 5600, 5610, 5700, 5900,
+                6000, 6010, 6100, 6110, 6200, 6300, 6400, 6500, 6600, 6610, 6700, 6701, 6800, 6801, 6900,
+            };
+            var locationsAda = new[]
+            {
+                4010, 4300, 4400, 4410, 4500, 4700,
+                5000, 5100, 5110, 5500, 5510, 5600, 5610, 5900,
+                6010, 6100, 6110, 6200, 6400, 6800, 6900,
+            };
+
+            var pathFormat = randomizer.Campaign == Campaign.Leon ? pathFormatLeon : pathFormatAda;
+            var locations = randomizer.Campaign == Campaign.Leon ? locationsLeon : locationsAda;
+            var rootName = randomizer.Campaign == Campaign.Leon ? "AIMap" : "AIMap_AO";
+            foreach (var loc in locations)
+            {
+                var path = string.Format(pathFormat, loc / 100, loc);
+                randomizer.FileRepository.ModifyScnFile(path, scn =>
+                {
+                    var obj = scn.IterAllGameObjects().First(x => x.Name == rootName);
+                    var navigationMapClient = obj.FindComponent("chainsaw.NavigationMapClient");
+                    var bindInfoList = navigationMapClient!.GetList("_BindInfoList");
+                    if (bindInfoList.Count < 3)
+                    {
+                        var bindInfo = scn.RSZ!.CreateInstance("chainsaw.NavigationMapClient.BindInfo");
+                        bindInfo.Set("_Purpose", 1);
+                        bindInfo.Set("_MapName", $"VolumeSpace_Loc{loc}");
+                        bindInfoList.Add(bindInfo);
+                    }
+                });
+            }
         }
 
         private static readonly int[] _characterKindIds = new int[]
