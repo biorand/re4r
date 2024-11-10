@@ -618,7 +618,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     {
                         Kind = WeaponUpgradeKind.CriticalRate,
                         RateValue = MathF.Round(rate),
-                        MessageId = _addMessage($"Increase the critical hit rate by {rate}x."),
+                        MessageId = _addMessage($"Increase the critical hit rate by {rate:0}x."),
                         PerkMessageId = _addMessage($"{rate}x Critical Hit Rate"),
                         Cost = 80000
                     },
@@ -627,7 +627,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     {
                         Kind = WeaponUpgradeKind.Penetration,
                         RateValue = MathF.Round(rate),
-                        MessageId = _addMessage($"Penetrate through {rate} targets."),
+                        MessageId = _addMessage($"Penetrate through {rate:0} targets."),
                         PerkMessageId = _addMessage($"{rate}x Penetration Power"),
                         Cost = 70000
                     },
@@ -636,7 +636,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     {
                         Kind = WeaponUpgradeKind.AmmoCapacity,
                         RateValue = MathF.Round(rate),
-                        MessageId = _addMessage($"Increase ammo capacity by {rate}x."),
+                        MessageId = _addMessage($"Increase ammo capacity by {rate:0}x."),
                         PerkMessageId = _addMessage($"{rate}x Ammo Capacity"),
                         Cost = 70000
                     },
