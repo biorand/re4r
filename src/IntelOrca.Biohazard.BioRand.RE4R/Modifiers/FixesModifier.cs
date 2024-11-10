@@ -292,7 +292,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 weaponPartsCombineDefinitionPath = "natives/stm/_anotherorder/appsystem/ui/userdata/weaponpartscombinedefinitionuserdata_ao.user.2";
                 weaponDetailCustomPath = "natives/stm/_anotherorder/appsystem/weaponcustom/weapondetailcustomuserdata_ao.user.2";
-                weaponIds = [6111, 6113];
+                weaponIds = [6103, 6113];
             }
 
             var fileRepository = randomizer.FileRepository;
@@ -312,19 +312,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             });
 
-            if (randomizer.Campaign == Campaign.Leon)
+            fileRepository.ModifyUserFile(playerLaserSightControllerDefinitionPath, (file, rsz) =>
             {
-                fileRepository.ModifyUserFile(playerLaserSightControllerDefinitionPath, (file, rsz) =>
+                var list = rsz.GetList("_Settings");
+                foreach (var wp in weaponIds)
                 {
-                    var list = rsz.GetList("_Settings");
-                    foreach (var wp in weaponIds)
-                    {
-                        var newItem = file.CloneInstance((RszInstance)list[0]!);
-                        newItem.Set("_WeaponID", wp);
-                        list.Add(newItem);
-                    }
-                });
-            }
+                    var newItem = file.CloneInstance((RszInstance)list[0]!);
+                    newItem.Set("_WeaponID", wp);
+                    list.Add(newItem);
+                }
+            });
 
             fileRepository.ModifyUserFile(weaponDetailCustomPath, (file, rsz) =>
             {
@@ -337,7 +334,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         if (w.Get<int>("_WeaponID") == wp)
                         {
                             var attachments = w.GetList("_WeaponDetailCustom._AttachmentCustoms");
-                            attachments.Add(file.CloneInstance(attachment));
+                            if (!attachments.Any(x => ((RszInstance)x!).Get<int>("_ItemID") == 116008000))
+                            {
+                                attachments.Add(file.CloneInstance(attachment));
+                            }
                         }
                     }
                 }
