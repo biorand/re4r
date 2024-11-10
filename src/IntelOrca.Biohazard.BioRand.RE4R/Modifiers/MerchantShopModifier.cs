@@ -236,7 +236,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var itemRepo = ItemDefinitionRepository.Default;
                 var teasureCount = rng.Next(0, 8);
                 var treasures = itemRepo.KindToItemMap[ItemKinds.Treasure]
-                    .Where(x => x.Id != ItemIds.VelvetBlue)
+                    .Where(x => x.Id != ItemIds.VelvetBlue && x.Id != ItemIds.Spinel)
                     .Shuffle(rng)
                     .Take(teasureCount)
                     .ToArray();
