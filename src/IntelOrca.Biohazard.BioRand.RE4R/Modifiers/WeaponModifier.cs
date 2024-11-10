@@ -487,7 +487,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 Levels = Enumerable.Range(0, 5).Select(i =>
                 {
                     var value = (int)MathF.Round(sr.Values[i]);
-                    return new CriticalRateUpgradeLevel(sr.Cost[i], $"{value}%", value);
+                    return new CriticalRateUpgradeLevel(sr.Cost[i], value.ToString(), value);
                 }).ToImmutableArray()
             };
             stat.Modifiers = stat.Modifiers.Add(m);
