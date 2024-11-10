@@ -117,8 +117,8 @@
 
 <PageBody>
     <PageTitle>Home</PageTitle>
-    <div class="lg:flex lg:gap-3">
-        <div class="grow">
+    <div class="xl:flex xl:gap-3">
+        <div class="xl:w-1/2 mb-4">
             <h2 class="text-2xl mb-4">Recent Updates</h2>
             {#if canEdit}
                 <Button class="mb-4" on:click={() => createNewsItem()} size="lg" color="light"
@@ -136,7 +136,7 @@
                 {/each}
             </Timeline>
         </div>
-        <div class="grow w-144 max-w-[40%]">
+        <div class="xl:w-1/2">
             <div class="flex flex-col gap-3">
                 <SideChart chart={seedChart} />
                 <SideChart chart={totalUsersChart} />
