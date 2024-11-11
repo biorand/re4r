@@ -1,20 +1,21 @@
 <script lang="ts">
     import LoadingButton from '$lib/LoadingButton.svelte';
     import type { ProfileViewModel } from '$lib/UserProfileManager';
-    import { BioRandApiError, getApi, type GenerateResult } from '$lib/api';
+    import { getApi, RandoStatus, type Rando } from '$lib/api';
     import { getLocalStorageManager } from '$lib/localStorage';
     import { rng } from '$lib/utility';
     import { Alert, Button, ButtonGroup, Hr, Input, Label } from 'flowbite-svelte';
-    import { CloseCircleSolid, ShuffleOutline } from 'flowbite-svelte-icons';
+    import { CloseCircleSolid, InfoCircleSolid, ShuffleOutline } from 'flowbite-svelte-icons';
     import DownloadCard from './DownloadCard.svelte';
 
     export let profile: ProfileViewModel;
-    export let generateResult: GenerateResult | undefined;
+    export let generateResult: Rando | undefined;
 
     let lsManager = getLocalStorageManager();
     let seed = generateResult?.seed.toString() || '0';
     let generating = false;
     let generateError = '';
+    let generateProcessMessage = '';
     function onShuffleSeed() {
         seed = rng(100000, 1000000).toString();
     }
@@ -32,6 +33,7 @@
     async function onGenerate() {
         generating = true;
         generateResult = undefined;
+        generateError = '';
         try {
             const api = getApi();
             generateResult = await api.generate({
@@ -39,14 +41,43 @@
                 profileId: profile.originalId,
                 config: profile.config || {}
             });
-            generating = false;
+            generateProcessMessage = 'Seed is queued for generation';
+            const timer = setInterval(async () => {
+                try {
+                    if (generateResult) {
+                        generateResult = await api.getRando(generateResult.id);
+                        switch (generateResult.status) {
+                            case RandoStatus.Unassigned:
+                                generateProcessMessage = 'Seed is queued for generation';
+                                break;
+                            case RandoStatus.Processing:
+                                generateProcessMessage = 'Seed is being generated';
+                                break;
+                            case RandoStatus.Completed:
+                                generating = false;
+                                generateProcessMessage = '';
+                                clearInterval(timer);
+                                break;
+                            default:
+                                generating = false;
+                                generateError =
+                                    'An error occured on the server while generating this seed.';
+                                clearInterval(timer);
+                                break;
+                        }
+                    } else {
+                        generating = false;
+                        generateError = '';
+                        generateProcessMessage = '';
+                        clearInterval(timer);
+                    }
+                } catch {
+                    generateError = 'An error occured on the server while generating this seed.';
+                    generating = false;
+                }
+            }, 1000);
         } catch (e: any) {
-            if (e.statusCode == 429) {
-                generateError =
-                    'The server is currently generating too many randomizers. Please try again later.';
-            } else {
-                generateError = 'An error occured on the server while generating this seed.';
-            }
+            generateError = 'An error occured on the server while generating this seed.';
             generating = false;
         }
     }
@@ -77,35 +108,41 @@
     </div>
 </div>
 <Hr hrClass="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
-{#if generateResult}
-    <div>
-        <h2 class="text-2xl">Your randomizer is ready!</h2>
-        <h3 class="mb-3">Download the appropriate file and enjoy!</h3>
-        <div class="flex flex-wrap gap-3">
-            <DownloadCard
-                title="Patch"
-                description="Simply drop this file into your RE 4 install folder."
-                href={generateResult.downloadUrl}
-            />
-            <DownloadCard
-                title="Fluffy Mod"
-                description="Drop this zip file into Fluffy Mod Manager's mod folder and enable it."
-                href={generateResult.downloadUrlMod}
-            />
-        </div>
-
-        <p class="mt-3">What should I do if my game crashes?</p>
-        <ol class="ml-8 list-decimal text-gray-300">
-            <li>Reload from last checkpoint and try again.</li>
-            <li>
-                Alter the enemy sliders slightly or reduce the number temporarily. This will
-                reshuffle the enemies. Reload from last checkpoint and try again.
-            </li>
-            <li>As a last resort, change your seed, and reload from last checkpoint.</li>
-        </ol>
-    </div>
-{:else if generateError}
+{#if generateError}
     <Alert border color="red" class="my-4">
         <CloseCircleSolid slot="icon" class="w-5 h-5" />{generateError}
     </Alert>
+{:else if generateResult}
+    {#if generateResult.status == RandoStatus.Completed}
+        <div>
+            <h2 class="text-2xl">Your randomizer is ready!</h2>
+            <h3 class="mb-3">Download the appropriate file and enjoy!</h3>
+            <div class="flex flex-wrap gap-3">
+                <DownloadCard
+                    title="Patch"
+                    description="Simply drop this file into your RE 4 install folder."
+                    href={generateResult.downloadUrl}
+                />
+                <DownloadCard
+                    title="Fluffy Mod"
+                    description="Drop this zip file into Fluffy Mod Manager's mod folder and enable it."
+                    href={generateResult.downloadUrlMod}
+                />
+            </div>
+
+            <p class="mt-3">What should I do if my game crashes?</p>
+            <ol class="ml-8 list-decimal text-gray-300">
+                <li>Reload from last checkpoint and try again.</li>
+                <li>
+                    Alter the enemy sliders slightly or reduce the number temporarily. This will
+                    reshuffle the enemies. Reload from last checkpoint and try again.
+                </li>
+                <li>As a last resort, change your seed, and reload from last checkpoint.</li>
+            </ol>
+        </div>
+    {:else}
+        <Alert border color="yellow" class="my-4">
+            <InfoCircleSolid slot="icon" class="w-5 h-5" />{generateProcessMessage}
+        </Alert>
+    {/if}
 {/if}

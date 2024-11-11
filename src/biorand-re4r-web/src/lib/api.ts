@@ -150,16 +150,26 @@ export interface ConfigDefinition {
 
 export type Config = { [key: string]: any };
 
+export enum RandoStatus {
+    Unknown,
+    Unassigned,
+    Processing,
+    Completed,
+    Failed,
+    Expired,
+}
+
 export interface GenerateRequest {
     seed: number;
     profileId: number;
     config: Config;
 }
 
-export interface GenerateResult {
+export interface Rando {
     id: number;
     seed: number;
     config: Config;
+    status: RandoStatus;
     downloadUrl: string;
     downloadUrlMod: string;
 }
@@ -185,6 +195,7 @@ export interface RandoHistoryItem {
     profileUserName: string;
     version: string;
     seed: number;
+    status: RandoStatus;
     config: string;
 }
 
@@ -364,7 +375,11 @@ export class BioRandApi {
     }
 
     async generate(request: GenerateRequest) {
-        return await this.post<GenerateResult>("rando/generate", request);
+        return await this.post<Rando>("rando/generate", request);
+    }
+
+    async getRando(id: number) {
+        return await this.get<Rando>(`rando/${id}`);
     }
 
     async getStats() {

@@ -19,8 +19,9 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             new IntelOrca.Biohazard.BioRand.RE4R.Re4rRandomizer()
         ];
 
-        private void ExpireOldRandos()
+        public Task<ulong[]> ExpireOldRandos()
         {
+            var result = new List<ulong>();
             var now = DateTime.UtcNow;
             foreach (var kvp in _randos.ToArray())
             {
@@ -28,8 +29,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 if (age > DownloadExpireTime)
                 {
                     _randos.Remove(kvp.Key);
+                    result.Add(kvp.Key);
                 }
             }
+            return Task.FromResult(result.ToArray());
         }
 
         public IRandomizer GetRandomizer()
@@ -50,8 +53,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             await _mutex.WaitAsync();
             try
             {
-                ExpireOldRandos();
-
                 var biorandConfig = BioRandServerConfiguration.GetDefault();
                 var randomizer = GetRandomizer();
                 var input = new RandomizerInput

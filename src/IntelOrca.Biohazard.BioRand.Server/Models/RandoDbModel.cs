@@ -18,5 +18,17 @@ namespace IntelOrca.Biohazard.BioRand.Server.Models
         public int Seed { get; set; }
         [NotNull]
         public int ConfigId { get; set; }
+        [NotNull]
+        public RandoStatus Status { get; set; }
+    }
+
+    public enum RandoStatus
+    {
+        Unknown,
+        Unassigned,
+        Processing,
+        Completed,
+        Failed,
+        Expired,
     }
 }

@@ -17,6 +17,7 @@
     import { buildUrl, getLocation, tryParseInt } from '$lib/utility';
     import { Avatar, TableBodyCell, TableBodyRow, TableHead } from 'flowbite-svelte';
     import { readable } from 'svelte/store';
+    import RandoStatusBadge from './RandoStatusBadge.svelte';
 
     const queryParams = readable<RandoHistoryQueryOptions>(undefined, (set) => {
         getLocation().subscribe((location) => {
@@ -100,6 +101,7 @@
                 <SortedTableHeader>Profile</SortedTableHeader>
                 <SortedTableHeader align="center">Version</SortedTableHeader>
                 <SortedTableHeader>Seed</SortedTableHeader>
+                <SortedTableHeader>Status</SortedTableHeader>
                 <SortedTableHeader></SortedTableHeader>
             </TableHead>
             <TableBodyRow class="text-base font-semibold">
@@ -129,6 +131,9 @@
                     </span>
                 </TableBodyCell>
                 <TableBodyCell tdClass="p-1 font-mono">{item.seed}</TableBodyCell>
+                <TableBodyCell tdClass="p-1 font-mono flex">
+                    <RandoStatusBadge class="m-auto" status={item.status} />
+                </TableBodyCell>
                 <TableBodyCell tdClass="p-1"
                     ><a
                         on:click={() => loadConfig(item)}

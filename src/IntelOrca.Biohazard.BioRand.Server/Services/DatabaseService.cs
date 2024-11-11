@@ -12,7 +12,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 {
     public sealed class DatabaseService
     {
+        private const int LatestVersion = 1;
+
         private readonly SQLiteAsyncConnection _conn;
+        private int _originalVersion;
 
         public int SystemUserId => 1;
 
@@ -31,6 +34,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         private async Task Initialize()
         {
+            await InitializeMetaTable();
+            await ApplyMigrations();
             await _conn.CreateTableAsync<UserDbModel>();
             await _conn.CreateTableAsync<TokenDbModel>();
             await _conn.CreateTableAsync<ProfileDbModel>();
@@ -45,6 +50,36 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                     ""UserId"" integer not null,
                     PRIMARY KEY (""ProfileId"", ""UserId""))");
             await GetOrCreateSystemUser();
+        }
+
+        private async Task InitializeMetaTable()
+        {
+            await _conn.CreateTableAsync<MetaDbModel>();
+            var meta = await _conn.FindAsync<MetaDbModel>(1);
+            if (meta == null)
+            {
+                _originalVersion = 0;
+                meta = new MetaDbModel()
+                {
+                    Id = 1,
+                    Version = LatestVersion
+                };
+                await _conn.InsertAsync(meta);
+            }
+            else
+            {
+                _originalVersion = meta.Version;
+                meta.Version = LatestVersion;
+                await _conn.UpdateAsync(meta);
+            }
+        }
+
+        private async Task ApplyMigrations()
+        {
+            if (_originalVersion < 1)
+            {
+                await _conn.ExecuteAsync("ALTER TABLE rando ADD COLUMN Status INTEGER NOT NULL DEFAULT 0");
+            }
         }
 
         private async Task<UserDbModel> GetOrCreateSystemUser()
@@ -372,6 +407,37 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 await _conn.ExecuteAsync("DELETE FROM randoconfig WHERE Id = ?", randoConfigId);
         }
 
+        public Task<ExtendedRandoDbModel> GetRandoAsync(int id)
+        {
+            var q = @"
+                SELECT r.*,
+                       u.Name as UserName,
+                       u.Email as UserEmail,
+                       p.Id as ProfileId,
+                       p.Name as ProfileName,
+                       p.Description as ProfileDescription,
+                       pu.Id as ProfileUserId,
+                       pu.Name as ProfileUserName,
+                       c.Data as Config
+                FROM rando as r
+                LEFT JOIN user as u ON r.UserId = u.Id
+                LEFT JOIN randoconfig as c ON r.ConfigId = c.Id
+                LEFT JOIN profile as p ON c.BasedOnProfileId = p.Id
+                LEFT JOIN user as pu ON p.UserId = pu.Id
+                WHERE r.Id = ?";
+            return _conn.FindWithQueryAsync<ExtendedRandoDbModel>(q, id);
+        }
+
+        public Task SetRandoStatusAsync(int id, RandoStatus status)
+        {
+            return _conn.ExecuteAsync(@"UPDATE rando SET Status = ? WHERE Id = ?", status, id);
+        }
+
+        public Task SetAllRandoStatusToExpiredAsync()
+        {
+            return _conn.ExecuteAsync(@"UPDATE rando SET Status = ? WHERE Status <> ?", RandoStatus.Expired, RandoStatus.Failed);
+        }
+
         public Task<LimitedResult<ExtendedRandoDbModel>> GetRandosAsync(
             int? filterUserId = null,
             int? viewerUserId = null,
@@ -380,13 +446,13 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         {
             var q = BuildQuery<ExtendedRandoDbModel>(@"
                 SELECT r.*,
-	                   u.Name as UserName,
-	                   u.Email as UserEmail,
-	                   p.Id as ProfileId,
-	                   p.Name as ProfileName,
-	                   pu.Id as ProfileUserId,
-	                   pu.Name as ProfileUserName,
-	                   c.Data as Config
+                       u.Name as UserName,
+                       u.Email as UserEmail,
+                       p.Id as ProfileId,
+                       p.Name as ProfileName,
+                       pu.Id as ProfileUserId,
+                       pu.Name as ProfileUserName,
+                       c.Data as Config
                 FROM rando as r
                 LEFT JOIN user as u ON r.UserId = u.Id
                 LEFT JOIN randoconfig as c ON r.ConfigId = c.Id
@@ -398,6 +464,27 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 q.Where("((u.Flags & 1) OR u.Id = ?)", viewerUserId.Value);
             }
             return q.ExecuteLimitedAsync(sortOptions, limitOptions);
+        }
+
+        public Task<LimitedResult<ExtendedRandoDbModel>> GetUnassignedRandosAsync()
+        {
+            var q = BuildQuery<ExtendedRandoDbModel>(@"
+                SELECT r.*,
+                       u.Name as UserName,
+                       u.Email as UserEmail,
+                       p.Id as ProfileId,
+                       p.Name as ProfileName,
+                       p.Description as ProfileDescription,
+                       pu.Id as ProfileUserId,
+                       pu.Name as ProfileUserName,
+                       c.Data as Config
+                FROM rando as r
+                LEFT JOIN user as u ON r.UserId = u.Id
+                LEFT JOIN randoconfig as c ON r.ConfigId = c.Id
+                LEFT JOIN profile as p ON c.BasedOnProfileId = p.Id
+                LEFT JOIN user as pu ON p.UserId = pu.Id
+                WHERE r.Status = ?", RandoStatus.Unassigned);
+            return q.ExecuteLimitedAsync();
         }
 
         public async Task<RandoDbModel> CreateRando(RandoDbModel rando)
@@ -567,10 +654,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 UPDATE kofi
                 SET UserId = t.UserId
                 FROM (
-	                SELECT kofi.Id AS Id, user.Id AS UserId
-	                FROM kofi
-	                JOIN user ON user.Email = kofi.Email OR (user.KofiEmail = kofi.Email AND KofiEmailVerification IS NULL)
-	                WHERE kofi.UserId IS NULL
+                    SELECT kofi.Id AS Id, user.Id AS UserId
+                    FROM kofi
+                    JOIN user ON user.Email = kofi.Email OR (user.KofiEmail = kofi.Email AND KofiEmailVerification IS NULL)
+                    WHERE kofi.UserId IS NULL
                 ) t
                 WHERE kofi.Id = t.Id");
         }
@@ -673,6 +760,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             public string? UserEmail { get; set; }
             public int ProfileId { get; set; }
             public string? ProfileName { get; set; }
+            public string? ProfileDescription { get; set; }
             public int ProfileUserId { get; set; }
             public string? ProfileUserName { get; set; }
             public string? Config { get; set; }
@@ -763,7 +851,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return _conn.ExecuteScalarAsync<int>(q, [.. _parameters]);
         }
 
-        public async Task<LimitedResult<T>> ExecuteLimitedAsync(SortOptions? sortOptions, LimitOptions? limitOptions)
+        public async Task<LimitedResult<T>> ExecuteLimitedAsync(SortOptions? sortOptions = null, LimitOptions? limitOptions = null)
         {
             var total = await CountAsync();
             if (sortOptions is SortOptions so)

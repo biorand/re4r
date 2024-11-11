@@ -13,6 +13,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         public async Task Initialize()
         {
             await CreateDefaultProfiles();
+            await db.SetAllRandoStatusToExpiredAsync();
         }
 
         private async Task CreateDefaultProfiles()

@@ -22,8 +22,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         UrlService urlService,
         ILogger<RandoController> logger) : ControllerBase
     {
-        private static DateTime _lastRequestTime;
-
         [HttpPost("generate")]
         public async Task<object> GenerateAsync([FromBody] GenerateRequest request)
         {
@@ -34,12 +32,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             var profile = await db.GetProfileAsync(request.ProfileId, user.Id);
             if (profile == null)
                 return NotFound();
-
-            var now = DateTime.UtcNow;
-            var duration = (now - _lastRequestTime).TotalSeconds;
-            if (duration <= 15)
-                return StatusCode(429);
-            _lastRequestTime = now;
 
             var randomizer = randomizerService.GetRandomizer();
             var config = RandomizerConfiguration.FromDictionary(request.Config ?? []);
@@ -54,29 +46,13 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 Version = randomizer.BuildVersion,
                 Seed = request.Seed,
                 UserId = user.Id,
-                ConfigId = randoConfig.Id
+                ConfigId = randoConfig.Id,
+                Status = RandoStatus.Unassigned
             });
             await db.UpdateSeedCount(request.ProfileId);
-
-            logger.LogInformation("User [{UserId}]{UserName} generatating rando ProfileId = {ProfileId} ProfileName = {ProfileName} Seed = {Seed}",
-                user.Id, user.Name, request.ProfileId, profile.Name, request.Seed);
-            var result = await randomizerService.GenerateAsync(
-                (ulong)rando.Id,
-                profile.Name,
-                profile.Description,
-                profile.UserName,
-                request.Seed,
-                config);
-            logger.LogInformation("User [{UserId}]{UserName} generated rando {RandoId} ProfileId = {ProfileId} Seed = {Seed}",
-                user.Id, user.Name, result.Id, request.ProfileId, result.Seed);
-            return new
-            {
-                result = "success",
-                id = result.Id,
-                seed = result.Seed,
-                downloadUrl = urlService.GetApiUrl($"rando/{result.Id}/download"),
-                downloadUrlMod = urlService.GetApiUrl($"rando/{result.Id}/download?mod=true")
-            };
+            logger.LogInformation("User [{UserId}]{UserName} requested generation of rando ProfileId = {ProfileId} ProfileName = {ProfileName} Seed = {Seed}",
+                user.Id, user.Name, profile.Id, profile.Name, rando.Seed);
+            return rando;
         }
 
         [HttpGet("history")]
@@ -136,6 +112,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 rando.ProfileUserId,
                 rando.ProfileUserName,
                 rando.Seed,
+                rando.Status,
                 rando.Config
             };
         }
@@ -148,6 +125,27 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 RandoCount = await db.CountRandos(),
                 ProfileCount = await db.CountProfiles(),
                 UserCount = await db.CountUsers(),
+            };
+        }
+
+        [HttpGet("{randoId}")]
+        public async Task<object> GetAsync(int randoId)
+        {
+            var authorizedUser = await authService.GetAuthorizedUserAsync();
+            if (authorizedUser == null)
+                return Unauthorized();
+
+            var rando = await db.GetRandoAsync(randoId);
+            if (rando.UserId != authorizedUser.Id)
+                return Unauthorized();
+
+            return new
+            {
+                id = rando.Id,
+                seed = rando.Seed,
+                status = rando.Status,
+                downloadUrl = urlService.GetApiUrl($"rando/{rando.Id}/download"),
+                downloadUrlMod = urlService.GetApiUrl($"rando/{rando.Id}/download?mod=true")
             };
         }
 

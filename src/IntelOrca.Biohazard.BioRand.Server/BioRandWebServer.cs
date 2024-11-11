@@ -36,6 +36,8 @@ namespace IntelOrca.Biohazard.BioRand.Server
 
             builder.Services.AddSingleton<AuthService>();
 
+            builder.Services.AddHostedService<GenerationService>();
+
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddControllers().AddApplicationPart(typeof(BioRandWebServer).Assembly);
 
