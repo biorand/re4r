@@ -178,19 +178,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             //     RandomizePower(wp, pStopping, null, pWince, pBreak, pStopping, null, null, "Increase stopping power.");
             // }
 
-            if (RandomizeFromRanges(rng, wp, WeaponUpgradePath.AmmoCapacity) is StatRange ammoCapacity)
+            if (RandomizeFromRanges(rng, wp, WeaponUpgradePath.AmmoCapacity, 1) is StatRange ammoCapacity)
             {
                 RandomizeAmmoCapacity(wp, ammoCapacity);
             }
 
             if (!exclusives.Any(x => x.Kind == WeaponUpgradeKind.CriticalRate) &&
-                RandomizeFromRanges(rng, wp, WeaponUpgradePath.CriticalRate) is StatRange criticalRate)
+                RandomizeFromRanges(rng, wp, WeaponUpgradePath.CriticalRate, 1) is StatRange criticalRate)
             {
                 RandomizeCriticalRate(wp, criticalRate);
             }
 
             if (!exclusives.Any(x => x.Kind == WeaponUpgradeKind.Penetration) &&
-                RandomizeFromRanges(rng, wp, WeaponUpgradePath.Penetration) is StatRange penetration)
+                RandomizeFromRanges(rng, wp, WeaponUpgradePath.Penetration, 1) is StatRange penetration)
             {
                 RandomizePenetration(wp, penetration);
             }
@@ -202,7 +202,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     RandomizeReloadSpeed(wp, reloadSpeed!.Value);
                     break;
                 case WeaponUpgradePath.ReloadRounds:
-                    var reloadRounds = RandomizeFromRanges(rng, wp, WeaponUpgradePath.ReloadRounds);
+                    var reloadRounds = RandomizeFromRanges(rng, wp, WeaponUpgradePath.ReloadRounds, 1);
                     RandomizeReloadRounds(wp, reloadRounds!.Value);
                     break;
             }
@@ -212,7 +212,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 RandomizeFireRate(wp, fireRate);
             }
 
-            if (RandomizeFromRanges(rng, wp, WeaponUpgradePath.Durability) is StatRange durability)
+            if (RandomizeFromRanges(rng, wp, WeaponUpgradePath.Durability, 100) is StatRange durability)
             {
                 RandomizeDurability(wp, durability);
 
@@ -342,7 +342,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return true;
         }
 
-        private StatRange? RandomizeFromRanges(Rng rng, WeaponStats wp, WeaponUpgradePath path)
+        private StatRange? RandomizeFromRanges(Rng rng, WeaponStats wp, WeaponUpgradePath path, float minIncrement = 0.05f)
         {
             var property = WeaponStatTable.GetPropertyName(path);
             var table = WeaponStatTable.Default;
@@ -359,7 +359,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var l5min = table.GetValue(wp.Id, $"{property}/level 5{highRoller}/min");
             var l5max = table.GetValue(wp.Id, $"{property}/level 5{highRoller}/max");
             var l1 = r(l1min, l1max);
-            var l5 = r(l5min, l5max);
+            var l5 = Math.Max(l1 + (4 * minIncrement), r(l5min, l5max));
             var values = Enumerable.Range(1, 5).Select(x => lerp(l1, l5, x)).ToArray();
             var cost = Enumerable.Range(1, 5).Select(getCost).ToArray();
             return new StatRange(cost, values);
