@@ -833,8 +833,7 @@
       "restrictions": [
         {
           "guids": [
-            "0b08a2d7-1755-467f-b8e5-2b0f2ec047b7", // cow
-            "d46eaaf0-dd11-4462-bbc6-19fe54082f08" // viper
+            "0b08a2d7-1755-467f-b8e5-2b0f2ec047b7" // cow
           ]
         }
       ]
@@ -857,7 +856,6 @@
       "restrictions": [
         {
           "guids": [
-            "c9139867-8bf2-4b04-af97-3db38b04b0e5", // viper
             "415c4837-610e-45cb-a724-9984c4cffee2", // viper
             "e1126869-4317-424d-a622-e539d30da455", // viper
             "59d6cbc5-f3dc-4eec-8bbb-b1c98d1de18e", // viper
