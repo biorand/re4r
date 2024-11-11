@@ -22,9 +22,18 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         UrlService urlService,
         ILogger<RandoController> logger) : ControllerBase
     {
+        private static DateTime _lastRequestTime;
+
         [HttpPost("generate")]
         public async Task<object> GenerateAsync([FromBody] GenerateRequest request)
         {
+            var now = DateTime.UtcNow;
+            var duration = (now - _lastRequestTime).TotalSeconds;
+            if (duration <= 30)
+                return StatusCode(429);
+
+            _lastRequestTime = now;
+
             var user = await authService.GetAuthorizedUserAsync();
             if (user == null)
                 return Unauthorized();

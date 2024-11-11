@@ -1,7 +1,7 @@
 <script lang="ts">
     import LoadingButton from '$lib/LoadingButton.svelte';
     import type { ProfileViewModel } from '$lib/UserProfileManager';
-    import { getApi, type GenerateResult } from '$lib/api';
+    import { BioRandApiError, getApi, type GenerateResult } from '$lib/api';
     import { getLocalStorageManager } from '$lib/localStorage';
     import { rng } from '$lib/utility';
     import { Alert, Button, ButtonGroup, Hr, Input, Label } from 'flowbite-svelte';
@@ -40,8 +40,13 @@
                 config: profile.config || {}
             });
             generating = false;
-        } catch {
-            generateError = 'An error occured on the server while generating this seed.';
+        } catch (e: any) {
+            if (e.statusCode == 429) {
+                generateError =
+                    'The server is currently generating too many randomizers. Please try again later.';
+            } else {
+                generateError = 'An error occured on the server while generating this seed.';
+            }
             generating = false;
         }
     }
