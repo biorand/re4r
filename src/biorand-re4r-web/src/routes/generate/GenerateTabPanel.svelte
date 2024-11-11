@@ -145,7 +145,7 @@
                 <li>As a last resort, change your seed, and reload from last checkpoint.</li>
             </ol>
         </div>
-    {:else}
+    {:else if generateProcessMessage}
         <Alert border color="yellow" class="my-4">
             <InfoCircleSolid slot="icon" class="w-5 h-5" />{generateProcessMessage}
         </Alert>
