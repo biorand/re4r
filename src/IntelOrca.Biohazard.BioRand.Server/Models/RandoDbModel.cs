@@ -30,5 +30,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Models
         Completed,
         Failed,
         Expired,
+        Discarded,
     }
 }

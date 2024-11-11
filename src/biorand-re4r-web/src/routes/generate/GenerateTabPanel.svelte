@@ -53,6 +53,11 @@
                             case RandoStatus.Processing:
                                 generateProcessMessage = 'Seed is being generated';
                                 break;
+                            case RandoStatus.Discarded:
+                                generating = false;
+                                generateProcessMessage = 'Seed was discarded for another';
+                                clearInterval(timer);
+                                break;
                             case RandoStatus.Completed:
                                 generating = false;
                                 generateProcessMessage = '';

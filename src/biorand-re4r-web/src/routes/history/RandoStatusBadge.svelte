@@ -12,7 +12,8 @@
         ['Processing', 'yellow'],
         ['Completed', 'green'],
         ['Failed', 'red'],
-        ['Expired', 'blue']
+        ['Expired', 'blue'],
+        ['Discarded', 'blue']
     ];
     $: roleName = roles[status][0];
     $: roleColor = roles[status][1] as any;

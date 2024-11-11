@@ -39,6 +39,15 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
             var configJson = config.ToJson(indented: false);
 
+            var unassignedRandos = await db.GetUnassignedRandosAsync();
+            foreach (var r in unassignedRandos.Results)
+            {
+                if (r.UserId == user.Id)
+                {
+                    await db.SetRandoStatusAsync(r.Id, RandoStatus.Discarded);
+                }
+            }
+
             var randoConfig = await db.GetOrCreateRandoConfig(request.ProfileId, configJson);
             var rando = await db.CreateRando(new RandoDbModel()
             {

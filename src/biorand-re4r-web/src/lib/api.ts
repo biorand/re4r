@@ -157,6 +157,7 @@ export enum RandoStatus {
     Completed,
     Failed,
     Expired,
+    Discarded,
 }
 
 export interface GenerateRequest {
