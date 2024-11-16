@@ -207,7 +207,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     break;
             }
 
-            if (RandomizeFromRanges(rng, wp, WeaponUpgradePath.FireRate) is StatRange fireRate)
+            if (RandomizeFromRanges(rng, wp, WeaponUpgradePath.FireRate, -0.05f) is StatRange fireRate)
             {
                 RandomizeFireRate(wp, fireRate);
             }
@@ -359,7 +359,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var l5min = table.GetValue(wp.Id, $"{property}/level 5{highRoller}/min");
             var l5max = table.GetValue(wp.Id, $"{property}/level 5{highRoller}/max");
             var l1 = r(l1min, l1max);
-            var l5 = Math.Max(l1 + (4 * minIncrement), r(l5min, l5max));
+            var l5 = minIncrement >= 0
+                ? Math.Max(l1 + (4 * minIncrement), r(l5min, l5max))
+                : Math.Min(l1 + (4 * minIncrement), r(l5min, l5max));
             var values = Enumerable.Range(1, 5).Select(x => lerp(l1, l5, x)).ToArray();
             var cost = Enumerable.Range(1, 5).Select(getCost).ToArray();
             return new StatRange(cost, values);
