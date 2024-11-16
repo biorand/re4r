@@ -514,6 +514,30 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .Where(x => x.Ranged)
                     .ToImmutableArray();
             }
+
+            // Mendez hill
+            if (spawn.Area.FileName.EndsWith("level_loc47_003.scn.20"))
+            {
+                if (randomizer.GetConfigOption<bool>("nice-mendez-hill"))
+                {
+                    var avoidClasses = new string[] {
+                        "chainsaw_mad",
+                        "garrador",
+                        "krauser_1",
+                        "krauser_2",
+                        "mendez_2",
+                        "pesanta",
+                        "super_iron_maiden",
+                        "super-colmillos",
+                        "u3",
+                        "verdugo"
+                    };
+
+                    spawn.PreferredClassPool = spawn.ClassPool
+                        .Where(x => !avoidClasses.Contains(x.Key))
+                        .ToImmutableArray();
+                }
+            }
         }
 
         private ImmutableArray<EnemySpawn> DuplicateEnemies(ChainsawRandomizer randomizer, Area area, ImmutableArray<EnemySpawn> spawns, Rng rng)

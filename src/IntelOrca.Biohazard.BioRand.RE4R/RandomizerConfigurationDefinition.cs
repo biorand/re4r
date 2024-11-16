@@ -434,6 +434,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.05,
                 Default = 2
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"nice-mendez-hill",
+                Label = "Prevent Toxic Mendez Hill",
+                Description = "Prevent difficult enemies appearing on Mendez Hill. Enable this during your permadeath runs.",
+                Type = "switch",
+                Default = false
+            });
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
