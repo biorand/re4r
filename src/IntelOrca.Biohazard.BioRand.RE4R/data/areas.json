@@ -835,6 +835,11 @@
           "guids": [
             "0b08a2d7-1755-467f-b8e5-2b0f2ec047b7" // cow
           ]
+        },
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
         }
       ]
     },
@@ -3602,7 +3607,14 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_008.scn.20",
-      "chapter": 9
+      "chapter": 9,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc50/level_loc50_002.scn.20",
