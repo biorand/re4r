@@ -54,6 +54,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .ToImmutableArray();
             }
 
+            if (!extraMerchants)
+            {
+                placements = placements
+                    .Where(x => x.Kind != "Biorand_Merchant" && x.Kind != "Biorand_MerchantTorch")
+                    .ToImmutableArray();
+            }
+
             foreach (var placement in placements)
             {
                 factory.AddGimmick(placement);
