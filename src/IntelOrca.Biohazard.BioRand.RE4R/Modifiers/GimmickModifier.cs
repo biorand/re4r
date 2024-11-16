@@ -33,9 +33,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return;
 
             var enableGimmickModification = randomizer.GetConfigOption<bool>("ea-extra-gimmicks");
-            if (!enableGimmickModification)
-                return;
-
             var hidingLockers = randomizer.GetConfigOption<double>("gimmicks-hiding-lockers");
             var hidingTraps = randomizer.GetConfigOption<double>("gimmicks-traps");
             var explosionProbability = 5;
@@ -54,8 +51,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var gimmicks = GetAllGimmicks(randomizer);
 
             // Removal
-            gimmicks = RemoveSomeGimmicks(gimmicks, rng, hidingLockers, GimmickKinds.HidingLocker);
-            gimmicks = RemoveSomeGimmicks(gimmicks, rng, hidingTraps, GimmickKinds.BearTrap, GimmickKinds.TripWire);
+            if (enableGimmickModification)
+            {
+                gimmicks = RemoveSomeGimmicks(gimmicks, rng, hidingLockers, GimmickKinds.HidingLocker);
+                gimmicks = RemoveSomeGimmicks(gimmicks, rng, hidingTraps, GimmickKinds.BearTrap, GimmickKinds.TripWire);
+            }
 
             // Modification
             foreach (var g in gimmicks)
@@ -72,9 +72,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     case GimmickKinds.WoodenBox:
                     case GimmickKinds.SmallWoodenBox:
                     case GimmickKinds.Vase:
-                        if (rng.NextProbability(explosionProbability))
+                        if (enableGimmickModification)
                         {
-                            AddExplosion(g);
+                            if (rng.NextProbability(explosionProbability))
+                            {
+                                AddExplosion(g);
+                            }
                         }
                         break;
                 }
