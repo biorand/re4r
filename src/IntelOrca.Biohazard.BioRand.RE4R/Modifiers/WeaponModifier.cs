@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using MsgTool;
+using Namsku.REE.Messages;
 using static IntelOrca.Biohazard.BioRand.RE4R.Modifiers.WeaponModifier;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers

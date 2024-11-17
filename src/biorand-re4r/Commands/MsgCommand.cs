@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using MsgTool;
+using Namsku.REE.Messages;
 using Spectre.Console;
 using Spectre.Console.Cli;
 

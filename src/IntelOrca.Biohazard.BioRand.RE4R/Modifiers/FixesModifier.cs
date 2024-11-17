@@ -4,7 +4,7 @@ using System.Linq;
 using System.Numerics;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
-using MsgTool;
+using Namsku.REE.Messages;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers

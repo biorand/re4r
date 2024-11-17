@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.IO;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using MsgTool;
+using Namsku.REE.Messages;
 using REE;
 using RszTool;
 
