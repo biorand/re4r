@@ -769,6 +769,20 @@ namespace chainsaw
         public System.Int32 _StatusEffectID { get; set; }
         public System.Single _Value { get; set; }
     }
+    internal class EnemyChapterParamUserData
+    {
+        public System.Collections.Generic.List<ChapterParamElement> _ChapterParamList { get; set; } = [];
+        internal class ChapterParamElement
+        {
+            public System.Int32 _ChapterID { get; set; }
+            public System.Collections.Generic.List<chainsaw.EnemyChapterParamUserData.RandomTableElement> _RandomTable { get; set; } = [];
+        }
+        internal class RandomTableElement
+        {
+            public System.Single Weight { get; set; }
+            public System.Single Value { get; set; }
+        }
+    }
 }
 namespace via
 {

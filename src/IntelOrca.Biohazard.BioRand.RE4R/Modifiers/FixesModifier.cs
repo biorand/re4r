@@ -58,6 +58,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             ChangeMessages(randomizer, logger);
             FixNovisNavigation(randomizer, logger);
+            FixEnemyHp(randomizer, logger);
         }
 
         private void ForceNgPlusMerchantLeon(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -609,6 +610,57 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 });
             }
+        }
+
+        private void FixEnemyHp(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            var villagerBruteHpTablePath = "natives/stm/_chainsaw/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp.user.2";
+            var regeneradorUserDataPath = "natives/stm/_chainsaw/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata.user.2";
+            var fileRepository = randomizer.FileRepository;
+
+            var progressiveDifficulty = randomizer.GetConfigOption("enemy-health-progressive-difficulty", false);
+            if (!progressiveDifficulty)
+                return;
+
+            // Fix brutes HP
+            var ecpud = fileRepository.DeserializeUserFile<chainsaw.EnemyChapterParamUserData>(villagerBruteHpTablePath);
+            ecpud._ChapterParamList.Clear();
+
+            var minHp = randomizer.GetConfigOption<int>("enemy-health-min-brute_hammer");
+            var maxHp = randomizer.GetConfigOption<int>("enemy-health-max-brute_hammer");
+            var chapters = ChapterId.GetAll(Campaign.Leon);
+            var numChapters = ChapterId.GetCount(Campaign.Leon);
+            for (var chapter = 1; chapter <= numChapters; chapter++)
+            {
+                var windowStart = (chapter - 1) / (double)numChapters;
+                var windowEnd = chapter / (double)numChapters;
+                var windowSize = windowEnd - windowStart;
+                var numTableEntries = 4;
+                var hpValueIncrement = (windowEnd - windowStart) / numTableEntries;
+                var hpValues = Enumerable
+                    .Range(0, numTableEntries)
+                    .Select(x => (float)Math.Round(lerp(minHp, maxHp, windowStart + (x * windowSize / numTableEntries))))
+                    .ToArray();
+
+                ecpud._ChapterParamList.Add(new chainsaw.EnemyChapterParamUserData.ChapterParamElement()
+                {
+                    _ChapterID = ChapterId.FromNumber(Campaign.Leon, chapter),
+                    _RandomTable = hpValues.Select(x => new chainsaw.EnemyChapterParamUserData.RandomTableElement()
+                    {
+                        Weight = 100.0f / numTableEntries,
+                        Value = x
+                    }).ToList()
+                });
+            }
+            fileRepository.SerializeUserFile(villagerBruteHpTablePath, ecpud);
+
+            // Fix super iron maiden
+            fileRepository.ModifyUserFile(regeneradorUserDataPath, (rsz, root) =>
+            {
+                root.Set("STRUCT__StrongTransformedHitPoint__HasValue", false);
+            });
+
+            static double lerp(double a, double b, double t) => a + ((b - a) * t);
         }
 
         private static readonly int[] _characterKindIds = new int[]

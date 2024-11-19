@@ -645,12 +645,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Warning = "Random enemy health must be enabled for these values to take affect.";
             foreach (var enemyClass in enemyClassFactory.Classes)
             {
-                // Super iron maiden HP can't be changed
-                if (enemyClass.Key == "mendez_chase" ||
-                    enemyClass.Key == "super_iron_maiden")
-                {
+                if (enemyClass.Key == "mendez_chase")
                     continue;
-                }
 
                 group.Items.Add(new GroupItem()
                 {

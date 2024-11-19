@@ -63,6 +63,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 @"natives/stm/_anotherorder/leveldesign/location/.*",
                 @"natives/stm/_authoring/appsystem/globalvariables/.*",
                 @"natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_140[12]/.*",
+                @"natives/stm/_chainsaw/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp.user.2",
+                @"natives/stm/_chainsaw/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata.user.2",
                 @"natives/stm/_chainsaw/appsystem/inventory/inventorycatalog/.*",
                 @"natives/stm/_chainsaw/appsystem/navigation/.*",
                 @"natives/stm/_chainsaw/appsystem/shell/bullet/.*",

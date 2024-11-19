@@ -254,7 +254,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     float.Parse(p[6]),
                     float.Parse(p[7]));
                 Condition = p[8];
-                Chapter = string.IsNullOrEmpty(p[9]) ? 0 : ConvertChapter(int.Parse(p[9]));
+                Chapter = string.IsNullOrEmpty(p[9]) ? 0 : ChapterId.FromNumber(Campaign.Leon, int.Parse(p[9]));
             }
 
             public static ImmutableArray<GimmickPlacement> GetPlacements()
@@ -266,31 +266,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .Skip(1)
                     .Select(x => new GimmickPlacement(x.Split(',')))
                     .ToImmutableArray();
-            }
-
-            private static int ConvertChapter(int chapter)
-            {
-                var chapters = new int[]
-                {
-                    21000,// 0
-                    21100,// 1
-                    21200,// 2
-                    21300,// 3
-                    22100,// 4
-                    22200,// 5
-                    22300,// 6
-                    23100,// 7
-                    23200,// 8
-                    23300,// 9
-                    24100,// 10
-                    24200,// 11
-                    24300,// 12
-                    25100,// 13
-                    25200,// 14
-                    25300,// 15
-                    25400 // 16
-                };
-                return chapters[chapter];
             }
 
             public override string ToString()

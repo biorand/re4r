@@ -322,6 +322,8 @@
   "enemy-health-max-regenerador": 35000,
   "enemy-health-min-iron_maiden": 8000,
   "enemy-health-max-iron_maiden": 40000,
+  "enemy-health-min-super_iron_maiden": 50000,
+  "enemy-health-max-super_iron_maiden": 50000,
   "enemy-health-min-verdugo": 5000,
   "enemy-health-max-verdugo": 15000,
   "enemy-health-min-mendez_2": 5000,
