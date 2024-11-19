@@ -8459,6 +8459,10 @@
       "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc45/item_loc45_itemdata.user.2",
       "items": [
         {
+          "contextId": "2,0,12,270", // Small key drawer (church basement)
+          "valuable": "smallkey"
+        },
+        {
           "contextId": "2,0,12,448", // Elegant Headdress in chest (Church basement)
           "valuable": "chest"
         },
@@ -8477,8 +8481,16 @@
           "chapter": 4
         },
         {
-          "contextId": "2,0,12,378", // Yellow Diamond in small key drawer (church basement)
-          "valuable": "smallkey"
+          "contextId": "2,0,12,378", // Yellow Diamond in Ashley cell
+          "chapter": 5
+        },
+        {
+          "contextId": "2,0,12,422", // Wooden barrel in church attic
+          "chapter": 5
+        },
+        {
+          "contextId": "2,0,12,484", // Small chest in church attic
+          "chapter": 5
         }
       ]
     },
