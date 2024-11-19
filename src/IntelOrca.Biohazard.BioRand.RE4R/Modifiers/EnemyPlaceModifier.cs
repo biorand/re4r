@@ -80,6 +80,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 ? RandomRotation(rng)
                 : RotationToQuaternion(enemyDef.Direction, 0, 0);
             var enemy = CreateEnemy(scn, spawnController, "BioRandEnemy", enemyDef.Stage, position, rotation, enemyDef.FindPlayer, rng, logger);
+            if (enemyDef.Guid.HasValue)
+            {
+                enemy.Guid = enemyDef.Guid.Value;
+            }
 
             if (enemyDef.Ranged)
             {

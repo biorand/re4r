@@ -41,6 +41,16 @@
             "u3",
             "verdugo"
           ]
+        },
+        {
+          // Some intermittent crash when Krauser is in cabin extra spawn
+          "guids": [
+            "f774819f-49fc-4e13-995f-d22ac50d15c0",
+            "777a5601-d506-4483-839c-b5fc6849edd1"
+          ],
+          "exclude": [
+            "krauser_1"
+          ]
         }
       ],
       "extra": [
@@ -57,8 +67,13 @@
               "x": -240,
               "y": 6,
               "z": 54
-            },
+            }
+          ]
+        },
+        {
+          "enemies": [
             {
+              "guid": "f774819f-49fc-4e13-995f-d22ac50d15c0",
               "rw": -0.09,
               "rx": 0.0,
               "ry": -1.0,
@@ -66,9 +81,11 @@
               "stage": 40510,
               "x": -182,
               "y": 10,
-              "z": 87
+              "z": 87,
+              "small": true
             },
             {
+              "guid": "777a5601-d506-4483-839c-b5fc6849edd1",
               "rw": -0.24,
               "rx": 0.0,
               "ry": -0.97,
@@ -77,13 +94,12 @@
               "x": -186,
               "y": 13,
               "z": 69,
-              "exclude": [
-                "mendez_2",
-                "pesanta",
-                "u3",
-                "verdugo"
-              ]
-            },
+              "small": true
+            }
+          ]
+        },
+        {
+          "enemies": [
             {
               "rw": 0.64,
               "rx": 0.0,

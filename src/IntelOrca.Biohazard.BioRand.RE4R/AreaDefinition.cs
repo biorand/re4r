@@ -31,6 +31,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
     public class AreaExtraEnemy
     {
+        public Guid? Guid { get; set; }
         public int Stage { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
