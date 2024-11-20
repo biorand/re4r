@@ -1904,13 +1904,13 @@
     { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_2/item_cp11_chp3_2.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_2/item_cp11_chp3_2_itemdata.user.2" },
     { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc55/item_loc55.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc55/item_loc55_itemdata.user.2" },
     { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc56/item_loc56.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc56/item_loc56_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc64/item_loc64.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc64/item_loc64_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc62/item_loc62.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc62/item_loc62_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc61/item_loc61.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc61/item_loc61_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc60/item_loc60.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc60/item_loc60_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp5_1/item_cp11_chp5_1.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp5_1/item_cp11_chp5_1_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc59/item_loc59.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc59/item_loc59_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc69/item_loc69.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc69/item_loc69_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc68/item_loc68.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc68/item_loc68_itemdata.user.2" }
+    { "chapter": 6, "path": "natives/stm/_anotherorder/leveldesign/location/loc64/item_loc64.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc64/item_loc64_itemdata.user.2" },
+    { "chapter": 6, "path": "natives/stm/_anotherorder/leveldesign/location/loc62/item_loc62.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc62/item_loc62_itemdata.user.2" },
+    { "chapter": 6, "path": "natives/stm/_anotherorder/leveldesign/location/loc61/item_loc61.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc61/item_loc61_itemdata.user.2" },
+    { "chapter": 6, "path": "natives/stm/_anotherorder/leveldesign/location/loc60/item_loc60.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc60/item_loc60_itemdata.user.2" },
+    { "chapter": 7, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp5_1/item_cp11_chp5_1.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp5_1/item_cp11_chp5_1_itemdata.user.2" },
+    { "chapter": 7, "path": "natives/stm/_anotherorder/leveldesign/location/loc59/item_loc59.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc59/item_loc59_itemdata.user.2" },
+    { "chapter": 7, "path": "natives/stm/_anotherorder/leveldesign/location/loc69/item_loc69.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc69/item_loc69_itemdata.user.2" },
+    { "chapter": 7, "path": "natives/stm/_anotherorder/leveldesign/location/loc68/item_loc68.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc68/item_loc68_itemdata.user.2" }
   ]
 }
