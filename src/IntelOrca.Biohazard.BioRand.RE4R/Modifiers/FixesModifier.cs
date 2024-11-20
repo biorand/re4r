@@ -616,6 +616,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var villagerBruteHpTablePath = "natives/stm/_chainsaw/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp.user.2";
             var regeneradorUserDataPath = "natives/stm/_chainsaw/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata.user.2";
+            if (randomizer.Campaign == Campaign.Ada)
+            {
+                villagerBruteHpTablePath = "natives/stm/_anotherorder/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp_cp11.user.2";
+                regeneradorUserDataPath = "natives/stm/_anotherorder/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata_ao.user.2";
+            }
+
             var fileRepository = randomizer.FileRepository;
 
             var progressiveDifficulty = randomizer.GetConfigOption("enemy-health-progressive-difficulty", false);
@@ -628,8 +634,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var minHp = randomizer.GetConfigOption<int>("enemy-health-min-brute_hammer");
             var maxHp = randomizer.GetConfigOption<int>("enemy-health-max-brute_hammer");
-            var chapters = ChapterId.GetAll(Campaign.Leon);
-            var numChapters = ChapterId.GetCount(Campaign.Leon);
+            var chapters = ChapterId.GetAll(randomizer.Campaign);
+            var numChapters = ChapterId.GetCount(randomizer.Campaign);
             for (var chapter = 1; chapter <= numChapters; chapter++)
             {
                 var windowStart = (chapter - 1) / (double)numChapters;
@@ -644,7 +650,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 ecpud._ChapterParamList.Add(new chainsaw.EnemyChapterParamUserData.ChapterParamElement()
                 {
-                    _ChapterID = ChapterId.FromNumber(Campaign.Leon, chapter),
+                    _ChapterID = ChapterId.FromNumber(randomizer.Campaign, chapter),
                     _RandomTable = hpValues.Select(x => new chainsaw.EnemyChapterParamUserData.RandomTableElement()
                     {
                         Weight = 100.0f / numTableEntries,
