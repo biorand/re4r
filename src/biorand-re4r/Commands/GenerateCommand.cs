@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO.Compression;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using REE;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
@@ -68,8 +67,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             }
             else
             {
-                var pakList = Re4rRandomizer.GetDefaultPakList();
-                await new PakFile(pakFile).ExtractAllAsync(pakList, outputPath);
+                using var zip = new ZipArchive(new MemoryStream(output.FluffyOutput));
+                foreach (var entry in zip.Entries)
+                {
+                    if (!entry.FullName.StartsWith("natives/", StringComparison.OrdinalIgnoreCase))
+                        continue;
+
+                    var destinationPath = Path.Combine(outputPath, entry.FullName);
+                    Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
+                    entry.ExtractToFile(destinationPath, overwrite: true);
+                }
             }
             return 0;
         }

@@ -48,7 +48,6 @@
     {
       "name": "Bolts",
       "kind": "ammo",
-      "mode": "main",
       "id": 112808000,
       "value": 250,
       "class": "bolt",
@@ -1397,7 +1396,6 @@
     {
       "name": "SG-09 R",
       "kind": "weapon",
-      "mode": "main",
       "id": 274835456,
       "size": "3x2",
       "class": "handgun",
@@ -1433,7 +1431,6 @@
     {
       "name": "Matilda",
       "kind": "weapon",
-      "mode": "main",
       "id": 274841856,
       "size": "3x2",
       "class": "handgun",
@@ -1450,7 +1447,6 @@
     {
       "name": "W-870",
       "kind": "weapon",
-      "mode": "main",
       "id": 274995456,
       "size": "8x2",
       "class": "shotgun",
@@ -1459,7 +1455,6 @@
     {
       "name": "Riot Gun",
       "kind": "weapon",
-      "mode": "main",
       "id": 274997056,
       "size": "8x2",
       "class": "shotgun",
@@ -1468,7 +1463,6 @@
     {
       "name": "Striker",
       "kind": "weapon",
-      "mode": "main",
       "id": 274998656,
       "size": "4x2",
       "class": "shotgun",
@@ -1495,7 +1489,6 @@
     {
       "name": "LE 5",
       "kind": "weapon",
-      "mode": "main",
       "id": 275158656,
       "size": "6x2",
       "class": "smg",
@@ -1522,7 +1515,6 @@
     {
       "name": "CQBR Assault Rifle",
       "kind": "weapon",
-      "mode": "main",
       "id": 275478656,
       "size": "7x2",
       "class": "rifle",
@@ -1531,7 +1523,6 @@
     {
       "name": "Broken Butterfly",
       "kind": "weapon",
-      "mode": "main",
       "id": 275635456,
       "size": "3x2",
       "class": "magnum",
@@ -1540,7 +1531,6 @@
     {
       "name": "Killer7",
       "kind": "weapon",
-      "mode": "main",
       "id": 275637056,
       "size": "3x2",
       "class": "magnum",
@@ -1549,7 +1539,6 @@
     {
       "name": "Handcannon",
       "kind": "weapon",
-      "mode": "main",
       "id": 275638656,
       "class": "magnum",
       "bonus": true,
@@ -1558,7 +1547,6 @@
     {
       "name": "Bolt Thrower",
       "kind": "weapon",
-      "mode": "main",
       "id": 275795456,
       "size": "4x2",
       "class": "bolt",
@@ -1618,7 +1606,6 @@
     {
       "name": "Combat Knife",
       "kind": "weapon",
-      "mode": "main",
       "id": 276435456,
       "size": "1x3",
       "class": "knife",
@@ -1748,7 +1735,6 @@
     {
       "name": "Sentinel Nine",
       "kind": "weapon",
-      "mode": "main",
       "id": 278035456,
       "class": "handgun",
       "size": "2x3",
@@ -1758,7 +1744,6 @@
     {
       "name": "Skull Shaker",
       "kind": "weapon",
-      "mode": "main",
       "id": 278037056,
       "class": "shotgun",
       "size": "1x5",

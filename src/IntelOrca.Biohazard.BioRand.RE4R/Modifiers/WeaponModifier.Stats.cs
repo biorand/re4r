@@ -406,6 +406,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 set
                 {
                     main._AmmoMaxUpCustomStages.Resize(value.Length);
+                    detail._AmmoMaxs.Resize(value.Length);
                     for (var i = 0; i < main._AmmoMaxUpCustomStages.Count; i++)
                     {
                         var l = main._AmmoMaxUpCustomStages[i];
