@@ -74,6 +74,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     case GimmickKinds.Vase:
                         if (enableGimmickModification)
                         {
+                            // Exclude wooden box and barrel in factory (no gun)
+                            if (g.ContextId == new ContextId(1, 0, 12, 1750) ||
+                                g.ContextId == new ContextId(1, 0, 12, 1053))
+                                continue;
+
                             if (rng.NextProbability(explosionProbability))
                             {
                                 AddExplosion(g);
