@@ -41,16 +41,6 @@
             "u3",
             "verdugo"
           ]
-        },
-        {
-          // Some intermittent crash when Krauser is in cabin extra spawn
-          "guids": [
-            "f774819f-49fc-4e13-995f-d22ac50d15c0",
-            "777a5601-d506-4483-839c-b5fc6849edd1"
-          ],
-          "exclude": [
-            "krauser_1"
-          ]
         }
       ],
       "extra": [
