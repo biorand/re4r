@@ -783,6 +783,132 @@ namespace chainsaw
             public System.Single Value { get; set; }
         }
     }
+    internal class InGameShopRewardDisplaySetting
+    {
+        public System.Int32 _Mode { get; set; }
+        public System.Int32 _StartTiming { get; set; }
+        public System.Int32 _EndTiming { get; set; }
+        public System.Guid _StartGlobalFlag { get; set; }
+        public System.Guid _EndGlobalFlag { get; set; }
+    }
+    internal class InGameShopRewardSettingUserdata
+    {
+        public System.Collections.Generic.List<chainsaw.InGameShopRewardSingleSetting> _Settings { get; set; } = [];
+    }
+    internal class InGameShopRewardSingleSetting
+    {
+        public System.Boolean _Enable { get; set; }
+        public System.Int32 _RewardId { get; set; }
+        public System.Int32 _SpinelCount { get; set; }
+        public System.Int32 _RewardItemId { get; set; }
+        public System.Int32 _ItemCount { get; set; }
+        public System.Int32 _Progress { get; set; }
+        public System.Int32 _RecieveType { get; set; }
+        public chainsaw.InGameShopRewardDisplaySetting _DisplaySetting { get; set; } = new();
+    }
+    internal class InGameShopItemCaptionSetting
+    {
+        public System.Guid _CaptionMsgId { get; set; }
+    }
+    internal class InGameShopItemSaleSetting
+    {
+        public System.Collections.Generic.List<chainsaw.InGameShopItemSaleSingleSetting> _Settings { get; set; } = [];
+    }
+    internal class InGameShopItemSaleSingleSetting
+    {
+        public System.Int32 _Mode { get; set; }
+        public System.Int32 _SaleType { get; set; }
+        public System.Int32 _StartTiming { get; set; }
+        public System.Int32 _EndTiming { get; set; }
+        public System.Guid _StartGlobalFlag { get; set; }
+        public System.Guid _EndGlobalFlag { get; set; }
+        public System.Int32 _SaleRate { get; set; }
+    }
+    internal class InGameShopItemSettingUserdata
+    {
+        public chainsaw.gui.shop.InGameShopAdjustParam _AdjustParam { get; set; } = new();
+        public System.Boolean _IsRegistRepairSettings { get; set; }
+        public System.Collections.Generic.List<chainsaw.gui.shop.InGameShopRepairSetting> _RepairSettings { get; set; } = [];
+        public System.Collections.Generic.List<Data> _Datas { get; set; } = [];
+        internal class Data
+        {
+            public System.Int32 _ItemId { get; set; }
+            public System.Collections.Generic.List<chainsaw.gui.shop.ItemPriceSetting> _PriceSettings { get; set; } = [];
+            public chainsaw.InGameShopItemUnlockSetting _UnlockSetting { get; set; } = new();
+            public chainsaw.InGameShopItemStockSetting _StockSetting { get; set; } = new();
+            public chainsaw.InGameShopItemCaptionSetting _CaptionSetting { get; set; } = new();
+            public chainsaw.InGameShopItemSaleSetting _SaleSetting { get; set; } = new();
+        }
+    }
+    internal class InGameShopItemStockSetting
+    {
+        public System.Int32 _Difficulty { get; set; }
+        public System.Boolean _EnableStockSetting { get; set; }
+        public System.Boolean _EnableSelectCount { get; set; }
+        public System.Int32 _MaxStock { get; set; }
+        public System.Int32 _DefaultStock { get; set; }
+    }
+    internal class InGameShopItemUnlockSetting
+    {
+        public System.UInt32 _UnlockCondition { get; set; }
+        public System.Guid _UnlockFlag { get; set; }
+        public System.Int32 _UnlockTiming { get; set; }
+        public System.UInt32 _SpCondition { get; set; }
+    }
+    internal class InGameShopPurchaseCategorySettingUserdata
+    {
+        public System.Collections.Generic.List<chainsaw.InGameShopPurchaseCategorySingleSetting> _Settings { get; set; } = [];
+    }
+    internal class InGameShopPurchaseCategorySingleSetting
+    {
+        public System.Int32 _Category { get; set; }
+        public System.Int32 _Priority { get; set; }
+        public System.Guid _MessageId { get; set; }
+        public System.Collections.Generic.List<Data> _Datas { get; set; } = [];
+        internal class Data
+        {
+            public System.Int32 _ItemId { get; set; }
+            public System.Int32 _SortPriority { get; set; }
+        }
+    }
+}
+namespace chainsaw.gui.shop
+{
+    internal class InGameShopAdjustParam
+    {
+        public AdjustParam00 _Param00 { get; set; }
+        internal class AdjustParam00
+        {
+            public System.Boolean _IsRegister { get; set; }
+            public System.Single _MaxHpRatio { get; set; }
+        }
+        internal class AdjustParamBase
+        {
+            public System.Boolean _IsRegister { get; set; }
+        }
+    }
+    internal class InGameShopRepairSetting
+    {
+        public System.Int32 _ItemId { get; set; }
+        public System.Collections.Generic.List<Setting> _Settings { get; set; } = [];
+        internal class Setting
+        {
+            public System.Int32 _Difficulty { get; set; }
+            public System.Int32 _Commission { get; set; }
+            public System.Single _DurabilityCost { get; set; }
+            public System.Int32 _RepairCost { get; set; }
+        }
+    }
+    internal class ItemPrice
+    {
+        public System.Int32 _PurchasePrice { get; set; }
+        public System.Int32 _SellingPrice { get; set; }
+    }
+    internal class ItemPriceSetting
+    {
+        public System.Int32 _Difficulty { get; set; }
+        public chainsaw.gui.shop.ItemPrice _Price { get; set; } = new();
+    }
 }
 namespace via
 {

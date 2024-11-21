@@ -1753,7 +1753,6 @@
     {
       "name": "SW - Sawed-off W-870",
       "kind": "weapon",
-      "mode": "sw",
       "id": 278195456,
       "class": "shotgun",
       "size": "2x6",
@@ -1876,8 +1875,12 @@
       "weaponId": 6114
     },
     {
-      "name": "it_wp6300_00_0",
+      "name": "XM96E1",
+      "kind": "weapon",
+      "mode": "main",
       "id": 278515456,
+      "size": "3x2",
+      "class": "handgun",
       "weaponId": 6300
     },
     {

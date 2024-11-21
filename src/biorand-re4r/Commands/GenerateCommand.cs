@@ -35,7 +35,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         }
 
 
-        public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
+        public override Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
             var randomizer = GetRandomizer();
             var input = new RandomizerInput();
@@ -78,7 +78,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                     entry.ExtractToFile(destinationPath, overwrite: true);
                 }
             }
-            return 0;
+            return Task.FromResult(0);
         }
 
         private static byte[] GetPakFile(byte[] zip)

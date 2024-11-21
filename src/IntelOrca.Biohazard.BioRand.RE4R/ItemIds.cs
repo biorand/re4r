@@ -78,6 +78,8 @@
         public const int Dynamite = 119236800;
         public const int WoodenPlanks = 119289600;
 
+        public const int XM96E1 = 278515456;
+        public const int SWSawedOffW870 = 278195456;
         public const int RocketLauncherInfinite = 276278656;
         public const int RocketLauncher = 276275456;
     }

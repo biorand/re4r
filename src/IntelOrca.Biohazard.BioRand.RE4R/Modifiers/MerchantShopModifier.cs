@@ -16,14 +16,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var shop = _shop;
             var itemRepo = ItemDefinitionRepository.Default;
 
-            var chapterItems = shop.ShopItems
-                .GroupBy(x => x.UnlockChapter)
+            var chapterItems = shop.Items._Datas
+                .GroupBy(x => x._UnlockSetting._UnlockTiming)
                 .ToDictionary(x => x.Key, x => x.ToArray());
 
             var firstChapter = randomizer.Campaign == Campaign.Leon ? 0 : 17;
-            var chapterRewards = shop.Rewards
-                .GroupBy(x => x.StartChapter == 0 ? firstChapter : x.StartChapter)
-                .ToDictionary(x => x.Key, x => x.OrderBy(x => x.SpinelCount).ToArray());
+            var chapterRewards = shop.Rewards._Settings
+                .GroupBy(x => x._DisplaySetting._StartTiming == 0 ? firstChapter : x._DisplaySetting._StartTiming)
+                .ToDictionary(x => x.Key, x => x.OrderBy(x => x._SpinelCount).ToArray());
 
             var chapters = chapterItems.Keys
                 .Concat(chapterRewards.Keys)
@@ -42,7 +42,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 foreach (var reward in rewards)
                 {
-                    var item = itemRepo.Find(reward.ItemId);
+                    var item = itemRepo.Find(reward._RewardItemId);
                     if (item == null)
                         continue;
 
@@ -52,14 +52,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         logger.Push($"Chapter {chapterNumber}");
                     }
 
-                    logger.LogLine($"{item} | Spinels = {reward.SpinelCount}");
+                    logger.LogLine($"{item} | Spinels = {reward._SpinelCount}");
                 }
                 foreach (var shopItem in items)
                 {
-                    if (shopItem.BuyPrice <= 0 || shopItem.UnlockCondition == 4)
+                    var corePriceSetting = shopItem._PriceSettings
+                        .FirstOrDefault(x => x._Difficulty == 20)
+                        ?? shopItem._PriceSettings.FirstOrDefault();
+                    var buyPrice = corePriceSetting?._Price._PurchasePrice ?? 0;
+                    var sellPrice = corePriceSetting?._Price._SellingPrice ?? 0;
+
+                    if (buyPrice <= 0 || shopItem._UnlockSetting._UnlockCondition == 4)
                         continue;
 
-                    var item = itemRepo.Find(shopItem.ItemId);
+                    var item = itemRepo.Find(shopItem._ItemId);
                     if (item == null)
                         continue;
 
@@ -69,18 +75,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         logger.Push($"Chapter {chapterNumber}");
                     }
 
-                    var sellString = shopItem.SellPrice == -1 ? "" : $"Sell = {shopItem.SellPrice:n0}";
-                    logger.LogLine($"{item} | Buy = {shopItem.BuyPrice:n0} {sellString:n0}");
+                    var sellString = sellPrice == -1 ? "" : $"Sell = {sellPrice:n0}";
+                    logger.LogLine($"{item} | Buy = {buyPrice:n0} {sellString:n0}");
 
-                    var sales = shopItem.Sales;
-                    if (sales.Length != 0)
+                    var sales = shopItem._SaleSetting._Settings;
+                    if (sales.Count != 0)
                     {
                         logger.Push();
-                        foreach (var sale in shopItem.Sales)
+                        foreach (var sale in sales)
                         {
-                            var startChapter = GetChapterNumber(sale.StartTiming);
-                            var endChapter = GetChapterNumber(sale.EndTiming);
-                            logger.LogLine($"{-sale.SaleRate}% discount between chapter {startChapter} and {endChapter}");
+                            var startChapter = GetChapterNumber(sale._StartTiming);
+                            var endChapter = GetChapterNumber(sale._EndTiming);
+                            logger.LogLine($"{-sale._SaleRate}% discount between chapter {startChapter} and {endChapter}");
                         }
                         logger.Pop();
                     }
@@ -126,6 +132,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             public void Go()
             {
+                InitializeShop();
                 DistributeValuables();
                 DistributeStockItems();
                 DistributeMiscItems();
@@ -140,10 +147,87 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 shop.Save(randomizer.FileRepository);
             }
 
+            private void InitializeShop()
+            {
+                if (randomizer.Campaign == Campaign.Leon)
+                {
+                    // Add missing shop items
+                    AddItemToCategory(ItemIds.SWSawedOffW870, 1);
+                    shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
+                    {
+                        _ItemId = ItemIds.SWSawedOffW870,
+                        _CaptionSetting = new chainsaw.InGameShopItemCaptionSetting()
+                        {
+                            _CaptionMsgId = new Guid("16d2f525-9ddf-4a19-b0ed-a0a115f71a16")
+                        },
+                        _PriceSettings = [
+                            new chainsaw.gui.shop.ItemPriceSetting()
+                            {
+                                _Difficulty = 20,
+                                _Price = new chainsaw.gui.shop.ItemPrice()
+                                {
+                                    _PurchasePrice = 12000,
+                                    _SellingPrice = 6000,
+                                }
+                            }
+                        ]
+                    });
+                    AddItemToCategory(ItemIds.XM96E1, 0);
+                    shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
+                    {
+                        _ItemId = ItemIds.XM96E1,
+                        _CaptionSetting = new chainsaw.InGameShopItemCaptionSetting()
+                        {
+                            _CaptionMsgId = new Guid("6fe30b70-97b9-4569-a65a-941536011d2e")
+                        },
+                        _PriceSettings = [
+                            new chainsaw.gui.shop.ItemPriceSetting()
+                            {
+                                _Difficulty = 20,
+                                _Price = new chainsaw.gui.shop.ItemPrice()
+                                {
+                                    _PurchasePrice = 10000,
+                                    _SellingPrice = 5000,
+                                }
+                            }
+                        ]
+                    });
+                }
+
+                // All shop items should have one price for all difficulties
+                foreach (var item in shop.Items._Datas)
+                {
+                    var corePriceSetting = item._PriceSettings.RemoveAll(x => x._Difficulty != 20);
+                    if (item._PriceSettings.Count == 0)
+                    {
+                        item._PriceSettings.Add(new chainsaw.gui.shop.ItemPriceSetting()
+                        {
+                            _Difficulty = 20
+                        });
+                    }
+                }
+            }
+
+            private void AddItemToCategory(int itemId, int category)
+            {
+                var setting = shop.Categories._Settings.FirstOrDefault(x => x._Category == category);
+                if (setting != null)
+                {
+                    setting._Datas.Add(new chainsaw.InGameShopPurchaseCategorySingleSetting.Data()
+                    {
+                        _ItemId = itemId,
+                        _SortPriority = setting._Datas.Max(x => x._SortPriority) + 10
+                    });
+                }
+            }
+
             private void SetSellPrice(int itemId, int price)
             {
-                var shopItem = shop.ShopItems.First(x => x.ItemId == itemId);
-                shopItem.SellPrice = price;
+                var shopItem = shop.Items._Datas.First(x => x._ItemId == itemId);
+                foreach (var s in shopItem._PriceSettings)
+                {
+                    s._Price._SellingPrice = price;
+                }
             }
 
             private void DistributeValuables()
@@ -283,7 +367,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (item.SpinelPrice == 0)
                         continue;
 
-                    if (shop.Rewards.Length >= 30)
+                    if (shop.Rewards._Settings.Count >= 30)
                         return;
 
                     var unlockChapter = item.UnlockChapter;
@@ -304,73 +388,81 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 var itemRandomizer = randomizer.ItemRandomizer;
                 var itemRepo = ItemDefinitionRepository.Default;
-                var shopItems = shop.ShopItems;
+                var shopItems = shop.Items._Datas;
                 foreach (var shopItem in shopItems)
                 {
-                    var item = _availableItems.FirstOrDefault(x => x.ItemDefinition.Id == shopItem.ItemId);
+                    var item = _availableItems.FirstOrDefault(x => x.ItemDefinition.Id == shopItem._ItemId);
                     if (item == null || item.BuyPrice == 0)
                     {
-                        if (shopItem.BuyPrice != -1)
+                        if (shopItem._PriceSettings[0]._Price._PurchasePrice != -1)
                         {
-                            var itemDefinition = itemRepo.Find(shopItem.ItemId);
+                            var itemDefinition = itemRepo.Find(shopItem._ItemId);
                             if (itemDefinition == null || itemDefinition.SupportsCampaign(randomizer.Campaign))
                             {
                                 if (itemDefinition != null)
                                 {
                                     item = new AvailableItem(itemDefinition);
                                     RandomizePrice(item, spinel: false);
-                                    shopItem.BuyPrice = item.BuyPrice;
-                                    shopItem.SellPrice = item.SellPrice;
+                                    shopItem._PriceSettings[0]._Price._PurchasePrice = item.BuyPrice;
+                                    shopItem._PriceSettings[0]._Price._SellingPrice = item.SellPrice;
                                 }
 
-                                shopItem.UnlockCondition = 4;
-                                shopItem.UnlockFlag = Guid.Empty;
-                                shopItem.UnlockChapter = ConvertChapterNumber(0);
-                                shopItem.SpCondition = 1;
+                                shopItem._UnlockSetting._UnlockCondition = 4;
+                                shopItem._UnlockSetting._UnlockFlag = Guid.Empty;
+                                shopItem._UnlockSetting._UnlockTiming = ConvertChapterNumber(0);
+                                shopItem._UnlockSetting._SpCondition = 1;
                             }
                         }
                     }
                     else
                     {
-                        shopItem.BuyPrice = item.BuyPrice;
-                        shopItem.SellPrice = item.SellPrice;
-                        shopItem.UnlockCondition = 2;
-                        shopItem.UnlockFlag = Guid.Empty;
-                        shopItem.UnlockChapter = ConvertChapterNumber(Math.Max(0, item.UnlockChapter - 1));
-                        shopItem.SpCondition = 1;
-                        shopItem.EnableStockSetting = item.MaxStock != 0;
-                        shopItem.EnableSelectCount = item.MaxStock != 0;
-                        shopItem.MaxStock = item.MaxStock;
-                        shopItem.DefaultStock = item.InitialStock;
+                        shopItem._PriceSettings[0]._Price._PurchasePrice = item.BuyPrice;
+                        shopItem._PriceSettings[0]._Price._SellingPrice = item.SellPrice;
+                        shopItem._UnlockSetting._UnlockCondition = 2;
+                        shopItem._UnlockSetting._UnlockFlag = Guid.Empty;
+                        shopItem._UnlockSetting._UnlockTiming = ConvertChapterNumber(Math.Max(0, item.UnlockChapter - 1));
+                        shopItem._UnlockSetting._SpCondition = 1;
+                        shopItem._StockSetting._EnableStockSetting = item.MaxStock != 0;
+                        shopItem._StockSetting._EnableSelectCount = item.MaxStock != 0;
+                        shopItem._StockSetting._MaxStock = item.MaxStock;
+                        shopItem._StockSetting._DefaultStock = item.InitialStock;
                     }
 
                     // Make items unlock at first chapter work
-                    if (shopItem.UnlockCondition != 4 && (shopItem.UnlockChapter <= 0 || shopItem.UnlockChapter == 17))
+                    if (shopItem._UnlockSetting._UnlockCondition != 4 && (shopItem._UnlockSetting._UnlockTiming <= 0 || shopItem._UnlockSetting._UnlockTiming == 17))
                     {
-                        shopItem.UnlockChapter = ConvertChapterNumber(0);
-                        shopItem.UnlockCondition = 0;
-                        shopItem.SpCondition = 0;
+                        shopItem._UnlockSetting._UnlockTiming = ConvertChapterNumber(0);
+                        shopItem._UnlockSetting._UnlockCondition = 0;
+                        shopItem._UnlockSetting._SpCondition = 0;
                     }
 
-                    var isAvailable = shopItem.UnlockCondition == 2 && shopItem.BuyPrice > 0;
+                    var isAvailable = shopItem._UnlockSetting._UnlockCondition == 2 && shopItem._PriceSettings[0]._Price._PurchasePrice > 0;
                     if (item != null)
                     {
-                        logger.LogLine($"Shop item {item.ItemDefinition.Name} Buy = {shopItem.BuyPrice} Sell = {shopItem.SellPrice} Available = {isAvailable} Unlock = {shopItem.UnlockChapter}");
+                        logger.LogLine(string.Join(
+                            $"Shop item {item.ItemDefinition.Name}",
+                            $"Buy = {shopItem._PriceSettings[0]._Price._PurchasePrice}",
+                            $"Sell = {shopItem._PriceSettings[0]._Price._SellingPrice}",
+                            $"Available = {isAvailable}",
+                            $"Unlock = {shopItem._UnlockSetting._UnlockTiming}", " "));
                     }
 
                     // Sale change
                     if ((item?.Discount ?? 0) != 0)
                     {
-                        shopItem.SetSale(
-                            shop,
-                            ConvertChapterNumber(item!.DiscountStartChapter),
-                            ConvertChapterNumber(item.DiscountEndChapter),
-                            -item.Discount);
+                        shopItem._SaleSetting._Settings.Clear();
+                        shopItem._SaleSetting._Settings.Add(new chainsaw.InGameShopItemSaleSingleSetting()
+                        {
+                            _SaleType = 2,
+                            _StartTiming = ConvertChapterNumber(item!.DiscountStartChapter),
+                            _EndTiming = ConvertChapterNumber(item.DiscountEndChapter),
+                            _SaleRate = -item.Discount
+                        });
                         // logger.LogLine($"    {item.Discount}% discount at chapter {item.DiscountStartChapter} to {item.DiscountEndChapter}");
                     }
                     else
                     {
-                        shopItem.Sales = [];
+                        shopItem._SaleSetting._Settings.Clear();
                     }
                 }
             }
@@ -417,7 +509,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             private void AddReward(int itemId, int count = 1, int? spinel = null, bool unlimited = false)
             {
-                if (shop.Rewards.Length >= 30)
+                if (shop.Rewards._Settings.Count >= 30)
                     return;
 
                 var itemRepo = ItemDefinitionRepository.Default;
@@ -446,7 +538,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (startChapter == 1)
                     startChapter = 0;
                 var reward = shop.AddReward(new Item(itemId, count), spinel.Value, false, startChapter);
-                logger.LogLine($"Add reward {reward.RewardId} {item} Cost = {spinel} spinel Chapter = {reward.StartChapter}");
+                logger.LogLine($"Add reward {reward._RewardId} {item} Cost = {spinel} spinel Chapter = {reward._DisplaySetting._StartTiming}");
             }
 
             private void SetItemChapter(int itemId, int chapter)
@@ -496,16 +588,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
                 else
                 {
-                    var shopItem = shop.ShopItems.FirstOrDefault(x => x.ItemId == item.ItemDefinition.Id);
-                    if (shopItem?.BuyPrice > 0)
+                    var shopItem = shop.Items._Datas.FirstOrDefault(x => x._ItemId == item.ItemDefinition.Id);
+                    var corePriceSetting = shopItem?._PriceSettings[0] ?? new chainsaw.gui.shop.ItemPriceSetting();
+                    if (corePriceSetting._Price._PurchasePrice > 0)
                     {
-                        item.BuyPrice = shopItem.BuyPrice;
-                        item.SellPrice = shopItem.SellPrice;
+                        item.BuyPrice = corePriceSetting._Price._PurchasePrice;
+                        item.SellPrice = corePriceSetting._Price._SellingPrice;
                     }
-                    else if (shopItem?.SellPrice > 0)
+                    else if (corePriceSetting._Price._SellingPrice > 0)
                     {
-                        item.BuyPrice = shopItem.SellPrice * 2;
-                        item.SellPrice = shopItem.SellPrice;
+                        item.BuyPrice = corePriceSetting._Price._SellingPrice * 2;
+                        item.SellPrice = corePriceSetting._Price._SellingPrice;
                     }
                     else
                     {
