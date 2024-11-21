@@ -114,6 +114,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (kind == "bawk") kind = "Biorand_Chicken";
 
                 var gimmick = filePair.Scene.ImportGameObject(GimmickTemplate.Get(kind));
+                gimmick.Instance!.SetFieldValue("v0", $"{gimmick.Name}_{placement.LineNumber}");
 
                 var gimmickCore = gimmick.FindComponent("chainsaw.GimmickCore")!;
                 contextId.CopyTo(gimmickCore.Get<RszInstance>("_ID")!);
@@ -234,6 +235,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private sealed class GimmickPlacement
         {
+            public int LineNumber { get; }
             public string Kind { get; }
             public int Stage { get; }
             public Vector3 Position { get; }
@@ -241,8 +243,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public string Condition { get; }
             public int Chapter { get; }
 
-            private GimmickPlacement(string[] p)
+            private GimmickPlacement(int lineNumber, string[] p)
             {
+                LineNumber = lineNumber;
                 Kind = p[0];
                 Stage = int.Parse(p[1]);
                 Position = new Vector3(
@@ -259,13 +262,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             public static ImmutableArray<GimmickPlacement> GetPlacements()
             {
-                return Encoding.UTF8.GetString(Resources.gimmicks)
-                    .Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(x => x.Trim())
-                    .Where(x => !x.StartsWith("#") || x.Length == 0)
-                    .Skip(1)
-                    .Select(x => new GimmickPlacement(x.Split(',')))
-                    .ToImmutableArray();
+                var lines = Encoding.UTF8.GetString(Resources.gimmicks)
+                    .ReplaceLineEndings("\n")
+                    .Split("\n");
+
+                var result = ImmutableArray.CreateBuilder<GimmickPlacement>();
+                var header = true;
+                for (var i = 0; i < lines.Length; i++)
+                {
+                    var line = lines[i].Trim();
+                    if (line.StartsWith("#") || line.Length == 0)
+                        continue;
+
+                    if (header)
+                    {
+                        header = false;
+                        continue;
+                    }
+
+                    result.Add(new GimmickPlacement(i + 1, line.Split(',')));
+                }
+                return result.ToImmutable();
             }
 
             public override string ToString()
