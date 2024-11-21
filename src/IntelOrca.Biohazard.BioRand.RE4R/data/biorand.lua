@@ -1,3 +1,20 @@
+function loadConfig()
+    local configPath = "biorand/config.json"
+    return json.load_file(configPath) or {
+        showPlayer = true,
+        showFlags = true,
+        showSpawnControllers = true,
+        showMarkers = true
+    }
+end
+
+function saveConfig(cfg)
+    local configPath = "biorand/config.json"
+    json.dump_file(configPath, cfg)
+end
+
+local cfg = loadConfig()
+
 function logToFile(text)
     local logPath = "biorand/log.json"
     local logFile = json.load_file(logPath) or {}
@@ -22,6 +39,32 @@ function dumpEnemyPosition(enemy)
 
     table.insert(file.enemies, enemy)
     json.dump_file(path, file)
+end
+
+function getExtraGimmickPositions()
+    local path = "biorand/gimmick.json"
+    local file = json.load_file(path) or {}
+    return file.gimmicks or {}
+end
+function dumpGimmickPosition(gimmick)
+    local path = "biorand/gimmick.json"
+    local file = json.load_file(path) or {}
+    if file.gimmicks == nil then
+        file.gimmicks = {}
+    end
+
+    table.insert(file.gimmicks, gimmick)
+    json.dump_file(path, file)
+
+    local csv = "kind,stage,x,y,z,yaw,pitch,roll,condition,chapter\n"
+    for _, g in ipairs(file.gimmicks) do
+        csv = csv .. string.format(
+            "gimmick,%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,,\n",
+            g.stage,
+            g.x, g.y, g.z,
+            g.direction, 0, 0)
+    end
+    fs.write("biorand/gimmick.csv", csv)
 end
 
 function getResolution()
@@ -102,6 +145,10 @@ end
 
 function SpawnControllerDisplayer:begin()
     re.on_frame(function()
+        if not cfg.showSpawnControllers then
+            return
+        end
+
         local playerInfo = getPlayerInfo()
         if playerInfo == nil then
             return
@@ -221,54 +268,131 @@ function InfoDisplayer:unindent()
     self.drawX = self.drawX - 30
 end
 
+-- Class: Gimmick Mover
+GimmickMover = {}
+GimmickMover.__index = GimmickMover
+function GimmickMover:new()
+    local instance = setmetatable({}, GimmickMover)
+    return instance
+end
+
+function GimmickMover:begin()
+    re.on_frame(function()
+        local playerInfo = getPlayerInfo()
+        if playerInfo == nil then
+            return
+        end
+
+        local playerPosition = playerInfo.position
+        local components = getComponents("chainsaw.GimmickCore")
+        for index, component in ipairs(components) do
+            local gameObject = component:get_GameObject()
+            local gameObjectName = gameObject:get_Name()
+            if startsWith(gameObjectName, "Biorand_W") then
+                local transform = gameObject:get_Transform()
+                local address = gameObject:get_address()
+                -- writeObjDef(gameObject)
+                local pos = transform:get_Position()
+                log.debug(string.format("pos: %.1f, %.1f, %.1f", pos.x, pos.y, pos.z))
+                -- transform:set_Position(Vector4f.new(-200, 20, 50, 1))
+                local mat = transform:call("get_WorldMatrix()")
+                log.debug(string.format("pos: %.1f, %.1f, %.1f", mat[3].x, mat[3].y, mat[3].z))
+                was_changed, newMat = draw.gizmo(address, mat)
+                if was_changed then
+                    transform:set_Position(newMat[3])
+                    transform:set_Rotation(newMat:to_quat())
+                end
+            end
+        end
+    end)
+end
+
+-- local gimmickMover = GimmickMover:new()
+-- GimmickMover:begin()
+
 re.on_frame(function()
+    if not cfg.showPlayer and not cfg.showFlags then
+        return
+    end
+
     local size = getResolution()
     local playerInfo = getPlayerInfo()
 
     local displayer = InfoDisplayer:new()
     displayer:begin()
     displayer:write_indent("Biorand:")
-    if playerInfo then
+    if playerInfo and cfg.showPlayer then
         displayer:write_indent("Player:")
         displayer:write(string.format("stage: %d", playerInfo.stage))
         displayer:write(string.format("pos: %.1f, %.1f, %.1f", playerInfo.position.x, playerInfo.position.y, playerInfo.position.z))
         displayer:write(string.format("rot: %.1f", playerInfo.direction))
         displayer:unindent()
     end
-    displayer:write_indent("Flags:")
-    local flagHistory = flagHooker:getHistory(4)
-    for i, flag in ipairs(flagHistory) do
-        displayer:write(flag)
+    if cfg.showFlags then
+        displayer:write_indent("Flags:")
+        local flagHistory = flagHooker:getHistory(4)
+        for i, flag in ipairs(flagHistory) do
+            displayer:write(flag)
+        end
+        displayer:unindent()
     end
-    displayer:unindent()
     displayer:unindent()
 end)
 
 re.on_draw_ui(function()
+    if not imgui.collapsing_header("Biorand") then return end
 
+    local anyChanged = false
+    local checkbox = function(label, value)
+        local changed = false
+        changed, result = imgui.checkbox(label, value)
+        if changed then
+            anyChanged = true
+        end
+        return result
+    end
+
+    cfg.showPlayer = checkbox("Show player coords", cfg.showPlayer)
+    cfg.showFlags = checkbox("Show flags", cfg.showFlags)
+    cfg.showSpawnControllers = checkbox("Show spawn controllers", cfg.showSpawnControllers)
+    cfg.showMarkers = checkbox("Show markers", cfg.showMarkers)
+
+    if anyChanged then
+        saveConfig(cfg)
+    end
 end)
 
 re.on_frame(function()
+    if not cfg.showMarkers then
+        return
+    end
+
     local playerInfo = getPlayerInfo()
     if playerInfo == nil then
         return
     end
 
-    local enemies = getExtraEnemyPositions()
-    for i, enemy in ipairs(enemies) do
-        local pos = Vector3f.new(enemy.x, enemy.y, enemy.z)
+    local drawMarker = function(entity, color, radius, height)
+        local pos = Vector3f.new(entity.x, entity.y, entity.z)
         local distance = (pos - playerInfo.position):length()
         if distance < 50 then
-            local top = pos + Vector3f.new(0, 2, 0)
-            local color = 0xFF00FFFF
-            local radius = 0.05
-            if enemy.small then
-                top = pos + Vector3f.new(0, 1, 0)
-                color = 0xFF00CCCC
-                radius = 0.025
-            end
+            local top = pos + Vector3f.new(0, height, 0)
             draw.capsule(pos, top, radius, color, 0xFFFFFFFF)
         end
+    end
+
+    local enemies = getExtraEnemyPositions()
+    for _, enemy in ipairs(enemies) do
+        if enemy.small then
+            drawMarker(enemy, 0xFF00CCCC, 0.025, 1)
+        else
+            drawMarker(enemy, 0xFF00FFFF, 0.050, 2)
+        end
+    end
+
+    local gimmicks = getExtraGimmickPositions()
+    for _, gimmick in ipairs(gimmicks) do
+        drawMarker(gimmick, 0xFFFF00FF, 0.1, 0.25)
     end
 end)
 
@@ -284,8 +408,10 @@ re.on_application_entry("UpdateHID", function()
     local altCode = keyboardKeyDefinition:get_field("Menu"):get_data(nil)
     local bKeyCode = keyboardKeyDefinition:get_field("B"):get_data(nil)
     local nKeyCode = keyboardKeyDefinition:get_field("N"):get_data(nil)
+    local gKeyCode = keyboardKeyDefinition:get_field("G"):get_data(nil)
     local bDown = kb:isRelease(bKeyCode)
     local nDown = kb:isRelease(nKeyCode)
+    local gDown = kb:isRelease(gKeyCode)
     if bDown or nDown then
         local playerInfo = getPlayerInfo()
         local enemy = {
@@ -299,6 +425,16 @@ re.on_application_entry("UpdateHID", function()
             enemy.small = true
         end
         dumpEnemyPosition(enemy)
+    elseif gDown then
+        local playerInfo = getPlayerInfo()
+        local gimmick = {
+            stage = playerInfo.stage,
+            x = math.floor(playerInfo.position.x * 100 + 0.5) / 100,
+            y = math.floor(playerInfo.position.y * 100 + 0.5) / 100,
+            z = math.floor(playerInfo.position.z * 100 + 0.5) / 100,
+            direction = math.floor(playerInfo.direction + 0.5)
+        }
+        dumpGimmickPosition(gimmick)
     end
 end)
 
@@ -326,6 +462,43 @@ function writeObjDef(obj)
     if def ~= nil then
         writeClassDef(def)
     end
+end
+
+function dumpObjInfo(obj)
+    local def = obj:get_type_definition()
+    if def ~= nil then
+        local toStringValue = obj:call("ToString()")
+        log.debug(toStringValue)
+
+        while def ~= nil do
+            local methods = def:get_methods()
+            for index, method in ipairs(methods) do
+                local name = method:get_name()
+                if startsWith(name, "get_") and method:get_num_params() == 0 then
+                    local result = obj:call(name .. "()")
+                    -- local value = result:call("ToString()")
+                    local value = tostring(result)
+                    if type(result) == "userdata" then
+                        value = result:call("ToString()")
+                    end
+                    log.debug("    " .. name:sub(5) .. " = " .. value)
+                end
+            end
+            def = def:get_parent_type()
+        end
+    end
+end
+
+function startsWith(str, start)
+    return str:sub(1, #start) == start
+end
+function endsWith(str, ending)
+    return str:sub(-#ending) == ending
+end
+
+function getGameObjectGuid(gameObject)
+    local toString = gameObject:call("ToString()")
+    return toString:match("@(.-)%]")
 end
 
 function quaternionToEulerDegrees(rotation)
