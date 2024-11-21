@@ -21,11 +21,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             if (randomizer.Campaign == Campaign.Leon)
             {
-                if (randomizer.GetConfigOption<bool>("automatic-bolt-thrower", true))
-                {
-                    ImproveBoltThrower(randomizer, logger);
-                }
-
                 DisableFirstAreaInhibitor(randomizer, logger);
                 ForceNgPlusMerchantLeon(randomizer, logger);
                 RandomizeFirstBearTrap(randomizer, logger, rng);
@@ -48,6 +43,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
+            if (randomizer.GetConfigOption<bool>("automatic-bolt-thrower", true))
+            {
+                ImproveBoltThrower(randomizer, logger);
+            }
             AllowLaserSightOnAnything(randomizer, logger);
             FixDeadEnemyCounters(randomizer, logger);
             FixSpawnControllers(randomizer, logger);
@@ -386,15 +385,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void ImproveBoltThrower(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            const string userFilePath = "natives/stm/_chainsaw/appsystem/weapon/weaponequipparamcataloguserdata.user.2";
+            var userFilePath = randomizer.Campaign == Campaign.Leon
+                ? "natives/stm/_chainsaw/appsystem/weapon/weaponequipparamcataloguserdata.user.2"
+                : "natives/stm/_anotherorder/appsystem/weapon/weaponequipparamcataloguserdata_ao.user.2";
+            var index = randomizer.Campaign == Campaign.Leon ? 18 : 19;
 
             logger.LogLine($"Make bolt thrower fully automatic");
 
             var fileRepository = randomizer.FileRepository;
             fileRepository.ModifyUserFile(userFilePath, (file, rsz) =>
             {
-                rsz.Set("_DataTable[18]._WeaponStructureParam.TypeOfReload", 0);
-                rsz.Set("_DataTable[18]._WeaponStructureParam.TypeOfShoot", 1);
+                rsz.Set($"_DataTable[{index}]._WeaponStructureParam.TypeOfReload", 0);
+                rsz.Set($"_DataTable[{index}]._WeaponStructureParam.TypeOfShoot", 1);
             });
         }
 
