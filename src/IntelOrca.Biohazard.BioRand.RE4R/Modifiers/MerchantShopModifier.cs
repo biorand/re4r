@@ -193,6 +193,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         ]
                     });
                 }
+                else
+                {
+                    AddItemToCategory(ItemIds.SWChicagoSweeper, 0);
+                }
 
                 // All shop items should have one price for all difficulties
                 foreach (var item in shop.Items._Datas)
