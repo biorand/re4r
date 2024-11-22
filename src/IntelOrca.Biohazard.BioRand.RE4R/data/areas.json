@@ -1374,7 +1374,6 @@
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2.scn.20",
       "description": "church/village/farm",
       "chapter": 5,
-      "maxEnemiesPerStage": 10,
       "restrictions": [
         {
           "guids": [
@@ -1421,7 +1420,6 @@
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2_100.scn.20",
       "description": "cabin",
       "chapter": 5,
-      "maxEnemiesPerStage": 80,
       "restrictions": [
         {
           "guids": [
@@ -3559,7 +3557,6 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_004.scn.20",
       "chapter": 9,
-      "maxEnemiesPerStage": 20,
       "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
     },
     {
@@ -3624,15 +3621,36 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc50/level_loc50_002.scn.20",
-      "chapter": 9
+      "chapter": 9,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc50/level_loc50_004.scn.20",
-      "chapter": 9
+      "chapter": 9,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc50/level_loc50_005.scn.20",
-      "chapter": 9
+      "chapter": 9,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52.scn.20",
@@ -3644,7 +3662,14 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_001.scn.20",
-      "chapter": 9
+      "chapter": 9,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_002.scn.20",
@@ -3652,7 +3677,14 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_004.scn.20",
-      "chapter": 9
+      "chapter": 9,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc53/level_loc53.scn.20",
@@ -3678,12 +3710,24 @@
             "bd77f244-3686-4237-8ece-83ef02ffc1b0",
             "28e749aa-4308-4014-ae97-a30202aff442"
           ]
+        },
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
         }
       ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc53/level_loc53_003.scn.20",
-      "chapter": 9
+      "chapter": 9,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
 
     // Chapter 10 (ball room, double garradors, throne room, sewers, verdugo)
@@ -4221,6 +4265,13 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_2/level_cp10_chp4_2.scn.20",
       "chapter": 11,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ],
       "extra": [
         {
           "skipCondition": "b39ba3c1-6388-43cc-8771-4027233dba01",
@@ -4590,6 +4641,11 @@
         {
           "guids": [
             "6c68dd30-5387-4fba-b05e-e4846570025a" // krauser
+          ]
+        },
+        {
+          "exclude": [
+            "mendez_chase"
           ]
         }
       ],
@@ -8269,13 +8325,24 @@
             "4a1692cd-ebe4-4cdb-8257-381a263c8e6b"
           ],
           "preventDuplicate": true
+        },
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
         }
       ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_001.scn.20",
       "chapter": 16,
-      "maxEnemiesPerStage": 20
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_002.scn.20",
