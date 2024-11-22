@@ -797,43 +797,38 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var findFlag = randomizer.Campaign == Campaign.Leon
                 ? 0
                 : 17;
-            randomizer.FileRepository.ModifyUserFile(path, (rsz, root) =>
+            var userData = randomizer.FileRepository.DeserializeUserFile<chainsaw.WeaponCustomUnlockSettingUserdata>(path);
+            userData._Settings.Clear();
+            foreach (var wp in weaponStats.Weapons)
             {
-                var userData = rsz.RszParser.Deserialize<chainsaw.WeaponCustomUnlockSettingUserdata>(root);
-                foreach (var w in userData._Settings)
+                var item = itemRepo.FromWeaponId(wp.Id);
+                if (item == null)
+                    continue;
+
+                var categories = wp.Modifiers
+                    .Where(x => x is not IWeaponExclusive)
+                    .Select(x => GetItemCustomCategory(x.Kind))
+                    .Order()
+                    .ToArray();
+                var setting = new chainsaw.WeaponCustomUnlocksingleSetting()
                 {
-                    var itemDefinition = itemRepo.Find(w._ItemId);
-                    if (itemDefinition == null)
-                        continue;
-
-                    var stats = weaponStats.Weapons.FirstOrDefault(x => x.Id == itemDefinition.WeaponId);
-                    if (stats == null)
-                        continue;
-
-                    var categories = stats.Modifiers
-                        .Where(x => x is not IWeaponExclusive)
-                        .Select(x => GetItemCustomCategory(x.Kind))
-                        .Order()
-                        .ToArray();
-
-                    // Disable all chapters
-                    for (var i = 0; i < w._Datas.Count; i++)
-                    {
-                        w._Datas[i]._IsApply = false;
-                    }
-
-                    // Enable first chapter
-                    var firstChapterEntry = w._Datas.First(x => x._FlagType == findFlag);
-                    firstChapterEntry._IsApply = true;
-                    firstChapterEntry._UnlockDatas = categories.Select(x => new chainsaw.WeaponCustomUnlocksingleSetting.UnlockData()
-                    {
-                        _CustomCategory = x,
-                        _UnlockLevel = 4
-                    }).ToList();
-                }
-
-                rsz.InstanceCopyValues(rsz.ObjectList[0], rsz.RszParser.Serialize(userData));
-            });
+                    _ItemId = item.Id,
+                    _Datas = [
+                        new chainsaw.WeaponCustomUnlocksingleSetting.Data()
+                        {
+                            _FlagType = findFlag,
+                            _IsApply = true,
+                            _UnlockDatas = categories.Select(x => new chainsaw.WeaponCustomUnlocksingleSetting.UnlockData()
+                            {
+                                _CustomCategory = x,
+                                _UnlockLevel = 4
+                            }).ToList()
+                        }
+                    ]
+                };
+                userData._Settings.Add(setting);
+            }
+            randomizer.FileRepository.SerializeUserFile(path, userData);
         }
 
         private static int GetItemCustomCategory(WeaponUpgradeKind kind)
