@@ -1744,6 +1744,7 @@
     {
       "name": "Skull Shaker",
       "kind": "weapon",
+      "mode": "main",
       "id": 278037056,
       "class": "shotgun",
       "size": "1x5",
