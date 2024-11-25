@@ -57,6 +57,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             ChangeMessages(randomizer, logger);
             FixNovisNavigation(randomizer, logger);
+            FixAddedWeaponNames(randomizer, logger);
             FixEnemyHp(randomizer, rng, logger);
         }
 
@@ -612,6 +613,40 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 });
             }
+        }
+
+        private void FixAddedWeaponNames(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            if (randomizer.Campaign == Campaign.Ada)
+                return;
+
+            var fileRepository = randomizer.FileRepository;
+
+            var itemMessagePath = "natives/stm/_chainsaw/appsystem/ui/userdata/itemmessageidsettinguserdata.user.2";
+            var itemCaptionPath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_caption.msg.22";
+            var itemNamePath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_name.msg.22";
+
+            var itemMessage = fileRepository.DeserializeUserFile<chainsaw.ItemMessageIdSettingUserdata>(itemMessagePath);
+            var itemCaption = fileRepository.GetMsgFile(itemCaptionPath).ToBuilder();
+            var itemName = fileRepository.GetMsgFile(itemNamePath).ToBuilder();
+
+            var wp6100 = itemMessage._Settings.FirstOrDefault(x => x._ItemId == ItemIds.SWSawedOffW870);
+            if (wp6100 != null)
+            {
+                wp6100._NameMsgId = itemName.Create("Sawed-off W-870").Guid;
+                wp6100._CaptionMsgId = itemCaption.Create("A pump-action shotgun designed for close encounters.\r\nIts sawed-off barrel makes it very versatile in combat.").Guid;
+            }
+
+            var wp6300 = itemMessage._Settings.FirstOrDefault(x => x._ItemId == ItemIds.XM96E1);
+            if (wp6300 != null)
+            {
+                wp6300._NameMsgId = itemName.Create("XM96E1").Guid;
+                wp6300._CaptionMsgId = itemCaption.Create("A rugged handgun with decent firepower.\r\nIt has a low ammo capacity but hits hard.").Guid;
+            }
+
+            fileRepository.SerializeUserFile(itemMessagePath, itemMessage);
+            fileRepository.SetMsgFile(itemCaptionPath, itemCaption.ToMsg());
+            fileRepository.SetMsgFile(itemNamePath, itemName.ToMsg());
         }
 
         private void FixEnemyHp(ChainsawRandomizer randomizer, Rng rng, RandomizerLogger logger)

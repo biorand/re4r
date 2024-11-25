@@ -156,10 +156,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
                     {
                         _ItemId = ItemIds.SWSawedOffW870,
-                        _CaptionSetting = new chainsaw.InGameShopItemCaptionSetting()
-                        {
-                            _CaptionMsgId = new Guid("16d2f525-9ddf-4a19-b0ed-a0a115f71a16")
-                        },
                         _PriceSettings = [
                             new chainsaw.gui.shop.ItemPriceSetting()
                             {
@@ -176,10 +172,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
                     {
                         _ItemId = ItemIds.XM96E1,
-                        _CaptionSetting = new chainsaw.InGameShopItemCaptionSetting()
-                        {
-                            _CaptionMsgId = new Guid("6fe30b70-97b9-4569-a65a-941536011d2e")
-                        },
                         _PriceSettings = [
                             new chainsaw.gui.shop.ItemPriceSetting()
                             {
