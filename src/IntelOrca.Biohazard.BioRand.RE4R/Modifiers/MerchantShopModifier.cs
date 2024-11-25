@@ -128,7 +128,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             private ItemRandomizer ItemRandomizer => randomizer.ItemRandomizer;
 
-            private int ConvertChapterNumber(int chapter) => randomizer.Campaign == Campaign.Ada ? Math.Max(17, chapter + 16) : chapter;
+            private int ConvertChapterNumber(int chapter) => randomizer.Campaign == Campaign.Ada ? Math.Max(17, chapter + 17) : chapter;
 
             public void Go()
             {
