@@ -57,7 +57,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             ChangeMessages(randomizer, logger);
             FixNovisNavigation(randomizer, logger);
-            FixEnemyHp(randomizer, logger);
+            FixEnemyHp(randomizer, rng, logger);
         }
 
         private void ForceNgPlusMerchantLeon(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -614,26 +614,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void FixEnemyHp(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        private void FixEnemyHp(ChainsawRandomizer randomizer, Rng rng, RandomizerLogger logger)
         {
-            if (randomizer.Campaign != Campaign.Leon)
-                return;
+            var bruteHpPaths = randomizer.Campaign == Campaign.Leon
+                ? ["natives/stm/_chainsaw/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp.user.2"]
+                : new[] {
+                    "natives/stm/_anotherorder/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp_cp11.user.2",
+                    "natives/stm/_anotherorder/appsystem/character/ch1c0z1/userdata/ch1c0z1enhancedhp_cp11.user.2",
+                    "natives/stm/_anotherorder/appsystem/character/ch1c0z2/userdata/ch1c0z2enhancedhp_cp11.user.2"
+                };
 
-            var bruteHpPaths = new[]
-            {
-                "natives/stm/_chainsaw/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp.user.2",
-                "natives/stm/_anotherorder/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp_cp11.user.2",
-                "natives/stm/_anotherorder/appsystem/character/ch1c0z1/userdata/ch1c0z1enhancedhp_cp11.user.2",
-                "natives/stm/_anotherorder/appsystem/character/ch1c0z2/userdata/ch1c0z2enhancedhp_cp11.user.2"
-            };
+            var regeneradorPath = randomizer.Campaign == Campaign.Leon
+                ? "natives/stm/_chainsaw/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata.user.2"
+                : "natives/stm/_anotherorder/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata_ao.user.2";
 
-            var regeneradorPaths = new[]
-            {
-                "natives/stm/_chainsaw/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata.user.2",
-                "natives/stm/_anotherorder/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata_ao.user.2"
-            };
-
-            var u3UserDataPath = "natives/stm/_anotherorder/appsystem/character/ch4fbz0/userdata/ch4fbz0paramuserdata.user.2";
+            var pesantaPath = "natives/stm/_anotherorder/appsystem/character/ch4faz1/userdata/ch4faz1chapterhp.user.2";
+            var u3Path = "natives/stm/_anotherorder/appsystem/character/ch4fbz0/userdata/ch4fbz0paramuserdata.user.2";
 
             var fileRepository = randomizer.FileRepository;
 
@@ -646,16 +642,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             // Fix super iron maiden
-            foreach (var regeneradorPath in regeneradorPaths)
+            fileRepository.ModifyUserFile(regeneradorPath, (rsz, root) =>
             {
-                fileRepository.ModifyUserFile(regeneradorPath, (rsz, root) =>
-                {
-                    root.Set("STRUCT__StrongTransformedHitPoint__HasValue", false);
-                });
+                root.Set("STRUCT__StrongTransformedHitPoint__HasValue", false);
+            });
+
+            // Fix Pesanta
+            if (randomizer.Campaign == Campaign.Ada && randomizer.GetConfigOption<bool>("boss-random-health"))
+            {
+                SetChapterHp2(randomizer, pesantaPath, 30100, rng.Next(
+                    randomizer.GetConfigOption<int>("boss-health-min-pesanta-1"),
+                    randomizer.GetConfigOption<int>("boss-health-max-pesanta-1") + 1));
             }
 
             // Fix U3
-            fileRepository.ModifyUserFile(u3UserDataPath, (rsz, root) =>
+            fileRepository.ModifyUserFile(u3Path, (rsz, root) =>
             {
                 root.Set("STRUCT__SecondFormHitPoint__HasValue", false);
             });
@@ -666,7 +667,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var progressiveDifficulty = randomizer.GetConfigOption("enemy-health-progressive-difficulty", false);
             var fileRepository = randomizer.FileRepository;
             var ecpud = fileRepository.DeserializeUserFile<chainsaw.EnemyChapterParamUserData>(path);
-            ecpud._ChapterParamList.Clear();
+            if (randomizer.Campaign == Campaign.Leon)
+                ecpud._ChapterParamList.RemoveAll(x => x._ChapterID < 30000);
+            else
+                ecpud._ChapterParamList.RemoveAll(x => x._ChapterID >= 30000);
             var chapters = ChapterId.GetAll(randomizer.Campaign);
             var numChapters = ChapterId.GetCount(randomizer.Campaign);
             for (var chapter = 1; chapter <= numChapters; chapter++)
@@ -700,6 +704,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             fileRepository.SerializeUserFile(path, ecpud);
 
             static double lerp(double a, double b, double t) => a + ((b - a) * t);
+        }
+
+        private static void SetChapterHp2(ChainsawRandomizer randomizer, string path, int chapterId, int hp)
+        {
+            var fileRepository = randomizer.FileRepository;
+            var ecpud = fileRepository.DeserializeUserFile<chainsaw.EnemyChapterParamUserData>(path);
+            var chapter = ecpud._ChapterParamList.FirstOrDefault(x => x._ChapterID == chapterId);
+            if (chapter == null)
+            {
+                chapter = new chainsaw.EnemyChapterParamUserData.ChapterParamElement();
+                ecpud._ChapterParamList.Add(chapter);
+            }
+            chapter._RandomTable.Clear();
+            chapter._RandomTable.Add(new chainsaw.EnemyChapterParamUserData.RandomTableElement()
+            {
+                Value = hp,
+                Weight = 100
+            });
+            fileRepository.SerializeUserFile(path, ecpud);
         }
 
         private static readonly int[] _characterKindIds = new int[]
