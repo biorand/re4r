@@ -33,8 +33,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             new Boss("pesanta-1", "Pesanta (Ch. 1)", new Guid("33bda65f-fa3a-4385-a2c7-92786d5f0b6f")),
             new Boss("pesanta-2", "Pesanta (Ch. 2)", new Guid("2b7268ca-f11a-4143-9969-cb500b4b7301")),
             new Boss("elgigante-4", "El Gigante (Farm)", new Guid("afac38f0-0c3c-4e19-8058-fed0d7105fd3")),
-            new Boss("u3-1", "U3 (Phase 1)", new Guid("56ca7658-5434-4d3b-8622-9a9891e1daa1")),
-            new Boss("u3-2", "U3 (Phase 2)", new Guid("aa862ced-d677-42bd-8542-fbbbe038a16f")),
+            new Boss("u3-1", "U3 (Phase 1)", new Guid("d3c407a9-08cd-416c-b978-cd7c1c9908b3")),
+            new Boss("u3-2", "U3 (Phase 2)", new Guid("56ca7658-5434-4d3b-8622-9a9891e1daa1")),
             new Boss("sadler-2", "Sadler (Human)", new Guid("71c38980-cf1a-4040-aa93-708a290529ee")),
         ];
 

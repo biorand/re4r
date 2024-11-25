@@ -616,34 +616,71 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void FixEnemyHp(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var villagerBruteHpTablePath = "natives/stm/_chainsaw/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp.user.2";
-            var regeneradorUserDataPath = "natives/stm/_chainsaw/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata.user.2";
-            if (randomizer.Campaign == Campaign.Ada)
+            if (randomizer.Campaign != Campaign.Leon)
+                return;
+
+            var bruteHpPaths = new[]
             {
-                villagerBruteHpTablePath = "natives/stm/_anotherorder/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp_cp11.user.2";
-                regeneradorUserDataPath = "natives/stm/_anotherorder/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata_ao.user.2";
-            }
+                "natives/stm/_chainsaw/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp.user.2",
+                "natives/stm/_anotherorder/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp_cp11.user.2",
+                "natives/stm/_anotherorder/appsystem/character/ch1c0z1/userdata/ch1c0z1enhancedhp_cp11.user.2",
+                "natives/stm/_anotherorder/appsystem/character/ch1c0z2/userdata/ch1c0z2enhancedhp_cp11.user.2"
+            };
+
+            var regeneradorPaths = new[]
+            {
+                "natives/stm/_chainsaw/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata.user.2",
+                "natives/stm/_anotherorder/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata_ao.user.2"
+            };
+
+            var u3UserDataPath = "natives/stm/_anotherorder/appsystem/character/ch4fbz0/userdata/ch4fbz0paramuserdata.user.2";
 
             var fileRepository = randomizer.FileRepository;
 
-            var progressiveDifficulty = randomizer.GetConfigOption("enemy-health-progressive-difficulty", false);
-            if (!progressiveDifficulty)
-                return;
-
             // Fix brutes HP
-            var ecpud = fileRepository.DeserializeUserFile<chainsaw.EnemyChapterParamUserData>(villagerBruteHpTablePath);
-            ecpud._ChapterParamList.Clear();
+            foreach (var bruteHpPath in bruteHpPaths)
+            {
+                SetChapterHp(randomizer, bruteHpPath,
+                    randomizer.GetConfigOption<int>("enemy-health-min-brute_weapon"),
+                    randomizer.GetConfigOption<int>("enemy-health-max-brute_weapon"));
+            }
 
-            var minHp = randomizer.GetConfigOption<int>("enemy-health-min-brute_hammer");
-            var maxHp = randomizer.GetConfigOption<int>("enemy-health-max-brute_hammer");
+            // Fix super iron maiden
+            foreach (var regeneradorPath in regeneradorPaths)
+            {
+                fileRepository.ModifyUserFile(regeneradorPath, (rsz, root) =>
+                {
+                    root.Set("STRUCT__StrongTransformedHitPoint__HasValue", false);
+                });
+            }
+
+            // Fix U3
+            fileRepository.ModifyUserFile(u3UserDataPath, (rsz, root) =>
+            {
+                root.Set("STRUCT__SecondFormHitPoint__HasValue", false);
+            });
+        }
+
+        private static void SetChapterHp(ChainsawRandomizer randomizer, string path, int minHp, int maxHp)
+        {
+            var progressiveDifficulty = randomizer.GetConfigOption("enemy-health-progressive-difficulty", false);
+            var fileRepository = randomizer.FileRepository;
+            var ecpud = fileRepository.DeserializeUserFile<chainsaw.EnemyChapterParamUserData>(path);
+            ecpud._ChapterParamList.Clear();
             var chapters = ChapterId.GetAll(randomizer.Campaign);
             var numChapters = ChapterId.GetCount(randomizer.Campaign);
             for (var chapter = 1; chapter <= numChapters; chapter++)
             {
                 var windowStart = (chapter - 1) / (double)numChapters;
                 var windowEnd = chapter / (double)numChapters;
+                if (!progressiveDifficulty)
+                {
+                    windowStart = 0;
+                    windowEnd = 1;
+                }
+
                 var windowSize = windowEnd - windowStart;
-                var numTableEntries = 4;
+                var numTableEntries = progressiveDifficulty ? 4 : 8;
                 var hpValueIncrement = (windowEnd - windowStart) / numTableEntries;
                 var hpValues = Enumerable
                     .Range(0, numTableEntries)
@@ -660,13 +697,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }).ToList()
                 });
             }
-            fileRepository.SerializeUserFile(villagerBruteHpTablePath, ecpud);
-
-            // Fix super iron maiden
-            fileRepository.ModifyUserFile(regeneradorUserDataPath, (rsz, root) =>
-            {
-                root.Set("STRUCT__StrongTransformedHitPoint__HasValue", false);
-            });
+            fileRepository.SerializeUserFile(path, ecpud);
 
             static double lerp(double a, double b, double t) => a + ((b - a) * t);
         }

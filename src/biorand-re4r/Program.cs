@@ -54,7 +54,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var includeList = new[] {
                 "natives/stm/_anotherorder/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp_cp11.user.2",
+                "natives/stm/_anotherorder/appsystem/character/ch1c0z1/userdata/ch1c0z1enhancedhp_cp11.user.2",
+                "natives/stm/_anotherorder/appsystem/character/ch1c0z2/userdata/ch1c0z2enhancedhp_cp11.user.2",
                 "natives/stm/_anotherorder/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata_ao.user.2",
+                "natives/stm/_anotherorder/appsystem/character/ch4faz1/userdata/ch4faz1chapterhp.user.2",
+                "natives/stm/_anotherorder/appsystem/character/ch4faz1/userdata/ch4faz1paramuserdata.user.2",
+                "natives/stm/_anotherorder/appsystem/character/ch4fbz0/userdata/ch4fbz0paramuserdata.user.2",
                 "natives/stm/_anotherorder/appsystem/inventory/inventorycatalog/.*",
                 "natives/stm/_anotherorder/appsystem/navigation/.*",
                 "natives/stm/_anotherorder/appsystem/ui/.*",
