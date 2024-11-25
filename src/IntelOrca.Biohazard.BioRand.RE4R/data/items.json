@@ -1106,7 +1106,6 @@
     {
       "name": "Recipe: Attachable Mines",
       "kind": "recipe",
-      "mode": "main",
       "id": 124334400
     },
     {
@@ -1614,7 +1613,6 @@
     {
       "name": "Fighting Knife",
       "kind": "weapon",
-      "mode": "main",
       "id": 276437056,
       "size": "1x4",
       "class": "knife",
@@ -1645,7 +1643,6 @@
     {
       "name": "Primal Knife",
       "kind": "weapon",
-      "mode": "main",
       "id": 276445056,
       "class": "knife",
       "bonus": true,
@@ -1828,7 +1825,7 @@
     {
       "name": "SW - Elite Knife",
       "kind": "weapon",
-      "mode": "sw",
+      "mode": "disabled",
       "id": 278208256,
       "class": "knife",
       "weaponId": 6108,
