@@ -13,6 +13,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         private readonly bool _allowDlcItems;
         private readonly Dictionary<RandomItemSettings, EndlessBag<string>> _generalDrops = new();
         private Rng.Table<string?>? _treasureProbabilityTable;
+        private readonly HashSet<int> _throwAway = new HashSet<int>();
+        private bool _excludeWeapons;
 
         public int[] PlacedItemIds => _placedItemIds.ToArray();
         public ItemDefinition[] PlacedItems => _placedItemIds
@@ -25,6 +27,42 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             _logger = logger;
             _allowBonusItems = randomizer.GetConfigOption<bool>("allow-bonus-items");
             _allowDlcItems = randomizer.GetConfigOption<bool>("allow-dlc-items");
+        }
+
+        private void ExcludeSomeWeapons(Rng rng)
+        {
+            if (_excludeWeapons)
+                return;
+
+            _excludeWeapons = true;
+            var itemRepo = ItemDefinitionRepository.Default;
+            var maxPerClass = Math.Clamp(_randomizer.GetConfigOption<int>("valuable-limit-weapons-per-class", 8), 1, 8);
+            if (maxPerClass >= 8)
+                return;
+
+            var allWeapons = itemRepo
+                .GetAll(ItemKinds.Weapon)
+                .Where(IsItemSupported)
+                .Shuffle(rng)
+                .GroupBy(x => x.Class)
+                .ToArray();
+            foreach (var g in allWeapons)
+            {
+                var remove = g.Skip(maxPerClass).ToArray();
+                foreach (var r in remove)
+                {
+                    _throwAway.Add(r.Id);
+                }
+            }
+
+            var redundantAttachments = itemRepo
+                .GetAll(ItemKinds.Attachment)
+                .Where(x => x.Weapons!.All(x => !IsItemSupported(itemRepo.Find(x)!)))
+                .ToArray();
+            foreach (var a in redundantAttachments)
+            {
+                _throwAway.Add(a.Id);
+            }
         }
 
         public ItemDefinition? GetRandomWeapon(Rng rng, string? classification = null, bool allowReoccurance = true)
@@ -66,6 +104,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         public ItemDefinition? GetRandomItemDefinition(Rng rng, string kind, string? classification = null, bool allowReoccurance = true)
         {
+            ExcludeSomeWeapons(rng);
+
             var itemRepo = ItemDefinitionRepository.Default;
             var poolEnumerable = itemRepo
                 .GetAll(kind, classification)
@@ -74,7 +114,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             {
                 poolEnumerable = poolEnumerable
                     .Where(x => !_placedItemIds.Contains(x.Id));
-
             }
             var pool = poolEnumerable.ToArray();
             if (pool.Length == 0)
@@ -87,6 +126,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         private bool IsItemSupported(ItemDefinition itemDefinition)
         {
+            if (_throwAway.Contains(itemDefinition.Id))
+                return false;
             if (!itemDefinition.SupportsCampaign(_randomizer.Campaign))
                 return false;
             if (itemDefinition.Bonus)

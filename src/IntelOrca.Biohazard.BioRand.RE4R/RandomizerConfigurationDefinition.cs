@@ -62,6 +62,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 32,
                 Default = 8
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"valuable-limit-weapons-per-class",
+                Label = "Weapons (per class)",
+                Description = "The number of different weapons per class to include in the seed. 2 would include 2 shotguns, and 2 hanguns, etc.",
+                Type = "range",
+                Min = 1,
+                Max = 8,
+                Default = 8
+            });
 
             page = configDefinition.CreatePage("Merchant");
             group = page.CreateGroup("");

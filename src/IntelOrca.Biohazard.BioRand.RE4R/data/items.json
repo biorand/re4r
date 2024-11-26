@@ -212,7 +212,10 @@
       "name": "Red9 Stock",
       "kind": "attachment",
       "id": 116001600,
-      "weapons": [ 274838656 ]
+      "weapons": [
+        274838656, // Red9
+        278216256 // SW - Red9
+      ]
     },
     {
       "name": "High-power Scope",
@@ -240,7 +243,10 @@
       "name": "TMP Stock",
       "kind": "attachment",
       "id": 116006400,
-      "weapons": [ 275155456 ]
+      "weapons": [
+        275155456, // TMP
+        278201856 // SW - TMP
+      ]
     },
     {
       "name": "Laser Sight",
