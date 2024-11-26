@@ -1246,16 +1246,19 @@
     {
       "name": "Charm: Don Diego",
       "kind": "charm",
+      "mode": "main",
       "id": 127201600
     },
     {
       "name": "Charm: Don Esteban",
       "kind": "charm",
+      "mode": "main",
       "id": 127203200
     },
     {
       "name": "Charm: Don Manuel",
       "kind": "charm",
+      "mode": "main",
       "id": 127204800
     },
     {
@@ -1266,11 +1269,13 @@
     {
       "name": "Charm: Maria",
       "kind": "charm",
+      "mode": "main",
       "id": 127208000
     },
     {
       "name": "Charm: Dr. Salvador",
       "kind": "charm",
+      "mode": "main",
       "id": 127209600
     },
     {
@@ -1281,6 +1286,7 @@
     {
       "name": "Charm: Don Pedro",
       "kind": "charm",
+      "mode": "main",
       "id": 127212800
     },
     {
@@ -1291,36 +1297,43 @@
     {
       "name": "Charm: Zealot w/ shield",
       "kind": "charm",
+      "mode": "main",
       "id": 127216000
     },
     {
       "name": "Charm: Zealot w/ bowgun",
       "kind": "charm",
+      "mode": "main",
       "id": 127217600
     },
     {
       "name": "Charm: Leader zealot",
       "kind": "charm",
+      "mode": "main",
       "id": 127219200
     },
     {
       "name": "Charm: Soldier w/ dynamite",
       "kind": "charm",
+      "mode": "main",
       "id": 127220800
     },
     {
       "name": "Charm: Soldier w/ stun-rod",
       "kind": "charm",
+      "mode": "main",
       "id": 127222400
     },
     {
       "name": "Charm: Soldier w/ hammer",
       "kind": "charm",
+      "mode": "main",
       "id": 127224000
     },
     {
       "name": "Charm: J.J.",
       "kind": "charm",
+      "mode": "main",
       "id": 127225600
     },
     {
@@ -1331,6 +1344,7 @@
     {
       "name": "Charm: Leon w/ shotgun",
       "kind": "charm",
+      "mode": "main",
       "id": 127228800
     },
     {
@@ -1346,41 +1360,49 @@
     {
       "name": "Charm: Ashley Graham",
       "kind": "charm",
+      "mode": "main",
       "id": 127233600
     },
     {
       "name": "Charm: Luis Sera",
       "kind": "charm",
+      "mode": "main",
       "id": 127235200
     },
     {
       "name": "Charm: Ada Wong",
       "kind": "charm",
+      "mode": "main",
       "id": 127236800
     },
     {
       "name": "Charm: Chicken",
       "kind": "charm",
+      "mode": "main",
       "id": 127238400
     },
     {
       "name": "Charm: Black Bass",
       "kind": "charm",
+      "mode": "main",
       "id": 127240000
     },
     {
       "name": "Charm: Rhinoceros Beetle",
       "kind": "charm",
+      "mode": "main",
       "id": 127241600
     },
     {
       "name": "Charm: Iluminados Emblem",
       "kind": "charm",
+      "mode": "main",
       "id": 127243200
     },
     {
       "name": "Charm: Striker",
       "kind": "charm",
+      "mode": "main",
       "id": 127244800
     },
     {
@@ -1391,11 +1413,13 @@
     {
       "name": "Charm: Green Herb",
       "kind": "charm",
+      "mode": "main",
       "id": 127360000
     },
     {
       "name": "Charm: Handgun Ammo",
       "kind": "charm",
+      "mode": "main",
       "id": 127361600
     },
     {
