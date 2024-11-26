@@ -343,9 +343,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
                 if (field.type != RszFieldType.Object)
                     continue;
 
-                var subTypeName = field.array
-                    ? field.original_type[..^2]
-                    : field.original_type;
+                var subTypeName = field.original_type;
+                if (field.original_type.EndsWith(">"))
+                {
+                    var left = field.original_type.IndexOf('<') + 1;
+                    subTypeName = field.original_type[left..^1];
+                }
+                else if (field.original_type.EndsWith("[]"))
+                {
+                    subTypeName = field.original_type[..^2];
+                }
                 GetClasses(parser, subTypeName, classes);
             }
         }

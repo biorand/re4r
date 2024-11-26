@@ -59,6 +59,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             FixNovisNavigation(randomizer, logger);
             FixAddedWeaponNames(randomizer, logger);
             FixEnemyHp(randomizer, rng, logger);
+            FixEnemyWeaponDamage(randomizer, logger);
         }
 
         private void ForceNgPlusMerchantLeon(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -758,6 +759,54 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 Weight = 100
             });
             fileRepository.SerializeUserFile(path, ecpud);
+        }
+
+        private void FixEnemyWeaponDamage(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            var files = new[]
+            {
+                "natives/stm/_chainsaw/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedweapondamagerateuserdatahead.user.2",
+                "natives/stm/_chainsaw/appsystem/character/ch1c0z0/userdata/ch1c0z0weapondamagerateuserdatahead.user.2",
+                "natives/stm/_chainsaw/appsystem/character/ch1c0z0/userdata/ch1e2z0weapondamagerateuserdatahead.user.2",
+                "natives/stm/_chainsaw/appsystem/character/ch1c0z0/userdata/ch1e3z0weapondamagerateuserdatahead.user.2"
+            };
+
+            var fileRepository = randomizer.FileRepository;
+            foreach (var f in files)
+            {
+                var userData = fileRepository.DeserializeUserFile<chainsaw.CharacterWeaponDamageRateUserData>(f);
+                var wp4000 = userData._DataList.First(x => x._WeaponID == 4000); // SG
+                var wp4202 = userData._DataList.First(x => x._WeaponID == 4202); // LE5
+                SetEntry(userData, 4201, wp4202);
+                SetEntry(userData, 6300, wp4000);
+                fileRepository.SerializeUserFile(f, userData);
+            }
+
+            static void SetEntry(
+                chainsaw.CharacterWeaponDamageRateUserData userData,
+                int wp,
+                chainsaw.CharacterWeaponDamageRateUserData.Data src)
+            {
+                var result = new chainsaw.CharacterWeaponDamageRateUserData.Data()
+                {
+                    _WeaponID = wp,
+                    STRUCT__DamageRate__HasValue = src.STRUCT__DamageRate__HasValue,
+                    STRUCT__DamageRate__Value = src.STRUCT__DamageRate__Value,
+                    STRUCT__WinceRate__HasValue = src.STRUCT__WinceRate__HasValue,
+                    STRUCT__WinceRate__Value = src.STRUCT__WinceRate__Value,
+                    STRUCT__BreakRate__HasValue = src.STRUCT__BreakRate__HasValue,
+                    STRUCT__BreakRate__Value = src.STRUCT__BreakRate__Value,
+                    STRUCT__StoppingRate__HasValue = src.STRUCT__StoppingRate__HasValue,
+                    STRUCT__StoppingRate__Value = src.STRUCT__StoppingRate__Value,
+                    _Probability = src._Probability
+                };
+
+                var index = userData._DataList.FindIndex(x => x._WeaponID == wp);
+                if (index == -1)
+                    userData._DataList.Add(result);
+                else
+                    userData._DataList[index] = result;
+            }
         }
 
         private static readonly int[] _characterKindIds = new int[]

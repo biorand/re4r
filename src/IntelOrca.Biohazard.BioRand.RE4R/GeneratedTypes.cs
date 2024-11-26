@@ -871,6 +871,23 @@ namespace chainsaw
             public System.Int32 _SortPriority { get; set; }
         }
     }
+    internal class CharacterWeaponDamageRateUserData
+    {
+        public System.Collections.Generic.List<chainsaw.CharacterWeaponDamageRateUserData.Data> _DataList { get; set; } = [];
+        internal class Data
+        {
+            public System.Int32 _WeaponID { get; set; }
+            public System.Boolean STRUCT__DamageRate__HasValue { get; set; }
+            public System.Single STRUCT__DamageRate__Value { get; set; }
+            public System.Boolean STRUCT__WinceRate__HasValue { get; set; }
+            public System.Single STRUCT__WinceRate__Value { get; set; }
+            public System.Boolean STRUCT__BreakRate__HasValue { get; set; }
+            public System.Single STRUCT__BreakRate__Value { get; set; }
+            public System.Boolean STRUCT__StoppingRate__HasValue { get; set; }
+            public System.Single STRUCT__StoppingRate__Value { get; set; }
+            public System.Single _Probability { get; set; }
+        }
+    }
 }
 namespace chainsaw.gui.shop
 {

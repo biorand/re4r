@@ -53,13 +53,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var newPak = new PakFileBuilder();
 
             var includeList = new[] {
-                "natives/stm/_anotherorder/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp_cp11.user.2",
-                "natives/stm/_anotherorder/appsystem/character/ch1c0z1/userdata/ch1c0z1enhancedhp_cp11.user.2",
-                "natives/stm/_anotherorder/appsystem/character/ch1c0z2/userdata/ch1c0z2enhancedhp_cp11.user.2",
-                "natives/stm/_anotherorder/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata_ao.user.2",
-                "natives/stm/_anotherorder/appsystem/character/ch4faz1/userdata/ch4faz1chapterhp.user.2",
-                "natives/stm/_anotherorder/appsystem/character/ch4faz1/userdata/ch4faz1paramuserdata.user.2",
-                "natives/stm/_anotherorder/appsystem/character/ch4fbz0/userdata/ch4fbz0paramuserdata.user.2",
+                "natives/stm/_anotherorder/appsystem/character/[0-9a-z]+/userdata/[0-9a-z_]+.user.2",
                 "natives/stm/_anotherorder/appsystem/inventory/inventorycatalog/.*",
                 "natives/stm/_anotherorder/appsystem/navigation/.*",
                 "natives/stm/_anotherorder/appsystem/ui/.*",
@@ -70,8 +64,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 "natives/stm/_anotherorder/leveldesign/location/.*",
                 "natives/stm/_authoring/appsystem/globalvariables/.*",
                 "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_140[12]/.*",
-                "natives/stm/_chainsaw/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp.user.2",
-                "natives/stm/_chainsaw/appsystem/character/ch1d4z0/userdata/ch1d4z0paramuserdata.user.2",
+                "natives/stm/_chainsaw/appsystem/character/[0-9a-z]+/userdata/[0-9a-z_]+.user.2",
                 "natives/stm/_chainsaw/appsystem/inventory/inventorycatalog/.*",
                 "natives/stm/_chainsaw/appsystem/navigation/.*",
                 "natives/stm/_chainsaw/appsystem/shell/bullet/.*",
@@ -84,7 +77,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 "natives/stm/_chainsaw/message/mes_main_charm/.*",
                 "natives/stm/_chainsaw/message/mes_main_item/.*",
                 "natives/stm/_chainsaw/message/mes_main_sys/.*"
-            }.Select(x => new Regex(x));
+            }.Select(x => new Regex(x, RegexOptions.IgnoreCase));
 
             foreach (var path in pakList.Entries)
             {
