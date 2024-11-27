@@ -1875,7 +1875,17 @@
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc69/enemy_after.scn.20",
-      "chapter": 7
+      "chapter": 7,
+      "restrictions": [
+        {
+          "guids": [
+            "c5f6b51b-f9d1-464b-83b1-5794a66a3c33", // novistador
+            "42c1f280-b8e1-430c-a170-d8084cb74e02", // novistador
+            "4a172f43-15c7-4fb6-8847-8c6131f0888a", // novistador
+            "7e35e421-53dd-4f72-9cd6-5de611c670eb" // novistador
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc68/level_loc68.scn.20",
