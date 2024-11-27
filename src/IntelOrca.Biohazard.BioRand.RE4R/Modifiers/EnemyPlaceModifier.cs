@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography;
+using System.Text;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using RszTool;
 
@@ -11,6 +13,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         private int _contextIdGroup;
         private int _contextIdIndex;
+#if DEBUG
+        private HashSet<Guid> _guids = [];
+#endif
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
@@ -46,7 +51,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                         foreach (var enemyDef in extra.Enemies)
                         {
-                            AddEnemyToSpawnController(def, scn, spawnController, enemyDef, rng, logger);
+                            AddEnemyToSpawnController(def, scn, spawnController, enemyDef, extra, rng, logger);
                         }
                     }
                     else
@@ -62,7 +67,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             {
                                 if (extraEnemiesToPlace.Contains(enemyDef))
                                 {
-                                    AddEnemyToSpawnController(def, scn, spawnController, enemyDef, rng, logger);
+                                    AddEnemyToSpawnController(def, scn, spawnController, enemyDef, extra, rng, logger);
                                 }
                             }
                             logger.Pop();
@@ -73,17 +78,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void AddEnemyToSpawnController(AreaDefinition def, ScnFile scn, ScnFile.GameObjectData spawnController, AreaExtraEnemy enemyDef, Rng rng, RandomizerLogger logger)
+        private void AddEnemyToSpawnController(AreaDefinition def, ScnFile scn, ScnFile.GameObjectData spawnController, AreaExtraEnemy enemyDef, AreaExtra extra, Rng rng, RandomizerLogger logger)
         {
             var position = new Vector3(enemyDef.X, enemyDef.Y, enemyDef.Z);
             var rotation = enemyDef.Direction == 0
                 ? RandomRotation(rng)
                 : RotationToQuaternion(enemyDef.Direction, 0, 0);
             var enemy = CreateEnemy(scn, spawnController, "BioRandEnemy", enemyDef.Stage, position, rotation, enemyDef.FindPlayer, rng, logger);
-            if (enemyDef.Guid.HasValue)
+            enemy.Guid = enemyDef.Guid.HasValue
+                ? enemyDef.Guid.Value
+                : HashGuid(enemyDef.Stage, enemyDef.X, enemyDef.Y, enemyDef.Z, extra.Condition, extra.SkipCondition);
+#if DEBUG
+            if (!_guids.Add(enemy.Guid))
             {
-                enemy.Guid = enemyDef.Guid.Value;
+                throw new Exception("Guid already used for enemy.");
             }
+#endif
 
             if (enemyDef.Ranged)
             {
@@ -124,11 +134,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private ContextId GetNextContextId()
         {
             return new ContextId(0, 0, _contextIdGroup, _contextIdIndex++);
-        }
-
-        private Guid NextGuid(Rng rng)
-        {
-            return rng.NextGuid();
         }
 
         private static Vector4 RandomRotation(Rng rng)
@@ -226,7 +231,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             SetTransform(scn, newGameObject, new Vector4(position, 1), rotation);
             scn.RemoveGameObject(newGameObject);
             newGameObject = scn.ImportGameObject(newGameObject, parent: parent);
-            newGameObject.Guid = NextGuid(rng);
 
             var contextId = GetNextContextId();
             var spawnParam = CreateComponent(scn, newGameObject, "chainsaw.Ch1c0SpawnParamCommon");
@@ -354,6 +358,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             mat4.m23 = result.M34;
             mat4.m33 = result.M44;
             return mat4;
+        }
+
+        private static Guid HashGuid(params object?[] args) => HashGuid(string.Concat(args));
+        private static Guid HashGuid(string s)
+        {
+            var hash = MD5.HashData(Encoding.ASCII.GetBytes(s));
+            hash[8] = (byte)(0x40 | (hash[8] & 0x0F));
+            return new Guid(hash);
         }
     }
 }
