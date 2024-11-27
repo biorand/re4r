@@ -776,8 +776,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 var userData = fileRepository.DeserializeUserFile<chainsaw.CharacterWeaponDamageRateUserData>(f);
                 var wp4000 = userData._DataList.First(x => x._WeaponID == 4000); // SG
-                var wp4202 = userData._DataList.First(x => x._WeaponID == 4202); // LE5
-                SetEntry(userData, 4201, wp4202);
+                var wp4200 = userData._DataList.First(x => x._WeaponID == 4200); // TMP
+                SetEntry(userData, 4201, wp4200);
                 SetEntry(userData, 6300, wp4000);
                 fileRepository.SerializeUserFile(f, userData);
             }
