@@ -446,6 +446,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
+                Id = $"enemy-strong-mini-boss",
+                Label = "Strong Mini Bosses",
+                Description = "Randomize mini bosses to strong elite enemies. Examples of mini bosses are bella sisters, red zealot with lantern, and garradors.",
+                Type = "switch",
+                Default = false
+            });
+            group.Items.Add(new GroupItem()
+            {
                 Id = $"nice-mendez-hill",
                 Label = "Prevent Toxic Mendez Hill",
                 Description = "Prevent difficult enemies appearing on Mendez Hill. Enable this during your permadeath runs.",

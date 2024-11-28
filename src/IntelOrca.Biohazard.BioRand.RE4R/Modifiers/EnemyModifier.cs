@@ -214,6 +214,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             // Randomize classes
             ChooseClasses(randomizer, spawns, rng);
 
+            if (randomizer.GetConfigOption<bool>("enemy-strong-mini-boss"))
+            {
+                var miniBossGroups = spawns
+                    .Where(x => !string.IsNullOrEmpty(x.MiniBoss))
+                    .GroupBy(x => x.MiniBoss);
+                foreach (var g in miniBossGroups)
+                {
+                    var first = g.First();
+                    foreach (var other in g.Skip(1))
+                    {
+                        other.ChosenClass = first.ChosenClass;
+                    }
+                }
+            }
+
             // Randomize
             area.EnemySpawns = spawns;
             foreach (var spawn in spawns)
@@ -452,6 +467,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var boss = Bosses.GetBoss(spawn.Guid);
             if (boss != null)
                 return 1;
+            if (!string.IsNullOrEmpty(spawn.MiniBoss))
+                return 2;
 
             return spawn.ChosenClass?.Class ?? 6;
         }
@@ -481,6 +498,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     spawn.Horde = restrictionBlock.Horde;
                     spawn.LockWeapon = restrictionBlock.LockWeapon;
                     spawn.PreventDuplicate = restrictionBlock.PreventDuplicate;
+                    spawn.MiniBoss = restrictionBlock.MiniBoss;
 
                     var includedClasses = restrictionBlock.Include;
                     if (includedClasses == null)
@@ -507,9 +525,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             spawn.ClassPool = enemyClasses;
 
-            // Prefer a ranged enemy
-            if (IsEnemyRanged(randomizer, spawn.OriginalEnemy))
+            if (randomizer.GetConfigOption<bool>("enemy-strong-mini-boss") && !string.IsNullOrEmpty(spawn.MiniBoss))
             {
+                // Mini boss should be an elite enemy
+                spawn.PreferredClassPool = spawn.ClassPool
+                    .Where(x => x.Class <= 4)
+                    .ToImmutableArray();
+            }
+            else if (IsEnemyRanged(randomizer, spawn.OriginalEnemy))
+            {
+                // Prefer a ranged enemy
                 spawn.PreferredClassPool = spawn.ClassPool
                     .Where(x => x.Ranged)
                     .ToImmutableArray();
@@ -683,11 +708,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     minHealth = Math.Clamp(minHealth, 1, 100000);
                     maxHealth = Math.Clamp(maxHealth, minHealth, 100000);
 
-                    var range = maxHealth - minHealth;
-                    var wMinHealth = (int)Math.Round(minHealth + (range * windowStart));
-                    var wMaxHealth = (int)Math.Round(minHealth + (range * windowEnd));
+                    if (!string.IsNullOrEmpty(spawn.MiniBoss))
+                    {
+                        enemy.Health = maxHealth * 2;
+                    }
+                    else
+                    {
+                        var range = maxHealth - minHealth;
+                        var wMinHealth = (int)Math.Round(minHealth + (range * windowStart));
+                        var wMaxHealth = (int)Math.Round(minHealth + (range * windowEnd));
 
-                    enemy.Health = rng.Next(wMinHealth, wMaxHealth + 1);
+                        enemy.Health = rng.Next(wMinHealth, wMaxHealth + 1);
+                    }
                     logger.LogLine(spawn.Guid, ecd.Name, enemy.Health);
                 }
                 else if (randomizer.GetConfigOption<bool>("random-enemies"))
@@ -760,7 +792,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 foreach (var enemyClass in classPool)
                 {
                     var ratio = randomizer.GetConfigOption<double>($"enemy-ratio-{enemyClass.Key}");
-                    if (ratio != 0)
+                    if (ratio != 0 && IsEnemySupported(enemyClass))
                     {
                         table.Add(enemyClass, ratio);
                     }
@@ -772,6 +804,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             return table.Next();
+
+            bool IsEnemySupported(EnemyClassDefinition ecd)
+            {
+                if (randomizer.Campaign == Campaign.Leon)
+                    return true;
+
+                var adaNotSupported = new[] {
+                    "colmillos",
+                    "krauser_1",
+                    "krauser_2",
+                    "mendez_2",
+                    "verdugo" };
+                return !adaNotSupported.Contains(ecd.Kind.Key);
+            }
         }
 
         private int GetPackCount(ChainsawRandomizer randomizer, EnemyClassDefinition ecd, Rng rng)

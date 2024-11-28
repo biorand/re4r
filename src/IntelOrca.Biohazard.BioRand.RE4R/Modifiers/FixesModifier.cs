@@ -512,11 +512,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var scn = area.ScnFile;
             foreach (var controllerGuid in controllerGuids)
             {
-                var spawnControllerComponent = scn.FindComponent(controllerGuid, "chainsaw.CharacterSpawnController");
+                var gameObject = scn.FindGameObject(controllerGuid)!;
+                var spawnControllerComponent = gameObject.FindComponent("chainsaw.CharacterSpawnController");
                 if (spawnControllerComponent != null)
                 {
                     var controller = new CharacterSpawnController(spawnControllerComponent);
                     controller.SpawnCondition.Add(scn, new Guid("40807771-38e9-4ec8-a240-d75f4fdff461"));
+                }
+
+                foreach (var child in gameObject.Children)
+                {
+                    var transform = child.FindComponent("via.Transform")!;
+                    var position = transform.Get<Vector4>("v0");
+                    position.X = 152;
+                    transform.Set("v0", position);
                 }
             }
         }

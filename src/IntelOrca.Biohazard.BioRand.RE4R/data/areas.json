@@ -1747,10 +1747,11 @@
       "restrictions": [
         {
           "guids": [
-            "0556d8e2-950e-4a90-a1b6-6745f27d7179",
-            "f93c4e62-0d9e-425e-894d-313fc73c92af"
+            "0556d8e2-950e-4a90-a1b6-6745f27d7179", // bella sister
+            "f93c4e62-0d9e-425e-894d-313fc73c92af" // bella sister
           ],
           "preventDuplicate": true,
+          "miniBoss": "leon-bella-sisters",
           "exclude": [
             "krauser_1",
             "krauser_2",
@@ -2527,6 +2528,7 @@
             "1b9bc5ff-09be-4d1d-a143-38495e3d1830" // first garrador
           ],
           "preventDuplicate": true,
+          "miniBoss": "leon-prison-garrador",
           "exclude": [
             "mendez_chase"
           ]
@@ -2937,6 +2939,8 @@
           "guids": [
             "2076e20c-1813-4f01-bd45-4b191506016a" // red zealot with crimson lantern
           ],
+          "preventDuplicate": true,
+          "miniBoss": "leon-red-zealot-lantern",
           "exclude": [
             "krauser_1",
             "krauser_2",
@@ -3978,10 +3982,11 @@
       "restrictions": [
         {
           "guids": [
-            "3ead6e3d-e86f-4749-bebf-318c147fd5ca",
-            "dc7c6111-38c2-4b14-b54f-ad8ba0f42c9a"
+            "3ead6e3d-e86f-4749-bebf-318c147fd5ca", // garrador (unicorn horn)
+            "dc7c6111-38c2-4b14-b54f-ad8ba0f42c9a" // garrador (unicorn horn)
           ],
           "preventDuplicate": true,
+          "miniBoss": "leon-garradors-unicorn-horn",
           "exclude": [
             "mendez_chase",
             "krauser_1"

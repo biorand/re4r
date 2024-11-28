@@ -859,8 +859,10 @@
         },
         {
           "guids": [
-            "1a4b7f3e-01fe-47b4-a23d-628aa94b5978"
+            "1a4b7f3e-01fe-47b4-a23d-628aa94b5978" // red zealot with moonstone
           ],
+          "preventDuplicate": true,
+          "miniBoss": "ada-maze-red-zealot",
           "exclude": [
             "krauser_1",
             "krauser_2",
@@ -1127,6 +1129,55 @@
       "path": "natives/stm/_anotherorder/leveldesign/location/loc55/level_loc55.scn.20",
       "chapter": 5,
       "restrictions": [
+        {
+          "guids": [
+            "3e656c9e-04f2-4ee7-a56f-34d9d15f607a",
+            "a38d7aac-b586-47d7-8d05-237de875ecbe",
+            "c2d49373-550b-44b5-a739-0bbc6d3257ed"
+          ],
+          "preventDuplicate": true,
+          "miniBoss": "ada-garradors"
+        },
+        {
+          "guids": [
+            "ddf71148-30bd-4253-9d9a-c4824578ea02",
+            "1ce8f3ad-a921-4ba1-90cd-fcfc4e8ec2d0",
+            "195419f1-d7ae-42cc-b630-2adaba227dcd",
+            "e9db6514-bfed-4bcd-88f7-1173146559dd",
+            "e61b20df-7642-4484-97ee-2240ec43bc86",
+            "a3b820c6-fd7d-4b20-a463-9d47aa470ae7",
+            "94e8deb2-93a9-424a-bc06-3e8e3d7e2ebb",
+            "73316891-de14-459f-80f6-8cbc512e7067",
+            "2332599f-3c22-4025-a058-30b87c9e3241",
+            "2de0ac73-bbb7-4205-87af-03b2fbbba772",
+            "49e0b35f-62b3-4812-84db-fd6e55baa976",
+            "c0794572-9269-4fc4-ba6e-cb24c513d394",
+            "0692a9c5-971c-4ef4-964c-bb4cf851b29d",
+            "4c6b7624-1a19-441e-a974-5a92abfdd99d",
+            "729f9500-1517-4fa0-8991-d513dd9956ca",
+            "2503943a-4dc6-471f-8c32-910e550291ec",
+            "7445be02-03d7-4f80-953e-17fc66028178",
+            "5befec8e-c704-469b-b746-4ba5a3d4c59b",
+            "652e874e-2851-45d8-b71f-ac445b5c675d",
+            "5f242a40-e32c-4f18-9fc5-bdaad676a012",
+            "fbc0f3be-677d-4cce-916e-14a7f9e20987",
+            "b8083838-4b90-4638-b656-3e7c23d338de"
+          ],
+          "exclude": [
+            "armadura",
+            "colmillos",
+            "cow",
+            "garrador",
+            "gold-armadura",
+            "mendez_2",
+            "mendez_chase",
+            "pesanta",
+            "pig",
+            "super-colmillos",
+            "u3",
+            "verdugo"
+          ]
+        },
         {
           "guids": [
             "d3c407a9-08cd-416c-b978-cd7c1c9908b3", // u3 (phase 1)

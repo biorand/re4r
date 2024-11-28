@@ -13,6 +13,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public bool Horde { get; set; }
         public bool LockWeapon { get; set; }
         public bool PreventDuplicate { get; set; }
+        public string? MiniBoss { get; set; }
         public ImmutableArray<EnemyClassDefinition> PreferredClassPool { get; set; } = [];
         public ImmutableArray<EnemyClassDefinition> ClassPool { get; set; } = [];
         public EnemyClassDefinition? ChosenClass { get; set; }

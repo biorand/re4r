@@ -887,7 +887,7 @@
       "name": "Brute (JJ)",
       "category": "JJ",
       "ranged": true,
-      "class": 5,
+      "class": 4,
       "minHealth": 5000,
       "maxHealth": 10000,
       "field:_MontageID": 1106175613,
