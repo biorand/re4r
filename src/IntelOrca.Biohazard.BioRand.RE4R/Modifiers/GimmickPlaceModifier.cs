@@ -186,7 +186,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 gmOptionHide.GetList("Rule").Add(stratumBool);
                 paramObject.Components.Add(gmOptionHide);
 
-                if (gimmick.Name == "Biorand_MerchantTorch")
+                if (gimmick.Name!.StartsWith("Biorand_MerchantTorch"))
                 {
                     var objectHide = scn.RSZ!.CreateInstance("chainsaw.ObjectHide");
                     objectHide.Set("v0", (byte)1);
