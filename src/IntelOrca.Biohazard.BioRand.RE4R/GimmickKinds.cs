@@ -17,5 +17,6 @@
         public const string Merchant = "Merchant";
         public const string HidingLocker = "HidingLocker";
         public const string Ladder = "Ladder";
+        public const string HookShot = "HookShot";
     }
 }

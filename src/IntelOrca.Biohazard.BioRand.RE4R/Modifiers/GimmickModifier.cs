@@ -29,9 +29,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            if (randomizer.Campaign != Campaign.Leon)
-                return;
-
             var enableGimmickModification = randomizer.GetConfigOption<bool>("ea-extra-gimmicks");
             var hidingLockers = randomizer.GetConfigOption<double>("gimmicks-hiding-lockers");
             var hidingTraps = randomizer.GetConfigOption<double>("gimmicks-traps");
@@ -356,6 +353,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     "gm84_855_00_0" => GimmickKinds.WoodenBarrel,
                     "gm84_859_00_0" => GimmickKinds.HidingLocker,
                     "gm84_899_00_0" => GimmickKinds.Ladder,
+                    "gm91_300_00_0" => GimmickKinds.HookShot,
                     _ => shorten
                 };
             }

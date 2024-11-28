@@ -14,9 +14,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            if (randomizer.Campaign != Campaign.Leon)
-                return;
-
             var rng = randomizer.CreateRng();
 
             var bawk = randomizer.HasSpecialTouch("bawk");
@@ -30,7 +27,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 : AreaDefinitionRepository.Ada;
             var gimmickPaths = areaRepo.Gimmicks.ToArray();
             var factory = new GimmickFactory(randomizer, gimmickPaths);
-            var placements = GimmickPlacement.GetPlacements();
+            var placements = GimmickPlacement.GetPlacements(randomizer.Campaign);
 
             if (!bawk)
                 placements = placements.RemoveAll(x => x.Kind == "bawk");
@@ -260,9 +257,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 Chapter = string.IsNullOrEmpty(p[9]) ? 0 : ChapterId.FromNumber(Campaign.Leon, int.Parse(p[9]));
             }
 
-            public static ImmutableArray<GimmickPlacement> GetPlacements()
+            public static ImmutableArray<GimmickPlacement> GetPlacements(Campaign campaign)
             {
-                var lines = Encoding.UTF8.GetString(Resources.gimmicks)
+                var gimmicksFile = campaign == Campaign.Leon
+                    ? Resources.gimmicks
+                    : Resources.gimmicks_sw;
+
+                var lines = Encoding.UTF8.GetString(gimmicksFile)
                     .ReplaceLineEndings("\n")
                     .Split("\n");
 

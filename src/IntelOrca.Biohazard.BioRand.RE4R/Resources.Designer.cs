@@ -143,6 +143,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] gimmicks_sw {
+            get {
+                object obj = ResourceManager.GetObject("gimmicks_sw", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] items {
             get {
                 object obj = ResourceManager.GetObject("items", resourceCulture);
