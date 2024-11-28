@@ -60,7 +60,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             FixAddedWeaponNames(randomizer, logger);
             FixEnemyHp(randomizer, rng, logger);
             FixEnemyWeaponDamage(randomizer, logger);
-            FixSmallKeySellable(randomizer, logger);
+            // FixSmallKeySellable(randomizer, logger);
         }
 
         private void ForceNgPlusMerchantLeon(ChainsawRandomizer randomizer, RandomizerLogger logger)
