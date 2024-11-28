@@ -83,5 +83,7 @@
         public const int SWChicagoSweeper = 278197056;
         public const int RocketLauncherInfinite = 276278656;
         public const int RocketLauncher = 276275456;
+        public const int RocketLauncherInfiniteAda = 278213056;
+        public const int RocketLauncherAda = 276277056;
     }
 }

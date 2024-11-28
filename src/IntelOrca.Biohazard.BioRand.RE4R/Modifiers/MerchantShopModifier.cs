@@ -333,6 +333,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 foreach (var item in _availableItems)
                 {
+                    if (item.ItemDefinition.Id == ItemIds.RocketLauncher ||
+                        item.ItemDefinition.Id == ItemIds.RocketLauncherInfinite ||
+                        item.ItemDefinition.Id == ItemIds.RocketLauncherAda ||
+                        item.ItemDefinition.Id == ItemIds.RocketLauncherInfiniteAda)
+                    {
+                        continue;
+                    }
+
                     if (_shopRng.NextProbability(25))
                     {
                         var startChapter = _shopRng.Next(item.UnlockChapter, item.UnlockChapter + 3);
