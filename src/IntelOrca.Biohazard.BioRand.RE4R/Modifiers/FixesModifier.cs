@@ -60,6 +60,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             FixAddedWeaponNames(randomizer, logger);
             FixEnemyHp(randomizer, rng, logger);
             FixEnemyWeaponDamage(randomizer, logger);
+            FixSmallKeySellable(randomizer, logger);
         }
 
         private void ForceNgPlusMerchantLeon(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -862,6 +863,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 else
                     userData._DataList[index] = result;
             }
+        }
+
+        private void FixSmallKeySellable(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            var path = randomizer.Campaign == Campaign.Leon
+                ? "natives/stm/_chainsaw/appsystem/ui/userdata/sellablekeyitemuserdata.user.2"
+                : "natives/stm/_anotherorder/appsystem/ui/userdata/sellablekeyitemuserdata_ao.user.2";
+
+            var fileRepository = randomizer.FileRepository;
+            fileRepository.ModifyUserFile(path, (rsz, root) =>
+            {
+                var list = root.GetArray<RszInstance>("Datas");
+                foreach (var l in list)
+                {
+                    var id = l.Get<int>("ID");
+                    if (id != ItemIds.SmallKey)
+                        continue;
+
+                    l.Set("Sellable[0]._Enable.Matters[0]._Data.Compare", 1);
+                    l.Set("Sellable[0]._Enable.Matters[0]._Data.Chapter", -1);
+                }
+            });
         }
 
         private static readonly int[] _characterKindIds = new int[]

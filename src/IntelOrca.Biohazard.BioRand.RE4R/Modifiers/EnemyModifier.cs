@@ -84,11 +84,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 enemy.Guid,
                 enemy.StageID,
                 enemy.Kind.Key,
+                GetPosition(enemy),
                 enemy.MontageId,
                 weapons,
                 enemy.Health?.ToString() ?? "*",
                 parasite,
                 itemDrop);
+        }
+
+        private static Vector4 GetPosition(Enemy enemy)
+        {
+            var transform = enemy.GameObject.FindComponent("via.Transform")!;
+            return transform.Get<Vector4>("v0");
         }
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)

@@ -7,6 +7,15 @@
       "restrictions": [
         {
           "guids": [
+            "10b3d44e-8143-4afb-83eb-307b21b146eb",
+            "8f1f7715-519f-42dd-80fa-ebab58038d95"
+          ],
+          "exclude": [
+            "mendez_chase"
+          ]
+        },
+        {
+          "guids": [
             // pesanta & phantoms
             "09daf2a1-f3ac-42fd-af68-d7f5bad710d1",
             "33bda65f-fa3a-4385-a2c7-92786d5f0b6f",
@@ -145,6 +154,7 @@
           "skipCondition": "2e7583f9-0162-49c0-a0b2-f9ca1355d17c",
           "enemies": [
             {
+              "guid": "10b3d44e-8143-4afb-83eb-307b21b146eb",
               "direction": 94,
               "small": true,
               "stage": 50500,
@@ -153,6 +163,7 @@
               "z": 38
             },
             {
+              "guid": "8f1f7715-519f-42dd-80fa-ebab58038d95",
               "direction": -83,
               "small": true,
               "stage": 50500,
@@ -542,10 +553,33 @@
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_1/level_cp11_chp3_1.scn.20",
       "chapter": 4,
+      "restrictions": [
+        {
+          "guids": [
+            "af33fe47-7e7e-4fc6-8092-0c2fa6fe83fc", // zealot
+            "1e9ba825-2ee2-49ce-84b9-fa960d3c3c6a", // zealot
+            "c9c9785d-ce65-4fac-aa55-1a9c4ce62987", // zealot
+            "1071e5e5-350d-4206-b09f-b86d1b901798", // zealot
+            "11d8c955-2bcc-45f9-b650-9d649b3b6dd7", // extra enemy
+            "d6f9fc93-fdce-404c-888a-0931543943db", // extra enemy
+            "16f99555-73d6-4259-9d63-981abbee5e4d", // extra enemy
+            "423f087e-9f65-4af2-afc4-aadebbfd546e", // extra enemy
+            "c18dcf57-2e50-4263-83e5-4800ccc1ecde", // extra enemy
+            "c869956c-330d-4db5-a87c-edb096cec4c2", // extra enemy
+            "f2341d12-61a1-4bda-857c-9d1d5ac45ed8", // extra enemy
+            "c0ac5bd9-7d13-42c6-bddb-3d6a6779b4de", // extra enemy
+            "d7b50fdb-c777-4f8e-9c18-e325da09877e" // extra enemy
+          ],
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ],
       "extra": [
         {
           "enemies": [
             {
+              "guid": "11d8c955-2bcc-45f9-b650-9d649b3b6dd7",
               "direction": 8,
               "small": true,
               "stage": 51858,
@@ -554,6 +588,7 @@
               "z": -23
             },
             {
+              "guid": "d6f9fc93-fdce-404c-888a-0931543943db",
               "direction": -123,
               "small": true,
               "stage": 51858,
@@ -564,10 +599,45 @@
           ]
         },
         {
+          // during fire
+          "condition": "9dd89010-ecc1-46a8-813b-2c68f9bab0c7",
+          "skipCondition": "0870aade-e2bf-4b75-bff2-7556d8f09f84",
+          "enemies": [
+            {
+              "guid": "d7b50fdb-c777-4f8e-9c18-e325da09877e",
+              "direction": 87,
+              "small": true,
+              "stage": 51859,
+              "x": -36,
+              "y": 6,
+              "z": -6
+            },
+            {
+              "guid": "c0ac5bd9-7d13-42c6-bddb-3d6a6779b4de",
+              "direction": -87,
+              "small": true,
+              "stage": 51859,
+              "x": -31,
+              "y": 6,
+              "z": -2
+            },
+            {
+              "guid": "f2341d12-61a1-4bda-857c-9d1d5ac45ed8",
+              "direction": 101,
+              "small": true,
+              "stage": 51859,
+              "x": -33,
+              "y": 6,
+              "z": 2
+            }
+          ]
+        },
+        {
           // after fire
           "condition": "0870aade-e2bf-4b75-bff2-7556d8f09f84",
           "enemies": [
             {
+              "guid": "c869956c-330d-4db5-a87c-edb096cec4c2",
               "direction": 7,
               "stage": 51858,
               "x": -41,
@@ -575,6 +645,7 @@
               "z": -21
             },
             {
+              "guid": "c18dcf57-2e50-4263-83e5-4800ccc1ecde",
               "direction": 87,
               "stage": 51858,
               "x": -46,
@@ -582,6 +653,7 @@
               "z": -18
             },
             {
+              "guid": "423f087e-9f65-4af2-afc4-aadebbfd546e",
               "direction": -83,
               "small": true,
               "stage": 51858,
@@ -590,6 +662,7 @@
               "z": -18
             },
             {
+              "guid": "16f99555-73d6-4259-9d63-981abbee5e4d",
               "direction": -74,
               "small": true,
               "stage": 51858,
@@ -886,6 +959,43 @@
             "mendez_chase",
             "pesanta",
             "u3"
+          ]
+        },
+        {
+          "guids": [
+            "053ddc1d-1f18-4424-b81e-bc4bb7315549", // maze zealot spawn
+            "784d9ef9-5bc8-4d9e-bc7d-349897d50e8d", // maze zealot spawn
+            "cd5c20be-9f49-4307-a6be-25efd3c801fb", // maze zealot spawn
+            "b29f2544-6b5b-4de5-a1c6-9fb2342b56f7", // maze zealot spawn
+            "dfd05baf-589b-4ca7-8bee-8c3b79de9fa0", // maze zealot spawn
+            "39cd9d7a-38e6-43ef-8d6b-f9785cc8e116", // maze zealot spawn
+            "cdb438db-4f29-45e8-9d6d-ac6179b389e7", // maze zealot spawn
+            "b8ba5ace-023c-4aff-8f07-7793e365b205", // maze zealot spawn
+            "603136b6-80f4-4776-abbb-776102fa3928", // maze zealot spawn
+            "50838391-c554-4e86-843b-2eb4273e656d", // maze zealot spawn
+            "d5b38a9f-ebd3-4e20-ae46-80066f680390", // maze zealot spawn
+            "3edd46a4-5b11-4364-b317-739af2544483", // maze zealot spawn
+            "8f1f4979-5165-441d-92b0-c291ecb9730f", // maze zealot spawn
+            "b3b2110a-0495-458d-ab75-2fdd87ccde76", // maze zealot spawn
+            "abf6d953-7a4e-461a-a202-3d9738bc1a98", // maze zealot spawn
+            "75b7efc4-9a8b-4f4b-b28f-e27c5c76a02e", // maze zealot spawn
+            "0cecfc21-8870-464d-8496-3992bb2bbaf0", // maze zealot spawn
+            "c1931ba7-c1c2-458f-98a2-01d3f96965de" // maze zealot spawn
+          ],
+          "exclude": [
+            "armadura",
+            "colmillos",
+            "cow",
+            "garrador",
+            "gold-armadura",
+            "mendez_2",
+            "mendez_chase",
+            "novistador",
+            "pesanta",
+            "pig",
+            "super-colmillos",
+            "u3",
+            "verdugo"
           ]
         }
       ]
