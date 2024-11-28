@@ -847,6 +847,23 @@
       "restrictions": [
         {
           "guids": [
+            "a3dca3fa-e58c-464f-aff9-216dba45ffc8", // armadur (cage fight)
+            "4658ba02-8fa0-4dd6-b6a0-36d1bc9363fb", // armadur (cage fight)
+            "c0274662-72b7-4f23-9c3f-ee1d8a5a174a", // armadur (cage fight)
+            "8168407b-a4f3-48fb-a553-39527eaab8ce", // armadur (cage fight)
+            "4a43992c-71b0-4a2e-ba91-9a588716f255", // armadur (cage fight)
+            "025c604b-e2ac-4c15-afc8-166d95a56618", // armadur (cage fight)
+            "052db33d-943f-4749-94c2-5a4947875ec9", // armadur (cage fight)
+            "46e5709d-8522-4502-9552-50d34c51d358", // armadur (cage fight)
+            "b99aba1c-b3f1-4a34-8c93-62e220414ee5", // armadur (cage fight)
+            "1d78466a-5422-4060-951d-77bba8dbd947" // armadura (cage fight)
+          ],
+          "exclude": [
+            "mendez_chase"
+          ]
+        },
+        {
+          "guids": [
             "34ede7c5-f7bb-4cec-acd6-9c563b6197b3", // zealot (crossbow) at cage fight
             "520a78bd-23dd-4f53-81cb-b1ff7ce11af9", // zealot (crossbow) at cage fight
             "ab2fb0c0-d7f3-499c-bbd7-c8ae077f1bbc", // zealot (crossbow) at cage fight
@@ -854,7 +871,7 @@
             "5d27dc30-d263-45e7-8151-9ebe69b3c46c", // zealot (crossbow) at cage fight
             "ac86625f-d7ea-44ab-a05f-4f384397eef6", // zealot (crossbow) at cage fight
             "7a813144-e784-4523-960d-cf05697ef63b", // zealot (crossbow) at cage fight
-            "53212245-0156-4d87-a726-6d2a250f0737"  // zealot (crossbow) at cage fight
+            "53212245-0156-4d87-a726-6d2a250f0737" // zealot (crossbow) at cage fight
           ]
         },
         {

@@ -30,6 +30,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
             }
         }
 
+        public void Clear()
+        {
+            Flags = [];
+        }
+
         public void Add(ScnFile scn, Guid guid)
         {
             Flags = Flags.Add(CheckFlagInfo.Create(scn, guid));

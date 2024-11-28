@@ -115,7 +115,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 foreach (var go in scnFile.IterAllGameObjects(true))
                 {
                     var component = go.Components.FirstOrDefault(x => x.Name.StartsWith("chainsaw.DeadEnemyCounter"));
-                    if (component != null)
+                    if (component != null && component.Get<bool>("_HasCountTargetIDs"))
                     {
                         var targetIds = component.GetFieldValue("_CountTargetIDs") as List<object>;
                         if (targetIds != null)
@@ -437,6 +437,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void ImproveAdaKnightRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+            if (!randomizer.GetConfigOption<bool>("random-enemies"))
+                return;
+
             var area = randomizer.Areas.FirstOrDefault(x => x.FileName == "level_loc51_chp3_1.scn.20");
             if (area == null)
                 return;
@@ -449,36 +452,79 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 var controller = new CharacterSpawnController(spawnControllerComponent);
                 controller.SpawnCondition.Add(scn, new Guid("b9a3aaa9-700c-4e5c-a31f-df66bfbda362"));
+                controller.SpawnSkipCondition.Clear();
+                controller.SpawnSkipCondition.Add(scn, new Guid("84b73ea9-8de6-492d-a479-45f988e06492"));
             }
 
             // Bottom floor (triggered by gold bottle)
-            spawnControllerComponent = scn.FindComponent(new Guid("0d4eea6c-2722-43fd-b887-830fd4c915dd"), "chainsaw.CharacterSpawnWaveController");
-            if (spawnControllerComponent != null)
+            // Transform wave controller to normal controller
             {
-                var controller = new CharacterSpawnController(spawnControllerComponent);
-                controller.SpawnCondition.Add(scn, new Guid("84b73ea9-8de6-492d-a479-45f988e06492"));
-            }
+                // Remove old wave spawn controller
+                var gameObject = scn.FindGameObject(new Guid("0d4eea6c-2722-43fd-b887-830fd4c915dd"))!;
+                var normalTransform = gameObject.FindComponent("via.Transform")!;
+                gameObject.Components.RemoveAt(1);
+                scn.RemoveGameObject(gameObject);
 
-            // There is one enemy that you can't seem to damage,
-            // so disable all no damage flags.
-            var noDamageEnemies = new Guid[]
-            {
-                new Guid("8168407b-a4f3-48fb-a553-39527eaab8ce"),
-                new Guid("4a43992c-71b0-4a2e-ba91-9a588716f255"),
-                new Guid("025c604b-e2ac-4c15-afc8-166d95a56618")
-            };
-            foreach (var guid in noDamageEnemies)
-            {
-                var go = scn.FindGameObject(guid);
-                if (go == null)
-                    continue;
+                // Remove all the enemies
+                var enemies = gameObject.Children.SelectMany(x => x.Children).ToArray();
 
-                var spawn = go.Components.FirstOrDefault(x => x.Name.Contains("SpawnParam"));
-                if (spawn == null)
-                    continue;
+                // Create 3 new controllers
+                var waveFlags = new[]
+                {
+                    new Guid("84b73ea9-8de6-492d-a479-45f988e06492"),
+                    new Guid("d2366665-7671-4ac1-8d94-d4cbc4e2b06e"),
+                    new Guid("1f733c2d-fafd-4eaa-9ef9-e6ea313dff6d"),
+                };
+                var controllerObjects = new List<ScnFile.GameObjectData>();
+                for (var i = 0; i < 3; i++)
+                {
+                    var newGameObject = scn.CreateGameObject($"Biorand_1F_{i}");
+                    controllerObjects.Add(newGameObject);
 
-                var checkFlags = spawn.GetList("_NoDamageCtrlFlag._CheckFlags");
-                checkFlags.Clear();
+                    newGameObject.Components.Add((RszInstance)normalTransform.Clone()!);
+
+                    var controllerComponent = scn.RSZ!.CreateInstance("chainsaw.CharacterSpawnController");
+                    scn.AddComponent(newGameObject, controllerComponent);
+
+                    var controller = new CharacterSpawnController(controllerComponent);
+                    controller.Enabled = true;
+                    controller.Difficulty = 63;
+                    controller.Guid = Guid.NewGuid();
+                    controller.SpawnCondition.Add(scn, waveFlags[i]);
+
+                    for (var j = 0; j < enemies.Length; j++)
+                    {
+                        if ((j % 3) != i)
+                            continue;
+
+                        var e = enemies[j];
+                        newGameObject.Children.Add(e);
+                        e.Parent = newGameObject;
+
+                        // Make sure no damage flag is removed
+                        var spawn = e.Components.FirstOrDefault(x => x.Name.Contains("SpawnParam"));
+                        if (spawn != null)
+                        {
+                            var checkFlags = spawn.GetList("_NoDamageCtrlFlag._CheckFlags");
+                            checkFlags.Clear();
+                        }
+                    }
+                }
+
+                // Change dead enemy counter to check controllers instead of enemy types
+                var deadEnemyCounter = scn.FindComponent(new Guid("0546811f-8274-4dd3-8655-e9bbee0a23d8"), "chainsaw.DeadEnemyCounter")!;
+                deadEnemyCounter.Set("_HasCountTargetIDs", false);
+                deadEnemyCounter.GetList("_CountTargetIDs").Clear();
+                deadEnemyCounter.Set("_HasCountTargetSpawnControllers", true);
+                var lst = deadEnemyCounter.GetList("_CountTargetSpawnControllers");
+                var dataList = deadEnemyCounter.GetArray<RszInstance>("_DataList");
+                var tally = 0;
+                for (var i = 0; i < controllerObjects.Count; i++)
+                {
+                    lst.Add(controllerObjects[i].Guid);
+                    tally += controllerObjects[i].Children.Count;
+                    dataList[i].Set("_Num", tally);
+                }
             }
 
             // Remove the tsuitates (since they don't break if we switch out the armaduras)

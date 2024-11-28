@@ -193,7 +193,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             return new Modifier[]
             {
-                new FixesModifier(),
                 new InventoryModifier(),
                 new RecipeModifier(),
                 new MerchantShopModifier(),
@@ -204,6 +203,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 new LevelItemModifier(),
                 new EnemyPlaceModifier(),
                 new EnemyModifier(),
+                new FixesModifier(),
             }.ToImmutableArray();
         }
 
