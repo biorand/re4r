@@ -11,6 +11,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         private readonly HashSet<int> _placedItemIds = new HashSet<int>();
         private readonly bool _allowBonusItems;
         private readonly bool _allowDlcItems;
+        private readonly bool _allowMercenariesItems;
         private readonly Dictionary<RandomItemSettings, EndlessBag<string>> _generalDrops = new();
         private Rng.Table<string?>? _treasureProbabilityTable;
         private readonly HashSet<int> _throwAway = new HashSet<int>();
@@ -27,6 +28,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             _logger = logger;
             _allowBonusItems = randomizer.GetConfigOption<bool>("allow-bonus-items");
             _allowDlcItems = randomizer.GetConfigOption<bool>("allow-dlc-items");
+            _allowMercenariesItems = randomizer.GetConfigOption<bool>("allow-mercenaries-items");
         }
 
         private void ExcludeSomeWeapons(Rng rng)
@@ -134,6 +136,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 return _allowBonusItems;
             if (itemDefinition.Dlc)
                 return _allowDlcItems;
+            if (_randomizer.Campaign != Campaign.Ada &&
+                (itemDefinition.Id == ItemIds.SWSawedOffW870 ||
+                 itemDefinition.Id == ItemIds.XM96E1))
+            {
+                return _allowMercenariesItems;
+            }
             return true;
         }
 

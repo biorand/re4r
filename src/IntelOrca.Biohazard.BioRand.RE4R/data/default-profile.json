@@ -2,6 +2,7 @@
   "enable-autosave-pro": false,
   "allow-bonus-items": false,
   "allow-dlc-items": false,
+  "allow-mercenaries-items": true,
   "early-case-drops": true,
   "automatic-bolt-thrower": true,
   "valuable-limit-charm": 8,

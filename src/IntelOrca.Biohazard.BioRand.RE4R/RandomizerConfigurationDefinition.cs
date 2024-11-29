@@ -38,6 +38,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
+                Id = $"allow-mercenaries-items",
+                Label = "Allow Mercenaries Weapons",
+                Description = "Let Biorand include the Mercenaries weapons (Sawed-off W-870, XM96E1) in the pool. You must have Mercenaries installed and enabled.",
+                Type = "switch",
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
                 Id = $"early-case-drops",
                 Label = "Front-loaded case drops",
                 Description = "Larger case upgrades are guaranteed to be available by certain chapters. If disabled, you may find larger case upgrades are not available until the second half of the game.",
