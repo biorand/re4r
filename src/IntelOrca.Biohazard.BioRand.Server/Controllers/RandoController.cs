@@ -112,6 +112,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             {
                 rando.Id,
                 rando.UserId,
+                rando.UserRole,
                 rando.UserName,
                 UserAvatarUrl = GetAvatarUrl(rando.UserEmail ?? ""),
                 Created = rando.Created.ToUnixTimeSeconds(),
@@ -186,7 +187,14 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         private void SetPersonalConfig(UserDbModel user, RandomizerConfiguration config)
         {
             // Separate ways early access
-            config["separate-ways"] = user.Role == UserRoleKind.Tester || user.Role == UserRoleKind.Administrator;
+            var allowed = new[]
+            {
+                UserRoleKind.Patron,
+                UserRoleKind.LongTermSupporter,
+                UserRoleKind.Tester,
+                UserRoleKind.Administrator
+            };
+            config["separate-ways"] = allowed.Contains(user.Role);
 
             var specials = new List<string>();
             if (user.NameLowerCase == "bawkbasoup")

@@ -88,7 +88,8 @@ export enum UserRole {
     Tester,
     Patron,
     Administrator,
-    System
+    System,
+    LongTermSupporter,
 }
 
 export interface ProfileQueryOptions {
@@ -188,6 +189,7 @@ export interface RandoHistoryItem {
     id: number;
     created: number;
     userId: number;
+    userRole: UserRole;
     userName: string;
     userAvatarUrl: string;
     profileId: number;

@@ -12,6 +12,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var page = configDefinition.CreatePage("General");
             var group = page.CreateGroup("");
+            group.Warning = "Separate Ways is currently in early access and restricted to patrons. For more information, view your account page.";
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"separate-ways",
+                Label = "Randomize Separate Ways",
+                Description = "Randomize Separate Ways (Ada) scenario as well as the main game (Leon).",
+                Type = "switch",
+                Default = false
+            });
             group.Items.Add(new GroupItem()
             {
                 Id = $"enable-autosave-pro",

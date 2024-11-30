@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.Server.Models;
 using Microsoft.AspNetCore.Http;
@@ -88,9 +89,9 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             var newRole = originalRole;
             var twitchRole = await GetRoleKindFromTwitchAsync(user);
             var kofiRole = await GetRoleKindFromKofiAsync(user);
-            if (twitchRole > newRole)
+            if (IsRoleBetterThan(twitchRole, newRole))
                 newRole = twitchRole;
-            if (kofiRole > newRole)
+            if (IsRoleBetterThan(kofiRole, newRole))
                 newRole = kofiRole;
 
             if (newRole != originalRole)
@@ -142,6 +143,13 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 }
             }
             user.KofiMember = false;
+
+            var totalDonated = kofis.Sum(x => x.Price);
+            if (totalDonated >= 15)
+            {
+                return UserRoleKind.LongTermSupporter;
+            }
+
             return role;
         }
 
@@ -150,5 +158,24 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             var user = await GetAuthorizedUserAsync(minimumRole);
             return user != null;
         }
+
+        private static bool IsRoleBetterThan(UserRoleKind a, UserRoleKind b)
+        {
+            var rankA = Array.IndexOf(g_rolePriority, a);
+            var rankB = Array.IndexOf(g_rolePriority, b);
+            return rankA > rankB;
+        }
+
+        private static readonly UserRoleKind[] g_rolePriority = [
+            UserRoleKind.Pending,
+            UserRoleKind.PendingStandard,
+            UserRoleKind.Banned,
+            UserRoleKind.Standard,
+            UserRoleKind.LongTermSupporter,
+            UserRoleKind.Patron,
+            UserRoleKind.Tester,
+            UserRoleKind.Administrator,
+            UserRoleKind.System,
+        ];
     }
 }

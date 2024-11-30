@@ -411,6 +411,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         {
             var q = @"
                 SELECT r.*,
+                       u.Role as UserRole,
                        u.Name as UserName,
                        u.Email as UserEmail,
                        p.Id as ProfileId,
@@ -446,6 +447,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         {
             var q = BuildQuery<ExtendedRandoDbModel>(@"
                 SELECT r.*,
+                       u.Role as UserRole,
                        u.Name as UserName,
                        u.Email as UserEmail,
                        p.Id as ProfileId,
@@ -470,6 +472,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         {
             var q = BuildQuery<ExtendedRandoDbModel>(@"
                 SELECT r.*,
+                       u.Role as UserRole,
                        u.Name as UserName,
                        u.Email as UserEmail,
                        p.Id as ProfileId,
@@ -756,6 +759,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         public class ExtendedRandoDbModel : RandoDbModel
         {
+            public UserRoleKind UserRole { get; set; }
             public string? UserName { get; set; }
             public string? UserEmail { get; set; }
             public int ProfileId { get; set; }

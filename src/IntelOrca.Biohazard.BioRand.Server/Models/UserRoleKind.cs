@@ -9,6 +9,7 @@
         Tester,
         Patron,
         Administrator,
-        System
+        System,
+        LongTermSupporter,
     }
 }

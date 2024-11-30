@@ -6,6 +6,7 @@
     import { UserProfileManager } from '$lib/UserProfileManager';
     import {
         getApi,
+        UserRole,
         type RandoHistoryItem,
         type RandoHistoryQueryOptions,
         type RandoHistoryResult
@@ -85,6 +86,19 @@
     function getSearchUrl(query: { [key: string]: any }) {
         return buildUrl('history', query);
     }
+
+    function getNameColor(role: UserRole) {
+        switch (role) {
+            case UserRole.Patron:
+            case UserRole.LongTermSupporter:
+                return 'text-green-700 hover:text-green-500 dark:text-yellow-400 dark:hover:text-yellow-300';
+            case UserRole.Tester:
+            case UserRole.Administrator:
+                return 'text-red-800 hover:text-red-700 dark:text-red-400 dark:hover:text-red-200';
+            default:
+                return 'text-blue-800 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300';
+        }
+    }
 </script>
 
 <svelte:head>
@@ -113,7 +127,7 @@
                         </div>
                         <div>
                             <a
-                                class="text-blue-800 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+                                class={getNameColor(item.userRole)}
                                 href="/history?user={item.userName}">{item.userName}</a
                             >
                         </div>

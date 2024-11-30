@@ -16,8 +16,9 @@
     function shouldShowBanner(role: UserRole | undefined) {
         switch (role) {
             case UserRole.Standard:
-            case UserRole.Tester:
             case UserRole.Patron:
+            case UserRole.LongTermSupporter:
+            case UserRole.Tester:
             case UserRole.Administrator:
                 return false;
             default:

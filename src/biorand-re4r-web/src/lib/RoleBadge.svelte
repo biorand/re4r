@@ -11,10 +11,11 @@
         ['Standard (pending)', 'pink'],
         ['Banned', 'red'],
         ['Standard', 'yellow'],
-        ['Tester', 'yellow'],
         ['Patron', 'green'],
+        ['Tester', 'yellow'],
         ['Administrator', 'blue'],
-        ['System', 'blue']
+        ['System', 'blue'],
+        ['Long Term Supporter', 'green']
     ];
     $: roleName = roles[role][0];
     $: roleColor = roles[role][1] as any;

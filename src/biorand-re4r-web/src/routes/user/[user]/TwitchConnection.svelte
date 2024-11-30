@@ -69,8 +69,8 @@
                             target="_blank">IntelOrca</a
                         > by subscribing on Twitch.
                     </li>
-                    <li>Green patron badge next to your name</li>
-                    <li>Exclusive access to preview functionality</li>
+                    <li>Highlighted user name on website.</li>
+                    <li>Early access to Separate Ways randomizer.</li>
                 </ul>
             </Alert>
         {/if}
@@ -96,16 +96,9 @@
         <ul class="mt-1.5 ms-4 list-disc list-inside">
             <li>Advertise when you are live and playing BioRand.</li>
             <li>Use your Twitch profile picture as your avatar.</li>
+            <li>Highlighted user name on website.</li>
             <li>
-                Instant access to the randomizer if subscribed to
-                <a
-                    class="font-medium text-blue-400 hover:text-blue-300"
-                    href="https://twitch.tv/intelorca"
-                    target="_blank">IntelOrca</a
-                >.
-            </li>
-            <li>
-                Exclusive access to preview functionality if subscribed to
+                Early access to Separate Ways randomizer if subscribed to
                 <a
                     class="font-medium text-blue-400 hover:text-blue-300"
                     href="https://twitch.tv/intelorca"

@@ -36,8 +36,8 @@
                         target="_blank">IntelOrca</a
                     > on Ko-fi.
                 </li>
-                <li>Green patron badge next to your name</li>
-                <li>Exclusive access to preview functionality</li>
+                <li>Highlighted user name on website.</li>
+                <li>Early access to Separate Ways randomizer.</li>
             </ul>
         {/if}
     </Alert>
