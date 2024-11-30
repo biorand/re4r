@@ -82,15 +82,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var numCharms = randomizer.GetConfigOption("valuable-limit-charm", 0);
             var numSmallKeysPerBag = 6;
 
-            var bag4 = new EndlessBag<int>(rng, Enumerable.Range(1, 4));
-            var bag5_11 = new EndlessBag<int>(rng, Enumerable.Range(5, 7));
-            var bag14 = new EndlessBag<int>(rng, Enumerable.Range(1, 14));
+            var bagEarly = new EndlessBag<int>(rng, [1, 2, 3, 4]);
+            var bagMiddle = new EndlessBag<int>(rng, [5, 6, 7, 8, 9, 10, 11]);
+            var bagMiddleLate = new EndlessBag<int>(rng, [5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+            var bagAll = new EndlessBag<int>(rng, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
             if (randomizer.Campaign == Campaign.Ada)
             {
                 numSmallKeysPerBag = 3;
-                bag4 = new EndlessBag<int>(rng, [1, 2, 3]);
-                bag5_11 = new EndlessBag<int>(rng, [4, 5]);
-                bag14 = new EndlessBag<int>(rng, Enumerable.Range(1, 7));
+                bagEarly = new EndlessBag<int>(rng, [1, 2, 3]);
+                bagMiddle = new EndlessBag<int>(rng, [4, 5]);
+                bagMiddleLate = new EndlessBag<int>(rng, [4, 5, 6, 7]);
+                bagAll = new EndlessBag<int>(rng, [1, 2, 3, 4, 5, 6, 7]);
             }
 
             foreach (var kind in _kinds)
@@ -100,11 +102,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     var itemDefinition = ItemDefinitionRepository.Default.Find(ItemIds.SmallKey);
                     for (var i = 0; i < numSmallKeysPerBag; i++)
                     {
-                        AddItem(bag4.Next(), itemDefinition);
+                        AddItem(bagEarly.Next(), itemDefinition);
                     }
                     for (var i = 0; i < numSmallKeysPerBag; i++)
                     {
-                        AddItem(bag5_11.Next(), itemDefinition);
+                        AddItem(bagMiddle.Next(), itemDefinition);
                     }
                 }
                 else if (kind == ItemKinds.CaseSize)
@@ -141,14 +143,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     var count = 0;
                     while (itemRandomizer.GetRandomItemDefinition(rng, kind, allowReoccurance: false) is ItemDefinition itemDefinition)
                     {
-                        var isEssential =
-                            itemDefinition.Id == ItemIds.BiosensorScope ||
-                            itemDefinition.Id == ItemIds.RecipeBolts1Ammo ||
-                            itemDefinition.Id == ItemIds.RecipeMinesAmmo ||
-                            itemDefinition.Id == ItemIds.RecipeFlashGrenade;
-                        var chapter = isEssential
-                            ? bag4.Next() // Ensure we get essential items before cabin (or castle for SW)
-                            : bag14.Next();
+                        // Ensure we get essential items before cabin (or castle for SW)
+                        var chapter = itemDefinition.Id switch
+                        {
+                            ItemIds.BiosensorScope => bagEarly.Next(),
+                            ItemIds.RecipeBolts1Ammo => bagEarly.Next(),
+                            ItemIds.RecipeMinesAmmo => bagEarly.Next(),
+                            ItemIds.RecipeFlashGrenade => bagEarly.Next(),
+                            ItemIds.RecipeMagnumAmmo =>
+                                randomizer.Campaign == Campaign.Leon
+                                    ? bagAll.Next()
+                                    : bagMiddleLate.Next(),
+                            _ => bagAll.Next()
+                        };
 
                         AddItem(chapter, itemDefinition);
 
