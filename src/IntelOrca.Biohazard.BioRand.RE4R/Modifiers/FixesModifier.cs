@@ -39,6 +39,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     ImproveBellTriggeredEnemies(randomizer, logger);
                     ImproveAdaKnightRoom(randomizer, logger);
+                    ImproveAdaMaze(randomizer, rng, logger);
                     ImproveAdaGarradorRoom(randomizer, logger);
                 }
             }
@@ -543,6 +544,54 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 scn2.RemoveGameObject(new Guid("ace7c27b-1cf1-4bb7-bb68-798101d596ef"));
                 scn2.RemoveGameObject(new Guid("9c389ab6-c2b3-488e-b9a9-304ef4831d59"));
             });
+        }
+
+        private void ImproveAdaMaze(ChainsawRandomizer randomizer, Rng rng, RandomizerLogger logger)
+        {
+            if (!randomizer.GetConfigOption<bool>("random-enemies"))
+                return;
+
+            var area = randomizer.Areas.FirstOrDefault(x => x.FileName == "level_loc51_chp3_1.scn.20");
+            if (area == null)
+                return;
+
+            var keyHolderGuid = new Guid("1a4b7f3e-01fe-47b4-a23d-628aa94b5978");
+            var keyHolder = area.Enemies.FirstOrDefault(x => x.Guid == keyHolderGuid);
+            if (keyHolder != null)
+            {
+                const int KindNone = 0;
+                const int KindAny = 1;
+                const int KindSmall = 1;
+                var positions = new[]
+                {
+                    (KindNone, 0, 0, 0, 0),
+                    (KindAny, 86, 27, 18, -88),
+                    (KindAny, 54, 21, 36, -179),
+                    (KindAny, 62, 21, 47, 92),
+                    (KindAny, 82, 21, 42, -159),
+                    (KindAny, 82, 21, 48, 5),
+                    (KindAny, 66, 21, 32, 114),
+                    (KindAny, 85, 21, 22, -123),
+                    (KindSmall, 92, 21, 30, 4),
+                    (KindSmall, 73, 21, 28, -172),
+                    (KindSmall, 47, 21, 55, -72),
+                    (KindSmall, 57, 24, 36, 89),
+                    (KindSmall, 72, 21, 44, -88),
+                    (KindSmall, 72, 21, 37, -86)
+                };
+                var largeEnemies = new[] { "mendez_chase", "verdugo", "mendez_2", "krauser_2", "pesanta", "u3", "garrador" };
+                if (largeEnemies.Contains(keyHolder.Kind.Key))
+                {
+                    positions = positions.Where(x => x.Item1 != KindSmall).ToArray();
+                }
+                var (kind, x, y, z, d) = rng.NextOf(positions);
+                if (kind != KindNone)
+                {
+                    var transform = new Transform(keyHolder.GameObject);
+                    transform.Position = new Vector3(x, y, z);
+                    transform.Eular = new EulerAngles(d, 0, 0);
+                }
+            }
         }
 
         private void ImproveAdaGarradorRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
 {
-    public static class NumericExtensions
+    internal static class NumericExtensions
     {
         public static int RoundPrice(this double value)
         {
@@ -20,21 +19,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
             return (int)value;
         }
 
-        public static Vector3 ToEuler(this Quaternion rotation)
-        {
-            var x = rotation.X;
-            var y = rotation.Y;
-            var z = rotation.Z;
-            var w = rotation.W;
-            var yaw = MathF.Atan2(2 * (y * w + x * z), 1 - 2 * (y * y + z * z));
-            var pitch = MathF.Asin(2 * (y * z - x * w));
-            var roll = MathF.Atan2(2 * (x * y + z * w), 1 - 2 * (x * x + y * y));
-            var yawDegrees = RadToDeg(yaw);
-            var pitchDegrees = RadToDeg(pitch);
-            var rollDegrees = RadToDeg(roll);
-            return new Vector3(yawDegrees, pitchDegrees, rollDegrees);
-
-            static float RadToDeg(float radians) => radians * (180f / MathF.PI);
-        }
+        public static Vector3 ToVector3(this Vector4 v) => new(v.X, v.Y, v.Z);
+        public static Vector4 ToVector4(this Quaternion q) => new(q.X, q.Y, q.Z, q.W);
+        public static Quaternion ToQuaternion(this Vector4 v) => new(v.X, v.Y, v.Z, v.W);
+        public static EulerAngles ToEuler(this Quaternion q) => new(q);
     }
 }

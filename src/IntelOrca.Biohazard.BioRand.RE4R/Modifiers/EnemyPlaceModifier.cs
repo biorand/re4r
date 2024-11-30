@@ -83,7 +83,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var position = new Vector3(enemyDef.X, enemyDef.Y, enemyDef.Z);
             var rotation = enemyDef.Direction == 0
                 ? RandomRotation(rng)
-                : RotationToQuaternion(enemyDef.Direction, 0, 0);
+                : new EulerAngles(enemyDef.Direction, 0, 0);
             var enemy = CreateEnemy(scn, spawnController, "BioRandEnemy", enemyDef.Stage, position, rotation, enemyDef.FindPlayer, rng, logger);
             enemy.Guid = enemyDef.Guid.HasValue
                 ? enemyDef.Guid.Value
@@ -136,10 +136,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return new ContextId(0, 0, _contextIdGroup, _contextIdIndex++);
         }
 
-        private static Vector4 RandomRotation(Rng rng)
+        private static EulerAngles RandomRotation(Rng rng)
         {
             var angle = (float)rng.NextDouble(-180, 180);
-            return RotationToQuaternion(angle, 0, 0);
+            return new EulerAngles(angle, 0, 0);
         }
 
         private static RszInstance CreateCheckFlag(ScnFile scn, Guid guid)
@@ -157,7 +157,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 Path = "_Chainsaw/AppSystem/Prefab/CharacterSpawnController.pfb"
             };
-            SetTransform(scn, newGameObject, Vector4.Zero);
+            SetTransform(scn, newGameObject, Vector3.Zero);
 
             var characterSpawnControllerComponent = CreateComponent(scn, newGameObject, "chainsaw.CharacterSpawnController");
             characterSpawnControllerComponent.Set("v0", (byte)1);
@@ -173,7 +173,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 Path = "_Chainsaw/AppSystem/Prefab/CharacterSpawnPointController.pfb"
             };
-            SetTransform(scn, newGameObject, Vector4.Zero);
+            SetTransform(scn, newGameObject, Vector3.Zero);
 
             var characterSpawnControllerComponent = CreateComponent(scn, newGameObject, "chainsaw.CharacterSpawnPointController");
             characterSpawnControllerComponent.Set("v0", (byte)1);
@@ -221,14 +221,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private ScnFile.GameObjectData CreateEnemy(ScnFile scn, ScnFile.GameObjectData parent, string name, int stageId, Vector3 position, Vector4 rotation, bool findPlayer, Rng rng, RandomizerLogger logger)
+        private ScnFile.GameObjectData CreateEnemy(ScnFile scn, ScnFile.GameObjectData parent, string name, int stageId, Vector3 position, EulerAngles rotation, bool findPlayer, Rng rng, RandomizerLogger logger)
         {
             var newGameObject = scn.CreateGameObject(name);
             newGameObject.Prefab = new ScnFile.PrefabInfo()
             {
                 Path = "_Chainsaw/AppSystem/Prefab/ch1c0SpawnParam.pfb"
             };
-            SetTransform(scn, newGameObject, new Vector4(position, 1), rotation);
+            SetTransform(scn, newGameObject, position, rotation);
             scn.RemoveGameObject(newGameObject);
             newGameObject = scn.ImportGameObject(newGameObject, parent: parent);
 
@@ -255,12 +255,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return newGameObject;
         }
 
-        private static void SetTransform(ScnFile scn, ScnFile.GameObjectData gameObject, Vector4 position, Vector4? rotation = null)
+        private static void SetTransform(ScnFile scn, ScnFile.GameObjectData gameObject, Vector3 position, EulerAngles? eular = null)
         {
-            var transformComponent = GetOrCreateComponent(scn, gameObject, "via.Transform");
-            transformComponent!.Set("v0", position);
-            transformComponent!.Set("v1", rotation ?? new Vector4(0, 0, 0, 1));
-            transformComponent!.Set("v2", new Vector4(1, 1, 1, 0));
+            var transform = new Transform(GetOrCreateComponent(scn, gameObject, "via.Transform"));
+            transform.Position = position;
+            transform.Eular = eular ?? new EulerAngles();
+            transform.Scale = Vector3.One;
         }
 
         private static RszInstance CreateComponent(ScnFile scn, ScnFile.GameObjectData gameObject, string className)
@@ -280,64 +280,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return component;
         }
 
-        private static Vector4 RotationToQuaternion(float yaw, float pitch, float roll)
-        {
-            return RotationToQuaternion(new Vector3(yaw, pitch, roll));
-        }
-
-        private static Vector4 RotationToQuaternion(Vector3 euler)
-        {
-            // Convert degrees to radians
-            var yawRad = MathF.PI * euler.Z / 180;
-            var pitchRad = MathF.PI * euler.X / 180;
-            var rollRad = MathF.PI * euler.Y / 180;
-
-            // Calculate half angles
-            var halfYaw = yawRad * 0.5f;
-            var halfPitch = pitchRad * 0.5f;
-            var halfRoll = rollRad * 0.5f;
-
-            // Calculate the sine and cosine of the half angles
-            var cy = MathF.Cos(halfYaw);
-            var sy = MathF.Sin(halfYaw);
-            var cp = MathF.Cos(halfPitch);
-            var sp = MathF.Sin(halfPitch);
-            var cr = MathF.Cos(halfRoll);
-            var sr = MathF.Sin(halfRoll);
-
-            // Calculate the quaternion components
-            var w = cr * cp * cy + sr * sp * sy;
-            var x = sr * cp * cy - cr * sp * sy;
-            var y = cr * sp * cy + sr * cp * sy;
-            var z = cr * cp * sy - sr * sp * cy;
-
-            return new Vector4(x, y, z, w);
-        }
-
-        public static Vector3 QuaternionToEulerDegrees(Vector4 rotation)
-        {
-            var x = rotation.X;
-            var y = rotation.Y;
-            var z = rotation.Z;
-            var w = rotation.W;
-
-            var yaw = (float)Math.Atan2(2 * (y * w + x * z), 1 - 2 * (y * y + z * z));
-            var pitch = (float)Math.Asin(2 * (y * z - x * w));
-            var roll = (float)Math.Atan2(2 * (x * y + z * w), 1 - 2 * (x * x + y * y));
-
-            var yawDegrees = RadToDeg(yaw);
-            var pitchDegrees = RadToDeg(pitch);
-            var rollDegrees = RadToDeg(roll);
-
-            return new Vector3(yawDegrees, pitchDegrees, rollDegrees);
-
-            static float RadToDeg(float radians) => radians * (180 / MathF.PI);
-        }
-
         private static RszTool.via.mat4 CreateMatrix(Vector3 position, float direction)
         {
             var translate = Matrix4x4.CreateTranslation(position);
-            var rotation = Matrix4x4.CreateFromYawPitchRoll(direction, 0, 0);
+            var rotation = Matrix4x4.CreateFromYawPitchRoll(direction * MathF.PI / 180.0f, 0, 0);
             var result = rotation * translate;
 
             var mat4 = new RszTool.via.mat4();

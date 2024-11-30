@@ -116,10 +116,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var gimmickCore = gimmick.FindComponent("chainsaw.GimmickCore")!;
                 contextId.CopyTo(gimmickCore.Get<RszInstance>("_ID")!);
 
-                var gimmickTransform = gimmick.FindComponent("via.Transform")!;
-                gimmickTransform.Set("v0", new Vector4(placement.Position, 1));
-                gimmickTransform.Set("v1", CreateRotation(placement.Rotation));
-                gimmickTransform.Set("v2", new Vector4(1, 1, 1, 0));
+                var gimmickTransform = new Transform(gimmick);
+                gimmickTransform.Position = placement.Position;
+                gimmickTransform.Eular = placement.Eular;
+                gimmickTransform.Scale = Vector3.One;
 
                 AddCondition(filePair.Scene, gimmick, placement);
 
@@ -236,7 +236,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public string Kind { get; }
             public int Stage { get; }
             public Vector3 Position { get; }
-            public Vector3 Rotation { get; }
+            public EulerAngles Eular { get; }
             public string Condition { get; }
             public int Chapter { get; }
 
@@ -249,7 +249,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     float.Parse(p[2]),
                     float.Parse(p[3]),
                     float.Parse(p[4]));
-                Rotation = new Vector3(
+                Eular = new EulerAngles(
                     float.Parse(p[5]),
                     float.Parse(p[6]),
                     float.Parse(p[7]));

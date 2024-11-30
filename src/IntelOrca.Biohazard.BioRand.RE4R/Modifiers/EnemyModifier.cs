@@ -84,7 +84,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 enemy.Guid,
                 enemy.StageID,
                 enemy.Kind.Key,
-                GetPosition(enemy),
+                // GetPosition(enemy),
                 enemy.MontageId,
                 weapons,
                 enemy.Health?.ToString() ?? "*",

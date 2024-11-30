@@ -800,6 +800,7 @@
         },
         {
           // before maze
+          "skipCondition": "a7dc5ebc-953e-42bc-9cc3-7db267316230",
           "enemies": [
             {
               "direction": -139,
@@ -839,7 +840,150 @@
           ]
         },
         {
+          // after the maze key holder cutscene
+          "condition": "a7dc5ebc-953e-42bc-9cc3-7db267316230",
+          "enemies": [
+            {
+              "direction": -85,
+              "stage": 51200,
+              "x": 86,
+              "y": 27,
+              "z": 18,
+              "findPlayer": true
+            },
+            {
+              "direction": 4,
+              "stage": 51200,
+              "x": 61,
+              "y": 25,
+              "z": 19,
+              "findPlayer": true
+            },
+            {
+              "direction": 2,
+              "small": true,
+              "stage": 51200,
+              "x": 46,
+              "y": 25,
+              "z": 26,
+              "findPlayer": true
+            },
+            {
+              "direction": 92,
+              "stage": 51200,
+              "x": 45,
+              "y": 21,
+              "z": 40,
+              "findPlayer": true
+            },
+            {
+              "direction": -178,
+              "small": true,
+              "stage": 51200,
+              "x": 54,
+              "y": 21,
+              "z": 36,
+              "findPlayer": true
+            },
+            {
+              "direction": 5,
+              "stage": 51200,
+              "x": 56,
+              "y": 21,
+              "z": 50,
+              "findPlayer": true
+            },
+            {
+              "direction": 5,
+              "small": true,
+              "stage": 51200,
+              "x": 51,
+              "y": 25,
+              "z": 36,
+              "findPlayer": true
+            },
+            {
+              "direction": -88,
+              "small": true,
+              "stage": 51200,
+              "x": 78,
+              "y": 21,
+              "z": 48,
+              "findPlayer": true
+            },
+            {
+              "direction": 81,
+              "stage": 51200,
+              "x": 84,
+              "y": 21,
+              "z": 22,
+              "findPlayer": true
+            },
+            {
+              "direction": -89,
+              "small": true,
+              "stage": 51200,
+              "x": 83,
+              "y": 21,
+              "z": 28,
+              "findPlayer": true
+            },
+            {
+              "direction": 1,
+              "small": true,
+              "stage": 51200,
+              "x": 86,
+              "y": 21,
+              "z": 32,
+              "findPlayer": true
+            },
+            {
+              "direction": 167,
+              "stage": 51200,
+              "x": 85,
+              "y": 21,
+              "z": 51
+            },
+            {
+              "direction": -137,
+              "small": true,
+              "stage": 51200,
+              "x": 47,
+              "y": 21,
+              "z": 55,
+              "findPlayer": true
+            },
+            {
+              "direction": -89,
+              "small": true,
+              "stage": 51301,
+              "x": 73,
+              "y": 24,
+              "z": 40,
+              "findPlayer": true
+            },
+            {
+              "direction": 3,
+              "small": true,
+              "stage": 51200,
+              "x": 61,
+              "y": 21,
+              "z": 26,
+              "findPlayer": true
+            },
+            {
+              "direction": 165,
+              "stage": 51200,
+              "x": 68,
+              "y": 21,
+              "z": 31,
+              "findPlayer": true
+            }
+          ]
+        },
+        {
           // after the maze
+          "condition": "9accaa46-2d7c-4b2a-a110-559657390c75",
           "enemies": [
             {
               "direction": 2,
@@ -881,6 +1025,7 @@
         },
         {
           // embattlements
+          "condition": "9accaa46-2d7c-4b2a-a110-559657390c75",
           "enemies": [
             {
               "direction": -5,
