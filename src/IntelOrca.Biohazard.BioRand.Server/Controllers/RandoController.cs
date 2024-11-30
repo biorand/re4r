@@ -194,7 +194,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 UserRoleKind.Tester,
                 UserRoleKind.Administrator
             };
-            config["separate-ways"] = allowed.Contains(user.Role);
+            if (config.GetValueOrDefault<bool>("separate-ways"))
+            {
+                config["separate-ways"] = allowed.Contains(user.Role);
+            }
 
             var specials = new List<string>();
             if (user.NameLowerCase == "bawkbasoup")
