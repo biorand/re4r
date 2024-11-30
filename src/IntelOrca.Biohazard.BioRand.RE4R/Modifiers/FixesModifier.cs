@@ -514,6 +514,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 // Change dead enemy counter to check controllers instead of enemy types
                 var deadEnemyCounter = scn.FindComponent(new Guid("0546811f-8274-4dd3-8655-e9bbee0a23d8"), "chainsaw.DeadEnemyCounter")!;
+                deadEnemyCounter.Set("_HasStartFlag", false);
+                deadEnemyCounter.Set("_StartFlag", Guid.Empty);
                 deadEnemyCounter.Set("_HasCountTargetIDs", false);
                 deadEnemyCounter.GetList("_CountTargetIDs").Clear();
                 deadEnemyCounter.Set("_HasCountTargetSpawnControllers", true);
@@ -524,7 +526,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     lst.Add(controllerObjects[i].Guid);
                     tally += controllerObjects[i].Children.Count;
-                    dataList[i].Set("_Num", tally);
+                    dataList[i].Set("_Num", tally - 1);
                 }
             }
 
