@@ -95,7 +95,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     logger.Pop();
             }
 
-            int GetChapterNumber(int chapter) => randomizer.Campaign == Campaign.Ada ? chapter - 16 : chapter + 1;
+            int GetChapterNumber(int chapter)
+            {
+                if (randomizer.Campaign == Campaign.Ada)
+                {
+                    return chapter switch
+                    {
+                        17 => 1,
+                        18 => 2,
+                        19 => 2,
+                        20 => 3,
+                        21 => 3,
+                        22 => 4,
+                        23 => 5,
+                        24 => 6,
+                        25 => 7,
+                        _ => -1,
+                    };
+                }
+                else
+                {
+                    return chapter + 1;
+                }
+            }
         }
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -128,7 +150,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             private ItemRandomizer ItemRandomizer => randomizer.ItemRandomizer;
 
-            private int ConvertChapterNumber(int chapter) => randomizer.Campaign == Campaign.Ada ? Math.Max(17, chapter + 17) : chapter;
+            private int ConvertChapterNumber(int chapter)
+            {
+                if (randomizer.Campaign == Campaign.Ada)
+                {
+                    return chapter switch
+                    {
+                        1 => 17,
+                        2 => 18,
+                        3 => 20,
+                        4 => 22,
+                        5 => 23,
+                        6 => 24,
+                        7 => 25,
+                        _ => 17
+                    };
+                }
+                else
+                {
+                    return chapter;
+                }
+            }
 
             public void Go()
             {
@@ -416,6 +458,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                 shopItem._UnlockSetting._UnlockTiming = ConvertChapterNumber(0);
                                 shopItem._UnlockSetting._SpCondition = 1;
                             }
+                            else
+                            {
+                                shopItem._UnlockSetting._UnlockCondition = 2;
+                                shopItem._UnlockSetting._UnlockFlag = Guid.Empty;
+                                shopItem._UnlockSetting._UnlockTiming = 16;
+                                shopItem._UnlockSetting._SpCondition = 1;
+                            }
+                        }
+                        else
+                        {
+                            shopItem._UnlockSetting._UnlockCondition = 2;
+                            shopItem._UnlockSetting._UnlockFlag = Guid.Empty;
+                            shopItem._UnlockSetting._UnlockTiming = 16;
+                            shopItem._UnlockSetting._SpCondition = 1;
                         }
                     }
                     else

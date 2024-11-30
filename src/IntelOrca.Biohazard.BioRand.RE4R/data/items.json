@@ -1098,7 +1098,6 @@
     {
       "name": "Recipe: Bolts",
       "kind": "recipe",
-      "mode": "main",
       "id": 124329600
     },
     {
@@ -1246,24 +1245,22 @@
     {
       "name": "Charm: Don Diego",
       "kind": "charm",
-      "mode": "main",
       "id": 127201600
     },
     {
       "name": "Charm: Don Esteban",
       "kind": "charm",
-      "mode": "main",
       "id": 127203200
     },
     {
       "name": "Charm: Don Manuel",
       "kind": "charm",
-      "mode": "main",
       "id": 127204800
     },
     {
       "name": "Charm: Isabel",
       "kind": "charm",
+      "mode": "main",
       "id": 127206400
     },
     {
@@ -1281,6 +1278,7 @@
     {
       "name": "Charm: Bella Sisters",
       "kind": "charm",
+      "mode": "main",
       "id": 127211200
     },
     {
@@ -1292,6 +1290,7 @@
     {
       "name": "Charm: Zealot w/ scythe",
       "kind": "charm",
+      "mode": "main",
       "id": 127214400
     },
     {
@@ -1339,6 +1338,7 @@
     {
       "name": "Charm: Leon w/ handgun",
       "kind": "charm",
+      "mode": "main",
       "id": 127227200
     },
     {
@@ -1350,12 +1350,14 @@
     {
       "name": "Charm: Leon w/ rocket launcher",
       "kind": "charm",
+      "mode": "main",
       "id": 127230400
     },
     {
       "name": "Charm: Merchant",
       "kind": "charm",
-      "id": 127232000
+      "id": 127232000,
+      "mode": "main"
     },
     {
       "name": "Charm: Ashley Graham",
@@ -1396,13 +1398,11 @@
     {
       "name": "Charm: Iluminados Emblem",
       "kind": "charm",
-      "mode": "main",
       "id": 127243200
     },
     {
       "name": "Charm: Striker",
       "kind": "charm",
-      "mode": "main",
       "id": 127244800
     },
     {
