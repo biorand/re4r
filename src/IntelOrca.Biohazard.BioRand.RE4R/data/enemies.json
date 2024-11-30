@@ -1097,7 +1097,7 @@
     {
       "key": "krauser_2",
       "kind": "krauser_2",
-      "name": "Krauser (Mutated) !!UNSTABLE!!",
+      "name": "Krauser (Mutated)",
       "category": "Krauser",
       "class": 1,
       "minHealth": 10000,
@@ -1130,6 +1130,18 @@
       "field:_IdentifyType": 1,
       "field:_RolePatternHash": 2180083513,
       "field:_PreFirstForceMovePatternHash": 2180083513
+    },
+    {
+      "key": "sadler_human",
+      "kind": "sadler_human",
+      "name": "Sadler (Human) !!UNSTABLE!!",
+      "category": "Sadler",
+      "class": 1,
+      "minHealth": 20000,
+      "maxHealth": 50000,
+      "field:_RolePatternHash": 2180083513,
+      "field:_PreFirstForceMovePatternHash": 2180083513,
+      "field:_MontageID": 1106175613
     },
     {
       "key": "cow",

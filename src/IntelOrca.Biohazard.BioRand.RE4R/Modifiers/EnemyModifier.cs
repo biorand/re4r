@@ -810,20 +810,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
+            if (table.IsEmpty)
+                return null;
+
             return table.Next();
 
             bool IsEnemySupported(EnemyClassDefinition ecd)
             {
-                if (randomizer.Campaign == Campaign.Leon)
-                    return true;
-
-                var adaNotSupported = new[] {
-                    "colmillos",
-                    "krauser_1",
-                    "krauser_2",
-                    "mendez_2",
-                    "verdugo" };
-                return !adaNotSupported.Contains(ecd.Kind.Key);
+                var notSupported = randomizer.Campaign == Campaign.Leon
+                    ? new[] {
+                        "sadler_human",
+                    }
+                    : new[] {
+                        "colmillos",
+                        "krauser_2",
+                        "mendez_2",
+                        "verdugo" };
+                return !notSupported.Contains(ecd.Kind.Key);
             }
         }
 
