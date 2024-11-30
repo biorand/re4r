@@ -668,9 +668,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     if (randomizer.GetConfigOption<bool>("random-merchant-prices"))
                     {
-                        var priceMultiplier = _priceRng.NextDouble(0.25, 2);
-                        item.BuyPrice = (item.BuyPrice * priceMultiplier).RoundPrice();
-                        item.SellPrice = (item.SellPrice * priceMultiplier).RoundPrice();
+                        if (item.ItemDefinition.WeaponId is int wpId)
+                        {
+                            var min = WeaponStatTable.Default.GetValue(wpId, "price/min");
+                            var max = WeaponStatTable.Default.GetValue(wpId, "price/max");
+                            if (min != 0 && max != 0)
+                            {
+                                item.BuyPrice = _priceRng.NextDouble(min, max).RoundPrice();
+                                item.SellPrice = item.BuyPrice / 2;
+                            }
+                        }
+                        else
+                        {
+                            var priceMultiplier = _priceRng.NextDouble(0.25, 2);
+                            item.BuyPrice = (item.BuyPrice * priceMultiplier).RoundPrice();
+                            item.SellPrice = (item.SellPrice * priceMultiplier).RoundPrice();
+                        }
                     }
                 }
             }
