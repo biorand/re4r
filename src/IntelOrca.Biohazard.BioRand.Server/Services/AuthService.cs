@@ -64,7 +64,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                     CleanUpTokensIfTimeTo();
                     await CheckUserSubscriptionAsync(user);
                 }
-                if (user != null && user.Role >= minimumRole)
+                if (user != null && IsRoleEqualOrBetterThan(user.Role, minimumRole))
                 {
                     await UseAuthToken(token);
                     return user;
@@ -164,6 +164,11 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             var rankA = Array.IndexOf(g_rolePriority, a);
             var rankB = Array.IndexOf(g_rolePriority, b);
             return rankA > rankB;
+        }
+
+        private static bool IsRoleEqualOrBetterThan(UserRoleKind a, UserRoleKind b)
+        {
+            return a == b || IsRoleBetterThan(a, b);
         }
 
         private static readonly UserRoleKind[] g_rolePriority = [

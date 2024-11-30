@@ -100,7 +100,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (profile == null)
                 return NotFound();
 
-            if (authorizedUser.Role < UserRoleKind.Administrator && profile.UserId != authorizedUser.Id)
+            if (authorizedUser.Role != UserRoleKind.Administrator && profile.UserId != authorizedUser.Id)
                 return Unauthorized();
 
             profile.Name = body.Name;
@@ -133,7 +133,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (profile == null)
                 return NotFound();
 
-            if (authorizedUser.Role < UserRoleKind.Administrator && profile.UserId != authorizedUser.Id)
+            if (authorizedUser.Role != UserRoleKind.Administrator && profile.UserId != authorizedUser.Id)
                 return Unauthorized();
 
             await _db.DeleteProfileAsync(id);

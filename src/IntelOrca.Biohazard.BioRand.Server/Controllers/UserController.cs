@@ -70,7 +70,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
             if (processedId is int userId)
             {
-                if (authorizedUser.Role < UserRoleKind.Administrator && authorizedUser.Id != userId)
+                if (authorizedUser.Role != UserRoleKind.Administrator && authorizedUser.Id != userId)
                     return Unauthorized();
 
                 var user = await db.GetUserAsync(userId);
@@ -82,7 +82,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             }
             else
             {
-                if (authorizedUser.Role < UserRoleKind.Administrator && !string.Equals(authorizedUser.NameLowerCase, (string)processedId, StringComparison.OrdinalIgnoreCase))
+                if (authorizedUser.Role != UserRoleKind.Administrator && !string.Equals(authorizedUser.NameLowerCase, (string)processedId, StringComparison.OrdinalIgnoreCase))
                     return Unauthorized();
 
                 var user = await db.GetUserAsync((string)processedId);
@@ -105,7 +105,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (user == null)
                 return NotFound();
 
-            if (authorizedUser.Role < UserRoleKind.Administrator && user.Id != authorizedUser.Id)
+            if (authorizedUser.Role != UserRoleKind.Administrator && user.Id != authorizedUser.Id)
                 return Unauthorized();
 
             if (request.TwitchCode != null)
@@ -152,7 +152,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             }
 
             var oldRole = user.Role;
-            if (authorizedUser.Role >= UserRoleKind.Administrator)
+            if (authorizedUser.Role == UserRoleKind.Administrator)
             {
                 user.Name = request.Name ?? user.Name;
                 user.NameLowerCase = request.Name?.ToLowerInvariant() ?? user.NameLowerCase;
@@ -210,7 +210,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (user == null)
                 return NotFound();
 
-            if (user.Role < UserRoleKind.Administrator && user.Id != user.Id)
+            if (user.Role != UserRoleKind.Administrator && user.Id != user.Id)
                 return Unauthorized();
 
             if (user.KofiEmailVerification == null)

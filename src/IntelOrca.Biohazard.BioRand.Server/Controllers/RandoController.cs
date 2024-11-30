@@ -75,7 +75,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (authorizedUser == null)
                 return Unauthorized();
 
-            var viewerUserId = authorizedUser.Role < UserRoleKind.Administrator
+            var viewerUserId = authorizedUser.Role != UserRoleKind.Administrator
                 ? authorizedUser.Id
                 : (int?)null;
             int? filterUserId = null;
