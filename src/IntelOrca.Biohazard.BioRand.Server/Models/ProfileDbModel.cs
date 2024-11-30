@@ -39,6 +39,13 @@ namespace IntelOrca.Biohazard.BioRand.Server.Models
             set => SetFlag(1, value);
         }
 
+        [Ignore]
+        public bool Official
+        {
+            get => GetFlag(2);
+            set => SetFlag(2, value);
+        }
+
         private bool GetFlag(int i) => (Flags & (1 << i)) != 0;
         private void SetFlag(int i, bool value)
         {

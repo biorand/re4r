@@ -1,8 +1,14 @@
 <script lang="ts">
+    import { UserRole } from '$lib/api';
+    import { getUserManager } from '$lib/userManager';
     import type { ProfileViewModel } from '$lib/UserProfileManager';
     import { Input, Label, Textarea, Toggle } from 'flowbite-svelte';
 
     export let profile: ProfileViewModel;
+
+    const userManager = getUserManager();
+    const userRole = userManager.info?.user.role || UserRole.Standard;
+    const canMakeOfficial = userRole == UserRole.Tester || userRole == UserRole.Administrator;
 </script>
 
 <div class="mb-3">
@@ -27,6 +33,11 @@
     <div class="mb-3">
         <Toggle bind:checked={profile.public}>Share profile with community</Toggle>
     </div>
+    {#if canMakeOfficial}
+        <div class="mb-3">
+            <Toggle bind:checked={profile.official}>Mark profile official</Toggle>
+        </div>
+    {/if}
 {/if}
 <div class="mb-3">Bookmarks: {profile.starCount}</div>
 <div class="mb-3">Randomizers seeds: {profile.seedCount}</div>

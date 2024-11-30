@@ -108,6 +108,7 @@ export interface Profile {
     seedCount: number;
     isStarred: boolean;
     public: boolean;
+    official: boolean;
     configId: number;
     config?: Config;
 }

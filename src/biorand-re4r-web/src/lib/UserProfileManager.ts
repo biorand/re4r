@@ -18,6 +18,7 @@ export interface ProfileViewModel {
     userId: number;
     userName: string;
     public: boolean;
+    official: boolean;
     starCount: number;
     seedCount: number;
 
@@ -93,6 +94,7 @@ export class UserProfileManager {
                         userId: this.userId,
                         userName: this.userName,
                         public: false,
+                        official: false,
                         seedCount: 0,
                         starCount: 0,
 
@@ -164,6 +166,7 @@ export class UserProfileManager {
             seedCount: profile.seedCount,
             starCount: profile.starCount,
             public: profile.public,
+            official: profile.official,
 
             originalId: profile.id,
             category,
@@ -177,7 +180,7 @@ export class UserProfileManager {
     private getCategory(profile: Profile): ProfileCategory {
         if (profile.userId === this.userId)
             return 'Personal';
-        else if (profile.userName === 'System')
+        else if (profile.official)
             return 'Official';
         return 'Community';
     }
@@ -224,6 +227,7 @@ export class UserProfileManager {
             name: profile.name,
             description: profile.description,
             public: profile.public,
+            official: profile.official,
             config: profile.config
         };
 
@@ -251,6 +255,7 @@ export class UserProfileManager {
             userId: this.userId,
             userName: this.userName,
             public: false,
+            official: false,
             seedCount: 0,
             starCount: 0,
 
@@ -291,6 +296,7 @@ export class UserProfileManager {
         if (orig.name !== curr.name) return true;
         if (orig.description !== curr.description) return true;
         if (orig.public !== curr.public) return true;
+        if (orig.official !== curr.official) return true;
         if (!objectEquals(orig.config, curr.config)) return true;
         return false;
     }

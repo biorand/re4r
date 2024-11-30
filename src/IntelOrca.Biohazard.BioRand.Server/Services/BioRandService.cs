@@ -31,7 +31,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                     Created = DateTime.UtcNow,
                     Name = "Default",
                     Description = "The default profile.",
-                    Public = true
+                    Public = true,
+                    Official = true
                 };
 
                 logger.LogInformation("Creating profile {Name} for default config", newProfile.Name);
@@ -41,6 +42,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             {
                 profile.Description = "The default profile.";
                 profile.Public = true;
+                profile.Official = true;
 
                 logger.LogInformation("Updating profile {Id} {Name} to default config", profile.Id, profile.Name);
                 await db.UpdateProfileAsync(profile);

@@ -106,6 +106,11 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             profile.Name = body.Name;
             profile.Description = body.Description;
             profile.Public = body.Public;
+            if (authorizedUser.Role == UserRoleKind.Tester ||
+                authorizedUser.Role == UserRoleKind.Administrator)
+            {
+                profile.Official = body.Official;
+            }
 
             var config = RandomizerConfiguration.FromDictionary(body.Config);
 
@@ -194,6 +199,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 profile.SeedCount,
                 profile.IsStarred,
                 profile.Public,
+                profile.Official,
                 profile.ConfigId,
                 Config = config
             };
@@ -205,6 +211,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             public string Name { get; set; } = "";
             public string Description { get; set; } = "";
             public bool Public { get; set; }
+            public bool Official { get; set; }
             public Dictionary<string, object> Config { get; set; } = [];
         }
 

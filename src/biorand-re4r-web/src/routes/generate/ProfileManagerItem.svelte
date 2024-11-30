@@ -19,8 +19,10 @@
     <div class="flex">
         <button class="grow flex p-1" on:click>
             <div>
-                <span class={profile.public ? 'font-semibold text-blue-800 dark:text-blue-200' : ''}
-                    >{profile.name}</span
+                <span
+                    class={profile.public || profile.official
+                        ? 'font-semibold text-blue-800 dark:text-blue-200'
+                        : ''}>{profile.name}</span
                 >
                 <span class="text-gray-800 dark:text-gray-400 text-sm font-light"
                     >by {profile.userName}</span

@@ -277,15 +277,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId AND ps.UserId = ?
                 LEFT JOIN randoconfig AS c ON p.ConfigId = c.Id
                 LEFT JOIN user AS u ON p.UserId = u.Id
-                WHERE (p.UserId = ?
-                    OR p.UserId = ?
-                    OR ps.ProfileId IS NOT NULL)
-                  AND ((p.Flags & 2) OR p.UserId = ?)
+                WHERE (p.UserId = ? OR IsStarred OR (p.Flags & 4))
                   AND NOT(p.Flags & 1)";
             var result = await _conn.QueryAsync<ExtendedProfileDbModel>(q,
                 userId,
-                userId,
-                SystemUserId,
                 userId);
             return [.. result];
         }
