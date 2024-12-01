@@ -54,8 +54,8 @@
         { name: 'Standard (pending)', value: UserRole.PendingStandard },
         { name: 'Banned', value: UserRole.Banned },
         { name: 'Standard', value: UserRole.Standard },
-        { name: 'Patron', value: UserRole.Patron },
         { name: 'Tester', value: UserRole.Tester },
+        { name: 'Patron', value: UserRole.Patron },
         { name: 'Administrator', value: UserRole.Administrator },
         { name: 'System', value: UserRole.System },
         { name: 'Long Term Supporter', value: UserRole.LongTermSupporter }

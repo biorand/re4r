@@ -11,8 +11,8 @@
         ['Standard (pending)', 'pink'],
         ['Banned', 'red'],
         ['Standard', 'yellow'],
-        ['Patron', 'green'],
         ['Tester', 'yellow'],
+        ['Patron', 'green'],
         ['Administrator', 'blue'],
         ['System', 'blue'],
         ['Long Term Supporter', 'green']
