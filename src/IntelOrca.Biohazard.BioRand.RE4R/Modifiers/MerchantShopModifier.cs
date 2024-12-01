@@ -168,7 +168,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
                 else
                 {
-                    return chapter;
+                    return Math.Max(0, chapter - 1);
                 }
             }
 
@@ -480,7 +480,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         shopItem._PriceSettings[0]._Price._SellingPrice = item.SellPrice;
                         shopItem._UnlockSetting._UnlockCondition = 2;
                         shopItem._UnlockSetting._UnlockFlag = Guid.Empty;
-                        shopItem._UnlockSetting._UnlockTiming = ConvertChapterNumber(Math.Max(0, item.UnlockChapter - 1));
+                        shopItem._UnlockSetting._UnlockTiming = ConvertChapterNumber(item.UnlockChapter);
                         shopItem._UnlockSetting._SpCondition = 1;
                         shopItem._StockSetting._EnableStockSetting = item.MaxStock != 0;
                         shopItem._StockSetting._EnableSelectCount = item.MaxStock != 0;
