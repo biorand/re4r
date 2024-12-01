@@ -503,12 +503,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         newGameObject.Children.Add(e);
                         e.Parent = newGameObject;
 
-                        // Make sure no damage flag is removed
                         var spawn = e.Components.FirstOrDefault(x => x.Name.Contains("SpawnParam"));
                         if (spawn != null)
                         {
+                            // Make sure no damage flag is removed
                             var checkFlags = spawn.GetList("_NoDamageCtrlFlag._CheckFlags");
                             checkFlags.Clear();
+
+                            // Enable force find, but without any conditions
+                            spawn.Set("_ForceFind", true);
+                            var flagCondition = new FlagCondition(spawn.Get<RszInstance>("_ForceFindCondition._ForceFindCondition")!);
+                            flagCondition.Or = false;
+                            flagCondition.Flags = [];
                         }
                     }
                 }
