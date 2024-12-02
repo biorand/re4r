@@ -1408,7 +1408,10 @@
             "c2d49373-550b-44b5-a739-0bbc6d3257ed"
           ],
           "preventDuplicate": true,
-          "miniBoss": "ada-garradors"
+          "miniBoss": "ada-garradors",
+          "exclude": [
+            "mendez_chase"
+          ]
         },
         {
           "guids": [
@@ -1445,6 +1448,9 @@
             "mendez_chase",
             "pesanta",
             "pig",
+            "regenerador",
+            "iron_maiden",
+            "super_iron_maiden",
             "super-colmillos",
             "u3",
             "verdugo"
