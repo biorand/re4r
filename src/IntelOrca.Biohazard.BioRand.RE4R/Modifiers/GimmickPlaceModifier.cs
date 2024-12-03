@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Text.RegularExpressions;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
 using RszTool;
@@ -78,6 +79,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             private readonly Dictionary<int, FilePair> _stageToFilePair = new();
             private int _contextId = 50_000;
+            private (string, int)[]? _pathsWithUserData;
 
             private FilePair GetScnForStage(int stage)
             {
@@ -86,8 +88,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 if (!_stageToFilePair.TryGetValue(stage, out var filePair))
                 {
-                    var first = paths.First(x => x.Contains($"st{stageA}") && x.Contains($"_{stageB}"));
-                    filePair = new FilePair(randomizer.FileRepository, first);
+                    var pathsWithUserData = _pathsWithUserData;
+                    if (pathsWithUserData == null)
+                    {
+                        pathsWithUserData = paths
+                            .Where(x => randomizer.FileRepository.Exists($"{x[..^7]}_savedata.user.2"))
+                            .Select(x => (x, int.Parse(Regex.Replace(x, @".+st(\d\d)_(\d\d\d).+", "$1$2"))))
+                            .ToArray();
+                        _pathsWithUserData = pathsWithUserData;
+                    }
+
+                    var first = pathsWithUserData
+                        .Where(x => (x.Item2 / 1000) == (stage / 1000))
+                        .OrderBy(x => Math.Abs(x.Item2 - stage))
+                        .First();
+                    filePair = new FilePair(randomizer.FileRepository, first.Item1);
                     _stageToFilePair[stage] = filePair;
                 }
 
