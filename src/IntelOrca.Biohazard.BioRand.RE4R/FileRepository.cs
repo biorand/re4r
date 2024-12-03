@@ -124,6 +124,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             var userFile = GetUserFile(path);
             callback(userFile.RSZ!, userFile.RSZ!.ObjectList[0]);
+            userFile.RSZ.RebuildInstanceInfo();
+            userFile.RebuildInfoTable();
             SetUserFile(path, userFile);
         }
 
