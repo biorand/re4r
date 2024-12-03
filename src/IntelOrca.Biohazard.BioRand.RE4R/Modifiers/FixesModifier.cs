@@ -963,7 +963,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var weaponId = ((RszInstance)list[i]!).Get<int>("_WeaponID");
                     if (weaponId == 6000 || weaponId == 6001)
                     {
-                        list.RemoveAt(i);
+                        rsz.ArrayRemoveItem(list!, list[i]!);
                         i--;
                     }
                 }
