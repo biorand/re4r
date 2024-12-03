@@ -62,6 +62,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             FixEnemyHp(randomizer, rng, logger);
             FixEnemyWeaponDamage(randomizer, logger);
             // FixSmallKeySellable(randomizer, logger);
+            FixSentinelNineIssue(randomizer, logger);
         }
 
         private void ForceNgPlusMerchantLeon(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -940,6 +941,31 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     l.Set("Sellable[0]._Enable.Matters[0]._Data.Compare", 1);
                     l.Set("Sellable[0]._Enable.Matters[0]._Data.Chapter", -1);
+                }
+            });
+        }
+
+        private void FixSentinelNineIssue(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        {
+            if (randomizer.GetConfigOption<bool>("allow-dlc-items"))
+                return;
+
+            if (randomizer.Campaign == Campaign.Leon)
+                return;
+
+            // Remove DLC items from catalog since they cause black screen on SW
+            var path = "natives/stm/_anotherorder/appsystem/weapon/weaponcataloguserdata_ao.user.2";
+            randomizer.FileRepository.ModifyUserFile(path, (rsz, root) =>
+            {
+                var list = root.GetList("_DataTable");
+                for (var i = 0; i < list.Count; i++)
+                {
+                    var weaponId = ((RszInstance)list[i]!).Get<int>("_WeaponID");
+                    if (weaponId == 6000 || weaponId == 6001)
+                    {
+                        list.RemoveAt(i);
+                        i--;
+                    }
                 }
             });
         }
