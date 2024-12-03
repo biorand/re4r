@@ -506,12 +506,14 @@
     {
       "name": "Silver Token",
       "kind": "token",
-      "id": 119286400
+      "id": 119286400,
+      "mode": "main"
     },
     {
       "name": "Gold Token",
       "kind": "token",
-      "id": 119288000
+      "id": 119288000,
+      "mode": "main"
     },
     {
       "name": "Wooden Planks",
