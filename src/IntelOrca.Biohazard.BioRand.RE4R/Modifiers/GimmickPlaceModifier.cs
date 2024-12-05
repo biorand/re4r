@@ -162,7 +162,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return null;
             }
 
-            private static void AddCondition(ScnFile scn, ScnFile.GameObjectData gimmick, GimmickPlacement placement)
+            private void AddCondition(ScnFile scn, ScnFile.GameObjectData gimmick, GimmickPlacement placement)
             {
                 if (string.IsNullOrEmpty(placement.Condition) && placement.Chapter == 0)
                     return;
@@ -187,7 +187,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     var particleChapter = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.ParticleChapter");
                     particleChapter.Set("Compare", 1);
-                    particleChapter.Set("Chapter", placement.Chapter);
+                    particleChapter.Set("Chapter", ChapterId.FromNumber(randomizer.Campaign, placement.Chapter));
                     var container = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.Container");
                     container.Set("_Data", particleChapter);
                     stratumBool.GetList("_Enable.Matters").Add(container);
@@ -269,7 +269,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     float.Parse(p[6]),
                     float.Parse(p[7]));
                 Condition = p[8];
-                Chapter = string.IsNullOrEmpty(p[9]) ? 0 : ChapterId.FromNumber(Campaign.Leon, int.Parse(p[9]));
+                Chapter = string.IsNullOrEmpty(p[9]) ? 0 : int.Parse(p[9]);
             }
 
             public static ImmutableArray<GimmickPlacement> GetPlacements(Campaign campaign)
