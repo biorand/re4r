@@ -13,6 +13,7 @@ namespace IntelOrca.Biohazard.BioRand
         };
         private bool _generating;
         private TimeSpan _pollTime = TimeSpan.FromSeconds(10);
+        private TimeSpan _restartTime = TimeSpan.FromSeconds(5);
         private readonly IRandomizerAgentHandler _handler;
 
         public IRandomizer Randomizer => _handler.Randomizer;
@@ -34,20 +35,32 @@ namespace IntelOrca.Biohazard.BioRand
 
         public async Task RunAsync(CancellationToken ct = default)
         {
-            await RegisterAsync();
             while (!ct.IsCancellationRequested)
             {
-                await SendStatusAsync();
-                if (!_generating)
+                try
                 {
-                    await ProcessNextRandomizer();
+                    await RegisterAsync();
+                    while (!ct.IsCancellationRequested)
+                    {
+                        await SendStatusAsync();
+                        if (!_generating)
+                        {
+                            await ProcessNextRandomizer();
+                        }
+                        await Task.Delay(_pollTime);
+                    }
                 }
-                await Task.Delay(_pollTime);
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                await Task.Delay(_restartTime);
             }
         }
 
         private async Task RegisterAsync()
         {
+            Console.WriteLine($"Registering agent at {BaseUri}...");
             var response = await PostAsync<RegisterResponse>("generator/register", new
             {
                 GameId,
@@ -55,6 +68,7 @@ namespace IntelOrca.Biohazard.BioRand
                 Randomizer.DefaultConfiguration,
             });
             Id = response.Id;
+            Console.WriteLine($"Registered as agent {Id}");
         }
 
         private async Task SendStatusAsync()
@@ -87,6 +101,7 @@ namespace IntelOrca.Biohazard.BioRand
                     {
                         try
                         {
+                            Console.WriteLine($"Generating rando {q.Id}...");
                             await PostAsync<object>("generator/begin", new
                             {
                                 Id,
@@ -128,6 +143,8 @@ namespace IntelOrca.Biohazard.BioRand
                     try
                     {
                         var output = await _handler.GenerateAsync(q, randomizerInput);
+
+                        Console.WriteLine($"Uploading rando {q.Id}...");
                         await PostAsync<object>("generator/end", new
                         {
                             Id,
@@ -135,6 +152,7 @@ namespace IntelOrca.Biohazard.BioRand
                             output.PakOutput,
                             output.FluffyOutput
                         });
+                        Console.WriteLine($"Uploaded rando {q.Id}");
                     }
                     finally
                     {
