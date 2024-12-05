@@ -7,7 +7,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 {
     public class BioRandService(
         DatabaseService db,
-        RandomizerService randomizerService,
+        GeneratorService generatorService,
         ILogger<BioRandService> logger)
     {
         public async Task Initialize()
@@ -19,8 +19,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         private async Task CreateDefaultProfiles()
         {
             // Default profile
-            var randomizer = randomizerService.GetRandomizer();
-            var defaultConfig = randomizer.DefaultConfiguration;
+            var defaultConfig = await generatorService.GetDefaultConfigAsync();
 
             var profile = await db.GetDefaultProfile();
             if (profile == null)

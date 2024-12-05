@@ -29,14 +29,12 @@ namespace IntelOrca.Biohazard.BioRand.Server
             builder.Services.AddSingleton<BioRandService>();
             builder.Services.AddSingleton<DatabaseService>();
             builder.Services.AddSingleton<EmailService>();
+            builder.Services.AddSingleton<GeneratorService>();
             builder.Services.AddSingleton<TwitchService>();
-            builder.Services.AddSingleton<RandomizerService>();
             builder.Services.AddSingleton<UrlService>();
             builder.Services.AddSingleton<UserService>();
 
             builder.Services.AddSingleton<AuthService>();
-
-            builder.Services.AddHostedService<GenerationService>();
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddControllers().AddApplicationPart(typeof(BioRandWebServer).Assembly);

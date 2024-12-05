@@ -18,7 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
     public class RandoController(
         AuthService authService,
         DatabaseService db,
-        RandomizerService randomizerService,
+        GeneratorService generatorService,
         UrlService urlService,
         ILogger<RandoController> logger) : ControllerBase
     {
@@ -33,7 +33,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (profile == null)
                 return NotFound();
 
-            var randomizer = randomizerService.GetRandomizer();
             var config = RandomizerConfiguration.FromDictionary(request.Config ?? []);
             SetPersonalConfig(user, config);
 
@@ -52,7 +51,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             var rando = await db.CreateRando(new RandoDbModel()
             {
                 Created = DateTime.UtcNow,
-                Version = randomizer.BuildVersion,
+                Version = "",
                 Seed = request.Seed,
                 UserId = user.Id,
                 ConfigId = randoConfig.Id,
@@ -160,9 +159,9 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         }
 
         [HttpGet("{randoId}/download")]
-        public object Download(long randoId, [FromQuery] bool mod)
+        public async Task<object> Download(int randoId, [FromQuery] bool mod)
         {
-            var result = randomizerService.Find((ulong)randoId);
+            var result = await generatorService.GetResult(randoId);
             if (result == null)
             {
                 return Unauthorized();

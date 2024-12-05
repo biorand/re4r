@@ -15,25 +15,24 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
     public class ProfileController(
         AuthService auth,
         DatabaseService _db,
-        RandomizerService randomizerService,
+        GeneratorService generatorService,
         ILogger<ProfileController> _logger) : ControllerBase
     {
         [HttpGet]
-        public async Task<object> GetProfilesAsync()
+        public async Task<object> GetGenerators()
         {
             var authorizedUser = await auth.GetAuthorizedUserAsync();
             if (authorizedUser == null)
                 return Unauthorized();
 
             var profiles = await _db.GetProfilesForUserAsync(authorizedUser.Id);
-            return profiles.Select(GetProfile).ToArray();
+            return await Task.WhenAll(profiles.Select(GetProfileAsync));
         }
 
         [HttpGet("definition")]
-        public object GetConfigAsync()
+        public async Task<object> GetConfigAsync()
         {
-            var randomizer = randomizerService.GetRandomizer();
-            return randomizer.ConfigurationDefinition;
+            return await generatorService.GetConfigDefinitionAsync();
         }
 
         [HttpGet("search")]
@@ -47,7 +46,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             var profiles = await _db.GetProfilesAsync(authorizedUser.Id, q, user,
                 new SortOptions("StarCount", true),
                 LimitOptions.FromPage(page, itemsPerPage));
-            return ResultListResult.Map(page, itemsPerPage, profiles, GetProfile);
+            return ResultListResult.Map(page, itemsPerPage, profiles, x => GetProfileAsync(x).Result);
         }
 
         [HttpPost("")]
@@ -86,7 +85,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (profile.UserId != authorizedUser.Id && !profile.Public && authorizedUser.Role != UserRoleKind.Administrator)
                 return Forbid();
 
-            return GetProfile(profile);
+            return GetProfileAsync(profile);
         }
 
         [HttpPut("{id}")]
@@ -179,13 +178,12 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             return Empty;
         }
 
-        private object GetProfile(ExtendedProfileDbModel profile)
+        private async Task<object> GetProfileAsync(ExtendedProfileDbModel profile)
         {
-            var randomizer = randomizerService.GetRandomizer();
             RandomizerConfiguration? config = null;
             if (!string.IsNullOrEmpty(profile.Data))
             {
-                config = randomizer.DefaultConfiguration + RandomizerConfiguration.FromJson(profile.Data);
+                config = (await generatorService.GetDefaultConfigAsync()) + RandomizerConfiguration.FromJson(profile.Data);
             }
 
             return new

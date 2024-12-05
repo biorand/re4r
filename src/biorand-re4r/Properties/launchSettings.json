@@ -2,8 +2,12 @@
   "profiles": {
     "generate": {
       "commandName": "Project",
-      "commandLineArgs": "generate -s 357436 -i G:\\re4r\\extract\\custom.pak -c \"C:\\Users\\Ted\\.biorand\\default.json\" -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\"",
-      "workingDirectory": "C:\\Users\\Ted\\.biorand\\logs"
+      "commandLineArgs": "generate -s 357436 -i M:\\apps\\re4rr\\custom.pak -c \"M:\\apps\\re4rr\\default.json\" -o \"M:\\apps\\re4rr\\out\"",
+      "workingDirectory": "M:\\apps\\re4rr\\out"
+    },
+    "agent": {
+      "commandName": "Project",
+      "commandLineArgs": "agent http://localhost:10285 -k 2wbhTK38nQxp2HTU5AAoaaho8YNobErH -i M:\\apps\\re4rr\\custom.pak"
     },
     "web-server": {
       "commandName": "Project",

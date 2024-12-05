@@ -424,6 +424,11 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return _conn.FindWithQueryAsync<ExtendedRandoDbModel>(q, id);
         }
 
+        public Task UpdateRandoAsync(RandoDbModel rando)
+        {
+            return _conn.UpdateAsync(rando, typeof(RandoDbModel));
+        }
+
         public Task SetRandoStatusAsync(int id, RandoStatus status)
         {
             return _conn.ExecuteAsync(@"UPDATE rando SET Status = ? WHERE Id = ?", status, id);
