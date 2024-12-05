@@ -212,6 +212,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 var newProfile = new ProfileDbModel()
                 {
                     UserId = db.SystemUserId,
+                    GameId = gameId,
                     Created = DateTime.UtcNow,
                     Name = "Default",
                     Description = "The default profile.",
