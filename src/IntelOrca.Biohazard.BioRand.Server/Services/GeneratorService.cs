@@ -85,6 +85,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             game.ConfigurationDefinition = definition.ToJson(indented: false);
             game.DefaultConfiguration = defaultConfig.ToJson(indented: false);
             await db.UpdateGameAsync(game);
+            await CreateDefaultProfile(game.Id);
             return generator;
         }
 
@@ -200,6 +201,37 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         {
             _generators.TryGetValue(id, out var result);
             return result;
+        }
+
+        private async Task CreateDefaultProfile(int gameId)
+        {
+            var defaultConfig = await GetDefaultConfigAsync(gameId);
+            var profile = await db.GetDefaultProfile(gameId);
+            if (profile == null)
+            {
+                var newProfile = new ProfileDbModel()
+                {
+                    UserId = db.SystemUserId,
+                    Created = DateTime.UtcNow,
+                    Name = "Default",
+                    Description = "The default profile.",
+                    Public = true,
+                    Official = true
+                };
+
+                logger.LogInformation("Creating profile {Name} for default config", newProfile.Name);
+                await db.CreateProfileAsync(newProfile, defaultConfig);
+            }
+            else
+            {
+                profile.Description = "The default profile.";
+                profile.Public = true;
+                profile.Official = true;
+
+                logger.LogInformation("Updating profile {Id} {Name} to default config", profile.Id, profile.Name);
+                await db.UpdateProfileAsync(profile);
+                await db.SetProfileConfigAsync(profile.Id, defaultConfig);
+            }
         }
     }
 
