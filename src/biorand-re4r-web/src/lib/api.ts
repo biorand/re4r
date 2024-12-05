@@ -501,11 +501,22 @@ export function switchApi(useDefault: boolean) {
     if (useDefault) {
         lsManager.set(LocalStorageKeys.ApiUrl, undefined);
     } else {
-        lsManager.set(LocalStorageKeys.ApiUrl, 'https://api-re4r.biorand.net');
+        lsManager.set(LocalStorageKeys.ApiUrl, 'https://api.biorand.net');
     }
 }
 
 export function getGameId() {
+    const hostname = document.location.hostname;
+    const regexResult = hostname.match(/^(?:beta-)?([^.]+)\..+$/);
+    if (regexResult) {
+        const moniker = regexResult[1];
+        switch (moniker) {
+            case 're2r':
+                return 2;
+            case 're4r':
+                return 1;
+        }
+    }
     return 1;
 }
 
@@ -513,11 +524,11 @@ export function getApi() {
     const lsManager = getLocalStorageManager();
     let apiUrl = lsManager.getString(LocalStorageKeys.ApiUrl);
     if (!apiUrl) {
-        apiUrl = 'https://api-re4r.biorand.net';
+        apiUrl = 'https://api.biorand.net';
         if (isLocalhost()) {
             apiUrl = 'http://localhost:10285';
         } else if (isBeta()) {
-            apiUrl = 'https://beta-api-re4r.biorand.net';
+            apiUrl = 'https://beta-api.biorand.net';
         }
     }
 
