@@ -1,6 +1,6 @@
 <script lang="ts">
     import { UserProfileManager } from '$lib/UserProfileManager';
-    import { getApi, type ConfigDefinition } from '$lib/api';
+    import { getApi, getGameId, type ConfigDefinition } from '$lib/api';
     import { getUserManager } from '$lib/userManager';
     import { Alert, Spinner } from 'flowbite-svelte';
     import { CloseCircleSolid } from 'flowbite-svelte-icons';
@@ -22,7 +22,7 @@
 
     let init = (async () => {
         await profileManager.download();
-        configDefinition = await api.getConfigDefinition();
+        configDefinition = await api.getConfigDefinition(getGameId());
     })();
 </script>
 

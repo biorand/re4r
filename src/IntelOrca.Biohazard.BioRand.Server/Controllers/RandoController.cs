@@ -29,6 +29,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (user == null)
                 return Unauthorized();
 
+            var game = await db.GetGameByIdAsync(request.GameId);
+            if (game == null)
+                return BadRequest();
+
             var profile = await db.GetProfileAsync(request.ProfileId, user.Id);
             if (profile == null)
                 return NotFound();
@@ -50,6 +54,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             var randoConfig = await db.GetOrCreateRandoConfig(request.ProfileId, configJson);
             var rando = await db.CreateRando(new RandoDbModel()
             {
+                GameId = request.GameId,
                 Created = DateTime.UtcNow,
                 Version = "",
                 Seed = request.Seed,
@@ -68,6 +73,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             [FromQuery] string? sort = null,
             [FromQuery] string? order = null,
             [FromQuery] string? user = null,
+            [FromQuery] int? filterGameId = null,
             [FromQuery] int page = 1)
         {
             var authorizedUser = await authService.GetAuthorizedUserAsync();
@@ -98,6 +104,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
             var itemsPerPage = 25;
             var randos = await db.GetRandosAsync(
+                filterGameId,
                 filterUserId,
                 viewerUserId,
                 SortOptions.FromQuery(sort, order, "Created"),
@@ -233,6 +240,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
         public class GenerateRequest
         {
+            public int GameId { get; set; }
             public int Seed { get; set; }
             public int ProfileId { get; set; }
             public Dictionary<string, object>? Config { get; set; }

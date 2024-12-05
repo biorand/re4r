@@ -1,7 +1,7 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import BioRandResultPagination from '$lib/BioRandResultPagination.svelte';
-    import { getApi, type ProfileQueryOptions, type ProfileQueryResult } from '$lib/api';
+    import { getApi, getGameId, type ProfileQueryOptions, type ProfileQueryResult } from '$lib/api';
     import { PageBody, PageTitle } from '$lib/typography';
     import { buildUrl, getLocation, idleTimeout, tryParseInt } from '$lib/utility';
     import { Input, Label, Listgroup, ListgroupItem } from 'flowbite-svelte';
@@ -26,7 +26,7 @@
     const api = getApi();
     queryParams.subscribe(async (params) => {
         searchInput = params;
-        searchResult = await api.searchProfiles(searchInput);
+        searchResult = await api.searchProfiles({ ...searchInput, gameId: getGameId() });
         getPageUrl = (page: number) => {
             return getSearchUrl({ ...searchInput, page });
         };

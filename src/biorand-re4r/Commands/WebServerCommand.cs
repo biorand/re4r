@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using IntelOrca.Biohazard.BioRand.Server;
 using Spectre.Console;
 using Spectre.Console.Cli;
@@ -27,13 +26,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
             await using var webServer = await BioRandWebServer.Create();
             await webServer.RunAsync(url);
-
-            var browser = new Process()
-            {
-                StartInfo = new ProcessStartInfo(url) { UseShellExecute = true }
-            };
-            browser.Start();
-            Console.ReadKey(true);
             return 0;
         }
     }

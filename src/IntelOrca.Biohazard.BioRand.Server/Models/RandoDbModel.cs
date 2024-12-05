@@ -8,6 +8,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Models
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
+        [Indexed, NotNull]
+        public int GameId { get; set; }
         [NotNull, Indexed]
         public DateTime Created { get; set; }
         [NotNull, Indexed]

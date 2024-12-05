@@ -1,7 +1,7 @@
 <script lang="ts">
     import LoadingButton from '$lib/LoadingButton.svelte';
     import type { ProfileViewModel } from '$lib/UserProfileManager';
-    import { getApi, RandoStatus, type Rando } from '$lib/api';
+    import { getApi, getGameId, RandoStatus, type Rando } from '$lib/api';
     import { getLocalStorageManager } from '$lib/localStorage';
     import { rng } from '$lib/utility';
     import { Alert, Button, ButtonGroup, Hr, Input, Label } from 'flowbite-svelte';
@@ -37,6 +37,7 @@
         try {
             const api = getApi();
             generateResult = await api.generate({
+                gameId: getGameId(),
                 seed: parseInt(seed) || 0,
                 profileId: profile.originalId,
                 config: profile.config || {}

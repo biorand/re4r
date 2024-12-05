@@ -12,7 +12,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 {
     public sealed class DatabaseService
     {
-        private const int LatestVersion = 1;
+        private const int LatestVersion = 2;
 
         private readonly SQLiteAsyncConnection _conn;
         private int _originalVersion;
@@ -36,6 +36,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         {
             await InitializeMetaTable();
             await ApplyMigrations();
+            await _conn.CreateTableAsync<GameDbModel>();
             await _conn.CreateTableAsync<UserDbModel>();
             await _conn.CreateTableAsync<TokenDbModel>();
             await _conn.CreateTableAsync<ProfileDbModel>();
@@ -50,6 +51,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                     ""UserId"" integer not null,
                     PRIMARY KEY (""ProfileId"", ""UserId""))");
             await GetOrCreateSystemUser();
+            await InsertGames();
         }
 
         private async Task InitializeMetaTable()
@@ -80,6 +82,12 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             {
                 await _conn.ExecuteAsync("ALTER TABLE rando ADD COLUMN Status INTEGER NOT NULL DEFAULT 0");
             }
+            if (_originalVersion < 2)
+            {
+                await _conn.ExecuteAsync("ALTER TABLE news ADD COLUMN GameId INTEGER NOT NULL DEFAULT 1");
+                await _conn.ExecuteAsync("ALTER TABLE profile ADD COLUMN GameId INTEGER NOT NULL DEFAULT 1");
+                await _conn.ExecuteAsync("ALTER TABLE rando ADD COLUMN GameId INTEGER NOT NULL DEFAULT 1");
+            }
         }
 
         private async Task<UserDbModel> GetOrCreateSystemUser()
@@ -99,6 +107,32 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 await _conn.InsertOrReplaceAsync(systemUser);
             }
             return systemUser;
+        }
+
+        private async Task InsertGames()
+        {
+            var game1 = await GetGameByIdAsync(1) ?? new GameDbModel();
+            game1.Id = 1;
+            game1.Name = "Resident Evil 4 (2024)";
+            game1.Moniker = "re4r";
+            var game2 = await GetGameByIdAsync(2) ?? new GameDbModel();
+            game2.Id = 2;
+            game2.Name = "Resident Evil 2 (2019)";
+            game2.Moniker = "re2r";
+            await _conn.InsertOrReplaceAsync(game1);
+            await _conn.InsertOrReplaceAsync(game2);
+        }
+
+        public async Task<GameDbModel> GetGameByIdAsync(int id)
+        {
+            return await _conn.Table<GameDbModel>()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public Task UpdateGameAsync(GameDbModel game)
+        {
+            return _conn.UpdateAsync(game, typeof(GameDbModel));
         }
 
         public async Task<UserDbModel> GetUserById(int id)
@@ -257,16 +291,17 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return result;
         }
 
-        public async Task<ProfileDbModel?> GetDefaultProfile()
+        public async Task<ProfileDbModel?> GetDefaultProfile(int gameId)
         {
             return await _conn.Table<ProfileDbModel>()
                 .Where(x => (x.Flags & 1) == 0)
                 .Where(x => x.UserId == SystemUserId)
                 .Where(x => x.Name == "Default")
+                .Where(x => x.GameId == gameId)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<ExtendedProfileDbModel[]> GetProfilesForUserAsync(int userId)
+        public async Task<ExtendedProfileDbModel[]> GetProfilesForUserAsync(int userId, int gameId)
         {
             var q = @"
                 SELECT p.*,
@@ -277,10 +312,12 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 LEFT JOIN profile_star AS ps ON p.Id = ps.ProfileId AND ps.UserId = ?
                 LEFT JOIN randoconfig AS c ON p.ConfigId = c.Id
                 LEFT JOIN user AS u ON p.UserId = u.Id
-                WHERE (p.UserId = ? OR IsStarred OR (p.Flags & 4))
+                WHERE GameId = ?
+                  AND (p.UserId = ? OR IsStarred OR (p.Flags & 4))
                   AND NOT(p.Flags & 1)";
             var result = await _conn.QueryAsync<ExtendedProfileDbModel>(q,
                 userId,
+                gameId,
                 userId);
             return [.. result];
         }
@@ -288,6 +325,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         public Task<LimitedResult<ExtendedProfileDbModel>> GetProfilesAsync(
             int starUserId,
             string? query,
+            int? gameId,
             string? user,
             SortOptions? sortOptions,
             LimitOptions? limitOptions)
@@ -303,6 +341,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             q.Where("p.UserId != ?", SystemUserId);
             q.Where("p.Flags & 2");
             q.Where("NOT(p.Flags & 1)");
+            q.WhereIf("p.GameId = ?", gameId);
             q.WhereIf("u.Name = ?", user);
 
             return q.ExecuteLimitedAsync(sortOptions, limitOptions);
@@ -440,6 +479,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         }
 
         public Task<LimitedResult<ExtendedRandoDbModel>> GetRandosAsync(
+            int? filterGameId = null,
             int? filterUserId = null,
             int? viewerUserId = null,
             SortOptions? sortOptions = null,
@@ -460,6 +500,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 LEFT JOIN randoconfig as c ON r.ConfigId = c.Id
                 LEFT JOIN profile as p ON c.BasedOnProfileId = p.Id
                 LEFT JOIN user as pu ON p.UserId = pu.Id");
+            q.WhereIf("r.GameId = ?", filterGameId);
             q.WhereIf("r.UserId = ?", filterUserId);
             if (viewerUserId != null)
             {
@@ -722,10 +763,11 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             await _conn.DeleteAsync<NewsDbModel>(id);
         }
 
-        public async Task<NewsDbModel[]> GetNewsItems()
+        public async Task<NewsDbModel[]> GetNewsItems(int gameId)
         {
             return await _conn
                 .Table<NewsDbModel>()
+                .Where(x => x.GameId == gameId)
                 .OrderByDescending(x => x.Timestamp)
                 .ToArrayAsync();
         }

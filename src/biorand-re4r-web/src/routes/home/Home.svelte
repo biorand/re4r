@@ -4,6 +4,7 @@
     import {
         UserRole,
         getApi,
+        getGameId,
         type DailyResult,
         type MonthlyResult,
         type NewsItem
@@ -20,7 +21,7 @@
     let totalUsersChart: any;
     const init = async () => {
         const api = getApi();
-        newsItems = await api.getNewsItems();
+        newsItems = await api.getNewsItems(getGameId());
 
         const statsResult = await api.getHomeStats();
         seedChart = createDailyChart('Seeds', statsResult.seeds);
@@ -69,6 +70,7 @@
     function createNewsItem() {
         editingNewsItem = <NewsItem>{
             id: 0,
+            gameId: getGameId(),
             title: '',
             timestamp: Math.floor(Date.now() / 1000),
             date: '',

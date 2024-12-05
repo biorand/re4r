@@ -32,6 +32,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 return Unauthorized();
 
             var generator = await generatorService.RegisterAsync(
+                request.GameId,
                 request.ConfigurationDefinition,
                 RandomizerConfiguration.FromDictionary(request.DefaultConfiguration));
             return new

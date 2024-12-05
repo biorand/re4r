@@ -12,16 +12,16 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
     {
         public async Task Initialize()
         {
-            await CreateDefaultProfiles();
+            // await CreateDefaultProfiles(1);
             await db.SetAllRandoStatusToExpiredAsync();
         }
 
-        private async Task CreateDefaultProfiles()
+        private async Task CreateDefaultProfiles(int gameId)
         {
             // Default profile
-            var defaultConfig = await generatorService.GetDefaultConfigAsync();
+            var defaultConfig = await generatorService.GetDefaultConfigAsync(gameId);
 
-            var profile = await db.GetDefaultProfile();
+            var profile = await db.GetDefaultProfile(gameId);
             if (profile == null)
             {
                 var newProfile = new ProfileDbModel()

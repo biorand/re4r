@@ -22,7 +22,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
             var randomizer = new Re4rRandomizer();
-            var agent = new RandomizerAgent(settings.Host, settings.ApiKey, new RandomizerAgentHandler(settings.InputPath));
+            var agent = new RandomizerAgent(
+                settings.Host,
+                settings.ApiKey,
+                1,
+                new RandomizerAgentHandler(settings.InputPath));
             var cts = new CancellationTokenSource();
             Console.CancelKeyPress += (sender, e) =>
             {

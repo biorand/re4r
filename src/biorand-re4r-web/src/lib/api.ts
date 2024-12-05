@@ -94,12 +94,14 @@ export enum UserRole {
 
 export interface ProfileQueryOptions {
     q?: string;
+    gameId?: number;
     user?: string;
     page?: number;
 }
 
 export interface Profile {
     id: number;
+    gameId: number;
     name: string;
     description: string;
     userId: number;
@@ -163,6 +165,7 @@ export enum RandoStatus {
 }
 
 export interface GenerateRequest {
+    gameId: number;
     seed: number;
     profileId: number;
     config: Config;
@@ -179,6 +182,7 @@ export interface Rando {
 
 export interface RandoHistoryQueryOptions {
     user?: string;
+    gameId?: number;
     sort?: string;
     order?: undefined | "asc" | "desc";
     page?: number;
@@ -254,6 +258,7 @@ export interface TokenModel {
 
 export interface NewsItem {
     id: number;
+    gameId: number;
     date: string;
     timestamp: number;
     title: string;
@@ -343,8 +348,10 @@ export class BioRandApi {
         return await this.post(`user/${userId}/reverifykofi`);
     }
 
-    async getProfiles() {
-        return await this.get<Profile[]>("profile");
+    async getProfiles(gameId: number) {
+        return await this.get<Profile[]>("profile", {
+            gameId
+        });
     }
 
     async searchProfiles(query: ProfileQueryOptions) {
@@ -367,15 +374,10 @@ export class BioRandApi {
         return await this.delete<Profile>(`profile/${id}`);
     }
 
-    async updateTempConfig(profileId: number, config: Config) {
-        return await this.put(`profile/temp`, {
-            profileId,
-            config
+    async getConfigDefinition(gameId: number) {
+        return await this.get<ConfigDefinition>("profile/definition", {
+            gameId
         });
-    }
-
-    async getConfigDefinition() {
-        return await this.get<ConfigDefinition>("profile/definition");
     }
 
     async generate(request: GenerateRequest) {
@@ -412,8 +414,10 @@ export class BioRandApi {
         return await this.get<TokenModelResult>("auth/tokens", query);
     }
 
-    async getNewsItems() {
-        return await this.get<NewsItem[]>("home/news");
+    async getNewsItems(gameId: number) {
+        return await this.get<NewsItem[]>("home/news", {
+            gameId
+        });
     }
 
     async createNewsItem(req: NewsItemRequest) {
@@ -499,6 +503,10 @@ export function switchApi(useDefault: boolean) {
     } else {
         lsManager.set(LocalStorageKeys.ApiUrl, 'https://api-re4r.biorand.net');
     }
+}
+
+export function getGameId() {
+    return 1;
 }
 
 export function getApi() {

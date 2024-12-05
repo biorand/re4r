@@ -6,6 +6,7 @@
     import { UserProfileManager } from '$lib/UserProfileManager';
     import {
         getApi,
+        getGameId,
         UserRole,
         type RandoHistoryItem,
         type RandoHistoryQueryOptions,
@@ -39,7 +40,7 @@
     const api = getApi();
     queryParams.subscribe(async (params) => {
         searchInput = params;
-        searchResult = await api.getRandoHistory(params);
+        searchResult = await api.getRandoHistory({ ...params, gameId: getGameId() });
         data = {
             sort: searchInput.sort,
             order: searchInput.order,
@@ -66,6 +67,7 @@
             userId: userManager.info?.user.id || 0,
             userName: userManager.info?.user.name || '',
             public: false,
+            official: false,
             starCount: 0,
             seedCount: 0,
 
@@ -140,9 +142,11 @@
                     ></TableBodyCell
                 >
                 <TableBodyCell tdClass="p-1 font-mono text-center">
-                    <span class="py-0.5 px-1 rounded text-xs bg-gray-200 dark:bg-gray-600">
-                        {item.version}
-                    </span>
+                    {#if item.version}
+                        <span class="py-0.5 px-1 rounded text-xs bg-gray-200 dark:bg-gray-600">
+                            {item.version}
+                        </span>
+                    {/if}
                 </TableBodyCell>
                 <TableBodyCell tdClass="p-1 font-mono">{item.seed}</TableBodyCell>
                 <TableBodyCell tdClass="p-1 font-mono flex">

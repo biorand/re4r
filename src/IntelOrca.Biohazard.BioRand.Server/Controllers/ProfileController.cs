@@ -19,31 +19,35 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         ILogger<ProfileController> _logger) : ControllerBase
     {
         [HttpGet]
-        public async Task<object> GetGenerators()
+        public async Task<object> GetProfiles([FromQuery] int gameId)
         {
             var authorizedUser = await auth.GetAuthorizedUserAsync();
             if (authorizedUser == null)
                 return Unauthorized();
 
-            var profiles = await _db.GetProfilesForUserAsync(authorizedUser.Id);
+            var profiles = await _db.GetProfilesForUserAsync(authorizedUser.Id, gameId);
             return await Task.WhenAll(profiles.Select(GetProfileAsync));
         }
 
         [HttpGet("definition")]
-        public async Task<object> GetConfigAsync()
+        public async Task<object> GetConfigAsync(int gameId)
         {
-            return await generatorService.GetConfigDefinitionAsync();
+            return await generatorService.GetConfigDefinitionAsync(gameId);
         }
 
         [HttpGet("search")]
-        public async Task<object> SearchProfilesAsync([FromQuery] string? q, [FromQuery] string? user, [FromQuery] int page = 1)
+        public async Task<object> SearchProfilesAsync(
+            [FromQuery] string? q,
+            [FromQuery] int? gameId,
+            [FromQuery] string? user,
+            [FromQuery] int page = 1)
         {
             var authorizedUser = await auth.GetAuthorizedUserAsync();
             if (authorizedUser == null)
                 return Unauthorized();
 
             var itemsPerPage = 25;
-            var profiles = await _db.GetProfilesAsync(authorizedUser.Id, q, user,
+            var profiles = await _db.GetProfilesAsync(authorizedUser.Id, q, gameId, user,
                 new SortOptions("StarCount", true),
                 LimitOptions.FromPage(page, itemsPerPage));
             return ResultListResult.Map(page, itemsPerPage, profiles, x => GetProfileAsync(x).Result);
@@ -56,10 +60,14 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (authorizedUser == null)
                 return Unauthorized();
 
+            if (_db.GetGameByIdAsync(body.GameId) == null)
+                return BadRequest();
+
             var config = RandomizerConfiguration.FromDictionary(body.Config);
 
             var profile = new ProfileDbModel()
             {
+                GameId = body.GameId,
                 UserId = authorizedUser.Id,
                 Name = body.Name,
                 Description = body.Description
@@ -183,12 +191,14 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             RandomizerConfiguration? config = null;
             if (!string.IsNullOrEmpty(profile.Data))
             {
-                config = (await generatorService.GetDefaultConfigAsync()) + RandomizerConfiguration.FromJson(profile.Data);
+                var defaultConfig = await generatorService.GetDefaultConfigAsync(profile.GameId);
+                config = defaultConfig + RandomizerConfiguration.FromJson(profile.Data);
             }
 
             return new
             {
                 profile.Id,
+                profile.GameId,
                 profile.Name,
                 profile.Description,
                 profile.UserId,
@@ -206,6 +216,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         public class UpdateProfileRequest
         {
             public int Id { get; set; }
+            public int GameId { get; set; }
             public string Name { get; set; } = "";
             public string Description { get; set; } = "";
             public bool Public { get; set; }

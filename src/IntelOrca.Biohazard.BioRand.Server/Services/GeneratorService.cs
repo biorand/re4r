@@ -2,8 +2,10 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using IntelOrca.Biohazard.BioRand.Server.Extensions;
 using IntelOrca.Biohazard.BioRand.Server.Models;
 using Microsoft.Extensions.Logging;
 using static IntelOrca.Biohazard.BioRand.Server.Services.DatabaseService;
@@ -18,8 +20,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         private readonly ConcurrentDictionary<Guid, RemoteGenerator> _generators = [];
         private readonly Dictionary<int, GenerateResult> _generatedRandos = [];
         private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
-        private RandomizerConfigurationDefinition? _configDefinition;
-        private RandomizerConfiguration? _defaultConfig;
 
         public async Task ExpireOldRandosAsync()
         {
@@ -45,14 +45,22 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return Task.FromResult(_generators.Values.ToArray());
         }
 
-        public Task<RandomizerConfigurationDefinition> GetConfigDefinitionAsync()
+        public async Task<RandomizerConfigurationDefinition> GetConfigDefinitionAsync(int gameId)
         {
-            return Task.FromResult(_configDefinition ?? new RandomizerConfigurationDefinition());
+            var game = await db.GetGameByIdAsync(gameId);
+            if (game == null || game.ConfigurationDefinition == null)
+                return new RandomizerConfigurationDefinition();
+
+            return JsonSerializer.Deserialize<RandomizerConfigurationDefinition>(game.ConfigurationDefinition)!;
         }
 
-        public Task<RandomizerConfiguration> GetDefaultConfigAsync()
+        public async Task<RandomizerConfiguration> GetDefaultConfigAsync(int gameId)
         {
-            return Task.FromResult(_defaultConfig ?? new RandomizerConfiguration());
+            var game = await db.GetGameByIdAsync(gameId);
+            if (game == null || game.DefaultConfiguration == null)
+                return new RandomizerConfiguration();
+
+            return RandomizerConfiguration.FromJson(game.DefaultConfiguration);
         }
 
         public Task<GenerateResult?> GetResult(int randoId)
@@ -61,17 +69,23 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return Task.FromResult(result);
         }
 
-        public Task<RemoteGenerator> RegisterAsync(
+        public async Task<RemoteGenerator> RegisterAsync(
+            int gameId,
             RandomizerConfigurationDefinition definition,
             RandomizerConfiguration defaultConfig)
         {
+            var game = await db.GetGameByIdAsync(gameId);
+            if (game == null)
+                throw new Exception("Game not found");
+
             var generator = new RemoteGenerator();
             if (!_generators.TryAdd(generator.Id, generator))
                 throw new Exception("Failed to register generator");
 
-            _configDefinition = definition;
-            _defaultConfig = defaultConfig;
-            return Task.FromResult(generator);
+            game.ConfigurationDefinition = definition.ToJson(indented: false);
+            game.DefaultConfiguration = defaultConfig.ToJson(indented: false);
+            await db.UpdateGameAsync(game);
+            return generator;
         }
 
         public Task<bool> UpdateHeartbeatAsync(Guid id, string status)

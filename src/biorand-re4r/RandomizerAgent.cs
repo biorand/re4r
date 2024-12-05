@@ -18,13 +18,15 @@ namespace IntelOrca.Biohazard.BioRand
         public IRandomizer Randomizer => _handler.Randomizer;
         public string BaseUri { get; }
         public string ApiKey { get; }
+        public int GameId { get; }
         public Guid Id { get; private set; }
         public string Status { get; private set; } = "Idle";
 
-        public RandomizerAgent(string baseUri, string apiKey, IRandomizerAgentHandler handler)
+        public RandomizerAgent(string baseUri, string apiKey, int gameId, IRandomizerAgentHandler handler)
         {
             BaseUri = baseUri;
             ApiKey = apiKey;
+            GameId = gameId;
             _handler = handler;
 
             _httpClient.DefaultRequestHeaders.Add("X-API-KEY", ApiKey);
@@ -48,6 +50,7 @@ namespace IntelOrca.Biohazard.BioRand
         {
             var response = await PostAsync<RegisterResponse>("generator/register", new
             {
+                GameId,
                 Randomizer.ConfigurationDefinition,
                 Randomizer.DefaultConfiguration,
             });
@@ -77,6 +80,9 @@ namespace IntelOrca.Biohazard.BioRand
                 var queue = await GetAsync<QueueResponseItem[]>("generator/queue");
                 foreach (var q in queue)
                 {
+                    if (q.GameId != GameId)
+                        continue;
+
                     if (await _handler.CanGenerateAsync(q))
                     {
                         try
@@ -179,6 +185,7 @@ namespace IntelOrca.Biohazard.BioRand
         public class QueueResponseItem
         {
             public int Id { get; set; }
+            public int GameId { get; set; }
             public DateTime Created { get; set; }
             public int UserId { get; set; }
             public int Seed { get; set; }

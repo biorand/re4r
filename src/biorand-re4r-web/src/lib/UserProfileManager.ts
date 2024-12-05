@@ -1,5 +1,5 @@
 import { derived, get, writable, type Writable } from "svelte/store";
-import type { BioRandApi, Config, GenerateResult, Profile } from "./api";
+import { getGameId, type BioRandApi, type Config, type GenerateResult, type Profile } from "./api";
 import { LocalStorageKeys, getLocalStorageManager } from "./localStorage";
 import { groupBy, objectEquals, replaceBy } from "./utility";
 
@@ -141,7 +141,7 @@ export class UserProfileManager {
     }
 
     async download() {
-        const profiles = await this.api.getProfiles();
+        const profiles = await this.api.getProfiles(getGameId());
         this._downloadedProfiles = profiles.map(x => this.toProfileViewModel(x));
         this._ready = true;
         this.updateProfileList();
@@ -224,6 +224,7 @@ export class UserProfileManager {
     private async save(profile: ProfileViewModel) {
         const p = <Profile>{
             id: profile.id,
+            gameId: getGameId(),
             name: profile.name,
             description: profile.description,
             public: profile.public,
