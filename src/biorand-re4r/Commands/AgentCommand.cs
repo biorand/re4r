@@ -28,10 +28,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 1,
                 new RandomizerAgentHandler(settings.InputPath));
             var cts = new CancellationTokenSource();
-            Console.CancelKeyPress += (sender, e) =>
-            {
-                cts.Cancel();
-            };
+            Console.CancelKeyPress += (sender, e) => cts.Cancel();
             await agent.RunAsync(cts.Token);
             return 0;
         }
