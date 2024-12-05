@@ -7,6 +7,7 @@
     import {
         getApi,
         getGameId,
+        getWebsiteTitle,
         UserRole,
         type RandoHistoryItem,
         type RandoHistoryQueryOptions,
@@ -104,7 +105,7 @@
 </script>
 
 <svelte:head>
-    <title>History - BioRand 4</title>
+    <title>{getWebsiteTitle('History')}</title>
 </svelte:head>
 
 <PageBody>

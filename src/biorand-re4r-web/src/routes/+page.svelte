@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { UserRole } from '$lib/api';
+    import { getWebsiteTitle, UserRole } from '$lib/api';
     import { getUserManager } from '$lib/userManager';
     import UserBanner from './UserBanner.svelte';
     import SignUp from './auth/SignUp.svelte';
@@ -29,9 +29,9 @@
 
 <svelte:head>
     {#if isSignedIn}
-        <title>Home - BioRand 4</title>
+        <title>{getWebsiteTitle('Home')}</title>
     {:else}
-        <title>Sign Up - BioRand 4</title>
+        <title>{getWebsiteTitle('Sign Up')}</title>
     {/if}
 </svelte:head>
 

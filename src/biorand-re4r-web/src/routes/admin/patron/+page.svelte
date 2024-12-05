@@ -1,6 +1,7 @@
 <script lang="ts">
     import {
         getApi,
+        getWebsiteTitle,
         type PatronDonationsItem,
         type PatronDonationsResult,
         type PatronQueryOptions
@@ -125,7 +126,7 @@
 </script>
 
 <svelte:head>
-    <title>Patron Dashboard - BioRand 4</title>
+    <title>{getWebsiteTitle('Patron Dashboard')}</title>
 </svelte:head>
 
 <PageBody>

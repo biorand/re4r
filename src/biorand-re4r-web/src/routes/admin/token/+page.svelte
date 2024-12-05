@@ -1,5 +1,11 @@
 <script lang="ts">
-    import { getApi, type QueryOptions, type TokenModel, type TokenModelResult } from '$lib/api';
+    import {
+        getApi,
+        getWebsiteTitle,
+        type QueryOptions,
+        type TokenModel,
+        type TokenModelResult
+    } from '$lib/api';
     import BioRandResultPagination from '$lib/BioRandResultPagination.svelte';
     import SortedTable, { type SortedTableData } from '$lib/SortedTable.svelte';
     import SortedTableHeader from '$lib/SortedTableHeader.svelte';
@@ -54,7 +60,7 @@
 </script>
 
 <svelte:head>
-    <title>Auth Tokens - BioRand 4</title>
+    <title>{getWebsiteTitle('Auth Tokens')}</title>
 </svelte:head>
 
 <PageBody>

@@ -8,6 +8,7 @@
     import {
         UserRole,
         getApi,
+        getWebsiteTitle,
         type User,
         type UserQueryOptions,
         type UserQueryResult
@@ -100,7 +101,7 @@
 </script>
 
 <svelte:head>
-    <title>Users - BioRand 4</title>
+    <title>{getWebsiteTitle('Users')}</title>
 </svelte:head>
 
 <PageBody>

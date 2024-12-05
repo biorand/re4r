@@ -2,7 +2,7 @@
     import { page } from '$app/stores';
     import RoleBadge from '$lib/RoleBadge.svelte';
     import { validateClear, validateFormInputData, type FormInputData } from '$lib/Validation';
-    import { UserRole, getApi, type User } from '$lib/api';
+    import { UserRole, getApi, getWebsiteTitle, type User } from '$lib/api';
     import PageBody from '$lib/typography/PageBody.svelte';
     import PageTitle from '$lib/typography/PageTitle.svelte';
     import { getUserManager } from '$lib/userManager';
@@ -111,7 +111,7 @@
 </script>
 
 <svelte:head>
-    <title>{user?.name || userName} - BioRand 4</title>
+    <title>{getWebsiteTitle(user?.name || userName)}</title>
 </svelte:head>
 
 {#await init}

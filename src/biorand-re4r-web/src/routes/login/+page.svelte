@@ -1,5 +1,6 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
+    import { getWebsiteTitle } from '$lib/api';
     import { getUserManager } from '$lib/userManager';
     import SignIn from '../auth/SignIn.svelte';
 
@@ -10,7 +11,7 @@
 </script>
 
 <svelte:head>
-    <title>Sign In - BioRand 4</title>
+    <title>{getWebsiteTitle('Sign In')}</title>
 </svelte:head>
 
 {#if !isSignedIn}

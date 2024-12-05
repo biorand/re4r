@@ -539,3 +539,19 @@ export function getApi() {
     }
     return api;
 }
+
+export function getWebsiteTitle(pageTitle?: string) {
+    let mainTitle;
+    switch (getGameId()) {
+        default:
+        case 1:
+            mainTitle = "BioRand 4";
+            break;
+        case 2:
+            mainTitle = "BioRand 2";
+            break;
+    }
+    if (!pageTitle)
+        return mainTitle;
+    return `${pageTitle} - ${mainTitle}`;
+}

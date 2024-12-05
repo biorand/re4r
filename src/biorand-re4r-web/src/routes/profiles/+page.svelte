@@ -1,7 +1,13 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import BioRandResultPagination from '$lib/BioRandResultPagination.svelte';
-    import { getApi, getGameId, type ProfileQueryOptions, type ProfileQueryResult } from '$lib/api';
+    import {
+        getApi,
+        getGameId,
+        getWebsiteTitle,
+        type ProfileQueryOptions,
+        type ProfileQueryResult
+    } from '$lib/api';
     import { PageBody, PageTitle } from '$lib/typography';
     import { buildUrl, getLocation, idleTimeout, tryParseInt } from '$lib/utility';
     import { Input, Label, Listgroup, ListgroupItem } from 'flowbite-svelte';
@@ -73,7 +79,7 @@
 </script>
 
 <svelte:head>
-    <title>Community Profiles - BioRand 4</title>
+    <title>{getWebsiteTitle('Community Profiles')}</title>
 </svelte:head>
 
 <PageBody>
