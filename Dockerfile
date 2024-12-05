@@ -29,11 +29,11 @@ RUN CFG=/etc/nginx/http.d/default.conf \
  && echo '}' >> $CFG
 
 RUN echo '#!/bin/sh' > /usr/bin/run-api \
- && echo 'biorand-re4r web-server >> /root/.biorand/api.log' >> /usr/bin/run-api \
+ && echo 'biorand-re4r web-server $* >> /root/.biorand/api.log' >> /usr/bin/run-api \
  && chmod +x /usr/bin/run-api
 
 RUN echo '#!/bin/sh' > /usr/bin/run-agent \
- && echo 'biorand-re4r agent >> /root/.biorand/agent.log' >> /usr/bin/run-agent \
+ && echo 'biorand-re4r agent $* >> /root/.biorand/agent.log' >> /usr/bin/run-agent \
  && chmod +x /usr/bin/run-agent
 
 RUN echo '#!/bin/sh' > /usr/bin/run-www \
