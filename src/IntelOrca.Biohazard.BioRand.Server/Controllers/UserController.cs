@@ -258,7 +258,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         {
             var url = urlService.GetWebUrl($"user?action=verifykofi&token={user.KofiEmailVerification}");
             await emailService.SendEmailAsync(user.Name, user.KofiEmail!,
-                    "BioRand 4 - Verify Email",
+                    "BioRand - Verify Email",
 $@"Dear {user.Name},
 
 Please verify your Ko-fi email address by navigating to this link:
@@ -271,12 +271,12 @@ The BioRand Team");
         private async Task SendAccessGrantedEmailAsync(UserDbModel user)
         {
             await emailService.SendEmailAsync(user.Name, user.Email,
-                                "BioRand 4",
+                                "BioRand",
             $@"Dear {user.Name},
 
-We are pleased to inform you that you now have access to BioRand 4.
+We are pleased to inform you that you now have access to BioRand.
 
-You should now be able to sign in and generate randomizers for Resident Evil 4 (2023).
+You should now be able to sign in and generate randomizers for Resident Evil.
 
 Kind regards,
 The BioRand Team");

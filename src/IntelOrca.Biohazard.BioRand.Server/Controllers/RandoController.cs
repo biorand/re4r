@@ -73,7 +73,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             [FromQuery] string? sort = null,
             [FromQuery] string? order = null,
             [FromQuery] string? user = null,
-            [FromQuery] int? filterGameId = null,
+            [FromQuery] int? game = null,
             [FromQuery] int page = 1)
         {
             var authorizedUser = await authService.GetAuthorizedUserAsync();
@@ -104,7 +104,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
             var itemsPerPage = 25;
             var randos = await db.GetRandosAsync(
-                filterGameId,
+                game,
                 filterUserId,
                 viewerUserId,
                 SortOptions.FromQuery(sort, order, "Created"),

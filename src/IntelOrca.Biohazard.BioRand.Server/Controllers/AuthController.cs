@@ -69,10 +69,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 await db.CreateUserAsync(email, name!);
                 await db.UpdateAllUnmatchedKofiMatchesAsync();
                 await emailService.SendEmailAsync(name!, email,
-                    "BioRand 4 - Access",
+                    "BioRand - Access",
 $@"Dear {name},
 
-Thank you for registering for BioRand: Resident Evil 4 (2023).
+Thank you for registering for BioRand.
 Sign in with your email address to generate randomizers.
 
 Kind regards,
@@ -125,10 +125,10 @@ The BioRand Team");
 
                     var code = token.Code.ToString("000000");
                     await emailService.SendEmailAsync(user.Name, user.Email,
-                        "BioRand 4 - Sign In",
+                        "BioRand - Sign In",
 $@"Dear {user.Name},
 
-Your code for signing into BioRand 4 is: {code}
+Your code for signing into BioRand is: {code}
 
 Enter this code to complete the sign in process. If you did not request this code, please ignore this message.
 

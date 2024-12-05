@@ -94,7 +94,7 @@ export enum UserRole {
 
 export interface ProfileQueryOptions {
     q?: string;
-    gameId?: number;
+    game?: number;
     user?: string;
     page?: number;
 }
@@ -182,7 +182,7 @@ export interface Rando {
 
 export interface RandoHistoryQueryOptions {
     user?: string;
-    gameId?: number;
+    game?: number;
     sort?: string;
     order?: undefined | "asc" | "desc";
     page?: number;
@@ -348,9 +348,9 @@ export class BioRandApi {
         return await this.post(`user/${userId}/reverifykofi`);
     }
 
-    async getProfiles(gameId: number) {
+    async getProfiles(game: number) {
         return await this.get<Profile[]>("profile", {
-            gameId
+            game
         });
     }
 
@@ -374,9 +374,9 @@ export class BioRandApi {
         return await this.delete<Profile>(`profile/${id}`);
     }
 
-    async getConfigDefinition(gameId: number) {
+    async getConfigDefinition(game: number) {
         return await this.get<ConfigDefinition>("profile/definition", {
-            gameId
+            game
         });
     }
 
@@ -414,9 +414,9 @@ export class BioRandApi {
         return await this.get<TokenModelResult>("auth/tokens", query);
     }
 
-    async getNewsItems(gameId: number) {
+    async getNewsItems(game: number) {
         return await this.get<NewsItem[]>("home/news", {
-            gameId
+            game
         });
     }
 

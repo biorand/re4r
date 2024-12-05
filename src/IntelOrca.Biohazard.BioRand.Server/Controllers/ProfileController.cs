@@ -19,26 +19,26 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         ILogger<ProfileController> _logger) : ControllerBase
     {
         [HttpGet]
-        public async Task<object> GetProfiles([FromQuery] int gameId)
+        public async Task<object> GetProfiles([FromQuery] int game)
         {
             var authorizedUser = await auth.GetAuthorizedUserAsync();
             if (authorizedUser == null)
                 return Unauthorized();
 
-            var profiles = await _db.GetProfilesForUserAsync(authorizedUser.Id, gameId);
+            var profiles = await _db.GetProfilesForUserAsync(authorizedUser.Id, game);
             return await Task.WhenAll(profiles.Select(GetProfileAsync));
         }
 
         [HttpGet("definition")]
-        public async Task<object> GetConfigAsync(int gameId)
+        public async Task<object> GetConfigAsync(int game)
         {
-            return await generatorService.GetConfigDefinitionAsync(gameId);
+            return await generatorService.GetConfigDefinitionAsync(game);
         }
 
         [HttpGet("search")]
         public async Task<object> SearchProfilesAsync(
             [FromQuery] string? q,
-            [FromQuery] int? gameId,
+            [FromQuery] int? game,
             [FromQuery] string? user,
             [FromQuery] int page = 1)
         {
@@ -47,7 +47,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 return Unauthorized();
 
             var itemsPerPage = 25;
-            var profiles = await _db.GetProfilesAsync(authorizedUser.Id, q, gameId, user,
+            var profiles = await _db.GetProfilesAsync(authorizedUser.Id, q, game, user,
                 new SortOptions("StarCount", true),
                 LimitOptions.FromPage(page, itemsPerPage));
             return ResultListResult.Map(page, itemsPerPage, profiles, x => GetProfileAsync(x).Result);

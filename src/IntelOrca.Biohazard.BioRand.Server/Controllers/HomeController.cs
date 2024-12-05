@@ -17,9 +17,9 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         ILogger<HomeController> logger) : ControllerBase
     {
         [HttpGet("news")]
-        public async Task<object> GetNewsAsync(int gameId)
+        public async Task<object> GetNewsAsync(int game)
         {
-            var newsItems = await db.GetNewsItems(gameId);
+            var newsItems = await db.GetNewsItems(game);
             return newsItems
                 .Select(ConvertNewsItem)
                 .ToArray();

@@ -1,5 +1,13 @@
+<script lang="ts">
+    import { getGameId } from './api';
+</script>
+
 <span class="text-5xl">
-    <b>B</b>IORAND <b>4</b>
+    {#if getGameId() == 1}
+        <b>B</b>IORAND <b>4</b>
+    {:else}
+        <b>B</b>IORAND <b>2</b>
+    {/if}
 </span>
 
 <style>
