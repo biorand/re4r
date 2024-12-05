@@ -41,7 +41,7 @@
     const api = getApi();
     queryParams.subscribe(async (params) => {
         searchInput = params;
-        searchResult = await api.getRandoHistory({ ...params, gameId: getGameId() });
+        searchResult = await api.getRandoHistory({ ...params, game: getGameId() });
         data = {
             sort: searchInput.sort,
             order: searchInput.order,

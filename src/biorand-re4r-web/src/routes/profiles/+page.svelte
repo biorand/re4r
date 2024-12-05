@@ -32,7 +32,7 @@
     const api = getApi();
     queryParams.subscribe(async (params) => {
         searchInput = params;
-        searchResult = await api.searchProfiles({ ...searchInput, gameId: getGameId() });
+        searchResult = await api.searchProfiles({ ...searchInput, game: getGameId() });
         getPageUrl = (page: number) => {
             return getSearchUrl({ ...searchInput, page });
         };
