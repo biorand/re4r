@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.Server.RestModels;
 using IntelOrca.Biohazard.BioRand.Server.Services;
@@ -11,7 +12,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
     [Route("generator")]
     public class GeneratorController(
         AuthService authService,
-        GeneratorService generatorService) : ControllerBase
+        GeneratorService generatorService,
+        BioRandServerConfiguration config) : ControllerBase
     {
         [HttpGet]
         public async Task<object> GetGenerators()
@@ -106,10 +108,14 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         private bool TestApiKey()
         {
             var apiKey = GetApiKey();
-            if (apiKey == "2wbhTK38nQxp2HTU5AAoaaho8YNobErH")
-                return true;
+            if (string.IsNullOrEmpty(apiKey))
+                return false;
 
-            return false;
+            var validApiKeys = config.ApiKeys;
+            if (validApiKeys == null)
+                return false;
+
+            return validApiKeys.Contains(apiKey);
         }
 
         private string? GetApiKey()

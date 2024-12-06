@@ -12,7 +12,7 @@ namespace IntelOrca.Biohazard.BioRand.Server
         public EmailConfig? Email { get; set; }
         public TwitchConfig? Twitch { get; set; }
         public KofiConfig? Kofi { get; set; }
-        public string[]? Passwords { get; set; }
+        public string[]? ApiKeys { get; set; }
 
         public static string GetBioRandDirectory()
         {
