@@ -10,7 +10,6 @@
     const initialValue =
         (definition.id in config ? config[definition.id] : definition.default) ??
         definition.default;
-    console.log(definition.id, initialValue);
     let value = writable<any>(initialValue);
     let transformed = getTransformed(value, definition);
     let formatted = transformed.formatted;

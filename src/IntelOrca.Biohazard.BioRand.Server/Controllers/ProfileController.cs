@@ -93,7 +93,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (profile.UserId != authorizedUser.Id && !profile.Public && authorizedUser.Role != UserRoleKind.Administrator)
                 return Forbid();
 
-            return GetProfileAsync(profile);
+            return await GetProfileAsync(profile);
         }
 
         [HttpPut("{id}")]
