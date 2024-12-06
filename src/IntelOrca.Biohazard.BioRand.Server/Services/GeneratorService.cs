@@ -182,7 +182,11 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 if (rando.Status != RandoStatus.Processing)
                     return false;
 
-                _generatedRandos.Add(randoId, new GenerateResult((ulong)randoId, rando.Seed, pakOutput, fluffyOutput));
+                var game = await db.GetGameByIdAsync(rando.GameId);
+                if (game == null)
+                    return false;
+
+                _generatedRandos.Add(randoId, new GenerateResult(randoId, rando.Seed, game.Moniker, pakOutput, fluffyOutput));
                 await db.SetRandoStatusAsync(rando.Id, RandoStatus.Completed);
                 return true;
             }

@@ -4,7 +4,6 @@ using IntelOrca.Biohazard.BioRand.Server.RestModels;
 using IntelOrca.Biohazard.BioRand.Server.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 {
@@ -12,8 +11,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
     [Route("generator")]
     public class GeneratorController(
         AuthService authService,
-        GeneratorService generatorService,
-        ILogger<GeneratorController> logger) : ControllerBase
+        GeneratorService generatorService) : ControllerBase
     {
         [HttpGet]
         public async Task<object> GetGenerators()

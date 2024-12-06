@@ -178,12 +178,12 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             byte[] contentData;
             if (mod)
             {
-                contentName = $"biorand-re4r-{result.Seed}-mod.zip";
+                contentName = $"biorand-{result.GameMoniker}-{result.Seed}-mod.zip";
                 contentData = result.ModFile;
             }
             else
             {
-                contentName = $"biorand-re4r-{result.Seed}.zip";
+                contentName = $"biorand-{result.GameMoniker}-{result.Seed}.zip";
                 contentData = result.ZipFile;
             }
 

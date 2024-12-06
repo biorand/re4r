@@ -123,6 +123,11 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             await _conn.InsertOrReplaceAsync(game2);
         }
 
+        public async Task<GameDbModel[]> GetGamesAsync()
+        {
+            return await _conn.Table<GameDbModel>().ToArrayAsync();
+        }
+
         public async Task<GameDbModel> GetGameByIdAsync(int id)
         {
             return await _conn.Table<GameDbModel>()
