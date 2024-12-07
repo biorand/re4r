@@ -514,7 +514,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return q.ExecuteLimitedAsync(sortOptions, limitOptions);
         }
 
-        public Task<LimitedResult<ExtendedRandoDbModel>> GetUnassignedRandosAsync()
+        public Task<LimitedResult<ExtendedRandoDbModel>> GetRandosWithStatus(RandoStatus status)
         {
             var q = BuildQuery<ExtendedRandoDbModel>(@"
                 SELECT r.*,
@@ -532,7 +532,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 LEFT JOIN randoconfig as c ON r.ConfigId = c.Id
                 LEFT JOIN profile as p ON c.BasedOnProfileId = p.Id
                 LEFT JOIN user as pu ON p.UserId = pu.Id
-                WHERE r.Status = ?", RandoStatus.Unassigned);
+                WHERE r.Status = ?", status);
             return q.ExecuteLimitedAsync();
         }
 

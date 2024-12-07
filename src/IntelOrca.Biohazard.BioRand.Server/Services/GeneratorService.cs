@@ -12,32 +12,31 @@ using static IntelOrca.Biohazard.BioRand.Server.Services.DatabaseService;
 
 namespace IntelOrca.Biohazard.BioRand.Server.Services
 {
-    public class GeneratorService(DatabaseService db, ILogger<GeneratorService> logger)
+    public class GeneratorService : IAsyncDisposable
     {
         private readonly static TimeSpan DownloadExpireTime = TimeSpan.FromHours(1);
-
         private readonly TimeSpan HeartbeatTimeout = TimeSpan.FromMinutes(5);
+
+        private readonly DatabaseService _db;
+        private readonly ILogger<GeneratorService> _logger;
         private readonly ConcurrentDictionary<Guid, RemoteGenerator> _generators = [];
         private readonly Dictionary<int, GenerateResult> _generatedRandos = [];
+        private readonly Dictionary<int, DateTime> _processingRandos = [];
         private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
+        private readonly CancellationTokenSource _disposeCts = new CancellationTokenSource();
+        private Task _cleanupTask;
 
-        public async Task ExpireOldRandosAsync()
+        public GeneratorService(DatabaseService db, ILogger<GeneratorService> logger)
         {
-            var result = new List<int>();
-            var now = DateTime.UtcNow;
-            foreach (var kvp in _generatedRandos.ToArray())
-            {
-                var age = now - kvp.Value.CreatedAt;
-                if (age > DownloadExpireTime)
-                {
-                    _generatedRandos.Remove(kvp.Key);
-                    result.Add(kvp.Key);
-                }
-            }
-            foreach (var id in result)
-            {
-                await db.SetRandoStatusAsync(id, Models.RandoStatus.Expired);
-            }
+            _db = db;
+            _logger = logger;
+            _cleanupTask = RunCleanupTasks(_disposeCts.Token);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            _disposeCts.Cancel();
+            await _cleanupTask;
         }
 
         public Task<RemoteGenerator[]> GetAllAsync()
@@ -47,7 +46,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         public async Task<RandomizerConfigurationDefinition> GetConfigDefinitionAsync(int gameId)
         {
-            var game = await db.GetGameByIdAsync(gameId);
+            var game = await _db.GetGameByIdAsync(gameId);
             if (game == null || game.ConfigurationDefinition == null)
                 return new RandomizerConfigurationDefinition();
 
@@ -56,7 +55,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         public async Task<RandomizerConfiguration> GetDefaultConfigAsync(int gameId)
         {
-            var game = await db.GetGameByIdAsync(gameId);
+            var game = await _db.GetGameByIdAsync(gameId);
             if (game == null || game.DefaultConfiguration == null)
                 return new RandomizerConfiguration();
 
@@ -74,7 +73,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             RandomizerConfigurationDefinition definition,
             RandomizerConfiguration defaultConfig)
         {
-            var game = await db.GetGameByIdAsync(gameId);
+            var game = await _db.GetGameByIdAsync(gameId);
             if (game == null)
                 throw new Exception("Game not found");
 
@@ -84,9 +83,14 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
             game.ConfigurationDefinition = definition.ToJson(indented: false);
             game.DefaultConfiguration = defaultConfig.ToJson(indented: false);
-            await db.UpdateGameAsync(game);
+            await _db.UpdateGameAsync(game);
             await CreateDefaultProfile(game.Id);
             return generator;
+        }
+
+        public Task<bool> UnregisterAsync(Guid id)
+        {
+            return Task.FromResult(_generators.TryRemove(id, out _));
         }
 
         public Task<bool> UpdateHeartbeatAsync(Guid id, string status)
@@ -100,7 +104,24 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return Task.FromResult(true);
         }
 
-        public Task CleanUpGeneratorsAsync()
+        private async Task RunCleanupTasks(CancellationToken ct)
+        {
+            while (!ct.IsCancellationRequested)
+            {
+                try
+                {
+                    await CleanUpGeneratorsAsync();
+                    await FailTimedOutRandosAsync();
+                    await ExpireOldRandosAsync();
+                    await Task.Delay(5000, ct);
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        private Task CleanUpGeneratorsAsync()
         {
             var generators = _generators.Values.ToArray();
             foreach (var g in generators)
@@ -114,9 +135,49 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return Task.CompletedTask;
         }
 
+        private async Task FailTimedOutRandosAsync()
+        {
+            await _mutex.WaitAsync();
+            try
+            {
+                foreach (var kvp in _processingRandos.ToArray())
+                {
+                    var duration = DateTime.UtcNow - kvp.Value;
+                    if (duration > TimeSpan.FromMinutes(2))
+                    {
+                        await _db.SetRandoStatusAsync(kvp.Key, RandoStatus.Failed);
+                        _processingRandos.Remove(kvp.Key);
+                    }
+                }
+            }
+            finally
+            {
+                _mutex.Release();
+            }
+        }
+
+        private async Task ExpireOldRandosAsync()
+        {
+            var result = new List<int>();
+            var now = DateTime.UtcNow;
+            foreach (var kvp in _generatedRandos.ToArray())
+            {
+                var age = now - kvp.Value.CreatedAt;
+                if (age > DownloadExpireTime)
+                {
+                    _generatedRandos.Remove(kvp.Key);
+                    result.Add(kvp.Key);
+                }
+            }
+            foreach (var id in result)
+            {
+                await _db.SetRandoStatusAsync(id, RandoStatus.Expired);
+            }
+        }
+
         public async Task<ExtendedRandoDbModel[]> GetQueueAsync()
         {
-            var queryResult = await db.GetUnassignedRandosAsync();
+            var queryResult = await _db.GetRandosWithStatus(RandoStatus.Unassigned);
             var results = queryResult.Results;
 
             // Clear emails
@@ -152,12 +213,13 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
                 rando.Version = version;
                 rando.Status = RandoStatus.Processing;
-                await db.UpdateRandoAsync(rando);
+                _processingRandos.Add(randoId, DateTime.UtcNow);
+                await _db.UpdateRandoAsync(rando);
                 return true;
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Failed to start processing rando {RandoId}", randoId);
+                _logger.LogError(ex, "Failed to start processing rando {RandoId}", randoId);
                 return false;
             }
             finally
@@ -175,24 +237,55 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             await _mutex.WaitAsync();
             try
             {
-                var rando = await db.GetRandoAsync(randoId);
+                var rando = await _db.GetRandoAsync(randoId);
                 if (rando == null)
                     return false;
 
                 if (rando.Status != RandoStatus.Processing)
                     return false;
 
-                var game = await db.GetGameByIdAsync(rando.GameId);
+                var game = await _db.GetGameByIdAsync(rando.GameId);
                 if (game == null)
                     return false;
 
+                _processingRandos.Remove(randoId);
                 _generatedRandos.Add(randoId, new GenerateResult(randoId, rando.Seed, game.Moniker, pakOutput, fluffyOutput));
-                await db.SetRandoStatusAsync(rando.Id, RandoStatus.Completed);
+                await _db.SetRandoStatusAsync(rando.Id, RandoStatus.Completed);
                 return true;
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Failed to finalize rando {RandoId}", randoId);
+                _logger.LogError(ex, "Failed to finalize rando {RandoId}", randoId);
+                return false;
+            }
+            finally
+            {
+                _mutex.Release();
+            }
+        }
+
+        public async Task<bool> FailRando(Guid id, int randoId, string reason)
+        {
+            var generator = GetGenerator(id);
+            if (generator == null)
+                return false;
+
+            await _mutex.WaitAsync();
+            try
+            {
+                var rando = await _db.GetRandoAsync(randoId);
+                if (rando == null)
+                    return false;
+
+                if (rando.Status != RandoStatus.Processing)
+                    return false;
+
+                await _db.SetRandoStatusAsync(rando.Id, RandoStatus.Failed);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to finalize rando {RandoId}", randoId);
                 return false;
             }
             finally
@@ -210,12 +303,12 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         private async Task CreateDefaultProfile(int gameId)
         {
             var defaultConfig = await GetDefaultConfigAsync(gameId);
-            var profile = await db.GetDefaultProfile(gameId);
+            var profile = await _db.GetDefaultProfile(gameId);
             if (profile == null)
             {
                 var newProfile = new ProfileDbModel()
                 {
-                    UserId = db.SystemUserId,
+                    UserId = _db.SystemUserId,
                     GameId = gameId,
                     Created = DateTime.UtcNow,
                     Name = "Default",
@@ -224,8 +317,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                     Official = true
                 };
 
-                logger.LogInformation("Creating profile {Name} for default config", newProfile.Name);
-                await db.CreateProfileAsync(newProfile, defaultConfig);
+                _logger.LogInformation("Creating profile {Name} for default config", newProfile.Name);
+                await _db.CreateProfileAsync(newProfile, defaultConfig);
             }
             else
             {
@@ -233,9 +326,9 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 profile.Public = true;
                 profile.Official = true;
 
-                logger.LogInformation("Updating profile {Id} {Name} to default config", profile.Id, profile.Name);
-                await db.UpdateProfileAsync(profile);
-                await db.SetProfileConfigAsync(profile.Id, defaultConfig);
+                _logger.LogInformation("Updating profile {Id} {Name} to default config", profile.Id, profile.Name);
+                await _db.UpdateProfileAsync(profile);
+                await _db.SetProfileConfigAsync(profile.Id, defaultConfig);
             }
         }
     }

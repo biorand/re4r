@@ -42,7 +42,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
             var configJson = config.ToJson(indented: false);
 
-            var unassignedRandos = await db.GetUnassignedRandosAsync();
+            var unassignedRandos = await db.GetRandosWithStatus(RandoStatus.Unassigned);
             foreach (var r in unassignedRandos.Results)
             {
                 if (r.UserId == user.Id)

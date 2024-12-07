@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Spectre.Console;
 using Spectre.Console.Cli;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
@@ -28,8 +29,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 1,
                 new RandomizerAgentHandler(settings.InputPath));
             var cts = new CancellationTokenSource();
-            Console.CancelKeyPress += (sender, e) => cts.Cancel();
-            await agent.RunAsync(cts.Token);
+            Console.CancelKeyPress += (sender, e) =>
+            {
+                e.Cancel = true;
+                cts.Cancel();
+            };
+            try
+            {
+                await agent.RunAsync(cts.Token);
+            }
+            catch (TaskCanceledException)
+            {
+            }
             return 0;
         }
 
@@ -54,6 +65,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 input.GamePath = _gamePath;
                 return Task.FromResult(Randomizer.Randomize(input));
             }
+
+            public void LogInfo(string message) => AnsiConsole.MarkupLine($"[gray]{Timestamp} {message}[/]");
+            public void LogError(Exception ex, string message) => AnsiConsole.MarkupLine($"[red]{Timestamp} {message}[/]");
+
+            private static string Timestamp => DateTime.Now.ToString("[[yyyy-MM-dd HH:mm]]");
         }
     }
 }

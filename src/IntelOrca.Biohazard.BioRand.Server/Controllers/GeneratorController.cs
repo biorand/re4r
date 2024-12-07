@@ -37,8 +37,21 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 RandomizerConfiguration.FromDictionary(request.DefaultConfiguration));
             return new
             {
-                Id = generator.Id
+                generator.Id
             };
+        }
+
+        [HttpPost("unregister")]
+        public async Task<object> Unregister([FromBody] GeneratorUnregisterRequest request)
+        {
+            if (!TestApiKey())
+                return Unauthorized();
+
+            var success = await generatorService.UnregisterAsync(request.Id);
+            if (!success)
+                return NotFound();
+
+            return Ok();
         }
 
         [HttpPut("heartbeat")]
@@ -99,6 +112,25 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 return NotFound();
 
             var success = await generatorService.FinishRando(id, request.RandoId, request.PakOutput, request.FluffyOutput);
+            if (!success)
+                return StatusCode(StatusCodes.Status410Gone);
+
+            return Ok();
+        }
+
+        [HttpPost("fail")]
+        public async Task<object> Fail([FromBody] GeneratorFailRequest request)
+        {
+            if (!TestApiKey())
+                return Unauthorized();
+
+            if (!Guid.TryParse(request.Id, out var id))
+                return NotFound();
+
+            if (!await generatorService.IsGeneratorValid(id))
+                return NotFound();
+
+            var success = await generatorService.FailRando(id, request.RandoId, request.Reason);
             if (!success)
                 return StatusCode(StatusCodes.Status410Gone);
 
