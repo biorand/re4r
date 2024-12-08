@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.Server.RestModels;
@@ -116,6 +117,30 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 return StatusCode(StatusCodes.Status410Gone);
 
             return Ok();
+        }
+
+        [HttpPost("end-form")]
+        [DisableRequestSizeLimit]
+        public async Task<object> EndForm(
+            [FromForm] string id,
+            [FromForm] int randoId,
+            [FromForm] IFormFile pakOutput,
+            [FromForm] IFormFile fluffyOutput)
+        {
+            return await End(new GeneratorEndRequest()
+            {
+                Id = id,
+                RandoId = randoId,
+                PakOutput = await GetBytes(pakOutput),
+                FluffyOutput = await GetBytes(fluffyOutput)
+            });
+        }
+
+        private static async Task<byte[]> GetBytes(IFormFile formFile)
+        {
+            var ms = new MemoryStream();
+            await formFile.CopyToAsync(ms);
+            return ms.ToArray();
         }
 
         [HttpPost("fail")]
