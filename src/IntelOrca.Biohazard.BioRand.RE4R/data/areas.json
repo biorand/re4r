@@ -10,12 +10,25 @@
       "chapter": 1,
       "restrictions": [
         {
-          "guids": [
+          "guids": [ // Forget your makeup?
             "36e28438-0a9c-475c-8a31-c8c4d905e925" // police
           ]
         },
         {
-          "guids": [
+          "guids": [ // EXTRA ENEMIES OPENER/HOUSE
+            "07d41ff3-1ec6-d325-466c-6fd249922e51", // Flank Right of Sign 1
+            "caa655c1-7de3-82e4-45cc-94769362c824", // Behind Wire Fence
+            "777a5601-d506-4483-839c-b5fc6849edd1", // Top of the stairs
+            "f774819f-49fc-4e13-995f-d22ac50d15c0" // Dining Room
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // CABIN BASEMENT
             "ccd9520b-2fd0-44e7-9b14-24491bce2367", // ??
             "52061032-d686-401c-b1b7-ebdcd629e8ea" // first villager coming down stairs
           ],
@@ -23,13 +36,14 @@
             "mendez_2",
             "pesanta",
             "u3",
-            "verdugo"
+            "verdugo",
+            "mendez_chase"
           ]
         },
         {
-          "guids": [
-            "bacf6775-91ec-4932-85ed-db488c2a35ee",
-            "afc35303-7d98-4615-ad30-ac0c99e2e709",
+          "guids": [ // CABIN
+            "bacf6775-91ec-4932-85ed-db488c2a35ee", // Bedroom 1
+            "afc35303-7d98-4615-ad30-ac0c99e2e709", // Patrol 1
             "7627dd62-89c8-4964-ac6e-0df675e2ad10",
             "ed0cf043-e107-480c-a3c1-58877a84f22f",
             "444f5d9b-4b54-4c44-8d66-2557f501407a",
@@ -45,14 +59,16 @@
       ],
       "extra": [
         {
-          "enemies": [
+          "enemies": [ // EXTRA ENEMIES OPENER
             {
+              "guid": "07d41ff3-1ec6-d325-466c-6fd249922e51", // Flank Right of Sign 1
               "stage": 40501,
               "x": -255,
               "y": 6,
               "z": 50
             },
             {
+              "guid": "caa655c1-7de3-82e4-45cc-94769362c824", // Behind Wire Fence
               "stage": 40501,
               "x": -240,
               "y": 6,
@@ -61,9 +77,9 @@
           ]
         },
         {
-          "enemies": [
+          "enemies": [ // EXTRA ENEMIES CABIN
             {
-              "guid": "f774819f-49fc-4e13-995f-d22ac50d15c0",
+              "guid": "f774819f-49fc-4e13-995f-d22ac50d15c0", // Dining Room
               "rw": -0.09,
               "rx": 0.0,
               "ry": -1.0,
@@ -75,7 +91,7 @@
               "small": true
             },
             {
-              "guid": "777a5601-d506-4483-839c-b5fc6849edd1",
+              "guid": "777a5601-d506-4483-839c-b5fc6849edd1", // Top of the stairs
               "rw": -0.24,
               "rx": 0.0,
               "ry": -0.97,
@@ -91,6 +107,7 @@
         {
           "enemies": [
             {
+              "guid": "00a00310-dfa9-6e14-42f0-6707fd6256b0", // Across the Bridge
               "rw": 0.64,
               "rx": 0.0,
               "ry": -0.77,
@@ -101,6 +118,7 @@
               "z": 58
             },
             {
+              "guid": "b230cab9-e6a1-3b1d-4753-1feedc3a4d59", // Before Crow Clearing
               "rw": -0.96,
               "rx": 0.0,
               "ry": 0.27,
@@ -111,6 +129,7 @@
               "z": 48
             },
             {
+              "guid": "cd1d1e06-fd32-2c59-43df-bbd0f7ed71fa", // Before Ruined House Entrance
               "rw": -0.75,
               "rx": 0.0,
               "ry": 0.66,
@@ -121,6 +140,7 @@
               "z": 48
             },
             {
+              "guid": "304b2af5-9353-aedb-4ff2-3eebe4935a40", // Standing by Crow
               "rw": -0.96,
               "rx": 0.0,
               "ry": 0.28,
@@ -131,6 +151,7 @@
               "z": 46
             },
             {
+              "guid": "f024256f-5ba5-4bca-4dfc-79afe3e77cce", // Before Crouch Branch
               "rw": 1.0,
               "rx": 0.0,
               "ry": -0.05,
@@ -141,6 +162,7 @@
               "z": 32
             },
             {
+              "guid": "cd91a02f-8b2a-853d-4ecb-8d59389eb6bd", // After Ruined House
               "rw": 0.47,
               "rx": 0.0,
               "ry": -0.88,
@@ -151,6 +173,7 @@
               "z": 45
             },
             {
+              "guid": "75152fe5-89b9-ecce-4c4d-6eb76be6ac98", // The Drawer Guard
               "rw": 0.37,
               "rx": 0.0,
               "ry": 0.93,
@@ -168,6 +191,35 @@
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_020.scn.20",
       "chapter": 1,
       "restrictions": [
+        {
+          "guids": [
+            "cd1d1e06-fd32-2c59-43df-bbd0f7ed71fa", // The Box Guard
+            "f024256f-5ba5-4bca-4dfc-79afe3e77cce", // Before Crouch Branch
+            "444f5d9b-4b54-4c44-8d66-2557f501407a", // Behind the Tree
+            "4ab9f0a3-891e-441e-a1d6-3de1028fda1a" // ???
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [
+            "b230cab9-e6a1-3b1d-4753-1feedc3a4d59", // Across Bridge
+            "00a00310-dfa9-6e14-42f0-6707fd6256b0", // Corner before Crow
+            "304b2af5-9353-aedb-4ff2-3eebe4935a40", // Standing by Crow
+            "cd91a02f-8b2a-853d-4ecb-8d59389eb6bd", // After ruined house
+            "f024256f-5ba5-4bca-4dfc-79afe3e77cce", // Before Crouch Branch
+            "75152fe5-89b9-ecce-4c4d-6eb76be6ac98" // The Drawer Guard
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase"
+          ]
+        },
         {
           "guids": [
             "da73460d-62b6-4dc2-9882-1183bba45389", // chainsaw
@@ -262,6 +314,7 @@
               "z": -114
             },
             {
+              "guid": "a26ebf20-34a2-e931-4cc9-f4cfe7ebe4b1", // Guarding Ammo Cupboard
               "rw": -0.75,
               "rx": 0.0,
               "ry": 0.67,
@@ -272,6 +325,7 @@
               "z": -128
             },
             {
+              "guid": "f0f8e593-e48d-b346-4c27-d5d1f47163fd", // Guarding Small Key Drawer
               "rw": 0.96,
               "rx": 0.0,
               "ry": -0.27,
@@ -282,6 +336,7 @@
               "z": -131
             },
             {
+              "guid": "9dbdd9c2-85eb-18bb-47b5-a0887f15e59e", //Luis House Room after Tripwire
               "rw": -0.33,
               "rx": 0.0,
               "ry": 0.94,
@@ -292,6 +347,7 @@
               "z": -125
             },
             {
+              "guid": "86175bf5-e8c7-3aad-495f-64f374d4cf2f", // Luis Guardian
               "rw": 0.36,
               "rx": 0.0,
               "ry": -0.93,
@@ -311,34 +367,88 @@
       "description": "farm - animals",
       "restrictions": [
         {
-          "guids": [
-            "09ea044f-52d4-4d8b-818c-c8c833743221",
-            "d6435c61-016a-4642-b9ef-ba77cd846689",
-            "7636e2b3-5651-4b92-b785-dc694be139c0",
-            "83af39cb-c79f-47ce-93db-90bf861e0305",
-            "d041f1e4-a079-4877-9fe5-f8fd40e0d848"
+          "guids": [ //FARM ALL THE WAY TO LUIS HOUSE
+            "09ea044f-52d4-4d8b-818c-c8c833743221", // Behind Fence
+            "7636e2b3-5651-4b92-b785-dc694be139c0", // Across from Trash Pile
+            "83af39cb-c79f-47ce-93db-90bf861e0305", // Guarding Corner fence
+            "d041f1e4-a079-4877-9fe5-f8fd40e0d848", // Facing Trash Pile
+            "a31b37c1-5c13-43eb-401f-75eaabe764d4", // Yardwork Ganados
+            "555d5526-4f48-48da-bb1e-8b6e38b88dfa", // Barn Door Smasher
+            "409a4aad-e036-4fa3-aef0-16d39cce09eb", // Facing Barn
+            "7ad1bf36-5681-4d31-9fc5-3cb093103c39", // ???
+            "6e1e06c9-453a-9fff-47ca-91d127d10b1a", // ???
+            "bbd85d12-563e-4d9c-9ee6-079ec7ae5b93", // Directly in front of guest House
+            "10ebbec3-879d-4115-98fa-bb92fa5d3cc3", // Under the Bird Nest
+            "d8624c4a-25d7-43ba-b545-39d529bb533c", // Guarding Hill to Luis House
+            "5bf5d61d-4338-44a5-975c-7e3b78ad1ff7", // Guarding Ladder
+            "ac45380d-9056-455f-9057-1a50e96b1eae", // Guarding Dock
+            "616362e3-482e-49ed-bcb1-11eb72ee114a" // Fencepost Warrior
           ],
           "exclude": [
-            "mendez_chase"
+            "mendez_chase",
+            "pesanta",
+            "u3"
+          ]
+        },
+        {
+          "guids": [ // FARM ALL THE WAY TO LUIS HOUSE
+            "af8fb44e-0b00-4147-8f63-e0ac49d544c6", // Ambusher by save room
+            "d6435c61-016a-4642-b9ef-ba77cd846689", // inside Barn
+            "936e94b5-d297-147f-4aa0-6ae45a9c4907", // Behind house ambush
+            "941b0264-4a66-4ca7-96db-bcb03a81c9d1", // Barn 2F
+            "cb4b8afb-fbf4-4565-bff1-b8d663ef9594", // Planation Shack Guest room
+            "7da8fbc2-663d-4703-8308-7ac68d7a5f05", // Plantation Shack Window
+            "53103451-d99a-48b4-a487-058857b4e5b7", // Luis House Porch
+            "a26ebf20-34a2-e931-4cc9-f4cfe7ebe4b1", // Guarding Ammo Cupboard
+            "f0f8e593-e48d-b346-4c27-d5d1f47163fd", // Guarding Small Key Drawer"
+            "9dbdd9c2-85eb-18bb-47b5-a0887f15e59e", // Luis House Room after Tripwire
+            "58367a3d-d456-44ef-8aab-e481393ec3fb", // Guy beating up trapdoor
+            "86175bf5-e8c7-3aad-495f-64f374d4cf2f", // Luis Basement Guardian
+            "5bc4bd86-e148-4270-85bb-7f9131f6558e", // Narrow Path after falling rocks
+            "bd9831e1-2dfe-ec59-4632-3c5d18cc0c59" // Narrow Path after falling rocks 2
+          ],
+          "exclude": [
+            "mendez_2",
+            "mendez_chase",
+            "pesanta",
+            "u3"
           ]
         }
       ]
     },
     // { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_100.scn.20", "chapter": 1 },
-
     // Chapter 2 (factory, red mist valley, chief)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/level_cp10_chp1_2.scn.20",
       "chapter": 2,
       "restrictions": [
         {
-          "guids": [
-            "57a10b46-e53a-460a-9927-eac41a0bdeb7"
+          "guids": [ // DYNAMITE VALLEY SPAWNS
+            "57a10b46-e53a-460a-9927-eac41a0bdeb7", // Path to Dynamite Valley 
+            "1c51f46d-84b7-484d-a1d9-2827c017b948", // House Ambush Spawn 1
+            "a8eb757d-039d-462a-a969-6f6c31611bbf", // House Ambush Spawn 2
+            "43e3d8fe-6930-46d4-8a72-b2161db1e24e", // House Ladder Guard
+            "03625e3c-16cb-4abf-b52d-6a66dec3f86b", // Upper Level Patrol
+            "28e02bee-815f-4c2a-959a-45bdfc9bdc6a", // Stairs Guard
+            "6fdfe0fd-7eb0-42c4-b462-06257e03b2cb", // Barrel Adjacent
+            "7508b413-afa4-47f6-823d-d4fa02572338", // Treasure Guard
+            "4d8b60c3-10e2-4abc-934e-65ed991621e2" // Exit Guarda
           ],
           "exclude": [
             "pesanta",
             "u3",
-            "verdugo"
+            "verdugo",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // DYNAMITE VALLEY MENDEZ 2 SPAWNS
+            "4f0940a5-66cc-4866-ada8-271a7ea83f74", // Guard House East Entrance
+            "699a1ba2-047b-47ed-bea5-e5e0e3d4535d" // 2F Ledge Guard
+          ],
+          "exclude": [
+            "pesanta",
+            "u3"
           ]
         }
       ],
@@ -346,6 +456,7 @@
         {
           "enemies": [
             {
+              "guid": "acc1325b-96a8-1ee6-4c6c-9815e1afee1e", // Spawn under treasure lantern
               "rw": 0.99,
               "rx": 0.0,
               "ry": 0.14,
@@ -356,6 +467,7 @@
               "z": 134
             },
             {
+              "guid": "a31b37c1-5c13-43eb-401f-75eaabe764d4", // Next to Pendant Well
               "rw": 0.91,
               "rx": 0.0,
               "ry": 0.4,
@@ -366,6 +478,7 @@
               "z": 128
             },
             {
+              "guid": "0b2abd3b-3237-d0f8-4001-7c22c839c1a9", // Hiding in Emblem room Shack
               "rw": 0.34,
               "rx": 0.0,
               "ry": 0.94,
@@ -377,6 +490,7 @@
               "z": 140
             },
             {
+              "guid": "49cf4097-a2a0-b2d7-4312-7377604af547", // Underneath Mendez house Bird Nest
               "rw": -0.9,
               "rx": 0.0,
               "ry": 0.44,
@@ -387,6 +501,7 @@
               "z": 102
             },
             {
+              "guid": "f915b62a-66d5-ba04-4dec-e9056dc9c17a", // Left of Mendez House front door
               "rw": -0.85,
               "rx": 0.0,
               "ry": -0.52,
@@ -397,6 +512,7 @@
               "z": 94
             },
             {
+              "guid": "fac8b8e7-a414-c56d-44c4-a834c3a7a0ad", // Even more Left of Mendez house front door
               "rw": -0.84,
               "rx": 0.0,
               "ry": 0.54,
@@ -407,6 +523,7 @@
               "z": 89
             },
             {
+              "guid": "6d6ce1c9-d99a-4608-4eb1-62b6ccfec9b0", // Fly My Pretty
               "rw": 0.99,
               "rx": 0.0,
               "ry": -0.13,
@@ -418,6 +535,7 @@
               "z": 97
             },
             {
+              "guid": "7ffa234a-c73c-389c-4999-02f8e0cc2744", // Key item Wardrobe Guard
               "rw": 0.06,
               "rx": 0.0,
               "ry": 1.0,
@@ -429,6 +547,7 @@
               "z": 108
             },
             {
+              "guid": "f5bb1aa1-098f-0480-4a35-06fc96a1a7ae", // Mendez House Dining Room 
               "rw": 0.63,
               "rx": 0.0,
               "ry": -0.78,
@@ -439,6 +558,7 @@
               "z": 102
             },
             {
+              "guid": "3d02e0bb-de03-1566-4ada-0c7ae6d342ee", // Mendez Room
               "rw": 0.8,
               "rx": 0.0,
               "ry": 0.6,
@@ -457,10 +577,10 @@
       "chapter": 2,
       "restrictions": [
         {
-          "guids": [
-            "85850656-bb05-4152-ac1d-cc069d4995fb",
-            "cd744af1-6b44-4f37-a88e-944d56d34ac0",
-            "cc9144a7-2c67-4ffa-9a9d-44dd47cddb94",
+          "guids": [ // FACTORY SPAWNS
+            "85850656-bb05-4152-ac1d-cc069d4995fb", // EZ stealth Ganados
+            "cd744af1-6b44-4f37-a88e-944d56d34ac0", // Guarding Valve door
+            "cc9144a7-2c67-4ffa-9a9d-44dd47cddb94", // Patrol in final hallway
             "7423cc0d-e3c7-4834-9476-66f884083aab" // wolf
           ],
           "exclude": [
@@ -470,10 +590,76 @@
             "chainsaw_mad",
             "garrador"
           ]
+        },
+        {
+          "guids": [ // EMBLEM DOOR ROOM SPAWNS 
+            "1012b7b7-e040-4e08-b7ce-8b617df378f5", // Pallet Ambusher
+            "486bb31a-1880-42a3-ae23-f5c19c0c1d69", // Staircase Patroller
+            "2863e7f0-7742-42a1-a5e4-1e3cd4b07f0f", // Staircase Ambusher
+            "86343faa-9b94-4a53-b9e2-989b45bd8ca1" // Staircase Ambusher 2
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "garrador"
+          ]
+        },
+        {
+          "guids": [ // EMBLEM DOOR/MENDEZ HOUSE ROOM MENDEZ 2 SPAWNS
+            "27e34e40-4a4c-4fdb-a001-83462f938541", // Patrol enemy by Pallets
+            "f00699a5-ef50-47f3-b5ec-a9570fdce2c0", // Chainsaw guy replacement
+            "acc1325b-96a8-1ee6-4c6c-9815e1afee1e", // Spawn under treasure lantern
+            "f915b62a-66d5-ba04-4dec-e9056dc9c17a", // Left of Mendez House front door
+            "fac8b8e7-a414-c56d-44c4-a834c3a7a0ad" // Even more Left of Mendez house front door
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "krauser_1",
+            "mendez_chase"
+          ]
+        },
+        {
+          "guids": [ // EMBLEM DOOR ROOM EXTRA ENEMY SPAWNS
+            "a31b37c1-5c13-43eb-401f-75eaabe764d4", // Next to Pendant Well"
+            "0b2abd3b-3237-d0f8-4001-7c22c839c1a9" // Hiding in Emblem room Shack
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_2",
+            "mendez_chase",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // MENDEZ HOUSE SPAWNS
+            "49cf4097-a2a0-b2d7-4312-7377604af547", // Underneath Mendez house Bird Nest
+            "6d6ce1c9-d99a-4608-4eb1-62b6ccfec9b0", // Fly My Pretty
+            "7ffa234a-c73c-389c-4999-02f8e0cc2744", // Key item Wardrobe Guard
+            "f5bb1aa1-098f-0480-4a35-06fc96a1a7ae", // Mendez House Dining Room
+            "3d02e0bb-de03-1566-4ada-0c7ae6d342ee" // Mendez Room
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [
+            "57a10b46-e53a-460a-9927-eac41a0bdeb7" // ???
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "verdugo"
+          ]
         }
       ]
     },
-
     // Chapter 3 (village dogs, church, fish market, de lago)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_3/level_cp10_chp1_3.scn.20",
@@ -482,6 +668,7 @@
         {
           "enemies": [
             {
+              "guid": "e0aeab7f-3f99-2013-4335-11558b2868c4", // Shack Between Mendez House and Village
               "rw": 0.99,
               "rx": 0.0,
               "ry": 0.11,
@@ -493,6 +680,7 @@
               "z": 70
             },
             {
+              "guid": "e882f42d-8d52-7159-4e42-6d451600b345", // Outside Mendez Shack
               "rw": -0.19,
               "rx": 0.0,
               "ry": 0.98,
@@ -503,6 +691,7 @@
               "z": 64
             },
             {
+              "guid": "adba90a5-c8dc-386a-4ab4-041fb966d951", // Outside Door to return to village
               "rw": -0.42,
               "rx": 0.0,
               "ry": -0.91,
@@ -513,6 +702,7 @@
               "z": 48
             },
             {
+              "guid": "fe6de8f8-337c-3731-415a-e725c77c9604", // Insignia Key House enemy 2
               "rw": 0.6,
               "rx": 0.0,
               "ry": -0.8,
@@ -523,6 +713,7 @@
               "z": 6
             },
             {
+              "guid": "72b7504a-94ae-e140-4ad7-7c87531ca87a", // Insignia Key House enemy 1
               "rw": 0.56,
               "rx": 0.0,
               "ry": -0.83,
@@ -533,6 +724,7 @@
               "z": 6
             },
             {
+              "guid": "f09a774a-e24a-c623-450d-a8d73358282b", // Insignia House under Lantern
               "rw": 0.13,
               "rx": 0.0,
               "ry": 0.99,
@@ -543,6 +735,7 @@
               "z": 11
             },
             {
+              "guid": "1d485c2a-730d-a987-4410-2bf14699d581", // Guarding Church Gate
               "rw": 0.29,
               "rx": 0.0,
               "ry": -0.96,
@@ -553,6 +746,7 @@
               "z": 80
             },
             {
+              "guid": "71f4a3ee-e38a-a8a4-448e-e01d0b2bf606", // East Graveyard Path 
               "rw": -0.58,
               "rx": 0.0,
               "ry": 0.82,
@@ -563,6 +757,7 @@
               "z": 75
             },
             {
+              "guid": "9cbf60f6-de1b-2189-4154-0649b7240f36", // North Graveyard Spawn 
               "rw": -0.56,
               "rx": 0.0,
               "ry": 0.83,
@@ -573,6 +768,7 @@
               "z": 79
             },
             {
+              "guid": "41330420-6d5d-40a9-b93b-326a73464b3f", // Northwest Graveyard Spawn
               "rw": -0.23,
               "rx": 0.0,
               "ry": 0.97,
@@ -583,6 +779,7 @@
               "z": 69
             },
             {
+              "guid": "cdb9d407-6087-dbb3-41f9-73e6b283a88e", // Guarding Treasure Chest Behind Church
               "rw": 0.86,
               "rx": 0.0,
               "ry": -0.51,
@@ -593,6 +790,7 @@
               "z": 112
             },
             {
+              "guid": "8324d230-751e-6cd1-450b-fd1012b13b7d", // Behind Church
               "rw": -0.51,
               "rx": 0.0,
               "ry": -0.86,
@@ -603,6 +801,7 @@
               "z": 117
             },
             {
+              "guid": "f5e76f62-3a84-9981-4faa-1050272ef4c4", // Bridge Start
               "rw": 0.99,
               "rx": 0.0,
               "ry": 0.16,
@@ -613,6 +812,7 @@
               "z": 125
             },
             {
+              "guid": "7f274a23-2ba1-617d-403d-14e03f5425e0", // in timeout by El Gigante wooden gate
               "rw": -0.69,
               "rx": 0.0,
               "ry": 0.72,
@@ -624,6 +824,7 @@
               "z": 152
             },
             {
+              "guid": "5631f604-a221-2ff4-48ae-8166538e41d3", // Other side of El Gigante Wooden Gate
               "rw": -0.95,
               "rx": 0.0,
               "ry": -0.3,
@@ -634,6 +835,7 @@
               "z": 152
             },
             {
+              "guid": "6c34e972-60b8-08a9-4581-c13745e18e36", // North El Gigante Room
               "rw": 0.5,
               "rx": 0.0,
               "ry": 0.87,
@@ -644,6 +846,7 @@
               "z": 140
             },
             {
+              "guid": "a9fa8389-1862-8fc0-4dd3-8e39155f8914", // East El Gigante Room
               "rw": 1.0,
               "rx": 0.0,
               "ry": 0.08,
@@ -654,6 +857,7 @@
               "z": 130
             },
             {
+              "guid": "76c7f2d0-7d7d-d222-4fb9-23972611415d", // Spawn by Binoculars POI at Lake
               "rw": 0.89,
               "rx": 0.0,
               "ry": -0.45,
@@ -664,6 +868,7 @@
               "z": 83
             },
             {
+              "guid": "2169ab23-24c9-fb1c-49e0-fadd379dc833", // Guarding Ladder to Lake
               "rw": 1.0,
               "rx": 0.0,
               "ry": 0.0,
@@ -674,6 +879,7 @@
               "z": 81
             },
             {
+              "guid": "1cc2359a-c4bd-ce62-48ca-3053c8319f4e", // Middle of 2F path in Lake
               "rw": 0.66,
               "rx": 0.0,
               "ry": -0.75,
@@ -684,6 +890,7 @@
               "z": 79
             },
             {
+              "guid": "ffe1975b-4fc1-69ac-44cb-b41434e5ad3a", // Bottom of Ladder to Lake
               "rw": -0.82,
               "rx": 0.0,
               "ry": 0.58,
@@ -694,6 +901,7 @@
               "z": 77
             },
             {
+              "guid": "60eab7f7-6a9a-fdc1-4b19-7e491bce679e", // Guarding 2F Box at Lake
               "rw": 0.84,
               "rx": 0.0,
               "ry": -0.54,
@@ -704,6 +912,7 @@
               "z": 69
             },
             {
+              "guid": "ea6835eb-bb84-9ad3-4489-f9587308950b", // Cave Guard to Fish Farm 1
               "rw": 0.78,
               "rx": 0.0,
               "ry": -0.62,
@@ -715,6 +924,7 @@
               "z": 74
             },
             {
+              "guid": "42aebb70-2b17-205e-48f9-ec925a38b89e", // Cave guard to Fish Farm 2
               "rw": -0.75,
               "rx": 0.0,
               "ry": 0.66,
@@ -725,8 +935,8 @@
               "y": 0,
               "z": 78
             },
-
             {
+              "guid": "9ef078bd-b6c7-9959-418b-cc4f8b70423d", // Inside Hut by Hexagon puzzle
               "rw": 0.43,
               "rx": 0.0,
               "ry": -0.9,
@@ -738,6 +948,7 @@
               "z": 78
             },
             {
+              "guid": "ec6b1cdd-6514-2c8a-4930-9467b3a61392", // Inside Hut by Lake
               "rw": -0.42,
               "rx": 0.0,
               "ry": -0.91,
@@ -749,6 +960,7 @@
               "z": 60
             },
             {
+              "guid": "915d8d7e-fb67-d65b-45f2-53372fbdee0f", // Boat Cheater
               "rw": -0.85,
               "rx": 0.0,
               "ry": 0.52,
@@ -759,6 +971,7 @@
               "z": 53
             },
             {
+              "guid": "217c8e09-b226-e1eb-49b7-8d9c904b579f", // Honorable Boat Guard at Lake
               "rw": -1.0,
               "rx": 0.0,
               "ry": -0.05,
@@ -769,6 +982,7 @@
               "z": 59
             },
             {
+              "guid": "bbc1f93f-77f4-fcfc-480a-7cbe1bba4c88", // Pier by Medallion at Lake
               "rw": -0.72,
               "rx": 0.0,
               "ry": 0.69,
@@ -779,6 +993,7 @@
               "z": 65
             },
             {
+              "guid": "d71ac234-6763-ce2f-4881-93a64ab66c65", // 1F at Lake in east Corner
               "rw": -0.18,
               "rx": 0.0,
               "ry": 0.98,
@@ -789,6 +1004,7 @@
               "z": 75
             },
             {
+              "guid": "818d9330-0f22-ef22-4c26-a5d9c7bd6b7f", // Guarding 1F Ladder at Lake
               "rw": 0.17,
               "rx": 0.0,
               "ry": 0.99,
@@ -799,6 +1015,7 @@
               "z": 72
             },
             {
+              "guid": "4c325db9-536c-4c21-408e-921b5aa32e51", // Gas Can Ambusher
               "rw": 0.38,
               "rx": 0.0,
               "ry": 0.93,
@@ -826,9 +1043,179 @@
       "chapter": 3,
       "restrictions": [
         {
+          "guids": [ // RETURN TO VILLAGE MENDEZ 2 EXCLUSIONS
+            "8dbc673c-0d68-4be4-8ed5-f5502e61fcf1", // Ambush inside Shotgun House
+            "9fcd75b8-e38c-4440-9075-2a6f48eddce4", // Ambush in locked House
+            "8e0fb6ec-5bb6-49ca-9d23-5fa465d5f275", // Guard at corner of Insignia Door and Sewer
+            "adba90a5-c8dc-386a-4ab4-041fb966d951" // Outside Door to return to village
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_2",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // RETURN TO VILLAGE EXTRA ENEMIES
+            "72b7504a-94ae-e140-4ad7-7c87531ca87a", // Insignia Key House enemy 1
+            "fe6de8f8-337c-3731-415a-e725c77c9604", // Insignia Key House enemy 2
+            "f09a774a-e24a-c623-450d-a8d73358282b", // Insignia House under Lantern
+            "e882f42d-8d52-7159-4e42-6d451600b345" // Outside Mendez path Shack
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // CHURCH ENEMIES
+            "12271c66-cd5c-439a-926a-77303eb8bb50", // Sweeping Graves
+            "71f4a3ee-e38a-a8a4-448e-e01d0b2bf606", // East Graveyard Path
+            "9cbf60f6-de1b-2189-4154-0649b7240f36", // North Graveyard Spawn
+            "1d485c2a-730d-a987-4410-2bf14699d581", // Guarding Church Gate
+            "cdb9d407-6087-dbb3-41f9-73e6b283a88e", // Guarding Treasure Chest Behind Church
+            "8324d230-751e-6cd1-450b-fd1012b13b7d" // Behind Church
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // CHURCH EXTRA ENEMIES MENDEZ 2 EXCLUDED
+            "7e314456-fef4-4217-bc0f-e1edcd3535c9", // Inside Hut
+            "41330420-6d5d-40a9-b93b-326a73464b3f" // Northwest Graveyard Spawn
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // BRIDGE ENEMIES
+            "acf12c78-f142-4f95-bbef-b33c6773cd7b", // Ambusher by Ladder
+            "de16a018-3edb-42e5-8d9b-941026792a47", // Rooftop Ganados West
+            "de0af8d8-813d-490f-8180-4c7bc4805dfe", // Ladder trigger Ambush 1
+            "bfce4fe9-15eb-4020-bd28-97c67fc9d9cd", // Ladder trigger Ambush 2
+            "01edcd69-616a-4fee-9629-8c1bef716f4b", // Rooftop Ganados East 1
+            "0840df7f-f33f-4ad1-8368-ff0a972f1bdc", // Rooftop Ganados East 2
+            "7d099d29-4740-466e-ae74-b6380c7abc6c", // East Path Ladder Ganados
+            "175a6a80-61a5-4fb1-a5d1-58f9d074025f", // Second Ladder Ambush 1
+            "9f1e9d3d-b82c-42a5-b98b-5b373203a169" // Second Ladder Ambush 2
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // BRIDGE AND EL GIGANTE ROOM EXTRA ENEMIES
+            "5631f604-a221-2ff4-48ae-8166538e41d3", // Other side of El Gigante Wooden Gate
+            "6c34e972-60b8-08a9-4581-c13745e18e36", // North El Gigante Room
+            "a9fa8389-1862-8fc0-4dd3-8e39155f8914" // East El Gigante Room
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // BRIDGE AND EL GIGANTE ROOM ENEMIES MENDEZ 2 EXCLUDED
+            "f5e76f62-3a84-9981-4faa-1050272ef4c4", // Bridge Start
+            "7f274a23-2ba1-617d-403d-14e03f5425e0" // in timeout by El Gigante wooden gate
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // LAKE EXTRA ENEMIES
+            "76c7f2d0-7d7d-d222-4fb9-23972611415d", // Spawn by Binoculars POI at Lake
+            "2169ab23-24c9-fb1c-49e0-fadd379dc833", // Guarding Ladder to Lake
+            "9ef078bd-b6c7-9959-418b-cc4f8b70423d", // Inside Hut by Hexagon puzzle
+            "ec6b1cdd-6514-2c8a-4930-9467b3a61392", // Inside Hut by Lake
+            "217c8e09-b226-e1eb-49b7-8d9c904b579f", // Honorable Boat Guard at Lake
+            "bbc1f93f-77f4-fcfc-480a-7cbe1bba4c88", // Pier by Medallion at Lake
+            "818d9330-0f22-ef22-4c26-a5d9c7bd6b7f" // Guarding 1F Ladder at Lake
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // LAKE EXTRA ENEMIES MENDEZ 2 EXCLUDED
+            "1cc2359a-c4bd-ce62-48ca-3053c8319f4e", // Middle of 2F path in Lake
+            "ffe1975b-4fc1-69ac-44cb-b41434e5ad3a", // Bottom of Ladder to Lake
+            "60eab7f7-6a9a-fdc1-4b19-7e491bce679e", // Guarding 2F Box at Lake
+            "ea6835eb-bb84-9ad3-4489-f9587308950b", // Cave Guard to Fish Farm 1
+            "42aebb70-2b17-205e-48f9-ec925a38b89e", // Cave guard to Fish Farm 2
+            "915d8d7e-fb67-d65b-45f2-53372fbdee0f", // Boat Cheater
+            "d71ac234-6763-ce2f-4881-93a64ab66c65", // 1F at Lake in east Corner
+            "4c325db9-536c-4c21-408e-921b5aa32e51" // Gas Can Ambusher
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // FISH FARM
+            "67b0084c-751f-478b-a44c-598dc0e55a35", // Second Patrol Villager
+            "6a6cffe3-8188-4677-abe8-68deb54be95e", // Ambush at Left Ramp
+            "6799edd7-43c8-4d64-a432-f7ce0734d1c9", // Hiding Behind Rock Mound
+            "89a4bb04-7490-46ca-8733-3a19aba180b2", // Patrol at Bottom of Left Ramp
+            "76808032-1d24-4b7b-b711-fd4ddd9d7ee3", // Right of Medallion Ramp
+            "c8e54b1a-8643-46bd-a7e3-e01480ee726a", // Ramp to Lantern Treasure 1
+            "41330420-6d5d-40a9-b93b-326a73464b3f", // Ramp to Lantern Treasure 2
+            "97acda07-baac-4203-a4b0-242771d2cf3c" // Guarding Lantern Treasure
+          ],
+          "exclude": [
+            "pesanta",
+            "u3"
+          ]
+        },
+        {
+          "guids": [ // FISH FARM MENDEZ 2 EXCLUSIONS
+            "77c7bcac-0928-48b4-abcc-899a45932fd8", // First Patrol Brute
+            "89a4bb04-7490-46ca-8733-3a19aba180b2", // Patrol at Bottom of Left Ramp
+            "e0a7e327-1bfa-4fc3-9514-d15155551e7b", // First Ramp Ambush (1F South end of room)
+            "333f16a8-835d-47bd-a419-7e52e855f699", // First Ramp Ambush (1F East end of room)
+            "ca6f52ef-7552-479c-a33c-510a2a6e276c", // Archer by Tripwire 
+            "333f16a8-835d-47bd-a419-7e52e855f699", // Last Ladder Ambush 1
+            "36604ed5-2030-4f4a-ab66-0992d038b806", // Last Ladder Ambush 2
+            "5c1adb04-509c-49b0-9ba2-a7159684c0ba", // Last Ladder Ambush 3
+            "b9e08930-9a3d-404b-9c7e-99b61665ae3b" // Last Ladder Ambush 4
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_2"
+          ]
+        },
+        {
           "guids": [
             "19b7057c-2463-4c8b-adf2-ef4ee3bca075", // police
-            "cf55be15-d8e5-4e84-b854-e8c296f5f26c"
+            "cf55be15-d8e5-4e84-b854-e8c296f5f26c" // ch2b1z0
           ]
         }
       ]
@@ -888,7 +1275,6 @@
         }
       ]
     },
-
     // Chapter 4 (lake, gigante, church)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/level_cp10_chp2_1.scn.20",
@@ -1368,7 +1754,6 @@
       "path": "natives/stm/_chainsaw/leveldesign/location/loc46/level_loc46.scn.20",
       "chapter": 4
     },
-
     // Chapter 5 (church, village, cabin)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2.scn.20",
@@ -1389,7 +1774,6 @@
       "extra": [
         {
           "enemies": [
-
             {
               "rw": 0.81,
               "rx": 0.0,
@@ -1501,7 +1885,6 @@
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2_200.scn.20",
       "chapter": 5
     },
-
     // Chapter 6 (bella sisters, mendez)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_3/level_cp10_chp2_3.scn.20",
@@ -1866,7 +2249,6 @@
         }
       ]
     },
-
     // Chapter 7 (castle entrance, prison, water hall)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1.scn.20",
@@ -1878,7 +2260,9 @@
           ]
         },
         {
-          "exclude": [ "mendez_chase" ]
+          "exclude": [
+            "mendez_chase"
+          ]
         }
       ],
       "extra": [
@@ -2507,17 +2891,35 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_000.scn.20",
       "chapter": 7,
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_001.scn.20",
       "chapter": 7,
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_002.scn.20",
       "chapter": 7,
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_003.scn.20",
@@ -2538,7 +2940,13 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_004.scn.20",
       "chapter": 7,
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_005.scn.20",
@@ -2561,7 +2969,9 @@
           ]
         },
         {
-          "exclude": [ "mendez_chase" ]
+          "exclude": [
+            "mendez_chase"
+          ]
         }
       ]
     },
@@ -2628,21 +3038,34 @@
           ]
         },
         {
-          "exclude": [ "mendez_chase" ]
+          "exclude": [
+            "mendez_chase"
+          ]
         }
       ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_007.scn.20",
       "chapter": 7,
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_008.scn.20",
       "chapter": 7,
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
-
     // Chapter 8 (red zealot, castle battlements)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2.scn.20",
@@ -3014,7 +3437,6 @@
       "path": "natives/stm/_chainsaw/leveldesign/location/loc51/level_loc51_005.scn.20",
       "chapter": 8
     },
-
     // Chapter 9 (maze, great hall, library)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3.scn.20",
@@ -3026,7 +3448,9 @@
           ]
         },
         {
-          "exclude": [ "mendez_chase" ]
+          "exclude": [
+            "mendez_chase"
+          ]
         }
       ],
       "extra": [
@@ -3535,7 +3959,13 @@
       "path": "natives/stm/_chainsaw/leveldesign/location/loc52/level_loc52_003.scn.20",
       "chapter": 9,
       "description": "knights outside of knighty-knight knights room",
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     // Disable random enemies for Ashley section for now
     // {
@@ -3556,12 +3986,24 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_003.scn.20",
       "chapter": 9,
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_004.scn.20",
       "chapter": 9,
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_005.scn.20",
@@ -3580,7 +4022,13 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_006.scn.20",
       "chapter": 9,
-      "restrictions": [ { "exclude": [ "mendez_chase" ] } ]
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       // Knighty-knight knights room
@@ -3733,7 +4181,6 @@
         }
       ]
     },
-
     // Chapter 10 (ball room, double garradors, throne room, sewers, verdugo)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1.scn.20",
@@ -4265,7 +4712,6 @@
       "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_999.scn.20",
       "chapter": 10
     },
-
     // Chapter 11 (mine, nest, krauser 1)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_2/level_cp10_chp4_2.scn.20",
@@ -4708,7 +5154,6 @@
       "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_999.scn.20",
       "chapter": 11
     },
-
     // Chapter 12 (clock tower, salazar)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3.scn.20",
@@ -5283,7 +5728,6 @@
       "path": "natives/stm/_chainsaw/leveldesign/location/loc56/level_loc56_999.scn.20",
       "chapter": 12
     },
-
     // Chapter 13 (island entry, morgue, fridges)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp5_1/level_cp10_chp5_1.scn.20",
@@ -6069,7 +6513,6 @@
         }
       ]
     },
-
     // Chapter 14 (island sewers, wrecking ball, krauser)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp5_2/level_cp10_chp5_2.scn.20",
@@ -7401,7 +7844,6 @@
         }
       ]
     },
-
     // Chapter 15 (mike, regeneradors, summit)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp5_3/level_cp10_chp5_3.scn.20",
@@ -7801,7 +8243,6 @@
       "path": "natives/stm/_chainsaw/leveldesign/location/loc67/enemy_000.scn.20",
       "chapter": 15
     },
-
     // Chapter 16 (sadler)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp5_4/level_cp10_chp5_4.scn.20",
@@ -8368,7 +8809,6 @@
         }
       ]
     }
-
     // ?
     // { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chpx_1/level_cp10_chpx_1.scn.20" },
     // { "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chpx_2/level_cp10_chpx_2.scn.20" },
@@ -8405,11 +8845,31 @@
     // { "path": "natives/stm/_chainsaw/leveldesign/location/loc79/level_loc79_003.scn.20" }
   ],
   "items": [
-    { "chapter": 1, "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_0/item_cp10_chp1_0.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_0/item_cp10_chp1_0_itemdata.user.2" },
-    { "chapter": 1, "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/item_cp10_chp1_1.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/item_cp10_chp1_1_itemdata.user.2" },
-    { "chapter": 2, "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/item_cp10_chp1_2.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/item_cp10_chp1_2_itemdata.user.2" },
-    { "chapter": 4, "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/item_cp10_chp2_1.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/item_cp10_chp2_1_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/item_cp10_chp2_2.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/item_cp10_chp2_2_itemdata.user.2" },
+    {
+      "chapter": 1,
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_0/item_cp10_chp1_0.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_0/item_cp10_chp1_0_itemdata.user.2"
+    },
+    {
+      "chapter": 1,
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/item_cp10_chp1_1.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/item_cp10_chp1_1_itemdata.user.2"
+    },
+    {
+      "chapter": 2,
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/item_cp10_chp1_2.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/item_cp10_chp1_2_itemdata.user.2"
+    },
+    {
+      "chapter": 4,
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/item_cp10_chp2_1.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/item_cp10_chp2_1_itemdata.user.2"
+    },
+    {
+      "chapter": 5,
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/item_cp10_chp2_2.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/item_cp10_chp2_2_itemdata.user.2"
+    },
     {
       "chapter": 1,
       "path": "natives/stm/_chainsaw/leveldesign/location/loc40/item_loc40.scn.20",
@@ -8485,11 +8945,15 @@
         },
         {
           "contextId": "2,0,12,271", // Sapphire
-          "exclude": [ "weapon" ]
+          "exclude": [
+            "weapon"
+          ]
         },
         {
           "contextId": "2,0,12,272", // Handgun ammo
-          "exclude": [ "weapon" ]
+          "exclude": [
+            "weapon"
+          ]
         },
         {
           "contextId": "2,0,12,465", // Pearl Pendant
@@ -8652,12 +9116,36 @@
         }
       ]
     },
-    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_001_itemdata.user.2" },
-    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_002.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_002_itemdata.user.2" },
-    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_003.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_003_itemdata.user.2" },
-    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_004.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_004_itemdata.user.2" },
-    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_005.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_005_itemdata.user.2" },
-    { "chapter": 7, "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_007.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_007_itemdata.user.2" },
+    {
+      "chapter": 7,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_001.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_001_itemdata.user.2"
+    },
+    {
+      "chapter": 7,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_002.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_002_itemdata.user.2"
+    },
+    {
+      "chapter": 7,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_003.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_003_itemdata.user.2"
+    },
+    {
+      "chapter": 7,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_004.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_004_itemdata.user.2"
+    },
+    {
+      "chapter": 7,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_005.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_005_itemdata.user.2"
+    },
+    {
+      "chapter": 7,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_007.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc50/item_loc50_007_itemdata.user.2"
+    },
     {
       "chapter": 8,
       "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_000.scn.20",
@@ -8699,10 +9187,26 @@
         }
       ]
     },
-    { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_002.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_002_itemdata.user.2" },
-    { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_003.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_003_itemdata.user.2" },
-    { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_004.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_004_itemdata.user.2" },
-    { "chapter": 8, "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_006.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_006_itemdata.user.2" },
+    {
+      "chapter": 8,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_002.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_002_itemdata.user.2"
+    },
+    {
+      "chapter": 8,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_003.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_003_itemdata.user.2"
+    },
+    {
+      "chapter": 8,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_004.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_004_itemdata.user.2"
+    },
+    {
+      "chapter": 8,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_006.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc51/item_loc51_006_itemdata.user.2"
+    },
     {
       "chapter": 9,
       "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_000.scn.20",
@@ -8718,10 +9222,26 @@
         }
       ]
     },
-    { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_002.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_002_itemdata.user.2" },
-    { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_003.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_003_itemdata.user.2" },
-    { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_004.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_004_itemdata.user.2" },
-    { "chapter": 9, "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_005.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_005_itemdata.user.2" },
+    {
+      "chapter": 9,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_002.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_002_itemdata.user.2"
+    },
+    {
+      "chapter": 9,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_003.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_003_itemdata.user.2"
+    },
+    {
+      "chapter": 9,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_004.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_004_itemdata.user.2"
+    },
+    {
+      "chapter": 9,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_005.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc52/item_loc52_005_itemdata.user.2"
+    },
     {
       "chapter": 10,
       "path": "natives/stm/_chainsaw/leveldesign/location/loc53/item_loc53.scn.20",
@@ -8730,17 +9250,23 @@
         {
           "contextId": "2,0,11,406", // Elegant Perfume Bottle in chest (library)
           "valuable": "chest",
-          "include": [ "treasure" ]
+          "include": [
+            "treasure"
+          ]
         },
         {
           "contextId": "2,0,11,402", // Sapphire in chest (library)
           "valuable": "chest",
-          "include": [ "treasure" ]
+          "include": [
+            "treasure"
+          ]
         },
         {
           "contextId": "2,0,11,400", // Emerald in chest (mausoleum)
           "valuable": "chest",
-          "include": [ "treasure" ]
+          "include": [
+            "treasure"
+          ]
         },
         {
           "contextId": "2,0,11,394", // CQBR Assault Rifle in cube box (library)
@@ -8768,9 +9294,21 @@
         }
       ]
     },
-    { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_001_itemdata.user.2" },
-    { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_002.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_002_itemdata.user.2" },
-    { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_003.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_003_itemdata.user.2" },
+    {
+      "chapter": 10,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_001.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_001_itemdata.user.2"
+    },
+    {
+      "chapter": 10,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_002.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_002_itemdata.user.2"
+    },
+    {
+      "chapter": 10,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_003.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_003_itemdata.user.2"
+    },
     {
       "chapter": 10,
       "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_004.scn.20",
@@ -8782,7 +9320,11 @@
         }
       ]
     },
-    { "chapter": 10, "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_005.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_005_itemdata.user.2" },
+    {
+      "chapter": 10,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_005.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc54/item_loc54_005_itemdata.user.2"
+    },
     {
       "chapter": 11,
       "path": "natives/stm/_chainsaw/leveldesign/location/loc55/item_loc55.scn.20",
@@ -8825,9 +9367,21 @@
         }
       ]
     },
-    { "chapter": 12, "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001_itemdata.user.2" },
-    { "chapter": 12, "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_itemdata.user.2" },
-    { "chapter": 16, "path": "natives/stm/_chainsaw/leveldesign/location/loc59/item_loc59.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc59/item_loc59_itemdata.user.2" },
+    {
+      "chapter": 12,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_001_itemdata.user.2"
+    },
+    {
+      "chapter": 12,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc56/item_loc56_itemdata.user.2"
+    },
+    {
+      "chapter": 16,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc59/item_loc59.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc59/item_loc59_itemdata.user.2"
+    },
     {
       "chapter": 13,
       "path": "natives/stm/_chainsaw/leveldesign/location/loc60/item_loc60.scn.20",
@@ -8866,7 +9420,11 @@
         }
       ]
     },
-    { "chapter": 13, "path": "natives/stm/_chainsaw/leveldesign/location/loc62/item_loc62.scn.20", "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc62/item_loc62_itemdata.user.2" },
+    {
+      "chapter": 13,
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc62/item_loc62.scn.20",
+      "dataPath": "natives/stm/_chainsaw/leveldesign/location/loc62/item_loc62_itemdata.user.2"
+    },
     {
       "chapter": 14,
       "path": "natives/stm/_chainsaw/leveldesign/location/loc63/item_loc63.scn.20",
