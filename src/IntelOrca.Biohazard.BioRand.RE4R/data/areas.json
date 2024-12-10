@@ -55,6 +55,47 @@
             "u3",
             "verdugo"
           ]
+        },
+        {
+          "guids": [ // ENEMIES AT RUINED HOUSE AND CLEARING
+            "444f5d9b-4b54-4c44-8d66-2557f501407a", // Behind the Tree
+            "4ab9f0a3-891e-441e-a1d6-3de1028fda1a" // Shack Ambush
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // EXTRA ENEMIES AT RUINED HOUSE AND CLEARING
+            "cd1d1e06-fd32-2c59-43df-bbd0f7ed71fa", // The Box Guard
+            "b230cab9-e6a1-3b1d-4753-1feedc3a4d59", // Across Bridge
+            "00a00310-dfa9-6e14-42f0-6707fd6256b0", // Corner before Crow
+            "304b2af5-9353-aedb-4ff2-3eebe4935a40" // Standing by Crow
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // EXTRA ENEMIES AT RUINED HOUSE AND CLEARING MENDEZ 2 EXCLUSIONS
+            "cd1d1e06-fd32-2c59-43df-bbd0f7ed71fa", // Before ruined house
+            "cd91a02f-8b2a-853d-4ecb-8d59389eb6bd", // After ruined house
+            "f024256f-5ba5-4bca-4dfc-79afe3e77cce", // Before Crouch Branch
+            "75152fe5-89b9-ecce-4c4d-6eb76be6ac98" // The Drawer Guard
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1",
+            "mendez_2"
+          ]
         }
       ],
       "extra": [
@@ -105,7 +146,7 @@
           ]
         },
         {
-          "enemies": [
+          "enemies": [ // EXTRA ENEMIES RUINED HOUSE AND CLEARING
             {
               "guid": "00a00310-dfa9-6e14-42f0-6707fd6256b0", // Across the Bridge
               "rw": 0.64,
@@ -192,36 +233,7 @@
       "chapter": 1,
       "restrictions": [
         {
-          "guids": [
-            "cd1d1e06-fd32-2c59-43df-bbd0f7ed71fa", // The Box Guard
-            "f024256f-5ba5-4bca-4dfc-79afe3e77cce", // Before Crouch Branch
-            "444f5d9b-4b54-4c44-8d66-2557f501407a", // Behind the Tree
-            "4ab9f0a3-891e-441e-a1d6-3de1028fda1a" // ???
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "mendez_chase",
-            "mendez_2"
-          ]
-        },
-        {
-          "guids": [
-            "b230cab9-e6a1-3b1d-4753-1feedc3a4d59", // Across Bridge
-            "00a00310-dfa9-6e14-42f0-6707fd6256b0", // Corner before Crow
-            "304b2af5-9353-aedb-4ff2-3eebe4935a40", // Standing by Crow
-            "cd91a02f-8b2a-853d-4ecb-8d59389eb6bd", // After ruined house
-            "f024256f-5ba5-4bca-4dfc-79afe3e77cce", // Before Crouch Branch
-            "75152fe5-89b9-ecce-4c4d-6eb76be6ac98" // The Drawer Guard
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "mendez_chase"
-          ]
-        },
-        {
-          "guids": [
+          "guids": [ // SIEGE
             "da73460d-62b6-4dc2-9882-1183bba45389", // chainsaw
             "d47e2d46-cd1f-41b4-8f5e-9c58183540ee", // chainsaw
             "beeac7f4-214f-4b31-ad01-78fd82f1f584" // person in closet
@@ -264,6 +276,7 @@
         {
           "enemies": [
             {
+              "guid": "8a7b4245-b96a-bf68-4c75-778aea239fb3", // Left of Ch5 Cabin 3
               "rw": -0.89,
               "rx": 0.0,
               "ry": 0.46,
@@ -274,6 +287,7 @@
               "z": -171
             },
             {
+              "guid": "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2 
               "rw": -1.0,
               "rx": 0.0,
               "ry": 0.0,
@@ -284,6 +298,7 @@
               "z": -164
             },
             {
+              "guid": "22dac8b8-9255-6015-4d4d-d2cadfe81a4d", // Left of Ch5 Cabin 1
               "rw": 0.98,
               "rx": 0.0,
               "ry": 0.17,
@@ -294,6 +309,7 @@
               "z": -155
             },
             {
+              "guid": "6e1e06c9-453a-9fff-47ca-91d127d10b1a", // First Bodyblocker in Tunnel
               "rw": 0.94,
               "rx": 0.0,
               "ry": 0.34,
@@ -301,9 +317,11 @@
               "stage": 43303,
               "x": 146,
               "y": -6,
-              "z": -119
+              "z": -119,
+              "small": true
             },
             {
+              "guid": "bd9831e1-2dfe-ec59-4632-3c5d18cc0c59", // Second Bodyblocker in Tunnel
               "rw": 0.78,
               "rx": 0.0,
               "ry": 0.63,
@@ -311,7 +329,8 @@
               "stage": 43303,
               "x": 157,
               "y": -6,
-              "z": -114
+              "z": -114,
+              "small": true
             },
             {
               "guid": "a26ebf20-34a2-e931-4cc9-f4cfe7ebe4b1", // Guarding Ammo Cupboard
@@ -336,7 +355,7 @@
               "z": -131
             },
             {
-              "guid": "9dbdd9c2-85eb-18bb-47b5-a0887f15e59e", //Luis House Room after Tripwire
+              "guid": "9dbdd9c2-85eb-18bb-47b5-a0887f15e59e", // Luis House Room after Tripwire
               "rw": -0.33,
               "rx": 0.0,
               "ry": 0.94,
@@ -367,16 +386,49 @@
       "description": "farm - animals",
       "restrictions": [
         {
-          "guids": [ //FARM ALL THE WAY TO LUIS HOUSE
-            "09ea044f-52d4-4d8b-818c-c8c833743221", // Behind Fence
+          "guids": [ // FARM 
             "7636e2b3-5651-4b92-b785-dc694be139c0", // Across from Trash Pile
+            "af8fb44e-0b00-4147-8f63-e0ac49d544c6", // Ambusher by save room
             "83af39cb-c79f-47ce-93db-90bf861e0305", // Guarding Corner fence
             "d041f1e4-a079-4877-9fe5-f8fd40e0d848", // Facing Trash Pile
             "a31b37c1-5c13-43eb-401f-75eaabe764d4", // Yardwork Ganados
-            "555d5526-4f48-48da-bb1e-8b6e38b88dfa", // Barn Door Smasher
-            "409a4aad-e036-4fa3-aef0-16d39cce09eb", // Facing Barn
-            "7ad1bf36-5681-4d31-9fc5-3cb093103c39", // ???
-            "6e1e06c9-453a-9fff-47ca-91d127d10b1a", // ???
+            "555d5526-4f48-48da-bb1e-8b6e38b88dfa", // Big Barn Door Smasher
+            "409a4aad-e036-4fa3-aef0-16d39cce09eb", // Facing Big Barn
+            "936e94b5-d297-147f-4aa0-6ae45a9c4907", // Behind Big Barn ambush
+            "7636e2b3-5651-4b92-b785-dc694be139c0" // Pig behind Barn
+          ],
+          "exclude": [
+            "pesanta",
+            "u3"
+          ]
+        },
+        {
+          "guids": [ // FARM EXTRA ENEMIES
+          "22dac8b8-9255-6015-4d4d-d2cadfe81a4d", // Left of Ch5 Cabin 1
+          "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2 
+          "8a7b4245-b96a-bf68-4c75-778aea239fb3" // Left of Ch5 Cabin 3
+          
+          ],
+          "exclude": [
+            "mendez_chase",
+            "pesanta",
+            "u3"
+          ]
+        },
+        {
+          "guids": [ // FARM MENDEZ 2 EXCLUSIONS
+          "941b0264-4a66-4ca7-96db-bcb03a81c9d1", // Big Barn 2F
+          "d6435c61-016a-4642-b9ef-ba77cd846689" // inside Barn
+          
+          ],
+          "exclude": [
+            "mendez_chase",
+            "pesanta",
+            "u3"
+          ]
+        },
+        {
+          "guids": [ // TUNNEL & LUIS HOUSE 
             "bbd85d12-563e-4d9c-9ee6-079ec7ae5b93", // Directly in front of guest House
             "10ebbec3-879d-4115-98fa-bb92fa5d3cc3", // Under the Bird Nest
             "d8624c4a-25d7-43ba-b545-39d529bb533c", // Guarding Hill to Luis House
@@ -391,24 +443,25 @@
           ]
         },
         {
-          "guids": [ // FARM ALL THE WAY TO LUIS HOUSE
-            "af8fb44e-0b00-4147-8f63-e0ac49d544c6", // Ambusher by save room
-            "d6435c61-016a-4642-b9ef-ba77cd846689", // inside Barn
-            "936e94b5-d297-147f-4aa0-6ae45a9c4907", // Behind house ambush
-            "941b0264-4a66-4ca7-96db-bcb03a81c9d1", // Barn 2F
-            "cb4b8afb-fbf4-4565-bff1-b8d663ef9594", // Planation Shack Guest room
-            "7da8fbc2-663d-4703-8308-7ac68d7a5f05", // Plantation Shack Window
-            "53103451-d99a-48b4-a487-058857b4e5b7", // Luis House Porch
+          "guids": [ // TUNNEL & LUIS HOUSE EXTRA ENEMIES
             "a26ebf20-34a2-e931-4cc9-f4cfe7ebe4b1", // Guarding Ammo Cupboard
-            "f0f8e593-e48d-b346-4c27-d5d1f47163fd", // Guarding Small Key Drawer"
-            "9dbdd9c2-85eb-18bb-47b5-a0887f15e59e", // Luis House Room after Tripwire
-            "58367a3d-d456-44ef-8aab-e481393ec3fb", // Guy beating up trapdoor
-            "86175bf5-e8c7-3aad-495f-64f374d4cf2f", // Luis Basement Guardian
-            "5bc4bd86-e148-4270-85bb-7f9131f6558e", // Narrow Path after falling rocks
-            "bd9831e1-2dfe-ec59-4632-3c5d18cc0c59" // Narrow Path after falling rocks 2
+            "9dbdd9c2-85eb-18bb-47b5-a0887f15e59e" // Luis House Room after Tripwire
           ],
           "exclude": [
-            "mendez_2",
+            "mendez_chase",
+            "pesanta",
+            "u3"
+          ]
+        },
+        {
+          "guids": [ // TUNNEL & LUIS HOUSE MENDEZ 2 EXCLUSIONS
+          "7da8fbc2-663d-4703-8308-7ac68d7a5f05", // Inside Planation House Window
+          "cb4b8afb-fbf4-4565-bff1-b8d663ef9594", // Inside Plantation House Guest
+          "f0f8e593-e48d-b346-4c27-d5d1f47163fd", // Guarding Small Key Drawer
+          "9dbdd9c2-85eb-18bb-47b5-a0887f15e59e", // Luis House Room after Tripwire
+          "86175bf5-e8c7-3aad-495f-64f374d4cf2f" // Luis Guardian
+          ],
+          "exclude": [
             "mendez_chase",
             "pesanta",
             "u3"
@@ -423,7 +476,17 @@
       "chapter": 2,
       "restrictions": [
         {
-          "guids": [ // DYNAMITE VALLEY SPAWNS
+          "guids": [ // DYNAMITE VALLEY MENDEZ 2 SPAWNS
+            "4f0940a5-66cc-4866-ada8-271a7ea83f74", // Guard House East Entrance
+            "699a1ba2-047b-47ed-bea5-e5e0e3d4535d" // 2F Ledge Guard
+          ],
+          "exclude": [
+            "pesanta",
+            "u3"
+          ]
+        },
+        {
+          "guids": [ // DYNAMITE VALLEY MENDEZ 2 EXCLUSIONS
             "57a10b46-e53a-460a-9927-eac41a0bdeb7", // Path to Dynamite Valley 
             "1c51f46d-84b7-484d-a1d9-2827c017b948", // House Ambush Spawn 1
             "a8eb757d-039d-462a-a969-6f6c31611bbf", // House Ambush Spawn 2
@@ -439,16 +502,6 @@
             "u3",
             "verdugo",
             "mendez_2"
-          ]
-        },
-        {
-          "guids": [ // DYNAMITE VALLEY MENDEZ 2 SPAWNS
-            "4f0940a5-66cc-4866-ada8-271a7ea83f74", // Guard House East Entrance
-            "699a1ba2-047b-47ed-bea5-e5e0e3d4535d" // 2F Ledge Guard
-          ],
-          "exclude": [
-            "pesanta",
-            "u3"
           ]
         }
       ],
@@ -1283,6 +1336,7 @@
         {
           "enemies": [
             {
+              "guid": "b6ff35cc-1d25-8305-44cc-e44e27139508", // Dock House Ambush 2
               "rw": 0.87,
               "rx": 0.0,
               "ry": -0.49,
@@ -1290,9 +1344,11 @@
               "stage": 46111,
               "x": 344,
               "y": -6,
-              "z": 97
+              "z": 97,
+              "small": true
             },
             {
+              "guid": "9f1e9d3d-b82c-42a5-b98b-5b373203a169", // Dock House Ambush 1
               "rw": 0.84,
               "rx": 0.0,
               "ry": 0.54,
@@ -1300,9 +1356,11 @@
               "stage": 46111,
               "x": 340,
               "y": -6,
-              "z": 98
+              "z": 98,
+              "small": true
             },
             {
+              "guid": "8f41237a-25bc-6c57-4e2d-ac55bc853647", // Right of Dockhouse Outside
               "rw": 0.16,
               "rx": 0.0,
               "ry": 0.99,
@@ -1313,6 +1371,7 @@
               "z": 109
             },
             {
+              "guid": "568bdbe8-9e27-6d6b-4d02-a77fdb57cf44", // Path ahead Dockhouse outside 1
               "rw": 1.0,
               "rx": 0.0,
               "ry": 0.08,
@@ -1323,6 +1382,7 @@
               "z": 109
             },
             {
+              "guid": "758e4359-8446-3d26-424f-ea835ec179a8", // Left of Dockhouse Outside 2
               "rw": 0.17,
               "rx": 0.0,
               "ry": -0.99,
@@ -1333,6 +1393,7 @@
               "z": 105
             },
             {
+              "guid": "fc13bdb8-91e3-29a9-423c-4ad3835a8bcd", // Left of Dockhouse Outside
               "rw": 0.85,
               "rx": 0.0,
               "ry": -0.52,
@@ -1343,6 +1404,7 @@
               "z": 98
             },
             {
+              "guid": "de3add5e-2c80-3914-4ff2-fdec08ffe4f3", // Path Ahead of Dockhouse Outside 2
               "rw": 0.08,
               "rx": 0.0,
               "ry": -1.0,
@@ -1353,6 +1415,7 @@
               "z": 116
             },
             {
+              "guid": "46be02a9-1eb9-a887-44ed-eebc7c3a3627", // Path ahead of Dockhouse outside 3
               "rw": 1.0,
               "rx": 0.0,
               "ry": -0.05,
@@ -1385,6 +1448,7 @@
               "z": 129
             },
             {
+              "guid": "8be2df95-a577-d4f3-4a9a-fe7b3f30c84f", // Ambusher at Lake Mural
               "rw": -0.85,
               "rx": 0.0,
               "ry": 0.53,
@@ -1406,6 +1470,7 @@
               "z": 142
             },
             {
+              "guid": "2df9812e-8355-9e47-43bb-283b1af16b03", // Dock by Lake Mural
               "rw": 0.68,
               "rx": 0.0,
               "ry": 0.73,
@@ -1683,6 +1748,27 @@
               "z": 104
             }
           ]
+        },
+        {
+          "guids": [ // LAKE MURAL
+            "8be2df95-a577-d4f3-4a9a-fe7b3f30c84f" // Ambusher at Lake Mural
+          ],
+          "exclude": [
+            "chainsaw_mad",
+            "garrador",
+            "chainsaw",
+            "mendez_chase"
+          ]
+        },
+        {
+          "guids": [ // APOSTATE HEAD CAVE
+            "fb4d058f-f100-4001-9bb9-8aaf5674a15c", // Top of East Ladder
+            "a1e608fb-cfca-4124-a737-43680c1ec3d9", // 2F Ladder Ambusher
+            "6ac6b7c6-f672-498d-8f7a-9ee589e9bec6" // 2F Dynamite thrower
+          ],
+          "exclude": [
+            "mendez_chase"
+          ]
         }
       ]
     },
@@ -1698,7 +1784,7 @@
         {
           "guids": [
             "484ec7c2-ded4-49d7-819b-23f6e23a208a", // el_gigante
-            "0ac27748-d843-4759-ad87-d79f68b93fc3" // wolf
+            "0ac27748-d843-4759-ad87-d79f68b93fc3" // Huey
           ]
         }
       ],
@@ -1707,6 +1793,7 @@
           "condition": "452c74e5-f786-428a-b538-9f58d0fd51dd",
           "enemies": [
             {
+              "guid": "9f490ff6-8f19-af82-4119-147230688de2", // North Room El Gigante Add
               "rw": 0.41,
               "rx": 0.0,
               "ry": 0.91,
@@ -1717,6 +1804,7 @@
               "z": 141
             },
             {
+              "guid": "df4ab3e1-b373-56c2-4983-52eea339546f", // Northeast Room El Gigante Add
               "rw": 0.83,
               "rx": 0.0,
               "ry": 0.55,
@@ -1727,6 +1815,7 @@
               "z": 132
             },
             {
+              "guid": "b57839f1-dabf-2fee-4060-602434130ed2", // East Room El Gigante Add
               "rw": 1.0,
               "rx": 0.0,
               "ry": 0.03,
@@ -1737,6 +1826,7 @@
               "z": 130
             },
             {
+              "guid": "9798292f-5761-a97d-44b5-7ca1aeb4fefe", // South Room El Gigante Add
               "rw": 0.85,
               "rx": 0.0,
               "ry": -0.52,
@@ -1805,6 +1895,11 @@
       "description": "cabin",
       "chapter": 5,
       "restrictions": [
+        {
+          "guids": [
+            "2b3bc7f9-1164-42ec-a6ce-d13bf401fc11" // ashley
+          ]
+        },
         {
           "guids": [
             "2b3bc7f9-1164-42ec-a6ce-d13bf401fc11" // ashley
