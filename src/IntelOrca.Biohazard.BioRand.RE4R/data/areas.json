@@ -70,7 +70,6 @@
         },
         {
           "guids": [ // EXTRA ENEMIES AT RUINED HOUSE AND CLEARING
-            "cd1d1e06-fd32-2c59-43df-bbd0f7ed71fa", // The Box Guard
             "b230cab9-e6a1-3b1d-4753-1feedc3a4d59", // Across Bridge
             "00a00310-dfa9-6e14-42f0-6707fd6256b0", // Corner before Crow
             "304b2af5-9353-aedb-4ff2-3eebe4935a40" // Standing by Crow
@@ -270,6 +269,19 @@
             "2cac2691-aed5-4a73-b646-6a882ee1b697" // villager with pitchfork
           ],
           "lockWeapon": true
+        },
+        {
+          "guids": [ // FARM EXTRA ENEMIES
+            "22dac8b8-9255-6015-4d4d-d2cadfe81a4d", // Left of Ch5 Cabin 1
+            "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2 
+            "8a7b4245-b96a-bf68-4c75-778aea239fb3" // Left of Ch5 Cabin 3
+
+          ],
+          "exclude": [
+            "mendez_chase",
+            "pesanta",
+            "u3"
+          ]
         }
       ],
       "extra": [
@@ -387,7 +399,6 @@
       "restrictions": [
         {
           "guids": [ // FARM 
-            "7636e2b3-5651-4b92-b785-dc694be139c0", // Across from Trash Pile
             "af8fb44e-0b00-4147-8f63-e0ac49d544c6", // Ambusher by save room
             "83af39cb-c79f-47ce-93db-90bf861e0305", // Guarding Corner fence
             "d041f1e4-a079-4877-9fe5-f8fd40e0d848", // Facing Trash Pile
@@ -403,28 +414,15 @@
           ]
         },
         {
-          "guids": [ // FARM EXTRA ENEMIES
-          "22dac8b8-9255-6015-4d4d-d2cadfe81a4d", // Left of Ch5 Cabin 1
-          "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2 
-          "8a7b4245-b96a-bf68-4c75-778aea239fb3" // Left of Ch5 Cabin 3
-          
-          ],
-          "exclude": [
-            "mendez_chase",
-            "pesanta",
-            "u3"
-          ]
-        },
-        {
           "guids": [ // FARM MENDEZ 2 EXCLUSIONS
-          "941b0264-4a66-4ca7-96db-bcb03a81c9d1", // Big Barn 2F
-          "d6435c61-016a-4642-b9ef-ba77cd846689" // inside Barn
-          
+            "941b0264-4a66-4ca7-96db-bcb03a81c9d1", // Big Barn 2F
+            "d6435c61-016a-4642-b9ef-ba77cd846689" // inside Barn
           ],
           "exclude": [
             "mendez_chase",
             "pesanta",
-            "u3"
+            "u3",
+            "mendez_2"
           ]
         },
         {
@@ -450,21 +448,25 @@
           "exclude": [
             "mendez_chase",
             "pesanta",
+            "krauser_1",
             "u3"
           ]
         },
         {
           "guids": [ // TUNNEL & LUIS HOUSE MENDEZ 2 EXCLUSIONS
-          "7da8fbc2-663d-4703-8308-7ac68d7a5f05", // Inside Planation House Window
-          "cb4b8afb-fbf4-4565-bff1-b8d663ef9594", // Inside Plantation House Guest
-          "f0f8e593-e48d-b346-4c27-d5d1f47163fd", // Guarding Small Key Drawer
-          "9dbdd9c2-85eb-18bb-47b5-a0887f15e59e", // Luis House Room after Tripwire
-          "86175bf5-e8c7-3aad-495f-64f374d4cf2f" // Luis Guardian
+            "7da8fbc2-663d-4703-8308-7ac68d7a5f05", // Inside Planation House Window
+            "cb4b8afb-fbf4-4565-bff1-b8d663ef9594", // Inside Plantation House Guest
+            "f0f8e593-e48d-b346-4c27-d5d1f47163fd", // Guarding Small Key Drawer
+            "9dbdd9c2-85eb-18bb-47b5-a0887f15e59e", // Luis House Room after Tripwire
+            "86175bf5-e8c7-3aad-495f-64f374d4cf2f", // Luis Guardian
+            "6e1e06c9-453a-9fff-47ca-91d127d10b1a", // First Bodyblocker in Tunnel
+            "bd9831e1-2dfe-ec59-4632-3c5d18cc0c59" // Second Bodyblocker in Tunnel
           ],
           "exclude": [
             "mendez_chase",
             "pesanta",
-            "u3"
+            "u3",
+            "mendez_2"
           ]
         }
       ]
@@ -476,31 +478,70 @@
       "chapter": 2,
       "restrictions": [
         {
-          "guids": [ // DYNAMITE VALLEY MENDEZ 2 SPAWNS
-            "4f0940a5-66cc-4866-ada8-271a7ea83f74", // Guard House East Entrance
-            "699a1ba2-047b-47ed-bea5-e5e0e3d4535d" // 2F Ledge Guard
-          ],
-          "exclude": [
-            "pesanta",
-            "u3"
-          ]
-        },
-        {
-          "guids": [ // DYNAMITE VALLEY MENDEZ 2 EXCLUSIONS
-            "57a10b46-e53a-460a-9927-eac41a0bdeb7", // Path to Dynamite Valley 
-            "1c51f46d-84b7-484d-a1d9-2827c017b948", // House Ambush Spawn 1
-            "a8eb757d-039d-462a-a969-6f6c31611bbf", // House Ambush Spawn 2
-            "43e3d8fe-6930-46d4-8a72-b2161db1e24e", // House Ladder Guard
-            "03625e3c-16cb-4abf-b52d-6a66dec3f86b", // Upper Level Patrol
-            "28e02bee-815f-4c2a-959a-45bdfc9bdc6a", // Stairs Guard
-            "6fdfe0fd-7eb0-42c4-b462-06257e03b2cb", // Barrel Adjacent
-            "7508b413-afa4-47f6-823d-d4fa02572338", // Treasure Guard
-            "4d8b60c3-10e2-4abc-934e-65ed991621e2" // Exit Guarda
+          "guids": [
+            "57a10b46-e53a-460a-9927-eac41a0bdeb7" // Path to Dynamite Valley
           ],
           "exclude": [
             "pesanta",
             "u3",
             "verdugo",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // EMBLEM DOOR ROOM SPAWNS 
+            "1012b7b7-e040-4e08-b7ce-8b617df378f5", // Pallet Ambusher
+            "486bb31a-1880-42a3-ae23-f5c19c0c1d69", // Staircase Patroller
+            "2863e7f0-7742-42a1-a5e4-1e3cd4b07f0f", // Staircase Ambusher
+            "86343faa-9b94-4a53-b9e2-989b45bd8ca1" // Staircase Ambusher 2
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "garrador"
+          ]
+        },
+        {
+          "guids": [ // EMBLEM DOOR/MENDEZ HOUSE ROOM MENDEZ 2 SPAWNS
+            "27e34e40-4a4c-4fdb-a001-83462f938541", // Patrol enemy by Pallets
+            "f00699a5-ef50-47f3-b5ec-a9570fdce2c0", // Chainsaw guy replacement
+            "acc1325b-96a8-1ee6-4c6c-9815e1afee1e", // Spawn under treasure lantern
+            "f915b62a-66d5-ba04-4dec-e9056dc9c17a", // Left of Mendez House front door
+            "fac8b8e7-a414-c56d-44c4-a834c3a7a0ad" // Even more Left of Mendez house front door
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "krauser_1",
+            "mendez_chase"
+          ]
+        },
+        {
+          "guids": [ // EMBLEM DOOR ROOM EXTRA ENEMY SPAWNS
+            "a31b37c1-5c13-43eb-401f-75eaabe764d4", // Next to Pendant Well"
+            "0b2abd3b-3237-d0f8-4001-7c22c839c1a9" // Hiding in Emblem room Shack
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_2",
+            "mendez_chase",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // MENDEZ HOUSE SPAWNS
+            "49cf4097-a2a0-b2d7-4312-7377604af547", // Underneath Mendez house Bird Nest
+            "6d6ce1c9-d99a-4608-4eb1-62b6ccfec9b0", // Fly My Pretty
+            "7ffa234a-c73c-389c-4999-02f8e0cc2744", // Key item Wardrobe Guard
+            "f5bb1aa1-098f-0480-4a35-06fc96a1a7ae", // Mendez House Dining Room
+            "3d02e0bb-de03-1566-4ada-0c7ae6d342ee" // Mendez Room
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1",
             "mendez_2"
           ]
         }
@@ -645,70 +686,31 @@
           ]
         },
         {
-          "guids": [ // EMBLEM DOOR ROOM SPAWNS 
-            "1012b7b7-e040-4e08-b7ce-8b617df378f5", // Pallet Ambusher
-            "486bb31a-1880-42a3-ae23-f5c19c0c1d69", // Staircase Patroller
-            "2863e7f0-7742-42a1-a5e4-1e3cd4b07f0f", // Staircase Ambusher
-            "86343faa-9b94-4a53-b9e2-989b45bd8ca1" // Staircase Ambusher 2
+          "guids": [ // DYNAMITE VALLEY MENDEZ 2 SPAWNS
+            "4f0940a5-66cc-4866-ada8-271a7ea83f74", // Guard House East Entrance
+            "699a1ba2-047b-47ed-bea5-e5e0e3d4535d" // 2F Ledge Guard
           ],
           "exclude": [
             "pesanta",
-            "u3",
-            "garrador"
+            "u3"
           ]
         },
         {
-          "guids": [ // EMBLEM DOOR/MENDEZ HOUSE ROOM MENDEZ 2 SPAWNS
-            "27e34e40-4a4c-4fdb-a001-83462f938541", // Patrol enemy by Pallets
-            "f00699a5-ef50-47f3-b5ec-a9570fdce2c0", // Chainsaw guy replacement
-            "acc1325b-96a8-1ee6-4c6c-9815e1afee1e", // Spawn under treasure lantern
-            "f915b62a-66d5-ba04-4dec-e9056dc9c17a", // Left of Mendez House front door
-            "fac8b8e7-a414-c56d-44c4-a834c3a7a0ad" // Even more Left of Mendez house front door
+          "guids": [ // DYNAMITE VALLEY MENDEZ 2 EXCLUSIONS
+            "1c51f46d-84b7-484d-a1d9-2827c017b948", // House Ambush Spawn 1
+            "a8eb757d-039d-462a-a969-6f6c31611bbf", // House Ambush Spawn 2
+            "43e3d8fe-6930-46d4-8a72-b2161db1e24e", // House Ladder Guard
+            "03625e3c-16cb-4abf-b52d-6a66dec3f86b", // Upper Level Patrol
+            "28e02bee-815f-4c2a-959a-45bdfc9bdc6a", // Stairs Guard
+            "6fdfe0fd-7eb0-42c4-b462-06257e03b2cb", // Barrel Adjacent
+            "7508b413-afa4-47f6-823d-d4fa02572338", // Treasure Guard
+            "4d8b60c3-10e2-4abc-934e-65ed991621e2" // Exit Guarda
           ],
           "exclude": [
             "pesanta",
             "u3",
-            "krauser_1",
-            "mendez_chase"
-          ]
-        },
-        {
-          "guids": [ // EMBLEM DOOR ROOM EXTRA ENEMY SPAWNS
-            "a31b37c1-5c13-43eb-401f-75eaabe764d4", // Next to Pendant Well"
-            "0b2abd3b-3237-d0f8-4001-7c22c839c1a9" // Hiding in Emblem room Shack
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "mendez_2",
-            "mendez_chase",
-            "krauser_1"
-          ]
-        },
-        {
-          "guids": [ // MENDEZ HOUSE SPAWNS
-            "49cf4097-a2a0-b2d7-4312-7377604af547", // Underneath Mendez house Bird Nest
-            "6d6ce1c9-d99a-4608-4eb1-62b6ccfec9b0", // Fly My Pretty
-            "7ffa234a-c73c-389c-4999-02f8e0cc2744", // Key item Wardrobe Guard
-            "f5bb1aa1-098f-0480-4a35-06fc96a1a7ae", // Mendez House Dining Room
-            "3d02e0bb-de03-1566-4ada-0c7ae6d342ee" // Mendez Room
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "mendez_chase",
-            "krauser_1",
+            "verdugo",
             "mendez_2"
-          ]
-        },
-        {
-          "guids": [
-            "57a10b46-e53a-460a-9927-eac41a0bdeb7" // ???
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "verdugo"
           ]
         }
       ]
@@ -1080,21 +1082,7 @@
               "z": 47
             }
           ]
-        }
-      ]
-    },
-    {
-      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_3/level_cp10_chp1_3_000.scn.20",
-      "chapter": 3
-    },
-    {
-      "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40.scn.20",
-      "chapter": 3
-    },
-    {
-      "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40_100.scn.20",
-      "chapter": 3,
-      "restrictions": [
+        },
         {
           "guids": [ // RETURN TO VILLAGE MENDEZ 2 EXCLUSIONS
             "8dbc673c-0d68-4be4-8ed5-f5502e61fcf1", // Ambush inside Shotgun House
@@ -1264,7 +1252,21 @@
             "u3",
             "mendez_2"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_3/level_cp10_chp1_3_000.scn.20",
+      "chapter": 3
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40.scn.20",
+      "chapter": 3
+    },
+    {
+      "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40_100.scn.20",
+      "chapter": 3,
+      "restrictions": [
         {
           "guids": [
             "19b7057c-2463-4c8b-adf2-ef4ee3bca075", // police
