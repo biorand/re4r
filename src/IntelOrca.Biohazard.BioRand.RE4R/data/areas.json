@@ -273,9 +273,8 @@
         {
           "guids": [ // FARM EXTRA ENEMIES
             "22dac8b8-9255-6015-4d4d-d2cadfe81a4d", // Left of Ch5 Cabin 1
-            "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2 
+            "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2
             "8a7b4245-b96a-bf68-4c75-778aea239fb3" // Left of Ch5 Cabin 3
-
           ],
           "exclude": [
             "mendez_chase",
@@ -299,7 +298,7 @@
               "z": -171
             },
             {
-              "guid": "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2 
+              "guid": "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2
               "rw": -1.0,
               "rx": 0.0,
               "ry": 0.0,
@@ -398,7 +397,7 @@
       "description": "farm - animals",
       "restrictions": [
         {
-          "guids": [ // FARM 
+          "guids": [ // FARM
             "af8fb44e-0b00-4147-8f63-e0ac49d544c6", // Ambusher by save room
             "83af39cb-c79f-47ce-93db-90bf861e0305", // Guarding Corner fence
             "d041f1e4-a079-4877-9fe5-f8fd40e0d848", // Facing Trash Pile
@@ -426,7 +425,7 @@
           ]
         },
         {
-          "guids": [ // TUNNEL & LUIS HOUSE 
+          "guids": [ // TUNNEL & LUIS HOUSE
             "bbd85d12-563e-4d9c-9ee6-079ec7ae5b93", // Directly in front of guest House
             "10ebbec3-879d-4115-98fa-bb92fa5d3cc3", // Under the Bird Nest
             "d8624c4a-25d7-43ba-b545-39d529bb533c", // Guarding Hill to Luis House
@@ -489,7 +488,7 @@
           ]
         },
         {
-          "guids": [ // EMBLEM DOOR ROOM SPAWNS 
+          "guids": [ // EMBLEM DOOR ROOM SPAWNS MENDEZ 2 EXCLUSIONS
             "1012b7b7-e040-4e08-b7ce-8b617df378f5", // Pallet Ambusher
             "486bb31a-1880-42a3-ae23-f5c19c0c1d69", // Staircase Patroller
             "2863e7f0-7742-42a1-a5e4-1e3cd4b07f0f", // Staircase Ambusher
@@ -498,11 +497,12 @@
           "exclude": [
             "pesanta",
             "u3",
-            "garrador"
+            "garrador",
+            "mendez_2"
           ]
         },
         {
-          "guids": [ // EMBLEM DOOR/MENDEZ HOUSE ROOM MENDEZ 2 SPAWNS
+          "guids": [ // EMBLEM DOOR/MENDEZ HOUSE ROOM
             "27e34e40-4a4c-4fdb-a001-83462f938541", // Patrol enemy by Pallets
             "f00699a5-ef50-47f3-b5ec-a9570fdce2c0", // Chainsaw guy replacement
             "acc1325b-96a8-1ee6-4c6c-9815e1afee1e", // Spawn under treasure lantern
@@ -530,8 +530,9 @@
           ]
         },
         {
-          "guids": [ // MENDEZ HOUSE SPAWNS
+          "guids": [ // MENDEZ HOUSE SPAWNS MENDEZ 2 EXCLUSIONS
             "49cf4097-a2a0-b2d7-4312-7377604af547", // Underneath Mendez house Bird Nest
+            "284ded3c-7439-40a4-be87-13defa465fb8", // Bathroom under the stairs
             "6d6ce1c9-d99a-4608-4eb1-62b6ccfec9b0", // Fly My Pretty
             "7ffa234a-c73c-389c-4999-02f8e0cc2744", // Key item Wardrobe Guard
             "f5bb1aa1-098f-0480-4a35-06fc96a1a7ae", // Mendez House Dining Room
@@ -641,7 +642,7 @@
               "z": 108
             },
             {
-              "guid": "f5bb1aa1-098f-0480-4a35-06fc96a1a7ae", // Mendez House Dining Room 
+              "guid": "f5bb1aa1-098f-0480-4a35-06fc96a1a7ae", // Mendez House Dining Room
               "rw": 0.63,
               "rx": 0.0,
               "ry": -0.78,
@@ -697,6 +698,7 @@
         },
         {
           "guids": [ // DYNAMITE VALLEY MENDEZ 2 EXCLUSIONS
+            "2a93f207-3a81-4503-88d2-f1f0d4987754", // Next to Cheese House Window
             "1c51f46d-84b7-484d-a1d9-2827c017b948", // House Ambush Spawn 1
             "a8eb757d-039d-462a-a969-6f6c31611bbf", // House Ambush Spawn 2
             "43e3d8fe-6930-46d4-8a72-b2161db1e24e", // House Ladder Guard
@@ -704,7 +706,8 @@
             "28e02bee-815f-4c2a-959a-45bdfc9bdc6a", // Stairs Guard
             "6fdfe0fd-7eb0-42c4-b462-06257e03b2cb", // Barrel Adjacent
             "7508b413-afa4-47f6-823d-d4fa02572338", // Treasure Guard
-            "4d8b60c3-10e2-4abc-934e-65ed991621e2" // Exit Guarda
+            "21113631-623e-45a7-a0cd-ab504b413f6c", // Exit Guard 1
+            "4d8b60c3-10e2-4abc-934e-65ed991621e2" // Exit Guard 2
           ],
           "exclude": [
             "pesanta",
@@ -719,6 +722,180 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_3/level_cp10_chp1_3.scn.20",
       "chapter": 3,
+      "restrictions": [
+        {
+          "guids": [ // RETURN TO VILLAGE MENDEZ 2 EXCLUSIONS
+            "c63ad663-6e0c-4c7b-8f35-76b679c8b850", // Inside the fallen tower
+            "06d97d51-f920-4484-8dd5-9e48a1e7b7ce", // Inside the fallen tower 2
+            "8dbc673c-0d68-4be4-8ed5-f5502e61fcf1", // Ambush inside Shotgun House
+            "9fcd75b8-e38c-4440-9075-2a6f48eddce4", // Ambush in locked House
+            "8e0fb6ec-5bb6-49ca-9d23-5fa465d5f275", // Guard at corner of Insignia Door and Sewer
+            "f09a774a-e24a-c623-450d-a8d73358282b", // Insignia House under Lantern
+            "adba90a5-c8dc-386a-4ab4-041fb966d951" // Outside Door to return to village
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_2",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // RETURN TO VILLAGE EXTRA ENEMIES
+            "72b7504a-94ae-e140-4ad7-7c87531ca87a", // Insignia Key House enemy 1
+            "fe6de8f8-337c-3731-415a-e725c77c9604", // Insignia Key House enemy 2
+            "e882f42d-8d52-7159-4e42-6d451600b345" // Outside Mendez path Shack
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // CHURCH ENEMIES
+            "12271c66-cd5c-439a-926a-77303eb8bb50", // Sweeping Graves
+            "71f4a3ee-e38a-a8a4-448e-e01d0b2bf606", // East Graveyard Path
+            "9cbf60f6-de1b-2189-4154-0649b7240f36", // North Graveyard Spawn
+            "1d485c2a-730d-a987-4410-2bf14699d581", // Guarding Church Gate
+            "cdb9d407-6087-dbb3-41f9-73e6b283a88e", // Guarding Treasure Chest Behind Church
+            "8324d230-751e-6cd1-450b-fd1012b13b7d" // Behind Church
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // CHURCH EXTRA ENEMIES MENDEZ 2 EXCLUDED
+            "7e314456-fef4-4217-bc0f-e1edcd3535c9", // Inside Hut
+            "41330420-6d5d-40a9-b93b-326a73464b3f" // Northwest Graveyard Spawn
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // BRIDGE ENEMIES
+            "acf12c78-f142-4f95-bbef-b33c6773cd7b", // Ambusher by Ladder
+            "de16a018-3edb-42e5-8d9b-941026792a47", // Rooftop Ganados West
+            "de0af8d8-813d-490f-8180-4c7bc4805dfe", // Ladder trigger Ambush 1
+            "bfce4fe9-15eb-4020-bd28-97c67fc9d9cd", // Ladder trigger Ambush 2
+            "01edcd69-616a-4fee-9629-8c1bef716f4b", // Rooftop Ganados East 1
+            "0840df7f-f33f-4ad1-8368-ff0a972f1bdc", // Rooftop Ganados East 2
+            "7d099d29-4740-466e-ae74-b6380c7abc6c", // East Path Ladder Ganados
+            "175a6a80-61a5-4fb1-a5d1-58f9d074025f", // Second Ladder Ambush 1
+            "9f1e9d3d-b82c-42a5-b98b-5b373203a169" // Second Ladder Ambush 2
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // BRIDGE AND EL GIGANTE ROOM EXTRA ENEMIES
+            "5631f604-a221-2ff4-48ae-8166538e41d3", // Other side of El Gigante Wooden Gate
+            "6c34e972-60b8-08a9-4581-c13745e18e36", // North El Gigante Room
+            "a9fa8389-1862-8fc0-4dd3-8e39155f8914" // East El Gigante Room
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // BRIDGE AND EL GIGANTE ROOM ENEMIES MENDEZ 2 EXCLUDED
+            "f5e76f62-3a84-9981-4faa-1050272ef4c4", // Bridge Start
+            "7f274a23-2ba1-617d-403d-14e03f5425e0" // in timeout by El Gigante wooden gate
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // LAKE EXTRA ENEMIES
+            "76c7f2d0-7d7d-d222-4fb9-23972611415d", // Spawn by Binoculars POI at Lake
+            "2169ab23-24c9-fb1c-49e0-fadd379dc833", // Guarding Ladder to Lake
+            "9ef078bd-b6c7-9959-418b-cc4f8b70423d", // Inside Hut by Hexagon puzzle
+            "ec6b1cdd-6514-2c8a-4930-9467b3a61392", // Inside Hut by Lake
+            "217c8e09-b226-e1eb-49b7-8d9c904b579f", // Honorable Boat Guard at Lake
+            "bbc1f93f-77f4-fcfc-480a-7cbe1bba4c88", // Pier by Medallion at Lake
+            "818d9330-0f22-ef22-4c26-a5d9c7bd6b7f" // Guarding 1F Ladder at Lake
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // LAKE EXTRA ENEMIES MENDEZ 2 EXCLUDED
+            "1cc2359a-c4bd-ce62-48ca-3053c8319f4e", // Middle of 2F path in Lake
+            "ffe1975b-4fc1-69ac-44cb-b41434e5ad3a", // Bottom of Ladder to Lake
+            "60eab7f7-6a9a-fdc1-4b19-7e491bce679e", // Guarding 2F Box at Lake
+            "ea6835eb-bb84-9ad3-4489-f9587308950b", // Cave Guard to Fish Farm 1
+            "42aebb70-2b17-205e-48f9-ec925a38b89e", // Cave guard to Fish Farm 2
+            "915d8d7e-fb67-d65b-45f2-53372fbdee0f", // Boat Cheater
+            "d71ac234-6763-ce2f-4881-93a64ab66c65", // 1F at Lake in east Corner
+            "4c325db9-536c-4c21-408e-921b5aa32e51" // Gas Can Ambusher
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_chase",
+            "krauser_1",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // FISH FARM
+            "67b0084c-751f-478b-a44c-598dc0e55a35", // Second Patrol Villager
+            "6a6cffe3-8188-4677-abe8-68deb54be95e", // Ambush at Left Ramp
+            "6799edd7-43c8-4d64-a432-f7ce0734d1c9", // Hiding Behind Rock Mound
+            "89a4bb04-7490-46ca-8733-3a19aba180b2", // Patrol at Bottom of Left Ramp
+            "76808032-1d24-4b7b-b711-fd4ddd9d7ee3", // Right of Medallion Ramp
+            "c8e54b1a-8643-46bd-a7e3-e01480ee726a", // Ramp to Lantern Treasure 1
+            "41330420-6d5d-40a9-b93b-326a73464b3f", // Ramp to Lantern Treasure 2
+            "97acda07-baac-4203-a4b0-242771d2cf3c" // Guarding Lantern Treasure
+          ],
+          "exclude": [
+            "pesanta",
+            "u3"
+          ]
+        },
+        {
+          "guids": [ // FISH FARM MENDEZ 2 EXCLUSIONS
+            "77c7bcac-0928-48b4-abcc-899a45932fd8", // First Patrol Brute
+            "89a4bb04-7490-46ca-8733-3a19aba180b2", // Patrol at Bottom of Left Ramp
+            "e0a7e327-1bfa-4fc3-9514-d15155551e7b", // First Ramp Ambush (1F South end of room)
+            "333f16a8-835d-47bd-a419-7e52e855f699", // First Ramp Ambush (1F East end of room)
+            "ca6f52ef-7552-479c-a33c-510a2a6e276c", // Archer by Tripwire
+            "333f16a8-835d-47bd-a419-7e52e855f699", // Last Ladder Ambush 1
+            "36604ed5-2030-4f4a-ab66-0992d038b806", // Last Ladder Ambush 2
+            "5c1adb04-509c-49b0-9ba2-a7159684c0ba", // Last Ladder Ambush 3
+            "b9e08930-9a3d-404b-9c7e-99b61665ae3b" // Last Ladder Ambush 4
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "mendez_2"
+          ]
+        }
+      ],
       "extra": [
         {
           "enemies": [
@@ -801,7 +978,7 @@
               "z": 80
             },
             {
-              "guid": "71f4a3ee-e38a-a8a4-448e-e01d0b2bf606", // East Graveyard Path 
+              "guid": "71f4a3ee-e38a-a8a4-448e-e01d0b2bf606", // East Graveyard Path
               "rw": -0.58,
               "rx": 0.0,
               "ry": 0.82,
@@ -812,7 +989,7 @@
               "z": 75
             },
             {
-              "guid": "9cbf60f6-de1b-2189-4154-0649b7240f36", // North Graveyard Spawn 
+              "guid": "9cbf60f6-de1b-2189-4154-0649b7240f36", // North Graveyard Spawn
               "rw": -0.56,
               "rx": 0.0,
               "ry": 0.83,
@@ -1081,176 +1258,6 @@
               "y": -4,
               "z": 47
             }
-          ]
-        },
-        {
-          "guids": [ // RETURN TO VILLAGE MENDEZ 2 EXCLUSIONS
-            "8dbc673c-0d68-4be4-8ed5-f5502e61fcf1", // Ambush inside Shotgun House
-            "9fcd75b8-e38c-4440-9075-2a6f48eddce4", // Ambush in locked House
-            "8e0fb6ec-5bb6-49ca-9d23-5fa465d5f275", // Guard at corner of Insignia Door and Sewer
-            "adba90a5-c8dc-386a-4ab4-041fb966d951" // Outside Door to return to village
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "mendez_2",
-            "krauser_1"
-          ]
-        },
-        {
-          "guids": [ // RETURN TO VILLAGE EXTRA ENEMIES
-            "72b7504a-94ae-e140-4ad7-7c87531ca87a", // Insignia Key House enemy 1
-            "fe6de8f8-337c-3731-415a-e725c77c9604", // Insignia Key House enemy 2
-            "f09a774a-e24a-c623-450d-a8d73358282b", // Insignia House under Lantern
-            "e882f42d-8d52-7159-4e42-6d451600b345" // Outside Mendez path Shack
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "krauser_1"
-          ]
-        },
-        {
-          "guids": [ // CHURCH ENEMIES
-            "12271c66-cd5c-439a-926a-77303eb8bb50", // Sweeping Graves
-            "71f4a3ee-e38a-a8a4-448e-e01d0b2bf606", // East Graveyard Path
-            "9cbf60f6-de1b-2189-4154-0649b7240f36", // North Graveyard Spawn
-            "1d485c2a-730d-a987-4410-2bf14699d581", // Guarding Church Gate
-            "cdb9d407-6087-dbb3-41f9-73e6b283a88e", // Guarding Treasure Chest Behind Church
-            "8324d230-751e-6cd1-450b-fd1012b13b7d" // Behind Church
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "mendez_chase",
-            "krauser_1"
-          ]
-        },
-        {
-          "guids": [ // CHURCH EXTRA ENEMIES MENDEZ 2 EXCLUDED
-            "7e314456-fef4-4217-bc0f-e1edcd3535c9", // Inside Hut
-            "41330420-6d5d-40a9-b93b-326a73464b3f" // Northwest Graveyard Spawn
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "mendez_chase",
-            "krauser_1",
-            "mendez_2"
-          ]
-        },
-        {
-          "guids": [ // BRIDGE ENEMIES
-            "acf12c78-f142-4f95-bbef-b33c6773cd7b", // Ambusher by Ladder
-            "de16a018-3edb-42e5-8d9b-941026792a47", // Rooftop Ganados West
-            "de0af8d8-813d-490f-8180-4c7bc4805dfe", // Ladder trigger Ambush 1
-            "bfce4fe9-15eb-4020-bd28-97c67fc9d9cd", // Ladder trigger Ambush 2
-            "01edcd69-616a-4fee-9629-8c1bef716f4b", // Rooftop Ganados East 1
-            "0840df7f-f33f-4ad1-8368-ff0a972f1bdc", // Rooftop Ganados East 2
-            "7d099d29-4740-466e-ae74-b6380c7abc6c", // East Path Ladder Ganados
-            "175a6a80-61a5-4fb1-a5d1-58f9d074025f", // Second Ladder Ambush 1
-            "9f1e9d3d-b82c-42a5-b98b-5b373203a169" // Second Ladder Ambush 2
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "mendez_2"
-          ]
-        },
-        {
-          "guids": [ // BRIDGE AND EL GIGANTE ROOM EXTRA ENEMIES
-            "5631f604-a221-2ff4-48ae-8166538e41d3", // Other side of El Gigante Wooden Gate
-            "6c34e972-60b8-08a9-4581-c13745e18e36", // North El Gigante Room
-            "a9fa8389-1862-8fc0-4dd3-8e39155f8914" // East El Gigante Room
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "mendez_chase",
-            "krauser_1"
-          ]
-        },
-        {
-          "guids": [ // BRIDGE AND EL GIGANTE ROOM ENEMIES MENDEZ 2 EXCLUDED
-            "f5e76f62-3a84-9981-4faa-1050272ef4c4", // Bridge Start
-            "7f274a23-2ba1-617d-403d-14e03f5425e0" // in timeout by El Gigante wooden gate
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "mendez_chase",
-            "krauser_1",
-            "mendez_2"
-          ]
-        },
-        {
-          "guids": [ // LAKE EXTRA ENEMIES
-            "76c7f2d0-7d7d-d222-4fb9-23972611415d", // Spawn by Binoculars POI at Lake
-            "2169ab23-24c9-fb1c-49e0-fadd379dc833", // Guarding Ladder to Lake
-            "9ef078bd-b6c7-9959-418b-cc4f8b70423d", // Inside Hut by Hexagon puzzle
-            "ec6b1cdd-6514-2c8a-4930-9467b3a61392", // Inside Hut by Lake
-            "217c8e09-b226-e1eb-49b7-8d9c904b579f", // Honorable Boat Guard at Lake
-            "bbc1f93f-77f4-fcfc-480a-7cbe1bba4c88", // Pier by Medallion at Lake
-            "818d9330-0f22-ef22-4c26-a5d9c7bd6b7f" // Guarding 1F Ladder at Lake
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "mendez_chase",
-            "krauser_1"
-          ]
-        },
-        {
-          "guids": [ // LAKE EXTRA ENEMIES MENDEZ 2 EXCLUDED
-            "1cc2359a-c4bd-ce62-48ca-3053c8319f4e", // Middle of 2F path in Lake
-            "ffe1975b-4fc1-69ac-44cb-b41434e5ad3a", // Bottom of Ladder to Lake
-            "60eab7f7-6a9a-fdc1-4b19-7e491bce679e", // Guarding 2F Box at Lake
-            "ea6835eb-bb84-9ad3-4489-f9587308950b", // Cave Guard to Fish Farm 1
-            "42aebb70-2b17-205e-48f9-ec925a38b89e", // Cave guard to Fish Farm 2
-            "915d8d7e-fb67-d65b-45f2-53372fbdee0f", // Boat Cheater
-            "d71ac234-6763-ce2f-4881-93a64ab66c65", // 1F at Lake in east Corner
-            "4c325db9-536c-4c21-408e-921b5aa32e51" // Gas Can Ambusher
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "mendez_chase",
-            "krauser_1",
-            "mendez_2"
-          ]
-        },
-        {
-          "guids": [ // FISH FARM
-            "67b0084c-751f-478b-a44c-598dc0e55a35", // Second Patrol Villager
-            "6a6cffe3-8188-4677-abe8-68deb54be95e", // Ambush at Left Ramp
-            "6799edd7-43c8-4d64-a432-f7ce0734d1c9", // Hiding Behind Rock Mound
-            "89a4bb04-7490-46ca-8733-3a19aba180b2", // Patrol at Bottom of Left Ramp
-            "76808032-1d24-4b7b-b711-fd4ddd9d7ee3", // Right of Medallion Ramp
-            "c8e54b1a-8643-46bd-a7e3-e01480ee726a", // Ramp to Lantern Treasure 1
-            "41330420-6d5d-40a9-b93b-326a73464b3f", // Ramp to Lantern Treasure 2
-            "97acda07-baac-4203-a4b0-242771d2cf3c" // Guarding Lantern Treasure
-          ],
-          "exclude": [
-            "pesanta",
-            "u3"
-          ]
-        },
-        {
-          "guids": [ // FISH FARM MENDEZ 2 EXCLUSIONS
-            "77c7bcac-0928-48b4-abcc-899a45932fd8", // First Patrol Brute
-            "89a4bb04-7490-46ca-8733-3a19aba180b2", // Patrol at Bottom of Left Ramp
-            "e0a7e327-1bfa-4fc3-9514-d15155551e7b", // First Ramp Ambush (1F South end of room)
-            "333f16a8-835d-47bd-a419-7e52e855f699", // First Ramp Ambush (1F East end of room)
-            "ca6f52ef-7552-479c-a33c-510a2a6e276c", // Archer by Tripwire 
-            "333f16a8-835d-47bd-a419-7e52e855f699", // Last Ladder Ambush 1
-            "36604ed5-2030-4f4a-ab66-0992d038b806", // Last Ladder Ambush 2
-            "5c1adb04-509c-49b0-9ba2-a7159684c0ba", // Last Ladder Ambush 3
-            "b9e08930-9a3d-404b-9c7e-99b61665ae3b" // Last Ladder Ambush 4
-          ],
-          "exclude": [
-            "pesanta",
-            "u3",
-            "mendez_2"
           ]
         }
       ]
