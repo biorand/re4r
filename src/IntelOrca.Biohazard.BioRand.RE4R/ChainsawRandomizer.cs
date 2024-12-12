@@ -143,8 +143,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             if (!_supplementApplied)
             {
                 _supplementApplied = true;
-                ApplyOverlay(Resources.supplement);
-                ApplyOverlay(Resources.delorca);
+                ApplyOverlay(EmbeddedData.GetFile("supplement.zip"));
+                ApplyOverlay(EmbeddedData.GetFile("delorca.zip"));
             }
         }
 

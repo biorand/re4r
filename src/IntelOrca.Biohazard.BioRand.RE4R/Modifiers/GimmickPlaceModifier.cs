@@ -275,8 +275,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public static ImmutableArray<GimmickPlacement> GetPlacements(Campaign campaign)
             {
                 var gimmicksFile = campaign == Campaign.Leon
-                    ? Resources.gimmicks
-                    : Resources.gimmicks_sw;
+                    ? EmbeddedData.GetFile("gimmicks.csv")
+                    : EmbeddedData.GetFile("gimmicks_sw.csv");
 
                 var lines = Encoding.UTF8.GetString(gimmicksFile)
                     .ReplaceLineEndings("\n")

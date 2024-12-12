@@ -42,7 +42,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var weaponDefinitions = new List<WeaponDefinition>();
             var classDefinitions = new List<EnemyClassDefinition>();
 
-            var jsonDocument = JsonDocument.Parse(Resources.enemies, new JsonDocumentOptions()
+            var jsonDocument = JsonDocument.Parse(EmbeddedData.GetFile("enemies.json"), new JsonDocumentOptions()
             {
                 CommentHandling = JsonCommentHandling.Skip
             });

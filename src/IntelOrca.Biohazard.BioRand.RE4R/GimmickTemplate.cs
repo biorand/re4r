@@ -12,7 +12,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var template = _template;
             if (template == null)
             {
-                template = ChainsawRandomizerFactory.Default.ReadScnFile(Resources.gimmick_template);
+                template = ChainsawRandomizerFactory.Default.ReadScnFile(EmbeddedData.GetFile("gimmick.template.scn.20"));
                 _template = template;
             }
 

@@ -34,7 +34,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public static PakList GetDefaultPakList()
         {
-            var pakListBytes = Resources.pakcontents_txt.Ungzip();
+            var pakListBytes = EmbeddedData.GetFile("pakcontents.txt.gz").Ungzip();
             var pakListText = Encoding.UTF8.GetString(pakListBytes);
             return new PakList(pakListText);
         }

@@ -15,7 +15,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 if (_stages != null)
                     return _stages;
 
-                var def = Resources.stages.DeserializeJson<StagesDefinition>();
+                var def = EmbeddedData.GetFile("stages.json").DeserializeJson<StagesDefinition>();
                 _stages = def.Stages.ToImmutableArray();
                 return _stages;
             }

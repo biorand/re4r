@@ -43,7 +43,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 zipFile.AddEntry(entry.Key, entry.Value);
             }
             _modFile = zipFile
-                .AddEntry("pic.jpg", Resources.modimage)
+                .AddEntry("pic.jpg", EmbeddedData.GetFile("modimage.jpg"))
                 .AddEntry("modinfo.ini", GetModInfo())
                 .Build();
             return _modFile;

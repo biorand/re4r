@@ -4,7 +4,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
 {
     internal sealed class RecipeDefinitionFile
     {
-        public static RecipeDefinitionFile Default { get; } = Resources.recipe.DeserializeJson<RecipeDefinitionFile>();
+        public static RecipeDefinitionFile Default { get; } = EmbeddedData.GetFile("recipe.json").DeserializeJson<RecipeDefinitionFile>();
 
         public Recipe[] Recipes { get; set; } = [];
 

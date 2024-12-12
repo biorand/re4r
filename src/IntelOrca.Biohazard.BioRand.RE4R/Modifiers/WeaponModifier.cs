@@ -863,7 +863,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
     internal sealed class WeaponStatTable
     {
-        public static WeaponStatTable Default { get; } = new WeaponStatTable(Resources.wpstats);
+        public static WeaponStatTable Default { get; } = new WeaponStatTable(EmbeddedData.GetFile("wpstats.csv"));
 
         private readonly string[][] _cells;
         private readonly Dictionary<string, int> _rowMap = new();

@@ -20,7 +20,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             get
             {
-                _leon ??= Resources.areas.DeserializeJson<AreaDefinitionRepository>();
+                _leon ??= EmbeddedData.GetFile("areas.json").DeserializeJson<AreaDefinitionRepository>();
                 return _leon;
             }
         }
@@ -29,7 +29,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             get
             {
-                _ada ??= Resources.areas_sw.DeserializeJson<AreaDefinitionRepository>();
+                _ada ??= EmbeddedData.GetFile("areas_sw.json").DeserializeJson<AreaDefinitionRepository>();
                 return _ada;
             }
         }

@@ -24,7 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 if (_default == null)
                 {
-                    _default ??= Resources.items.DeserializeJson<ItemDefinitionRepository>();
+                    _default ??= EmbeddedData.GetFile("items.json").DeserializeJson<ItemDefinitionRepository>();
                     _default.Initialize();
                 }
                 return _default;

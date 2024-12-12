@@ -54,9 +54,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var tempPath = Path.Combine(Path.GetTempPath(), "re4rr");
             Directory.CreateDirectory(tempPath);
-            Ungzip(Resources.rszre4_json, Path.Combine(tempPath, dataFile));
-            CopyFile(Resources.re4_enum, Path.Combine(tempPath, "Data", enumFile));
-            CopyFile(Resources.rszre4_patch, Path.Combine(tempPath, "Data", pathFile));
+
+            Ungzip(EmbeddedData.GetFile("rszre4.json.gz")!, Path.Combine(tempPath, dataFile));
+            CopyFile(EmbeddedData.GetFile("re4_enum.json"), Path.Combine(tempPath, "Data", enumFile));
+            CopyFile(EmbeddedData.GetFile("rszre4_patch.json"), Path.Combine(tempPath, "Data", pathFile));
 
             var cwd = Directory.GetCurrentDirectory();
             try
@@ -113,9 +114,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return rev;
         }
 
-        public static byte[] GetDefaultProfile()
-        {
-            return Resources.default_profile;
-        }
+        public static byte[] GetDefaultProfile() => EmbeddedData.GetFile("default-profile.json");
     }
 }
