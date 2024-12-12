@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Compression;
 using System.Reflection;
 
@@ -8,8 +9,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         public static Stream? GetStream(string name)
         {
-            var exePath = Assembly.GetEntryAssembly()!.Location;
-            var exeDirectory = Path.GetDirectoryName(exePath)!;
+            var exeDirectory = AppContext.BaseDirectory;
             var dataDirectory = Path.Combine(exeDirectory, "data");
             var dataPath = Path.Combine(dataDirectory, name);
             if (File.Exists(dataPath))
