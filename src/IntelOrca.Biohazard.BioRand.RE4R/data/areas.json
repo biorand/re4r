@@ -273,7 +273,7 @@
         {
           "guids": [ // FARM EXTRA ENEMIES
             "22dac8b8-9255-6015-4d4d-d2cadfe81a4d", // Left of Ch5 Cabin 1
-            "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2
+            "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2 
             "8a7b4245-b96a-bf68-4c75-778aea239fb3" // Left of Ch5 Cabin 3
           ],
           "exclude": [
@@ -298,7 +298,7 @@
               "z": -171
             },
             {
-              "guid": "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2
+              "guid": "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2 
               "rw": -1.0,
               "rx": 0.0,
               "ry": 0.0,
@@ -397,7 +397,7 @@
       "description": "farm - animals",
       "restrictions": [
         {
-          "guids": [ // FARM
+          "guids": [ // FARM 
             "af8fb44e-0b00-4147-8f63-e0ac49d544c6", // Ambusher by save room
             "83af39cb-c79f-47ce-93db-90bf861e0305", // Guarding Corner fence
             "d041f1e4-a079-4877-9fe5-f8fd40e0d848", // Facing Trash Pile
@@ -425,7 +425,7 @@
           ]
         },
         {
-          "guids": [ // TUNNEL & LUIS HOUSE
+          "guids": [ // TUNNEL & LUIS HOUSE 
             "bbd85d12-563e-4d9c-9ee6-079ec7ae5b93", // Directly in front of guest House
             "10ebbec3-879d-4115-98fa-bb92fa5d3cc3", // Under the Bird Nest
             "d8624c4a-25d7-43ba-b545-39d529bb533c", // Guarding Hill to Luis House
@@ -502,7 +502,7 @@
           ]
         },
         {
-          "guids": [ // EMBLEM DOOR/MENDEZ HOUSE ROOM
+          "guids": [ // EMBLEM DOOR/MENDEZ HOUSE ROOM 
             "27e34e40-4a4c-4fdb-a001-83462f938541", // Patrol enemy by Pallets
             "f00699a5-ef50-47f3-b5ec-a9570fdce2c0", // Chainsaw guy replacement
             "acc1325b-96a8-1ee6-4c6c-9815e1afee1e", // Spawn under treasure lantern
@@ -642,7 +642,7 @@
               "z": 108
             },
             {
-              "guid": "f5bb1aa1-098f-0480-4a35-06fc96a1a7ae", // Mendez House Dining Room
+              "guid": "f5bb1aa1-098f-0480-4a35-06fc96a1a7ae", // Mendez House Dining Room 
               "rw": 0.63,
               "rx": 0.0,
               "ry": -0.78,
@@ -789,6 +789,7 @@
             "bfce4fe9-15eb-4020-bd28-97c67fc9d9cd", // Ladder trigger Ambush 2
             "01edcd69-616a-4fee-9629-8c1bef716f4b", // Rooftop Ganados East 1
             "0840df7f-f33f-4ad1-8368-ff0a972f1bdc", // Rooftop Ganados East 2
+            "58cb1388-a5ab-4ecb-944e-d9c6ec8cd99d", // 2F Box Ambusher
             "7d099d29-4740-466e-ae74-b6380c7abc6c", // East Path Ladder Ganados
             "175a6a80-61a5-4fb1-a5d1-58f9d074025f", // Second Ladder Ambush 1
             "9f1e9d3d-b82c-42a5-b98b-5b373203a169" // Second Ladder Ambush 2
@@ -829,11 +830,8 @@
           "guids": [ // LAKE EXTRA ENEMIES
             "76c7f2d0-7d7d-d222-4fb9-23972611415d", // Spawn by Binoculars POI at Lake
             "2169ab23-24c9-fb1c-49e0-fadd379dc833", // Guarding Ladder to Lake
-            "9ef078bd-b6c7-9959-418b-cc4f8b70423d", // Inside Hut by Hexagon puzzle
-            "ec6b1cdd-6514-2c8a-4930-9467b3a61392", // Inside Hut by Lake
             "217c8e09-b226-e1eb-49b7-8d9c904b579f", // Honorable Boat Guard at Lake
-            "bbc1f93f-77f4-fcfc-480a-7cbe1bba4c88", // Pier by Medallion at Lake
-            "818d9330-0f22-ef22-4c26-a5d9c7bd6b7f" // Guarding 1F Ladder at Lake
+            "bbc1f93f-77f4-fcfc-480a-7cbe1bba4c88" // Pier by Medallion at Lake
           ],
           "exclude": [
             "pesanta",
@@ -851,7 +849,10 @@
             "42aebb70-2b17-205e-48f9-ec925a38b89e", // Cave guard to Fish Farm 2
             "915d8d7e-fb67-d65b-45f2-53372fbdee0f", // Boat Cheater
             "d71ac234-6763-ce2f-4881-93a64ab66c65", // 1F at Lake in east Corner
-            "4c325db9-536c-4c21-408e-921b5aa32e51" // Gas Can Ambusher
+            "4c325db9-536c-4c21-408e-921b5aa32e51", // Gas Can Ambusher
+            "9ef078bd-b6c7-9959-418b-cc4f8b70423d", // Inside Hut by Hexagon puzzle
+            "ec6b1cdd-6514-2c8a-4930-9467b3a61392", // Inside Hut by Lake
+            "818d9330-0f22-ef22-4c26-a5d9c7bd6b7f" // Guarding 1F Ladder at Lake
           ],
           "exclude": [
             "pesanta",
@@ -883,7 +884,7 @@
             "89a4bb04-7490-46ca-8733-3a19aba180b2", // Patrol at Bottom of Left Ramp
             "e0a7e327-1bfa-4fc3-9514-d15155551e7b", // First Ramp Ambush (1F South end of room)
             "333f16a8-835d-47bd-a419-7e52e855f699", // First Ramp Ambush (1F East end of room)
-            "ca6f52ef-7552-479c-a33c-510a2a6e276c", // Archer by Tripwire
+            "ca6f52ef-7552-479c-a33c-510a2a6e276c", // Archer by Tripwire 
             "333f16a8-835d-47bd-a419-7e52e855f699", // Last Ladder Ambush 1
             "36604ed5-2030-4f4a-ab66-0992d038b806", // Last Ladder Ambush 2
             "5c1adb04-509c-49b0-9ba2-a7159684c0ba", // Last Ladder Ambush 3
@@ -978,7 +979,7 @@
               "z": 80
             },
             {
-              "guid": "71f4a3ee-e38a-a8a4-448e-e01d0b2bf606", // East Graveyard Path
+              "guid": "71f4a3ee-e38a-a8a4-448e-e01d0b2bf606", // East Graveyard Path 
               "rw": -0.58,
               "rx": 0.0,
               "ry": 0.82,
@@ -989,7 +990,7 @@
               "z": 75
             },
             {
-              "guid": "9cbf60f6-de1b-2189-4154-0649b7240f36", // North Graveyard Spawn
+              "guid": "9cbf60f6-de1b-2189-4154-0649b7240f36", // North Graveyard Spawn 
               "rw": -0.56,
               "rx": 0.0,
               "ry": 0.83,
@@ -1341,6 +1342,29 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/level_cp10_chp2_1.scn.20",
       "chapter": 4,
+      "restrictions": [
+        {
+          "guids": [ // LAKE MURAL
+            "8be2df95-a577-d4f3-4a9a-fe7b3f30c84f" // Ambusher at Lake Mural
+          ],
+          "exclude": [
+            "chainsaw_mad",
+            "garrador",
+            "chainsaw",
+            "mendez_chase"
+          ]
+        },
+        {
+          "guids": [ // APOSTATE HEAD CAVE
+            "fb4d058f-f100-4001-9bb9-8aaf5674a15c", // Top of East Ladder
+            "a1e608fb-cfca-4124-a737-43680c1ec3d9", // 2F Ladder Ambusher
+            "6ac6b7c6-f672-498d-8f7a-9ee589e9bec6" // 2F Dynamite thrower
+          ],
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ],
       "extra": [
         {
           "enemies": [
@@ -1756,27 +1780,6 @@
               "y": 22,
               "z": 104
             }
-          ]
-        },
-        {
-          "guids": [ // LAKE MURAL
-            "8be2df95-a577-d4f3-4a9a-fe7b3f30c84f" // Ambusher at Lake Mural
-          ],
-          "exclude": [
-            "chainsaw_mad",
-            "garrador",
-            "chainsaw",
-            "mendez_chase"
-          ]
-        },
-        {
-          "guids": [ // APOSTATE HEAD CAVE
-            "fb4d058f-f100-4001-9bb9-8aaf5674a15c", // Top of East Ladder
-            "a1e608fb-cfca-4124-a737-43680c1ec3d9", // 2F Ladder Ambusher
-            "6ac6b7c6-f672-498d-8f7a-9ee589e9bec6" // 2F Dynamite thrower
-          ],
-          "exclude": [
-            "mendez_chase"
           ]
         }
       ]
