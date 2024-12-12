@@ -67,7 +67,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             }
 
             public void LogInfo(string message) => AnsiConsole.MarkupLine($"[gray]{Timestamp} {message}[/]");
-            public void LogError(Exception ex, string message) => AnsiConsole.MarkupLine($"[red]{Timestamp} {message}[/]");
+            public void LogError(Exception ex, string message) => AnsiConsole.MarkupLine($"[red]{Timestamp} {message} ({ex.Message})[/]");
 
             private static string Timestamp => DateTime.Now.ToString("[[yyyy-MM-dd HH:mm]]");
         }
