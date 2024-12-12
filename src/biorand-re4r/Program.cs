@@ -52,7 +52,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var dlcPaths = Directory.GetFiles(Path.Combine(gamePath, "dlc"), "*.pak");
 
             var sb = new StringBuilder();
-            var pak = new PatchedPakFile(corePath);
+            var pak = new PatchedPakFile([.. dlcPaths, corePath]);
             var newPak = new PakFileBuilder();
 
             var includeList = new[] {
@@ -65,7 +65,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 "natives/stm/_anotherorder/environment/scene/gimmick/.*",
                 "natives/stm/_anotherorder/leveldesign/chapter/.*",
                 "natives/stm/_anotherorder/leveldesign/location/.*",
+                "natives/stm/_anotherorder/message/mes_main_item/.*",
                 "natives/stm/_authoring/appsystem/globalvariables/.*",
+                "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_110[12]/.*",
                 "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_140[12]/.*",
                 "natives/stm/_chainsaw/appsystem/character/[0-9a-z]+/userdata/[0-9a-z_]+.user.2",
                 "natives/stm/_chainsaw/appsystem/inventory/inventorycatalog/.*",
@@ -77,6 +79,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 "natives/stm/_chainsaw/environment/scene/gimmick/.*",
                 "natives/stm/_chainsaw/leveldesign/chapter/.*",
                 "natives/stm/_chainsaw/leveldesign/location/.*",
+                "natives/stm/_chainsaw/message/dlc/ch_mes_dlc_110[12].msg.22",
                 "natives/stm/_chainsaw/message/mes_main_charm/.*",
                 "natives/stm/_chainsaw/message/mes_main_item/.*",
                 "natives/stm/_chainsaw/message/mes_main_sys/.*"
@@ -86,25 +89,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 if (!includeList.Any(x => x.IsMatch(path)))
                     continue;
-
-                // if (!(path.Contains("environment/scene/gimmick") || path.Contains("leveldesign")))
-                //     continue;
-                // if (!path.StartsWith("natives/stm/_chainsaw"))
-                //     continue;
-                // if (!path.EndsWith(".scn.20"))
-                //     continue;
-                // if (path.Contains("item"))
-                //     continue;
-                // if (path.Contains("appsystem"))
-                //     continue;
-                // if (path.Contains("conv"))
-                //     continue;
-                // if (path.Contains("think"))
-                //     continue;
-                // if (path.Contains("player"))
-                //     continue;
-                // if (path.Contains(".user."))
-                //     continue;
 
                 var file = pak.GetFileData(path);
                 if (file == null)

@@ -94,7 +94,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             _rng = rng;
 
             _valuableDistributor = new ValuableDistributor(this);
-            _valuableDistributor.Setup(_itemRandomizer, _rng, logger.Process);
+            _valuableDistributor.Setup(_itemRandomizer, CreateRng(), logger.Process);
 
             var inventoryRng = CreateRng();
             var merchantRng = CreateRng();
@@ -193,6 +193,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             return new Modifier[]
             {
+                new CasePerkModifier(),
                 new InventoryModifier(),
                 new RecipeModifier(),
                 new MerchantShopModifier(),

@@ -1,0 +1,35 @@
+Id,Min,Max,Enabled,Description
+100000,4,12,1,Increases the drop rate of handgun ammo by {0}%.
+100100,4,12,1,Increases the drop rate of magnum ammo by {0}%.
+100200,4,12,1,Increases the drop rate of shotgun ammo by {0}%.
+100300,4,12,1,Increases the drop rate of rifle ammo by {0}%.
+100400,4,12,1,Increases the drop rate of smg ammo by {0}%.
+100500,4,12,1,Increases the drop rate of mine ammo by {0}%.
+100700,4,12,1,Increases the drop rate of bolt ammo by {0}%.
+200000,-1,-1,1,Increases the drop rate of gunpowder ammo by {0}%.
+300000,10,25,1,Increases the health recovery of green herbs by {0}%.
+300100,10,25,1,Increases the health recovery of eggs by {0}%.
+300200,10,25,1,Increases the health recovery of fish by {0}%.
+300300,10,25,1,Increases the health recovery of vipers by {0}%.
+400000,2,6,1,Increases the run speed by {0}%.
+500000,2,5,0,Increases the drop rate of red herbs by {0}%.
+500100,2,5,0,Increases the drop rate of handgun ammo by {0}%.
+500200,2,5,0,Increases the drop rate of large resources by {0}%.
+500300,2,5,0,Increases the drop rate of money by {0}%.
+500400,2,5,0,Increases the drop rate of gunpowder by {0}%.
+500500,2,5,0,Increases the drop rate of small resources by {0}%.
+500600,2,5,0,Increases the drop rate of green herbs by {0}%.
+600000,-4,-12,0,Reduces the cost of rocket launchers by {0}%.
+600100,-4,-12,1,Reduces the cost of resources by {0}%.
+700000,4,12,1,Increases ammo resale value by {0}%.
+700100,4,12,1,Increases recovery item resale value by {0}%.
+700200,4,12,1,Increases weapon resale value by {0}%.
+800000,-4,-12,1,Reduces the cost of knife repairs by {0}%.
+800100,-4,-12,1,Reduces the cost of body armor repairs by {0}%.
+900300,-2,-6,1,Reduces the cost of weapon upgrades by {0}%.
+1000000,4,12,1,Reduces the damage received by {0}%.
+1000100,4,12,1,Increases melee damage by {0}%.
+1000200,4,12,1,Increases knife damage by {0}%.
+1050000,4,12,1,Increases melee criticial rate by {0}%.
+1100000,0,0,0,Infinite ammo.
+1200000,0,0,0,Aim assist on any difficulty.

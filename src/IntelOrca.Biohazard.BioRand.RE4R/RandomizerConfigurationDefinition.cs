@@ -255,6 +255,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 }
             }
 
+            group = page.CreateGroup($"Perks");
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"random-case-perks",
+                Label = "Random Case Perks",
+                Description = "Randomize the perk and multiplier of each attaché case.",
+                Type = "switch",
+                Default = true
+            });
+
             page = configDefinition.CreatePage("Items");
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()

@@ -888,6 +888,15 @@ namespace chainsaw
             public System.Single _Probability { get; set; }
         }
     }
+    internal class AttacheCaseSkinEffectSettingUserdata
+    {
+        public System.Collections.Generic.List<chainsaw.AttacheCaseSkinEffectSingleSettingData> _Settings { get; set; } = [];
+    }
+    internal class AttacheCaseSkinEffectSingleSettingData
+    {
+        public System.Int32 _ItemId { get; set; }
+        public System.Collections.Generic.List<chainsaw.StatusEffectSetting> _Effects { get; set; } = [];
+    }
 }
 namespace chainsaw.gui.shop
 {
