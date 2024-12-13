@@ -93,7 +93,8 @@
         if (!editingNewsItem) return;
 
         const api = getApi();
-        const req = {
+        const req = <NewsItem>{
+            gameId: getGameId(),
             timestamp: editingNewsItem.timestamp,
             title: editingNewsItem.title,
             body: editingNewsItem.body

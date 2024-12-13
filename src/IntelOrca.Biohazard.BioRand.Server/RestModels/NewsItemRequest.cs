@@ -2,6 +2,7 @@
 {
     public class NewsItemRequest
     {
+        public int GameId { get; set; }
         public int Timestamp { get; set; }
         public string Title { get; set; } = "";
         public string Body { get; set; } = "";

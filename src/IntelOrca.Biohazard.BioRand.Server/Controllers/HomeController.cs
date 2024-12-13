@@ -34,6 +34,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
             var model = new NewsDbModel()
             {
+                GameId = request.GameId,
                 Timestamp = request.Timestamp.ToDateTime(),
                 Title = request.Title,
                 Body = request.Body
