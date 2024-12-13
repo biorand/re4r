@@ -48,7 +48,7 @@
         {#each bars as bar}
             <div
                 style="background-color: {bar.category.backgroundColor}; color: {bar.category
-                    .textColor}; width: {bar.value}%;"
+                    .textColor}; width: {bar.value}%; text-wrap: nowrap;"
             >
                 <div class="mx-2 m-0.5 text-center overflow-hidden">
                     {bar.category.label}
