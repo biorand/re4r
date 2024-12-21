@@ -1,5 +1,6 @@
 export const LocalStorageKeys = {
     ApiUrl: 'apiUrl',
+    GameId: 'gameId',
     LastGeneration: 'lastGeneration',
     Stats: 'stats',
     TwitchAuthState: 'twitchAuthState',

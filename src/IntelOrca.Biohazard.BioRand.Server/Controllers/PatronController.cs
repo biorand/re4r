@@ -14,7 +14,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
     public class PatronController(AuthService auth, DatabaseService db, ILogger<PatronController> logger) : ControllerBase
     {
         [HttpGet("donations")]
-        public async Task<object> GetKofiDonations(string? user, string? sort, string? order, int page = 1)
+        public async Task<object> GetKofiDonations(int? gameId, string? user, string? sort, string? order, int page = 1)
         {
             if (!(await auth.IsAuthorized(UserRoleKind.Administrator)))
                 return Unauthorized();
@@ -27,12 +27,14 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
             var itemsPerPage = 25;
             var result = await db.GetKofiAsync(
+                gameId,
                 user,
                 SortOptions.FromQuery(sort, order, ["Timestamp", "UserName", "Email", "Price", "TierName"]),
                 LimitOptions.FromPage(page, itemsPerPage));
             return ResultListResult.Map(page, itemsPerPage, result, x => new
             {
                 x.Id,
+                x.GameId,
                 MessageId = x.MessageId.ToString(),
                 Timestamp = x.Timestamp.ToUnixTimeSeconds(),
                 x.Email,
@@ -73,12 +75,12 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         }
 
         [HttpGet("daily")]
-        public async Task<object> GetKofiDaily()
+        public async Task<object> GetKofiDaily(int gameId)
         {
             if (!(await auth.IsAuthorized(UserRoleKind.Administrator)))
                 return Unauthorized();
 
-            return await db.GetKofiDaily();
+            return await db.GetKofiDaily(gameId);
         }
     }
 }

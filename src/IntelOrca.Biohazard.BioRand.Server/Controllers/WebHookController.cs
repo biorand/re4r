@@ -18,7 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         ILogger<WebHookController> logger) : ControllerBase
     {
         [HttpPost("kofi")]
-        public async Task<object> KofiAsync([FromForm] string data)
+        public async Task<object> KofiAsync([FromQuery] int? gameId, [FromForm] string data)
         {
             var kofiData = JsonSerializer.Deserialize<KoFiWebHookData>(data, new JsonSerializerOptions()
             {
@@ -64,6 +64,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
                 var kofiModel = new KofiDbModel
                 {
+                    GameId = gameId ?? 1, // For backwards compatibility
                     MessageId = kofiData.MessageId,
                     UserId = userId,
                     Email = email,

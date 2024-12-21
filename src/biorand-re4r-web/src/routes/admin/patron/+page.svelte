@@ -1,6 +1,7 @@
 <script lang="ts">
     import {
         getApi,
+        getGameId,
         getWebsiteTitle,
         type PatronDonationsItem,
         type PatronDonationsResult,
@@ -33,6 +34,7 @@
         getLocation().subscribe((location) => {
             const searchParams = new URLSearchParams(location.search);
             set({
+                gameId: getGameId(),
                 user: searchParams.get('user') || undefined,
                 sort: searchParams.get('sort') || undefined,
                 order: (searchParams.get('order') || undefined) as any,
@@ -78,7 +80,7 @@
     }
 
     async function getChartOptions() {
-        const daily = await api.getPatronDaily();
+        const daily = await api.getPatronDaily(getGameId());
         const days = daily.map((x) => {
             const dt = new Date(x.day);
             return new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit' }).format(dt);

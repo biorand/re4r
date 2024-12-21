@@ -8,6 +8,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Models
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
+        [NotNull]
+        public int GameId { get; set; }
         [Unique, NotNull]
         public Guid MessageId { get; set; }
         [NotNull]

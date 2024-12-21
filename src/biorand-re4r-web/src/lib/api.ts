@@ -225,12 +225,14 @@ export interface AdminLightUserInfo extends LightUserInfo {
 }
 
 export interface PatronQueryOptions extends QueryOptions {
+    gameId?: number;
     user?: string;
 }
 
 export type PatronDonationsResult = QueryResult<PatronDonationsItem>;
 export interface PatronDonationsItem {
     id: number;
+    gameId: number;
     messageId: string;
     timestamp: number;
     email: string;
@@ -400,8 +402,10 @@ export class BioRandApi {
         return await this.get<PatronDonationsResult>("patron/donations", query);
     }
 
-    async getPatronDaily() {
-        return await this.get<PatronDailyResult>("patron/daily");
+    async getPatronDaily(gameId?: number) {
+        return await this.get<PatronDailyResult>("patron/daily", {
+            gameId
+        });
     }
 
     async updatePatronUser(id: number, userName: string) {
@@ -506,6 +510,12 @@ export function switchApi(useDefault: boolean) {
 }
 
 export function getGameId() {
+    const lsManager = getLocalStorageManager();
+    let gameId = lsManager.getNumber(LocalStorageKeys.GameId);
+    if (gameId) {
+        return gameId;
+    }
+
     const hostname = document.location.hostname;
     const regexResult = hostname.match(/^(?:beta-)?([^.]+)\..+$/);
     if (regexResult) {

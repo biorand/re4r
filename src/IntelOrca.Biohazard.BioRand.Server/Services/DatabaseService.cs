@@ -12,7 +12,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 {
     public sealed class DatabaseService
     {
-        private const int LatestVersion = 2;
+        private const int LatestVersion = 3;
 
         private readonly SQLiteAsyncConnection _conn;
         private int _originalVersion;
@@ -87,6 +87,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 await _conn.ExecuteAsync("ALTER TABLE news ADD COLUMN GameId INTEGER NOT NULL DEFAULT 1");
                 await _conn.ExecuteAsync("ALTER TABLE profile ADD COLUMN GameId INTEGER NOT NULL DEFAULT 1");
                 await _conn.ExecuteAsync("ALTER TABLE rando ADD COLUMN GameId INTEGER NOT NULL DEFAULT 1");
+            }
+            if (_originalVersion < 3)
+            {
+                await _conn.ExecuteAsync("ALTER TABLE kofi ADD COLUMN GameId INTEGER NOT NULL DEFAULT 1");
             }
         }
 
@@ -654,6 +658,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         }
 
         public Task<LimitedResult<KofiUserDbViewModel>> GetKofiAsync(
+            int? gameId,
             string? userName,
             SortOptions? sortOptions,
             LimitOptions? limitOptions)
@@ -662,6 +667,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 SELECT kofi.*, user.Name as UserName, user.Role as UserRole
                 FROM kofi
                 LEFT JOIN user ON kofi.UserId = user.Id");
+            q.WhereIf("kofi.GameId = ?", gameId);
             q.WhereIf("user.Name = ?", userName);
             return q.ExecuteLimitedAsync(sortOptions, limitOptions);
         }
@@ -711,14 +717,15 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 WHERE kofi.Id = t.Id");
         }
 
-        public async Task<KofiDailyDbViewModel[]> GetKofiDaily()
+        public async Task<KofiDailyDbViewModel[]> GetKofiDaily(int gameId)
         {
             var result = await _conn.QueryAsync<KofiDailyDbViewModel>(@"
                 SELECT strftime('%Y-%m-%d', datetime((timestamp - 621355968000000000) / 10000000, 'unixepoch')) AS day,
                        COUNT(*) AS Donations,
                        SUM(Price) AS Amount
                 FROM kofi
-                GROUP BY day");
+                WHERE kofi.GameId = ?
+                GROUP BY day", gameId);
             return [.. result];
         }
 
