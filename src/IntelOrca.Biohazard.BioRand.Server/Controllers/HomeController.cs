@@ -78,9 +78,9 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         }
 
         [HttpGet("stats")]
-        public async Task<object> GetStatsAsync()
+        public async Task<object> GetStatsAsync(int gameId)
         {
-            var seeds = await db.GetSeedsDaily();
+            var seeds = await db.GetSeedsDaily(gameId);
             var totalUsers = await db.GetTotalUsersMonthly();
             return new
             {

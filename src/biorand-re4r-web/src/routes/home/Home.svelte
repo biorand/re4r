@@ -23,7 +23,7 @@
         const api = getApi();
         newsItems = await api.getNewsItems(getGameId());
 
-        const statsResult = await api.getHomeStats();
+        const statsResult = await api.getHomeStats(getGameId());
         seedChart = createDailyChart('Seeds', statsResult.seeds);
         totalUsersChart = createMonthlyChart('Registered Users', statsResult.totalUsers);
     };

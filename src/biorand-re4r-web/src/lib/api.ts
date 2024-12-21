@@ -390,8 +390,10 @@ export class BioRandApi {
         return await this.get<Rando>(`rando/${id}`);
     }
 
-    async getStats() {
-        return await this.get<StatsResult>("rando/stats");
+    async getStats(gameId: number) {
+        return await this.get<StatsResult>("rando/stats", {
+            gameId
+        });
     }
 
     async getRandoHistory(query: RandoHistoryQueryOptions) {
@@ -436,8 +438,10 @@ export class BioRandApi {
         return await this.delete(`home/news/${id}`);
     }
 
-    async getHomeStats() {
-        return await this.get<HomeStatsResult>("home/stats");
+    async getHomeStats(gameId: number) {
+        return await this.get<HomeStatsResult>("home/stats", {
+            gameId
+        });
     }
 
     private async get<T>(query: string, body?: any) {

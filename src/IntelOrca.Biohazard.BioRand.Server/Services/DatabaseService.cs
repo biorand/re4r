@@ -729,14 +729,16 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return [.. result];
         }
 
-        public async Task<DailyDbViewModel[]> GetSeedsDaily()
+        public async Task<DailyDbViewModel[]> GetSeedsDaily(int gameId)
         {
             var result = await _conn.QueryAsync<DailyDbViewModel>(@"
                 SELECT strftime('%Y-%m-%d', datetime((Created - 621355968000000000) / 10000000, 'unixepoch')) AS Day,
                        COUNT(*) AS Value
                 FROM rando
-                WHERE Day >= date('now', '-30 days') AND Day < date('now')
-                GROUP BY Day");
+                WHERE GameId = ?
+                  AND Day >= date('now', '-30 days')
+                  AND Day < date('now')
+                GROUP BY Day", gameId);
             return [.. result];
         }
 

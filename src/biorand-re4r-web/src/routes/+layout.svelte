@@ -1,11 +1,10 @@
 <script lang="ts">
-    import { getApi, type StatsResult, type User } from '$lib/api';
-    import { LocalStorageKeys, getLocalStorageManager } from '$lib/localStorage';
+    import { type User } from '$lib/api';
     import { getUserManager } from '$lib/userManager';
     import { Spinner } from 'flowbite-svelte';
     import '../app.pcss';
-    import Toolbar from './Toolbar.svelte';
     import Footer from './Footer.svelte';
+    import Toolbar from './Toolbar.svelte';
 
     let currentUser: User | undefined = undefined;
     let init = (async () => {
@@ -24,7 +23,7 @@
     // let refreshStats = async () => {
     //     try {
     //         const api = getApi();
-    //         stats = await api.getStats();
+    //         stats = await api.getStats(getGameId());
     //         lsManager.set(LocalStorageKeys.Stats, stats);
     //     } catch {}
     // };
