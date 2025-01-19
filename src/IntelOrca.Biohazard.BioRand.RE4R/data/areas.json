@@ -18,12 +18,12 @@
           "guids": [ // EXTRA ENEMIES OPENER/HOUSE
             "07d41ff3-1ec6-d325-466c-6fd249922e51", // Flank Right of Sign 1
             "caa655c1-7de3-82e4-45cc-94769362c824", // Behind Wire Fence
-            "777a5601-d506-4483-839c-b5fc6849edd1", // Top of the stairs
-            "f774819f-49fc-4e13-995f-d22ac50d15c0" // Dining Room
+            "777a5601-d506-4483-839c-b5fc6849edd1" // Top of the stairs
           ],
           "exclude": [
             "pesanta",
             "u3",
+            "mendez_2",
             "krauser_1"
           ]
         },
@@ -37,6 +37,7 @@
             "pesanta",
             "u3",
             "verdugo",
+            "krauser_1",
             "mendez_chase"
           ]
         },
@@ -52,6 +53,7 @@
           "exclude": [
             "mendez_2",
             "pesanta",
+            "krauser_1",
             "u3",
             "verdugo"
           ]
@@ -64,6 +66,7 @@
           "exclude": [
             "pesanta",
             "u3",
+            "krauser_1",
             "mendez_chase",
             "mendez_2"
           ]
@@ -99,6 +102,7 @@
       ],
       "extra": [
         {
+          "skipCondition": "8d40f8b4-b56d-4588-b71a-5a5e1c40d20d", // Anyone Home?
           "enemies": [ // EXTRA ENEMIES OPENER
             {
               "guid": "07d41ff3-1ec6-d325-466c-6fd249922e51", // Flank Right of Sign 1
@@ -117,6 +121,31 @@
           ]
         },
         {
+          "condition": "8d40f8b4-b56d-4588-b71a-5a5e1c40d20d", // Enter Cabin
+          "skipCondition": "b3bee246-d762-4244-bdb8-c7db24764ae8", // Find Cop in Basement
+          "enemies": [ // EXTRA ENEMIES CABIN BEFORE FIRST GANADOS
+            {
+              "guid": "f2802869-58b2-4e5c-9b11-a72604ff5be3", // Ambusher before first Cutscene
+              "stage": 40501,
+              "x": -176,
+              "y": 10,
+              "z": 75,
+              "small": true,
+              "direction": 48
+            },
+            {
+              "guid": "61523dde-7cf4-46f1-abaa-1a6e4f55b2d1", // Guest Room Cabin
+              "stage": 40501,
+              "x": -185,
+              "y": 10,
+              "z": 76,
+              "direction": 83,
+              "small": true
+            }
+          ]
+        },
+        {
+          "skipCondition": "ed3e9aac-6ad2-4eb4-a714-a96808ca8bdc", // Exit first Cabin
           "enemies": [ // EXTRA ENEMIES CABIN
             {
               "guid": "f774819f-49fc-4e13-995f-d22ac50d15c0", // Dining Room
@@ -125,11 +154,17 @@
               "ry": -1.0,
               "rz": 0.0,
               "stage": 40510,
-              "x": -182,
+              "x": -183,
               "y": 10,
-              "z": 87,
+              "z": 80,
               "small": true
-            },
+            }
+          ]
+        },
+        {
+          "condition": "b3bee246-d762-4244-bdb8-c7db24764ae8", // Find Basement Cop
+          "skipCondition": "ed3e9aac-6ad2-4eb4-a714-a96808ca8bdc", // Exit first Cabin
+          "enemies": [ // EXTRA ENEMIES CABIN
             {
               "guid": "777a5601-d506-4483-839c-b5fc6849edd1", // Top of the stairs
               "rw": -0.24,
@@ -189,7 +224,12 @@
               "x": -123,
               "y": 7,
               "z": 46
-            },
+            }
+          ]
+        },
+        {
+          "condition": "35882cb7-d15a-4ea9-b44b-8329e14b5309", // Midway through Abandoned House
+          "enemies": [
             {
               "guid": "f024256f-5ba5-4bca-4dfc-79afe3e77cce", // Before Crouch Branch
               "rw": 1.0,
@@ -265,26 +305,53 @@
       "restrictions": [
         {
           "guids": [
-            "ee20a0a5-eb61-497a-b373-a72cf53f47f0", // villager with pitchfork
             "2cac2691-aed5-4a73-b646-6a882ee1b697" // villager with pitchfork
           ],
           "lockWeapon": true
         },
         {
+          "guids": [
+            "ee20a0a5-eb61-497a-b373-a72cf53f47f0" // villager with pitchfork  2F BARN
+          ],
+          "exclude": [
+            "mendez_2"
+          ],
+          "lockWeapon": true
+        },
+        {
           "guids": [ // FARM EXTRA ENEMIES
-            "22dac8b8-9255-6015-4d4d-d2cadfe81a4d", // Left of Ch5 Cabin 1
-            "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2 
-            "8a7b4245-b96a-bf68-4c75-778aea239fb3" // Left of Ch5 Cabin 3
+          "22dac8b8-9255-6015-4d4d-d2cadfe81a4d", // Left of Ch5 Cabin 1
+          "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2
+          "8a7b4245-b96a-bf68-4c75-778aea239fb3" // Left of Ch5 Cabin 3
+
           ],
           "exclude": [
             "mendez_chase",
             "pesanta",
             "u3"
           ]
+        },
+        {
+          "guids": [ // FARM AMBUSH MENDEZ 2 EXCLUSIONS
+          "af8fb44e-0b00-4147-8f63-e0ac49d544c6", // Ambusher by save room
+          "409a4aad-e036-4fa3-aef0-16d39cce09eb", // Ambusher by save room 2
+          "5bc4bd86-e148-4270-85bb-7f9131f6558e", // Pitchfork Ganados at boulderfall path
+          "7da8fbc2-663d-4703-8308-7ac68d7a5f05", // Inside Planation House Window
+          "cb4b8afb-fbf4-4565-bff1-b8d663ef9594", // Inside Plantation House Guest
+          "53103451-d99a-48b4-a487-058857b4e5b7" // Luis House Porch
+          ],
+          "exclude": [
+            "mendez_chase",
+            "pesanta",
+            "u3",
+            "mendez_2"
+          ]
         }
       ],
       "extra": [
         {
+          "condition": "dd9080b0-2a6e-4051-ab11-240d6add1c7d", // Open Gate to exit Farm
+          "skipCondition": "235d453d-6e24-41d4-be5f-a929971e439e", // Boulder fall Ambush
           "enemies": [
             {
               "guid": "8a7b4245-b96a-bf68-4c75-778aea239fb3", // Left of Ch5 Cabin 3
@@ -298,7 +365,7 @@
               "z": -171
             },
             {
-              "guid": "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2 
+              "guid": "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2
               "rw": -1.0,
               "rx": 0.0,
               "ry": 0.0,
@@ -318,7 +385,12 @@
               "x": 39,
               "y": 4,
               "z": -155
-            },
+            }
+          ]
+        },
+        {
+          "condition": "235d453d-6e24-41d4-be5f-a929971e439e", // Boulder fall Ambush
+          "enemies": [ // EXTRA ENEMIES RUINED HOUSE AND CLEARING
             {
               "guid": "6e1e06c9-453a-9fff-47ca-91d127d10b1a", // First Bodyblocker in Tunnel
               "rw": 0.94,
@@ -374,7 +446,8 @@
               "stage": 43410,
               "x": 238,
               "y": -4,
-              "z": -125
+              "z": -125,
+              "small": true
             },
             {
               "guid": "86175bf5-e8c7-3aad-495f-64f374d4cf2f", // Luis Guardian
@@ -397,35 +470,49 @@
       "description": "farm - animals",
       "restrictions": [
         {
-          "guids": [ // FARM 
-            "af8fb44e-0b00-4147-8f63-e0ac49d544c6", // Ambusher by save room
+          "guids": [ // FARM ANIMALS
             "83af39cb-c79f-47ce-93db-90bf861e0305", // Guarding Corner fence
-            "d041f1e4-a079-4877-9fe5-f8fd40e0d848", // Facing Trash Pile
-            "a31b37c1-5c13-43eb-401f-75eaabe764d4", // Yardwork Ganados
-            "555d5526-4f48-48da-bb1e-8b6e38b88dfa", // Big Barn Door Smasher
-            "409a4aad-e036-4fa3-aef0-16d39cce09eb", // Facing Big Barn
             "936e94b5-d297-147f-4aa0-6ae45a9c4907", // Behind Big Barn ambush
+            "d6435c61-016a-4642-b9ef-ba77cd846689", // ???
+            "09ea044f-52d4-4d8b-818c-c8c833743221", // Inside Barn
+            "d041f1e4-a079-4877-9fe5-f8fd40e0d848", // ??
             "7636e2b3-5651-4b92-b785-dc694be139c0" // Pig behind Barn
           ],
           "exclude": [
             "pesanta",
-            "u3"
+            "u3",
+            "mendez_chase",
+            "garrador"
           ]
         },
         {
           "guids": [ // FARM MENDEZ 2 EXCLUSIONS
-            "941b0264-4a66-4ca7-96db-bcb03a81c9d1", // Big Barn 2F
-            "d6435c61-016a-4642-b9ef-ba77cd846689" // inside Barn
+          "d6435c61-016a-4642-b9ef-ba77cd846689" // inside Barn
           ],
           "exclude": [
-            "mendez_chase",
             "pesanta",
             "u3",
+            "garrador",
+            "mendez_chase",
             "mendez_2"
           ]
         },
         {
-          "guids": [ // TUNNEL & LUIS HOUSE 
+          "guids": [ // FARM COLMILLO EXCLUSION
+          "555d5526-4f48-48da-bb1e-8b6e38b88dfa" // Big Barn Door Smasher
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "garrador",
+            "mendez_chase",
+            "mendez_2",
+            "colmillos",
+            "super-colmillos"
+          ]
+        },
+        {
+          "guids": [ // TUNNEL & LUIS HOUSE
             "bbd85d12-563e-4d9c-9ee6-079ec7ae5b93", // Directly in front of guest House
             "10ebbec3-879d-4115-98fa-bb92fa5d3cc3", // Under the Bird Nest
             "d8624c4a-25d7-43ba-b545-39d529bb533c", // Guarding Hill to Luis House
@@ -441,8 +528,7 @@
         },
         {
           "guids": [ // TUNNEL & LUIS HOUSE EXTRA ENEMIES
-            "a26ebf20-34a2-e931-4cc9-f4cfe7ebe4b1", // Guarding Ammo Cupboard
-            "9dbdd9c2-85eb-18bb-47b5-a0887f15e59e" // Luis House Room after Tripwire
+            "a26ebf20-34a2-e931-4cc9-f4cfe7ebe4b1" // Guarding Ammo Cupboard
           ],
           "exclude": [
             "mendez_chase",
@@ -453,13 +539,11 @@
         },
         {
           "guids": [ // TUNNEL & LUIS HOUSE MENDEZ 2 EXCLUSIONS
-            "7da8fbc2-663d-4703-8308-7ac68d7a5f05", // Inside Planation House Window
-            "cb4b8afb-fbf4-4565-bff1-b8d663ef9594", // Inside Plantation House Guest
-            "f0f8e593-e48d-b346-4c27-d5d1f47163fd", // Guarding Small Key Drawer
-            "9dbdd9c2-85eb-18bb-47b5-a0887f15e59e", // Luis House Room after Tripwire
-            "86175bf5-e8c7-3aad-495f-64f374d4cf2f", // Luis Guardian
-            "6e1e06c9-453a-9fff-47ca-91d127d10b1a", // First Bodyblocker in Tunnel
-            "bd9831e1-2dfe-ec59-4632-3c5d18cc0c59" // Second Bodyblocker in Tunnel
+          "f0f8e593-e48d-b346-4c27-d5d1f47163fd", // Guarding Small Key Drawer
+          "86175bf5-e8c7-3aad-495f-64f374d4cf2f", // Luis Guardian
+          "6e1e06c9-453a-9fff-47ca-91d127d10b1a", // First Bodyblocker in Tunnel
+          "bd9831e1-2dfe-ec59-4632-3c5d18cc0c59", // Second Bodyblocker in Tunnel
+          "58367a3d-d456-44ef-8aab-e481393ec3fb" // Escape hatch Guard
           ],
           "exclude": [
             "mendez_chase",
@@ -497,12 +581,13 @@
           "exclude": [
             "pesanta",
             "u3",
+            "verdugo",
             "garrador",
             "mendez_2"
           ]
         },
         {
-          "guids": [ // EMBLEM DOOR/MENDEZ HOUSE ROOM 
+          "guids": [ // EMBLEM DOOR/MENDEZ HOUSE ROOM
             "27e34e40-4a4c-4fdb-a001-83462f938541", // Patrol enemy by Pallets
             "f00699a5-ef50-47f3-b5ec-a9570fdce2c0", // Chainsaw guy replacement
             "acc1325b-96a8-1ee6-4c6c-9815e1afee1e", // Spawn under treasure lantern
@@ -536,6 +621,7 @@
             "6d6ce1c9-d99a-4608-4eb1-62b6ccfec9b0", // Fly My Pretty
             "7ffa234a-c73c-389c-4999-02f8e0cc2744", // Key item Wardrobe Guard
             "f5bb1aa1-098f-0480-4a35-06fc96a1a7ae", // Mendez House Dining Room
+            "205c1b72-188a-499a-a008-fc53246158bc", // Crystal Ball Ambush
             "3d02e0bb-de03-1566-4ada-0c7ae6d342ee" // Mendez Room
           ],
           "exclude": [
@@ -642,7 +728,7 @@
               "z": 108
             },
             {
-              "guid": "f5bb1aa1-098f-0480-4a35-06fc96a1a7ae", // Mendez House Dining Room 
+              "guid": "f5bb1aa1-098f-0480-4a35-06fc96a1a7ae", // Mendez House Dining Room
               "rw": 0.63,
               "rx": 0.0,
               "ry": -0.78,
@@ -673,10 +759,7 @@
       "restrictions": [
         {
           "guids": [ // FACTORY SPAWNS
-            "85850656-bb05-4152-ac1d-cc069d4995fb", // EZ stealth Ganados
-            "cd744af1-6b44-4f37-a88e-944d56d34ac0", // Guarding Valve door
-            "cc9144a7-2c67-4ffa-9a9d-44dd47cddb94", // Patrol in final hallway
-            "7423cc0d-e3c7-4834-9476-66f884083aab" // wolf
+            "cd744af1-6b44-4f37-a88e-944d56d34ac0" // Guarding Valve door
           ],
           "exclude": [
             "pesanta",
@@ -687,7 +770,22 @@
           ]
         },
         {
-          "guids": [ // DYNAMITE VALLEY MENDEZ 2 SPAWNS
+          "guids": [ // FACTORY SPAWNS
+            "85850656-bb05-4152-ac1d-cc069d4995fb", // EZ stealth Ganados
+            "cc9144a7-2c67-4ffa-9a9d-44dd47cddb94", // Patrol in final hallway
+            "7423cc0d-e3c7-4834-9476-66f884083aab" // wolf
+          ],
+          "exclude": [
+            "pesanta",
+            "u3",
+            "verdugo",
+            "chainsaw_mad",
+            "garrador",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // DYNAMITE VALLEY
             "4f0940a5-66cc-4866-ada8-271a7ea83f74", // Guard House East Entrance
             "699a1ba2-047b-47ed-bea5-e5e0e3d4535d" // 2F Ledge Guard
           ],
@@ -707,7 +805,9 @@
             "6fdfe0fd-7eb0-42c4-b462-06257e03b2cb", // Barrel Adjacent
             "7508b413-afa4-47f6-823d-d4fa02572338", // Treasure Guard
             "21113631-623e-45a7-a0cd-ab504b413f6c", // Exit Guard 1
-            "4d8b60c3-10e2-4abc-934e-65ed991621e2" // Exit Guard 2
+            "4d8b60c3-10e2-4abc-934e-65ed991621e2", // Exit Guard 2
+            "63f13dd8-b733-4aef-922e-96c883885203", // Ambush inside cheesehouse
+            "d6a83d8e-6d60-4a9b-9e2e-9331c9513e4c" // Exit Guard 3
           ],
           "exclude": [
             "pesanta",
@@ -756,7 +856,6 @@
           "guids": [ // CHURCH ENEMIES
             "12271c66-cd5c-439a-926a-77303eb8bb50", // Sweeping Graves
             "71f4a3ee-e38a-a8a4-448e-e01d0b2bf606", // East Graveyard Path
-            "9cbf60f6-de1b-2189-4154-0649b7240f36", // North Graveyard Spawn
             "1d485c2a-730d-a987-4410-2bf14699d581", // Guarding Church Gate
             "cdb9d407-6087-dbb3-41f9-73e6b283a88e", // Guarding Treasure Chest Behind Church
             "8324d230-751e-6cd1-450b-fd1012b13b7d" // Behind Church
@@ -828,8 +927,6 @@
         },
         {
           "guids": [ // LAKE EXTRA ENEMIES
-            "76c7f2d0-7d7d-d222-4fb9-23972611415d", // Spawn by Binoculars POI at Lake
-            "2169ab23-24c9-fb1c-49e0-fadd379dc833", // Guarding Ladder to Lake
             "217c8e09-b226-e1eb-49b7-8d9c904b579f", // Honorable Boat Guard at Lake
             "bbc1f93f-77f4-fcfc-480a-7cbe1bba4c88" // Pier by Medallion at Lake
           ],
@@ -842,6 +939,8 @@
         },
         {
           "guids": [ // LAKE EXTRA ENEMIES MENDEZ 2 EXCLUDED
+            "76c7f2d0-7d7d-d222-4fb9-23972611415d", // Spawn by Binoculars POI at Lake
+            "2169ab23-24c9-fb1c-49e0-fadd379dc833", // Guarding Ladder to Lake
             "1cc2359a-c4bd-ce62-48ca-3053c8319f4e", // Middle of 2F path in Lake
             "ffe1975b-4fc1-69ac-44cb-b41434e5ad3a", // Bottom of Ladder to Lake
             "60eab7f7-6a9a-fdc1-4b19-7e491bce679e", // Guarding 2F Box at Lake
@@ -884,7 +983,7 @@
             "89a4bb04-7490-46ca-8733-3a19aba180b2", // Patrol at Bottom of Left Ramp
             "e0a7e327-1bfa-4fc3-9514-d15155551e7b", // First Ramp Ambush (1F South end of room)
             "333f16a8-835d-47bd-a419-7e52e855f699", // First Ramp Ambush (1F East end of room)
-            "ca6f52ef-7552-479c-a33c-510a2a6e276c", // Archer by Tripwire 
+            "ca6f52ef-7552-479c-a33c-510a2a6e276c", // Archer by Tripwire
             "333f16a8-835d-47bd-a419-7e52e855f699", // Last Ladder Ambush 1
             "36604ed5-2030-4f4a-ab66-0992d038b806", // Last Ladder Ambush 2
             "5c1adb04-509c-49b0-9ba2-a7159684c0ba", // Last Ladder Ambush 3
@@ -899,6 +998,7 @@
       ],
       "extra": [
         {
+          "skipCondition": "5c984a33-bf76-412f-a798-c2582fe8b32f", // Hunnigan Church Call
           "enemies": [
             {
               "guid": "e0aeab7f-3f99-2013-4335-11558b2868c4", // Shack Between Mendez House and Village
@@ -979,7 +1079,7 @@
               "z": 80
             },
             {
-              "guid": "71f4a3ee-e38a-a8a4-448e-e01d0b2bf606", // East Graveyard Path 
+              "guid": "71f4a3ee-e38a-a8a4-448e-e01d0b2bf606", // East Graveyard Path
               "rw": -0.58,
               "rx": 0.0,
               "ry": 0.82,
@@ -990,7 +1090,7 @@
               "z": 75
             },
             {
-              "guid": "9cbf60f6-de1b-2189-4154-0649b7240f36", // North Graveyard Spawn 
+              "guid": "9cbf60f6-de1b-2189-4154-0649b7240f36", // North Graveyard Spawn
               "rw": -0.56,
               "rx": 0.0,
               "ry": 0.83,
@@ -998,7 +1098,8 @@
               "stage": 45200,
               "x": 92,
               "y": 10,
-              "z": 79
+              "z": 79,
+              "small": true
             },
             {
               "guid": "41330420-6d5d-40a9-b93b-326a73464b3f", // Northwest Graveyard Spawn
@@ -1010,7 +1111,13 @@
               "x": 88,
               "y": 7,
               "z": 69
-            },
+            }
+          ]
+        },
+        {
+          "condition": "5c984a33-bf76-412f-a798-c2582fe8b32f", // Hunnigan Call in front of Church
+          "skipCondition": "1d2d4566-31c9-4998-ad8d-c5d707c60f06", // Arrive at Lake Merchant
+          "enemies": [
             {
               "guid": "cdb9d407-6087-dbb3-41f9-73e6b283a88e", // Guarding Treasure Chest Behind Church
               "rw": 0.86,
@@ -1088,7 +1195,12 @@
               "x": 185,
               "y": 8,
               "z": 130
-            },
+            }
+          ]
+        },
+        {
+          "condition": "1d2d4566-31c9-4998-ad8d-c5d707c60f06", // Arrive at Lake Merchant
+          "enemies": [
             {
               "guid": "76c7f2d0-7d7d-d222-4fb9-23972611415d", // Spawn by Binoculars POI at Lake
               "rw": 0.89,
@@ -1344,24 +1456,83 @@
       "chapter": 4,
       "restrictions": [
         {
-          "guids": [ // LAKE MURAL
-            "8be2df95-a577-d4f3-4a9a-fe7b3f30c84f" // Ambusher at Lake Mural
+          "guids": [ // CH4 START DOCK EXTRA ENEMIES
+          "8f41237a-25bc-6c57-4e2d-ac55bc853647", // Right of Dockhouse Outside"
+          "758e4359-8446-3d26-424f-ea835ec179a8", // Left of Dockhouse Outside 2
+          "fc13bdb8-91e3-29a9-423c-4ad3835a8bcd", // Left of Dockhouse Outside
+          "de3add5e-2c80-3914-4ff2-fdec08ffe4f3" // Path Ahead of Dockhouse Outside 2
+          ],
+          "exclude": [
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // CH4 START DOCK MENDEZ 2 EXCLUSIONS
+            "b6ff35cc-1d25-8305-44cc-e44e27139508", // Dock House Ambush 2
+            "9f1e9d3d-b82c-42a5-b98b-5b373203a169", // Dock House Ambush 1
+            "568bdbe8-9e27-6d6b-4d02-a77fdb57cf44", // Path ahead Dockhouse outside 1
+            "46be02a9-1eb9-a887-44ed-eebc7c3a3627" // Path ahead of Dockhouse outside 3
+          ],
+          "exclude": [
+            "krauser_1",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // RITUAL SITE MENDEZ 2 EXCLUSIONS
+            "79d0639f-f72e-689d-4d3d-9c73d6c0f421" // Tunnel Guard to Lake Mural cave
+          ],
+          "exclude": [
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // LAKE MURAL EXTRA ENEMIES
+            "8be2df95-a577-d4f3-4a9a-fe7b3f30c84f", // Ambusher at Lake Mural
+            "2df9812e-8355-9e47-43bb-283b1af16b03", // Left of Lake Mural Dock
+            "09a9fe5b-e739-a7e3-4022-0211a6201d9e" // Right of Lake Mural Dock
+
           ],
           "exclude": [
             "chainsaw_mad",
             "garrador",
             "chainsaw",
-            "mendez_chase"
+            "mendez_chase",
+            "krauser_1"
           ]
         },
         {
           "guids": [ // APOSTATE HEAD CAVE
             "fb4d058f-f100-4001-9bb9-8aaf5674a15c", // Top of East Ladder
             "a1e608fb-cfca-4124-a737-43680c1ec3d9", // 2F Ladder Ambusher
-            "6ac6b7c6-f672-498d-8f7a-9ee589e9bec6" // 2F Dynamite thrower
+            "6ac6b7c6-f672-498d-8f7a-9ee589e9bec6", // 2F Dynamite thrower
+            "eb2f1c21-6c01-4ba8-9134-2ca0fa91c652", // Entrance to first tunnel
+            "c4f1bc31-b056-4984-ad35-ca4e8ad9be5d", // First Corner of First Tunnel
+            "25988a00-ea1d-49ab-a37f-b0aa968d3f46", // First corner dynamite thrower
+            "d1e9e42e-1200-44ae-9dd7-957425210c43", // Second Corner of First tunnel
+            "e7e9fb7c-e1ee-41d3-adb7-c6670e8d3efa", // 1F Exit Key item Ambusher before Lantern
+            "3ddb219b-a293-4acf-b1f4-03fd7983fdb5" // 1F Ladder Key item Ambusher
           ],
           "exclude": [
-            "mendez_chase"
+            "mendez_2",
+            "krauser_1"
+          ]
+        },
+        {
+          "guids": [ // LANTERN ISLAND
+            "ddb1f353-c4f9-3bac-4960-88a492f2fe55", // Guarding Wayshrine Treasure
+            "14a0981c-02d3-98ed-4b07-06f83b0fbbf7" // Top Cliff Wayshrine Island
+          ],
+          "exclude": [
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [ // LUIS HOUSE ISLAND
+            "5b724554-a959-4248-9a17-b677d6245ea4" // Small Key Ambusher
+          ],
+          "exclude": [
+            "mendez_2"
           ]
         }
       ],
@@ -1493,6 +1664,7 @@
               "z": 158
             },
             {
+              "guid": "09a9fe5b-e739-a7e3-4022-0211a6201d9e", // Right of Lake Mural Dock
               "rw": 0.7,
               "rx": 0.0,
               "ry": -0.71,
@@ -1503,7 +1675,7 @@
               "z": 142
             },
             {
-              "guid": "2df9812e-8355-9e47-43bb-283b1af16b03", // Dock by Lake Mural
+              "guid": "2df9812e-8355-9e47-43bb-283b1af16b03", // Left of Lake Mural Dock
               "rw": 0.68,
               "rx": 0.0,
               "ry": 0.73,
@@ -1514,6 +1686,7 @@
               "z": 143
             },
             {
+              "guid": "963e0917-d764-fc33-454c-8a829950b0aa", // Bawk Island West
               "rw": 0.9,
               "rx": 0.0,
               "ry": 0.43,
@@ -1524,6 +1697,7 @@
               "z": -25
             },
             {
+              "guid": "45028fe0-aa33-a837-45a8-5ef8a210af37", // Bawk Island North
               "rw": 0.77,
               "rx": 0.0,
               "ry": -0.64,
@@ -1534,6 +1708,7 @@
               "z": -23
             },
             {
+              "guid": "c43735b5-c4b3-428e-4ea0-106cee2cbd13", // Bawk Island East
               "rw": 0.2,
               "rx": 0.0,
               "ry": -0.98,
@@ -1544,6 +1719,7 @@
               "z": -17
             },
             {
+              "guid": "1e01a27e-e932-c4d0-4e79-e6f4f6a2e08d", // Bawk Island South
               "rw": 0.71,
               "rx": 0.0,
               "ry": -0.7,
@@ -1554,6 +1730,7 @@
               "z": -23
             },
             {
+              "guid": "fe4c9814-7432-7eac-4716-f3583f47a20f", // Right Alley at Blasphemer Head Puzzle
               "rw": -0.99,
               "rx": 0.0,
               "ry": -0.12,
@@ -1565,6 +1742,7 @@
               "z": -152
             },
             {
+              "guid": "b25a1ba6-5e49-06bb-45fc-4cb94e026b61", // Left Alley at Blasphemer Head Puzzle
               "rw": 0.99,
               "rx": 0.0,
               "ry": 0.15,
@@ -1576,6 +1754,7 @@
               "z": -150
             },
             {
+              "guid": "4e129844-0679-8e89-4943-41e1df67381b", // Ambush at Blasphemer Head Puzzle
               "rw": -0.79,
               "rx": 0.0,
               "ry": 0.61,
@@ -1618,6 +1797,7 @@
               "z": 147
             },
             {
+              "guid": "ddb1f353-c4f9-3bac-4960-88a492f2fe55", // Guarding Wayshrine Treasure
               "rw": 0.97,
               "rx": 0.0,
               "ry": 0.23,
@@ -1629,6 +1809,7 @@
               "z": 140
             },
             {
+              "guid": "14a0981c-02d3-98ed-4b07-06f83b0fbbf7", // Top Cliff Wayshrine Island
               "rw": 0.99,
               "rx": 0.0,
               "ry": -0.12,
@@ -1849,6 +2030,17 @@
               "z": 139
             }
           ]
+        },
+        {
+          "guids": [
+            "9798292f-5761-a97d-44b5-7ca1aeb4fefe", // South Room El Gigante Add
+            "b57839f1-dabf-2fee-4060-602434130ed2", // East Room El Gigante Add
+            "df4ab3e1-b373-56c2-4983-52eea339546f", // Northeast Room El Gigante Add
+            "9f490ff6-8f19-af82-4119-147230688de2" // North Room El Gigante Add
+          ],
+          "exclude":[
+            "mendez_chase"
+          ]
         }
       ]
     },
@@ -1868,6 +2060,49 @@
           ]
         },
         {
+          "guids": [ // MENDEZ 2 EXCLUSIONS
+            "e8eb5d2a-ba66-408a-b186-1592f8c04191", // Back of Church 1F spawn
+            "45a30278-212c-4ceb-b8b1-403ee9494747", // Back of Church 1F spawn 2
+            "3b66428c-055e-4826-a4d6-6db61391f138", // Foot of Graveyard Hill 1
+            "f8d33d7d-d412-4dbc-92d1-c03265e5014a", // Foot of Graveyard Hill 2
+            "8e9782c5-3de1-490d-abce-24498a4cea1e", // Barn Rooftop
+            "fda43ccc-36c5-43b9-bde5-2188a08f08c8", // Village underground tunnel
+            "22ce72e5-1122-4fe5-8585-02b1ba6feccc" // 2F Barn Patrol"
+          ],
+          "exclude": [
+            "mendez_2",
+            "mendez_chase"
+          ]
+        },
+        {
+          "guids": [ // KRAUSER EXCLUSIONS
+            "1da8386a-9144-4950-9a91-ebaded80c533", // Shotgun house 2F Patrol
+            "e8e076b2-21a3-1f68-43ab-903baba9eb64", // Luis House Attic 1
+            "467d8ce2-db14-495b-b37e-9c3c094a48fb", // ???
+            "6eaaad94-83ab-c5b0-43f4-a6dfac702b06" // Luis House Attic 2
+          ],
+          "exclude": [
+            "mendez_2",
+            "krauser_1",
+            "mendez_chase",
+            "garrador"
+          ]
+        },
+        {
+          "guids": [ // FARM EXCLUSIONS
+            "cd43b230-e27f-450c-9f50-1629cd11f8c6", // First Patrol
+            "14f66159-a9cf-4bca-9a48-1149d6827a97", // Patrol by Barn
+            "6f275fa4-3534-4ddf-85d1-11f7ed82f246", // Guard by Exit
+            "320ce183-402f-4e54-98ea-216fc4b98cfa", // Barn Adjacent
+            "8cf43fa7-91f1-4924-a9a2-889ead8a0be4" // Inside Big Barn
+          ],
+          "exclude": [
+            "garrador",
+            "mendez_chase",
+            "krauser_1"
+          ]
+        },
+        {
           "exclude": [
             "mendez_chase"
           ]
@@ -1875,8 +2110,9 @@
       ],
       "extra": [
         {
-          "enemies": [
+          "enemies": [ // Mendez Attic
             {
+              "guid": "e8e076b2-21a3-1f68-43ab-903baba9eb64", // Luis House Attic 1
               "rw": 0.81,
               "rx": 0.0,
               "ry": 0.59,
@@ -1888,6 +2124,7 @@
               "z": 104
             },
             {
+              "guid": "6eaaad94-83ab-c5b0-43f4-a6dfac702b06", // Luis House Attic 2"
               "rw": -0.12,
               "rx": 0.0,
               "ry": -0.99,
@@ -1952,7 +2189,7 @@
             "b99b5d8d-406b-4a0a-9e0b-8e931f87960e",
             "4f3694d0-a6cc-41eb-baf4-c4475b542b1a",
             "726001e1-253d-4a8f-b3b2-27b6c92ae242",
-            "4bae7e39-e7ce-45d8-a6af-ca43f98bc3f0",
+            "4bae7e39-e7ce-45d8-a6af-ca43f98bc3f0", // THE BRUTE
             "3f5a6e2f-ea98-45aa-a8a6-65d314ead54a",
             "0f2dc793-e360-4a4f-a7bd-4bff959c0e76",
             "b09cc665-0449-415a-a542-42d06414b594",
@@ -1966,6 +2203,7 @@
             "soldier_range",
             "brute_range",
             "arana",
+            "super-colmillos",
             "colmillos",
             "krauser_1",
             "krauser_2",
@@ -1974,6 +2212,7 @@
             "novistador",
             "garrador",
             "armadura",
+            "gold-armadura",
             "mendez_chase",
             "verdugo",
             "mendez_2",
@@ -1999,12 +2238,16 @@
       "restrictions": [
         {
           "exclude": [
-            "mendez_chase"
+            "mendez_chase",
+            "mendez_2",
+            "garrador"
           ]
         }
       ],
       "extra": [
         {
+          "condition": "3dc98606-446d-4969-b953-f7addc959def", // Double Doors after Ambush Valley
+          "skipCondition": "adf515c8-1bb6-4be3-b753-6bf940e8586f", // Exiting Bella Sisters Room
           "enemies": [
             {
               "rw": -0.75,
@@ -2077,8 +2320,14 @@
               "x": 153,
               "y": 3,
               "z": -215
-            },
+            }
+          ]
+        },
+        {
+          "condition": "adf515c8-1bb6-4be3-b753-6bf940e8586f", // Exiting Bella Sisters Room
+          "enemies": [
             {
+              "guid": "e279f484-a52b-62b1-4727-c58fbb5ad40d", // Guard after Crank door
               "rw": 0.38,
               "rx": 0.0,
               "ry": -0.92,
@@ -2089,17 +2338,19 @@
               "z": -186
             },
             {
+              "guid": "b126faea-d4e3-c2f5-4fcd-228ed0fca3d3", // Guard before Ramp to broken rooftop house
               "rw": 0.49,
               "rx": 0.0,
               "ry": -0.87,
               "rz": 0.0,
-              "small": true,
               "stage": 47201,
               "x": 192,
               "y": 3,
-              "z": -179
+              "z": -179,
+              "small": true
             },
             {
+              "guid": "9d7478e2-f141-90f1-464d-e1eb34932665", // Guarding Barrels before broken rooftop house
               "rw": 0.99,
               "rx": 0.0,
               "ry": -0.17,
@@ -2111,6 +2362,7 @@
               "z": -183
             },
             {
+              "guid": "5af0f963-e4c1-cfa3-4178-ad0c67819f92", // Inside Broken rooftop House
               "rw": -0.87,
               "rx": 0.0,
               "ry": -0.49,
@@ -2122,6 +2374,7 @@
               "z": -189
             },
             {
+              "guid": "7b35e972-20b3-b8e2-4182-8193fe4529e3", // Guarding Merchant
               "rw": 0.71,
               "rx": 0.0,
               "ry": -0.7,
@@ -2132,15 +2385,46 @@
               "z": -194
             },
             {
+              "rw": 0.97, // Ambush After Mendez Hill
+              "rx": 0.0,
+              "ry": -0.24,
+              "rz": 0.0,
+              "stage": 47400,
+              "x": 283,
+              "y": 9,
+              "z": -248
+            },
+            {
               "rw": 0.97,
               "rx": 0.0,
               "ry": -0.24,
               "rz": 0.0,
               "stage": 47400,
-              "x": 269,
+              "x": 287,
+              "y": 9,
+              "z": -244
+            }
+          ]
+        },
+        {
+          "condition": "2028f283-c0b9-4173-8a6e-a0c63292e6f5", // Approaching Mendez Hill
+          "enemies": [
+            {
+              "rw": 0.97,
+              "rx": 0.0,
+              "ry": -0.24,
+              "rz": 0.0,
+              "stage": 47400,
+              "small": true,
+              "x": 266,
               "y": 8,
-              "z": -260
-            },
+              "z": -254
+            }
+          ]
+        },
+        {
+          "condition": "c573be1f-8529-4795-84ce-bd98137e0b50", // Exit Mendez House
+          "enemies": [
             {
               "rw": -0.08,
               "rx": 0.0,
@@ -2224,6 +2508,18 @@
       "chapter": 6,
       "restrictions": [
         {
+          "guids": [
+            "7356b16d-7c57-4fc9-a8b6-c0e008d2e11d", // Before Bella Sister room
+            "65ac5a6a-d470-441e-a59d-01b0587763c4", // Crossbow guard Ganados
+            "0657cd56-9f0c-4c28-9519-60ed978d4d21", // Patrol after time out ganados
+            "a07fbc09-ca3b-43bb-a68a-fba7b25eb6d4" // First time out Ganados
+          ],
+          "exclude": [
+            "garrador",
+            "mendez_chase"
+          ]
+        },
+        {
           "exclude": [
             "mendez_chase"
           ]
@@ -2253,6 +2549,18 @@
           ]
         },
         {
+          "guids": [
+            "1b7d10b9-4d58-43ce-b2b1-64f4ef4d0ef6", // ??
+            "69c59902-3357-41b5-8cbf-89e6e8fd983e", // ??
+            "d8f16106-2d1f-43cb-b59a-3da9431536a5" // Front Door Ambush on Bella sister start
+          ],
+          "exclude": [
+            "mendez_2",
+            "mendez_chase",
+            "garrador"
+          ]
+        },
+        {
           "exclude": [
             "mendez_chase"
           ]
@@ -2264,7 +2572,7 @@
       "chapter": 6,
       "restrictions": [
         {
-          "guids": [
+          "guids": [ // MENDEZ BOSS ROOM EXTRA ENEMIES
             "e4b4f8cf-c516-4ac2-85f5-073b17e01c76",
             "a61c62f3-52e7-4d78-a167-c99b84fcada9",
             "aa862ced-d677-42bd-8542-fbbbe038a16f",
@@ -2273,7 +2581,8 @@
         },
         {
           "exclude": [
-            "mendez_chase"
+            "mendez_chase",
+            "mendez_2"
           ]
         }
       ],
@@ -2286,60 +2595,69 @@
               "stage": 47410,
               "x": 292,
               "y": 13,
-              "z": -226
+              "z": -226,
+              "small": true
             },
             {
               "stage": 47410,
               "x": 283,
               "y": 13,
-              "z": -215
+              "z": -215,
+              "small": true
             },
             {
               "stage": 47410,
               "x": 289,
               "y": 13,
-              "z": -212
+              "z": -212,
+              "small": true
             },
             {
               "stage": 47410,
               "x": 285,
               "y": 10,
-              "z": -226
+              "z": -226,
+              "small": true
             },
             {
               "stage": 47410,
-              "x": 281,
+              "x": 289,
               "y": 10,
-              "z": -221
+              "z": -226,
+              "small": true
             }
           ]
         },
         {
-          "condition": "f61225f0-a6b7-4eb1-abea-c7358db3a9e5",
+          "condition": "f61225f0-a6b7-4eb1-abea-c7358db3a9e5", // Phase 2 extra enemies
           "enemies": [
             {
               "stage": 47410,
               "x": 283,
               "y": 13,
-              "z": -215
+              "z": -215,
+              "small": true
             },
             {
               "stage": 47410,
               "x": 289,
               "y": 13,
-              "z": -212
+              "z": -212,
+              "small": true
             },
             {
               "stage": 47410,
-              "x": 289,
+              "x": 288,
               "y": 10,
-              "z": -219
+              "z": -222,
+              "small": true
             },
             {
               "stage": 47410,
               "x": 284,
               "y": 10,
-              "z": -222
+              "z": -222,
+              "small": true
             }
           ]
         }
@@ -2351,7 +2669,8 @@
       "restrictions": [
         {
           "exclude": [
-            "mendez_chase"
+            "mendez_chase",
+            "garrador"
           ]
         }
       ]
@@ -2367,35 +2686,58 @@
           ]
         },
         {
-          "exclude": [
+          "guids": [ // CASTLE START MENDEZ 2 EXCEPTIONS
+            "094fa6fc-50df-a4c5-44cb-95946ff414d7", // After Foyer Left Ambush
+            "beb2f9dd-50a6-65e3-4e74-569f6596780b", // After Foyer Ahead Ambush
+            "a7c461d6-dbcc-8061-4736-046ad5c0a89f", // After Foyer Right Ambush
+            "05870634-d916-a251-4f91-3e86776e6490", // Guarding Top of Staircase
+            "7328e407-1b4b-0d0d-4c11-c3f52ffdc1a4", // Staircase Guard Lower Level
+            "fedb265a-82d9-bcff-4714-77988b9cdf1f", // Door after Castle entrance Foyer"
+            "4cc2599d-302c-3654-4130-028fda13223b", // Room before Stairs to catapults
+            "6046d805-d530-3e2e-4d9d-e03238dbccf1", // Corner before Stairs
+            "83c64219-302c-4afb-85fc-8659524e7e8c" // Ambush after Cannon
+          ],
+          "exclude":[
+            "mendez_2",
+            "mendez_chase",
+            "garrador"
+          ]
+        },
+        {
+          "guids": [ // FIRST GARRADOR BOSS FIGHT MENDEZ 2 EXCLUSIONS
+            "0f849774-6ae8-e569-4928-714acceefb23", // Door before reunite with Ashley
+            "53fca095-3982-ac57-44ac-cc61b2cc0e3e", // Guarding Ladder after First Garrador
+            "38ddfde7-2e5a-9fb4-4095-506b0a2f5573", // Close Right Corner First Garrador
+            "fa6c6609-f3ce-96a0-4dd1-238af0034c5d", // Far Right Corner First Garrador
+            "e1e305e5-b5b6-ae7f-4673-cb7b5eea844b", // Far Left Corner First Garrador
+            "58830efe-b06d-111d-4bc1-0109ef98c7c2" // Close Left Corner First Garrador
+          ],
+          "exclude":[
+            "mendez_2",
             "mendez_chase"
+          ]
+        },
+        {
+          "guids": [ // BEFORE WATER HALL EXTRA ENEMIES
+            "cf6f9b4a-9a7c-a5d2-4fdf-046eb53cc5d0", // 2F Cabinet Before Water Hall
+            "22fc91f8-bd05-2d32-4404-435b55c2d78d", // Guarding Shortcut to Main Hall
+            "e75734c5-47cd-0753-4263-901f1107e8eb", // Bottom of Stairs before Water Hall
+            "12d491bb-e3cd-4ba5-4577-2b88ddfd6be0", // Left Far Corner before water Hall
+            "b3d3260e-d22c-308f-49f4-cc1869c474cb" // Guarding Entrance to Water Hall
+          ],
+          "exclude":[
+            "mendez_2",
+            "mendez_chase",
+            "garrador"
           ]
         }
       ],
       "extra": [
         {
+          "skipCondition": "a3415aae-e1af-4096-8282-a1c73d57488e", // Catapult Event start
           "enemies": [
             {
-              "rw": 0.72,
-              "rx": 0.0,
-              "ry": -0.7,
-              "rz": 0.0,
-              "stage": 50100,
-              "x": -324,
-              "y": -7,
-              "z": 58
-            },
-            {
-              "rw": 0.71,
-              "rx": 0.0,
-              "ry": -0.7,
-              "rz": 0.0,
-              "stage": 50100,
-              "x": -318,
-              "y": -7,
-              "z": 59
-            },
-            {
+              "guid": "6046d805-d530-3e2e-4d9d-e03238dbccf1", // Corner before Stairs
               "rw": -0.91,
               "rx": 0.0,
               "ry": 0.41,
@@ -2406,17 +2748,7 @@
               "z": 55
             },
             {
-              "rw": -0.69,
-              "rx": 0.0,
-              "ry": -0.73,
-              "rz": 0.0,
-              "small": true,
-              "stage": 50200,
-              "x": -308,
-              "y": -7,
-              "z": 69
-            },
-            {
+              "guid": "7328e407-1b4b-0d0d-4c11-c3f52ffdc1a4", // Staircase Guard Lower Level
               "rw": 0.72,
               "rx": 0.0,
               "ry": -0.69,
@@ -2428,17 +2760,7 @@
               "z": 50
             },
             {
-              "rw": 0.72,
-              "rx": 0.0,
-              "ry": -0.7,
-              "rz": 0.0,
-              "small": true,
-              "stage": 50200,
-              "x": -300,
-              "y": -1,
-              "z": 58
-            },
-            {
+              "guid": "05870634-d916-a251-4f91-3e86776e6490", // Guarding Top of Staircase
               "rw": 0.0,
               "rx": 0.0,
               "ry": 1.0,
@@ -2450,6 +2772,7 @@
               "z": 66
             },
             {
+              "guid": "a7c461d6-dbcc-8061-4736-046ad5c0a89f", // After Foyer Right Ambush
               "rw": 0.28,
               "rx": 0.0,
               "ry": -0.96,
@@ -2460,6 +2783,7 @@
               "z": 69
             },
             {
+              "guid": "beb2f9dd-50a6-65e3-4e74-569f6596780b", // After Foyer Center Ambush
               "rw": 0.31,
               "rx": 0.0,
               "ry": -0.95,
@@ -2470,6 +2794,7 @@
               "z": 65
             },
             {
+              "guid": "094fa6fc-50df-a4c5-44cb-95946ff414d7", // After Foyer Left Ambush
               "rw": 1.0,
               "rx": 0.0,
               "ry": -0.01,
@@ -2480,17 +2805,7 @@
               "z": 63
             },
             {
-              "rw": 0.01,
-              "rx": 0.0,
-              "ry": -1.0,
-              "rz": 0.0,
-              "small": true,
-              "stage": 50201,
-              "x": -285,
-              "y": -5,
-              "z": 74
-            },
-            {
+              "guid": "fedb265a-82d9-bcff-4714-77988b9cdf1f", // Door after Castle entrance Foyer
               "rw": -0.04,
               "rx": 0.0,
               "ry": -1.0,
@@ -2501,36 +2816,7 @@
               "z": 81
             },
             {
-              "rw": -0.3,
-              "rx": 0.0,
-              "ry": 0.95,
-              "rz": 0.0,
-              "stage": 50201,
-              "x": -284,
-              "y": -5,
-              "z": 83
-            },
-            {
-              "rw": -0.04,
-              "rx": 0.0,
-              "ry": 1.0,
-              "rz": 0.0,
-              "stage": 50201,
-              "x": -279,
-              "y": -5,
-              "z": 89
-            },
-            {
-              "rw": 0.75,
-              "rx": 0.0,
-              "ry": -0.66,
-              "rz": 0.0,
-              "stage": 50201,
-              "x": -276,
-              "y": -5,
-              "z": 87
-            },
-            {
+              "guid": "4cc2599d-302c-3654-4130-028fda13223b", // Room before Stairs to catapults
               "rw": -0.76,
               "rx": 0.0,
               "ry": 0.65,
@@ -2539,8 +2825,15 @@
               "x": -272,
               "y": -6,
               "z": 52
-            },
+            }
+          ]
+        },
+        {
+          "condition": "73eb6db0-74fa-4580-9e44-99c9577e0e20", // Castle Gate Destroyed
+          "skipCondition": "b0828105-2845-4d22-9b95-37231fc888b3", // Enter Castle Double Doors
+          "enemies": [
             {
+              "guid": "35d35bf0-dac2-e447-44fc-fa042ead80bf", // Outside Castle Double Door 6
               "rw": 0.72,
               "rx": 0.0,
               "ry": -0.7,
@@ -2551,6 +2844,7 @@
               "z": 53
             },
             {
+              "guid": "4a31bdbb-ef3b-0d40-4375-975ffeb348f3", // Outside Castle Double Door 5
               "rw": 0.72,
               "rx": 0.0,
               "ry": -0.69,
@@ -2561,6 +2855,7 @@
               "z": 50
             },
             {
+              "guid": "2bbb3b01-5313-466d-416b-17cccd88ecdc", // Outside Castle Double Door 4
               "rw": -0.73,
               "rx": 0.0,
               "ry": 0.68,
@@ -2571,6 +2866,7 @@
               "z": 52
             },
             {
+              "guid": "de49bdd4-397d-9355-4042-cb315eae77c2", /// Outside Castle Double Door 2
               "rw": -0.58,
               "rx": 0.0,
               "ry": 0.81,
@@ -2581,6 +2877,7 @@
               "z": 55
             },
             {
+              "guid": "c763aa0e-a347-57ee-4bbf-16ab8ace1ed3", // Outside Castle Double Door 3
               "rw": -0.85,
               "rx": 0.0,
               "ry": 0.53,
@@ -2591,6 +2888,7 @@
               "z": 49
             },
             {
+              "guid": "6d776d17-81c1-d3ca-403f-c4ec497a55f2", // Outside Castle Double Door
               "rw": -0.73,
               "rx": 0.0,
               "ry": 0.68,
@@ -2599,8 +2897,14 @@
               "x": -203,
               "y": 10,
               "z": 52
-            },
+            }
+          ]
+        },
+        {
+          "condition": "c3e6f853-cc4d-4301-bdac-ac9bca8d6ac4", // Picking up Dungeon Key
+          "enemies": [
             {
+              "guid": "58830efe-b06d-111d-4bc1-0109ef98c7c2", // Close Left Corner First Garrador
               "rw": 0.71,
               "rx": 0.0,
               "ry": 0.71,
@@ -2612,6 +2916,7 @@
               "z": 0
             },
             {
+              "guid": "e1e305e5-b5b6-ae7f-4673-cb7b5eea844b", // Far Left Corner First Garrador
               "rw": -0.9,
               "rx": 0.0,
               "ry": 0.44,
@@ -2623,17 +2928,7 @@
               "z": -2
             },
             {
-              "rw": -0.72,
-              "rx": 0.0,
-              "ry": 0.69,
-              "rz": 0.0,
-              "small": true,
-              "stage": 50503,
-              "x": -117,
-              "y": 5,
-              "z": 7
-            },
-            {
+              "guid": "fa6c6609-f3ce-96a0-4dd1-238af0034c5d", // Far Right Corner First Garrador
               "rw": -0.67,
               "rx": 0.0,
               "ry": 0.74,
@@ -2645,6 +2940,7 @@
               "z": 10
             },
             {
+              "guid": "38ddfde7-2e5a-9fb4-4095-506b0a2f5573", // Close Right Corner First Garrador
               "rw": -0.02,
               "rx": 0.0,
               "ry": 1.0,
@@ -2656,26 +2952,7 @@
               "z": 9
             },
             {
-              "rw": -0.71,
-              "rx": 0.0,
-              "ry": 0.7,
-              "rz": 0.0,
-              "stage": 50503,
-              "x": -118,
-              "y": 5,
-              "z": 4
-            },
-            {
-              "rw": -0.72,
-              "rx": 0.0,
-              "ry": 0.69,
-              "rz": 0.0,
-              "stage": 50503,
-              "x": -124,
-              "y": 5,
-              "z": 4
-            },
-            {
+              "guid": "53fca095-3982-ac57-44ac-cc61b2cc0e3e", // Guarding Ladder after First Garrador
               "rw": 0.03,
               "rx": 0.0,
               "ry": -1.0,
@@ -2687,6 +2964,7 @@
               "z": 14
             },
             {
+              "guid": "0f849774-6ae8-e569-4928-714acceefb23", // Door before reunite with Ashley
               "rw": 0.7,
               "rx": 0.0,
               "ry": 0.71,
@@ -2696,52 +2974,14 @@
               "x": -115,
               "y": 9,
               "z": 22
-            },
+            }
+          ]
+        },
+        {
+          "condition": "e6771b5b-3287-44a3-a342-10e0a0e057d1", // Use Dungeon Key
+          "enemies": [
             {
-              "rw": 0.01,
-              "rx": 0.0,
-              "ry": 1.0,
-              "rz": 0.0,
-              "small": true,
-              "stage": 50504,
-              "x": -116,
-              "y": 18,
-              "z": 3
-            },
-            {
-              "rw": 0.65,
-              "rx": 0.0,
-              "ry": 0.76,
-              "rz": 0.0,
-              "small": true,
-              "stage": 50504,
-              "x": -118,
-              "y": 18,
-              "z": 8
-            },
-            {
-              "rw": 0.05,
-              "rx": 0.0,
-              "ry": -1.0,
-              "rz": 0.0,
-              "small": true,
-              "stage": 50504,
-              "x": -116,
-              "y": 18,
-              "z": 12
-            },
-            {
-              "rw": 0.32,
-              "rx": 0.0,
-              "ry": 0.95,
-              "rz": 0.0,
-              "small": true,
-              "stage": 50504,
-              "x": -122,
-              "y": 18,
-              "z": 13
-            },
-            {
+              "guid": "122d6c72-c994-2a4a-47fc-0d7b47d4aa38", // Center Ambush Swords room
               "rw": 0.05,
               "rx": 0.0,
               "ry": -1.0,
@@ -2752,6 +2992,7 @@
               "z": 23
             },
             {
+              "guid": "7d12a9d4-1c5e-535c-4153-67017f41c9cc", // Right Ambush Swords Room
               "rw": 0.37,
               "rx": 0.0,
               "ry": -0.93,
@@ -2762,6 +3003,7 @@
               "z": 25
             },
             {
+              "guid": "bd1d2c30-05fc-facb-4df4-35054b23ea50", // Left Ambush Swords Room
               "rw": -0.74,
               "rx": 0.0,
               "ry": 0.68,
@@ -2772,6 +3014,7 @@
               "z": 20
             },
             {
+              "guid": "4c0734fe-91c9-426b-4a95-050a85908eb6", // Center Behind Gate Swords Room
               "rw": -0.69,
               "rx": 0.0,
               "ry": 0.72,
@@ -2783,6 +3026,7 @@
               "z": 23
             },
             {
+              "guid": "778e9f78-3807-98a1-487b-96bc1ef89733", // Left Behind Gate Swords Room
               "rw": -0.78,
               "rx": 0.0,
               "ry": 0.63,
@@ -2794,6 +3038,7 @@
               "z": 22
             },
             {
+              "guid": "517c7591-f311-875a-430b-3e785542e70f", // Right Behind Gate Swords Room
               "rw": -0.72,
               "rx": 0.0,
               "ry": 0.69,
@@ -2803,8 +3048,14 @@
               "x": -110,
               "y": 18,
               "z": 24
-            },
+            }
+          ]
+        },
+        {
+          "condition": "395e7509-b2cb-461d-95b7-6d23df6bad25", // Complete Swords Puzzle
+          "enemies": [
             {
+              "guid": "c5ec0725-9496-9095-4f40-72602e3af201", // After Swords Room 4
               "rw": -0.71,
               "rx": 0.0,
               "ry": -0.71,
@@ -2815,6 +3066,7 @@
               "z": 37
             },
             {
+              "guid": "e582b663-4c25-cd31-4786-1c23501b8116", // After Swords room 3
               "rw": -0.62,
               "rx": 0.0,
               "ry": -0.78,
@@ -2826,6 +3078,7 @@
               "z": 37
             },
             {
+              "guid": "fc720985-499d-da7b-46e5-d7906f592d2a", // After Swords Room 2
               "rw": -0.02,
               "rx": 0.0,
               "ry": 1.0,
@@ -2836,6 +3089,7 @@
               "z": 36
             },
             {
+              "guid": "d8352e5d-e812-f3b7-42f3-de6f0eab7bd6", // After Swords Room 1
               "rw": -0.01,
               "rx": 0.0,
               "ry": 1.0,
@@ -2844,13 +3098,9 @@
               "x": -121,
               "y": 18,
               "z": 31
-            }
-          ]
-        },
-        {
-          "condition": "650ca302-bec3-48ba-9aaf-e90593f9e1e4",
-          "enemies": [
+            },
             {
+              "guid": "a9939a6d-0e07-1811-4669-8f7d0bbbe6b0", // Far Left Balcony
               "rw": 0.71,
               "rx": 0.0,
               "ry": -0.71,
@@ -2862,17 +3112,7 @@
               "z": 43
             },
             {
-              "rw": 0.7,
-              "rx": 0.0,
-              "ry": 0.71,
-              "rz": 0.0,
-              "small": true,
-              "stage": 50401,
-              "x": -150,
-              "y": 18,
-              "z": 43
-            },
-            {
+              "guid": "3afd5b1f-0ea8-9289-4921-1a12bd0314dd", // Center Left Balcony
               "rw": 0.7,
               "rx": 0.0,
               "ry": 0.71,
@@ -2884,6 +3124,19 @@
               "z": 44
             },
             {
+              "guid": "e82e229f-7a14-0040-474b-9b1f26afdc6a", // Close Left Balcony
+              "rw": 0.7,
+              "rx": 0.0,
+              "ry": 0.71,
+              "rz": 0.0,
+              "small": true,
+              "stage": 50401,
+              "x": -150,
+              "y": 18,
+              "z": 43
+            },
+            {
+              "guid": "e9a6ed49-10c5-cc45-4d6e-f20291df3c38", // Close Right Balcony
               "rw": -0.02,
               "rx": 0.0,
               "ry": 1.0,
@@ -2895,6 +3148,7 @@
               "z": 60
             },
             {
+              "guid": "6ac50b81-17ec-6612-478f-242367cf52aa", // Center Right Balcony
               "rw": -0.02,
               "rx": 0.0,
               "ry": 1.0,
@@ -2906,6 +3160,7 @@
               "z": 61
             },
             {
+              "guid": "96cf00b5-fc57-b689-49dc-b92027af34f6", // Far Right Balcony
               "rw": -0.03,
               "rx": 0.0,
               "ry": 1.0,
@@ -2917,6 +3172,7 @@
               "z": 61
             },
             {
+              "guid": "90cfd8f9-880c-5e1e-40c6-0dbb3a5687ae", // Balcony Double Doors Guard
               "rw": -0.72,
               "rx": 0.0,
               "ry": 0.69,
@@ -2925,8 +3181,14 @@
               "x": -123,
               "y": 20,
               "z": 52
-            },
+            }
+          ]
+        },
+        {
+          "condition": "5ef2ed78-685d-4321-a133-b29a5c148513", // Complete Balcony Puzzle
+          "enemies": [
             {
+              "guid": "cf6f9b4a-9a7c-a5d2-4fdf-046eb53cc5d0", // 2F Cabinet Before Water Hall
               "rw": 0.04,
               "rx": 0.0,
               "ry": -1.0,
@@ -2938,6 +3200,7 @@
               "z": 55
             },
             {
+              "guid": "22fc91f8-bd05-2d32-4404-435b55c2d78d", // Guarding Shortcut to Main Hall
               "rw": 0.03,
               "rx": 0.0,
               "ry": -1.0,
@@ -2948,6 +3211,7 @@
               "z": 52
             },
             {
+              "guid": "e75734c5-47cd-0753-4263-901f1107e8eb", // Bottom of Stairs before Water Hall
               "rw": -0.95,
               "rx": 0.0,
               "ry": 0.3,
@@ -2959,6 +3223,7 @@
               "z": 46
             },
             {
+              "guid": "12d491bb-e3cd-4ba5-4577-2b88ddfd6be0", // Left Far Corner before water Hall
               "rw": -1.0,
               "rx": 0.0,
               "ry": -0.01,
@@ -2970,6 +3235,7 @@
               "z": 49
             },
             {
+              "guid": "b3d3260e-d22c-308f-49f4-cc1869c474cb", // Guarding Entrance to Water Hall
               "rw": 0.03,
               "rx": 0.0,
               "ry": -1.0,
@@ -2978,18 +3244,61 @@
               "stage": 50600,
               "x": -103,
               "y": 15,
-              "z": 56
+              "z": 63
+            }
+          ]
+        },
+        {
+          "condition": "367b3222-0586-444f-b8f5-94737b036da7", // Ashley Valve 1
+          "enemies": [
+            {
+              "rw": 0.03,
+              "rx": 0.0,
+              "ry": -1.0,
+              "rz": 0.0,
+              "stage": 50601,
+              "x": -54,
+              "y": 17,
+              "z": 58,
+              "findPlayer": true
             },
             {
-              "rw": 0.02,
+              "rw": 0.03,
               "rx": 0.0,
-              "ry": 1.0,
+              "ry": -1.0,
               "rz": 0.0,
-              "small": true,
-              "stage": 50600,
-              "x": -111,
-              "y": 15,
-              "z": 62
+              "stage": 50601,
+              "x": -54,
+              "y": 17,
+              "z": 68,
+              "findPlayer": true
+            }
+          ]
+        },
+        {
+          "condition": "83f2e576-6a23-4afe-8ede-1e838ea73b35", // Ashley Valve 2
+          "enemies": [
+            {
+              "rw": 0.03,
+              "rx": 0.0,
+              "ry": -1.0,
+              "rz": 0.0,
+              "stage": 50601,
+              "x": -54,
+              "y": 17,
+              "z": 58,
+              "findPlayer": true
+            },
+            {
+              "rw": 0.03,
+              "rx": 0.0,
+              "ry": -1.0,
+              "rz": 0.0,
+              "stage": 50601,
+              "x": -54,
+              "y": 17,
+              "z": 68,
+              "findPlayer": true
             }
           ]
         }
@@ -3072,12 +3381,33 @@
             "mendez_2",
             "pesanta",
             "u3",
+            "garrador",
             "verdugo"
           ]
         },
         {
+          "guids": [ // MENDEZ 2 EXCLUSIONS WATER HALL
+            "c500d06f-9323-44d0-9336-c27eaa318a4f", // East Side Waterhall 2F Valve Ambush
+            "c202888c-313c-4533-9fbd-055073dfe455", // West Side Waterhall 2F Valve Ambush
+            "14713927-1548-4f51-98e8-67d5b548e3f1", // East Side Waterhall 2F Valve Ambush 2
+            "bf2bb3d0-3c9b-4941-b9a5-1115203d2c84", // Guarding Valve Wheel Stairs
+            "3a209b12-fb23-404e-8582-90e6489be0a0", // Guarding Valve Wheel Stairs 2
+            "87ba3c4a-7354-4610-b4a6-52730f2928a8", // Guarding Valve Wheel Stairs 3
+            "db439fa7-1d16-49b0-9ee0-5a0b5de104a3", // Guarding Valve Wheel
+            "d56d8269-15c9-4998-9bf7-825cd145ad76", // Behind Right Waterfall
+            "faa70916-4c26-4bb6-8e3e-19a03f4d806e", // Behind Left Waterfall 2
+            "9339dcc0-6ca1-4526-8b39-a9f0aec93b87" // Behind Left Waterfall
+          ],
           "exclude": [
-            "mendez_chase"
+            "mendez_2",
+            "mendez_chase",
+            "garrador"
+          ]
+        },
+        {
+          "exclude": [
+            "mendez_chase",
+            "garrador"
           ]
         }
       ]
@@ -3106,18 +3436,8 @@
             "8f329f90-3776-4519-a3d0-6cd9ca7f0d64", // ashley target
             "0003ddf2-1d36-40c6-ba37-ffe598772afe" // ashley target
           ],
-          "exclude": [
-            "colmillos",
-            "super-colmillos",
-            "garrador",
-            "mendez_chase",
-            "verdugo",
-            "mendez_2",
-            "krauser_2",
-            "pesanta",
-            "u3",
-            "cow",
-            "pig"
+          "include": [
+            "zealot"
           ]
         },
         {
@@ -3133,6 +3453,7 @@
           ],
           "exclude": [
             "armadura",
+            "gold-armadura",
             "colmillos",
             "cow",
             "garrador",
@@ -3140,6 +3461,7 @@
             "mendez_2",
             "mendez_chase",
             "pig",
+            "krauser_2",
             "super-colmillos",
             "verdugo"
           ]
@@ -3167,8 +3489,21 @@
       "chapter": 7,
       "restrictions": [
         {
+          "guids": [
+            "a92db3ac-7ab1-4fa4-a963-5b46dc5b1164", // Catapult event Start Ganados
+            "a92db3ac-7ab1-4fa4-a963-5b46dc5b1164", // First Ambusher
+            "5ad85f90-e959-45ff-b570-9901177ca34a" // First Staircase after Catapult start
+          ],
           "exclude": [
-            "mendez_chase"
+            "garrador",
+            "mendez_chase",
+            "mendez_2"
+          ]
+        },
+        {
+          "exclude": [
+            "mendez_chase",
+            "garrador"
           ]
         }
       ]
@@ -3478,12 +3813,32 @@
             "pesanta",
             "u3"
           ]
+        },
+        {
+          "guids": [ // GLORIA MENDEZ 2 EXCEPTIONS
+            "77e20ba7-e457-4e11-95b9-8dc8d74df659", // Behind Privacy curtain on the right
+            "95795768-67d0-4a6f-8ad7-87304d08de99", // Guarding Bottom of Right Staircase
+            "2dcc9ecb-245c-435e-a3ca-9d4352a56af5" // Guarding Top of Right Staircase
+          ],
+          "exclude": [
+            "mendez_2",
+            "mendez_chase"
+          ]
         }
       ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_002.scn.20",
-      "chapter": 8
+      "chapter": 8,
+      "restrictions":[
+        {
+          "exclude":[
+            "mendez_2",
+            "u3",
+            "pesanta"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_003.scn.20",
@@ -3492,6 +3847,13 @@
         {
           "guids": [
             "80654de9-cdd7-46ca-9ddc-920e8b37ef5b" // el gigante
+          ]
+        },
+        {
+          "guids": [ // BATTLEMENTS MENDEZ 2 EXCLUSIONS
+            "92fe9037-bef7-4f30-bdeb-a28ae8c9847e", // 2nd Gate ganados Right
+            "e2da8874-b400-4761-86cb-90d6e8202c61", // Scripted Grab Ambusher
+            "5f0ddf30-20b5-47ca-9512-630291437377" // Final Hall Ambusher
           ]
         }
       ]
@@ -3513,13 +3875,16 @@
       "chapter": 8,
       "restrictions": [
         {
-          "guids": [
-            "c945e837-d835-4cc0-943e-0d22b7c35f10",
+          "guids": [ // Armadura's after Ada Cutscene
+            "c945e837-d835-4cc0-943e-0d22b7c35f10", // Right next to player after Ada cutscene
             "a677b77b-c774-457e-81b8-535487fa601f",
             "72f26ef7-bcdc-47f3-bb36-ac74a04c0a1a"
           ],
+          "preventDuplicate": true,
           "exclude": [
-            "pig"
+            "pig",
+            "chainsaw",
+            "chainsaw_mad"
           ]
         }
       ]
@@ -3556,7 +3921,9 @@
         },
         {
           "exclude": [
-            "mendez_chase"
+            "mendez_chase",
+            "mendez_2",
+            "garrador"
           ]
         }
       ],
@@ -3564,44 +3931,24 @@
         {
           "enemies": [
             {
-              "rw": 0.01,
+              "rw": 0.71,
               "rx": 0.0,
-              "ry": -1.0,
+              "ry": -0.7,
               "rz": 0.0,
               "stage": 51200,
-              "x": 86,
-              "y": 27,
-              "z": 20
+              "x": 49,
+              "y": 21,
+              "z": 40
             },
             {
-              "rw": 0.69,
+              "rw": 0.71,
               "rx": 0.0,
-              "ry": -0.72,
+              "ry": -0.7,
               "rz": 0.0,
               "stage": 51200,
-              "x": 76,
-              "y": 25,
-              "z": 18
-            },
-            {
-              "rw": 0.66,
-              "rx": 0.0,
-              "ry": 0.75,
-              "rz": 0.0,
-              "stage": 51200,
-              "x": 70,
-              "y": 25,
-              "z": 19
-            },
-            {
-              "rw": -0.67,
-              "rx": 0.0,
-              "ry": -0.75,
-              "rz": 0.0,
-              "stage": 51200,
-              "x": 65,
-              "y": 25,
-              "z": 20
+              "x": 54,
+              "y": 21,
+              "z": 38
             },
             {
               "rw": 0.71,
@@ -3622,85 +3969,102 @@
               "x": 46,
               "y": 25,
               "z": 26
-            },
+            }
+          ]
+        },
+        {
+          "condition": "947e33a8-c840-4d86-a6eb-38e107698469", // Enter Chimera Hall
+          "enemies": [
             {
-              "rw": -0.01,
+              "rw": 0.04, // Goat Head Room Entrance
               "rx": 0.0,
-              "ry": 1.0,
+              "ry": -1.0,
               "rz": 0.0,
               "small": true,
               "stage": 52101,
-              "x": 98,
-              "y": 24,
-              "z": 44
+              "x": 106,
+              "y": 30,
+              "z": 62
             },
             {
-              "rw": -1.0,
+              "rw": 0.04, // Goat Head Room Corner before Bridge
               "rx": 0.0,
-              "ry": -0.02,
+              "ry": -1.0,
               "rz": 0.0,
               "small": true,
               "stage": 52101,
-              "x": 98,
-              "y": 24,
-              "z": 38
+              "x": 96,
+              "y": 30,
+              "z": 63
             },
             {
-              "rw": -0.75,
-              "rx": 0.0,
-              "ry": 0.67,
-              "rz": 0.0,
-              "stage": 52101,
-              "x": 105,
-              "y": 24,
-              "z": 41
-            },
-            {
-              "rw": 0.75,
-              "rx": 0.0,
-              "ry": -0.67,
-              "rz": 0.0,
-              "small": true,
-              "stage": 52101,
-              "x": 135,
-              "y": 28,
-              "z": 40
-            },
-            {
-              "rw": 0.04,
+              "rw": 0.04, // Left of Chimera Statue
               "rx": 0.0,
               "ry": -1.0,
               "rz": 0.0,
               "small": true,
               "stage": 52101,
               "x": 132,
-              "y": 28,
-              "z": 43
+              "y": 27,
+              "z": 46
             },
             {
-              "rw": -0.65,
+              "rw": 0.04, // Right of Chimera Statue
               "rx": 0.0,
-              "ry": -0.76,
+              "ry": -1.0,
               "rz": 0.0,
               "small": true,
               "stage": 52101,
-              "x": 130,
-              "y": 28,
-              "z": 41
+              "x": 132,
+              "y": 27,
+              "z": 35
             },
             {
-              "rw": -1.0,
+              "rw": 0.04, // Left 1F Hallway
+              "rx": 0.0,
+              "ry": -1.0,
+              "rz": 0.0,
+              "small": true,
+              "stage": 52101,
+              "x": 117,
+              "y": 24,
+              "z": 42
+            },
+            {
+              "rw": 0.04, // Right 1F Hallway
+              "rx": 0.0,
+              "ry": -1.0,
+              "rz": 0.0,
+              "small": true,
+              "stage": 52101,
+              "x": 117,
+              "y": 24,
+              "z": 39
+            },
+            {
+              "rw": 0.04, // Right 2F Staircase
+              "rx": 0.0,
+              "ry": -1.0,
+              "rz": 0.0,
+              "small": true,
+              "stage": 52101,
+              "x": 126,
+              "y": 28,
+              "z": 35
+            },
+            {
+              "rw": -1.0, // Left 2F Staircase
               "rx": 0.0,
               "ry": -0.04,
               "rz": 0.0,
               "small": true,
               "stage": 52101,
-              "x": 132,
+              "x": 126,
               "y": 28,
-              "z": 38
+              "z": 45
             },
             {
-              "rw": -0.71,
+              "rw": -0.71, // Right 3F 1
               "rx": 0.0,
               "ry": 0.71,
               "rz": 0.0,
@@ -3711,7 +4075,7 @@
               "z": 35
             },
             {
-              "rw": -0.71,
+              "rw": -0.71, // Right 3F 2
               "rx": 0.0,
               "ry": -0.71,
               "rz": 0.0,
@@ -3722,7 +4086,7 @@
               "z": 35
             },
             {
-              "rw": -0.7,
+              "rw": -0.7, // Left 3F 2
               "rx": 0.0,
               "ry": -0.71,
               "rz": 0.0,
@@ -3733,7 +4097,7 @@
               "z": 46
             },
             {
-              "rw": -0.7,
+              "rw": -0.7, // Left 3F 1
               "rx": 0.0,
               "ry": -0.71,
               "rz": 0.0,
@@ -3744,7 +4108,7 @@
               "z": 46
             },
             {
-              "rw": -0.68,
+              "rw": -0.68, // Rear 3F by Cabinets
               "rx": 0.0,
               "ry": -0.73,
               "rz": 0.0,
@@ -3755,27 +4119,7 @@
               "z": 41
             },
             {
-              "rw": -1.0,
-              "rx": 0.0,
-              "ry": -0.03,
-              "rz": 0.0,
-              "stage": 52203,
-              "x": 106,
-              "y": 30,
-              "z": 19
-            },
-            {
-              "rw": -0.01,
-              "rx": 0.0,
-              "ry": 1.0,
-              "rz": 0.0,
-              "stage": 52203,
-              "x": 106,
-              "y": 30,
-              "z": 24
-            },
-            {
-              "rw": -1.0,
+              "rw": -1.0, // Corner before Nighty Knights
               "rx": 0.0,
               "ry": -0.01,
               "rz": 0.0,
@@ -3786,7 +4130,7 @@
               "z": 9
             },
             {
-              "rw": -1.0,
+              "rw": -1.0, // Hall to Nighty Knights
               "rx": 0.0,
               "ry": -0.01,
               "rz": 0.0,
@@ -3797,7 +4141,7 @@
               "z": 15
             },
             {
-              "rw": -0.73,
+              "rw": -0.73, // Before jump to Nighty Knights
               "rx": 0.0,
               "ry": 0.69,
               "rz": 0.0,
@@ -3937,7 +4281,7 @@
               "z": 52
             },
             {
-              "rw": 1.0,
+              "rw": 1.0, // Dining Hall Far Right
               "rx": 0.0,
               "ry": 0.01,
               "rz": 0.0,
@@ -3947,7 +4291,7 @@
               "z": 6
             },
             {
-              "rw": 1.0,
+              "rw": 1.0, // Dining Hall Far Left
               "rx": 0.0,
               "ry": 0.01,
               "rz": 0.0,
@@ -3957,29 +4301,7 @@
               "z": 6
             },
             {
-              "rw": 0.99,
-              "rx": 0.0,
-              "ry": -0.17,
-              "rz": 0.0,
-              "small": true,
-              "stage": 52401,
-              "x": 144,
-              "y": 27,
-              "z": 16
-            },
-            {
-              "rw": -1.0,
-              "rx": 0.0,
-              "ry": -0.02,
-              "rz": 0.0,
-              "small": true,
-              "stage": 52401,
-              "x": 138,
-              "y": 27,
-              "z": 16
-            },
-            {
-              "rw": -0.75,
+              "rw": -0.75, // Dining Hall by Snake Head
               "rx": 0.0,
               "ry": 0.66,
               "rz": 0.0,
@@ -3987,76 +4309,76 @@
               "x": 141,
               "y": 27,
               "z": 26
-            },
+            }
+          ]
+        },
+        {
+          "condition": "44da6bd3-0a56-43c9-9172-55a612454523", // First Colmillo encounter Maze
+          "enemies": [
             {
-              "rw": -1.0,
-              "rx": 0.0,
-              "ry": -0.01,
-              "rz": 0.0,
-              "stage": 52401,
-              "x": 132,
-              "y": 27,
-              "z": 27
-            },
-            {
-              "rw": 0.73,
+              "rw": 0.72,
               "rx": 0.0,
               "ry": -0.69,
               "rz": 0.0,
-              "small": true,
-              "ranged": true,
-              "stage": 52101,
-              "x": 130,
-              "y": 32,
-              "z": 34
-            },
-            {
-              "rw": 0.7,
-              "rx": 0.0,
-              "ry": -0.72,
-              "rz": 0.0,
-              "small": true,
-              "ranged": true,
-              "stage": 52101,
-              "x": 130,
-              "y": 32,
-              "z": 47
+              "stage": 51200,
+              "x": 66,
+              "y": 21,
+              "z": 37
             },
             {
               "rw": 0.72,
               "rx": 0.0,
               "ry": -0.69,
               "rz": 0.0,
-              "small": true,
-              "ranged": true,
-              "stage": 52101,
-              "x": 138,
-              "y": 32,
-              "z": 43
-            },
+              "stage": 51200,
+              "x": 54,
+              "y": 21,
+              "z": 22
+            }
+          ]
+        },
+        {
+          "condition": "fbbe131b-3e66-4764-a22c-3d4a459cb26d", // Ambush before first Cage
+          "enemies": [
             {
               "rw": 0.72,
               "rx": 0.0,
               "ry": -0.69,
               "rz": 0.0,
-              "small": true,
-              "ranged": true,
-              "stage": 52101,
-              "x": 138,
-              "y": 32,
-              "z": 40
-            },
+              "stage": 51200,
+              "x": 68,
+              "y": 21,
+              "z": 31
+            }
+          ]
+        },
+        {
+          "condition": "4fad65ac-6612-46ae-b954-618d6b2d4fff", // First Hedge Ambush
+          "enemies": [
             {
               "rw": 0.72,
               "rx": 0.0,
               "ry": -0.69,
               "rz": 0.0,
-              "small": true,
-              "ranged": true,
-              "stage": 52101,
-              "x": 138,
-              "y": 32,
-              "z": 38
+              "stage": 51200,
+              "x": 78,
+              "y": 21,
+              "z": 23
+            }
+          ]
+        },
+        {
+          "condition": "4a5d1752-48d0-4d68-b01b-e5abb419fb26", // Ashley Lever Ambush
+          "enemies": [
+            {
+              "rw": 0.72,
+              "rx": 0.0,
+              "ry": -0.69,
+              "rz": 0.0,
+              "stage": 51200,
+              "x": 57,
+              "y": 21,
+              "z": 50
             }
           ]
         }
@@ -4107,7 +4429,9 @@
       "restrictions": [
         {
           "exclude": [
-            "mendez_chase"
+            "mendez_chase",
+            "garrador",
+            "mendez_2"
           ]
         }
       ]
@@ -4170,10 +4494,36 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_008.scn.20",
       "chapter": 9,
-      "restrictions": [
+      "restrictions": [ // GOAT HEAD ROOM
+        {
+          "guids": [
+            "938b4038-d426-4046-8cfb-1cad0d1192f6", // Trapdoor Ambush 1
+            "9e06886e-a126-4ba5-b950-d34f1cb5a97a", // Trapdoor Ambush 2
+            "d4e9b920-e037-4d7d-8a3f-a5499b879612", // Trapdoor Ambush 3
+            "a82a477a-c47a-4106-a97a-0823f29b821c" // Trapdoor Ambush 4
+          ],
+          "exclude": [
+            "colmillos",
+            "krauser_1",
+            "krauser_2",
+            "pesanta",
+            "u3",
+            "novistador",
+            "garrador",
+            "armadura",
+            "gold-armadura",
+            "mendez_chase",
+            "verdugo",
+            "mendez_2",
+            "cow",
+            "pig"
+          ]
+        },
         {
           "exclude": [
-            "mendez_chase"
+            "mendez_chase",
+            "mendez_2",
+            "garrador"
           ]
         }
       ]
@@ -4282,6 +4632,16 @@
       "chapter": 9,
       "restrictions": [
         {
+          "guids": [
+            "18d2a469-43c0-4130-857e-a5cfe0c868de", // Adjacent to Elevator in Ashley Puzzle area
+            "6f982103-3673-49bf-bb72-04504090049f" // Guarding Library area
+          ],
+          "exclude": [
+            "mendez_2",
+            "mendez_chase"
+          ]
+        },
+        {
           "exclude": [
             "mendez_chase"
           ]
@@ -4295,6 +4655,66 @@
       "extra": [
         {
           "enemies": [
+            {
+              "rw": 0.73,
+              "rx": 0.0,
+              "ry": -0.69,
+              "rz": 0.0,
+              "small": true,
+              "ranged": true,
+              "stage": 52101,
+              "x": 130,
+              "y": 32,
+              "z": 34
+            },
+            {
+              "rw": 0.7,
+              "rx": 0.0,
+              "ry": -0.72,
+              "rz": 0.0,
+              "small": true,
+              "ranged": true,
+              "stage": 52101,
+              "x": 130,
+              "y": 32,
+              "z": 47
+            },
+            {
+              "rw": 0.72,
+              "rx": 0.0,
+              "ry": -0.69,
+              "rz": 0.0,
+              "small": true,
+              "ranged": true,
+              "stage": 52101,
+              "x": 138,
+              "y": 32,
+              "z": 43
+            },
+            {
+              "rw": 0.72,
+              "rx": 0.0,
+              "ry": -0.69,
+              "rz": 0.0,
+              "small": true,
+              "ranged": true,
+              "stage": 52101,
+              "x": 138,
+              "y": 32,
+              "z": 40
+            },
+            {
+              "rw": 0.72,
+              "rx": 0.0,
+              "ry": -0.69,
+              "rz": 0.0,
+              "small": true,
+              "ranged": true,
+              "stage": 52101,
+              "x": 138,
+              "y": 32,
+              "z": 38
+            },
             {
               "rw": 0.69,
               "rx": 0.0,
@@ -4336,18 +4756,12 @@
               "x": 131,
               "y": 34,
               "z": 61
-            },
-            {
-              "rw": -0.73,
-              "rx": 0.0,
-              "ry": -0.69,
-              "rz": 0.0,
-              "small": true,
-              "stage": 53201,
-              "x": 139,
-              "y": 33,
-              "z": 56
-            },
+            }
+          ]
+        },
+        {
+          "condition": "faab42de-18cb-42b8-ac18-238c0bf6a4b4", // Enter Hallway to Ballroom
+          "enemies": [
             {
               "rw": 0.94,
               "rx": 0.0,
@@ -4463,17 +4877,6 @@
               "z": 55
             },
             {
-              "rw": 0.86,
-              "rx": 0.0,
-              "ry": -0.5,
-              "rz": 0.0,
-              "small": true,
-              "stage": 54400,
-              "x": 321,
-              "y": -39,
-              "z": 53
-            },
-            {
               "rw": 0.52,
               "rx": 0.0,
               "ry": -0.86,
@@ -4527,7 +4930,35 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_001.scn.20",
-      "chapter": 10
+      "chapter": 10,
+      "restrictions": [
+        {
+          "guids": [
+            "8b1660d2-2ada-4717-bf58-0d41437c2b76", // Double Doors to Ballroom Hall Camper
+            "24fb7853-195e-4967-bd7f-19f78c8daa22", // Next to Lever Ladder between 2 shelves
+            "d6725f7f-5e12-489b-9786-3af368c4045b" // Right of shortcut double doors before chasm
+          ],
+          "exclude": [
+            "mendez_chase",
+            "chainsaw_mad",
+            "mendez_2",
+            "chainsaw"
+          ]
+        },
+        {
+          "guids": [
+            "5851eb8a-0cad-45e0-8729-1930c5c9d45b" // Shadow Stairs Ambush Left
+          ],
+          "exclude": [
+            "mendez_2"
+          ]
+        },
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_002.scn.20",
@@ -4557,6 +4988,14 @@
             "0fc93d90-ba28-414d-9d2f-43c5a63a039c" // dead cloak
           ],
           "preventDuplicate": true
+        },
+        {
+          "guids": [ // MENDEZ 2 EXCLUSIONS
+            "b56acb03-f611-4ac2-88c2-7c24f0d59fa4" // Exit Stairs in Dugo Cavern
+          ],
+          "exclude":[
+            "mendez_2"
+          ]
         }
       ]
     },
@@ -4572,6 +5011,7 @@
       ],
       "extra": [
         {
+          "condition": "c97fda50-be56-40c2-9013-cc72c09837e7", // Seeing Red Verdugo
           "enemies": [
             {
               "rw": -1.0,
@@ -4602,11 +5042,41 @@
               "x": 197,
               "y": -30,
               "z": 1
+            },
+            {
+              "rw": -0.94,
+              "rx": 0.0,
+              "ry": -0.33,
+              "rz": 0.0,
+              "stage": 54405,
+              "x": 183,
+              "y": -30,
+              "z": -7
+            },
+            {
+              "rw": -0.94,
+              "rx": 0.0,
+              "ry": -0.33,
+              "rz": 0.0,
+              "stage": 54405,
+              "x": 175,
+              "y": -30,
+              "z": -8
+            },
+            {
+              "rw": -0.94,
+              "rx": 0.0,
+              "ry": -0.33,
+              "rz": 0.0,
+              "stage": 54405,
+              "x": 165,
+              "y": -30,
+              "z": -9
             }
           ]
         },
         {
-          "condition": "d724c48f-63f7-46fb-a1f2-77e666abfba7",
+          "condition": "d724c48f-63f7-46fb-a1f2-77e666abfba7", // Valve Dugo Fight Start
           "enemies": [
             {
               "rw": -0.87,
@@ -4694,102 +5164,6 @@
               "x": 171,
               "y": -30,
               "z": -8
-            },
-            {
-              "rw": -0.75,
-              "rx": 0.0,
-              "ry": -0.66,
-              "rz": 0.0,
-              "small": true,
-              "stage": 54405,
-              "x": 159,
-              "y": -30,
-              "z": -13
-            },
-            {
-              "rw": -0.65,
-              "rx": 0.0,
-              "ry": 0.76,
-              "rz": 0.0,
-              "small": true,
-              "stage": 54405,
-              "x": 160,
-              "y": -30,
-              "z": 8
-            },
-            {
-              "rw": 0.0,
-              "rx": 0.0,
-              "ry": -1.0,
-              "rz": 0.0,
-              "small": true,
-              "stage": 54405,
-              "x": 155,
-              "y": -30,
-              "z": 2
-            },
-            {
-              "rw": 0.0,
-              "rx": 0.0,
-              "ry": 1.0,
-              "rz": 0.0,
-              "small": true,
-              "stage": 54405,
-              "x": 155,
-              "y": -30,
-              "z": -5
-            },
-            {
-              "rw": -0.41,
-              "rx": 0.0,
-              "ry": 0.91,
-              "rz": 0.0,
-              "small": true,
-              "stage": 54407,
-              "x": 146,
-              "y": -30,
-              "z": -30
-            },
-            {
-              "rw": 0.0,
-              "rx": 0.0,
-              "ry": -1.0,
-              "rz": 0.0,
-              "stage": 54406,
-              "x": 166,
-              "y": -30,
-              "z": 7
-            },
-            {
-              "rw": -0.02,
-              "rx": 0.0,
-              "ry": 1.0,
-              "rz": 0.0,
-              "stage": 54406,
-              "x": 169,
-              "y": -30,
-              "z": 2
-            },
-            {
-              "rw": -0.19,
-              "rx": 0.0,
-              "ry": -0.98,
-              "rz": 0.0,
-              "stage": 54406,
-              "x": 167,
-              "y": -30,
-              "z": -4
-            },
-            {
-              "rw": -0.97,
-              "rx": 0.0,
-              "ry": 0.23,
-              "rz": 0.0,
-              "small": true,
-              "stage": 54406,
-              "x": 164,
-              "y": -30,
-              "z": 2
             }
           ]
         }
@@ -4805,11 +5179,29 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_001.scn.20",
-      "chapter": 10
+      "chapter": 10,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_2"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_002.scn.20",
-      "chapter": 10
+      "chapter": 10,
+      "restrictions": [
+        {
+          "guids": [
+            "62988f04-dcbf-44f4-9afe-0e390f85b8ba", // Left Hallway Double Garrador Room
+            "ac786acc-35e7-4c07-8558-543f4e5ca9d6" // Left Hallway Double Garrador Room Far
+          ],
+          "exclude": [
+            "mendez_2"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc54/level_loc54_003.scn.20",
@@ -4826,7 +5218,10 @@
       "restrictions": [
         {
           "exclude": [
-            "mendez_chase"
+            "mendez_chase",
+            "krauser_2",
+            "krauser_1",
+            "mendez_2"
           ]
         }
       ],
@@ -4966,29 +5361,8 @@
           ]
         },
         {
-          "condition": "9d8200eb-85b8-4cca-92af-b95917da8db3",
+          "condition": "da3b33ae-0b5d-472a-9a8f-31ae18761341", // Open double Doors after El Gigante
           "enemies": [
-            {
-              "rw": 0.04,
-              "rx": 0.0,
-              "ry": -1.0,
-              "rz": 0.0,
-              "small": true,
-              "stage": 55200,
-              "x": 151,
-              "y": -12,
-              "z": 61
-            },
-            {
-              "rw": -0.72,
-              "rx": 0.0,
-              "ry": 0.69,
-              "rz": 0.0,
-              "stage": 55200,
-              "x": 152,
-              "y": -12,
-              "z": 54
-            },
             {
               "rw": 0.87,
               "rx": 0.0,
@@ -5054,49 +5428,6 @@
               "x": 129,
               "y": -7,
               "z": 78
-            },
-            {
-              "rw": 0.73,
-              "rx": 0.0,
-              "ry": -0.68,
-              "rz": 0.0,
-              "small": true,
-              "stage": 55200,
-              "x": 119,
-              "y": -5,
-              "z": 81
-            },
-            {
-              "rw": 0.87,
-              "rx": 0.0,
-              "ry": -0.49,
-              "rz": 0.0,
-              "stage": 55201,
-              "x": 114,
-              "y": -4,
-              "z": 75
-            },
-            {
-              "rw": 0.91,
-              "rx": 0.0,
-              "ry": 0.42,
-              "rz": 0.0,
-              "small": true,
-              "stage": 55201,
-              "x": 101,
-              "y": -4,
-              "z": 73
-            },
-            {
-              "rw": 0.95,
-              "rx": 0.0,
-              "ry": 0.32,
-              "rz": 0.0,
-              "small": true,
-              "stage": 55201,
-              "x": 104,
-              "y": -4,
-              "z": 76
             }
           ]
         }
@@ -5110,6 +5441,12 @@
           "guids": [
             "222771c0-628e-4aab-b8a7-dd7d1cff9c6d", // el gigante
             "55d16590-73c2-4335-8a9b-3b4970ab1103" // el gigante
+          ]
+        },
+        {
+          "exclude": [
+            "mendez_chase",
+            "mendez_2"
           ]
         }
       ],
@@ -5202,13 +5539,21 @@
           ]
         },
         {
+          "preventDuplicate": true,
           "exclude": [
-            "mendez_chase"
+            "mendez_chase",
+            "chainsaw",
+            "chainsaw_mad",
+            "mendez_2",
+            "krauser_1",
+            "krauser_2",
+            "zealot_red"
           ]
         }
       ],
       "extra": [
         {
+          "condition": "073c05d6-d09a-4174-b518-2392488d3420", // Elevator button
           "enemies": [
             {
               "rw": 0.99,
@@ -5222,6 +5567,29 @@
               "findPlayer": true
             },
             {
+              "rw": 0.99,
+              "rx": 0.0,
+              "ry": 0.11,
+              "rz": 0.0,
+              "stage": 55302,
+              "x": 183,
+              "y": 0,
+              "z": 47,
+              "findPlayer": true
+            },
+            {
+              "rw": -1.0,
+              "rx": 0.0,
+              "ry": 0.04,
+              "rz": 0.0,
+              "small": true,
+              "stage": 55302,
+              "x": 179,
+              "y": 0,
+              "z": 46,
+              "findPlayer": true
+            },
+            {
               "rw": -1.0,
               "rx": 0.0,
               "ry": 0.04,
@@ -5231,18 +5599,6 @@
               "x": 185,
               "y": 0,
               "z": 50,
-              "findPlayer": true
-            },
-            {
-              "rw": -0.22,
-              "rx": 0.0,
-              "ry": 0.97,
-              "rz": 0.0,
-              "small": true,
-              "stage": 55302,
-              "x": 185,
-              "y": 0,
-              "z": 60,
               "findPlayer": true
             }
           ]
@@ -5255,7 +5611,34 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_003.scn.20",
-      "chapter": 11
+      "chapter": 11,
+      "restrictions": [
+        {
+          "guids": [
+            "4410ac54-e315-4113-b4df-bb8f1da45e2f", // 2nd Wallflower Novi at bottom of Cave by Wooden ledge
+            "5ebef8cc-9e35-43c4-b846-3f73db9b0dfa", // 1st Wallflower Novi at Bottom of Cave
+            "5a10a05d-2c57-4fe1-9b25-6b32279a6150", // Hive
+            "40c1f4e1-6f7a-423a-8d83-da8685cf3e35", // Hive
+            "52503a60-7ef9-4e1b-b746-7c00839e510f", // Hive
+            "818f4cd7-8a11-4a0e-afc5-63f40666aad6", // Hive
+            "a1b65d91-9a13-49c1-a017-049bc54dc140", // Hive
+            "c7ce02e8-da55-425d-a0b0-5cb986a69ca0", // Hive
+            "af5121a3-6dd7-4421-b5d8-f3fc7387db42", // Hive
+            "74d3be80-d601-420f-90d5-03c6e9cd28b9" // Wallflower in "I HATE INSECTS" room
+          ]
+        },
+        {
+          "guids": [
+            "74d3be80-d601-420f-90d5-03c6e9cd28b9", // Wallflower in "I HATE INSECTS" room
+            "290ccfc1-2b06-402a-b1d5-1537f16b138d", // Hallway After "I HATE INSECTS" room
+            "3bdd00c4-818c-4ec5-abf5-d0c062b1517f", // Next to final hallway barrel
+            "dd599a2e-1339-4ac2-8d21-d5c810074626" // Next to merchant before Krauser
+          ],
+          "exclude": [
+            "mendez_2"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc55/level_loc55_999.scn.20",
@@ -5275,27 +5658,6 @@
       "extra": [
         {
           "enemies": [
-            {
-              "rw": -0.68,
-              "rx": 0.0,
-              "ry": 0.73,
-              "rz": 0.0,
-              "stage": 56100,
-              "x": 187,
-              "y": 26,
-              "z": 34
-            },
-            {
-              "rw": -1.0,
-              "rx": 0.0,
-              "ry": 0.01,
-              "rz": 0.0,
-              "small": true,
-              "stage": 56100,
-              "x": 181,
-              "y": 26,
-              "z": 26
-            },
             {
               "rw": -1.0,
               "rx": 0.0,
@@ -5450,37 +5812,6 @@
               "z": -78
             },
             {
-              "rw": -1.0,
-              "rx": 0.0,
-              "ry": -0.06,
-              "rz": 0.0,
-              "stage": 56101,
-              "x": 184,
-              "y": 28,
-              "z": -86
-            },
-            {
-              "rw": 0.1,
-              "rx": 0.0,
-              "ry": -1.0,
-              "rz": 0.0,
-              "stage": 56103,
-              "x": 184,
-              "y": 66,
-              "z": -106
-            },
-            {
-              "rw": -0.66,
-              "rx": 0.0,
-              "ry": -0.75,
-              "rz": 0.0,
-              "small": true,
-              "stage": 56103,
-              "x": 179,
-              "y": 66,
-              "z": -105
-            },
-            {
               "rw": -0.72,
               "rx": 0.0,
               "ry": 0.69,
@@ -5544,7 +5875,25 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3_001.scn.20",
-      "chapter": 12
+      "chapter": 12,
+      "restrictions":[
+        {
+          "guids": [
+            "7df6dab2-a291-47b4-a527-15363e414765", // Before Giant Flamespitter Salazar
+            "6580e7cb-bc5b-4e95-8193-a447bcb5d22e", // Part of Giant Flamespitter Ambush squad
+            "f961f549-d956-4ffe-948a-e60c730b0d27", // Flamespitter Ladder Ambush
+            "99ff3efb-f9b9-4496-8239-e1aca2c91043", // Start of Midway Ascent
+            "50cdbabb-6098-4187-9b17-16d56ee77477", // Start of Midway Ascent 2
+            "45a8a17d-812e-4d05-864b-40dca0651e67", // Ascent ish?
+            "38d4cbbe-2f31-4202-9927-ad35533c13c0", // Halfway up Midway Ascent
+            "f004dde7-b9e2-4cdc-8717-5d5d6e4df38e", // Halfway Up Midway Ascent 3
+            "c61f1db8-31c8-4fff-9bc7-176dec07ca36" // Halfway Up Midway Ascent 2
+          ],
+            "exclude": [
+              "mendez_2"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3_002.scn.20",
@@ -5634,6 +5983,7 @@
       ],
       "extra": [
         {
+          "condition": "bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3",
           "enemies": [
             {
               "rw": 0.75,
@@ -5753,6 +6103,7 @@
               "rx": 0.0,
               "ry": 0.64,
               "rz": 0.0,
+              "small": true,
               "stage": 56300,
               "x": 299,
               "y": -3,
@@ -6497,9 +6848,9 @@
               "rz": 0.0,
               "small": true,
               "stage": 61204,
-              "x": 114,
+              "x": 112,
               "y": 15,
-              "z": -44
+              "z": -41
             },
             {
               "rw": -0.67,
@@ -6568,6 +6919,22 @@
           "guids": [
             "a4837283-ec06-4a25-b6c6-6e1a5503caeb"
           ]
+        },
+        {
+          "guids": [
+            "e06a534e-dd9b-40d6-ab47-94506a484f9b", // Inside first hut Spotlight Room
+            "bf5cd9d2-a48c-4a6e-a32e-50d88cb4de35", // Corner by Chest before Facility Entrance
+            "40da2a61-44b4-4a3b-94c0-711eb576ef51" // Corner before Ladder to Rocket Ambush room
+          ],
+          "exclude": [
+            "mendez_2"
+          ]
+        },
+        {
+          "exclude": [
+            "mendez_2",
+            "mendez_chase"
+          ]
         }
       ]
     },
@@ -6617,6 +6984,11 @@
             "43853325-2ccc-4964-a4d6-913accf33a4c"
           ],
           "preventDuplicate": true
+        },
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
         }
       ]
     },
@@ -6627,85 +6999,17 @@
       "restrictions": [
         {
           "exclude": [
-            "mendez_chase"
+            "mendez_chase",
+            "mendez_2",
+            "garrador"
           ]
         }
       ],
       "extra": [
         {
+          "condition": "43b7db1e-f2bf-467a-8c3e-21463998cdcf",
           "skipCondition": "10731e4c-08c9-42c3-9dc8-e1fabe549a08",
           "enemies": [
-            {
-              "rw": 0.19,
-              "rx": 0.0,
-              "ry": -0.98,
-              "rz": 0.0,
-              "stage": 61105,
-              "x": 41,
-              "y": 12,
-              "z": -64
-            },
-            {
-              "rw": 0.1,
-              "rx": 0.0,
-              "ry": 0.99,
-              "rz": 0.0,
-              "stage": 61105,
-              "x": 38,
-              "y": 12,
-              "z": -65
-            },
-            {
-              "rw": -0.73,
-              "rx": 0.0,
-              "ry": 0.68,
-              "rz": 0.0,
-              "stage": 61104,
-              "x": 54,
-              "y": 12,
-              "z": -64
-            },
-            {
-              "rw": -0.03,
-              "rx": 0.0,
-              "ry": -1.0,
-              "rz": 0.0,
-              "stage": 61101,
-              "x": 47,
-              "y": 12,
-              "z": -56
-            },
-            {
-              "rw": -0.01,
-              "rx": 0.0,
-              "ry": -1.0,
-              "rz": 0.0,
-              "stage": 61104,
-              "x": 48,
-              "y": 12,
-              "z": -64
-            },
-            {
-              "rw": -0.88,
-              "rx": 0.0,
-              "ry": 0.47,
-              "rz": 0.0,
-              "small": true,
-              "stage": 61104,
-              "x": 55,
-              "y": 12,
-              "z": -76
-            },
-            {
-              "rw": -1.0,
-              "rx": 0.0,
-              "ry": -0.05,
-              "rz": 0.0,
-              "stage": 61106,
-              "x": 51,
-              "y": 12,
-              "z": -92
-            },
             {
               "rw": -0.74,
               "rx": 0.0,
@@ -6844,28 +7148,6 @@
               "x": -22,
               "y": 22,
               "z": -94
-            },
-            {
-              "rw": 1.0,
-              "rx": 0.0,
-              "ry": 0.06,
-              "rz": 0.0,
-              "small": true,
-              "stage": 63108,
-              "x": -22,
-              "y": 22,
-              "z": -114
-            },
-            {
-              "rw": -1.0,
-              "rx": 0.0,
-              "ry": -0.04,
-              "rz": 0.0,
-              "small": true,
-              "stage": 63108,
-              "x": -23,
-              "y": 22,
-              "z": -121
             },
             {
               "rw": -0.7,
@@ -7090,36 +7372,6 @@
               "z": -133
             },
             {
-              "rw": 0.98,
-              "rx": 0.0,
-              "ry": 0.21,
-              "rz": 0.0,
-              "stage": 64100,
-              "x": 47,
-              "y": 26,
-              "z": -151
-            },
-            {
-              "rw": 0.99,
-              "rx": 0.0,
-              "ry": -0.16,
-              "rz": 0.0,
-              "stage": 64100,
-              "x": 52,
-              "y": 26,
-              "z": -152
-            },
-            {
-              "rw": 1.0,
-              "rx": 0.0,
-              "ry": 0.02,
-              "rz": 0.0,
-              "stage": 64100,
-              "x": 50,
-              "y": 26,
-              "z": -148
-            },
-            {
               "rw": 1.0,
               "rx": 0.0,
               "ry": 0.04,
@@ -7150,38 +7402,6 @@
               "x": 46,
               "y": 26,
               "z": -157
-            },
-            {
-              "rw": -1.0,
-              "rx": 0.0,
-              "ry": -0.04,
-              "rz": 0.0,
-              "stage": 64101,
-              "x": 45,
-              "y": 26,
-              "z": -165
-            },
-            {
-              "rw": -0.92,
-              "rx": 0.0,
-              "ry": -0.38,
-              "rz": 0.0,
-              "small": true,
-              "stage": 64101,
-              "x": 45,
-              "y": 26,
-              "z": -175
-            },
-            {
-              "rw": -0.08,
-              "rx": 0.0,
-              "ry": 1.0,
-              "rz": 0.0,
-              "small": true,
-              "stage": 64101,
-              "x": 52,
-              "y": 26,
-              "z": -166
             },
             {
               "rw": -0.72,
@@ -7353,7 +7573,12 @@
               "x": 143,
               "y": 18,
               "z": -147
-            },
+            }
+          ]
+        },
+        {
+          "condition": "61133d7f-a7e4-4965-8122-1e5abc51f477", // Approaching Krauser Fight
+          "enemies": [
             {
               "rw": 0.8,
               "rx": 0.0,
@@ -7469,7 +7694,12 @@
               "x": 157,
               "y": 13,
               "z": -185
-            },
+            }
+          ]
+        },
+        {
+          "condition": "fed0e37d-31ca-4851-9a05-2e5420c836c2", // "You Remember that fight in the jungle
+          "enemies": [
             {
               "rw": -1.0,
               "rx": 0.0,
@@ -7513,7 +7743,12 @@
               "x": 164,
               "y": 9,
               "z": -170
-            },
+            }
+          ]
+        },
+        {
+          "condition": "7dd383f4-e67c-4914-84c9-9f975517e083", // "I love a Good Hunt
+          "enemies": [
             {
               "rw": 0.64,
               "rx": 0.0,
@@ -7766,7 +8001,12 @@
               "x": 171,
               "y": 13,
               "z": -153
-            },
+            }
+          ]
+        },
+        {
+          "condition": "fbbe64e2-8fcd-49be-9009-b6252b57847a", // Krauser 2 Fight Start
+          "enemies": [
             {
               "rw": 0.12,
               "rx": 0.0,
@@ -7913,6 +8153,16 @@
       "restrictions": [
         {
           "exclude": [
+            "mendez_chase",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [
+            "fa6ace4d-7db5-4d74-9694-51de957d06a0" // First Corner before Steam Room
+          ],
+          "exclude": [
+            "mendez_2",
             "mendez_chase"
           ]
         }
@@ -7924,7 +8174,26 @@
       "restrictions": [
         {
           "exclude": [
-            "mendez_chase"
+            "mendez_chase",
+            "mendez_2"
+          ]
+        },
+        {
+          "guids": [
+            "a086a2f1-625d-44d7-8d76-12ad34432272" // Ashley Switch Grabber
+          ],
+          "exclude": [
+            "garrador",
+            "mendez_chase",
+            "mendez_2",
+            "krauser_1",
+            "krauser_2",
+            "armadura",
+            "gold-armadura",
+            "chainsaw_mad",
+            "colmillos",
+            "super-colmillos",
+            "verdugo"
           ]
         }
       ]
@@ -8192,16 +8461,6 @@
               "z": -219
             },
             {
-              "rw": 0.99,
-              "rx": 0.0,
-              "ry": -0.17,
-              "rz": 0.0,
-              "stage": 67103,
-              "x": -9,
-              "y": 41,
-              "z": -231
-            },
-            {
               "ranged": true,
               "rw": 0.55,
               "rx": 0.0,
@@ -8224,37 +8483,6 @@
               "x": -71,
               "y": 58,
               "z": -177
-            },
-            {
-              "rw": -0.87,
-              "rx": 0.0,
-              "ry": -0.49,
-              "rz": 0.0,
-              "stage": 68100,
-              "x": -79,
-              "y": 59,
-              "z": -175
-            },
-            {
-              "rw": -0.48,
-              "rx": 0.0,
-              "ry": -0.88,
-              "rz": 0.0,
-              "stage": 68100,
-              "x": -80,
-              "y": 59,
-              "z": -168
-            },
-            {
-              "rw": -0.49,
-              "rx": 0.0,
-              "ry": -0.87,
-              "rz": 0.0,
-              "small": true,
-              "stage": 68100,
-              "x": -89,
-              "y": 61,
-              "z": -171
             },
             {
               "rw": -0.69,
@@ -8354,49 +8582,18 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp5_4/level_cp10_chp5_4.scn.20",
       "chapter": 16,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase",
+            "mendez_2",
+            "garrador"
+          ]
+        }
+      ],
       "extra": [
         {
           "enemies": [
-            {
-              "rw": 0.52,
-              "rx": 0.0,
-              "ry": 0.85,
-              "rz": 0.0,
-              "stage": 68105,
-              "x": -82,
-              "y": 62,
-              "z": -133
-            },
-            {
-              "rw": 0.68,
-              "rx": 0.0,
-              "ry": 0.73,
-              "rz": 0.0,
-              "stage": 68105,
-              "x": -80,
-              "y": 62,
-              "z": -137
-            },
-            {
-              "rw": -0.75,
-              "rx": 0.0,
-              "ry": -0.67,
-              "rz": 0.0,
-              "stage": 68103,
-              "x": -93,
-              "y": 62,
-              "z": -138
-            },
-            {
-              "rw": -0.71,
-              "rx": 0.0,
-              "ry": -0.71,
-              "rz": 0.0,
-              "stage": 68103,
-              "x": -103,
-              "y": 62,
-              "z": -136
-            },
             {
               "rw": -0.67,
               "rx": 0.0,
@@ -8486,39 +8683,6 @@
               "z": -147
             },
             {
-              "rw": 1.0,
-              "rx": 0.0,
-              "ry": 0.07,
-              "rz": 0.0,
-              "small": true,
-              "stage": 68300,
-              "x": -122,
-              "y": 66,
-              "z": -161
-            },
-            {
-              "rw": 0.73,
-              "rx": 0.0,
-              "ry": -0.68,
-              "rz": 0.0,
-              "small": true,
-              "stage": 68300,
-              "x": -114,
-              "y": 66,
-              "z": -160
-            },
-            {
-              "rw": 0.73,
-              "rx": 0.0,
-              "ry": -0.68,
-              "rz": 0.0,
-              "small": true,
-              "stage": 68300,
-              "x": -106,
-              "y": 66,
-              "z": -160
-            },
-            {
               "rw": -0.71,
               "rx": 0.0,
               "ry": -0.7,
@@ -8527,16 +8691,6 @@
               "x": -133,
               "y": 62,
               "z": -171
-            },
-            {
-              "rw": 0.96,
-              "rx": 0.0,
-              "ry": 0.29,
-              "rz": 0.0,
-              "stage": 68203,
-              "x": -126,
-              "y": 66,
-              "z": -193
             },
             {
               "rw": 0.48,
@@ -8603,6 +8757,11 @@
             "6b0d630d-93ec-4bc7-9690-f0f36c8d8045", // sadler
             "8f9465b0-c28d-4a34-b004-b63c155d70fd" // sadler
           ]
+        },
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
         }
       ]
     },
@@ -8645,71 +8804,17 @@
             "0e354b84-ddc1-4d76-b1c5-525a93ab068a", // sadler
             "90711861-a789-4f0f-b289-0be6aeda32e7" // sadler
           ]
+        },
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
         }
       ],
       "extra": [
         {
+          "condition": "0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b", // Entering Elevator
           "enemies": [
-            {
-              "rw": 0.65,
-              "rx": 0.0,
-              "ry": 0.76,
-              "rz": 0.0,
-              "stage": 69900,
-              "x": -223,
-              "y": 56,
-              "z": -170
-            },
-            {
-              "rw": 0.66,
-              "rx": 0.0,
-              "ry": 0.75,
-              "rz": 0.0,
-              "stage": 69900,
-              "x": -214,
-              "y": 56,
-              "z": -172
-            },
-            {
-              "rw": 0.75,
-              "rx": 0.0,
-              "ry": -0.66,
-              "rz": 0.0,
-              "stage": 69900,
-              "x": -197,
-              "y": 56,
-              "z": -173
-            },
-            {
-              "rw": 0.57,
-              "rx": 0.0,
-              "ry": -0.82,
-              "rz": 0.0,
-              "stage": 69900,
-              "x": -196,
-              "y": 56,
-              "z": -168
-            },
-            {
-              "rw": 0.97,
-              "rx": 0.0,
-              "ry": 0.23,
-              "rz": 0.0,
-              "stage": 69900,
-              "x": -224,
-              "y": 56,
-              "z": -179
-            },
-            {
-              "rw": 0.53,
-              "rx": 0.0,
-              "ry": 0.85,
-              "rz": 0.0,
-              "stage": 69900,
-              "x": -219,
-              "y": 52,
-              "z": -188
-            },
             {
               "rw": -0.73,
               "rx": 0.0,
@@ -8866,7 +8971,14 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67.scn.20",
-      "chapter": 16
+      "chapter": 16,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_chase"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc67/level_loc67_000.scn.20",
@@ -8903,7 +9015,16 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc68/level_loc68.scn.20",
-      "chapter": 16
+      "chapter": 16,
+      "restrictions": [
+        {
+          "exclude": [
+            "mendez_2",
+            "mendez_chase",
+            "garrador"
+          ]
+        }
+      ]
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc59/enemy.scn.20",
