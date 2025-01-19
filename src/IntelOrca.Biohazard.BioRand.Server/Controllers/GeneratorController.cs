@@ -168,7 +168,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (string.IsNullOrEmpty(apiKey))
                 return false;
 
-            var validApiKeys = config.ApiKeys;
+            var validApiKeys = config.Generator?.ApiKeys;
             if (validApiKeys == null)
                 return false;
 

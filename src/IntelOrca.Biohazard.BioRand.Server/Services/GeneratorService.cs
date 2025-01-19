@@ -14,10 +14,11 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 {
     public class GeneratorService : IAsyncDisposable
     {
-        private readonly static TimeSpan DownloadExpireTime = TimeSpan.FromHours(1);
-        private readonly TimeSpan HeartbeatTimeout = TimeSpan.FromMinutes(5);
+        private readonly static TimeSpan DefaultDownloadExpireTime = TimeSpan.FromHours(1);
+        private readonly TimeSpan DefaultHeartbeatTimeout = TimeSpan.FromMinutes(5);
 
         private readonly DatabaseService _db;
+        private readonly BioRandServerConfiguration _config;
         private readonly ILogger<GeneratorService> _logger;
         private readonly ConcurrentDictionary<Guid, RemoteGenerator> _generators = [];
         private readonly Dictionary<int, GenerateResult> _generatedRandos = [];
@@ -26,9 +27,13 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         private readonly CancellationTokenSource _disposeCts = new CancellationTokenSource();
         private Task _cleanupTask;
 
-        public GeneratorService(DatabaseService db, ILogger<GeneratorService> logger)
+        public GeneratorService(
+            DatabaseService db,
+            BioRandServerConfiguration config,
+            ILogger<GeneratorService> logger)
         {
             _db = db;
+            _config = config;
             _logger = logger;
             _cleanupTask = RunCleanupTasks(_disposeCts.Token);
         }
@@ -123,11 +128,16 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         private Task CleanUpGeneratorsAsync()
         {
+            var heartbeatTimeoutSeconds = _config.Generator?.HeartbeatTimeout ?? 0;
+            var heartbeatTimeout = heartbeatTimeoutSeconds <= 0
+                ? DefaultHeartbeatTimeout
+                : TimeSpan.FromSeconds(heartbeatTimeoutSeconds);
+
             var generators = _generators.Values.ToArray();
             foreach (var g in generators)
             {
                 var timeSinceLastHeartbeat = DateTime.UtcNow - g.LastHeartbeatTime;
-                if (timeSinceLastHeartbeat > HeartbeatTimeout)
+                if (timeSinceLastHeartbeat > heartbeatTimeout)
                 {
                     _generators.TryRemove(g.Id, out _);
                 }
@@ -158,12 +168,17 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         private async Task ExpireOldRandosAsync()
         {
+            var downloadExpireTimeSeconds = (_config.Generator?.RandoExpireTime ?? 0);
+            var downloadExpireTime = downloadExpireTimeSeconds <= 0
+                ? DefaultDownloadExpireTime
+                : TimeSpan.FromSeconds(downloadExpireTimeSeconds);
+
             var result = new List<int>();
             var now = DateTime.UtcNow;
             foreach (var kvp in _generatedRandos.ToArray())
             {
                 var age = now - kvp.Value.CreatedAt;
-                if (age > DownloadExpireTime)
+                if (age > downloadExpireTime)
                 {
                     _generatedRandos.Remove(kvp.Key);
                     result.Add(kvp.Key);

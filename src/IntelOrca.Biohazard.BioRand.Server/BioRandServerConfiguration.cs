@@ -12,7 +12,7 @@ namespace IntelOrca.Biohazard.BioRand.Server
         public EmailConfig? Email { get; set; }
         public TwitchConfig? Twitch { get; set; }
         public KofiConfig? Kofi { get; set; }
-        public string[]? ApiKeys { get; set; }
+        public GeneratorConfig? Generator { get; set; }
 
         public static string GetBioRandDirectory()
         {
@@ -73,5 +73,12 @@ namespace IntelOrca.Biohazard.BioRand.Server
     public class KofiConfig
     {
         public Guid WebhookToken { get; set; }
+    }
+
+    public class GeneratorConfig
+    {
+        public string[]? ApiKeys { get; set; }
+        public int RandoExpireTime { get; set; }
+        public int HeartbeatTimeout { get; set; }
     }
 }
