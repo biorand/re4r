@@ -214,7 +214,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         _RaderChartGuiSingleSettingData = _radar,
                         _WeaponCustom = new WeaponCustom()
                         {
-                            _Commons = raws.OfType<Common>().ToList(),
+                            _Commons = raws.OfType<chainsaw.WeaponCustomUserdata.Common>().ToList(),
                             _Individuals = raws.OfType<Individual>().ToList(),
                             _LimitBreak = raws.OfType<LimitBreak>().ToList()
                         }
@@ -252,7 +252,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public PowerUpgrade() : this(new CustomAttackUp(), new AttackUp()) { }
 
             public WeaponUpgradeKind Kind => WeaponUpgradeKind.Power;
-            public object Main => new Common()
+            public object Main => new chainsaw.WeaponCustomUserdata.Common()
             {
                 _CommonCustomCategory = Categories.Power,
                 _CustomAttackUp = main
@@ -374,7 +374,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         internal class AmmoCapacityUpgrade(CustomAmmoMaxUp main, AmmoMaxUp detail) : IWeaponUpgrade
         {
             public WeaponUpgradeKind Kind => WeaponUpgradeKind.AmmoCapacity;
-            public object Main => new Common()
+            public object Main => new chainsaw.WeaponCustomUserdata.Common()
             {
                 _CommonCustomCategory = Categories.AmmoCapacity,
                 _CustomAmmoMaxUp = main

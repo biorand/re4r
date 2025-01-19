@@ -6,7 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Namsku.REE.Messages" Version="1.0.0" />
-    <PackageReference Include="IntelOrca.Biohazard.BioRand.Common" Version="1.1.1" />
+    <PackageReference Include="IntelOrca.Biohazard.BioRand.Common" Version="1.2.9" />
     <PackageReference Include="RectangleBinPacking" Version="1.0.2" />
   </ItemGroup>
   <ItemGroup>
