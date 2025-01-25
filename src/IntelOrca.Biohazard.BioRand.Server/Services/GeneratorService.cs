@@ -49,6 +49,20 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return Task.FromResult(_generators.Values.ToArray());
         }
 
+        public async Task<GenerateResult[]> GetGeneratedResultsAsync()
+        {
+
+            await _mutex.WaitAsync();
+            try
+            {
+                return [.. _generatedRandos.Values];
+            }
+            finally
+            {
+                _mutex.Release();
+            }
+        }
+
         public async Task<RandomizerConfigurationDefinition> GetConfigDefinitionAsync(int gameId)
         {
             var game = await _db.GetGameByIdAsync(gameId);
@@ -67,10 +81,18 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return RandomizerConfiguration.FromJson(game.DefaultConfiguration);
         }
 
-        public Task<GenerateResult?> GetResult(int randoId)
+        public async Task<GenerateResult?> GetResult(int randoId)
         {
-            _generatedRandos.TryGetValue(randoId, out var result);
-            return Task.FromResult(result);
+            await _mutex.WaitAsync();
+            try
+            {
+                _generatedRandos.TryGetValue(randoId, out var result);
+                return result;
+            }
+            finally
+            {
+                _mutex.Release();
+            }
         }
 
         public async Task<RemoteGenerator> RegisterAsync(
@@ -78,11 +100,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             RandomizerConfigurationDefinition definition,
             RandomizerConfiguration defaultConfig)
         {
-            var game = await _db.GetGameByIdAsync(gameId);
-            if (game == null)
-                throw new Exception("Game not found");
-
-            var generator = new RemoteGenerator();
+            var game = await _db.GetGameByIdAsync(gameId) ?? throw new ArgumentException("Game not found", nameof(gameId));
+            var generator = new RemoteGenerator(gameId);
             if (!_generators.TryAdd(generator.Id, generator))
                 throw new Exception("Failed to register generator");
 
@@ -168,25 +187,33 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         private async Task ExpireOldRandosAsync()
         {
-            var downloadExpireTimeSeconds = (_config.Generator?.RandoExpireTime ?? 0);
-            var downloadExpireTime = downloadExpireTimeSeconds <= 0
-                ? DefaultDownloadExpireTime
-                : TimeSpan.FromSeconds(downloadExpireTimeSeconds);
-
-            var result = new List<int>();
-            var now = DateTime.UtcNow;
-            foreach (var kvp in _generatedRandos.ToArray())
+            await _mutex.WaitAsync();
+            try
             {
-                var age = now - kvp.Value.CreatedAt;
-                if (age > downloadExpireTime)
+                var downloadExpireTimeSeconds = (_config.Generator?.RandoExpireTime ?? 0);
+                var downloadExpireTime = downloadExpireTimeSeconds <= 0
+                    ? DefaultDownloadExpireTime
+                    : TimeSpan.FromSeconds(downloadExpireTimeSeconds);
+
+                var result = new List<int>();
+                var now = DateTime.UtcNow;
+                foreach (var kvp in _generatedRandos.ToArray())
                 {
-                    _generatedRandos.Remove(kvp.Key);
-                    result.Add(kvp.Key);
+                    var age = now - kvp.Value.CreatedAt;
+                    if (age > downloadExpireTime)
+                    {
+                        _generatedRandos.Remove(kvp.Key);
+                        result.Add(kvp.Key);
+                    }
+                }
+                foreach (var id in result)
+                {
+                    await _db.SetRandoStatusAsync(id, RandoStatus.Expired);
                 }
             }
-            foreach (var id in result)
+            finally
             {
-                await _db.SetRandoStatusAsync(id, RandoStatus.Expired);
+                _mutex.Release();
             }
         }
 
@@ -348,11 +375,12 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         }
     }
 
-    public class RemoteGenerator
+    public class RemoteGenerator(int gameId)
     {
         public Guid Id { get; } = Guid.NewGuid();
         public DateTime RegisterTime { get; } = DateTime.UtcNow;
         public DateTime LastHeartbeatTime { get; set; } = DateTime.UtcNow;
         public string Status { get; set; } = "Registered";
+        public int GameId => gameId;
     }
 }
