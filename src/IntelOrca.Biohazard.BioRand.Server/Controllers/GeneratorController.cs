@@ -124,8 +124,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
         public async Task<object> EndForm(
             [FromForm] string id,
             [FromForm] int randoId,
-            [FromForm] IFormFile pakOutput,
-            [FromForm] IFormFile fluffyOutput)
+            IFormFile pakOutput,
+            IFormFile fluffyOutput)
         {
             return await End(new GeneratorEndRequest()
             {
