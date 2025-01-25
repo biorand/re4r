@@ -9,6 +9,6 @@ namespace IntelOrca.Biohazard.BioRand.Server
         public string GameMoniker => gameMoniker;
         public byte[] ZipFile => zipFile;
         public byte[] ModFile => modFile;
-        public DateTime CreatedAt => DateTime.UtcNow;
+        public DateTime CreatedAt { get; } = DateTime.UtcNow;
     }
 }
