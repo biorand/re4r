@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.Server.Models;
@@ -62,7 +63,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 if (user != null)
                 {
                     CleanUpTokensIfTimeTo();
-                    await CheckUserSubscriptionAsync(user);
+                    await UpdateAutomatedTagsAsync(user);
                 }
                 if (user != null && IsRoleEqualOrBetterThan(user.Role, minimumRole))
                 {
@@ -73,84 +74,60 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return null;
         }
 
-        private async Task CheckUserSubscriptionAsync(UserDbModel user)
+        private async Task UpdateAutomatedTagsAsync(UserDbModel user)
         {
-            var originalFlags = user.Flags;
-            var originalRole = user.Role;
-            if (originalRole is UserRoleKind.Pending
-                             or UserRoleKind.Banned
-                             or UserRoleKind.Tester
-                             or UserRoleKind.Administrator
-                             or UserRoleKind.System)
-            {
-                return;
-            }
-
-            var newRole = originalRole;
-            var twitchRole = await GetRoleKindFromTwitchAsync(user);
-            var kofiRole = await GetRoleKindFromKofiAsync(user);
-            if (IsRoleBetterThan(twitchRole, newRole))
-                newRole = twitchRole;
-            if (IsRoleBetterThan(kofiRole, newRole))
-                newRole = kofiRole;
-
-            if (newRole != originalRole)
-            {
-                user.Role = newRole;
-                await db.UpdateUserAsync(user);
-                logger.LogInformation("Updated user {UserId}[{UserName}] role from {FromRole} to {ToRole}",
-                    user.Id, user.Name, originalRole, user.Role);
-            }
-            else if (user.Flags != originalFlags)
-            {
-                await db.UpdateUserAsync(user);
-                logger.LogInformation("Updated user {UserId}[{UserName}] flags", user.Id, user.Name);
-            }
+            var utm = await UserTagModifier.CreateAsync(db, user, logger);
+            await UpdateTwitchLabelsAsync(utm);
+            await UpdateKofiLabelsAsync(utm);
+            await utm.ApplyAsync();
         }
 
-        private async Task<UserRoleKind> GetRoleKindFromTwitchAsync(UserDbModel user)
+        private async Task UpdateTwitchLabelsAsync(UserTagModifier utm)
         {
             if (!twitchService.IsAvailable)
-                return UserRoleKind.Standard;
+            {
+                utm.Remove("re2r:patron/twitch");
+                utm.Remove("re4r:patron/twitch");
+            }
 
-            var twitchModel = await twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1));
-            if (twitchModel?.IsSubscribed == true)
-            {
-                user.TwitchSubscriber = true;
-                return UserRoleKind.Patron;
-            }
+            if (await twitchService.IsCurrentlyRateLimited(utm.UserId))
+                return;
+
+            if (await twitchService.IsSubscribed(utm.UserId, "124329822"))
+                utm.Add("re2r:patron/twitch");
             else
-            {
-                user.TwitchSubscriber = false;
-                return UserRoleKind.Standard;
-            }
+                utm.Remove("re2r:patron/twitch");
+
+            if (await twitchService.IsSubscribed(utm.UserId, "91981318"))
+                utm.Add("re4r:patron/twitch");
+            else
+                utm.Remove("re4r:patron/twitch");
         }
 
-        private async Task<UserRoleKind> GetRoleKindFromKofiAsync(UserDbModel user)
+        private async Task UpdateKofiLabelsAsync(UserTagModifier utm)
         {
-            var kofis = await db.GetKofiByUserAsync(user.Id);
             var dt = DateTime.UtcNow - TimeSpan.FromDays(30);
-            var role = UserRoleKind.Standard;
-            foreach (var kofi in kofis)
+            var kofis = await db.GetKofiByUserAsync(utm.UserId);
+            var games = await db.GetGamesAsync();
+            foreach (var g in games)
             {
-                if (kofi.Timestamp >= dt)
+                var relevantKofis = kofis.Where(x => x.GameId == g.Id).ToArray();
+                var totalDonated = kofis.Sum(x => x.Price);
+                if (totalDonated >= 15)
                 {
-                    if (string.Equals(kofi.TierName, "BioRand Patron", StringComparison.OrdinalIgnoreCase))
-                    {
-                        user.KofiMember = true;
-                        return UserRoleKind.Patron;
-                    }
+                    utm.Add("patron/long");
+                }
+
+                var kofiLabel = $"{g.Moniker}:patron/kofi";
+                if (kofis.Any(x => x.Timestamp >= dt))
+                {
+                    utm.Add(kofiLabel);
+                }
+                else
+                {
+                    utm.Remove(kofiLabel);
                 }
             }
-            user.KofiMember = false;
-
-            var totalDonated = kofis.Sum(x => x.Price);
-            if (totalDonated >= 15)
-            {
-                return UserRoleKind.LongTermSupporter;
-            }
-
-            return role;
         }
 
         public async Task<bool> IsAuthorized(UserRoleKind minimumRole = UserRoleKind.Standard)
@@ -182,5 +159,89 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             UserRoleKind.Administrator,
             UserRoleKind.System,
         ];
+
+        private class UserTagModifier
+        {
+            private readonly DatabaseService _db;
+            private readonly Dictionary<string, UserTagDbModel> _cache;
+            private readonly UserTagDbModel[] _orig;
+            private readonly List<UserTagDbModel> _curr;
+            private readonly ILogger _logger;
+
+            public UserDbModel User { get; }
+            public int UserId => User.Id;
+
+            public static async Task<UserTagModifier> CreateAsync(DatabaseService db, UserDbModel user, ILogger logger)
+            {
+                var cache = (await db.GetUserTags()).ToDictionary(x => x.Label);
+                var curr = await db.GetUserTagsForUser(user.Id);
+                return new UserTagModifier(db, user, cache, curr, logger);
+            }
+
+            private UserTagModifier(
+                DatabaseService db,
+                UserDbModel user,
+                Dictionary<string, UserTagDbModel> cache,
+                IEnumerable<UserTagDbModel> curr,
+                ILogger logger)
+            {
+                _db = db;
+                User = user;
+                _cache = cache;
+                _orig = [.. curr];
+                _curr = [.. curr];
+                _logger = logger;
+            }
+
+            public async Task ApplyAsync()
+            {
+                var oldIds = _orig.Select(x => x.Id).Order().ToArray();
+                var newIds = _curr.Select(x => x.Id).Order().ToArray();
+                if (!oldIds.SequenceEqual(newIds))
+                {
+                    await _db.UpdateUserTagsForUser(UserId, _curr);
+
+                    var oldTags = string.Join(",", _orig.Select(x => x.Label).Order());
+                    var newTags = string.Join(",", _curr.Select(x => x.Label).Order());
+                    _logger.LogInformation("Updated user {UserId}[{UserName}] tags from {OldTags} to {NewTags}", User.Id, User.Name, oldTags, newTags);
+                }
+            }
+
+            public bool Contains(string label)
+            {
+                var tag = GetTag(label);
+                if (tag == null)
+                    return false;
+
+                return _curr.Any(x => x.Id == tag.Id);
+            }
+
+            public void Add(string label)
+            {
+                var tag = GetTag(label);
+                if (tag != null)
+                {
+                    if (!_curr.Any(x => x.Id == tag.Id))
+                    {
+                        _curr.Add(tag);
+                    }
+                }
+            }
+
+            public void Remove(string label)
+            {
+                var tag = GetTag(label);
+                if (tag != null)
+                {
+                    _curr.RemoveAll(x => x.Id == tag.Id);
+                }
+            }
+
+            private UserTagDbModel? GetTag(string label)
+            {
+                _cache.TryGetValue(label, out var result);
+                return result;
+            }
+        }
     }
 }

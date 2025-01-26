@@ -38,6 +38,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             await ApplyMigrations();
             await _conn.CreateTableAsync<GameDbModel>();
             await _conn.CreateTableAsync<UserDbModel>();
+            await _conn.CreateTableAsync<UserTagDbModel>();
             await _conn.CreateTableAsync<TokenDbModel>();
             await _conn.CreateTableAsync<ProfileDbModel>();
             await _conn.CreateTableAsync<RandoDbModel>();
@@ -46,12 +47,18 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             await _conn.CreateTableAsync<KofiDbModel>();
             await _conn.CreateTableAsync<NewsDbModel>();
             await _conn.ExecuteAsync(
+                @"CREATE TABLE IF NOT EXISTS ""user_usertag"" (
+                    ""UserTagId"" integer not null,
+                    ""UserId"" integer not null,
+                    PRIMARY KEY (""UserTagId"", ""UserId""))");
+            await _conn.ExecuteAsync(
                 @"CREATE TABLE IF NOT EXISTS ""profile_star"" (
                     ""ProfileId"" integer not null,
                     ""UserId"" integer not null,
                     PRIMARY KEY (""ProfileId"", ""UserId""))");
             await GetOrCreateSystemUser();
             await InsertGames();
+            await InsertUserTags();
         }
 
         private async Task InitializeMetaTable()
@@ -125,6 +132,32 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             game2.Moniker = "re2r";
             await _conn.InsertOrReplaceAsync(game1);
             await _conn.InsertOrReplaceAsync(game2);
+        }
+
+        private async Task InsertUserTags()
+        {
+            await AddTagForEachGame("patron/long", 0xFFDEF7EC, 0xFF014737);
+            await AddTagForEachGame("patron/manual", 0xFFDEF7EC, 0xFF014737);
+            await AddTagForEachGame("patron/kofi", 0xFFDEF7EC, 0xFF014737);
+            await AddTagForEachGame("patron/twitch", 0xFFDEF7EC, 0xFF014737);
+            await AddTagForEachGame("curator", 0xFFFDF6B2, 0xFF633112);
+            await AddTagForEachGame("tester", 0xFFFDF6B2, 0xFF633112);
+
+            async Task AddTagForEachGame(string label, uint light, uint dark)
+            {
+                await AddTag($"re2r:{label}", light, dark);
+                await AddTag($"re4r:{label}", light, dark);
+            }
+
+            async Task AddTag(string label, uint light, uint dark)
+            {
+                await AddOrReplaceUserTag(new UserTagDbModel()
+                {
+                    Label = label,
+                    ColorLight = light,
+                    ColorDark = dark
+                });
+            }
         }
 
         public async Task<GameDbModel[]> GetGamesAsync()
@@ -281,6 +314,58 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                         FROM token
                         WHERE LastUsed IS NOT NULL)
                     WHERE LastUsed < date('now', '-30 days'))");
+        }
+
+        public async Task AddOrReplaceUserTag(UserTagDbModel userTag)
+        {
+            var tag = await GetUserTag(userTag.Label);
+            if (tag != null)
+            {
+                userTag.Id = tag.Id;
+                await _conn.UpdateAsync(userTag);
+            }
+            else
+            {
+                await _conn.InsertAsync(userTag);
+            }
+        }
+
+        public async Task<UserTagDbModel?> GetUserTag(string label)
+        {
+            return await _conn
+                .Table<UserTagDbModel>()
+                .FirstOrDefaultAsync(x => x.Label == label);
+        }
+
+        public async Task<UserTagDbModel[]> GetUserTags()
+        {
+            return await _conn
+                .Table<UserTagDbModel>()
+                .ToArrayAsync();
+        }
+
+        public async Task<UserTagDbModel[]> GetUserTagsForUser(int userId)
+        {
+            var q = @"
+                SELECT * FROM usertag AS t
+                INNER JOIN user_usertag AS ut ON ut.UserTagId = t.Id
+                WHERE ut.UserId = 2";
+            var result = await _conn.QueryAsync<UserTagDbModel>(q, userId);
+            return [.. result];
+        }
+
+        public async Task UpdateUserTagsForUser(int userId, IEnumerable<UserTagDbModel> tags)
+        {
+            await _conn.RunInTransactionAsync(c =>
+            {
+                c.Execute("DELETE FROM user_usertag WHERE UserId = ?", userId);
+                foreach (var tag in tags)
+                {
+                    c.Execute("INSERT OR IGNORE INTO user_usertag (UserId, UserTagId) VALUES (?, ?)",
+                        userId,
+                        tag.Id);
+                }
+            });
         }
 
         public async Task<ExtendedProfileDbModel?> GetProfileAsync(int id, int userId)
@@ -518,13 +603,14 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return q.ExecuteLimitedAsync(sortOptions, limitOptions);
         }
 
-        public Task<LimitedResult<ExtendedRandoDbModel>> GetRandosWithStatus(RandoStatus status)
+        public Task<LimitedResult<ExtendedRandoDbModel>> GetRandosWithStatusAsync(RandoStatus status)
         {
             var q = BuildQuery<ExtendedRandoDbModel>(@"
                 SELECT r.*,
                        u.Role as UserRole,
                        u.Name as UserName,
                        u.Email as UserEmail,
+                       GROUP_CONCAT(ut.Label, ',') AS UserTags,
                        p.Id as ProfileId,
                        p.Name as ProfileName,
                        p.Description as ProfileDescription,
@@ -536,7 +622,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 LEFT JOIN randoconfig as c ON r.ConfigId = c.Id
                 LEFT JOIN profile as p ON c.BasedOnProfileId = p.Id
                 LEFT JOIN user as pu ON p.UserId = pu.Id
-                WHERE r.Status = ?", status);
+                LEFT JOIN user_usertag AS uut ON r.UserId = uut.UserId
+                LEFT JOIN usertag AS ut ON ut.Id = uut.UserTagId
+                WHERE r.Status = ?
+                GROUP BY r.Id", status);
             return q.ExecuteLimitedAsync();
         }
 
@@ -818,6 +907,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             public UserRoleKind UserRole { get; set; }
             public string? UserName { get; set; }
             public string? UserEmail { get; set; }
+            public string? UserTags { get; set; }
             public int ProfileId { get; set; }
             public string? ProfileName { get; set; }
             public string? ProfileDescription { get; set; }

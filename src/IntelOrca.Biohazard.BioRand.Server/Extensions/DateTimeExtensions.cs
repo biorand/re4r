@@ -10,7 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Extensions
             return offset.ToUnixTimeSeconds();
         }
 
-        public static DateTime ToDateTime(this int unixTimeSeconds)
+        public static DateTime ToDateTime(this long unixTimeSeconds)
         {
             var offset = DateTimeOffset.FromUnixTimeSeconds(unixTimeSeconds);
             return offset.UtcDateTime;

@@ -30,7 +30,9 @@
             } else {
                 const api = getApi();
                 const response = await api.updateUser(userId, {
-                    twitchCode: twitchArgs.code
+                    twitchCode: twitchArgs.code,
+                    twitchRedirectUri: `${location.origin}/twitch/auth`
+
                 });
                 if (response.success) {
                     state = 'success';

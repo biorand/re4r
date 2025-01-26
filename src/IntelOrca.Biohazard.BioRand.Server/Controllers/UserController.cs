@@ -32,7 +32,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             var users = await db.GetUsersAsync(
                 SortOptions.FromQuery(sort, order, ["name", "created", "role"]),
                 LimitOptions.FromPage(page, itemsPerPage));
-            return ResultListResult.Map(page, itemsPerPage, users, userService.GetUser);
+            return ResultListResult.Map(page, itemsPerPage, users, x => userService.GetUser(x));
         }
 
         [HttpPost("verify")]
@@ -77,8 +77,9 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 if (user == null)
                     return NotFound();
 
+                var tags = await db.GetUserTagsForUser(user.Id);
                 var twitchModel = twitchService.IsAvailable ? await twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1)) : null;
-                return userService.GetUser(user, twitchModel);
+                return userService.GetUser(user, tags, twitchModel);
             }
             else
             {
@@ -89,8 +90,9 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 if (user == null)
                     return NotFound();
 
+                var tags = await db.GetUserTagsForUser(user.Id);
                 var twitchModel = twitchService.IsAvailable ? await twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1)) : null;
-                return userService.GetUser(user, twitchModel);
+                return userService.GetUser(user, tags, twitchModel);
             }
         }
 
@@ -128,11 +130,15 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                         Validation = validationResult
                     };
                 }
+                else if (string.IsNullOrEmpty(request.TwitchRedirectUri))
+                {
+                    return BadRequest();
+                }
                 else
                 {
                     try
                     {
-                        await twitchService.ConnectAsync(user.Id, request.TwitchCode);
+                        await twitchService.ConnectAsync(user.Id, request.TwitchCode, request.TwitchRedirectUri);
                         return new
                         {
                             Success = true
@@ -296,6 +302,7 @@ The BioRand Team");
             public UserRoleKind? Role { get; set; }
             public bool? ShareHistory { get; set; }
             public string? TwitchCode { get; set; }
+            public string? TwitchRedirectUri { get; set; }
             public string? KofiEmail { get; set; }
         }
 

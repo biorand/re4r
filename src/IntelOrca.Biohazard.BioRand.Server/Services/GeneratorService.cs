@@ -7,8 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.Server.Extensions;
 using IntelOrca.Biohazard.BioRand.Server.Models;
+using IntelOrca.Biohazard.BioRand.Server.RestModels;
 using Microsoft.Extensions.Logging;
-using static IntelOrca.Biohazard.BioRand.Server.Services.DatabaseService;
 
 namespace IntelOrca.Biohazard.BioRand.Server.Services
 {
@@ -217,17 +217,28 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             }
         }
 
-        public async Task<ExtendedRandoDbModel[]> GetQueueAsync()
+        public async Task<GeneratorQueueItem[]> GetQueueAsync()
         {
-            var queryResult = await _db.GetRandosWithStatus(RandoStatus.Unassigned);
-            var results = queryResult.Results;
-
-            // Clear emails
-            foreach (var r in results)
+            var queryResult = await _db.GetRandosWithStatusAsync(RandoStatus.Unassigned);
+            var results = queryResult.Results.Select(x => new GeneratorQueueItem()
             {
-                r.UserEmail = null;
-            }
-
+                Id = x.Id,
+                GameId = x.GameId,
+                Created = x.Created.ToUnixTimeSeconds(),
+                UserId = x.UserId,
+                Seed = x.Seed,
+                ConfigId = x.ConfigId,
+                Status = (int)x.Status,
+                UserRole = (int)x.UserRole,
+                UserName = x.UserName,
+                UserTags = x.UserTags?.Split(',') ?? [],
+                ProfileId = x.ProfileId,
+                ProfileName = x.ProfileName,
+                ProfileDescription = x.ProfileDescription,
+                ProfileUserId = x.ProfileUserId,
+                ProfileUserName = x.ProfileUserName,
+                Config = x.Config,
+            }).ToArray();
             return results;
         }
 
@@ -245,8 +256,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             await _mutex.WaitAsync();
             try
             {
-                var queue = await GetQueueAsync();
-                var rando = queue.FirstOrDefault(x => x.Id == randoId);
+                var queue = await _db.GetRandosWithStatusAsync(RandoStatus.Unassigned);
+                var rando = queue.Results.FirstOrDefault(x => x.Id == randoId);
                 if (rando == null)
                     return false;
 

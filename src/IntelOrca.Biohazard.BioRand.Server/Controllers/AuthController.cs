@@ -168,11 +168,13 @@ The BioRand Team");
 
                             await db.UseTokenAsync(token.Token);
                             logger.LogInformation("Auth token verified for {UserId}[{UserName}]", user.Id, user.Name);
+
+                            var tags = await db.GetUserTagsForUser(user.Id);
                             return new
                             {
                                 Success = true,
                                 token.Token,
-                                User = userService.GetUser(user)
+                                User = userService.GetUser(user, tags)
                             };
                         }
                     }
