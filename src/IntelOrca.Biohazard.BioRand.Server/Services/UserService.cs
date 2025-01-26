@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using IntelOrca.Biohazard.BioRand.Server.Extensions;
@@ -8,8 +9,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 {
     public class UserService
     {
-        public object GetUser(UserDbModel user) => GetUser(user, null);
-        public object GetUser(UserDbModel user, TwitchDbModel? twitchModel)
+        public object GetUser(UserDbModel user, UserTagDbModel[]? tags = null, TwitchDbModel? twitchModel = null)
         {
             return new
             {
@@ -18,6 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 Created = user.Created.ToUnixTimeSeconds(),
                 user.Email,
                 user.Role,
+                Tags = tags?.Select(x => x.Label),
                 AvatarUrl = twitchModel == null ? GetAvatarUrl(user.Email) : twitchModel.TwitchProfileImageUrl,
                 user.ShareHistory,
                 user.KofiEmail,

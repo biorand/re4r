@@ -1,9 +1,16 @@
 <script lang="ts">
+    import { getGameId } from '$lib/api';
     import { Alert } from 'flowbite-svelte';
     import { CheckCircleSolid, InfoCircleSolid } from 'flowbite-svelte-icons';
+    import PatronBenefits from './PatronBenefits.svelte';
 
     export let isMember = false;
     export let showBenefits = true;
+
+    const gameId = getGameId();
+    const recipient = gameId == 2 ? 'namsku' : 'intelorca';
+    const recipientDisplay = gameId == 2 ? 'Namsku' : 'IntelOrca';
+    const gameNumber = gameId == 2 ? 'II' : 'IV';
 </script>
 
 {#if isMember}
@@ -12,7 +19,7 @@
         <span class="font-medium">BioRand Patron </span>
     </Alert>
 {:else}
-    <a target="_blank" href="http://ko-fi.com/intelorca/tiers"
+    <a target="_blank" href="http://ko-fi.com/{recipient}/tiers"
         ><img
             class="h-10"
             alt="Support me on Ko-Fi"
@@ -27,17 +34,16 @@
         {#if !showBenefits}
             <p class="font-medium">Ko-fi can be used as an alternative to a Twitch subscription.</p>
         {:else}
-            <p class="font-medium">Become a BioRand patron:</p>
+            <p class="font-medium">Become a BioRand {gameNumber} patron:</p>
             <ul class="mt-1.5 ms-4 list-disc list-inside">
                 <li>
                     Support <a
                         class="font-medium text-blue-400 hover:text-blue-300"
-                        href="http://ko-fi.com/intelorca/tiers"
-                        target="_blank">IntelOrca</a
+                        href="http://ko-fi.com/{recipient}/tiers"
+                        target="_blank">{recipientDisplay}</a
                     > on Ko-fi.
                 </li>
-                <li>Highlighted user name on website.</li>
-                <li>Early access to Separate Ways randomizer.</li>
+                <PatronBenefits />
             </ul>
         {/if}
     </Alert>

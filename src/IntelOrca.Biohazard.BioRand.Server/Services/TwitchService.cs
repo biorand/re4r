@@ -12,8 +12,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 {
     public class TwitchService
     {
-        private const string RedirectUri = "https://re4r.biorand.net/auth/twitch";
-
         private readonly DatabaseService _databaseService;
         private readonly TwitchConfig? _twitchConfig;
         private readonly ILogger _logger;
@@ -34,13 +32,13 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         public bool IsAvailable => _twitchConfig != null;
 
-        public async Task ConnectAsync(int userId, string code)
+        public async Task ConnectAsync(int userId, string code, string redirectUri)
         {
             var config = GetConfig();
             try
             {
                 var api = GetApi();
-                var response = await api.Auth.GetAccessTokenFromCodeAsync(code, config.ClientSecret, RedirectUri);
+                var response = await api.Auth.GetAccessTokenFromCodeAsync(code, config.ClientSecret, redirectUri);
                 var twitchModel = await RefreshAsync(userId, response.AccessToken, response.RefreshToken);
                 _logger.LogInformation("Connected twitch for user {UserId} to {TwitchId}", userId, twitchModel.TwitchDisplayName);
             }
@@ -55,6 +53,28 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         {
             await _databaseService.DeleteUserTwitchAsync(userId);
             _logger.LogInformation("Disconnected twitch for user {UserId}", userId);
+        }
+
+        public async Task<bool> IsCurrentlyRateLimited(int userId, TimeSpan? limit = null)
+        {
+            var twitchModel = await _databaseService.GetUserTwitchAsync(userId);
+            if (twitchModel == null)
+                return false;
+
+            limit ??= TimeSpan.FromMinutes(1);
+            if (DateTime.UtcNow - twitchModel.LastUpdated < limit)
+                return true;
+
+            return false;
+        }
+
+        public async Task<bool> IsSubscribed(int userId, string broadcasterId)
+        {
+            var twitchModel = await GetOrRefreshAsync(userId, null);
+            if (twitchModel == null)
+                return false;
+
+            return await IsSubscribedAsync(twitchModel.AccessToken, twitchModel.TwitchId, broadcasterId);
         }
 
         public async Task<TwitchDbModel?> GetOrRefreshAsync(int userId, TimeSpan? refresh)
@@ -114,7 +134,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             }
 
             var twitchUser = await GetUserInfoAsync(accessToken);
-            var isSubscribed = await IsSubscribedAsync(accessToken, twitchUser.Id);
             var twitchModel = await _databaseService.AddOrUpdateUserTwitchAsync(userId, new TwitchDbModel()
             {
                 LastUpdated = DateTime.UtcNow,
@@ -122,8 +141,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 RefreshToken = refreshToken,
                 TwitchId = twitchUser.Id,
                 TwitchDisplayName = twitchUser.DisplayName,
-                TwitchProfileImageUrl = twitchUser.ProfileImageUrl,
-                IsSubscribed = isSubscribed
+                TwitchProfileImageUrl = twitchUser.ProfileImageUrl
             });
             _logger.LogInformation("Refreshed twitch info for user {UserId} under twitch name {TwitchDisplayName}", userId, twitchModel.TwitchDisplayName);
             return twitchModel;
@@ -137,13 +155,13 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return twitchUser;
         }
 
-        private async Task<bool> IsSubscribedAsync(string accessToken, string userId)
+        private async Task<bool> IsSubscribedAsync(string accessToken, string userId, string broadcasterId)
         {
             try
             {
                 var config = GetConfig();
                 var api = GetApi(accessToken);
-                var response = await api.Helix.Subscriptions.CheckUserSubscriptionAsync(config.SubscriberId, userId);
+                var response = await api.Helix.Subscriptions.CheckUserSubscriptionAsync(broadcasterId, userId);
                 return response.Data.Length != 0;
             }
             catch (BadResourceException ex) when (ex.HttpResponse.StatusCode == HttpStatusCode.NotFound)
@@ -152,7 +170,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to check subscription for twitch user {UserId}", userId);
+                _logger.LogError(ex, "Failed to check subscription for twitch user {UserId}, broardcaster {BroadcasterId}", userId, broadcasterId);
                 return false;
             }
         }

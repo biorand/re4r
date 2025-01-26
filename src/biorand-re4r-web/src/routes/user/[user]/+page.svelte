@@ -46,6 +46,9 @@
     };
     let role = UserRole.Pending;
     let shareHistory = false;
+    let isKofiMember = false;
+    let isTwitchMember = false;
+    let isPatron = false;
     let serverWait = false;
     let serverMessage = '';
 
@@ -64,11 +67,15 @@
     let init = (async () => {
         const api = getApi();
         user = await api.getUser(userName);
+        user.tags = [];
         emailData = { ...emailData, value: user.email };
         nameData = { ...nameData, value: user.name };
         kofiEmailData = { ...kofiEmailData, value: user.kofiEmail };
         role = user.role;
         shareHistory = user.shareHistory;
+        isKofiMember = !!user.tags?.find((x) => x == 're4r:patron/kofi');
+        isTwitchMember = !!user.tags?.find((x) => x == 're4r:patron/twitch');
+        isPatron = !!user.tags?.find((x) => x.startsWith('re4r:patron/'));
         return user;
     })();
 
@@ -180,6 +187,12 @@
                         <RoleBadge class="mb-3" role={user.role} />
                     {/if}
                 </div>
+                {#if isAdmin}
+                    <div class="max-w-5xl">
+                        <Label for="tags" class="block mb-2">Tags</Label>
+                        <Input class="mb-3 font-mono" name="tags" value={user.tags?.join(',')} />
+                    </div>
+                {/if}
                 <div>
                     <Checkbox
                         class="mb-3 inline-block"
@@ -190,10 +203,7 @@
                 </div>
                 <div class="mb-3">
                     <Label for="role" class="block mb-2">Ko-fi</Label>
-                    <KofiConnection
-                        isMember={user.kofiMember}
-                        showBenefits={!(user.twitch?.isSubscribed || false)}
-                    />
+                    <KofiConnection isMember={isKofiMember} showBenefits={!isPatron} />
                 </div>
                 <div class="max-w-5xl">
                     <FormInput
@@ -228,7 +238,7 @@
                     <TwitchConnection
                         userId={user.id}
                         bind:twitch={user.twitch}
-                        showUnsubscribed={!user.kofiMember}
+                        showUnsubscribed={!isPatron}
                     />
                 </div>
                 {#if serverMessage}

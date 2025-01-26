@@ -44,6 +44,7 @@ export interface User {
     email: string;
     name: string;
     role: UserRole;
+    tags?: string[];
     avatarUrl: string;
     shareHistory: boolean;
     kofiEmail: string;
@@ -73,6 +74,7 @@ export interface UpdateUpdateRequest {
     role?: UserRole;
     shareHistory?: boolean;
     twitchCode?: string;
+    twitchRedirectUri?: string;
 }
 
 export interface UpdateUserResult {

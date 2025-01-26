@@ -1,13 +1,20 @@
 <script lang="ts">
-    import { getApi, type UserTwitchInfo } from '$lib/api';
+    import { getApi, getGameId, type UserTwitchInfo } from '$lib/api';
     import { LocalStorageKeys, getLocalStorageManager } from '$lib/localStorage';
     import { buildUrl } from '$lib/utility';
     import { Alert, Button, ButtonGroup } from 'flowbite-svelte';
     import { CheckCircleSolid, InfoCircleSolid } from 'flowbite-svelte-icons';
+    import PatronBenefits from './PatronBenefits.svelte';
+    import Li from '$lib/typography/Li.svelte';
 
     export let userId: number;
     export let twitch: UserTwitchInfo | undefined = undefined;
     export let showUnsubscribed = true;
+
+    const gameId = getGameId();
+    const recipient = gameId == 2 ? 'namsku' : 'intelorca';
+    const recipientDisplay = gameId == 2 ? 'Namsku' : 'IntelOrca';
+    const gameNumber = gameId == 2 ? 'II' : 'IV';
 
     function connectTwitch() {
         const state = getSecureHexString(32);
@@ -65,12 +72,11 @@
                     <li>
                         Support <a
                             class="font-medium text-blue-400 hover:text-blue-300"
-                            href="https://twitch.tv/intelorca"
-                            target="_blank">IntelOrca</a
+                            href="https://twitch.tv/{recipient}"
+                            target="_blank">{recipientDisplay}</a
                         > by subscribing on Twitch.
                     </li>
-                    <li>Highlighted user name on website.</li>
-                    <li>Early access to Separate Ways randomizer.</li>
+                    <PatronBenefits />
                 </ul>
             </Alert>
         {/if}
@@ -80,8 +86,8 @@
             <span class="font-medium">Subscribed </span><span class="font-light">to </span>
             <a
                 class="font-medium text-blue-400 hover:text-blue-300"
-                href="https://twitch.tv/intelorca"
-                target="_blank">IntelOrca</a
+                href="https://twitch.tv/{recipient}"
+                target="_blank">{recipientDisplay}</a
             >
         </Alert>
     {/if}
@@ -96,14 +102,15 @@
         <ul class="mt-1.5 ms-4 list-disc list-inside">
             <li>Advertise when you are live and playing BioRand.</li>
             <li>Use your Twitch profile picture as your avatar.</li>
-            <li>Highlighted user name on website.</li>
             <li>
-                Early access to Separate Ways randomizer if subscribed to
-                <a
+                Additional benefits if subscribed to <a
                     class="font-medium text-blue-400 hover:text-blue-300"
-                    href="https://twitch.tv/intelorca"
-                    target="_blank">IntelOrca</a
-                >.
+                    href="https://twitch.tv/{recipient}"
+                    target="_blank">{recipientDisplay}</a
+                >:
+                <ul class="mt-1.5 ms-4 list-disc list-inside">
+                    <PatronBenefits />
+                </ul>
             </li>
         </ul>
     </Alert>
