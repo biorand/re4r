@@ -155,38 +155,38 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (rando.UserId != authorizedUser.Id)
                 return Unauthorized();
 
+            var result = await generatorService.GetResult(rando.Id);
+            var assets = result?.Assets ?? [];
+
             return new
             {
-                id = rando.Id,
-                seed = rando.Seed,
-                status = rando.Status,
-                downloadUrl = urlService.GetApiUrl($"rando/{rando.Id}/download"),
-                downloadUrlMod = urlService.GetApiUrl($"rando/{rando.Id}/download?mod=true")
+                rando.Id,
+                rando.Seed,
+                rando.Status,
+                Assets = assets.Select(x => new
+                {
+                    x.Key,
+                    x.Title,
+                    x.Description,
+                    x.FileName,
+                    DownloadUrl = urlService.GetApiUrl($"rando/{rando.Id}/download/{x.Key}"),
+                }).ToArray()
             };
         }
 
-        [HttpGet("{randoId}/download")]
-        public async Task<object> Download(int randoId, [FromQuery] bool mod)
+        [HttpGet("{randoId}/download/{key}")]
+        public async Task<object> Download(int randoId, string key)
         {
             var result = await generatorService.GetResult(randoId);
             if (result == null)
-            {
                 return Unauthorized();
-            }
 
-            string contentName;
-            byte[] contentData;
-            if (mod)
-            {
-                contentName = $"biorand-{result.GameMoniker}-{result.Seed}-mod.zip";
-                contentData = result.ModFile;
-            }
-            else
-            {
-                contentName = $"biorand-{result.GameMoniker}-{result.Seed}.zip";
-                contentData = result.ZipFile;
-            }
+            var asset = result.Assets.FirstOrDefault(x => x.Key == key);
+            if (asset == null)
+                return NotFound();
 
+            var contentName = asset.FileName;
+            var contentData = asset.Data;
             return File(contentData, MimeTypes.GetMimeType(contentName), contentName);
         }
 

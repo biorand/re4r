@@ -99,6 +99,34 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             return Ok();
         }
 
+        [HttpPost("asset")]
+        [DisableRequestSizeLimit]
+        public async Task<object> Asset(
+            [FromForm] string id,
+            [FromForm] int randoId,
+            [FromForm] string key,
+            [FromForm] string title,
+            [FromForm] string description,
+            IFormFile data)
+        {
+            if (!TestApiKey())
+                return Unauthorized();
+
+            if (!Guid.TryParse(id, out var generatorId))
+                return NotFound();
+
+            if (!await generatorService.IsGeneratorValid(generatorId))
+                return NotFound();
+
+            var dataBytes = await GetBytes(data);
+            var asset = new GenerateResultAsset(key, title, description, data.FileName, dataBytes);
+            if (!await generatorService.AddAssetForRandoAsync(generatorId, randoId, asset))
+                return StatusCode(StatusCodes.Status410Gone);
+
+            return Ok();
+        }
+
+
         [HttpPost("end")]
         [DisableRequestSizeLimit]
         public async Task<object> End([FromBody] GeneratorEndRequest request)
@@ -112,28 +140,11 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (!await generatorService.IsGeneratorValid(id))
                 return NotFound();
 
-            var success = await generatorService.FinishRando(id, request.RandoId, request.PakOutput, request.FluffyOutput);
+            var success = await generatorService.FinishRando(id, request.RandoId, request.Instructions);
             if (!success)
                 return StatusCode(StatusCodes.Status410Gone);
 
             return Ok();
-        }
-
-        [HttpPost("end-form")]
-        [DisableRequestSizeLimit]
-        public async Task<object> EndForm(
-            [FromForm] string id,
-            [FromForm] int randoId,
-            IFormFile pakOutput,
-            IFormFile fluffyOutput)
-        {
-            return await End(new GeneratorEndRequest()
-            {
-                Id = id,
-                RandoId = randoId,
-                PakOutput = await GetBytes(pakOutput),
-                FluffyOutput = await GetBytes(fluffyOutput)
-            });
         }
 
         private static async Task<byte[]> GetBytes(IFormFile formFile)

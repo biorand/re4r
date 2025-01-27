@@ -22,7 +22,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         private readonly ILogger<GeneratorService> _logger;
         private readonly ConcurrentDictionary<Guid, RemoteGenerator> _generators = [];
         private readonly Dictionary<int, GenerateResult> _generatedRandos = [];
-        private readonly Dictionary<int, DateTime> _processingRandos = [];
         private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
         private readonly CancellationTokenSource _disposeCts = new CancellationTokenSource();
         private Task _cleanupTask;
@@ -169,14 +168,18 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             await _mutex.WaitAsync();
             try
             {
-                foreach (var kvp in _processingRandos.ToArray())
+                var timeout = TimeSpan.FromMinutes(2);
+                var now = DateTime.UtcNow;
+                var toRemove = _generatedRandos.Values
+                    .Where(x => x.Status == RandoStatus.Processing)
+                    .Where(x => now - x.StartTime > timeout)
+                    .ToArray();
+
+                foreach (var rando in toRemove)
                 {
-                    var duration = DateTime.UtcNow - kvp.Value;
-                    if (duration > TimeSpan.FromMinutes(2))
-                    {
-                        await _db.SetRandoStatusAsync(kvp.Key, RandoStatus.Failed);
-                        _processingRandos.Remove(kvp.Key);
-                    }
+                    rando.Status = RandoStatus.Failed;
+                    await _db.SetRandoStatusAsync(rando.RandoId, RandoStatus.Failed);
+                    _generatedRandos.Remove(rando.RandoId);
                 }
             }
             finally
@@ -195,20 +198,17 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                     ? DefaultDownloadExpireTime
                     : TimeSpan.FromSeconds(downloadExpireTimeSeconds);
 
-                var result = new List<int>();
                 var now = DateTime.UtcNow;
-                foreach (var kvp in _generatedRandos.ToArray())
+                var toExpire = _generatedRandos.Values
+                    .Where(x => x.Status == RandoStatus.Completed)
+                    .Where(x => now - x.FinishTime > downloadExpireTime)
+                    .ToArray();
+
+                foreach (var rando in toExpire)
                 {
-                    var age = now - kvp.Value.CreatedAt;
-                    if (age > downloadExpireTime)
-                    {
-                        _generatedRandos.Remove(kvp.Key);
-                        result.Add(kvp.Key);
-                    }
-                }
-                foreach (var id in result)
-                {
-                    await _db.SetRandoStatusAsync(id, RandoStatus.Expired);
+                    rando.Status = RandoStatus.Expired;
+                    _generatedRandos.Remove(rando.RandoId);
+                    await _db.SetRandoStatusAsync(rando.RandoId, RandoStatus.Expired);
                 }
             }
             finally
@@ -264,9 +264,13 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 if (rando.Status != RandoStatus.Unassigned)
                     return false;
 
+                var game = await _db.GetGameByIdAsync(rando.GameId);
+                if (game == null)
+                    return false;
+
                 rando.Version = version;
                 rando.Status = RandoStatus.Processing;
-                _processingRandos.Add(randoId, DateTime.UtcNow);
+                _generatedRandos.Add(randoId, new GenerateResult(randoId, rando.Seed));
                 await _db.UpdateRandoAsync(rando);
                 return true;
             }
@@ -281,7 +285,43 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             }
         }
 
-        public async Task<bool> FinishRando(Guid id, int randoId, byte[] pakOutput, byte[] fluffyOutput)
+        public async Task<bool> AddAssetForRandoAsync(Guid id, int randoId, GenerateResultAsset asset)
+        {
+            var generator = GetGenerator(id);
+            if (generator == null)
+                return false;
+
+            await _mutex.WaitAsync();
+            try
+            {
+                var queue = await _db.GetRandosWithStatusAsync(RandoStatus.Unassigned);
+                var rando = queue.Results.FirstOrDefault(x => x.Id == randoId);
+                if (rando == null)
+                    return false;
+
+                if (rando.Status != RandoStatus.Processing)
+                    return false;
+
+                if (!_generatedRandos.TryGetValue(randoId, out var result))
+                    return false;
+
+                result.Assets = [.. result.Assets
+                    .Append(asset)
+                    .OrderBy(x => x.Key)];
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to add asset for rando {RandoId}", randoId);
+                return false;
+            }
+            finally
+            {
+                _mutex.Release();
+            }
+        }
+
+        public async Task<bool> FinishRando(Guid id, int randoId, string instructions)
         {
             var generator = GetGenerator(id);
             if (generator == null)
@@ -301,8 +341,12 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 if (game == null)
                     return false;
 
-                _processingRandos.Remove(randoId);
-                _generatedRandos.Add(randoId, new GenerateResult(randoId, rando.Seed, game.Moniker, pakOutput, fluffyOutput));
+                if (!_generatedRandos.TryGetValue(randoId, out var result))
+                    return false;
+
+                result.Status = RandoStatus.Completed;
+                result.Instructions = instructions;
+
                 await _db.SetRandoStatusAsync(rando.Id, RandoStatus.Completed);
                 return true;
             }

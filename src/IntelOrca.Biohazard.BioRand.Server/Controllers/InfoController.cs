@@ -30,26 +30,20 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                     RegisterTime = x.RegisterTime.ToUnixTimeSeconds(),
                     LastHeartbeatTime = x.LastHeartbeatTime.ToUnixTimeSeconds()
                 }),
-                totalRandoMemory = generatedRandos.Sum(x => x.ModFile.Length + x.ZipFile.Length),
+                totalRandoMemory = generatedRandos.Sum(x => x.Assets.Sum(y => y.Data.Length)),
                 generatedRandos = generatedRandos.Select(x => new
                 {
                     x.RandoId,
-                    x.GameMoniker,
-                    CreatedAt = x.CreatedAt.ToUnixTimeSeconds(),
                     x.Seed,
-                    Assets = new[]
+                    x.Status,
+                    StartTime = x.StartTime.ToUnixTimeSeconds(),
+                    FinishTime = x.FinishTime.ToUnixTimeSeconds(),
+                    Assets = x.Assets.Select(y => new
                     {
-                        new
-                        {
-                            Name = "fluffy",
-                            x.ModFile.Length
-                        },
-                        new
-                        {
-                            Name = "pak",
-                            x.ZipFile.Length
-                        }
-                    }
+                        y.Key,
+                        y.FileName,
+                        y.Data.Length
+                    })
                 })
             };
         }
