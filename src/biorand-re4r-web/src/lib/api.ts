@@ -178,8 +178,15 @@ export interface Rando {
     seed: number;
     config: Config;
     status: RandoStatus;
+    assets: RandoAsset[];
+}
+
+export interface RandoAsset {
+    key: string;
+    title: string;
+    description: string;
+    fileName: string;
     downloadUrl: string;
-    downloadUrlMod: string;
 }
 
 export interface RandoHistoryQueryOptions {
