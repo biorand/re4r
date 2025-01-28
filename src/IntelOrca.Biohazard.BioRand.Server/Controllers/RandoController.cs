@@ -38,8 +38,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 return NotFound();
 
             var config = RandomizerConfiguration.FromDictionary(request.Config ?? []);
-            SetPersonalConfig(user, config);
-
             var configJson = config.ToJson(indented: false);
 
             var unassignedRandos = await db.GetRandosWithStatusAsync(RandoStatus.Unassigned);
@@ -192,29 +190,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             var contentName = asset.FileName;
             var contentData = asset.Data;
             return File(contentData, MimeTypes.GetMimeType(contentName), contentName);
-        }
-
-        private void SetPersonalConfig(UserDbModel user, RandomizerConfiguration config)
-        {
-            // Separate ways early access
-            var allowed = new[]
-            {
-                UserRoleKind.Patron,
-                UserRoleKind.LongTermSupporter,
-                UserRoleKind.Tester,
-                UserRoleKind.Administrator
-            };
-            if (config.GetValueOrDefault<bool>("separate-ways"))
-            {
-                config["separate-ways"] = allowed.Contains(user.Role);
-            }
-
-            var specials = new List<string>();
-            if (user.NameLowerCase == "bawkbasoup")
-                specials.Add("bawk");
-            // if (user.NameLowerCase == "doubleedger")
-            //     specials.Add("goldbar");
-            config["special"] = string.Join(",", specials);
         }
 
         private static string GetAvatarUrl(string email)

@@ -63,6 +63,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             public Task<RandomizerOutput> GenerateAsync(RandomizerAgent.QueueResponseItem queueItem, RandomizerInput input)
             {
                 input.GamePath = _gamePath;
+
+                var config = input.Configuration;
+
+                // Special things for specific users
+                if (config.GetValueOrDefault<bool>("separate-ways"))
+                {
+                    var userTags = queueItem.UserTags;
+                    if (!userTags.Contains("re4r:tester") && !userTags.Any(x => x.StartsWith("re4r:patron/")))
+                    {
+                        throw new RandomizerUserException("Separate Ways is currently only available to patrons.");
+                    }
+                }
+
+                // Special things for specific users
+                var specials = new List<string>();
+                var userName = queueItem.UserName ?? "";
+                if (userName.Equals("bawkbasoup", StringComparison.OrdinalIgnoreCase))
+                {
+                    specials.Add("bawk");
+                }
+                // if (userName.Equals("doubleedger", StringComparison.OrdinalIgnoreCase))
+                // {
+                //     specials.Add("goldbar");
+                // }
+                config["special"] = string.Join(",", specials);
+
                 return Task.FromResult(Randomizer.Randomize(input));
             }
 
