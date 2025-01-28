@@ -382,7 +382,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
                 result.FinishTime = DateTime.UtcNow;
                 result.Status = RandoStatus.Failed;
-                result.FailReason = result.FailReason;
+                result.FailReason = reason;
 
                 await _db.SetRandoStatusAsync(rando.Id, RandoStatus.Failed);
                 return true;
