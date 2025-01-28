@@ -128,7 +128,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
 
         [HttpPost("end")]
-        [DisableRequestSizeLimit]
         public async Task<object> End([FromBody] GeneratorEndRequest request)
         {
             if (!TestApiKey())

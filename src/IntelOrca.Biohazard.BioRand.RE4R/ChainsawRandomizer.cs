@@ -64,8 +64,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var output = new ChainsawRandomizerOutput(input, _fileRepository.GetOutputPakFile(), logFiles);
             return new RandomizerOutput(
-                output.GetOutputZip(),
-                output.GetOutputMod(),
+                [
+                    new RandomizerOutputAsset(
+                            "1-patch",
+                            "Patch",
+                            "Simply drop this file into your RE 4 install folder.",
+                            $"biorand-re4r-{input.Seed}.zip",
+                            output.GetOutputZip()),
+                        new RandomizerOutputAsset(
+                            "2-fluffy",
+                            "Fluffy Mod",
+                            "Drop this zip file into Fluffy Mod Manager's mod folder and enable it.",
+                            $"biorand-re4r-{input.Seed}-mod.zip",
+                            output.GetOutputMod())
+                ],
+                """
+                    <p class="mt-3">What should I do if my game crashes?</p>
+                    <ol class="ml-8 list-decimal text-gray-300">
+                      <li>Reload from last checkpoint and try again.</li>
+                      <li>Alter the enemy sliders slightly or reduce the number temporarily. This will reshuffle the enemies. Reload from last checkpoint and try again.</li> <li>As a last resort, change your seed, and reload from last checkpoint.</li>
+                    </ol>
+                    """,
                 logFiles);
         }
 
