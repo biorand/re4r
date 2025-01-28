@@ -54,11 +54,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 log.Value.WriteToFile(log.Key);
             }
 
-            output.PakOutput.WriteToFile("biorand-re4r-357436.zip");
-            output.FluffyOutput.WriteToFile("biorand-re4r-357436-mod.zip");
+            foreach (var asset in output.Assets)
+            {
+                asset.Data.WriteToFile(asset.FileName);
+            }
 
             // Find pak file
-            var pakFile = GetPakFile(output.PakOutput);
+            var pakFile = GetPakFile(output.Assets.First(x => x.Key == "1-patch").Data);
             var outputPath = settings.OutputPath!;
             if (outputPath.EndsWith(".pak"))
             {
@@ -67,7 +69,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             }
             else
             {
-                using var zip = new ZipArchive(new MemoryStream(output.FluffyOutput));
+                using var zip = new ZipArchive(new MemoryStream(output.Assets.First(x => x.Key == "2-fluffy").Data));
                 foreach (var entry in zip.Entries)
                 {
                     if (!entry.FullName.StartsWith("natives/", StringComparison.OrdinalIgnoreCase))

@@ -67,6 +67,7 @@
                             default:
                                 generating = false;
                                 generateError =
+                                    generateResult.failReason ||
                                     'An error occured on the server while generating this seed.';
                                 clearInterval(timer);
                                 break;
@@ -124,27 +125,17 @@
             <h2 class="text-2xl">Your randomizer is ready!</h2>
             <h3 class="mb-3">Download the appropriate file and enjoy!</h3>
             <div class="flex flex-wrap gap-3">
-                <DownloadCard
-                    title="Patch"
-                    description="Simply drop this file into your RE 4 install folder."
-                    href={generateResult.downloadUrl}
-                />
-                <DownloadCard
-                    title="Fluffy Mod"
-                    description="Drop this zip file into Fluffy Mod Manager's mod folder and enable it."
-                    href={generateResult.downloadUrlMod}
-                />
+                {#each generateResult.assets as asset}
+                    <DownloadCard
+                        title={asset.title}
+                        description={asset.description}
+                        href={asset.downloadUrl}
+                    />
+                {/each}
             </div>
-
-            <p class="mt-3">What should I do if my game crashes?</p>
-            <ol class="ml-8 list-decimal text-gray-300">
-                <li>Reload from last checkpoint and try again.</li>
-                <li>
-                    Alter the enemy sliders slightly or reduce the number temporarily. This will
-                    reshuffle the enemies. Reload from last checkpoint and try again.
-                </li>
-                <li>As a last resort, change your seed, and reload from last checkpoint.</li>
-            </ol>
+            <div>
+                {@html generateResult.instructions}
+            </div>
         </div>
     {:else if generateProcessMessage}
         <Alert border color="yellow" class="my-4">

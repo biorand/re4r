@@ -67,7 +67,6 @@
     let init = (async () => {
         const api = getApi();
         user = await api.getUser(userName);
-        user.tags = [];
         emailData = { ...emailData, value: user.email };
         nameData = { ...nameData, value: user.name };
         kofiEmailData = { ...kofiEmailData, value: user.kofiEmail };

@@ -156,6 +156,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 return Unauthorized();
 
             var result = await generatorService.GetResult(rando.Id);
+            var instructions = result?.Instructions ?? "";
+            var failReason = result?.FailReason ?? "";
             var assets = result?.Assets ?? [];
 
             return new
@@ -163,6 +165,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 rando.Id,
                 rando.Seed,
                 rando.Status,
+                instructions,
+                failReason,
                 Assets = assets.Select(x => new
                 {
                     x.Key,

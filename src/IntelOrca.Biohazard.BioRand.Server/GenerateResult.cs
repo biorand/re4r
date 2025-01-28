@@ -13,6 +13,7 @@ namespace IntelOrca.Biohazard.BioRand.Server
         public RandoStatus Status { get; set; } = RandoStatus.Processing;
         public DateTime FinishTime { get; set; }
         public string Instructions { get; set; } = "";
+        public string FailReason { get; set; } = "";
         public ImmutableArray<GenerateResultAsset> Assets { get; set; } = [];
     }
 

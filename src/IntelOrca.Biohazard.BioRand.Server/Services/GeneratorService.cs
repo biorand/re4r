@@ -15,7 +15,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
     public class GeneratorService : IAsyncDisposable
     {
         private readonly static TimeSpan DefaultDownloadExpireTime = TimeSpan.FromHours(1);
-        private readonly TimeSpan DefaultHeartbeatTimeout = TimeSpan.FromMinutes(5);
+        private readonly static TimeSpan DefaultHeartbeatTimeout = TimeSpan.FromMinutes(5);
 
         private readonly DatabaseService _db;
         private readonly BioRandServerConfiguration _config;
@@ -294,8 +294,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             await _mutex.WaitAsync();
             try
             {
-                var queue = await _db.GetRandosWithStatusAsync(RandoStatus.Unassigned);
-                var rando = queue.Results.FirstOrDefault(x => x.Id == randoId);
+                var rando = await _db.GetRandoAsync(randoId);
                 if (rando == null)
                     return false;
 
@@ -344,6 +343,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 if (!_generatedRandos.TryGetValue(randoId, out var result))
                     return false;
 
+                result.FinishTime = DateTime.UtcNow;
                 result.Status = RandoStatus.Completed;
                 result.Instructions = instructions;
 
@@ -376,6 +376,13 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
                 if (rando.Status != RandoStatus.Processing)
                     return false;
+
+                if (!_generatedRandos.TryGetValue(randoId, out var result))
+                    return false;
+
+                result.FinishTime = DateTime.UtcNow;
+                result.Status = RandoStatus.Failed;
+                result.FailReason = result.FailReason;
 
                 await _db.SetRandoStatusAsync(rando.Id, RandoStatus.Failed);
                 return true;

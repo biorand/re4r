@@ -178,6 +178,8 @@ export interface Rando {
     seed: number;
     config: Config;
     status: RandoStatus;
+    instructions: string;
+    failReason: string;
     assets: RandoAsset[];
 }
 
