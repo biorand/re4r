@@ -12,7 +12,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 {
     public sealed class DatabaseService
     {
-        private const int LatestVersion = 3;
+        private const int LatestVersion = 4;
 
         private readonly SQLiteAsyncConnection _conn;
         private int _originalVersion;
@@ -35,7 +35,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         private async Task Initialize()
         {
             await InitializeMetaTable();
-            await ApplyMigrations();
+            await ApplyPreMigrations();
             await _conn.CreateTableAsync<GameDbModel>();
             await _conn.CreateTableAsync<UserDbModel>();
             await _conn.CreateTableAsync<UserTagDbModel>();
@@ -59,6 +59,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             await GetOrCreateSystemUser();
             await InsertGames();
             await InsertUserTags();
+            await ApplyPostMigrations();
         }
 
         private async Task InitializeMetaTable()
@@ -83,7 +84,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             }
         }
 
-        private async Task ApplyMigrations()
+        private async Task ApplyPreMigrations()
         {
             if (_originalVersion < 1)
             {
@@ -101,23 +102,52 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             }
         }
 
+        private async Task ApplyPostMigrations()
+        {
+            if (_originalVersion < 4)
+            {
+                await MapRoleToUserTag(0, "pending");
+                await MapRoleToUserTag(6, "admin");
+                await MapRoleToUserTag(7, "system");
+                await _conn.ExecuteAsync("ALTER TABLE user DROP COLUMN Role");
+            }
+
+            async Task MapRoleToUserTag(int role, string tag)
+            {
+                var userTag = await GetUserTag(tag) ?? throw new Exception("User tag not found");
+                var userTagId = userTag.Id;
+                await _conn.ExecuteAsync(
+                    """
+                    INSERT INTO user_usertag (UserTagId, UserId)
+                    SELECT ?, u.Id
+                    FROM user u
+                    WHERE u.Role = ?
+                    AND NOT EXISTS (
+                        SELECT 1
+                        FROM user_usertag utt
+                        WHERE utt.UserId = u.Id
+                        AND utt.UserTagId = ?)
+                    """, userTagId, role, userTagId);
+            }
+        }
+
         private async Task<UserDbModel> GetOrCreateSystemUser()
         {
             var systemUser = await GetUserById(1);
-            if (systemUser == null)
+            if (systemUser != null)
+                return systemUser;
+
+            var newUser = new UserDbModel
             {
-                systemUser = new UserDbModel
-                {
-                    Id = 1,
-                    Created = DateTime.UtcNow,
-                    Name = "System",
-                    NameLowerCase = "system",
-                    Email = "",
-                    Role = UserRoleKind.System
-                };
-                await _conn.InsertOrReplaceAsync(systemUser);
-            }
-            return systemUser;
+                Id = 1,
+                Created = DateTime.UtcNow,
+                Name = "System",
+                NameLowerCase = "system",
+                Email = ""
+            };
+            await _conn.InsertOrReplaceAsync(newUser);
+            await UpdateUserTagsForUser(newUser.Id, ["system"]);
+            return newUser;
         }
 
         private async Task InsertGames()
@@ -136,6 +166,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         private async Task InsertUserTags()
         {
+            await AddTag("system", 0xFF99AABB, 0xFF233876);
+            await AddTag("admin", 0xFF99AABB, 0xFF233876);
+            await AddTag("pending", 0xFFFCE8F3, 0xFF751A3D);
+            await AddTag("banned", 0xFFFF0000, 0xFFFF0000);
             await AddTagForEachGame("patron/long", 0xFFDEF7EC, 0xFF014737);
             await AddTagForEachGame("patron/manual", 0xFFDEF7EC, 0xFF014737);
             await AddTagForEachGame("patron/kofi", 0xFFDEF7EC, 0xFF014737);
@@ -177,30 +211,48 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return _conn.UpdateAsync(game, typeof(GameDbModel));
         }
 
-        public async Task<UserDbModel> GetUserById(int id)
+        public async Task<ExtendedUserDbModel> GetUserById(int id)
         {
-            return await _conn.Table<UserDbModel>()
-                .Where(x => x.Id == id)
-                .FirstOrDefaultAsync();
+            return await _conn.FindWithQueryAsync<ExtendedUserDbModel>(
+                """
+                SELECT u.*, GROUP_CONCAT(ut.Label, ',') AS Tags
+                FROM user AS u
+                LEFT JOIN user_usertag AS uut ON u.Id = uut.UserId
+                LEFT JOIN usertag AS ut ON ut.Id = uut.UserTagId
+                WHERE u.Id = ?
+                GROUP BY u.Id
+                """, id);
         }
 
-        public async Task<UserDbModel> GetUserByEmail(string email)
+        public async Task<ExtendedUserDbModel> GetUserByEmail(string email)
         {
             var emailLower = email.ToLowerInvariant();
-            return await _conn.Table<UserDbModel>()
-                .Where(x => x.Email == emailLower)
-                .FirstOrDefaultAsync();
+            return await _conn.FindWithQueryAsync<ExtendedUserDbModel>(
+                """
+                SELECT u.*, GROUP_CONCAT(ut.Label, ',') AS Tags
+                FROM user AS u
+                LEFT JOIN user_usertag AS uut ON u.Id = uut.UserId
+                LEFT JOIN usertag AS ut ON ut.Id = uut.UserTagId
+                WHERE u.Email = ?
+                GROUP BY u.Id
+                """, emailLower);
         }
 
-        public async Task<UserDbModel> GetUserByName(string name)
+        public async Task<ExtendedUserDbModel> GetUserByName(string name)
         {
             var nameLower = name.ToLowerInvariant();
-            return await _conn.Table<UserDbModel>()
-                .Where(x => x.NameLowerCase == nameLower)
-                .FirstOrDefaultAsync();
+            return await _conn.FindWithQueryAsync<ExtendedUserDbModel>(
+                """
+                SELECT u.*, GROUP_CONCAT(ut.Label, ',') AS Tags
+                FROM user AS u
+                LEFT JOIN user_usertag AS uut ON u.Id = uut.UserId
+                LEFT JOIN usertag AS ut ON ut.Id = uut.UserTagId
+                WHERE u.NameLowerCase = ?
+                GROUP BY u.Id
+                """, nameLower);
         }
 
-        public async Task<UserDbModel?> GetUserByToken(string token)
+        public async Task<ExtendedUserDbModel?> GetUserByToken(string token)
         {
             var now = DateTime.UtcNow - TimeSpan.FromDays(30);
             var tokenModel = await _conn.Table<TokenDbModel>()
@@ -229,10 +281,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 Created = DateTime.UtcNow,
                 Name = name,
                 NameLowerCase = name.ToLowerInvariant(),
-                Email = email.ToLowerInvariant(),
-                Role = UserRoleKind.Pending,
+                Email = email.ToLowerInvariant()
             };
             await _conn.InsertAsync(user);
+            await UpdateUserTagsForUser(user.Id, ["pending"]);
             return user;
         }
 
@@ -366,6 +418,23 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                         tag.Id);
                 }
             });
+        }
+
+        public async Task UpdateUserTagsForUser(int userId, IEnumerable<string> labels)
+        {
+            var tags = new List<UserTagDbModel>();
+            foreach (var label in labels)
+            {
+                var tag = await GetUserTag(label) ?? throw new Exception("User tag not found");
+                tags.Add(tag);
+            }
+            await UpdateUserTagsForUser(userId, tags);
+        }
+
+        public async Task EnsureUserTagForUserAsync(int userId, string label)
+        {
+            var tag = await GetUserTag(label) ?? throw new Exception("User tag not found");
+            await _conn.ExecuteAsync("INSERT OR IGNORE INTO user_usertag (UserId, UserTagId) VALUES (?, ?)", userId, tag.Id);
         }
 
         public async Task<ExtendedProfileDbModel?> GetProfileAsync(int id, int userId)
@@ -539,7 +608,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         {
             var q = @"
                 SELECT r.*,
-                       u.Role as UserRole,
                        u.Name as UserName,
                        u.Email as UserEmail,
                        p.Id as ProfileId,
@@ -581,9 +649,9 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         {
             var q = BuildQuery<ExtendedRandoDbModel>(@"
                 SELECT r.*,
-                       u.Role as UserRole,
                        u.Name as UserName,
                        u.Email as UserEmail,
+                       COALESCE(GROUP_CONCAT(ut.Label, ','), '') AS UserTags,
                        p.Id as ProfileId,
                        p.Name as ProfileName,
                        pu.Id as ProfileUserId,
@@ -593,13 +661,19 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 LEFT JOIN user as u ON r.UserId = u.Id
                 LEFT JOIN randoconfig as c ON r.ConfigId = c.Id
                 LEFT JOIN profile as p ON c.BasedOnProfileId = p.Id
-                LEFT JOIN user as pu ON p.UserId = pu.Id");
+                LEFT JOIN user as pu ON p.UserId = pu.Id
+                LEFT JOIN user_usertag AS uut ON r.UserId = uut.UserId
+                LEFT JOIN usertag AS ut ON ut.Id = uut.UserTagId");
             q.WhereIf("r.GameId = ?", filterGameId);
             q.WhereIf("r.UserId = ?", filterUserId);
             if (viewerUserId != null)
             {
                 q.Where("((u.Flags & 1) OR u.Id = ?)", viewerUserId.Value);
             }
+            q.Append("GROUP BY r.Id");
+
+            q.SetCountQuery("SELECT COUNT(*) FROM rando as r");
+
             return q.ExecuteLimitedAsync(sortOptions, limitOptions);
         }
 
@@ -607,10 +681,9 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         {
             var q = BuildQuery<ExtendedRandoDbModel>(@"
                 SELECT r.*,
-                       u.Role as UserRole,
                        u.Name as UserName,
                        u.Email as UserEmail,
-                       GROUP_CONCAT(ut.Label, ',') AS UserTags,
+                       COALESCE(GROUP_CONCAT(ut.Label, ','), '') AS UserTags,
                        p.Id as ProfileId,
                        p.Name as ProfileName,
                        p.Description as ProfileDescription,
@@ -665,9 +738,9 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         public async Task<bool> AdminUserExistsAsync()
         {
+            var tag = await GetUserTag("admin") ?? throw new Exception("User tag not found");
             var rows = await _conn.ExecuteScalarAsync<int>(
-                "SELECT COUNT(*) FROM user WHERE Role = ?",
-                UserRoleKind.Administrator);
+                "SELECT COUNT(*) FROM user_usertag WHERE UserTagId = ?", tag.Id);
             return rows != 0;
         }
 
@@ -676,20 +749,23 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             return _conn.UpdateAsync(user);
         }
 
-        public Task<UserDbModel> GetUserAsync(int id)
-        {
-            return _conn.Table<UserDbModel>().FirstOrDefaultAsync(x => x.Id == id);
-        }
-
         public Task<UserDbModel> GetUserAsync(string name)
         {
             var lowerName = name.ToLowerInvariant();
             return _conn.Table<UserDbModel>().FirstOrDefaultAsync(x => x.NameLowerCase == lowerName);
         }
 
-        public Task<LimitedResult<UserDbModel>> GetUsersAsync(SortOptions? sortOptions = null, LimitOptions? limitOptions = null)
+        public Task<LimitedResult<ExtendedUserDbModel>> GetUsersAsync(SortOptions? sortOptions = null, LimitOptions? limitOptions = null)
         {
-            var q = BuildQuery<UserDbModel>("SELECT * FROM user");
+            var q = BuildQuery<ExtendedUserDbModel>(
+                """
+                SELECT u.*, COALESCE(GROUP_CONCAT(ut.Label, ','), '') AS Tags
+                FROM user AS u
+                LEFT JOIN user_usertag AS uut ON u.Id = uut.UserId
+                LEFT JOIN usertag AS ut ON ut.Id = uut.UserTagId
+                GROUP BY u.Id
+                """);
+            q.SetCountQuery("SELECT COUNT(*) FROM user");
             return q.ExecuteLimitedAsync(sortOptions, limitOptions);
         }
 
@@ -753,7 +829,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             LimitOptions? limitOptions)
         {
             var q = BuildQuery<KofiUserDbViewModel>(@"
-                SELECT kofi.*, user.Name as UserName, user.Role as UserRole
+                SELECT kofi.*, user.Name as UserName
                 FROM kofi
                 LEFT JOIN user ON kofi.UserId = user.Id");
             q.WhereIf("kofi.GameId = ?", gameId);
@@ -904,7 +980,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         public class ExtendedRandoDbModel : RandoDbModel
         {
-            public UserRoleKind UserRole { get; set; }
             public string? UserName { get; set; }
             public string? UserEmail { get; set; }
             public string? UserTags { get; set; }
@@ -956,6 +1031,9 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         private readonly StringBuilder _sb = new StringBuilder();
         private readonly List<object> _parameters = new List<object>();
 
+        private string? _countQuery;
+        private object[]? _countParameters;
+
         public QueryBuilder(ISQLiteAsyncConnection conn, string query = "", params object[] parameters)
         {
             _conn = conn;
@@ -991,14 +1069,27 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             }
         }
 
+        public void SetCountQuery(string query, params object[] parameters)
+        {
+            _countQuery = query;
+            _countParameters = parameters;
+        }
+
         public Task<int> CountAsync()
         {
-            var q = _sb.ToString();
-            var fromIndex = q.IndexOf("FROM");
-            if (fromIndex == -1)
-                throw new Exception("Unable to create count query.");
-            q = $"SELECT COUNT(*) {q[fromIndex..]}";
-            return _conn.ExecuteScalarAsync<int>(q, [.. _parameters]);
+            if (_countQuery == null)
+            {
+                var q = _sb.ToString();
+                var fromIndex = q.IndexOf("FROM");
+                if (fromIndex == -1)
+                    throw new Exception("Unable to create count query.");
+                q = $"SELECT COUNT(*) {q[fromIndex..]}";
+                return _conn.ExecuteScalarAsync<int>(q, [.. _parameters]);
+            }
+            else
+            {
+                return _conn.ExecuteScalarAsync<int>(_countQuery, _countParameters ?? []);
+            }
         }
 
         public async Task<LimitedResult<T>> ExecuteLimitedAsync(SortOptions? sortOptions = null, LimitOptions? limitOptions = null)

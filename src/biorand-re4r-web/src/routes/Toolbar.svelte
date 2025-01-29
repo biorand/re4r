@@ -2,8 +2,8 @@
     import { goto } from '$app/navigation';
     import BioRandTitle from '$lib/BioRandTitle.svelte';
     import RoleBadge from '$lib/RoleBadge.svelte';
-    import { UserRole, getApi, isLocalhost, type StatsResult, type User } from '$lib/api';
-    import { getUserManager } from '$lib/userManager';
+    import { getApi, isLocalhost, type StatsResult, type User } from '$lib/api';
+    import { getUserManager, hasUserTag } from '$lib/userManager';
     import {
         Avatar,
         DarkMode,
@@ -24,9 +24,11 @@
     export let currentUser: User | undefined;
     export let stats: StatsResult | undefined;
 
-    $: role = currentUser?.role || UserRole.Pending;
-    $: accountAccessible = role >= UserRole.Standard && role != UserRole.System;
-    $: isAdmin = role == UserRole.Administrator;
+    $: accountAccessible =
+        !hasUserTag(currentUser, 'pending') &&
+        !hasUserTag(currentUser, 'banned') &&
+        !hasUserTag(currentUser, 'system');
+    $: isAdmin = hasUserTag(currentUser, 'admin');
 
     async function onSignOutClick() {
         const api = getApi();
@@ -54,7 +56,7 @@
     {#if currentUser}
         <div class="flex items-center md:order-2">
             <div class="mr-4 hidden sm:block">
-                <RoleBadge {role} />
+                <RoleBadge user={currentUser} />
             </div>
             <Avatar id="avatar-menu" class="overflow-hidden">
                 <img alt="" src={currentUser.avatarUrl} />
@@ -71,7 +73,7 @@
             <DropdownHeader>
                 <a class="block text-sm" href="/user/{currentUser.name}">{currentUser.name}</a>
             </DropdownHeader>
-            {#if currentUser.role == UserRole.Administrator}
+            {#if isAdmin}
                 <DropdownItem href="/admin/token">Tokens</DropdownItem>
                 <DropdownItem href="/admin/patron">Patron</DropdownItem>
                 <DropdownDivider />

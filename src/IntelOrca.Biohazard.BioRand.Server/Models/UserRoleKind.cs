@@ -3,13 +3,7 @@
     public enum UserRoleKind
     {
         Pending,
-        PendingStandard,
-        Banned,
         Standard,
-        Tester,
-        Patron,
-        Administrator,
-        System,
-        LongTermSupporter,
+        Administrator
     }
 }

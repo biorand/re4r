@@ -44,7 +44,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                         userId = await databaseService.FindKofiMatchAsync(email);
                         if (userId != null)
                         {
-                            var user = await databaseService.GetUserAsync(userId.Value);
+                            var user = await databaseService.GetUserById(userId.Value);
                             logger.LogInformation("Matched user {UserId}[{UserName}] for ko-fi donation {MessageId}", user.Id, user.Name, kofiData.MessageId);
                         }
                         else

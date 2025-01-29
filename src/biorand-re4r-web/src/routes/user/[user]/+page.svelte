@@ -2,20 +2,11 @@
     import { page } from '$app/stores';
     import RoleBadge from '$lib/RoleBadge.svelte';
     import { validateClear, validateFormInputData, type FormInputData } from '$lib/Validation';
-    import { UserRole, getApi, getWebsiteTitle, type User } from '$lib/api';
+    import { getApi, getWebsiteTitle, type User } from '$lib/api';
     import PageBody from '$lib/typography/PageBody.svelte';
     import PageTitle from '$lib/typography/PageTitle.svelte';
     import { getUserManager, hasUserTag } from '$lib/userManager';
-    import {
-        Alert,
-        Button,
-        Checkbox,
-        Helper,
-        Input,
-        Label,
-        Select,
-        Spinner
-    } from 'flowbite-svelte';
+    import { Alert, Button, Checkbox, Helper, Input, Label, Spinner } from 'flowbite-svelte';
     import {
         CloseCircleSolid,
         EnvelopeSolid,
@@ -31,7 +22,7 @@
     let user: User | undefined;
 
     const userManager = getUserManager();
-    let isAdmin = userManager.info?.user.role == UserRole.Administrator;
+    let isAdmin = hasUserTag(userManager.info?.user, 'admin');
 
     let emailData: FormInputData = {
         key: 'email',
@@ -49,7 +40,6 @@
         key: 'kofiEmail',
         value: ''
     };
-    let role = UserRole.Pending;
     let shareHistory = false;
     let isKofiMember = false;
     let isTwitchMember = false;
@@ -57,25 +47,12 @@
     let serverWait = false;
     let serverMessage = '';
 
-    let roles = [
-        { name: '(pending)', value: UserRole.Pending },
-        { name: 'Standard (pending)', value: UserRole.PendingStandard },
-        { name: 'Banned', value: UserRole.Banned },
-        { name: 'Standard', value: UserRole.Standard },
-        { name: 'Tester', value: UserRole.Tester },
-        { name: 'Patron', value: UserRole.Patron },
-        { name: 'Administrator', value: UserRole.Administrator },
-        { name: 'System', value: UserRole.System },
-        { name: 'Long Term Supporter', value: UserRole.LongTermSupporter }
-    ];
-
     let init = (async () => {
         const api = getApi();
         user = await api.getUser(userName);
         emailData = { ...emailData, value: user.email };
         nameData = { ...nameData, value: user.name };
         kofiEmailData = { ...kofiEmailData, value: user.kofiEmail };
-        role = user.role;
         tagsData = { ...tagsData, value: user.tags?.join(',') || '' };
         shareHistory = user.shareHistory;
         isKofiMember = hasUserTag(user, '$GAME:patron/kofi');
@@ -100,7 +77,6 @@
                 email: emailData.value,
                 name: nameData.value,
                 kofiEmail: kofiEmailData.value,
-                role,
                 tags: tagsData.value?.split(','),
                 shareHistory
             });
@@ -187,17 +163,7 @@
                 </div>
                 <div class="max-w-60">
                     <Label for="role" class="block mb-2">Role</Label>
-                    {#if isAdmin}
-                        <Select
-                            id="role"
-                            class="mb-3"
-                            disabled={!isAdmin}
-                            items={roles}
-                            bind:value={role}
-                        />
-                    {:else}
-                        <RoleBadge class="mb-3" role={user.role} />
-                    {/if}
+                    <RoleBadge class="mb-3" {user} />
                 </div>
                 {#if isAdmin}
                     <div class="max-w-5xl">

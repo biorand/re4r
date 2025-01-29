@@ -8,7 +8,6 @@
         getApi,
         getGameId,
         getWebsiteTitle,
-        UserRole,
         type RandoHistoryItem,
         type RandoHistoryQueryOptions,
         type RandoHistoryResult
@@ -16,7 +15,7 @@
     import { getLocalStorageManager } from '$lib/localStorage';
     import PageBody from '$lib/typography/PageBody.svelte';
     import PageTitle from '$lib/typography/PageTitle.svelte';
-    import { getUserManager } from '$lib/userManager';
+    import { containsUserTag, getUserManager } from '$lib/userManager';
     import { buildUrl, getLocation, tryParseInt } from '$lib/utility';
     import { Avatar, TableBodyCell, TableBodyRow, TableHead } from 'flowbite-svelte';
     import { readable } from 'svelte/store';
@@ -90,17 +89,15 @@
         return buildUrl('history', query);
     }
 
-    function getNameColor(role: UserRole) {
-        switch (role) {
-            case UserRole.Patron:
-            case UserRole.LongTermSupporter:
-                return 'text-green-700 hover:text-green-500 dark:text-yellow-400 dark:hover:text-yellow-300';
-            case UserRole.Tester:
-            case UserRole.Administrator:
-                return 'text-red-800 hover:text-red-700 dark:text-red-400 dark:hover:text-red-200';
-            default:
-                return 'text-blue-800 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300';
+    function getNameColor(item: RandoHistoryItem) {
+        const userTags = item.userTags || [];
+        if (containsUserTag(userTags, '$GAME:patron')) {
+            return 'text-green-700 hover:text-green-500 dark:text-yellow-400 dark:hover:text-yellow-300';
         }
+        if (containsUserTag(userTags, '$GAME:tester') || containsUserTag(userTags, 'admin')) {
+            return 'text-red-800 hover:text-red-700 dark:text-red-400 dark:hover:text-red-200';
+        }
+        return 'text-blue-800 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300';
     }
 </script>
 
@@ -129,9 +126,8 @@
                             <Avatar class="mr-2 w-4 h-4 overflow-hidden" src={item.userAvatarUrl} />
                         </div>
                         <div>
-                            <a
-                                class={getNameColor(item.userRole)}
-                                href="/history?user={item.userName}">{item.userName}</a
+                            <a class={getNameColor(item)} href="/history?user={item.userName}"
+                                >{item.userName}</a
                             >
                         </div>
                     </div>

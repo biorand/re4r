@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getWebsiteTitle, UserRole } from '$lib/api';
+    import { getWebsiteTitle } from '$lib/api';
     import { getUserManager } from '$lib/userManager';
     import UserBanner from './UserBanner.svelte';
     import SignUp from './auth/SignUp.svelte';
@@ -7,23 +7,15 @@
 
     const userManager = getUserManager();
     let isSignedIn = userManager.isSignedIn();
-    let role = userManager.info?.user?.role;
-    let showBanner = shouldShowBanner(role);
+    let userTags = userManager.info?.user?.tags || [];
+    let showBanner = shouldShowBanner(userTags);
     userManager.subscribe(() => {
         isSignedIn = userManager.isSignedIn();
     });
 
-    function shouldShowBanner(role: UserRole | undefined) {
-        switch (role) {
-            case UserRole.Standard:
-            case UserRole.Patron:
-            case UserRole.LongTermSupporter:
-            case UserRole.Tester:
-            case UserRole.Administrator:
-                return false;
-            default:
-                return true;
-        }
+    function shouldShowBanner(userTags: string[]) {
+        const list = ['pending', 'banned', 'system'];
+        return userTags.findIndex((x) => list.indexOf(x) != -1) != -1;
     }
 </script>
 
@@ -37,7 +29,7 @@
 
 {#if isSignedIn}
     {#if showBanner}
-        <UserBanner {role} />
+        <UserBanner {userTags} />
     {:else}
         <Home />
     {/if}

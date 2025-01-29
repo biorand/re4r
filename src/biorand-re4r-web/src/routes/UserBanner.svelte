@@ -1,46 +1,28 @@
 <script lang="ts">
-    import { UserRole } from '$lib/api';
-    import {
-        CloseCircleSolid,
-        HourglassSolid,
-        LockSolid,
-        LockTimeSolid
-    } from 'flowbite-svelte-icons';
+    import { CloseCircleSolid, HourglassSolid, LockSolid } from 'flowbite-svelte-icons';
 
-    export let role: UserRole | undefined;
+    export let userTags: string[];
 
     let icon: any;
     let title: string;
     let body: string;
 
-    switch (role) {
-        default:
-        case UserRole.Pending:
-            icon = HourglassSolid;
-            title = 'Account Pending';
-            body =
-                'Your account status is currently pending e-mail verification. ' +
-                'Please verify the e-mail address registered with the account.';
-            break;
-        case UserRole.PendingStandard:
-            icon = LockTimeSolid;
-            title = 'Access Pending';
-            body =
-                'Your account status is currently pending access. ' +
-                'You will receive an email notification once access is granted.';
-            break;
-        case UserRole.Banned:
-            icon = LockSolid;
-            title = 'Account Locked';
-            body =
-                'Your account is currently locked. ' +
-                'Contact an administrator for more information.';
-            break;
-        case UserRole.System:
-            icon = CloseCircleSolid;
-            title = 'Account Invalid';
-            body = 'This is a system account, and should not be signed in to.';
-            break;
+    let hasTag = (label: string) => userTags.indexOf(label) != -1;
+    if (hasTag('pending')) {
+        icon = HourglassSolid;
+        title = 'Account Pending';
+        body =
+            'Your account status is currently pending e-mail verification. ' +
+            'Please verify the e-mail address registered with the account.';
+    } else if (hasTag('banned')) {
+        icon = LockSolid;
+        title = 'Account Locked';
+        body =
+            'Your account is currently locked. ' + 'Contact an administrator for more information.';
+    } else if (hasTag('system')) {
+        icon = CloseCircleSolid;
+        title = 'Account Invalid';
+        body = 'This is a system account, and should not be signed in to.';
     }
 </script>
 

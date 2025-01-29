@@ -2,7 +2,6 @@
     import { createChart } from '$lib/Chart.svelte';
     import DeleteConfirmModal from '$lib/DeleteConfirmModal.svelte';
     import {
-        UserRole,
         getApi,
         getGameId,
         type DailyResult,
@@ -10,7 +9,7 @@
         type NewsItem
     } from '$lib/api';
     import { PageBody, PageTitle } from '$lib/typography';
-    import { getUserManager } from '$lib/userManager';
+    import { getUserManager, hasUserTag } from '$lib/userManager';
     import { Button, Timeline } from 'flowbite-svelte';
     import NewsItemEditModal from './NewsItemEditModal.svelte';
     import NewsItemView from './NewsItemView.svelte';
@@ -31,8 +30,8 @@
 
     const canEdit = (() => {
         const userManager = getUserManager();
-        const userRole = userManager.info?.user.role ?? UserRole.Pending;
-        return userRole >= UserRole.Administrator;
+        const user = userManager.info?.user;
+        return hasUserTag(user, 'admin');
     })();
 
     let showEditModal = false;

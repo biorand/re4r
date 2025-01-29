@@ -53,7 +53,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             await db.UseTokenAsync(token);
         }
 
-        public async Task<UserDbModel?> GetAuthorizedUserAsync(UserRoleKind minimumRole = UserRoleKind.Standard)
+        public async Task<ExtendedUserDbModel?> GetAuthorizedUserAsync(UserRoleKind minimumRole = UserRoleKind.Standard)
         {
             var token = GetAuthToken();
             if (token != null)
@@ -64,8 +64,14 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                     CleanUpTokensIfTimeTo();
                     await UpdateAutomatedTagsAsync(user);
                 }
-                if (user != null && IsRoleEqualOrBetterThan(user.Role, minimumRole))
+                if (user != null)
                 {
+                    if (minimumRole == UserRoleKind.Administrator && !user.IsAdmin)
+                        return null;
+
+                    if (minimumRole == UserRoleKind.Standard && user.IsPending)
+                        return null;
+
                     await UseAuthToken(token);
                     return user;
                 }
@@ -134,29 +140,5 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             var user = await GetAuthorizedUserAsync(minimumRole);
             return user != null;
         }
-
-        private static bool IsRoleBetterThan(UserRoleKind a, UserRoleKind b)
-        {
-            var rankA = Array.IndexOf(g_rolePriority, a);
-            var rankB = Array.IndexOf(g_rolePriority, b);
-            return rankA > rankB;
-        }
-
-        private static bool IsRoleEqualOrBetterThan(UserRoleKind a, UserRoleKind b)
-        {
-            return a == b || IsRoleBetterThan(a, b);
-        }
-
-        private static readonly UserRoleKind[] g_rolePriority = [
-            UserRoleKind.Pending,
-            UserRoleKind.PendingStandard,
-            UserRoleKind.Banned,
-            UserRoleKind.Standard,
-            UserRoleKind.LongTermSupporter,
-            UserRoleKind.Patron,
-            UserRoleKind.Tester,
-            UserRoleKind.Administrator,
-            UserRoleKind.System,
-        ];
     }
 }
