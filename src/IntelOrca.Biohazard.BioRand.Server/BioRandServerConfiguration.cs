@@ -72,7 +72,7 @@ namespace IntelOrca.Biohazard.BioRand.Server
 
     public class KofiConfig
     {
-        public Guid WebhookToken { get; set; }
+        public Guid[] WebhookToken { get; set; }
     }
 
     public class GeneratorConfig

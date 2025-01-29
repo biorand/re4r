@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.Server.Models;
@@ -29,7 +30,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
             try
             {
-                if (kofiData.VerificationToken != config.Kofi?.WebhookToken)
+                var validTokens = config.Kofi?.WebhookToken ?? [];
+                if (!validTokens.Contains(kofiData.VerificationToken))
                 {
                     logger.LogWarning("Ko-fi donation received, but verification failed {MessageId}", kofiData.MessageId);
                     return BadRequest();
