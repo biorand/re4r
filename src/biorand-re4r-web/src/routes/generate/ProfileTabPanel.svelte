@@ -1,14 +1,12 @@
 <script lang="ts">
-    import { UserRole } from '$lib/api';
-    import { getUserManager } from '$lib/userManager';
+    import { getUserManager, hasUserTag } from '$lib/userManager';
     import type { ProfileViewModel } from '$lib/UserProfileManager';
     import { Input, Label, Textarea, Toggle } from 'flowbite-svelte';
 
     export let profile: ProfileViewModel;
 
     const userManager = getUserManager();
-    const userRole = userManager.info?.user.role || UserRole.Standard;
-    const canMakeOfficial = userRole == UserRole.Tester || userRole == UserRole.Administrator;
+    const canMakeOfficial = hasUserTag(userManager.info?.user, '$GAME:curator');
 </script>
 
 <div class="mb-3">

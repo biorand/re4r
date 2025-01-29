@@ -72,6 +72,7 @@ export interface UpdateUpdateRequest {
     name?: string;
     kofiEmail?: string;
     role?: UserRole;
+    tags?: string[];
     shareHistory?: boolean;
     twitchCode?: string;
     twitchRedirectUri?: string;
@@ -543,6 +544,13 @@ export function getGameId() {
         }
     }
     return 1;
+}
+
+export function getGameMoniker() {
+    const gameId = getGameId();
+    if (gameId == 2)
+        return "re2r";
+    return "re4r";
 }
 
 export function getApi() {

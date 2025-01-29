@@ -12,7 +12,7 @@
     export let maxlength: number | undefined = undefined;
     export let disabled = false;
     export let placeholder = '';
-    export let icon: ConstructorOfATypedSvelteComponent | undefined;
+    export let icon: ConstructorOfATypedSvelteComponent | undefined = undefined;
     export let help = '';
     export let data: FormInputData = {
         key: '',

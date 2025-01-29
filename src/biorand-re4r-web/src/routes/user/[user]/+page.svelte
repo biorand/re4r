@@ -5,7 +5,7 @@
     import { UserRole, getApi, getWebsiteTitle, type User } from '$lib/api';
     import PageBody from '$lib/typography/PageBody.svelte';
     import PageTitle from '$lib/typography/PageTitle.svelte';
-    import { getUserManager } from '$lib/userManager';
+    import { getUserManager, hasUserTag } from '$lib/userManager';
     import {
         Alert,
         Button,
@@ -20,6 +20,7 @@
         CloseCircleSolid,
         EnvelopeSolid,
         ExclamationCircleOutline,
+        TagSolid,
         UserSolid
     } from 'flowbite-svelte-icons';
     import FormInput from '../../auth/FormInput.svelte';
@@ -38,6 +39,10 @@
     };
     let nameData: FormInputData = {
         key: 'name',
+        value: ''
+    };
+    let tagsData: FormInputData = {
+        key: 'tags',
         value: ''
     };
     let kofiEmailData: FormInputData = {
@@ -71,17 +76,23 @@
         nameData = { ...nameData, value: user.name };
         kofiEmailData = { ...kofiEmailData, value: user.kofiEmail };
         role = user.role;
+        tagsData = { ...tagsData, value: user.tags?.join(',') || '' };
         shareHistory = user.shareHistory;
-        isKofiMember = !!user.tags?.find((x) => x == 're4r:patron/kofi');
-        isTwitchMember = !!user.tags?.find((x) => x == 're4r:patron/twitch');
-        isPatron = !!user.tags?.find((x) => x.startsWith('re4r:patron/'));
+        isKofiMember = hasUserTag(user, '$GAME:patron/kofi');
+        isTwitchMember = hasUserTag(user, '$GAME:patron/twitch');
+        isPatron = hasUserTag(user, '$GAME:patron');
         return user;
     })();
 
     async function onSubmit() {
         if (!user) return;
 
-        [emailData, nameData, kofiEmailData] = validateClear(emailData, nameData, kofiEmailData);
+        [emailData, nameData, tagsData, kofiEmailData] = validateClear(
+            emailData,
+            nameData,
+            tagsData,
+            kofiEmailData
+        );
         serverWait = true;
         try {
             const api = getApi();
@@ -90,14 +101,16 @@
                 name: nameData.value,
                 kofiEmail: kofiEmailData.value,
                 role,
+                tags: tagsData.value?.split(','),
                 shareHistory
             });
             if (result.success) {
             } else {
-                [emailData, nameData, kofiEmailData] = validateFormInputData(
+                [emailData, nameData, tagsData, kofiEmailData] = validateFormInputData(
                     result.validation,
                     emailData,
                     nameData,
+                    tagsData,
                     kofiEmailData
                 );
             }
@@ -126,7 +139,7 @@
     {#if user}
         <PageBody>
             <PageTitle>{user.name}</PageTitle>
-            <form on:submit={onSubmit}>
+            <form on:submit|preventDefault={onSubmit}>
                 <div class="mb-3">
                     <Label for="role" class="block mb-2">Profile Picture</Label>
                     <Alert border color="default">
@@ -188,8 +201,13 @@
                 </div>
                 {#if isAdmin}
                     <div class="max-w-5xl">
-                        <Label for="tags" class="block mb-2">Tags</Label>
-                        <Input class="mb-3 font-mono" name="tags" value={user.tags?.join(',')} />
+                        <FormInput
+                            id="tags"
+                            type="text"
+                            label="Tags"
+                            icon={TagSolid}
+                            data={tagsData}
+                        />
                     </div>
                 {/if}
                 <div>

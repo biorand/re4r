@@ -113,10 +113,13 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             profile.Name = body.Name;
             profile.Description = body.Description;
             profile.Public = body.Public;
-            if (authorizedUser.Role == UserRoleKind.Tester ||
-                authorizedUser.Role == UserRoleKind.Administrator)
+
+            if (profile.Official != body.Official)
             {
-                profile.Official = body.Official;
+                if (await IsCurator(authorizedUser, profile.GameId))
+                {
+                    profile.Official = body.Official;
+                }
             }
 
             var config = RandomizerConfiguration.FromDictionary(body.Config);
@@ -211,6 +214,20 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 profile.ConfigId,
                 Config = config
             };
+        }
+
+        private async Task<bool> IsCurator(UserDbModel user, int gameId)
+        {
+            if (user.Role == UserRoleKind.Administrator)
+                return true;
+
+            var game = await _db.GetGameByIdAsync(gameId);
+            var curatorTagName = $"{game.Moniker}:curator";
+            var tags = await _db.GetUserTagsForUser(user.Id);
+            if (tags.Any(x => x.Label == curatorTagName))
+                return true;
+
+            return false;
         }
 
         public class UpdateProfileRequest

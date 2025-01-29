@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.Server.Models;
@@ -164,6 +165,27 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 user.NameLowerCase = request.Name?.ToLowerInvariant() ?? user.NameLowerCase;
                 user.Email = request.Email?.ToLowerInvariant() ?? user.Email;
                 user.Role = request.Role ?? user.Role;
+
+                if (request.Tags != null)
+                {
+                    var utm = await UserTagModifier.CreateAsync(db, user, logger);
+
+                    var unknownTags = request.Tags.Where(x => !utm.IsValid(x)).ToArray();
+                    if (unknownTags.Length != 0)
+                    {
+                        return new
+                        {
+                            Success = false,
+                            Validation = new Dictionary<string, string>
+                            {
+                                ["tags"] = $"Unknown tag/s: {string.Join(",", unknownTags)}"
+                            }
+                        };
+                    }
+
+                    utm.Set(request.Tags);
+                    await utm.ApplyAsync();
+                }
             }
 
             if (request.KofiEmail != null)
@@ -300,6 +322,7 @@ The BioRand Team");
             public string? Email { get; set; }
             public string? Name { get; set; }
             public UserRoleKind? Role { get; set; }
+            public string[]? Tags { get; set; }
             public bool? ShareHistory { get; set; }
             public string? TwitchCode { get; set; }
             public string? TwitchRedirectUri { get; set; }
