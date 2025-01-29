@@ -26,7 +26,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Models
     public class KofiUserDbViewModel : KofiDbModel
     {
         public string UserName { get; set; } = "";
-        public int UserRole { get; set; }
         public string UserAvatarUrl { get; set; } = "";
     }
 

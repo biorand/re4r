@@ -71,29 +71,27 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
             if (processedId is int userId)
             {
-                if (authorizedUser.Role != UserRoleKind.Administrator && authorizedUser.Id != userId)
+                if (!authorizedUser.IsAdmin && authorizedUser.Id != userId)
                     return Unauthorized();
 
-                var user = await db.GetUserAsync(userId);
+                var user = await db.GetUserById(userId);
                 if (user == null)
                     return NotFound();
 
-                var tags = await db.GetUserTagsForUser(user.Id);
                 var twitchModel = twitchService.IsAvailable ? await twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1)) : null;
-                return userService.GetUser(user, tags, twitchModel);
+                return userService.GetUser(user, twitchModel);
             }
             else
             {
-                if (authorizedUser.Role != UserRoleKind.Administrator && !string.Equals(authorizedUser.NameLowerCase, (string)processedId, StringComparison.OrdinalIgnoreCase))
+                if (!authorizedUser.IsAdmin && !string.Equals(authorizedUser.NameLowerCase, (string)processedId, StringComparison.OrdinalIgnoreCase))
                     return Unauthorized();
 
-                var user = await db.GetUserAsync((string)processedId);
+                var user = await db.GetUserByName((string)processedId);
                 if (user == null)
                     return NotFound();
 
-                var tags = await db.GetUserTagsForUser(user.Id);
                 var twitchModel = twitchService.IsAvailable ? await twitchService.GetOrRefreshAsync(user.Id, TimeSpan.FromMinutes(1)) : null;
-                return userService.GetUser(user, tags, twitchModel);
+                return userService.GetUser(user, twitchModel);
             }
         }
 
@@ -104,11 +102,11 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (authorizedUser == null)
                 return Unauthorized();
 
-            var user = await db.GetUserAsync(id);
+            var user = await db.GetUserById(id);
             if (user == null)
                 return NotFound();
 
-            if (authorizedUser.Role != UserRoleKind.Administrator && user.Id != authorizedUser.Id)
+            if (!authorizedUser.IsAdmin && user.Id != authorizedUser.Id)
                 return Unauthorized();
 
             if (request.TwitchCode != null)
@@ -158,13 +156,11 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 }
             }
 
-            var oldRole = user.Role;
-            if (authorizedUser.Role == UserRoleKind.Administrator)
+            if (authorizedUser.IsAdmin)
             {
                 user.Name = request.Name ?? user.Name;
                 user.NameLowerCase = request.Name?.ToLowerInvariant() ?? user.NameLowerCase;
                 user.Email = request.Email?.ToLowerInvariant() ?? user.Email;
-                user.Role = request.Role ?? user.Role;
 
                 if (request.Tags != null)
                 {
@@ -215,12 +211,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             logger.LogInformation("User [{UserId}]{UserName} updated user {UserId}[{UserName}]",
                 authorizedUser.Id, authorizedUser.Name, user.Id, user.Name);
 
-            if (oldRole == UserRoleKind.PendingStandard &&
-                user.Role == UserRoleKind.Standard)
-            {
-                await SendAccessGrantedEmailAsync(user);
-            }
-
             return new
             {
                 Success = true
@@ -234,11 +224,11 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (authorizedUser == null)
                 return Unauthorized();
 
-            var user = await db.GetUserAsync(id);
+            var user = await db.GetUserById(id);
             if (user == null)
                 return NotFound();
 
-            if (user.Role != UserRoleKind.Administrator && user.Id != user.Id)
+            if (!user.IsAdmin && user.Id != user.Id)
                 return Unauthorized();
 
             if (user.KofiEmailVerification == null)
@@ -254,32 +244,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
             await SendKofiEmailVerification(user);
             return Empty;
-        }
-
-        [HttpPost("giveeveryoneaccess")]
-        public async Task<object> GiveAllUsersAccessAsync()
-        {
-            var authUser = await auth.GetAuthorizedUserAsync(UserRoleKind.Administrator);
-            if (authUser == null)
-                return Unauthorized();
-
-            var totalCount = 0;
-            var users = await db.GetUsersAsync();
-            foreach (var user in users.Results)
-            {
-                if (user.Role != UserRoleKind.PendingStandard)
-                    continue;
-
-                user.Role = UserRoleKind.Standard;
-                await db.UpdateUserAsync(user);
-                await SendAccessGrantedEmailAsync(user);
-                totalCount++;
-            }
-
-            return new
-            {
-                TotalUsersUpdated = totalCount
-            };
         }
 
         private async Task SendKofiEmailVerification(UserDbModel user)

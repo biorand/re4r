@@ -229,7 +229,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 Seed = x.Seed,
                 ConfigId = x.ConfigId,
                 Status = (int)x.Status,
-                UserRole = (int)x.UserRole,
                 UserName = x.UserName,
                 UserTags = x.UserTags?.Split(',') ?? [],
                 ProfileId = x.ProfileId,

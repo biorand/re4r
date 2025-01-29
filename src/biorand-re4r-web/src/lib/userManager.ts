@@ -87,13 +87,12 @@ export function getUserManager() {
     return userManager;
 }
 
-export function hasUserTag(user: User | undefined, tag: string) {
+export function containsUserTag(tags: string[], tag: string) {
     if (tag.indexOf("$GAME") != -1) {
         const gameMoniker = getGameMoniker();
         tag = tag.replace("$GAME", gameMoniker);
     }
 
-    const tags = user?.tags || [];
     const index = tags.findIndex(x => {
         if (x.startsWith(tag)) {
             if (x.length <= tag.length || x[x.length] == '/') {
@@ -103,4 +102,9 @@ export function hasUserTag(user: User | undefined, tag: string) {
         return false;
     });
     return index != -1;
+}
+
+export function hasUserTag(user: User | undefined, tag: string) {
+    const tags = user?.tags || [];
+    return containsUserTag(tags, tag);
 }

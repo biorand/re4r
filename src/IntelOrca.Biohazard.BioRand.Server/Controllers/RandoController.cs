@@ -78,9 +78,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (authorizedUser == null)
                 return Unauthorized();
 
-            var viewerUserId = authorizedUser.Role != UserRoleKind.Administrator
-                ? authorizedUser.Id
-                : (int?)null;
+            var viewerUserId = authorizedUser.IsAdmin ? (int?)null : authorizedUser.Id;
             int? filterUserId = null;
             if (user != null)
             {
@@ -96,16 +94,19 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
             if (sort == null)
             {
-                sort = "Created";
+                sort = "Id";
                 order = "desc";
             }
+
+            // HACK currently any other sort is too slow
+            sort = "Id";
 
             var itemsPerPage = 25;
             var randos = await db.GetRandosAsync(
                 game,
                 filterUserId,
                 viewerUserId,
-                SortOptions.FromQuery(sort, order, "Created"),
+                SortOptions.FromQuery(sort, order, "Id"),
                 LimitOptions.FromPage(page, itemsPerPage));
             return ResultListResult(page, itemsPerPage, randos, GetRando);
         }
@@ -116,8 +117,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             {
                 rando.Id,
                 rando.UserId,
-                rando.UserRole,
                 rando.UserName,
+                UserTags = rando.UserTags?.Split(',') ?? [],
                 UserAvatarUrl = GetAvatarUrl(rando.UserEmail ?? ""),
                 Created = rando.Created.ToUnixTimeSeconds(),
                 rando.Version,

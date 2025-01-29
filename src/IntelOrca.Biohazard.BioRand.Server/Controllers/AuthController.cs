@@ -154,27 +154,26 @@ The BioRand Team");
 
                             if (!await db.AdminUserExistsAsync())
                             {
-                                user.Role = UserRoleKind.Administrator;
-                                await db.UpdateUserAsync(user);
-                                logger.LogInformation("User {UserId}[{UserName}] role set to {Role}", user.Id, user.Name, user.Role);
+                                var utm = await UserTagModifier.CreateAsync(db, user, logger);
+                                utm.Add("admin");
+                                await utm.ApplyAsync();
                             }
 
-                            if (user.Role == UserRoleKind.Pending)
+                            if (user.Tags.Contains("pending"))
                             {
-                                user.Role = UserRoleKind.Standard;
-                                await db.UpdateUserAsync(user);
-                                logger.LogInformation("User {UserId}[{UserName}] role set to {Role}", user.Id, user.Name, user.Role);
+                                var utm = await UserTagModifier.CreateAsync(db, user, logger);
+                                utm.Remove("pending");
+                                await utm.ApplyAsync();
                             }
 
                             await db.UseTokenAsync(token.Token);
                             logger.LogInformation("Auth token verified for {UserId}[{UserName}]", user.Id, user.Name);
 
-                            var tags = await db.GetUserTagsForUser(user.Id);
                             return new
                             {
                                 Success = true,
                                 token.Token,
-                                User = userService.GetUser(user, tags)
+                                User = userService.GetUser(user)
                             };
                         }
                     }
@@ -202,7 +201,7 @@ The BioRand Team");
             if (token == null)
                 return Unauthorized();
 
-            var user = await db.GetUserAsync(token.UserId);
+            var user = await db.GetUserById(token.UserId);
 
             await db.DeleteTokenAsync(token.Id);
 

@@ -6,7 +6,6 @@
     import SortedTableHeader from '$lib/SortedTableHeader.svelte';
     import Timestamp from '$lib/Timestamp.svelte';
     import {
-        UserRole,
         getApi,
         getWebsiteTitle,
         type User,
@@ -16,15 +15,7 @@
     import { PageTitle } from '$lib/typography';
     import PageBody from '$lib/typography/PageBody.svelte';
     import { buildUrl, getLocation, tryParseInt } from '$lib/utility';
-    import {
-        Avatar,
-        Button,
-        TableBodyCell,
-        TableBodyRow,
-        TableHead,
-        Tooltip
-    } from 'flowbite-svelte';
-    import { CaretRightSolid } from 'flowbite-svelte-icons';
+    import { Avatar, TableBodyCell, TableBodyRow, TableHead } from 'flowbite-svelte';
     import { readable } from 'svelte/store';
 
     const queryParams = readable<UserQueryOptions>(undefined, (set) => {
@@ -66,38 +57,6 @@
     }
 
     let showingError: ErrorModalContent | undefined = undefined;
-
-    async function grantEarlyAccess(user: User) {
-        if (!searchResult) return;
-
-        try {
-            const api = getApi();
-            if (user.role == UserRole.Pending) {
-                await api.updateUser(user.id, {
-                    role: UserRole.PendingStandard
-                });
-            }
-            await api.updateUser(user.id, {
-                role: UserRole.Standard
-            });
-            searchResult = {
-                ...searchResult,
-                pageResults: searchResult.pageResults.map((x) => {
-                    if (x === user) {
-                        return { ...user, role: UserRole.Standard };
-                    } else {
-                        return x;
-                    }
-                })
-            };
-            data.items = searchResult.pageResults;
-        } catch (error) {
-            showingError = {
-                title: 'Grant Access Failed',
-                body: error instanceof Error ? error.message : ''
-            };
-        }
-    }
 </script>
 
 <svelte:head>
@@ -113,7 +72,6 @@
                 <SortedTableHeader>Email</SortedTableHeader>
                 <SortedTableHeader key="created">Joined</SortedTableHeader>
                 <SortedTableHeader key="role">Role</SortedTableHeader>
-                <SortedTableHeader></SortedTableHeader>
             </TableHead>
             <TableBodyRow class="text-base font-semibold">
                 <TableBodyCell tdClass="p-1">
@@ -130,17 +88,7 @@
                 </TableBodyCell>
                 <TableBodyCell tdClass="p-1">{user.email}</TableBodyCell>
                 <TableBodyCell tdClass="p-1"><Timestamp value={user.created} /></TableBodyCell>
-                <TableBodyCell tdClass="p-1"><RoleBadge role={user.role} /></TableBodyCell>
-                <TableBodyCell tdClass="p-1 flex justify-end">
-                    {#if user.role == UserRole.Pending || user.role == UserRole.PendingStandard}
-                        <Button
-                            on:click={() => grantEarlyAccess(user)}
-                            color="green"
-                            class="rounded-sm p-2"><CaretRightSolid class="w-3 h-3" /></Button
-                        >
-                        <Tooltip placement="bottom">Grant access</Tooltip>
-                    {/if}
-                </TableBodyCell>
+                <TableBodyCell tdClass="p-1"><RoleBadge {user} /></TableBodyCell>
             </TableBodyRow>
         </SortedTable>
         <BioRandResultPagination result={searchResult} {getPageUrl} />

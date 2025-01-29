@@ -43,7 +43,6 @@ export interface User {
     created: number;
     email: string;
     name: string;
-    role: UserRole;
     tags?: string[];
     avatarUrl: string;
     shareHistory: boolean;
@@ -71,7 +70,6 @@ export interface UpdateUpdateRequest {
     email?: string;
     name?: string;
     kofiEmail?: string;
-    role?: UserRole;
     tags?: string[];
     shareHistory?: boolean;
     twitchCode?: string;
@@ -81,18 +79,6 @@ export interface UpdateUpdateRequest {
 export interface UpdateUserResult {
     success: boolean;
     validation?: ValidationResult;
-}
-
-export enum UserRole {
-    Pending,
-    PendingStandard,
-    Banned,
-    Standard,
-    Tester,
-    Patron,
-    Administrator,
-    System,
-    LongTermSupporter,
 }
 
 export interface ProfileQueryOptions {
@@ -206,8 +192,8 @@ export interface RandoHistoryItem {
     id: number;
     created: number;
     userId: number;
-    userRole: UserRole;
     userName: string;
+    userTags: string[];
     userAvatarUrl: string;
     profileId: number;
     profileName: string;
@@ -228,7 +214,6 @@ export interface StatsResult {
 export interface LightUserInfo {
     id: number;
     name: string;
-    role: UserRole;
     avatarUrl: string;
 }
 

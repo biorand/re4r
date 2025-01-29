@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using SQLite;
 
 namespace IntelOrca.Biohazard.BioRand.Server.Models
@@ -20,9 +21,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Models
 
         [NotNull, Indexed]
         public string Email { get; set; } = "";
-
-        [NotNull]
-        public UserRoleKind Role { get; set; }
 
         [NotNull]
         public int Flags { get; set; }
@@ -62,5 +60,27 @@ namespace IntelOrca.Biohazard.BioRand.Server.Models
             else
                 Flags &= ~(1 << i);
         }
+    }
+
+    public class ExtendedUserDbModel : UserDbModel
+    {
+        private string[] _tags = [];
+
+        public string Tags
+        {
+            get => string.Join(",", _tags);
+            set
+            {
+                _tags = value.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            }
+        }
+
+        public bool ContainsTag(string label)
+        {
+            return _tags.Contains(label);
+        }
+
+        public bool IsAdmin => ContainsTag("admin");
+        public bool IsPending => ContainsTag("pending");
     }
 }

@@ -45,7 +45,6 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 {
                     Id = x.UserId,
                     Name = x.UserName,
-                    Role = x.UserRole,
                     AvatarUrl = x.UserAvatarUrl
                 }
             });

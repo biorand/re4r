@@ -90,7 +90,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (profile == null)
                 return NotFound();
 
-            if (profile.UserId != authorizedUser.Id && !profile.Public && authorizedUser.Role != UserRoleKind.Administrator)
+            if (profile.UserId != authorizedUser.Id && !profile.Public && !authorizedUser.IsAdmin)
                 return Forbid();
 
             return await GetProfileAsync(profile);
@@ -107,7 +107,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (profile == null)
                 return NotFound();
 
-            if (authorizedUser.Role != UserRoleKind.Administrator && profile.UserId != authorizedUser.Id)
+            if (!authorizedUser.IsAdmin && profile.UserId != authorizedUser.Id)
                 return Unauthorized();
 
             profile.Name = body.Name;
@@ -143,7 +143,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             if (profile == null)
                 return NotFound();
 
-            if (authorizedUser.Role != UserRoleKind.Administrator && profile.UserId != authorizedUser.Id)
+            if (!authorizedUser.IsAdmin && profile.UserId != authorizedUser.Id)
                 return Unauthorized();
 
             await _db.DeleteProfileAsync(id);
@@ -216,18 +216,14 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             };
         }
 
-        private async Task<bool> IsCurator(UserDbModel user, int gameId)
+        private async Task<bool> IsCurator(ExtendedUserDbModel user, int gameId)
         {
-            if (user.Role == UserRoleKind.Administrator)
+            if (user.IsAdmin)
                 return true;
 
             var game = await _db.GetGameByIdAsync(gameId);
             var curatorTagName = $"{game.Moniker}:curator";
-            var tags = await _db.GetUserTagsForUser(user.Id);
-            if (tags.Any(x => x.Label == curatorTagName))
-                return true;
-
-            return false;
+            return user.ContainsTag(curatorTagName);
         }
 
         public class UpdateProfileRequest
