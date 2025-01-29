@@ -746,7 +746,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         public Task UpdateUserAsync(UserDbModel user)
         {
-            return _conn.UpdateAsync(user);
+            return _conn.UpdateAsync(user, typeof(UserDbModel));
         }
 
         public Task<UserDbModel> GetUserAsync(string name)
