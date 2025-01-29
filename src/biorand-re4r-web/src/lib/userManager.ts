@@ -1,4 +1,4 @@
-import { getApi, type UserAuthInfo } from "./api";
+import { getApi, getGameMoniker, type User, type UserAuthInfo } from "./api";
 import { LocalStorageKeys, getLocalStorageManager } from "./localStorage";
 
 class Notifier<T extends (...args: any[]) => void> {
@@ -85,4 +85,22 @@ export function getUserManager() {
         userManager = new UserManager();
     }
     return userManager;
+}
+
+export function hasUserTag(user: User | undefined, tag: string) {
+    if (tag.indexOf("$GAME") != -1) {
+        const gameMoniker = getGameMoniker();
+        tag = tag.replace("$GAME", gameMoniker);
+    }
+
+    const tags = user?.tags || [];
+    const index = tags.findIndex(x => {
+        if (x.startsWith(tag)) {
+            if (x.length <= tag.length || x[x.length] == '/') {
+                return true;
+            }
+        }
+        return false;
+    });
+    return index != -1;
 }
