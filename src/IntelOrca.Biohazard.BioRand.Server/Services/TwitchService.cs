@@ -70,7 +70,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         public async Task<bool> IsSubscribed(int userId, string broadcasterId)
         {
-            var twitchModel = await GetOrRefreshAsync(userId, null);
+            var twitchModel = await GetOrRefreshAsync(userId, TimeSpan.FromMinutes(1));
             if (twitchModel == null)
                 return false;
 
