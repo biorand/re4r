@@ -125,16 +125,20 @@
             <h2 class="text-2xl">Your randomizer is ready!</h2>
             <h3 class="mb-3">Download the appropriate file and enjoy!</h3>
             <div class="flex flex-wrap gap-3">
-                {#each generateResult.assets as asset}
-                    <DownloadCard
-                        title={asset.title}
-                        description={asset.description}
-                        href={asset.downloadUrl}
-                    />
-                {/each}
+                {#if generateResult.assets}
+                    {#each generateResult.assets as asset}
+                        <DownloadCard
+                            title={asset.title}
+                            description={asset.description}
+                            href={asset.downloadUrl}
+                        />
+                    {/each}
+                {/if}
             </div>
             <div>
-                {@html generateResult.instructions}
+                {#if generateResult.instructions}
+                    {@html generateResult.instructions}
+                {/if}
             </div>
         </div>
     {:else if generateProcessMessage}
