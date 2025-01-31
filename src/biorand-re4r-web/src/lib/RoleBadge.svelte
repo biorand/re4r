@@ -26,6 +26,7 @@
             if (hasUserTag(user, role[0])) {
                 roleName = role[1];
                 roleColor = role[2];
+                break;
             }
         }
     }
