@@ -67,12 +67,11 @@ namespace IntelOrca.Biohazard.BioRand.Server
     {
         public string ClientId { get; set; } = "";
         public string ClientSecret { get; set; } = "";
-        public string SubscriberId { get; set; } = "";
     }
 
     public class KofiConfig
     {
-        public Guid[] WebhookToken { get; set; }
+        public Guid[] WebhookToken { get; set; } = [];
     }
 
     public class GeneratorConfig
