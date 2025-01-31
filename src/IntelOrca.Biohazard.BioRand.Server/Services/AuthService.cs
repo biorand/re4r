@@ -124,7 +124,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 }
 
                 var kofiLabel = $"{g.Moniker}:patron/kofi";
-                if (kofis.Any(x => x.Timestamp >= dt))
+                if (relevantKofis.Any(x => x.Timestamp >= dt))
                 {
                     utm.Add(kofiLabel);
                 }
