@@ -95,7 +95,7 @@ export function containsUserTag(tags: string[], tag: string) {
 
     const index = tags.findIndex(x => {
         if (x.startsWith(tag)) {
-            if (x.length <= tag.length || x[x.length] == '/') {
+            if (tag.length <= tag.length || tag[x.length] == '/') {
                 return true;
             }
         }
