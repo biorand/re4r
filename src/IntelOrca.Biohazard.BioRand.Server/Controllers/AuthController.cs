@@ -152,12 +152,12 @@ The BioRand Team");
                         {
                             logger.LogInformation("User {UserId}[{UserName}] signed in successfully", user.Id, user.Name);
 
-                            // if (!await db.AdminUserExistsAsync())
-                            // {
-                            //     var utm = await UserTagModifier.CreateAsync(db, user, logger);
-                            //     utm.Add("admin");
-                            //     await utm.ApplyAsync();
-                            // }
+                            if (!await db.AdminUserExistsAsync())
+                            {
+                                var utm = await UserTagModifier.CreateAsync(db, user, logger);
+                                utm.Add("admin");
+                                await utm.ApplyAsync();
+                            }
 
                             if (user.Tags.Contains("pending"))
                             {

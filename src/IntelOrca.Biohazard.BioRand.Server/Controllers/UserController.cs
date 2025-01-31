@@ -166,7 +166,10 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 {
                     var utm = await UserTagModifier.CreateAsync(db, user, logger);
 
-                    var unknownTags = request.Tags.Where(x => !utm.IsValid(x)).ToArray();
+                    var tags = request.Tags.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                    var unknownTags = tags
+                        .Where(x => !utm.IsValid(x))
+                        .ToArray();
                     if (unknownTags.Length != 0)
                     {
                         return new
@@ -179,7 +182,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                         };
                     }
 
-                    utm.Set(request.Tags);
+                    utm.Set(tags);
                     await utm.ApplyAsync();
                 }
             }

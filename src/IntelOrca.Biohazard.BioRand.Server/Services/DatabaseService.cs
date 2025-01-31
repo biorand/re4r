@@ -401,7 +401,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             var q = @"
                 SELECT * FROM usertag AS t
                 INNER JOIN user_usertag AS ut ON ut.UserTagId = t.Id
-                WHERE ut.UserId = 2";
+                WHERE ut.UserId = ?";
             var result = await _conn.QueryAsync<UserTagDbModel>(q, userId);
             return [.. result];
         }
