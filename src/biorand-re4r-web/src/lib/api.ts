@@ -285,6 +285,20 @@ export interface HomeStatsResult {
     totalUsers: MonthlyResult[]
 };
 
+export interface InfoResult {
+    generators: RandoGenerator[];
+    totalRandoMemory: number;
+    generatedRandos: Rando[];
+}
+
+export interface RandoGenerator {
+    id: number;
+    gameId: number;
+    status: string;
+    registerTime: number;
+    lastHeartbeatTime: number;
+}
+
 export class BioRandApiError extends Error {
     statusCode: number;
 
@@ -439,6 +453,10 @@ export class BioRandApi {
         return await this.get<HomeStatsResult>("home/stats", {
             gameId
         });
+    }
+
+    async getInfo() {
+        return await this.get<InfoResult>("info");
     }
 
     private async get<T>(query: string, body?: any) {

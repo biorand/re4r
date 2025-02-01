@@ -74,6 +74,7 @@
                 <a class="block text-sm" href="/user/{currentUser.name}">{currentUser.name}</a>
             </DropdownHeader>
             {#if isAdmin}
+                <DropdownItem href="/admin/dashboard">Dashboard</DropdownItem>
                 <DropdownItem href="/admin/token">Tokens</DropdownItem>
                 <DropdownItem href="/admin/patron">Patron</DropdownItem>
                 <DropdownDivider />
