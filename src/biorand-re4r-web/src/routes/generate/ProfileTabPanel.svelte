@@ -1,12 +1,26 @@
 <script lang="ts">
+    import { getGameMoniker } from '$lib/api';
     import { getUserManager, hasUserTag } from '$lib/userManager';
     import type { ProfileViewModel } from '$lib/UserProfileManager';
-    import { Input, Label, Textarea, Toggle } from 'flowbite-svelte';
+    import { Button, Hr, Input, Label, Textarea, Toggle } from 'flowbite-svelte';
 
     export let profile: ProfileViewModel;
 
     const userManager = getUserManager();
     const canMakeOfficial = hasUserTag(userManager.info?.user, '$GAME:curator');
+
+    let profileExportUri = '';
+    $: {
+        const profileExport = JSON.stringify({
+            game: getGameMoniker(),
+            name: profile.name,
+            description: profile.description,
+            config: profile.config
+        });
+        profileExportUri = URL.createObjectURL(
+            new Blob([profileExport], { type: 'application/json' })
+        );
+    }
 </script>
 
 <div class="mb-3">
@@ -39,3 +53,5 @@
 {/if}
 <div class="mb-3">Bookmarks: {profile.starCount}</div>
 <div class="mb-3">Randomizers seeds: {profile.seedCount}</div>
+<Hr />
+<Button href={profileExportUri} download="profile.json">Export Profile</Button>

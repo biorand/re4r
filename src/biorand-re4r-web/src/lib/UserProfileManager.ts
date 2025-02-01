@@ -154,6 +154,26 @@ export class UserProfileManager {
         this.saveStorage();
     }
 
+    importProfile(profile: any) {
+        this.loadProfile(<ProfileViewModel>{
+            id: 0,
+            name: profile.name,
+            description: profile.description,
+            config: profile.config,
+            userId: this.userId,
+            userName: this.userName,
+            public: false,
+            official: false,
+            seedCount: 0,
+            starCount: 0,
+            category: 'Personal',
+            originalId: 0,
+            isOwner: true,
+            isSelected: true,
+            isModified: true
+        });
+    }
+
     private toProfileViewModel(profile: Profile) {
         const category = this.getCategory(profile);
         const result = <ProfileViewModel>{
