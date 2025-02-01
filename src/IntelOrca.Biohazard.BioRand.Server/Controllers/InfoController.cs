@@ -10,7 +10,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
     [Route("info")]
     public class InfoController(
         AuthService auth,
-        GeneratorService generatorService) : ControllerBase
+        GeneratorService generatorService,
+        DatabaseService db) : ControllerBase
     {
         [HttpGet]
         public async Task<object> GetAsync()
@@ -20,17 +21,19 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
 
             var generators = await generatorService.GetAllAsync();
             var generatedRandos = await generatorService.GetGeneratedResultsAsync();
+            var games = await db.GetGamesAsync();
             return new
             {
                 generators = generators.Select(x => new
                 {
                     x.Id,
                     x.GameId,
+                    GameMoniker = games.FirstOrDefault(y => y.Id == x.GameId)?.Moniker ?? null,
                     x.Status,
                     RegisterTime = x.RegisterTime.ToUnixTimeSeconds(),
                     LastHeartbeatTime = x.LastHeartbeatTime.ToUnixTimeSeconds()
                 }),
-                totalRandoMemory = generatedRandos.Sum(x => x.Assets.Sum(y => y.Data.Length)),
+                totalRandoMemory = generatedRandos.Sum(x => x.Assets.Sum(y => (long)y.Data.Length)),
                 generatedRandos = generatedRandos.Select(x => new
                 {
                     x.RandoId,
