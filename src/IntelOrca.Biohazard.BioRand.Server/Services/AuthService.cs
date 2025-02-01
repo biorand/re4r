@@ -120,7 +120,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
                 var totalDonated = kofis.Sum(x => x.Price);
                 if (totalDonated >= 15)
                 {
-                    utm.Add("patron/long");
+                    utm.Add($"{g.Moniker}:patron/long");
                 }
 
                 var kofiLabel = $"{g.Moniker}:patron/kofi";
