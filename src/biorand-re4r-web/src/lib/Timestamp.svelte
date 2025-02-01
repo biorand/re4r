@@ -6,6 +6,10 @@
     $: dateFriendly = date.toLocaleString();
     $: timeAgo = getTimeAgo(value);
 
+    setInterval(() => {
+        timeAgo = getTimeAgo(value);
+    }, 30000);
+
     function toLocaleDate(t: number) {
         return new Date(t * 1000);
     }
