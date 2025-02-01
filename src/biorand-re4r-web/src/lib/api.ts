@@ -190,6 +190,8 @@ export type RandoHistoryResult = QueryResult<RandoHistoryItem>;
 
 export interface RandoHistoryItem {
     id: number;
+    gameId: number;
+    gameMoniker: string;
     created: number;
     userId: number;
     userName: string;
@@ -294,6 +296,7 @@ export interface InfoResult {
 export interface RandoGenerator {
     id: number;
     gameId: number;
+    gameMoniker: string;
     status: string;
     registerTime: number;
     lastHeartbeatTime: number;

@@ -649,19 +649,21 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
         {
             var q = BuildQuery<ExtendedRandoDbModel>(@"
                 SELECT r.*,
-                       u.Name as UserName,
-                       u.Email as UserEmail,
+                       g.Moniker AS GameMoniker,
+                       u.Name AS UserName,
+                       u.Email AS UserEmail,
                        COALESCE(GROUP_CONCAT(ut.Label, ','), '') AS UserTags,
-                       p.Id as ProfileId,
-                       p.Name as ProfileName,
-                       pu.Id as ProfileUserId,
-                       pu.Name as ProfileUserName,
-                       c.Data as Config
-                FROM rando as r
-                LEFT JOIN user as u ON r.UserId = u.Id
-                LEFT JOIN randoconfig as c ON r.ConfigId = c.Id
-                LEFT JOIN profile as p ON c.BasedOnProfileId = p.Id
-                LEFT JOIN user as pu ON p.UserId = pu.Id
+                       p.Id AS ProfileId,
+                       p.Name AS ProfileName,
+                       pu.Id AS ProfileUserId,
+                       pu.Name AS ProfileUserName,
+                       c.Data AS Config
+                FROM rando AS r
+                LEFT JOIN game AS g ON g.Id = r.GameId
+                LEFT JOIN user AS u ON r.UserId = u.Id
+                LEFT JOIN randoconfig AS c ON r.ConfigId = c.Id
+                LEFT JOIN profile AS p ON c.BasedOnProfileId = p.Id
+                LEFT JOIN user AS pu ON p.UserId = pu.Id
                 LEFT JOIN user_usertag AS uut ON r.UserId = uut.UserId
                 LEFT JOIN usertag AS ut ON ut.Id = uut.UserTagId");
             q.WhereIf("r.GameId = ?", filterGameId);
@@ -672,7 +674,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
             }
             q.Append("GROUP BY r.Id");
 
-            q.SetCountQuery("SELECT COUNT(*) FROM rando as r");
+            q.SetCountQuery("SELECT COUNT(*) FROM rando AS r");
 
             return q.ExecuteLimitedAsync(sortOptions, limitOptions);
         }
@@ -980,6 +982,7 @@ namespace IntelOrca.Biohazard.BioRand.Server.Services
 
         public class ExtendedRandoDbModel : RandoDbModel
         {
+            public string? GameMoniker { get; set; }
             public string? UserName { get; set; }
             public string? UserEmail { get; set; }
             public string? UserTags { get; set; }

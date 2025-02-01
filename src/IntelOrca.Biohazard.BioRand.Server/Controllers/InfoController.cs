@@ -36,11 +36,12 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
                 totalRandoMemory = generatedRandos.Sum(x => x.Assets.Sum(y => (long)y.Data.Length)),
                 generatedRandos = generatedRandos.Select(x => new
                 {
-                    x.RandoId,
+                    Id = x.RandoId,
                     x.Seed,
                     x.Status,
                     StartTime = x.StartTime.ToUnixTimeSeconds(),
                     FinishTime = x.FinishTime.ToUnixTimeSeconds(),
+                    x.FailReason,
                     Assets = x.Assets.Select(y => new
                     {
                         y.Key,

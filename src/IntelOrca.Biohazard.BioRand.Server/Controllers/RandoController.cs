@@ -116,6 +116,8 @@ namespace IntelOrca.Biohazard.BioRand.Server.Controllers
             return new
             {
                 rando.Id,
+                rando.GameId,
+                rando.GameMoniker,
                 rando.UserId,
                 rando.UserName,
                 UserTags = rando.UserTags?.Split(',') ?? [],
