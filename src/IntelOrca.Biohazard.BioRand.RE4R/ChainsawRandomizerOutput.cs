@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using REE;
+using IntelOrca.Biohazard.REE.Package;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -40,7 +40,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var zipFile = BuildZipFile();
             foreach (var entry in PakFile.Entries)
             {
-                zipFile.AddEntry(entry.Key, entry.Value);
+                zipFile.AddEntry(entry.Key, (byte[])entry.Value);
             }
             _modFile = zipFile
                 .AddEntry("pic.jpg", EmbeddedData.GetFile("modimage.jpg"))

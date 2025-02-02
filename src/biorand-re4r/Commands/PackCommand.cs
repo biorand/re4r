@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using REE;
+using IntelOrca.Biohazard.REE.Package;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
@@ -57,7 +57,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                     AnsiConsole.WriteLine(relativePath);
                 }
             }
-            builder.Save(settings.OutputPath!, PakFlags.ZSTD);
+            builder.Save(settings.OutputPath!, CompressionKind.Zstd);
             return 0;
         }
     }

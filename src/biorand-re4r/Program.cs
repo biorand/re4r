@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using IntelOrca.Biohazard.BioRand.RE4R.Commands;
-using REE;
+using IntelOrca.Biohazard.REE.Package;
 using Spectre.Console.Cli;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -100,7 +100,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 }
             }
             var s = sb.ToString();
-            newPak.Save(@"G:\re4r\extract\custom.pak", PakFlags.ZSTD);
+            newPak.Save(@"G:\re4r\extract\custom.pak", CompressionKind.Zstd);
             return 0;
         }
 

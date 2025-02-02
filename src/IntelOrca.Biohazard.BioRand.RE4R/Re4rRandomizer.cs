@@ -2,7 +2,7 @@
 using System.Text;
 using System.Threading;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using REE;
+using IntelOrca.Biohazard.REE.Package;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R

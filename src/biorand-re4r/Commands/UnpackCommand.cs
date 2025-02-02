@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using REE;
+using IntelOrca.Biohazard.REE.Package;
 using Spectre.Console;
 using Spectre.Console.Cli;
 

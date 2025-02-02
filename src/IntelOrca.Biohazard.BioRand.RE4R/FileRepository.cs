@@ -2,8 +2,8 @@
 using System.Collections.Concurrent;
 using System.IO;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.REE.Package;
 using Namsku.REE.Messages;
-using REE;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -69,7 +69,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 builder.AddEntry(outputFile.Key, outputFile.Value);
             }
-            builder.Save(path, REE.PakFlags.ZSTD);
+            builder.Save(path, CompressionKind.Zstd);
         }
 
         public ScnFile GetScnFile(string path)
