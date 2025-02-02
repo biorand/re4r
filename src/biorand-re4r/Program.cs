@@ -21,9 +21,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 config.AddCommand<AgentCommand>("agent")
                     .WithDescription("Runs a remote generator agent for generating randos")
                     .WithExample("agent", "localhost:8080", "-k", "nCF6UaetQJJ053QLwhXqUGR68U85Rcia", "-i", "input.pak");
-                config.AddCommand<WebServerCommand>("web-server")
-                    .WithDescription("Runs a local web server for generating randos")
-                    .WithExample("web-server", "-p", "8080");
                 config.AddCommand<GenerateCommand>("generate")
                     .WithDescription("Generates a new rando")
                     .WithExample("generate", "-o", "re_chunk_000.pak.patch_004.pak", "--seed", "35825", "--config", "tough.json");

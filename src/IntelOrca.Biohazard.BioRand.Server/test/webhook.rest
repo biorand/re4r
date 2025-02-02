@@ -1,6 +1,0 @@
-@HostAddress = http://localhost:10285
-
-POST http://localhost:10285/webhook/kofi HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-
-data=%7B%22verification_token%22%3A%22b58f800d-2900-4eba-b63a-077ada5cbcc0%22%2C%22message_id%22%3A%22d2422182-eaf2-423c-8d20-7706bc817999%22%2C%22timestamp%22%3A%222024-06-01T16%3A32%3A21Z%22%2C%22type%22%3A%22Donation%22%2C%22is_public%22%3Atrue%2C%22from_name%22%3A%22Jo%20Example%22%2C%22message%22%3A%22Good%20luck%20with%20the%20integration!%22%2C%22amount%22%3A%223.00%22%2C%22url%22%3A%22https%3A%2F%2Fko-fi.com%2FHome%2FCoffeeShop%3Ftxid%3D00000000-1111-2222-3333-444444444444%22%2C%22email%22%3A%22jo.example%40example.com%22%2C%22currency%22%3A%22USD%22%2C%22is_subscription_payment%22%3Afalse%2C%22is_first_subscription_payment%22%3Afalse%2C%22kofi_transaction_id%22%3A%2200000000-1111-2222-3333-444444444444%22%2C%22shop_items%22%3Anull%2C%22tier_name%22%3Anull%2C%22shipping%22%3Anull%7D
