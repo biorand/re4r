@@ -699,6 +699,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     var minHealth = randomizer.GetConfigOption<int>($"boss-health-min-{boss.Key}");
                     var maxHealth = randomizer.GetConfigOption<int>($"boss-health-max-{boss.Key}");
+
+                    if (boss.Key == "krauser-1")
+                    {
+                        // Krauser seems to have unlimited HP if too low
+                        minHealth = Math.Max(minHealth, 10);
+                    }
+
                     minHealth = Math.Clamp(minHealth, 1, 1_000_000);
                     maxHealth = Math.Clamp(maxHealth, minHealth, 1_000_000);
                     enemy.Health = rng.Next(minHealth, maxHealth + 1);
