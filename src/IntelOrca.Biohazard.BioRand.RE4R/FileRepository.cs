@@ -8,7 +8,7 @@ using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal class FileRepository
+    internal class FileRepository : IDisposable
     {
         private readonly PatchedPakFile? _inputPakFile;
         private readonly string? _inputGamePath;
@@ -33,6 +33,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 _inputGamePath = inputGamePath;
             }
+        }
+
+        public void Dispose()
+        {
+            _inputPakFile?.Dispose();
         }
 
         public bool Exists(string path) => GetGameFileData(path) != null;

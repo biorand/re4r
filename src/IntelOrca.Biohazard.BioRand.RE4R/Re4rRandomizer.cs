@@ -22,7 +22,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
             try
             {
-                var randomizer = ChainsawRandomizerFactory.Default.Create();
+                using var randomizer = ChainsawRandomizerFactory.Default.Create();
                 return randomizer.Randomize(input);
             }
             finally

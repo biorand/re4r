@@ -12,7 +12,7 @@ using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal class ChainsawRandomizer
+    internal class ChainsawRandomizer : IDisposable
     {
         private FileRepository _fileRepository = new FileRepository();
         private RandomizerInput _input = new RandomizerInput();
@@ -34,6 +34,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public ChainsawRandomizer(EnemyClassFactory enemyClassFactory)
         {
             EnemyClassFactory = enemyClassFactory;
+        }
+
+        public void Dispose()
+        {
+            _fileRepository?.Dispose();
         }
 
         public RandomizerOutput Randomize(RandomizerInput input)
