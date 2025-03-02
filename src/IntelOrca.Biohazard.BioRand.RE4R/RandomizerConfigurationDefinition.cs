@@ -12,8 +12,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var page = configDefinition.CreatePage("General");
             var group = page.CreateGroup("");
-            group.Warning = "Separate Ways is currently in early access and restricted to patrons. " +
-                "If you have a 'Standard' badge next to your name, you can gain access by supporting the developers via Ko-Fi or Twitch. For more information, view your account page.";
             group.Items.Add(new GroupItem()
             {
                 Id = $"separate-ways",
