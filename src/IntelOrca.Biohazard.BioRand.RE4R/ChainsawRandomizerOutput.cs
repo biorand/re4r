@@ -27,7 +27,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 return _zipFile;
 
             _zipFile = BuildZipFile()
-                .AddEntry($"re_chunk_000.pak.patch_004.pak", PakFile.ToByteArray())
+                .AddEntry($"re_chunk_000.pak.patch_005.pak", PakFile.ToByteArray())
                 .Build();
             return _zipFile;
         }
