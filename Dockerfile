@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 WORKDIR /w
 COPY . /w
 RUN dotnet publish src/biorand-re4r -c release -o /out -p:PublishSingleFile=true
