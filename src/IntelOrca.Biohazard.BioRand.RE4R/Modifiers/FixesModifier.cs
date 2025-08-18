@@ -4,7 +4,7 @@ using System.Linq;
 using System.Numerics;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
-using Namsku.REE.Messages;
+using IntelOrca.Biohazard.REE.Messages;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -648,13 +648,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             msg.SetStringAll(new Guid("fcac600e-8386-4221-906c-004c37c7f2b2"), "Soup Trooper Egg");
             msg.SetStringAll(new Guid("0588065f-4b31-40ca-8ff0-3789a1e23e8f"), "Soup Stirrer Egg");
             msg.SetStringAll(new Guid("9a941943-186f-4050-9e28-71bce241be54"), "Bawkbasoup Egg");
-            fileRepository.SetMsgFile(itemNamePath, msg.ToMsg());
+            fileRepository.SetMsgFile(itemNamePath, msg.Build());
 
             msg = fileRepository.GetMsgFile(itemDescPath).ToBuilder();
             msg.SetStringAll(new Guid("7c4d5ec3-76ab-4e1c-a4aa-5dd704b252da"), "A Soup Trooper egg. Can be used to restore a sloppy amount of health.");
             msg.SetStringAll(new Guid("6c76bdbf-d110-4faa-8a0a-fc2a4d098ea0"), "A Soup Stirrer egg. Can be used to avoid 1998.");
             msg.SetStringAll(new Guid("8adebd37-0254-4889-9706-c150e06e3603"), "A highly valued Bawkbasoup egg. Can be used to restore a poggers amount of health.");
-            fileRepository.SetMsgFile(itemDescPath, msg.ToMsg());
+            fileRepository.SetMsgFile(itemDescPath, msg.Build());
         }
 
         private void FixCharmDescriptions(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -679,16 +679,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 var effect = status._Effects[0];
                 var effectMsgName = $"CH_Mes_Main_StatusEffectID_{effect._StatusEffectID:00_000_000_0}";
-                var effectMsg = statusMsg.GetString(effectMsgName, LanguageId.English) ?? "(no string)";
+                var effectMsg = statusMsgBuilder.FindMessage(effectMsgName)?[LanguageId.English] ?? "(no string)";
                 var formattedMsg = string.Format(effectMsg, effect._Value);
                 itemMsg.SetStringAll(item._CaptionMsgId, formattedMsg);
-                if (statusMsgBuilder.Entries.Any(x => x.Name == effectMsgName))
+                if (statusMsgBuilder.Messages.Any(x => x.Name == effectMsgName))
                 {
                     statusMsgBuilder.SetStringAll(effectMsgName, formattedMsg);
                 }
             }
-            fileRepository.SetMsgFile(itemMsgPath, itemMsg.ToMsg());
-            fileRepository.SetMsgFile(statusMsgPath, statusMsgBuilder.ToMsg());
+            fileRepository.SetMsgFile(itemMsgPath, itemMsg.Build());
+            fileRepository.SetMsgFile(statusMsgPath, statusMsgBuilder.Build());
         }
 
         private void FixNovisNavigation(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -760,8 +760,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             fileRepository.SerializeUserFile(itemMessagePath, itemMessage);
-            fileRepository.SetMsgFile(itemCaptionPath, itemCaption.ToMsg());
-            fileRepository.SetMsgFile(itemNamePath, itemName.ToMsg());
+            fileRepository.SetMsgFile(itemCaptionPath, itemCaption.Build());
+            fileRepository.SetMsgFile(itemNamePath, itemName.Build());
         }
 
         private void FixEnemyHp(ChainsawRandomizer randomizer, Rng rng, RandomizerLogger logger)

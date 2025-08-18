@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using Namsku.REE.Messages;
+using IntelOrca.Biohazard.REE.Messages;
 using static IntelOrca.Biohazard.BioRand.RE4R.Modifiers.WeaponModifier;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -124,8 +124,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             randomizer.FileRepository.SetUserFile(GetMainPath(randomizer), mainFile);
             randomizer.FileRepository.SetUserFile(GetDetailPath(randomizer), detailFile);
-            randomizer.FileRepository.SetMsgFile(WeaponCustomMsgPath, wpMsg.ToMsg());
-            randomizer.FileRepository.SetMsgFile(ShopMsgPath, shopMsg.ToMsg());
+            randomizer.FileRepository.SetMsgFile(WeaponCustomMsgPath, wpMsg.Build());
+            randomizer.FileRepository.SetMsgFile(ShopMsgPath, shopMsg.Build());
 
             UpdateBaseStats(randomizer);
             UpdateUnlocks(randomizer, weaponStatCollection);

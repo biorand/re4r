@@ -2,8 +2,8 @@
 using System.Collections.Concurrent;
 using System.IO;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.REE.Messages;
 using IntelOrca.Biohazard.REE.Package;
-using Namsku.REE.Messages;
 using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -61,6 +61,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 return null;
             }
         }
+
+        public void SetGameFileData(string path, ReadOnlyMemory<byte> data) => SetGameFileData(path, data.ToArray());
 
         public void SetGameFileData(string path, byte[] data)
         {
@@ -134,12 +136,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             SetUserFile(path, userFile);
         }
 
-        public Msg GetMsgFile(string path)
+        public MsgFile GetMsgFile(string path)
         {
-            return new Msg(GetGameFileData(path));
+            return new MsgFile(GetGameFileData(path));
         }
 
-        public void SetMsgFile(string path, Msg msg)
+        public void SetMsgFile(string path, MsgFile msg)
         {
             SetGameFileData(path, msg.Data.ToArray());
         }

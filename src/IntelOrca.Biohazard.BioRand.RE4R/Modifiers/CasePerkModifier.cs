@@ -107,7 +107,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var sv = false;
                 foreach (var kvp in msgDict)
                 {
-                    var entry = msg.Entries.FirstOrDefault(x => x.Guid == kvp.Key);
+                    var entry = msg.FindMessage(kvp.Key);
                     if (entry != null)
                     {
                         msg.SetStringAll(kvp.Key, kvp.Value);
@@ -116,7 +116,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
                 if (sv)
                 {
-                    randomizer.FileRepository.SetMsgFile(msgPath, msg.ToMsg());
+                    randomizer.FileRepository.SetMsgFile(msgPath, msg.Build());
                 }
             }
         }
