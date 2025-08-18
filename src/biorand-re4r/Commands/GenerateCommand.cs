@@ -61,15 +61,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
             // Find pak file
             var pakFile = GetPakFile(output.Assets.First(x => x.Key == "1-patch").Data);
+            var zipFile = output.Assets.First(x => x.Key == "2-fluffy").Data;
+
             var outputPath = settings.OutputPath!;
             if (outputPath.EndsWith(".pak"))
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
                 pakFile.WriteToFile(outputPath);
             }
+            else if (outputPath.EndsWith(".zip"))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
+                zipFile.WriteToFile(outputPath);
+            }
             else
             {
-                using var zip = new ZipArchive(new MemoryStream(output.Assets.First(x => x.Key == "2-fluffy").Data));
+                using var zip = new ZipArchive(new MemoryStream(zipFile));
                 foreach (var entry in zip.Entries)
                 {
                     if (!entry.FullName.StartsWith("natives/", StringComparison.OrdinalIgnoreCase))

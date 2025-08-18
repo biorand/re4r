@@ -2,20 +2,26 @@
   "profiles": {
     "generate": {
       "commandName": "Project",
-      "commandLineArgs": "generate -s 357436 -i G:\\re4r\\extract\\custom.pak -c \"C:\\Users\\Ted\\.biorand\\default.json\" -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\"",
+      "commandLineArgs": "generate -s 357436 -i ..\\biorand-re4r.pak -c \"C:\\Users\\Ted\\.biorand\\default.json\" -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\"",
       "workingDirectory": "C:\\Users\\Ted\\.biorand\\logs"
+    },
+    "generate-pak": {
+      "commandName": "Project",
+      "commandLineArgs": "generate -s 357436 -i ..\\biorand-re4r.pak -c ..\\default.json -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\\re_chunk_000.pak.patch_005.pak\"",
+      "workingDirectory": "C:\\Users\\Ted\\.biorand\\logs"
+    },
+    "generate-fluffy": {
+      "commandName": "Project",
+      "commandLineArgs": "generate -s 357436 -i ..\\biorand-re4r.pak -c ..\\default.json -o F:\\games\\re4r\\fluffy\\Games\\RE4R\\Mods\\biorand.zip",
+      "workingDirectory": "C:\\Users\\Ted\\.biorand\\logs"
+    },
+    "setup": {
+      "commandName": "Project",
+      "commandLineArgs": "setup -o C:\\Users\\Ted\\.biorand\\biorand-re4r.pak -i G:\\re4r\\vanilla"
     },
     "agent": {
       "commandName": "Project",
       "commandLineArgs": "agent https://beta-api.biorand.net -k 2wbhTK38nQxp2HTU5AAoaaho8YNobErH -i M:\\apps\\re4rr\\custom.pak"
-    },
-    "dump": {
-      "commandName": "Project",
-      "commandLineArgs": "dump \"C:\\Users\\Ted\\Downloads\\oildrum_atkhit.user.2\""
-    },
-    "msg": {
-      "commandName": "Project",
-      "commandLineArgs": "msg \"G:\\re4r\\extract\\patch_000\\natives\\stm\\_chainsaw\\message\\mes_main_cs\\ch_mes_main_csa117.msg.22\""
     }
   }
 }
