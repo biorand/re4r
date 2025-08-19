@@ -167,7 +167,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             characterSpawnControllerComponent.Set("_GUID", guid);
             characterSpawnControllerComponent.Set("_ActiveCountLimit", 100);
             characterSpawnControllerComponent.Set("_ActiveCountType", 0);
-            characterSpawnControllerComponent.Set("_IntervalTime", 1.0f);
+            characterSpawnControllerComponent.Set("_IntervalTime", 30.0f);
             characterSpawnControllerComponent.Set("_SpawnDistanceMin", waveDistance);
 
             characterSpawnControllerComponent.Set("_SpawnPoints",
@@ -176,7 +176,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var transform = new Transform(GetOrCreateComponent(scn, enemyDef.GameObject, "via.Transform"));
                     var spawnPoint = scn.RSZ!.CreateInstance("chainsaw.CharacterSpawnPoint");
                     spawnPoint.Set("_Transform", transform.Matrix);
-                    spawnPoint.Set("_IsOutOfCameraOnly", true);
+                    spawnPoint.Set("_IsOutOfCameraOnly", false);
                     spawnPoint.Set("_CoolDownTime", 3.0f);
                     return (object)spawnPoint;
                 }).ToList());
