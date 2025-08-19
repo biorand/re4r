@@ -112,9 +112,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             _contextId = 5000;
             _uniqueHp = 1;
-            _allEnemyClasses = randomizer.EnemyClassFactory.Classes
-                .Where(x => GetClassRatio(randomizer, x) > 0)
-                .ToImmutableArray();
+            _allEnemyClasses = randomizer.EnemyClassFactory.GetClasses(randomizer);
 
             var rng = randomizer.CreateRng();
             var areaByChapter = randomizer.Areas.GroupBy(x => x.Definition.Chapter);
@@ -142,7 +140,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 var chapter = group.Key;
                 var enemies = group
-                    .SelectMany(x => x.EnemySpawns)
+                    .SelectMany(x => x.GetEnemySpawns(randomizer))
                     .ToImmutableArray();
                 RandomizeEnemyHealth(randomizer, chapter, enemies, rng, logger);
             }
@@ -155,7 +153,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     var chapter = group.Key;
                     var enemies = group
-                        .SelectMany(x => x.EnemySpawns)
+                        .SelectMany(x => x.GetEnemySpawns(randomizer))
                         .Where(x => !x.Enemy.Kind.NoItemDrop)
                         .Where(x => !x.HasKeyItem)
                         .Where(x => x.OriginalEnemy.Kind.Key != "mendez_2") // Mendez (phase 1)
@@ -184,7 +182,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Push("Randomizing scales");
                 var spawns = areaByChapter
                     .SelectMany(x => x)
-                    .SelectMany(x => x.EnemySpawns)
+                    .SelectMany(x => x.GetEnemySpawns(randomizer))
                     .ToImmutableArray();
                 if (enemyScaleProbability < 1)
                 {
@@ -202,21 +200,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var dropRng = rng.NextFork();
             var parasiteRng = rng.NextFork();
 
-            // Create initial list of enemy spawns
-            var spawns = area.Enemies.Select(e => new EnemySpawn(area, e, e)).ToImmutableArray();
-            foreach (var spawn in spawns)
-            {
-                SetClassPool(randomizer, area, spawn);
-            }
-
-            // Duplicate enemy spawns
-            foreach (var spawn in spawns)
-            {
-                var stageId = spawn.Enemy.StageID;
-                _stageEnemyCount.TryGetValue(stageId, out var count);
-                _stageEnemyCount[stageId] = ++count;
-            }
-            spawns = DuplicateEnemies(randomizer, area, spawns, rng);
+            // Get all the enemy spawns for this area
+            var spawns = area.GetEnemySpawns(randomizer);
 
             // Randomize classes
             ChooseClasses(randomizer, spawns, rng);
@@ -237,7 +222,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             // Randomize
-            area.EnemySpawns = spawns;
             foreach (var spawn in spawns)
             {
                 if (spawn.ChosenClass is EnemyClassDefinition ecd)
@@ -586,49 +570,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .ToImmutableArray();
         }
 
-        private ImmutableArray<EnemySpawn> DuplicateEnemies(ChainsawRandomizer randomizer, Area area, ImmutableArray<EnemySpawn> spawns, Rng rng)
-        {
-            var multiplier = randomizer.GetConfigOption<double>("enemy-multiplier", 1);
-            var maxPerStage = randomizer.GetConfigOption("debug-stage-enemy-limit-default", 25);
-            var newList = spawns.ToBuilder();
-            foreach (var g in spawns.GroupBy(x => x.StageID))
-            {
-                var enemyLimit = randomizer.GetConfigOption($"debug-stage-enemy-limit-{g.Key}", 0);
-                if (enemyLimit == 0)
-                {
-                    enemyLimit = maxPerStage;
-                }
-
-                var stageSpawns = g.Where(x => !x.PreventDuplicate).ToArray();
-                var newEnemyCount = Math.Min(enemyLimit, stageSpawns.Length * multiplier);
-                var delta = (int)Math.Round(newEnemyCount - stageSpawns.Length);
-                if (delta != 0)
-                {
-                    var bag = new EndlessBag<EnemySpawn>(rng, stageSpawns);
-                    while (delta > 0)
-                    {
-                        var enemyToDuplicate = bag.Next();
-                        var stageId = enemyToDuplicate.Enemy.StageID;
-                        if (!_stageEnemyCount.TryGetValue(stageId, out var currentStageIdCount))
-                            _stageEnemyCount[stageId] = 0;
-
-                        if (currentStageIdCount < maxPerStage)
-                        {
-                            var newEnemy = enemyToDuplicate.Duplicate(GetNextContextId());
-                            newList.Add(newEnemy);
-                            _stageEnemyCount[stageId]++;
-                            delta--;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-            return newList.ToImmutable();
-        }
-
         private void ChooseClasses(ChainsawRandomizer randomizer, ImmutableArray<EnemySpawn> spawns, Rng rng)
         {
             var enemyVariety = randomizer.GetConfigOption("enemy-variety", 50);
@@ -844,11 +785,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 maxPackSize = ecd.MaxPack;
             maxPackSize = Math.Clamp(maxPackSize, 1, ecd.MaxPack);
             return rng.Next(1, maxPackSize + 1);
-        }
-
-        private static double GetClassRatio(ChainsawRandomizer randomizer, EnemyClassDefinition ecd)
-        {
-            return randomizer.GetConfigOption<double>($"enemy-ratio-{ecd.Key}");
         }
     }
 }

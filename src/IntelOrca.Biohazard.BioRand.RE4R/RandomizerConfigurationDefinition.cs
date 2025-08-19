@@ -4,7 +4,7 @@ using static IntelOrca.Biohazard.BioRand.RandomizerConfigurationDefinition;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    public static class Re4rRandomizerConfigurationDefinition
+    internal static class Re4rRandomizerConfigurationDefinition
     {
         public static RandomizerConfigurationDefinition Create(EnemyClassFactory enemyClassFactory)
         {
@@ -424,6 +424,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 50,
                 Step = 1,
                 Default = 50
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = "enemy-waves-min",
+                Label = "Min. Enemy Waves",
+                Description = "The minimum number of waves per enemy. A value of 2 will mean a new enemy is spawned for each enemy killed.",
+                Type = "range",
+                Min = 1,
+                Max = 10,
+                Step = 1,
+                Default = 1
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = "enemy-waves-max",
+                Label = "Max. Enemy Waves",
+                Description = "The maximum number of waves per enemy. A value of 4 will mean some enemies will get another 3 extra enemies which spawn in, one after another, when the last one is killed.",
+                Type = "range",
+                Min = 1,
+                Max = 10,
+                Step = 1,
+                Default = 1
             });
             group.Items.Add(new GroupItem()
             {

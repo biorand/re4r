@@ -46,8 +46,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public EnemySpawn Duplicate(int contextId)
         {
-            var newEnemy = Area.Duplicate(Enemy, contextId);
-            var result = new EnemySpawn(Area, Enemy, newEnemy);
+            var result = Area.Duplicate(this, contextId);
             result.Horde = Horde;
             result.LockWeapon = LockWeapon;
             result.ClassPool = ClassPool;
@@ -76,6 +75,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
+        public bool HasSimpleController => Controller?.Instance.RszClass.name == "chainsaw.CharacterSpawnController";
+
         public bool HasKeyItem
         {
             get
@@ -90,6 +91,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     }
                 }
                 return false;
+            }
+        }
+
+        public CharacterSpawnController? Controller
+        {
+            get
+            {
+                var parent = Enemy.GameObject.Parent;
+                if (parent == null)
+                    return null;
+
+                foreach (var component in parent.Components)
+                {
+                    if (component.RszClass.name == "chainsaw.CharacterSpawnController" ||
+                        component.RszClass.name == "chainsaw.CharacterSpawnPointController" ||
+                        component.RszClass.name == "chainsaw.CharacterSpawnWaveController")
+                    {
+                        return new CharacterSpawnController(component);
+                    }
+                }
+                return null;
             }
         }
 

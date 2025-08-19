@@ -66,6 +66,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 "natives/stm/_chainsaw/environment/scene/gimmick/.*",
                 "natives/stm/_chainsaw/leveldesign/chapter/.*",
                 "natives/stm/_chainsaw/leveldesign/location/.*",
+                "natives/stm/_chainsaw/leveldesign/scenario/.*",
                 "natives/stm/_chainsaw/message/dlc/ch_mes_dlc_110[12].msg.22",
                 "natives/stm/_chainsaw/message/mes_main_charm/.*",
                 "natives/stm/_chainsaw/message/mes_main_item/.*",

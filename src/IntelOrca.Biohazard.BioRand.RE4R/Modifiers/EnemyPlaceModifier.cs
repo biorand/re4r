@@ -58,7 +58,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     {
                         foreach (var g in extra.Enemies.GroupBy(x => x.Stage))
                         {
-                            var spawnController = CreateSpawnController(scn, "BioRandSpawnController");
+                            var spawnController = CreateSpawnController(scn, "BioRandInitialSpawn");
                             AddSpawnControllerConditions(scn, spawnController, extra.Condition, extra.SkipCondition);
 
                             logger.Push($"CharacterSpawnController Condition = {extra.Condition} SkipCondition = {extra.SkipCondition}");
@@ -180,13 +180,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             characterSpawnControllerComponent.Set("_DifficutyParam", 63U);
             characterSpawnControllerComponent.Set("_GUID", Guid.NewGuid());
             characterSpawnControllerComponent.Set("_ActiveCountLimit", 1);
-            characterSpawnControllerComponent.Set("_ActiveCountType", 1);
+            characterSpawnControllerComponent.Set("_ActiveCountType", 0);
             characterSpawnControllerComponent.Set("_IntervalTime", 1.0f);
-            characterSpawnControllerComponent.Set("_SpawnDistanceMin", 5.0f);
+            characterSpawnControllerComponent.Set("_SpawnDistanceMin", 1.0f);
 
-            var spawnCondition = scn.RSZ!.CreateInstance("chainsaw.CharacterSpawnPointController.ImmediateSpawnCondition");
-            spawnCondition.Set("SpawnCount", enemies.Length);
-            characterSpawnControllerComponent.Set("_ImmediateSpawnConditionList", new List<object>() { spawnCondition });
+            // var spawnCondition = scn.RSZ!.CreateInstance("chainsaw.CharacterSpawnPointController.ImmediateSpawnCondition");
+            // spawnCondition.Set("SpawnCount", enemies.Length);
+            // characterSpawnControllerComponent.Set("_ImmediateSpawnConditionList", new List<object>() { spawnCondition });
 
             characterSpawnControllerComponent.Set("_SpawnPoints",
                 enemies.Select(enemyDef =>

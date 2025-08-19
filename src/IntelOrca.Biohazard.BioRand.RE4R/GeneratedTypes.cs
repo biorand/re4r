@@ -897,6 +897,25 @@ namespace chainsaw
         public System.Int32 _ItemId { get; set; }
         public System.Collections.Generic.List<chainsaw.StatusEffectSetting> _Effects { get; set; } = [];
     }
+
+    internal class ScenarioFlagData
+    {
+        public System.Collections.Generic.List<Data> Datas { get; set; } = [];
+        internal class Block
+        {
+            public System.Int32 Group { get; set; }
+            public System.Int32 Num { get; set; }
+            public System.Boolean ReadOnly { get; set; }
+            public System.Boolean ResetInNewGame { get; set; }
+        }
+        internal class Data
+        {
+            public System.String DataName { get; set; }
+            public System.Int32 DigitNum { get; set; }
+            public System.Int32 DigitIndex { get; set; }
+            public System.Collections.Generic.List<chainsaw.ScenarioFlagData.Block> Block { get; set; } = [];
+        }
+    }
 }
 namespace chainsaw.gui.shop
 {

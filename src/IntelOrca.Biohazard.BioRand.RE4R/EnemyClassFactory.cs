@@ -7,7 +7,7 @@ using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    public class EnemyClassFactory
+    internal class EnemyClassFactory
     {
         public static EnemyClassFactory Default { get; } = Create();
 
@@ -141,6 +141,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 kindDefinitions.ToImmutableArray(),
                 weaponDefinitions.ToImmutableArray(),
                 classDefinitions.ToImmutableArray());
+        }
+
+        public ImmutableArray<EnemyClassDefinition> GetClasses(ChainsawRandomizer randomizer)
+        {
+            return Classes
+                .Where(x => GetClassRatio(randomizer, x) > 0)
+                .ToImmutableArray();
+        }
+
+        private static double GetClassRatio(ChainsawRandomizer randomizer, EnemyClassDefinition ecd)
+        {
+            return randomizer.GetConfigOption<double>($"enemy-ratio-{ecd.Key}");
         }
     }
 }
