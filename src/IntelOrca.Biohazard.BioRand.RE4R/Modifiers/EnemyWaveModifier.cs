@@ -23,7 +23,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (randomizer.GetConfigOption<bool>("random-enemies"))
             {
                 var minWaves = Math.Clamp(randomizer.GetConfigOption("enemy-waves-min", 1), 1, 10);
-                var maxWaves = Math.Clamp(randomizer.GetConfigOption("enemy-waves-max", 1), minWaves, 10);
+                var maxWaves = Math.Clamp(randomizer.GetConfigOption("enemy-waves-max", 1), minWaves, 50);
+                var waveDistance = Math.Clamp(randomizer.GetConfigOption<float>("enemy-waves-distance", 10), 1, 100);
                 foreach (var area in randomizer.Areas)
                 {
                     logger.Push(area.FileName);
@@ -44,7 +45,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         var numWaves = rng.Next(minWaves, maxWaves + 1);
                         for (var i = 1; i < numWaves; i++)
                         {
-                            var spawnControllerGameObject = CreateSpawnPointController(scn, $"BioRandOnDeathSpawn_{i}", rng.NextGuid(), [lastSpawn.Enemy]);
+                            var spawnControllerGameObject = CreateSpawnPointController(scn, $"BioRandOnDeathSpawn_{i}", rng.NextGuid(), waveDistance, [lastSpawn.Enemy]);
                             var spawnController = new CharacterSpawnController(spawnControllerGameObject.Components[1]);
 
                             var newSpawn = lastSpawn.Duplicate(GetNextContextId());
@@ -151,7 +152,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             gameObject.Parent = newParent;
         }
 
-        private static ScnFile.GameObjectData CreateSpawnPointController(ScnFile scn, string name, Guid guid, Enemy[] enemies)
+        private static ScnFile.GameObjectData CreateSpawnPointController(ScnFile scn, string name, Guid guid, float waveDistance, Enemy[] enemies)
         {
             var newGameObject = scn.CreateGameObject(name);
             newGameObject.Prefab = new ScnFile.PrefabInfo()
@@ -167,7 +168,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             characterSpawnControllerComponent.Set("_ActiveCountLimit", 100);
             characterSpawnControllerComponent.Set("_ActiveCountType", 0);
             characterSpawnControllerComponent.Set("_IntervalTime", 1.0f);
-            characterSpawnControllerComponent.Set("_SpawnDistanceMin", 5.0f);
+            characterSpawnControllerComponent.Set("_SpawnDistanceMin", waveDistance);
 
             characterSpawnControllerComponent.Set("_SpawnPoints",
                 enemies.Select(enemyDef =>

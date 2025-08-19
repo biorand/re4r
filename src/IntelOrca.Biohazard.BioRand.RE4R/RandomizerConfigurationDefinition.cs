@@ -449,6 +449,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
+                Id = "enemy-waves-distance",
+                Label = "Enemy Wave Distance",
+                Description = "The minimum distance the player needs to be for a spawn point to spawn a new enemy.",
+                Type = "range",
+                Min = 1,
+                Max = 100,
+                Step = 1,
+                Default = 5
+            });
+            group.Items.Add(new GroupItem()
+            {
                 Id = $"enemy-pack-max",
                 Label = "Enemy Max. Pack Size",
                 Description = "Controls the maximum size of an enemy pack. " +
