@@ -22,49 +22,54 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var rng = randomizer.CreateRng();
             if (randomizer.GetConfigOption<bool>("random-enemies"))
             {
-                var minWaves = Math.Clamp(randomizer.GetConfigOption("enemy-waves-min", 1), 1, 10);
-                var maxWaves = Math.Clamp(randomizer.GetConfigOption("enemy-waves-max", 1), minWaves, 50);
+                var minWaves = Math.Clamp(randomizer.GetConfigOption("enemy-waves-min", 2), 1, 50);
+                var maxWaves = Math.Clamp(randomizer.GetConfigOption("enemy-waves-max", 2), minWaves, 50);
                 var waveDistance = Math.Clamp(randomizer.GetConfigOption<float>("enemy-waves-distance", 10), 1, 100);
-                foreach (var area in randomizer.Areas)
+
+                var waveProbability = Math.Clamp(randomizer.GetConfigOption<float>("enemy-waves-probability", 1), 0, 1);
+                var allSpawns = randomizer.Areas
+                    .SelectMany(x => x.GetEnemySpawns(randomizer))
+                    .Shuffle(rng);
+
+                var maxWavedEnemies = (int)(waveProbability * allSpawns.Length);
+                var numWavedEnemies = 0;
+                foreach (var oldSpawn in allSpawns)
                 {
-                    logger.Push(area.FileName);
+                    if (numWavedEnemies >= maxWavedEnemies)
+                        break;
+                    if (oldSpawn.PreventDuplicate)
+                        continue;
+                    if (!string.IsNullOrEmpty(oldSpawn.MiniBoss))
+                        continue;
+                    if (!oldSpawn.HasSimpleController)
+                        continue;
 
-                    var scn = area.ScnFile;
-                    var spawns = area.GetEnemySpawns(randomizer);
-                    foreach (var oldSpawn in spawns)
+                    var scn = oldSpawn.Area.ScnFile;
+                    var oldSpawnController = oldSpawn.Controller!;
+                    var lastSpawn = oldSpawn;
+                    var numWaves = rng.Next(minWaves, maxWaves + 1);
+                    for (var i = 1; i < numWaves; i++)
                     {
-                        if (oldSpawn.PreventDuplicate)
-                            continue;
-                        if (!string.IsNullOrEmpty(oldSpawn.MiniBoss))
-                            continue;
-                        if (!oldSpawn.HasSimpleController)
-                            continue;
+                        var spawnControllerGameObject = CreateSpawnPointController(scn, $"BioRandOnDeathSpawn_{i}", rng.NextGuid(), waveDistance, [lastSpawn.Enemy]);
+                        var spawnController = new CharacterSpawnController(spawnControllerGameObject.Components[1]);
 
-                        var oldSpawnController = oldSpawn.Controller!;
-                        var lastSpawn = oldSpawn;
-                        var numWaves = rng.Next(minWaves, maxWaves + 1);
-                        for (var i = 1; i < numWaves; i++)
-                        {
-                            var spawnControllerGameObject = CreateSpawnPointController(scn, $"BioRandOnDeathSpawn_{i}", rng.NextGuid(), waveDistance, [lastSpawn.Enemy]);
-                            var spawnController = new CharacterSpawnController(spawnControllerGameObject.Components[1]);
+                        var newSpawn = lastSpawn.Duplicate(GetNextContextId());
+                        Reparent(newSpawn.Enemy.GameObject, spawnControllerGameObject);
 
-                            var newSpawn = lastSpawn.Duplicate(GetNextContextId());
-                            Reparent(newSpawn.Enemy.GameObject, spawnControllerGameObject);
+                        var deathFlag = GetNextFlagGuid();
+                        lastSpawn.Enemy.SetFieldValue("_DeathNotifyFlag", deathFlag);
+                        spawnController.SpawnCondition.Add(scn, deathFlag);
+                        spawnController.SpawnSkipCondition.Flags = oldSpawnController.SpawnSkipCondition.Flags;
+                        spawnController.SpawnSkipCondition.Or = oldSpawnController.SpawnSkipCondition.Or;
 
-                            var deathFlag = GetNextFlagGuid();
-                            lastSpawn.Enemy.SetFieldValue("_DeathNotifyFlag", deathFlag);
-                            spawnController.SpawnCondition.Add(scn, deathFlag);
-                            spawnController.SpawnSkipCondition.Flags = oldSpawnController.SpawnSkipCondition.Flags;
-                            spawnController.SpawnSkipCondition.Or = oldSpawnController.SpawnSkipCondition.Or;
+                        newSpawn.Enemy.SetFieldValue("_ForceFind", true);
 
-                            newSpawn.Enemy.SetFieldValue("_ForceFind", true);
-
-                            lastSpawn = newSpawn;
-                        }
+                        lastSpawn = newSpawn;
                     }
 
-                    logger.Pop();
+                    numWavedEnemies++;
                 }
+
                 SetVariables(randomizer, logger);
             }
         }

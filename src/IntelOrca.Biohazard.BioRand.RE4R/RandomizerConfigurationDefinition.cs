@@ -449,6 +449,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
+                Id = "enemy-waves-probability",
+                Label = "Enemy Wave Probability",
+                Description = "The percentage of enemy spawns that will have waves.",
+                Type = "percent",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 1
+            });
+            group.Items.Add(new GroupItem()
+            {
                 Id = "enemy-waves-distance",
                 Label = "Enemy Wave Distance",
                 Description = "The minimum distance the player needs to be for a spawn point to spawn a new enemy.",
