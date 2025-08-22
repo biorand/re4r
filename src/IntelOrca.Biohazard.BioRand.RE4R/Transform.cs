@@ -14,20 +14,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public Vector3 Position
         {
-            get => transform.Get<Vector4>("v0").ToVector3();
-            set => transform.Set("v0", new Vector4(value, 0));
+            get => transform.Get<Vector3>("Position");
+            set => transform.Set("Position", value);
         }
 
         public Quaternion Rotation
         {
-            get => transform.Get<Vector4>("v1").ToQuaternion();
-            set => transform.Set("v1", value.ToVector4());
+            get => transform.Get<Quaternion>("Rotation");
+            set => transform.Set("Rotation", value.ToVector4().ToQuaternion());
         }
 
         public Vector3 Scale
         {
-            get => transform.Get<Vector4>("v2").ToVector3();
-            set => transform.Set("v2", new Vector4(value, 0));
+            get => transform.Get<Vector3>("Scale");
+            set => transform.Set("Scale", value);
         }
 
         public EulerAngles Eular

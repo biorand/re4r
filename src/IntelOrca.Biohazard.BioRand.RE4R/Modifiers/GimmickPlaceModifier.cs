@@ -126,7 +126,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (kind == "bawk") kind = "Biorand_Chicken";
 
                 var gimmick = filePair.Scene.ImportGameObject(GimmickTemplate.Get(kind));
-                gimmick.Instance!.SetFieldValue("v0", $"{gimmick.Name}_{placement.LineNumber}");
+                gimmick.Instance!.SetFieldValue("Position", $"{gimmick.Name}_{placement.LineNumber}");
 
                 var gimmickCore = gimmick.FindComponent("chainsaw.GimmickCore")!;
                 contextId.CopyTo(gimmickCore.Get<RszInstance>("_ID")!);
@@ -194,14 +194,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
 
                 var gmOptionHide = scn.RSZ!.CreateInstance("chainsaw.GmOptionHide");
-                gmOptionHide.Set("v0", (byte)1);
+                gmOptionHide.Set("_Enabled", (byte)1);
                 gmOptionHide.GetList("Rule").Add(stratumBool);
                 paramObject.Components.Add(gmOptionHide);
 
                 if (gimmick.Name!.StartsWith("Biorand_MerchantTorch"))
                 {
                     var objectHide = scn.RSZ!.CreateInstance("chainsaw.ObjectHide");
-                    objectHide.Set("v0", (byte)1);
+                    objectHide.Set("_Enabled", (byte)1);
                     objectHide.GetList("Settings").Add(stratumBool.Clone());
                     paramObject.Components.Add(objectHide);
                 }

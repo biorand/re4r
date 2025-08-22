@@ -92,12 +92,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 itemDrop);
         }
 
-        private static Vector4 GetPosition(Enemy enemy)
-        {
-            var transform = enemy.GameObject.FindComponent("via.Transform")!;
-            return transform.Get<Vector4>("v0");
-        }
-
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var randomItemSettings = new RandomItemSettings
@@ -254,10 +248,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var transform = e.GameObject.FindComponent("via.Transform");
                     if (transform != null)
                     {
-                        var v1 = transform.Get<Vector4>("v1");
-                        if (MathF.Round(v1.X, 1) != 0 || MathF.Round(v1.Z, 1) != 0)
+                        var rotation = transform.Get<Quaternion>("Rotation");
+                        if (MathF.Round(rotation.X, 1) != 0 || MathF.Round(rotation.Z, 1) != 0)
                         {
-                            transform.Set("v1", new Vector4(0, v1.Y, 0, v1.W));
+                            transform.Set("Rotation", new Quaternion(0, rotation.Y, 0, rotation.W));
                         }
                     }
 

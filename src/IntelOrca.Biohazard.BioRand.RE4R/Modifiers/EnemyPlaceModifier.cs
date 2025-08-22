@@ -160,7 +160,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             SetTransform(scn, newGameObject, Vector3.Zero);
 
             var characterSpawnControllerComponent = CreateComponent(scn, newGameObject, "chainsaw.CharacterSpawnController");
-            characterSpawnControllerComponent.Set("v0", (byte)1);
+            characterSpawnControllerComponent.Set("_Enabled", (byte)1);
             characterSpawnControllerComponent.Set("_DifficutyParam", 63U);
             characterSpawnControllerComponent.Set("_GUID", Guid.NewGuid());
             return newGameObject;
@@ -176,7 +176,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             SetTransform(scn, newGameObject, Vector3.Zero);
 
             var characterSpawnControllerComponent = CreateComponent(scn, newGameObject, "chainsaw.CharacterSpawnPointController");
-            characterSpawnControllerComponent.Set("v0", (byte)1);
+            characterSpawnControllerComponent.Set("_Enabled", (byte)1);
             characterSpawnControllerComponent.Set("_DifficutyParam", 63U);
             characterSpawnControllerComponent.Set("_GUID", Guid.NewGuid());
             characterSpawnControllerComponent.Set("_ActiveCountLimit", 1);
@@ -234,7 +234,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var contextId = GetNextContextId();
             var spawnParam = CreateComponent(scn, newGameObject, "chainsaw.Ch1c0SpawnParamCommon");
-            spawnParam.Set("v0", (byte)1);
+            spawnParam.Set("_Enabled", (byte)1);
             spawnParam.Set("_StageID", stageId);
             spawnParam.Set("_SpawmRadius", 20.0f);
             spawnParam.Set("_ContextID._Group", contextId.Group);

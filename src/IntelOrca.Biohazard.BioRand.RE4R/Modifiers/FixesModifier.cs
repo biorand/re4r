@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
 using IntelOrca.Biohazard.REE.Messages;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -215,22 +216,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             logger.LogLine($"Set jet ski timer to {updatedTimerSeconds} seconds");
 
             var fileRepository = randomizer.FileRepository;
-            var userFile = fileRepository.GetUserFile(userFilePath);
-            if (userFile == null)
-                return;
-
-            var timerSettings = userFile.RSZ!.ObjectList[0].Get<RszInstance>("_TimerGuiParamHolder._TimerParamSettings[0]")!;
-            timerSettings.Set("_MaxSecond", updatedTimerSeconds);
-            timerSettings.Set("_RespawnTimer", updatedTimerSeconds);
-            foreach (var i in new[] { 10, 20, 30, 40 })
+            fileRepository.ModifyUserFile2(userFilePath, root =>
             {
-                var sub = $"_TimerParam_Defficulty{i}";
-                var subObject = timerSettings.Get<RszInstance>(sub)!;
-                subObject.Set("MaxSecond", updatedTimerSeconds);
-                subObject.Set("RespawnTimer", updatedTimerSeconds);
-            }
+                var timerGuiParamHolder = (RszStructNode)root["_TimerGuiParamHolder"];
+                var timerParamSettings = (RszArrayNode)timerGuiParamHolder["_TimerParamSettings"];
+                var timerParamSettings0 = (RszStructNode)timerParamSettings[0];
+                timerParamSettings0 = timerParamSettings0.SetField("_MaxSecond", updatedTimerSeconds);
+                timerParamSettings0 = timerParamSettings0.SetField("_RespawnTimer", updatedTimerSeconds);
+                foreach (var i in new[] { 10, 20, 30, 40 })
+                {
+                    var subName = $"_TimerParam_Defficulty{i}";
+                    var sub = (RszStructNode)timerParamSettings0[subName];
+                    sub = sub.SetField("MaxSecond", updatedTimerSeconds);
+                    sub = sub.SetField("RespawnTimer", updatedTimerSeconds);
+                    timerParamSettings0 = timerParamSettings0.SetField(subName, sub);
+                }
 
-            fileRepository.SetUserFile(userFilePath, userFile);
+                return root.SetField("_TimerGuiParamHolder",
+                    timerGuiParamHolder.SetField("_TimerParamSettings",
+                        timerParamSettings.SetItem(0, timerParamSettings0)));
+            });
         }
 
         private void ImproveKnightyKnightKnightRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -265,22 +270,30 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (randomizer.Campaign == Campaign.Leon)
             {
                 var path = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopupdateflagcataloguserdata.user.2";
-                fileRepository.ModifyUserFile(path, (rsz, root) =>
+                fileRepository.ModifyUserFile2(path, root =>
                 {
+                    var datas = (RszArrayNode)root["_Datas"];
                     for (var i = 0; i <= 2; i++)
                     {
-                        root.GetList($"_Datas[{i}]._Flags").Add(0);
-                        root.GetList($"_Datas[{i}]._SaleFlags").Add(0);
+                        var data = (RszStructNode)datas[i];
+                        data = data.SetField("_Flags", ((RszArrayNode)data["_Flags"]).Add(0));
+                        data = data.SetField("_SaleFlags", ((RszArrayNode)data["_SaleFlags"]).Add(0));
+                        datas = datas.SetItem(i, data);
                     }
+                    return root.SetField("_Datas", datas);
                 });
             }
             else
             {
                 var path = "natives/stm/_anotherorder/appsystem/ui/userdata/ingameshopupdateflagcataloguserdata_ao.user.2";
-                fileRepository.ModifyUserFile(path, (rsz, root) =>
+                fileRepository.ModifyUserFile2(path, root =>
                 {
-                    root.GetList($"_Datas[18]._Flags").Add(17);
-                    root.GetList($"_Datas[18]._SaleFlags").Add(17);
+                    var datas = (RszArrayNode)root["_Datas"];
+                    var data = (RszStructNode)datas[18];
+                    data = data.SetField("_Flags", ((RszArrayNode)data["_Flags"]).Add(17));
+                    data = data.SetField("_SaleFlags", ((RszArrayNode)data["_SaleFlags"]).Add(17));
+                    datas = datas.SetItem(18, data);
+                    return root.SetField("_Datas", datas);
                 });
             }
         }
@@ -301,51 +314,59 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile(weaponPartsCombineDefinitionPath, (file, rsz) =>
+            fileRepository.ModifyUserFile2(weaponPartsCombineDefinitionPath, root =>
             {
-                var list = rsz.GetList("_Datas[6]._TargetItemIds");
+                var userData = RszSerializer.Deserialize<WeaponPartsCombineDefinitionUserdata>(root)!;
                 if (randomizer.Campaign == Campaign.Leon)
                 {
-                    list.Add(274838656); // Red9
-                    list.Add(274840256); // Blacktail
-                    list.Add(274841856); // Matilda
+                    userData._Datas[6]._TargetItemIds.AddRange(
+                        274838656, // Red9
+                        274840256, // Blacktail
+                        274841856  // Matilda
+                    );
                 }
                 else
                 {
-                    list.Add(278200256); // SW - Blacktail AC
-                    list.Add(278216256); // SW - Red 9
+                    userData._Datas[6]._TargetItemIds.AddRange(
+                        278200256, // SW - Blacktail AC
+                        278216256  // SW - Red 9
+                    );
                 }
+                return (RszStructNode)RszSerializer.Serialize(root.Type, userData);
             });
 
-            fileRepository.ModifyUserFile(playerLaserSightControllerDefinitionPath, (file, rsz) =>
+            fileRepository.ModifyUserFile2(playerLaserSightControllerDefinitionPath, root =>
             {
-                var list = rsz.GetList("_Settings");
+                var settings = (RszArrayNode)root["_Settings"];
+                var template = (RszStructNode)settings[0];
                 foreach (var wp in weaponIds)
                 {
-                    var newItem = file.CloneInstance((RszInstance)list[0]!);
-                    newItem.Set("_WeaponID", wp);
-                    list.Add(newItem);
+                    root = root.SetField("_Settings",
+                        settings.Add(
+                            template.SetField("_WeaponID", wp)));
                 }
+                return root;
             });
 
-            fileRepository.ModifyUserFile(weaponDetailCustomPath, (file, rsz) =>
+            fileRepository.ModifyUserFile2(weaponDetailCustomPath, root =>
             {
-                var list = rsz.GetArray<RszInstance>("_WeaponDetailStages");
-                var attachment = list[0].Get<RszInstance>("_WeaponDetailCustom._AttachmentCustoms[0]")!;
+                var userData = RszSerializer.Deserialize<WeaponDetailCustomUserdata>(root)!;
+                var attachment = userData._WeaponDetailStages[0]._WeaponDetailCustom._AttachmentCustoms[0];
                 foreach (var wp in weaponIds)
                 {
-                    foreach (var w in list)
+                    foreach (var w in userData._WeaponDetailStages)
                     {
-                        if (w.Get<int>("_WeaponID") == wp)
+                        if (w._WeaponID == wp)
                         {
-                            var attachments = w.GetList("_WeaponDetailCustom._AttachmentCustoms");
-                            if (!attachments.Any(x => ((RszInstance)x!).Get<int>("_ItemID") == 116008000))
+                            var attachments = w._WeaponDetailCustom._AttachmentCustoms;
+                            if (!attachments.Any(x => x._ItemID == 116008000))
                             {
-                                attachments.Add(file.CloneInstance(attachment));
+                                attachments.Add(attachment);
                             }
                         }
                     }
                 }
+                return (RszStructNode)RszSerializer.Serialize(root.Type, userData);
             });
         }
 
@@ -367,7 +388,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (transform == null)
                     return;
 
-                transform.Set("v0", new Vector4(-76.99f, 5.14f, 35.3336f, 0.0f));
+                transform.Set("Position", new Vector4(-76.99f, 5.14f, 35.3336f, 0.0f));
             });
         }
 
@@ -381,9 +402,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 logger.LogLine($"Set purchase hold time to {time:0.00}");
                 var fileRepository = randomizer.FileRepository;
-                fileRepository.ModifyUserFile(userFilePath, (file, rsz) =>
+                fileRepository.ModifyUserFile2(userFilePath, root =>
                 {
-                    rsz.Set("_InGameShopGuiParamHolder._HoldTime_Purchase", (float)time);
+                    return (RszStructNode)root.Set("_InGameShopGuiParamHolder._HoldTime_Purchase", (float)time);
                 });
             }
         }
@@ -440,6 +461,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void ImproveAdaKnightRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+#if false
             if (!randomizer.GetConfigOption<bool>("random-enemies"))
                 return;
 
@@ -551,6 +573,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 scn2.RemoveGameObject(new Guid("ace7c27b-1cf1-4bb7-bb68-798101d596ef"));
                 scn2.RemoveGameObject(new Guid("9c389ab6-c2b3-488e-b9a9-304ef4831d59"));
             });
+#endif
         }
 
         private void ImproveAdaMaze(ChainsawRandomizer randomizer, Rng rng, RandomizerLogger logger)
@@ -628,9 +651,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 foreach (var child in gameObject.Children)
                 {
                     var transform = child.FindComponent("via.Transform")!;
-                    var position = transform.Get<Vector4>("v0");
+                    var position = transform.Get<Vector4>("Position");
                     position.X = 152;
-                    transform.Set("v0", position);
+                    transform.Set("Position", position);
                 }
             }
         }
@@ -930,18 +953,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 : "natives/stm/_anotherorder/appsystem/ui/userdata/sellablekeyitemuserdata_ao.user.2";
 
             var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile(path, (rsz, root) =>
+            fileRepository.ModifyUserFile2(path, root =>
             {
-                var list = root.GetArray<RszInstance>("Datas");
-                foreach (var l in list)
+                var datas = (RszArrayNode)root["Datas"];
+                for (var i = 0; i < datas.Length; i++)
                 {
-                    var id = l.Get<int>("ID");
+                    var item = (RszStructNode)datas[i];
+                    var id = item.Get<int>("ID");
                     if (id != ItemIds.SmallKey)
                         continue;
 
-                    l.Set("Sellable[0]._Enable.Matters[0]._Data.Compare", 1);
-                    l.Set("Sellable[0]._Enable.Matters[0]._Data.Chapter", -1);
+                    item = (RszStructNode)item.Set("Sellable[0]._Enable.Matters[0]._Data.Compare", 1);
+                    item = (RszStructNode)item.Set("Sellable[0]._Enable.Matters[0]._Data.Chapter", -1);
+                    datas = datas.SetItem(id, item);
                 }
+                return root.SetField("Datas", datas);
             });
         }
 
@@ -955,18 +981,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             // Remove DLC items from catalog since they cause black screen on SW
             var path = "natives/stm/_anotherorder/appsystem/weapon/weaponcataloguserdata_ao.user.2";
-            randomizer.FileRepository.ModifyUserFile(path, (rsz, root) =>
+            randomizer.FileRepository.ModifyUserFile2(path, root =>
             {
-                var list = root.GetList("_DataTable");
-                for (var i = 0; i < list.Count; i++)
+                var list = (RszArrayNode)root["_DataTable"];
+                for (var i = 0; i < list.Length; i++)
                 {
-                    var weaponId = ((RszInstance)list[i]!).Get<int>("_WeaponID");
+                    var weaponId = list[i].Get<int>("_WeaponID");
                     if (weaponId == 6000 || weaponId == 6001)
                     {
-                        list.RemoveAt(i);
+                        list = list.RemoveAt(i);
                         i--;
                     }
                 }
+                return root.SetField("_DataTable", list);
             });
         }
 

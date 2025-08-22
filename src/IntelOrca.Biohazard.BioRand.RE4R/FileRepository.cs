@@ -10,6 +10,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class FileRepository : IDisposable
     {
+        private static IntelOrca.Biohazard.REE.Rsz.RszTypeRepository? _rszRepository;
+
+        public static IntelOrca.Biohazard.REE.Rsz.RszTypeRepository RszRepository
+        {
+            get
+            {
+                if (_rszRepository == null)
+                {
+                    var rszJson = EmbeddedData.GetFile("rszre4.json.gz");
+                    _rszRepository = IntelOrca.Biohazard.REE.Rsz.RszRepositorySerializer.Default.FromJsonGz(rszJson);
+                }
+                return _rszRepository;
+            }
+        }
+
         private readonly PatchedPakFile? _inputPakFile;
         private readonly string? _inputGamePath;
         private ConcurrentDictionary<string, byte[]> _outputFiles = new(StringComparer.OrdinalIgnoreCase);
@@ -49,7 +64,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             if (_inputGamePath == null)
             {
-                return _inputPakFile?.GetFileData(path);
+                return _inputPakFile?.GetEntryData(path);
             }
             else
             {
@@ -102,19 +117,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 : ChainsawRandomizerFactory.Default.ReadUserFile(data);
         }
 
+        public IntelOrca.Biohazard.REE.Rsz.UserFile GetUserFile2(string path)
+        {
+            var data = GetGameFileData(path);
+            return data == null
+                ? throw new Exception("Unable to read data file.")
+                : new IntelOrca.Biohazard.REE.Rsz.UserFile(data);
+        }
+
         public T DeserializeUserFile<T>(string path)
         {
-            var userFile = GetUserFile(path);
-            return userFile.RSZ!.RszParser.Deserialize<T>(userFile.RSZ.ObjectList[0]);
+            var userFile = GetUserFile2(path);
+            return IntelOrca.Biohazard.REE.Rsz.RszSerializer.Deserialize<T>(userFile.GetObjects(RszRepository)[0])!;
         }
 
         public void SerializeUserFile<T>(string path, T value)
         {
-            var userFile = GetUserFile(path);
-            userFile.RSZ!.InstanceCopyValues(
-                userFile.RSZ!.ObjectList[0],
-                userFile.RszParser.Serialize(value)!);
-            SetUserFile(path, userFile);
+            var userFile = GetUserFile2(path);
+            var builder = userFile.ToBuilder(RszRepository);
+            var targetType = ((IntelOrca.Biohazard.REE.Rsz.RszStructNode)builder.Objects[0]).Type;
+            builder.Objects = [IntelOrca.Biohazard.REE.Rsz.RszSerializer.Serialize(targetType, value!)];
         }
 
         public void SetScnFile(string path, ScnFile value)
@@ -134,6 +156,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             userFile.RSZ.RebuildInstanceInfo();
             userFile.RebuildInfoTable();
             SetUserFile(path, userFile);
+        }
+
+        public void ModifyUserFile2(string path, Func<IntelOrca.Biohazard.REE.Rsz.RszStructNode, IntelOrca.Biohazard.REE.Rsz.RszStructNode> callback)
+        {
+            var userFileData = GetGameFileData(path);
+            var userFile = new IntelOrca.Biohazard.REE.Rsz.UserFile(userFileData);
+            var builder = userFile.ToBuilder(RszRepository);
+            builder.Objects = [callback((IntelOrca.Biohazard.REE.Rsz.RszStructNode)builder.Objects[0])];
+            SetGameFileData(path, builder.Build().Data);
         }
 
         public MsgFile GetMsgFile(string path)

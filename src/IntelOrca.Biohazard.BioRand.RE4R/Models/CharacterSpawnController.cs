@@ -10,8 +10,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
 
         public bool Enabled
         {
-            get => instance.Get<byte>("v0") != 0;
-            set => instance.Set("v0", (byte)1);
+            get => instance.Get<byte>("Enabled") != 0;
+            set => instance.Set("Enabled", (byte)1);
         }
 
         public uint Difficulty

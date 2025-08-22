@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Data;
 using System.Linq;
 using System.Text;
+using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Messages;
 using static IntelOrca.Biohazard.BioRand.RE4R.Modifiers.WeaponModifier;
@@ -34,8 +35,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var mainFile = randomizer.FileRepository.GetUserFile(GetMainPath(randomizer));
-            var detailFile = randomizer.FileRepository.GetUserFile(GetDetailPath(randomizer));
+            var mainFile = randomizer.FileRepository.DeserializeUserFile<WeaponCustomUserdata>(GetMainPath(randomizer));
+            var detailFile = randomizer.FileRepository.DeserializeUserFile<WeaponDetailCustomUserdata>(GetDetailPath(randomizer));
             var wpCustomMsg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath);
             var weaponStatCollection = new WeaponStatCollection(mainFile, detailFile);
             foreach (var wp in weaponStatCollection.Weapons)
@@ -94,8 +95,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var shopMsg = randomizer.FileRepository.GetMsgFile(ShopMsgPath).ToBuilder();
             var wpMsg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath).ToBuilder();
-            var mainFile = randomizer.FileRepository.GetUserFile(GetMainPath(randomizer));
-            var detailFile = randomizer.FileRepository.GetUserFile(GetDetailPath(randomizer));
+            var mainFile = randomizer.FileRepository.DeserializeUserFile<WeaponCustomUserdata>(GetMainPath(randomizer));
+            var detailFile = randomizer.FileRepository.DeserializeUserFile<WeaponDetailCustomUserdata>(GetDetailPath(randomizer));
 
             shopMsg.SetStringAll(new Guid("6f60b94f-1766-4c98-8335-a69958e2d927"), "Critical Hit Rate");
             shopMsg.SetStringAll(new Guid("db128948-0960-4147-814d-fec706a5c34a"), "Penetration Power");
@@ -122,8 +123,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             weaponStatCollection.Apply();
 
-            randomizer.FileRepository.SetUserFile(GetMainPath(randomizer), mainFile);
-            randomizer.FileRepository.SetUserFile(GetDetailPath(randomizer), detailFile);
+            randomizer.FileRepository.SerializeUserFile(GetMainPath(randomizer), mainFile);
+            randomizer.FileRepository.SerializeUserFile(GetDetailPath(randomizer), detailFile);
             randomizer.FileRepository.SetMsgFile(WeaponCustomMsgPath, wpMsg.Build());
             randomizer.FileRepository.SetMsgFile(ShopMsgPath, shopMsg.Build());
 

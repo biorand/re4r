@@ -4,7 +4,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using RszTool;
 using static chainsaw.ShellBaseAttackInfo;
 using static chainsaw.WeaponCustomUserdata;
 using static chainsaw.WeaponDetailCustomUserdata;
@@ -105,18 +104,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         internal class WeaponStatCollection
         {
-            private readonly UserFile _main;
-            private readonly UserFile _detail;
             private WeaponCustomUserdata _userDataMain;
             private WeaponDetailCustomUserdata _userDataDetail;
             private ImmutableArray<WeaponStats> _weapons;
 
-            public WeaponStatCollection(UserFile main, UserFile detail)
+            public WeaponStatCollection(WeaponCustomUserdata userDataMain, WeaponDetailCustomUserdata userDataDetail)
             {
-                _main = main;
-                _detail = detail;
-                _userDataMain = main.RszParser.Deserialize<WeaponCustomUserdata>(_main.RSZ!.ObjectList[0]);
-                _userDataDetail = detail.RszParser.Deserialize<WeaponDetailCustomUserdata>(_detail.RSZ!.ObjectList[0]);
+                _userDataMain = userDataMain;
+                _userDataDetail = userDataDetail;
 
                 var weapons = ImmutableArray.CreateBuilder<WeaponStats>();
                 foreach (var wpMain in _userDataMain._WeaponStages)
@@ -131,8 +126,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 _userDataMain._WeaponStages = _weapons.Select(x => x.Main).ToList();
                 _userDataDetail._WeaponDetailStages = _weapons.Select(x => x.Detail).ToList();
-                _main.RSZ!.InstanceCopyValues(_main.RSZ!.ObjectList[0], _main.RszParser.Serialize(_userDataMain));
-                _detail.RSZ!.InstanceCopyValues(_detail.RSZ!.ObjectList[0], _detail.RszParser.Serialize(_userDataDetail));
             }
 
             public ImmutableArray<WeaponStats> Weapons => _weapons;

@@ -79,7 +79,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 if (!includeList.Any(x => x.IsMatch(path)))
                     continue;
 
-                var file = pak.GetFileData(path);
+                var file = pak.GetEntryData(path);
                 if (file == null)
                 {
                     Console.WriteLine("X " + path);
