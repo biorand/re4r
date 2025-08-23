@@ -242,13 +242,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     _fileRepository = fileRepository;
                     ScenePath = path;
                     Scene = fileRepository.GetScnFile(ScenePath);
-                    User = fileRepository.GetUserFile2(UserPath).ToBuilder(FileRepository.RszRepository);
+                    User = fileRepository.GetUserFile(UserPath).ToBuilder(FileRepository.RszRepository);
                 }
 
                 public void Save()
                 {
                     _fileRepository.SetScnFile(ScenePath, Scene);
-                    _fileRepository.SetUserFile2(UserPath, User.Build());
+                    _fileRepository.SetUserFile(UserPath, User.Build());
                 }
             }
         }
