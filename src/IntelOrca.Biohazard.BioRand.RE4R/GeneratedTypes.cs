@@ -920,15 +920,65 @@ namespace chainsaw
         }
     }
 
-    public class WeaponPartsCombineDefinitionUserdata
+    internal class WeaponPartsCombineDefinitionUserdata
     {
         public List<WeaponPartsCombineDefinition> _Datas { get; set; } = [];
     }
 
-    public class WeaponPartsCombineDefinition
+    internal class WeaponPartsCombineDefinition
     {
         public int _ItemId { get; set; }
         public List<int> _TargetItemIds { get; set; } = [];
+    }
+
+    internal class ItemDefinitionUserData
+    {
+        public System.Collections.Generic.List<chainsaw.ItemDefinitionUserData.Data> _Datas { get; set; } = [];
+
+        public class Data
+        {
+            public System.Int32 _ItemId { get; set; }
+            public chainsaw.ItemDefiniition _ItemDefineData { get; set; } = new();
+            public chainsaw.WeaponItemDefinition _WeaponDefineData { get; set; } = new();
+        }
+    }
+
+    internal class ItemDefiniition
+    {
+        public System.Int32 _ItemSize { get; set; }
+        public System.Int32 _StackMax { get; set; }
+        public System.Int32 _DefaultDurabilityMax { get; set; }
+        public System.Collections.Generic.List<chainsaw.ItemUseResult> _UseResults { get; set; } = [];
+        public chainsaw.EquipRequirement _EquipRequirement { get; set; } = new();
+        public chainsaw.AdditionalRequirement _AdditionalRequirement { get; set; } = new();
+    }
+
+    internal class WeaponItemDefinition : ItemDefiniition
+    {
+        public System.Int32 _AmmoMax { get; set; }
+        public System.Int32 _AmmoCost { get; set; }
+        public System.Collections.Generic.List<System.Int32> _UsableAmmoList { get; set; } = [];
+        public System.Collections.Generic.List<System.Int32> _TradableWeaponList { get; set; } = [];
+    }
+
+    internal class ItemUseResult
+    {
+        public System.Int32 _ResultType { get; set; }
+        public chainsaw.ItemUseResultInfoBase _ResultInfo { get; set; } = new();
+    }
+
+    internal class ItemUseResultInfoBase
+    {
+    }
+
+    internal class EquipRequirement : ItemUseResultInfoBase
+    {
+        public System.UInt32 _EquipableTarget { get; set; }
+    }
+
+    internal class AdditionalRequirement : ItemUseResultInfoBase
+    {
+        public System.UInt32 _DedicatedTarget { get; set; }
     }
 }
 namespace chainsaw.gui.shop

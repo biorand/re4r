@@ -216,7 +216,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             logger.LogLine($"Set jet ski timer to {updatedTimerSeconds} seconds");
 
             var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile2(userFilePath, root =>
+            fileRepository.ModifyUserFile(userFilePath, root =>
             {
                 var timerGuiParamHolder = (RszStructNode)root["_TimerGuiParamHolder"];
                 var timerParamSettings = (RszArrayNode)timerGuiParamHolder["_TimerParamSettings"];
@@ -270,7 +270,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (randomizer.Campaign == Campaign.Leon)
             {
                 var path = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopupdateflagcataloguserdata.user.2";
-                fileRepository.ModifyUserFile2(path, root =>
+                fileRepository.ModifyUserFile(path, root =>
                 {
                     var datas = (RszArrayNode)root["_Datas"];
                     for (var i = 0; i <= 2; i++)
@@ -286,7 +286,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             else
             {
                 var path = "natives/stm/_anotherorder/appsystem/ui/userdata/ingameshopupdateflagcataloguserdata_ao.user.2";
-                fileRepository.ModifyUserFile2(path, root =>
+                fileRepository.ModifyUserFile(path, root =>
                 {
                     var datas = (RszArrayNode)root["_Datas"];
                     var data = (RszStructNode)datas[18];
@@ -314,7 +314,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile2(weaponPartsCombineDefinitionPath, root =>
+            fileRepository.ModifyUserFile(weaponPartsCombineDefinitionPath, root =>
             {
                 var userData = RszSerializer.Deserialize<WeaponPartsCombineDefinitionUserdata>(root)!;
                 if (randomizer.Campaign == Campaign.Leon)
@@ -335,7 +335,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return (RszStructNode)RszSerializer.Serialize(root.Type, userData);
             });
 
-            fileRepository.ModifyUserFile2(playerLaserSightControllerDefinitionPath, root =>
+            fileRepository.ModifyUserFile(playerLaserSightControllerDefinitionPath, root =>
             {
                 var settings = (RszArrayNode)root["_Settings"];
                 var template = (RszStructNode)settings[0];
@@ -348,7 +348,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return root;
             });
 
-            fileRepository.ModifyUserFile2(weaponDetailCustomPath, root =>
+            fileRepository.ModifyUserFile(weaponDetailCustomPath, root =>
             {
                 var userData = RszSerializer.Deserialize<WeaponDetailCustomUserdata>(root)!;
                 var attachment = userData._WeaponDetailStages[0]._WeaponDetailCustom._AttachmentCustoms[0];
@@ -402,9 +402,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 logger.LogLine($"Set purchase hold time to {time:0.00}");
                 var fileRepository = randomizer.FileRepository;
-                fileRepository.ModifyUserFile2(userFilePath, root =>
+                fileRepository.ModifyUserFile(userFilePath, root =>
                 {
-                    return (RszStructNode)root.Set("_InGameShopGuiParamHolder._HoldTime_Purchase", (float)time);
+                    return root.Set("_InGameShopGuiParamHolder._HoldTime_Purchase", (float)time);
                 });
             }
         }
@@ -419,10 +419,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             logger.LogLine($"Make bolt thrower fully automatic");
 
             var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile(userFilePath, (file, rsz) =>
+            fileRepository.ModifyUserFile(userFilePath, root =>
             {
-                rsz.Set($"_DataTable[{index}]._WeaponStructureParam.TypeOfReload", 0);
-                rsz.Set($"_DataTable[{index}]._WeaponStructureParam.TypeOfShoot", 1);
+                root = root.Set($"_DataTable[{index}]._WeaponStructureParam.TypeOfReload", 0);
+                root = root.Set($"_DataTable[{index}]._WeaponStructureParam.TypeOfShoot", 1);
+                return root;
             });
         }
 
@@ -815,9 +816,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             // Fix super iron maiden
-            fileRepository.ModifyUserFile(regeneradorPath, (rsz, root) =>
+            fileRepository.ModifyUserFile(regeneradorPath, root =>
             {
-                root.Set("STRUCT__StrongTransformedHitPoint__HasValue", false);
+                return root.Set("STRUCT__StrongTransformedHitPoint__HasValue", false);
             });
 
             // Fix Pesanta
@@ -829,9 +830,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             // Fix U3
-            fileRepository.ModifyUserFile(u3Path, (rsz, root) =>
+            fileRepository.ModifyUserFile(u3Path, root =>
             {
-                root.Set("STRUCT__SecondFormHitPoint__HasValue", false);
+                return root.Set("STRUCT__SecondFormHitPoint__HasValue", false);
             });
         }
 
@@ -953,7 +954,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 : "natives/stm/_anotherorder/appsystem/ui/userdata/sellablekeyitemuserdata_ao.user.2";
 
             var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile2(path, root =>
+            fileRepository.ModifyUserFile(path, root =>
             {
                 var datas = (RszArrayNode)root["Datas"];
                 for (var i = 0; i < datas.Length; i++)
@@ -963,8 +964,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (id != ItemIds.SmallKey)
                         continue;
 
-                    item = (RszStructNode)item.Set("Sellable[0]._Enable.Matters[0]._Data.Compare", 1);
-                    item = (RszStructNode)item.Set("Sellable[0]._Enable.Matters[0]._Data.Chapter", -1);
+                    item = item.Set("Sellable[0]._Enable.Matters[0]._Data.Compare", 1);
+                    item = item.Set("Sellable[0]._Enable.Matters[0]._Data.Chapter", -1);
                     datas = datas.SetItem(id, item);
                 }
                 return root.SetField("Datas", datas);
@@ -981,7 +982,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             // Remove DLC items from catalog since they cause black screen on SW
             var path = "natives/stm/_anotherorder/appsystem/weapon/weaponcataloguserdata_ao.user.2";
-            randomizer.FileRepository.ModifyUserFile2(path, root =>
+            randomizer.FileRepository.ModifyUserFile(path, root =>
             {
                 var list = (RszArrayNode)root["_DataTable"];
                 for (var i = 0; i < list.Length; i++)

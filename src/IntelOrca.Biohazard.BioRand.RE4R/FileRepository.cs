@@ -155,16 +155,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             SetGameFileData(path, value.Data);
         }
 
-        public void ModifyUserFile(string path, Action<RSZFile, RszInstance> callback)
-        {
-            var userFile = GetUserFile(path);
-            callback(userFile.RSZ!, userFile.RSZ!.ObjectList[0]);
-            userFile.RSZ.RebuildInstanceInfo();
-            userFile.RebuildInfoTable();
-            SetUserFile(path, userFile);
-        }
-
-        public void ModifyUserFile2(string path, Func<IntelOrca.Biohazard.REE.Rsz.RszStructNode, IntelOrca.Biohazard.REE.Rsz.RszStructNode> callback)
+        public void ModifyUserFile(string path, Func<IntelOrca.Biohazard.REE.Rsz.RszStructNode, IntelOrca.Biohazard.REE.Rsz.RszStructNode> callback)
         {
             var userFileData = GetGameFileData(path);
             var userFile = new IntelOrca.Biohazard.REE.Rsz.UserFile(userFileData);

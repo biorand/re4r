@@ -63,7 +63,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var path = GetPath(randomizer.Campaign);
             var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile2(path, root =>
+            fileRepository.ModifyUserFile(path, root =>
             {
                 var craft = RszSerializer.Deserialize<ItemCraftSettingUserdata>(root)!;
                 var recipes = RecipeDefinitionFile.Default.Recipes;
