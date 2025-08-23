@@ -137,6 +137,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var builder = userFile.ToBuilder(RszRepository);
             var targetType = ((IntelOrca.Biohazard.REE.Rsz.RszStructNode)builder.Objects[0]).Type;
             builder.Objects = [IntelOrca.Biohazard.REE.Rsz.RszSerializer.Serialize(targetType, value!)];
+            SetUserFile2(path, builder.Build());
         }
 
         public void SetScnFile(string path, ScnFile value)
@@ -147,6 +148,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public void SetUserFile(string path, UserFile value)
         {
             SetGameFileData(path, value.ToByteArray());
+        }
+
+        public void SetUserFile2(string path, IntelOrca.Biohazard.REE.Rsz.UserFile value)
+        {
+            SetGameFileData(path, value.Data);
         }
 
         public void ModifyUserFile(string path, Action<RSZFile, RszInstance> callback)

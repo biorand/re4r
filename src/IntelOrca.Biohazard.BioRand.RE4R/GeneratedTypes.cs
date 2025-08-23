@@ -86,7 +86,7 @@ namespace chainsaw
             public System.Numerics.Vector3 LocalPosition { get; set; }
             public System.Numerics.Quaternion LocalRotation { get; set; }
             public System.Numerics.Vector3 LocalScale { get; set; }
-            public System.String ParentJointName { get; set; }
+            public System.String ParentJointName { get; set; } = "";
             public System.UInt32 ParentJointNameHash { get; set; }
         }
     }
@@ -98,7 +98,7 @@ namespace chainsaw
         public System.Single SpeedAtFovMin { get; set; }
         public System.Single SpeedAtFovMax { get; set; }
         public System.Single PCSpeedScale { get; set; }
-        public System.String CameraJoint { get; set; }
+        public System.String CameraJoint { get; set; } = "";
         public System.Collections.Generic.List<System.Single> _Rates { get; set; } = [];
     }
     internal class ShellBaseAttackInfo
@@ -152,13 +152,13 @@ namespace chainsaw
         internal class IndividualCustom
         {
             public System.Int32 _IndividualCustomCategory { get; set; }
-            public chainsaw.WeaponDetailCustomUserdata.CriticalRate _CriticalRate { get; set; }
-            public chainsaw.WeaponDetailCustomUserdata.ThroughNum _ThroughNums { get; set; }
-            public chainsaw.WeaponDetailCustomUserdata.ReloadSpeed _ReloadSpeed { get; set; }
-            public chainsaw.WeaponDetailCustomUserdata.Strength _Strength { get; set; }
-            public chainsaw.WeaponDetailCustomUserdata.Rapid _Rapid { get; set; }
-            public chainsaw.WeaponDetailCustomUserdata.AmmoCost _AmmoCost { get; set; }
-            public chainsaw.WeaponDetailCustomUserdata.FlameDistance _FlameDistance { get; set; }
+            public chainsaw.WeaponDetailCustomUserdata.CriticalRate _CriticalRate { get; set; } = new();
+            public chainsaw.WeaponDetailCustomUserdata.ThroughNum _ThroughNums { get; set; } = new();
+            public chainsaw.WeaponDetailCustomUserdata.ReloadSpeed _ReloadSpeed { get; set; } = new();
+            public chainsaw.WeaponDetailCustomUserdata.Strength _Strength { get; set; } = new();
+            public chainsaw.WeaponDetailCustomUserdata.Rapid _Rapid { get; set; } = new();
+            public chainsaw.WeaponDetailCustomUserdata.AmmoCost _AmmoCost { get; set; } = new();
+            public chainsaw.WeaponDetailCustomUserdata.FlameDistance _FlameDistance { get; set; } = new();
             public System.Collections.Generic.List<System.String> _Others { get; set; } = [];
             public System.Int32 _ItemID { get; set; }
             public System.Collections.Generic.List<System.Int32> _UsableAmmoList { get; set; } = [];
@@ -174,10 +174,10 @@ namespace chainsaw
         internal class CommonCustom
         {
             public System.Int32 _CommonCustomCategory { get; set; }
-            public chainsaw.WeaponDetailCustomUserdata.AttackUp _AttackUp { get; set; }
-            public chainsaw.WeaponDetailCustomUserdata.Stabilization _Stabilization { get; set; }
-            public chainsaw.WeaponDetailCustomUserdata.AmmoMaxUp _AmmoMaxUp { get; set; }
-            public chainsaw.WeaponDetailCustomUserdata.AttackUp _ShotGunAroundAttackUp { get; set; }
+            public chainsaw.WeaponDetailCustomUserdata.AttackUp _AttackUp { get; set; } = new();
+            public chainsaw.WeaponDetailCustomUserdata.Stabilization _Stabilization { get; set; } = new();
+            public chainsaw.WeaponDetailCustomUserdata.AmmoMaxUp _AmmoMaxUp { get; set; } = new();
+            public chainsaw.WeaponDetailCustomUserdata.AttackUp _ShotGunAroundAttackUp { get; set; } = new();
         }
         internal class LimitBreakUnbreakable
         {
@@ -299,7 +299,7 @@ namespace chainsaw
     }
     internal class WeaponEquipParam
     {
-        public System.String ParentJointName { get; set; }
+        public System.String ParentJointName { get; set; } = "";
         public System.Numerics.Vector3 LocalPosition { get; set; }
         public System.Numerics.Quaternion LocalRotation { get; set; }
         public System.Numerics.Vector3 LocalScale { get; set; }
@@ -366,7 +366,7 @@ namespace chainsaw
         internal class ReloadSpeedCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
             public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.ReloadSpeedParam> _ReloadSpeedParams { get; set; } = [];
         }
         internal class CustomFlameDistance
@@ -377,7 +377,7 @@ namespace chainsaw
         internal class UsableAmmoCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
             public chainsaw.WeaponCustomUserdata.ChangeLevel _ChangeLevel { get; set; }
         }
         internal class WeaponCustom
@@ -394,13 +394,13 @@ namespace chainsaw
         internal class StabilizationCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
             public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.StabilizationParam> _StabilizationParams { get; set; } = [];
         }
         internal class RapidCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
             public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.RapidParam> _RapidParams { get; set; } = [];
         }
         internal class CustomAmmoMaxUp
@@ -421,18 +421,18 @@ namespace chainsaw
         internal class Individual
         {
             public System.Int32 _IndividualCustomCategory { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomCriticalRate _CustomCriticalRate { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomThroughNum _CustomThroughNum { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomUsableAmmo _CustomUsableAmmo { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomReloadSpeed _CustomReloadSpeed { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomStage _CustomReload { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomRepair _CustomRepair { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomPolish _CustomPolish { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomStrength _CustomStrength { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomRapid _CustomRapid { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomOtherIndividual _CustomOtherIndividual { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomAmmoCost _CustomAmmoCost { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomFlameDistance _CustomFlameDistance { get; set; }
+            public chainsaw.WeaponCustomUserdata.CustomCriticalRate _CustomCriticalRate { get; set; } = new();
+            public chainsaw.WeaponCustomUserdata.CustomThroughNum _CustomThroughNum { get; set; } = new();
+            public chainsaw.WeaponCustomUserdata.CustomUsableAmmo _CustomUsableAmmo { get; set; } = new();
+            public chainsaw.WeaponCustomUserdata.CustomReloadSpeed _CustomReloadSpeed { get; set; } = new();
+            public chainsaw.WeaponCustomUserdata.CustomStage _CustomReload { get; set; } = new();
+            public chainsaw.WeaponCustomUserdata.CustomRepair _CustomRepair { get; set; } = new();
+            public chainsaw.WeaponCustomUserdata.CustomPolish _CustomPolish { get; set; } = new();
+            public chainsaw.WeaponCustomUserdata.CustomStrength _CustomStrength { get; set; } = new();
+            public chainsaw.WeaponCustomUserdata.CustomRapid _CustomRapid { get; set; } = new();
+            public chainsaw.WeaponCustomUserdata.CustomOtherIndividual _CustomOtherIndividual { get; set; } = new();
+            public chainsaw.WeaponCustomUserdata.CustomAmmoCost _CustomAmmoCost { get; set; } = new();
+            public chainsaw.WeaponCustomUserdata.CustomFlameDistance _CustomFlameDistance { get; set; } = new();
         }
         internal class CustomThroughNum
         {
@@ -452,7 +452,7 @@ namespace chainsaw
         internal class CriticalRateCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
             public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.CriticalRateParam> _CriticalRateParams { get; set; } = [];
         }
         internal class RepairParam
@@ -462,7 +462,7 @@ namespace chainsaw
         internal class CustomOtherIndividual
         {
             public System.Guid _MessageId { get; set; }
-            public System.String _str { get; set; }
+            public System.String _str { get; set; } = "";
         }
         internal class CustomAmmoCost
         {
@@ -477,7 +477,7 @@ namespace chainsaw
         internal class CustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
         }
         internal class CustomLimitBreak
         {
@@ -490,7 +490,7 @@ namespace chainsaw
         internal class FlameDistanceCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
             public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.FlameDistanceParam> _FlameDistanceParams { get; set; } = [];
         }
         internal class CriticalRateParam
@@ -506,13 +506,13 @@ namespace chainsaw
         internal class AttackUpCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
             public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.AttackUpParam> _AttackUpParams { get; set; } = [];
         }
         internal class AmmoMaxUpCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
             public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.AmmoMaxUpParam> _AmmoMaxUpParams { get; set; } = [];
         }
         internal class ItemCustom
@@ -551,7 +551,7 @@ namespace chainsaw
         internal class RepairCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
         }
         internal class CustomCriticalRate
         {
@@ -565,9 +565,9 @@ namespace chainsaw
         internal class Common
         {
             public System.Int32 _CommonCustomCategory { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomAttackUp _CustomAttackUp { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomStabilization _CustomStabilization { get; set; }
-            public chainsaw.WeaponCustomUserdata.CustomAmmoMaxUp _CustomAmmoMaxUp { get; set; }
+            public chainsaw.WeaponCustomUserdata.CustomAttackUp _CustomAttackUp { get; set; } = new();
+            public chainsaw.WeaponCustomUserdata.CustomStabilization _CustomStabilization { get; set; } = new();
+            public chainsaw.WeaponCustomUserdata.CustomAmmoMaxUp _CustomAmmoMaxUp { get; set; } = new();
         }
         internal class CustomReloadSpeed
         {
@@ -584,7 +584,7 @@ namespace chainsaw
         internal class ThroughNumCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
             public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.ThroughNumParam> _ThroughNumParams { get; set; } = [];
         }
         internal class CustomRapid
@@ -595,7 +595,7 @@ namespace chainsaw
         internal class LimitBreakCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
         }
         internal class LimitBreak
         {
@@ -605,7 +605,7 @@ namespace chainsaw
         internal class AmmoCostCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
             public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.AmmoCostParam> _AmmoCostParams { get; set; } = [];
         }
         internal class RapidParam
@@ -625,7 +625,7 @@ namespace chainsaw
         internal class StrengthCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
             public System.Collections.Generic.List<chainsaw.WeaponCustomUserdata.StrengthParam> _StrengthParams { get; set; } = [];
         }
         internal class ItemStage
@@ -646,7 +646,7 @@ namespace chainsaw
         internal class PolishCustomStage
         {
             public System.Int32 _Cost { get; set; }
-            public System.String _Info { get; set; }
+            public System.String _Info { get; set; } = "";
         }
         internal class WeaponStage
         {
@@ -913,7 +913,7 @@ namespace chainsaw
         }
         internal class Data
         {
-            public System.String DataName { get; set; }
+            public System.String DataName { get; set; } = "";
             public System.Int32 DigitNum { get; set; }
             public System.Int32 DigitIndex { get; set; }
             public System.Collections.Generic.List<chainsaw.ScenarioFlagData.Block> Block { get; set; } = [];
