@@ -1,6 +1,5 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-using System.Collections.Generic;
 using IntelOrca.Biohazard.REE.Rsz.Native;
 
 namespace chainsaw
@@ -922,13 +921,13 @@ namespace chainsaw
 
     internal class WeaponPartsCombineDefinitionUserdata
     {
-        public List<WeaponPartsCombineDefinition> _Datas { get; set; } = [];
+        public System.Collections.Generic.List<WeaponPartsCombineDefinition> _Datas { get; set; } = [];
     }
 
     internal class WeaponPartsCombineDefinition
     {
         public int _ItemId { get; set; }
-        public List<int> _TargetItemIds { get; set; } = [];
+        public System.Collections.Generic.List<int> _TargetItemIds { get; set; } = [];
     }
 
     internal class ItemDefinitionUserData
@@ -979,6 +978,142 @@ namespace chainsaw
     internal class AdditionalRequirement : ItemUseResultInfoBase
     {
         public System.UInt32 _DedicatedTarget { get; set; }
+    }
+
+    internal class DropItemSaveDataTable
+    {
+        public System.Collections.Generic.List<chainsaw.DropItemSaveDataTable.Data> Datas { get; set; } = [];
+
+        public class Data
+        {
+            public chainsaw.ContextID ID { get; set; } = new();
+            public chainsaw.DropItemContext.SaveData ItemData { get; set; } = new();
+            public chainsaw.DropItemContext.StaticData ItemStatic { get; set; } = new();
+        }
+    }
+
+    internal class DropItemContext
+    {
+        public ContextID _ID { get; set; }
+
+        public class SaveData
+        {
+            public System.Int32 ItemID { get; set; }
+            public System.Int32 Count { get; set; }
+            public System.Int32 AmmoItemID { get; set; }
+            public System.Int32 AmmoCount { get; set; }
+            public System.Int32 Durability { get; set; }
+            public System.Int32 StageID { get; set; }
+            public System.UInt32 Attr { get; set; }
+            public System.Int32 StatusEffect { get; set; }
+            public System.Boolean STRUCT_Position__HasValue { get; set; }
+            public System.Numerics.Vector3 STRUCT_Position__Value { get; set; } = new();
+            public System.Boolean STRUCT_DisplayPosition__HasValue { get; set; }
+            public System.Numerics.Vector3 STRUCT_DisplayPosition__Value { get; set; } = new();
+            public System.Boolean STRUCT_DisplayRotation__HasValue { get; set; }
+            public System.Numerics.Quaternion STRUCT_DisplayRotation__Value { get; set; } = new();
+            public System.Boolean STRUCT_ColliderScale__HasValue { get; set; }
+            public System.Single STRUCT_ColliderScale__Value { get; set; }
+        }
+
+        public class StaticData
+        {
+            public System.Boolean HasRelation { get; set; }
+            public chainsaw.DropItemContext.RelationData Relation { get; set; } = new();
+            public System.Numerics.Vector3 InitPosition { get; set; } = new();
+            public System.Boolean IgnoreTreasureMap { get; set; }
+            public System.Int32 MapFloorID { get; set; }
+            public System.Boolean IsDLC { get; set; }
+            public System.Int32 SubMapStageID { get; set; }
+            public System.Numerics.Vector3 SubMapPosition { get; set; } = new();
+        }
+
+        public class RelationData
+        {
+            public chainsaw.ContextID Target { get; set; } = new();
+        }
+    }
+
+    internal class ContextID
+    {
+        public System.SByte _Category { get; set; }
+        public System.Byte _Kind { get; set; }
+        public System.Int32 _Group { get; set; }
+        public System.Int32 _Index { get; set; }
+    }
+
+    internal class GimmickSaveDataTable
+    {
+        public System.Collections.Generic.List<chainsaw.GimmickSaveDataTable.Data> Datas { get; set; } = [];
+
+        public class Data
+        {
+            public chainsaw.ContextID ID { get; set; } = new();
+            public chainsaw.GimmickContext.SaveData Save { get; set; } = new();
+            public chainsaw.GimmickContext.StaticData Static { get; set; } = new();
+            public System.Collections.Generic.List<chainsaw.GimmickContext.MapData> Maps { get; set; } = [];
+            public System.Collections.Generic.List<chainsaw.GimmickManager.AccessPoint> AccessPoints { get; set; } = [];
+            public System.Collections.Generic.List<chainsaw.GmContextAIMapEff.ShapeData> AIMapData { get; set; } = [];
+            public string ContextType { get; set; } = "";
+        }
+    }
+
+    internal class GimmickContext
+    {
+        public chainsaw.ContextID ID { get; set; } = new();
+
+        public class SaveData
+        {
+            public System.Collections.Generic.List<System.Byte> Attr { get; set; } = [];
+            public System.Collections.Generic.List<chainsaw.GimmickContext.TriggerDone> TriggerSave { get; set; } = [];
+            public System.Boolean IsDetected { get; set; }
+            public System.Collections.Generic.List<chainsaw.GimmickContext.AccessoryData> AccDatas { get; set; } = [];
+        }
+
+        public class TriggerDone
+        {
+            public System.UInt32 SaveID { get; set; }
+            public System.UInt32 Done { get; set; }
+        }
+
+        public class AccessoryData
+        {
+        }
+
+        public class StaticData
+        {
+        }
+
+        public class MapData
+        {
+            public string MapName { get; set; } = "";
+            public System.Numerics.Vector3 MapPosition { get; set; } = new();
+            public System.Int32 _StageID { get; set; }
+            public System.Collections.Generic.List<System.Int32> MapFloorIDs { get; set; } = [];
+            public System.Boolean NeedCheckClearing { get; set; }
+        }
+    }
+
+    internal class GimmickManager
+    {
+        public class AccessPoint
+        {
+            public System.Numerics.Vector3 Position { get; set; } = new();
+            public System.Int32 Access { get; set; }
+        }
+    }
+
+    internal class GmContextAIMapEff
+    {
+        public chainsaw.ContextID ID { get; set; } = new();
+
+        public class ShapeData
+        {
+            public System.Numerics.Vector3 Position { get; set; } = new();
+            public System.Single RotationY { get; set; }
+            public string ShapeName { get; set; } = "";
+            public System.Collections.Generic.List<System.Int32> Stage { get; set; } = [];
+        }
     }
 }
 namespace chainsaw.gui.shop

@@ -7,7 +7,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
+using RszInstance = RszTool.RszInstance;
+using ScnFile = RszTool.ScnFile;
+using UserFile = IntelOrca.Biohazard.REE.Rsz.UserFile;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -138,11 +141,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 AddCondition(filePair.Scene, gimmick, placement);
 
-                var userData = filePair.User.RSZ!.CreateInstance("chainsaw.GimmickSaveDataTable.Data");
-                contextId.CopyTo(userData.Get<RszInstance>("ID")!);
-                userData.GetList("Save.Attr").AddRange([(byte)0, (byte)0, (byte)0, (byte)0]);
-                var dataList = filePair.User.RSZ.ObjectList[0].GetList("Datas");
-                dataList.Add(userData);
+                var userData = FileRepository.RszRepository.Create("chainsaw.GimmickSaveDataTable.Data");
+                userData = userData.SetField("ID", contextId.ToRsz(FileRepository.RszRepository));
+                userData = userData.Set("Save.Attr", new byte[] { 0, 0, 0, 0 });
+                filePair.UserData = filePair.UserData.SetField("Datas",
+                    ((RszArrayNode)filePair.UserData["Datas"]).Add(userData));
             }
 
             private static ScnFile.GameObjectData? FindChildRecursive(ScnFile.GameObjectData parent, string name)
@@ -225,7 +228,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 public string ScenePath { get; }
                 public ScnFile Scene { get; }
-                public UserFile User { get; }
+                public UserFile.Builder User { get; }
+                public RszStructNode UserData
+                {
+                    get => (RszStructNode)User.Objects[0];
+                    set => User.Objects = User.Objects.SetItem(0, value);
+                }
 
                 public string UserPath => $"{ScenePath[..^7]}_savedata.user.2";
 
@@ -234,13 +242,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     _fileRepository = fileRepository;
                     ScenePath = path;
                     Scene = fileRepository.GetScnFile(ScenePath);
-                    User = fileRepository.GetUserFile(UserPath);
+                    User = fileRepository.GetUserFile2(UserPath).ToBuilder(FileRepository.RszRepository);
                 }
 
                 public void Save()
                 {
                     _fileRepository.SetScnFile(ScenePath, Scene);
-                    _fileRepository.SetUserFile(UserPath, User);
+                    _fileRepository.SetUserFile2(UserPath, User.Build());
                 }
             }
         }

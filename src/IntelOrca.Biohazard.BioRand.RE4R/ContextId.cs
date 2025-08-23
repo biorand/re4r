@@ -1,6 +1,7 @@
 ﻿using System;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
+using RszInstance = RszTool.RszInstance;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -11,12 +12,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public int Group { get; } = group;
         public int Index { get; } = index;
 
+        internal static ContextId FromRszValue(chainsaw.ContextID rszValue)
+        {
+            return new ContextId(rszValue._Category, rszValue._Kind, rszValue._Group, rszValue._Index);
+        }
+
         public static ContextId FromRsz(RszInstance instance)
         {
             var category = instance.Get<sbyte>("_Category")!;
             var kind = instance.Get<byte>("_Kind")!;
             var group = instance.Get<int>("_Group")!;
             var index = instance.Get<int>("_Index")!;
+            return new ContextId(category, kind, group, index);
+        }
+
+        public static ContextId FromRsz(REE.Rsz.IRszNode node)
+        {
+            var category = node.Get<sbyte>("_Category")!;
+            var kind = node.Get<byte>("_Kind")!;
+            var group = node.Get<int>("_Group")!;
+            var index = node.Get<int>("_Index")!;
             return new ContextId(category, kind, group, index);
         }
 
@@ -28,6 +43,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             instance.Set("_Kind", Kind);
             instance.Set("_Group", Group);
             instance.Set("_Index", Index);
+        }
+
+        public REE.Rsz.IRszNode ToRsz(RszTypeRepository repo)
+        {
+            var node = repo.Create("chainsaw.ContextID");
+            node = node.SetField("_Category", Category);
+            node = node.SetField("_Kind", Kind);
+            node = node.SetField("_Group", Group);
+            node = node.SetField("_Index", Index);
+            return node;
         }
 
         public override string ToString() => $"CTXID({Category},{Kind},{Group},{Index})";
