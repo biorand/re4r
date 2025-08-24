@@ -183,29 +183,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void SlowDownFactoryDoor(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+            const float speed = 0.025f;
             const string scnPath = "natives/stm/_chainsaw/environment/scene/gimmick/st44/gimmick_st44_210_p000.scn.20";
 
             logger.LogLine("Slow down factory door");
-
-            var fileRepository = randomizer.FileRepository;
-            var scn = fileRepository.GetScnFile(scnPath);
-            if (scn == null)
-                return;
-
-            var wheelObject = scn.FindGameObject(new Guid("f6ab6635-ec2f-420c-8d9b-c14583ce30a4"));
-            if (wheelObject == null)
-                return;
-
-            var holdHandleComponent = wheelObject.FindComponent("chainsaw.GmHoldHandle");
-            if (holdHandleComponent == null)
-                return;
-
-            const float speed = 0.025f;
-            holdHandleComponent.Set("_ReduceProcess", speed);
-            holdHandleComponent.Set("_ReduceProcessLv2", speed);
-            holdHandleComponent.Set("_ReduceProcessLv3", speed);
-
-            fileRepository.SetScnFile(scnPath, scn);
+            randomizer.FileRepository.ModifyScnFile(scnPath, scene =>
+            {
+                var wheelObject = scene.FindGameObject(new Guid("f6ab6635-ec2f-420c-8d9b-c14583ce30a4"))!;
+                return scene.ReplaceGameObject(wheelObject
+                    .AddOrUpdateComponent(wheelObject
+                        .FindComponent("chainsaw.GmHoldHandle")!
+                            .Set("_ReduceProcess", speed)
+                            .Set("_ReduceProcessLv2", speed)
+                            .Set("_ReduceProcessLv3", speed)));
+            });
         }
 
         private void IncreaseJetSkiTimer(ChainsawRandomizer randomizer, RandomizerLogger logger)

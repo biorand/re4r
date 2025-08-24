@@ -117,6 +117,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             SetScnFile(path, scnFile);
         }
 
+        public void ModifyScnFile(string path, Func<IntelOrca.Biohazard.REE.Rsz.RszScene, IntelOrca.Biohazard.REE.Rsz.RszScene> callback)
+        {
+            var scnFile = GetScnFile2(path).ToBuilder(RszRepository);
+            scnFile.Scene = callback(scnFile.Scene);
+            SetScnFile2(path, scnFile.Build());
+        }
+
         public void SetScnFile(string path, ScnFile value)
         {
             SetGameFileData(path, value.ToByteArray());
