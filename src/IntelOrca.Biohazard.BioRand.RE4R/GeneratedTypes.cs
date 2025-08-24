@@ -1128,7 +1128,181 @@ namespace chainsaw
         public System.Guid _CheckFlag { get; set; }
         public bool _CompareValue { get; set; }
     }
+    internal class InventoryCatalogUserData
+    {
+        public System.Int32 _PTAS { get; set; }
+        public System.Int32 _SpinelCount { get; set; }
+        public System.Collections.Generic.List<chainsaw.InventoryCatalogUserData.Data> _Datas { get; set; } = [];
+        internal class Data
+        {
+            public System.Int32 CharacterKindID { get; set; }
+            public chainsaw.InventorySaveData InventoryData { get; set; } = new();
+            public chainsaw.KeyItemInventorySaveData KeyInventorySaveData { get; set; } = new();
+            public chainsaw.TreasureInventorySaveData TreasureInventorySaveData { get; set; } = new();
+            public chainsaw.UniqueInventorySaveData UniqueInventorySaveData { get; set; } = new();
+            public chainsaw.CharacterInitialSettings CharacterData { get; set; } = new();
+        }
+    }
+    internal class InventorySaveData
+    {
+        public System.Guid SetupID { get; set; }
+        public chainsaw.ContextID ContextID { get; set; } = new();
+        public System.Boolean IsTakeOverData { get; set; }
+        public chainsaw.InventorySizeSaveData InventorySize { get; set; } = new();
+        public System.Collections.Generic.List<chainsaw.InventoryItemSaveData> InventoryItems { get; set; } = [];
+        public System.Collections.Generic.List<chainsaw.InventoryEquipSaveData> EquipInfos { get; set; } = [];
+        public System.Collections.Generic.List<chainsaw.InventoryShortcutSaveData> ShortcutInfos { get; set; } = [];
+        public System.Collections.Generic.List<chainsaw.InventoryActiveShortcutSaveData> ActiveShortcutInfos { get; set; } = [];
+    }
+    internal class InventorySizeSaveData
+    {
+        public System.Int32 CurrInventorySize { get; set; }
+    }
+    internal class InventoryItemSaveData
+    {
+        public chainsaw.Item Item { get; set; } = new();
+        public System.Int32 SlotType { get; set; }
+        public System.Int32 STRUCT_SlotIndex_Row { get; set; }
+        public System.Int32 STRUCT_SlotIndex_Column { get; set; }
+        public System.Int32 CurrDirection { get; set; }
+    }
+    internal class Item
+    {
+        public System.Guid _ID { get; set; }
+        public System.Int32 _ItemId { get; set; }
+        public System.UInt32 _CurrentCondition { get; set; }
+        public System.Int32 _CurrentDurability { get; set; }
+        public System.Int32 _CurrentItemCount { get; set; }
+    }
+    internal class WeaponItem : Item
+    {
+        public System.Int32 _CurrentAmmo { get; set; }
+        public System.Int32 _CurrentAmmoCount { get; set; }
+        public System.Int32 _CurrentTacticalAmmoCount { get; set; }
+        public chainsaw.WeaponPartsCustom _CurrentWeaponPartsCustom { get; set; } = new();
+        public chainsaw.CustomLevelInWeapon _CustomLevelInWeapon { get; set; } = new();
+        public System.Int32 _LimitBreakCustomPattern { get; set; }
+    }
+    internal class WeaponPartsCustom
+    {
+        public System.Collections.Generic.List<chainsaw.WeaponPartsCustomSingleData> _Datas { get; set; } = [];
+    }
+    internal class WeaponPartsCustomSingleData
+    {
+        public System.Guid _ID { get; set; }
+        public System.Int32 _ItemId { get; set; }
+    }
+    internal class CustomLevelInWeapon
+    {
+        public System.Boolean _IsReflect { get; set; }
+        public System.Boolean _IsReticleFit { get; set; }
+        public System.Collections.Generic.List<chainsaw.CommonLevelInWeapon> _CommonLevelInWeapon { get; set; } = [];
+        public System.Collections.Generic.List<chainsaw.IndividualLevelInWeapon> _IndividualLevelInWeapon { get; set; } = [];
+        public System.Collections.Generic.List<chainsaw.LimitBreakLevelInWeapon> _LimitBreakLevelInWeapon { get; set; } = [];
+    }
+    internal class CommonLevelInWeapon
+    {
+        public System.Int32 _NowLevel { get; set; }
+        public System.Int32 _CommonCustomCategory { get; set; }
+        public System.Int32 _DamageRateLevel { get; set; }
+        public System.Int32 _WinceRateLevel { get; set; }
+        public System.Int32 _BreakRateLevel { get; set; }
+        public System.Int32 _StoppingRateLevel { get; set; }
+        public System.Int32 _ExplosionRadiusLevel { get; set; }
+        public System.Int32 _ExplosionSensorRadiusLevel { get; set; }
+        public System.Int32 _RandomRadiusLevel { get; set; }
+        public System.Int32 _RandomRadius_FitLevel { get; set; }
+        public System.Int32 _ReticleFitParamLevel { get; set; }
+        public System.Int32 _CameraRecoilParamLevel { get; set; }
+        public System.Int32 _CameraShakeParamLevel { get; set; }
+        public System.Int32 _WeaponHandShakeParamLevel { get; set; }
+        public System.Int32 _ReticleGuiTypeLevel { get; set; }
+        public System.Int32 _AmmoMaxLevel { get; set; }
+        public System.Int32 _ReloadNumLevel { get; set; }
+    }
+    internal class IndividualLevelInWeapon
+    {
+        public System.Int32 _NowLevel { get; set; }
+        public System.Int32 _IndividualCustomCategory { get; set; }
+        public System.Int32 _CriticalRate_NormalLevel { get; set; }
+        public System.Int32 _CriticalRate_FitLevel { get; set; }
+        public System.Int32 _ThroughNum_NormalLevel { get; set; }
+        public System.Int32 _ThroughNum_FitLevel { get; set; }
+        public System.Int32 _ReloadNumLevel { get; set; }
+        public System.Int32 _ReloadSpeedRateLevel { get; set; }
+        public System.Int32 _DurabilityMaxLevel { get; set; }
+        public System.Int32 _RapidSpeedLevel { get; set; }
+        public System.Int32 _PumpActionRapidSpeedLevel { get; set; }
+        public System.Int32 _AmmoCostLevel { get; set; }
+        public System.Int32 _FlameDistanceLevel { get; set; }
+    }
+    internal class LimitBreakLevelInWeapon
+    {
+        public System.Int32 _NowLevel { get; set; }
+        public System.Int32 _LimitBreakCustomCategory { get; set; }
+    }
+    internal class InventoryEquipSaveData
+    {
+        public System.Guid ID { get; set; }
+    }
+    internal class InventoryShortcutSaveData
+    {
+        public System.Guid ID { get; set; }
+        public System.Int32 EquipType { get; set; }
+        public System.Int32 ShortcutType { get; set; }
+        public System.Int32 Direction { get; set; }
+        public System.Int32 ItemId { get; set; }
+        public System.Int32 ItemCount { get; set; }
+    }
+    internal class InventoryActiveShortcutSaveData
+    {
+        public System.Int32 EquipType { get; set; }
+        public System.Int32 ShortcutType { get; set; }
+        public System.Int32 ActiveDirection { get; set; }
+    }
+    internal class KeyItemInventorySaveData
+    {
+        public System.Guid SetupID { get; set; }
+        public chainsaw.ContextID ContextID { get; set; } = new();
+        public System.Boolean IsTakeOverData { get; set; }
+        public System.Collections.Generic.List<chainsaw.KeyItemInventoryItemSaveData> Items { get; set; } = [];
+    }
+    internal class KeyItemInventoryItemSaveData
+    {
+        public chainsaw.Item Item { get; set; } = new();
+        public System.Int32 STRUCT_SlotIndex_Row { get; set; }
+        public System.Int32 STRUCT_SlotIndex_Column { get; set; }
+    }
+    internal class TreasureInventorySaveData
+    {
+        public System.Guid SetupID { get; set; }
+        public chainsaw.ContextID ContextID { get; set; } = new();
+        public System.Boolean IsTakeOverData { get; set; }
+        public System.Collections.Generic.List<chainsaw.TreasureInventoryItemSaveData> Items { get; set; } = [];
+    }
+    internal class TreasureInventoryItemSaveData
+    {
+        public chainsaw.Item Item { get; set; } = new();
+        public System.Int32 STRUCT_SlotIndex_Row { get; set; }
+        public System.Int32 STRUCT_SlotIndex_Column { get; set; }
+    }
+    internal class UniqueInventorySaveData
+    {
+        public System.Guid SetupID { get; set; }
+        public chainsaw.ContextID ContextID { get; set; } = new();
+        public System.Boolean IsTakeOverData { get; set; }
+        public System.Collections.Generic.List<chainsaw.UniqueInventoryItemSaveData> Items { get; set; } = [];
+    }
+    internal class UniqueInventoryItemSaveData
+    {
+        public chainsaw.Item Item { get; set; } = new();
+    }
+    internal class CharacterInitialSettings
+    {
+        public System.Int32 _CharacterMaxHP { get; set; }
+    }
 }
+
 namespace chainsaw.gui.shop
 {
     internal class InGameShopAdjustParam
