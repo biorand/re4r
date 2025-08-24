@@ -69,21 +69,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private void ForceNgPlusMerchantLeon(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var path = "natives/stm/_chainsaw/environment/scene/gimmick/st40/gimmick_st40_502_p000.scn.20";
-            randomizer.FileRepository.ModifyScnFile(path, scn =>
+            randomizer.FileRepository.ModifyScnFile(path, scene =>
             {
-                scn.RemoveGameObject(new Guid("ca0ac85f-1238-49d9-a0fb-0d58a42487a1")); // merchant
-                scn.RemoveGameObject(new Guid("4a975fc1-2e1c-4fd3-a49a-1f35d6a30f0f")); // merchant flame
+                return scene
+                    .RemoveGameObject(new Guid("ca0ac85f-1238-49d9-a0fb-0d58a42487a1"))  // merchant
+                    .RemoveGameObject(new Guid("4a975fc1-2e1c-4fd3-a49a-1f35d6a30f0f")); // merchant flame
             });
         }
 
         private void ForceNgPlusMerchantAda(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var path = "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_501_ao.scn.20";
-            randomizer.FileRepository.ModifyScnFile(path, scn =>
+            randomizer.FileRepository.ModifyScnFile(path, scene =>
             {
-                scn.RemoveGameObject(new Guid("41a87b99-d47f-438d-a686-f19e6865379e")); // merchant
-                scn.RemoveGameObject(new Guid("33ba7a17-4b7d-4a23-b272-c5afcd62f3f1")); // merchant flame
-                scn.RemoveGameObject(new Guid("bf5cc10b-ff6b-46be-99e3-814629dfcff8")); // typwriter
+                return scene
+                    .RemoveGameObject(new Guid("41a87b99-d47f-438d-a686-f19e6865379e"))  // merchant
+                    .RemoveGameObject(new Guid("33ba7a17-4b7d-4a23-b272-c5afcd62f3f1"))  // merchant flame
+                    .RemoveGameObject(new Guid("bf5cc10b-ff6b-46be-99e3-814629dfcff8")); // typwriter
             });
         }
 
@@ -190,7 +192,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             randomizer.FileRepository.ModifyScnFile(scnPath, scene =>
             {
                 var wheelObject = scene.FindGameObject(new Guid("f6ab6635-ec2f-420c-8d9b-c14583ce30a4"))!;
-                return scene.ReplaceGameObject(wheelObject
+                return scene.UpdateGameObject(wheelObject
                     .AddOrUpdateComponent(wheelObject
                         .FindComponent("chainsaw.GmHoldHandle")!
                             .Set("_ReduceProcess", speed)
@@ -369,17 +371,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return;
 
             logger.LogLine("Randomize first bear trap location");
-            randomizer.FileRepository.ModifyScnFile(scnPath, scn =>
+            randomizer.FileRepository.ModifyScnFile(scnPath, scene =>
             {
-                var bearTrapObject = scn.FindGameObject(new Guid("601d0ce7-ca40-40d0-bba9-73918a141a96"));
-                if (bearTrapObject == null)
-                    return;
-
-                var transform = bearTrapObject.FindComponent("via.Transform");
-                if (transform == null)
-                    return;
-
-                transform.Set("Position", new Vector4(-76.99f, 5.14f, 35.3336f, 0.0f));
+                var bearTrapObject = scene.FindGameObject(new Guid("601d0ce7-ca40-40d0-bba9-73918a141a96"));
+                if (bearTrapObject != null)
+                {
+                    var transform = bearTrapObject.FindComponent("via.Transform")!;
+                    scene = scene.UpdateGameObject(bearTrapObject
+                        .AddOrUpdateComponent(transform
+                            .Set("Position", new Vector4(-76.99f, 5.14f, 35.3336f, 0.0f))));
+                }
+                return scene;
             });
         }
 
@@ -723,24 +725,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 6010, 6100, 6110, 6200, 6400, 6800, 6900,
             };
 
+            var repo = FileRepository.RszRepository;
             var pathFormat = randomizer.Campaign == Campaign.Leon ? pathFormatLeon : pathFormatAda;
             var locations = randomizer.Campaign == Campaign.Leon ? locationsLeon : locationsAda;
             var rootName = randomizer.Campaign == Campaign.Leon ? "AIMap" : "AIMap_AO";
             foreach (var loc in locations)
             {
                 var path = string.Format(pathFormat, loc / 100, loc);
-                randomizer.FileRepository.ModifyScnFile(path, scn =>
+                randomizer.FileRepository.ModifyScnFile(path, scene =>
                 {
-                    var obj = scn.IterAllGameObjects().First(x => x.Name == rootName);
-                    var navigationMapClient = obj.FindComponent("chainsaw.NavigationMapClient");
-                    var bindInfoList = navigationMapClient!.GetList("_BindInfoList");
-                    if (bindInfoList.Count < 3)
+                    var obj = scene.FindGameObject(rootName)!;
+                    var navigationMapClient = obj.FindComponent("chainsaw.NavigationMapClient")!;
+                    var bindInfoList = (RszArrayNode)navigationMapClient["_BindInfoList"];
+                    if (bindInfoList.Length < 3)
                     {
-                        var bindInfo = scn.RSZ!.CreateInstance("chainsaw.NavigationMapClient.BindInfo");
-                        bindInfo.Set("_Purpose", 1);
-                        bindInfo.Set("_MapName", $"VolumeSpace_Loc{loc}");
-                        bindInfoList.Add(bindInfo);
+                        scene = scene.UpdateGameObject(
+                            obj.AddOrUpdateComponent(
+                                navigationMapClient.SetField("_BindInfoList",
+                                    bindInfoList.Add(repo
+                                        .Create("chainsaw.NavigationMapClient.BindInfo")
+                                            .Set("_Purpose", 1)
+                                            .Set("_MapName", $"VolumeSpace_Loc{loc}")))));
                     }
+                    return scene;
                 });
             }
         }

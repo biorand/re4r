@@ -20,13 +20,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
                 .FirstOrDefault(x => x.Guid == guid);
         }
 
-        public static void RemoveGameObject(this ScnFile scnFile, Guid guid)
-        {
-            var obj = FindGameObject(scnFile, guid);
-            if (obj != null)
-                scnFile.RemoveGameObject(obj);
-        }
-
         public static RszInstance? FindComponent(this ScnFile scnFile, Guid gameObjectGuid, string name)
         {
             return FindGameObject(scnFile, gameObjectGuid)?.FindComponent(name);
@@ -35,12 +28,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
         public static RszInstance? FindComponent(this IGameObjectData gameObject, string name)
         {
             return gameObject.Components.FirstOrDefault(x => x.RszClass.name == name);
-        }
-
-        public static int GetLength(this RszInstance instance, string xpath)
-        {
-            var list = GetList(instance, xpath);
-            return list.Count;
         }
 
         public static List<T> GetArray<T>(this RszInstance instance, string xpath)

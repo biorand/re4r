@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.IO;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Messages;
 using IntelOrca.Biohazard.REE.Package;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class FileRepository : IDisposable
     {
-        private static IntelOrca.Biohazard.REE.Rsz.RszTypeRepository? _rszRepository;
+        private static RszTypeRepository? _rszRepository;
 
-        public static IntelOrca.Biohazard.REE.Rsz.RszTypeRepository RszRepository
+        public static RszTypeRepository RszRepository
         {
             get
             {
                 if (_rszRepository == null)
                 {
                     var rszJson = EmbeddedData.GetFile("rszre4.json.gz");
-                    _rszRepository = IntelOrca.Biohazard.REE.Rsz.RszRepositorySerializer.Default.FromJsonGz(rszJson);
+                    _rszRepository = RszRepositorySerializer.Default.FromJsonGz(rszJson);
                 }
                 return _rszRepository;
             }
@@ -99,74 +98,54 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var data = GetGameFileData(path);
             return data == null
                 ? throw new Exception("Unable to read data file.")
-                : ChainsawRandomizerFactory.Default.ReadScnFile(data);
+                : new ScnFile(20, data);
         }
 
-        public IntelOrca.Biohazard.REE.Rsz.ScnFile GetScnFile2(string path)
+        public void ModifyScnFile(string path, Func<RszScene, RszScene> callback)
         {
-            var data = GetGameFileData(path);
-            return data == null
-                ? throw new Exception("Unable to read data file.")
-                : new IntelOrca.Biohazard.REE.Rsz.ScnFile(20, data);
-        }
-
-        public void ModifyScnFile(string path, Action<ScnFile> callback)
-        {
-            var scnFile = GetScnFile(path);
-            callback(scnFile);
-            SetScnFile(path, scnFile);
-        }
-
-        public void ModifyScnFile(string path, Func<IntelOrca.Biohazard.REE.Rsz.RszScene, IntelOrca.Biohazard.REE.Rsz.RszScene> callback)
-        {
-            var scnFile = GetScnFile2(path).ToBuilder(RszRepository);
+            var scnFile = GetScnFile(path).ToBuilder(RszRepository);
             scnFile.Scene = callback(scnFile.Scene);
-            SetScnFile2(path, scnFile.Build());
+            SetScnFile(path, scnFile.Build());
         }
 
         public void SetScnFile(string path, ScnFile value)
         {
-            SetGameFileData(path, value.ToByteArray());
-        }
-
-        public void SetScnFile2(string path, IntelOrca.Biohazard.REE.Rsz.ScnFile value)
-        {
             SetGameFileData(path, value.Data);
         }
 
-        public IntelOrca.Biohazard.REE.Rsz.UserFile GetUserFile(string path)
+        public UserFile GetUserFile(string path)
         {
             var data = GetGameFileData(path);
             return data == null
                 ? throw new Exception("Unable to read data file.")
-                : new IntelOrca.Biohazard.REE.Rsz.UserFile(data);
+                : new UserFile(data);
         }
 
         public T DeserializeUserFile<T>(string path)
         {
             var userFile = GetUserFile(path);
-            return IntelOrca.Biohazard.REE.Rsz.RszSerializer.Deserialize<T>(userFile.GetObjects(RszRepository)[0])!;
+            return RszSerializer.Deserialize<T>(userFile.GetObjects(RszRepository)[0])!;
         }
 
         public void SerializeUserFile<T>(string path, T value)
         {
             var userFile = GetUserFile(path);
             var builder = userFile.ToBuilder(RszRepository);
-            var targetType = ((IntelOrca.Biohazard.REE.Rsz.RszStructNode)builder.Objects[0]).Type;
-            builder.Objects = [IntelOrca.Biohazard.REE.Rsz.RszSerializer.Serialize(targetType, value!)];
+            var targetType = ((RszStructNode)builder.Objects[0]).Type;
+            builder.Objects = [RszSerializer.Serialize(targetType, value!)];
             SetUserFile(path, builder.Build());
         }
 
-        public void SetUserFile(string path, IntelOrca.Biohazard.REE.Rsz.UserFile value)
+        public void SetUserFile(string path, UserFile value)
         {
             SetGameFileData(path, value.Data);
         }
 
-        public void ModifyUserFile(string path, Func<IntelOrca.Biohazard.REE.Rsz.RszStructNode, IntelOrca.Biohazard.REE.Rsz.RszStructNode> callback)
+        public void ModifyUserFile(string path, Func<RszStructNode, RszStructNode> callback)
         {
             var userFile = GetUserFile(path);
             var builder = userFile.ToBuilder(RszRepository);
-            builder.Objects = [callback((IntelOrca.Biohazard.REE.Rsz.RszStructNode)builder.Objects[0])];
+            builder.Objects = [callback((RszStructNode)builder.Objects[0])];
             SetUserFile(path, builder.Build());
         }
 

@@ -6,7 +6,6 @@ using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Rsz;
-using RszInstance = RszTool.RszInstance;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -271,34 +270,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (area.Path == null)
                     continue;
 
-                var scnFile = fileRepository.GetScnFile(area.Path);
-                if (scnFile == null)
-                    continue;
-
-                foreach (var go in scnFile.IterAllGameObjects(true))
+                fileRepository.ModifyScnFile(area.Path, scene =>
                 {
-                    var itemDrop = go.FindComponent("chainsaw.DropItem");
-                    if (itemDrop == null)
-                        continue;
-
-                    var itemData = itemDrop.Get<RszInstance>("_ItemData");
-                    if (itemData == null)
-                        continue;
-
-                    var contextId = ContextId.FromRsz(itemDrop.Get<RszInstance>("_ID")!);
-                    if (map.TryGetValue(contextId, out var levelItem))
+                    return scene.VisitGameObjects(go =>
                     {
-                        if (levelItem.NewItem is Item newItem)
+                        var itemDrop = go.FindComponent("chainsaw.DropItem");
+                        if (itemDrop != null)
                         {
-                            itemData.Set("ItemID", newItem.Id);
-                            itemData.Set("Count", newItem.Count);
-                            itemData.Set("AmmoItemID", 0);
-                            itemData.Set("AmmoCount", 0);
+                            var contextId = ContextId.FromRsz(itemDrop["_ID"]);
+                            if (map.TryGetValue(contextId, out var levelItem) && levelItem.NewItem is Item newItem)
+                            {
+                                go = go.AddOrUpdateComponent(itemDrop
+                                    .Set("_ItemData.ItemID", newItem.Id)
+                                    .Set("_ItemData.Count", newItem.Count)
+                                    .Set("_ItemData.AmmoItemID", 0)
+                                    .Set("_ItemData.AmmoCount", 0));
+                            }
                         }
-                    }
-                }
-
-                fileRepository.SetScnFile(area.Path, scnFile);
+                        return go;
+                    });
+                });
             }
         }
 

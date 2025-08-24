@@ -177,7 +177,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     if (itemRandomizer.GetNextGeneralDrop(rng, randomItemSettings) is Item drop)
                     {
-                        g.GimmickFile.Scene = g.GimmickFile.Scene.ReplaceGameObject(
+                        g.GimmickFile.Scene = g.GimmickFile.Scene.UpdateGameObject(
                             paramObject.AddOrUpdateComponent(gmOptionDropItem
                                 .Set("ID", drop.Id)
                                 .Set("Count", drop.Count)));
@@ -222,7 +222,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public GimmickFile(ChainsawRandomizer randomizer, string path)
             {
                 _randomizer = randomizer;
-                ScnFile = randomizer.FileRepository.GetScnFile2(path).ToBuilder(FileRepository.RszRepository);
+                ScnFile = randomizer.FileRepository.GetScnFile(path).ToBuilder(FileRepository.RszRepository);
 
                 Path = path;
                 Gimmicks = GetGimmicks();
@@ -236,7 +236,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             public void Save()
             {
-                _randomizer.FileRepository.SetScnFile2(Path, ScnFile.Build());
+                _randomizer.FileRepository.SetScnFile(Path, ScnFile.Build());
             }
 
             private ImmutableArray<Gimmick> GetGimmicks()
