@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -126,14 +126,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 g.Remove();
             }
-            return gimmicks.Except(remove).ToImmutableArray();
+            return gimmicks.RemoveRange(remove);
         }
 
         private static void FixHidingLocker(Gimmick g)
         {
-            if (g.GameObject.GetChildren().FirstOrDefault(x => x.Name == "ParamObject") is ScnFile.GameObjectData paramObject)
+            if (g.ParamObject is RszGameObject paramObject)
             {
-                g.GimmickFile.Scene.RemoveGameObject(paramObject);
+                g.GimmickFile.Scene = g.GimmickFile.Scene.RemoveGameObject(paramObject.Guid);
             }
         }
 
@@ -158,19 +158,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private static void ReplaceGimmick(Gimmick original, string kind)
         {
-            var scene = original.GimmickFile.Scene;
-            var gimmick = scene.ImportGameObject(GimmickTemplate.Get(kind));
-            gimmick.Components.Remove(gimmick.FindComponent("via.Transform")!);
-            gimmick.Components.Remove(gimmick.FindComponent("chainsaw.GimmickCore")!);
-            gimmick.Components.Insert(0, (RszInstance)original.GameObject.FindComponent("via.Transform")!.Clone());
-            gimmick.Components.Insert(1, (RszInstance)original.GameObject.FindComponent("chainsaw.GimmickCore")!.Clone());
-            scene.RemoveGameObject(original.GameObject);
+            original.GimmickFile.Scene = original.GimmickFile.Scene
+                .RemoveGameObject(original.GameObject.Guid)
+                .Add(GimmickTemplate
+                    .Get(kind)
+                    .AddOrUpdateComponent(original.GameObject.FindComponent("via.Transform")!)
+                    .AddOrUpdateComponent(original.GameObject.FindComponent("chainsaw.GimmickCore")!));
         }
 
         private static void RandomizeGmOptionDropItem(ChainsawRandomizer randomizer, Gimmick g, RandomItemSettings randomItemSettings, Rng rng)
         {
             var itemRandomizer = randomizer.ItemRandomizer;
-            var paramObject = g.GameObject.GetChildren().FirstOrDefault(x => x.Name == "ParamObject");
+            var paramObject = g.ParamObject;
             if (paramObject != null)
             {
                 var gmOptionDropItem = paramObject.FindComponent("chainsaw.GmOptionDropItem");
@@ -178,8 +177,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     if (itemRandomizer.GetNextGeneralDrop(rng, randomItemSettings) is Item drop)
                     {
-                        gmOptionDropItem.Set("ID", drop.Id);
-                        gmOptionDropItem.Set("Count", drop.Count);
+                        g.GimmickFile.Scene = g.GimmickFile.Scene.ReplaceGameObject(
+                            paramObject.AddOrUpdateComponent(gmOptionDropItem
+                                .Set("ID", drop.Id)
+                                .Set("Count", drop.Count)));
                     }
                 }
             }
@@ -190,9 +191,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var gmChicken = gimmick.GameObject.FindComponent("chainsaw.GmChicken");
             if (gmChicken != null)
             {
-                var paramObject = gimmick.GameObject
-                    .GetChildren()
-                    .FirstOrDefault(x => x.Name == "ParamObject");
+                var paramObject = gimmick.ParamObject;
                 if (paramObject != null)
                 {
                     var gmOptionDropItem = paramObject.FindComponent("chainsaw.GmOptionDropItem");
@@ -211,34 +210,39 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             private readonly ChainsawRandomizer _randomizer;
 
             public string Path { get; }
-            public ScnFile Scene { get; }
+            public ScnFile.Builder ScnFile { get; }
             public ImmutableArray<Gimmick> Gimmicks { get; private set; }
+
+            public RszScene Scene
+            {
+                get => ScnFile.Scene;
+                set => ScnFile.Scene = value;
+            }
 
             public GimmickFile(ChainsawRandomizer randomizer, string path)
             {
                 _randomizer = randomizer;
-                Scene = randomizer.FileRepository.GetScnFile(path);
+                ScnFile = randomizer.FileRepository.GetScnFile2(path).ToBuilder(FileRepository.RszRepository);
 
                 Path = path;
-                Gimmicks = GetGimmicksFromScn(Scene);
+                Gimmicks = GetGimmicks();
             }
 
             public void Remove(Gimmick gimmick)
             {
-                Scene.RemoveGameObject(gimmick.GameObject);
+                Scene = Scene.RemoveGameObject(gimmick.GameObject.Guid);
                 Gimmicks = Gimmicks.Remove(gimmick);
             }
 
             public void Save()
             {
-                _randomizer.FileRepository.SetScnFile(Path, Scene);
+                _randomizer.FileRepository.SetScnFile2(Path, ScnFile.Build());
             }
 
-            private ImmutableArray<Gimmick> GetGimmicksFromScn(ScnFile scnFile)
+            private ImmutableArray<Gimmick> GetGimmicks()
             {
                 var result = ImmutableArray.CreateBuilder<Gimmick>();
-                var gameObjects = scnFile.IterAllGameObjects(false).ToArray();
-                foreach (var go in gameObjects)
+                foreach (var go in Scene.EnumerateGameObjects())
                 {
                     var coreComponent = go.FindComponent("chainsaw.GimmickCore");
                     if (coreComponent == null)
@@ -254,11 +258,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private class Gimmick(GimmickFile gimmickFile, ScnFile.GameObjectData gameObject)
+        private class Gimmick(GimmickFile gimmickFile, RszGameObject gameObject)
         {
             public GimmickFile GimmickFile { get; } = gimmickFile;
-            public ScnFile.GameObjectData GameObject { get; } = gameObject;
-            public string Kind => GetKindFromPrefab(GameObject);
+            public RszGameObject GameObject { get; } = gameObject;
+            public string Kind => GetKindFromPrefab(GameObject.Prefab);
             public ContextId ContextId => GetContextId(GameObject);
             public ImmutableDictionary<string, object> Properties => GetProperties();
 
@@ -267,37 +271,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 GimmickFile.Remove(this);
             }
 
-            private static IEnumerable<RszInstance> FindAllComponents(IGameObjectData gameObject, string name)
-            {
-                var component = gameObject.FindComponent(name);
-                if (component != null)
-                    yield return component;
-
-                foreach (var child in gameObject.GetChildren())
-                {
-                    foreach (var c in FindAllComponents(child, name))
-                        yield return c;
-                }
-            }
-
             private ImmutableDictionary<string, object> GetProperties()
             {
                 var properties = new Dictionary<string, object>();
-                if (GameObject.FindComponent("chainsaw.GmSmoothWoodBox") is RszInstance gmSmoothWoodBox)
+                if (GameObject.FindComponent("chainsaw.GmSmoothWoodBox") is RszStructNode gmSmoothWoodBox)
                 {
                     properties["DropCount"] = gmSmoothWoodBox.Get<int>("_RandomDropItemNum");
                 }
-                if (ParamObject is IGameObjectData paramObject)
+                if (ParamObject is RszGameObject paramObject)
                 {
-                    if (paramObject.FindComponent("chainsaw.GmOptionDropItem") is RszInstance gmOptionDropItem)
+                    if (paramObject.FindComponent("chainsaw.GmOptionDropItem") is RszStructNode gmOptionDropItem)
                     {
                         properties["Item"] = new Item(
                             gmOptionDropItem.Get<int>("ID"),
                             gmOptionDropItem.Get<int>("Count"));
                     }
-                    if (paramObject.FindComponent("chainsaw.GmOptionSmoothWoodBox") is RszInstance gmOptionSmoothWoodBox)
+                    if (paramObject.FindComponent("chainsaw.GmOptionSmoothWoodBox") is RszStructNode gmOptionSmoothWoodBox)
                     {
-                        var enemyContextId = ContextId.FromRsz(gmOptionSmoothWoodBox.Get<RszInstance>("_EnemyContextID")!);
+                        var enemyContextId = ContextId.FromRsz(gmOptionSmoothWoodBox["_EnemyContextID"]);
                         if (enemyContextId.Category != -1)
                         {
                             properties["EnemyContextId"] = enemyContextId;
@@ -308,32 +299,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return properties.ToImmutableDictionary();
             }
 
-            private IGameObjectData? ParamObject => GameObject.GetChildren().FirstOrDefault(x => x.Name == "ParamObject");
+            public RszGameObject? ParamObject => GameObject.FindGameObject("ParamObject");
 
-            private static ContextId GetContextId(IGameObjectData gameObject)
+            private static ContextId GetContextId(RszGameObject gameObject)
             {
                 var coreComponent = gameObject.FindComponent("chainsaw.GimmickCore");
                 if (coreComponent == null)
                     return default;
 
-                return ContextId.FromRsz(coreComponent.Get<RszInstance>("_ID")!);
+                return ContextId.FromRsz(coreComponent["_ID"]);
             }
 
-            private static string GetKindFromPrefab(IGameObjectData gameObject)
+            private static string GetKindFromPrefab(string? prefab)
             {
-                if (gameObject is ScnFile.GameObjectData gameObjectData)
-                {
-                    if (gameObjectData.Prefab?.Path is string path)
-                    {
-                        return GetKindFromPrefab(path);
-                    }
-                }
-                return "";
-            }
-
-            private static string GetKindFromPrefab(string prefab)
-            {
-                var shorten = Path.GetFileNameWithoutExtension(prefab);
+                var shorten = Path.GetFileNameWithoutExtension(prefab ?? "");
                 return shorten switch
                 {
                     "gm03_002_00_0" => GimmickKinds.Crow,

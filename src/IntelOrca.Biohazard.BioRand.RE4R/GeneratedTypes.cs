@@ -1,5 +1,6 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
+using System.Collections.Generic;
 using IntelOrca.Biohazard.REE.Rsz.Native;
 
 namespace chainsaw
@@ -1114,6 +1115,18 @@ namespace chainsaw
             public string ShapeName { get; set; } = "";
             public System.Collections.Generic.List<System.Int32> Stage { get; set; } = [];
         }
+    }
+
+    internal class FlagCondition
+    {
+        public List<CheckFlagInfo> _CheckFlags { get; set; } = [];
+        public int _Logic { get; set; }
+    }
+
+    internal class CheckFlagInfo
+    {
+        public System.Guid _CheckFlag { get; set; }
+        public bool _CompareValue { get; set; }
     }
 }
 namespace chainsaw.gui.shop

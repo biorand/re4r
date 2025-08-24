@@ -102,6 +102,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 : ChainsawRandomizerFactory.Default.ReadScnFile(data);
         }
 
+        public IntelOrca.Biohazard.REE.Rsz.ScnFile GetScnFile2(string path)
+        {
+            var data = GetGameFileData(path);
+            return data == null
+                ? throw new Exception("Unable to read data file.")
+                : new IntelOrca.Biohazard.REE.Rsz.ScnFile(20, data);
+        }
+
         public void ModifyScnFile(string path, Action<ScnFile> callback)
         {
             var scnFile = GetScnFile(path);
@@ -112,6 +120,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public void SetScnFile(string path, ScnFile value)
         {
             SetGameFileData(path, value.ToByteArray());
+        }
+
+        public void SetScnFile2(string path, IntelOrca.Biohazard.REE.Rsz.ScnFile value)
+        {
+            SetGameFileData(path, value.Data);
         }
 
         public IntelOrca.Biohazard.REE.Rsz.UserFile GetUserFile(string path)

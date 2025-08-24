@@ -6,11 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using IntelOrca.Biohazard.BioRand.RE4R.Models;
 using IntelOrca.Biohazard.REE.Rsz;
-using RszInstance = RszTool.RszInstance;
-using ScnFile = RszTool.ScnFile;
-using UserFile = IntelOrca.Biohazard.REE.Rsz.UserFile;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -128,18 +124,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var kind = placement.Kind;
                 if (kind == "bawk") kind = "Biorand_Chicken";
 
-                var gimmick = filePair.Scene.ImportGameObject(GimmickTemplate.Get(kind));
-                gimmick.Instance!.SetFieldValue("Position", $"{gimmick.Name}_{placement.LineNumber}");
+                var gimmick = GimmickTemplate.Get(kind);
+                gimmick = gimmick.WithName($"{gimmick.Name}_{placement.LineNumber}");
 
-                var gimmickCore = gimmick.FindComponent("chainsaw.GimmickCore")!;
-                contextId.CopyTo(gimmickCore.Get<RszInstance>("_ID")!);
+                gimmick = gimmick.AddOrUpdateComponent(gimmick
+                    .FindComponent("chainsaw.GimmickCore")!
+                    .SetField("_ID", contextId.ToRsz(FileRepository.RszRepository)));
 
-                var gimmickTransform = new Transform(gimmick);
-                gimmickTransform.Position = placement.Position;
-                gimmickTransform.Eular = placement.Eular;
-                gimmickTransform.Scale = Vector3.One;
+                gimmick = gimmick.AddOrUpdateComponent(gimmick
+                    .FindComponent("via.Transform")!
+                    .Set("Position", placement.Position)
+                    .Set("Rotation", placement.Eular.ToQuaternion())
+                    .Set("Scale", Vector3.One));
 
-                AddCondition(filePair.Scene, gimmick, placement);
+                gimmick = AddCondition(gimmick, placement);
+
+                filePair.Scene = filePair.Scene.Add(gimmick);
 
                 var userData = FileRepository.RszRepository.Create("chainsaw.GimmickSaveDataTable.Data");
                 userData = userData.SetField("ID", contextId.ToRsz(FileRepository.RszRepository));
@@ -148,73 +148,64 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     ((RszArrayNode)filePair.UserData["Datas"]).Add(userData));
             }
 
-            private static ScnFile.GameObjectData? FindChildRecursive(ScnFile.GameObjectData parent, string name)
-            {
-                if (parent.Name == name)
-                    return parent;
-
-                foreach (var child in parent.Children)
-                {
-                    if (child.Name == name)
-                        return child;
-
-                    var d = FindChildRecursive(child, name);
-                    if (d != null)
-                        return d;
-                }
-                return null;
-            }
-
-            private void AddCondition(ScnFile scn, ScnFile.GameObjectData gimmick, GimmickPlacement placement)
+            private RszGameObject AddCondition(RszGameObject gimmick, GimmickPlacement placement)
             {
                 if (string.IsNullOrEmpty(placement.Condition) && placement.Chapter == 0)
-                    return;
+                    return gimmick;
 
-                var paramObject = gimmick.Children.First(x => x.Name == "ParamObject");
-                var stratumBool = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.StratumBool");
-                stratumBool.Set("Value", true);
-                stratumBool.Set("_Enable.Logic", 1);
+                var repo = FileRepository.RszRepository;
+                var paramObject = gimmick.FindGameObject("ParamObject")!;
+                var stratumBool = repo
+                    .Create("chainsaw.RuleStratum.StratumBool")
+                    .Set("Value", true)
+                    .Set("_Enable.Logic", 1);
 
                 if (!string.IsNullOrEmpty(placement.Condition))
                 {
-                    var particleFlag = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.ParticleFlag");
-                    var fc = new FlagCondition(particleFlag.Get<RszInstance>("Flags")!);
-                    var f = CheckFlagInfo.Create(scn, Guid.Parse(placement.Condition));
-                    f.CompareValue = false;
-                    fc.Flags = [f];
-                    var container = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.Container");
-                    container.Set("_Data", particleFlag);
-                    stratumBool.GetList("_Enable.Matters").Add(container);
+                    stratumBool = stratumBool.Set("_Enable.Matters", stratumBool
+                        .Get<RszArrayNode>("_Enable.Matters")
+                        .Add(repo
+                            .Create("chainsaw.RuleStratum.Container")
+                            .Set("_Data", repo
+                                .Create("chainsaw.RuleStratum.ParticleFlag")
+                                .Set("Flags", new chainsaw.FlagCondition()
+                                {
+                                    _CheckFlags =
+                                    {
+                                        new chainsaw.CheckFlagInfo()
+                                        {
+                                            _CheckFlag = Guid.Parse(placement.Condition),
+                                            _CompareValue = true
+                                        }
+                                    }
+                                }))));
                 }
                 if (placement.Chapter != 0)
                 {
-                    var particleChapter = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.ParticleChapter");
-                    particleChapter.Set("Compare", 1);
-                    particleChapter.Set("Chapter", ChapterId.FromNumber(randomizer.Campaign, placement.Chapter));
-                    var container = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.Container");
-                    container.Set("_Data", particleChapter);
-                    stratumBool.GetList("_Enable.Matters").Add(container);
+                    stratumBool = stratumBool.Set("_Enable.Matters", stratumBool
+                        .Get<RszArrayNode>("_Enable.Matters")
+                        .Add(repo
+                            .Create("chainsaw.RuleStratum.Container")
+                            .Set("_Data", repo
+                                .Create("chainsaw.RuleStratum.ParticleChapter")
+                                .Set("Compare", 1)
+                                .Set("Chapter", ChapterId.FromNumber(randomizer.Campaign, placement.Chapter)))));
                 }
 
-                var gmOptionHide = scn.RSZ!.CreateInstance("chainsaw.GmOptionHide");
-                gmOptionHide.Set("_Enabled", (byte)1);
-                gmOptionHide.GetList("Rule").Add(stratumBool);
-                paramObject.Components.Add(gmOptionHide);
+                paramObject = paramObject.AddOrUpdateComponent(repo
+                    .Create("chainsaw.GmOptionHide")
+                    .Set("Enabled", true)
+                    .Set("Rule", new[] { stratumBool }));
 
-                if (gimmick.Name!.StartsWith("Biorand_MerchantTorch"))
+                if (gimmick.Name.StartsWith("Biorand_MerchantTorch"))
                 {
-                    var objectHide = scn.RSZ!.CreateInstance("chainsaw.ObjectHide");
-                    objectHide.Set("_Enabled", (byte)1);
-                    objectHide.GetList("Settings").Add(stratumBool.Clone());
-                    paramObject.Components.Add(objectHide);
+                    paramObject = paramObject.AddOrUpdateComponent(repo
+                        .Create("chainsaw.ObjectHide")
+                        .Set("Enabled", true)
+                        .Set("Settings", new[] { stratumBool }));
                 }
-            }
 
-            private static Vector4 CreateRotation(Vector3 euler)
-            {
-                const float toRad = MathF.PI / 180.0f;
-                var q = Quaternion.CreateFromYawPitchRoll(euler.X * toRad, euler.Y * toRad, euler.Z * toRad);
-                return new Vector4(q.X, q.Y, q.Z, q.W);
+                return gimmick.AddOrUpdateChild(paramObject);
             }
 
             private ContextId GetNewContextId()
@@ -227,8 +218,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 private readonly FileRepository _fileRepository;
 
                 public string ScenePath { get; }
-                public ScnFile Scene { get; }
+                public ScnFile.Builder Scn { get; }
                 public UserFile.Builder User { get; }
+
+                public RszScene Scene
+                {
+                    get => Scn.Scene;
+                    set => Scn.Scene = value;
+                }
+
                 public RszStructNode UserData
                 {
                     get => (RszStructNode)User.Objects[0];
@@ -241,13 +239,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     _fileRepository = fileRepository;
                     ScenePath = path;
-                    Scene = fileRepository.GetScnFile(ScenePath);
+                    Scn = fileRepository.GetScnFile2(ScenePath).ToBuilder(FileRepository.RszRepository);
                     User = fileRepository.GetUserFile(UserPath).ToBuilder(FileRepository.RszRepository);
                 }
 
                 public void Save()
                 {
-                    _fileRepository.SetScnFile(ScenePath, Scene);
+                    _fileRepository.SetScnFile2(ScenePath, Scn.Build());
                     _fileRepository.SetUserFile(UserPath, User.Build());
                 }
             }
