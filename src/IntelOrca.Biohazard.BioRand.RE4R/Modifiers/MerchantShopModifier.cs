@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
@@ -150,6 +151,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             private ItemRandomizer ItemRandomizer => randomizer.ItemRandomizer;
 
+            private static readonly ImmutableArray<int> _bonusDlcWeapons = [
+                ItemIds.ChicagoSweeper,
+                ItemIds.Handcannon,
+                ItemIds.PrimalKnife,
+                ItemIds.SentinelNine,
+                ItemIds.SkullShaker
+            ];
+
             private int ConvertChapterNumber(int chapter)
             {
                 if (randomizer.Campaign == Campaign.Ada)
@@ -186,6 +195,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 SetShop();
                 SetStock();
                 SetSellPrice(ItemIds.SmallKey, _priceRng.Next(1, 6) * 10_000);
+                SetBonusDlcSellPrice();
                 shop.Save(randomizer.FileRepository);
             }
 
@@ -194,6 +204,38 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (randomizer.Campaign == Campaign.Leon)
                 {
                     // Add missing shop items
+                    AddItemToCategory(ItemIds.SentinelNine, 1);
+                    shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
+                    {
+                        _ItemId = ItemIds.SentinelNine,
+                        _PriceSettings = [
+                            new chainsaw.gui.shop.ItemPriceSetting()
+                            {
+                                _Difficulty = 20,
+                                _Price = new chainsaw.gui.shop.ItemPrice()
+                                {
+                                    _PurchasePrice = 15000,
+                                    _SellingPrice = 7500,
+                                }
+                            }
+                        ]
+                    });
+                    AddItemToCategory(ItemIds.SkullShaker, 1);
+                    shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
+                    {
+                        _ItemId = ItemIds.SkullShaker,
+                        _PriceSettings = [
+                            new chainsaw.gui.shop.ItemPriceSetting()
+                            {
+                                _Difficulty = 20,
+                                _Price = new chainsaw.gui.shop.ItemPrice()
+                                {
+                                    _PurchasePrice = 15000,
+                                    _SellingPrice = 7500,
+                                }
+                            }
+                        ]
+                    });
                     AddItemToCategory(ItemIds.SWSawedOffW870, 1);
                     shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
                     {
@@ -265,6 +307,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 foreach (var s in shopItem._PriceSettings)
                 {
                     s._Price._SellingPrice = price;
+                }
+            }
+
+            private void SetBonusDlcSellPrice()
+            {
+                if (randomizer.GetConfigOption("zero-bonusdlc-weapon-sell-price", true))
+                {
+                    var valuableDistributor = randomizer.ValuableDistributor;
+                    var discoveryItems = valuableDistributor.GetItems(ItemDiscovery.Start);
+                    foreach (var itemId in _bonusDlcWeapons)
+                    {
+                        // No need to set sell price to 0 for starting weapons
+                        if (discoveryItems.Any(x => x.Definition.Id == itemId))
+                            continue;
+
+                        SetSellPrice(itemId, 0);
+                    }
                 }
             }
 

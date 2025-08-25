@@ -78,6 +78,11 @@
         public const int Dynamite = 119236800;
         public const int WoodenPlanks = 119289600;
 
+        public const int ChicagoSweeper = 275157056;
+        public const int Handcannon = 275638656;
+        public const int PrimalKnife = 276445056;
+        public const int SentinelNine = 278035456;
+        public const int SkullShaker = 278037056;
         public const int XM96E1 = 278515456;
         public const int SWSawedOffW870 = 278195456;
         public const int SWChicagoSweeper = 278197056;

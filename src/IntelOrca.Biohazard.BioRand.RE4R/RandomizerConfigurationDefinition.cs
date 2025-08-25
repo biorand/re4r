@@ -54,6 +54,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
+                Id = $"zero-bonusdlc-weapon-sell-price",
+                Label = "Zero Bonus/DLC Weapon Sell Prices",
+                Description = "Set the sell price of bonus/DLC weapons to 0 (except starting ones). Sell them at first merchant so they can appear in the rando later on.",
+                Type = "switch",
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
                 Id = $"early-case-drops",
                 Label = "Front-loaded case drops",
                 Description = "Larger case upgrades are guaranteed to be available by certain chapters. If disabled, you may find larger case upgrades are not available until the second half of the game.",
