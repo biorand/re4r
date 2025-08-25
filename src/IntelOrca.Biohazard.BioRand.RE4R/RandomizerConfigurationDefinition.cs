@@ -439,8 +439,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Label = "Min. Enemy Waves",
                 Description = "The minimum number of waves per enemy. A value of 2 will mean a new enemy is spawned for each enemy killed.",
                 Type = "range",
-                Min = 1,
-                Max = 10,
+                Min = 2,
+                Max = 50,
                 Step = 1,
                 Default = 1
             });
@@ -450,8 +450,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Label = "Max. Enemy Waves",
                 Description = "The maximum number of waves per enemy. A value of 4 will mean some enemies will get another 3 extra enemies which spawn in, one after another, when the last one is killed.",
                 Type = "range",
-                Min = 1,
-                Max = 10,
+                Min = 2,
+                Max = 50,
                 Step = 1,
                 Default = 1
             });
