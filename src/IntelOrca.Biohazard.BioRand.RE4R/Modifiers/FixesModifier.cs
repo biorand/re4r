@@ -379,7 +379,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var transform = bearTrapObject.FindComponent("via.Transform")!;
                     scene = scene.UpdateGameObject(bearTrapObject
                         .AddOrUpdateComponent(transform
-                            .Set("Position", new Vector4(-76.99f, 5.14f, 35.3336f, 0.0f))));
+                            .Set("Position", new Vector3(-76.99f, 5.14f, 35.3336f))));
                 }
                 return scene;
             });

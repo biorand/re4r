@@ -105,7 +105,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             var scnFile = GetScnFile(path).ToBuilder(RszRepository);
             scnFile.Scene = callback(scnFile.Scene);
-            SetScnFile(path, scnFile.Build());
+            SetScnFile(path, scnFile.AddMissingResources().Build());
         }
 
         public void SetScnFile(string path, ScnFile value)

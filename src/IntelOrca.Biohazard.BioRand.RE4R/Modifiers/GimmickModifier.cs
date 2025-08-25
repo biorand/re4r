@@ -236,7 +236,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             public void Save()
             {
-                _randomizer.FileRepository.SetScnFile(Path, ScnFile.Build());
+                _randomizer.FileRepository.SetScnFile(Path, ScnFile.AddMissingResources().Build());
             }
 
             private ImmutableArray<Gimmick> GetGimmicks()

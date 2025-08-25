@@ -60,7 +60,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             foreach (var placement in placements)
             {
-                factory.AddGimmick(placement);
+                factory.AddGimmick(rng, placement);
             }
             factory.SaveAll();
         }
@@ -116,7 +116,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
-            public void AddGimmick(GimmickPlacement placement)
+            public void AddGimmick(Rng rng, GimmickPlacement placement)
             {
                 var contextId = GetNewContextId();
                 var filePair = GetScnForStage(placement.Stage);
@@ -124,7 +124,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var kind = placement.Kind;
                 if (kind == "bawk") kind = "Biorand_Chicken";
 
-                var gimmick = GimmickTemplate.Get(kind);
+                var gimmick = CloneGimmickFromTemplate(kind, rng);
                 gimmick = gimmick.WithName($"{gimmick.Name}_{placement.LineNumber}");
 
                 gimmick = gimmick.AddOrUpdateComponent(gimmick
@@ -208,6 +208,36 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return gimmick.AddOrUpdateChild(paramObject);
             }
 
+            private static RszGameObject CloneGimmickFromTemplate(string kind, Rng rng)
+            {
+                var map = new Dictionary<Guid, Guid>();
+
+                // Create new guids for all game objects
+                var root = GimmickTemplate
+                    .Get(kind)
+                    .VisitGameObjects(gameObject =>
+                    {
+                        // Change to new guid (keep map of old to new)
+                        var newGuid = rng.NextGuid();
+                        map[gameObject.Guid] = newGuid;
+                        return gameObject.WithGuid(newGuid);
+                    });
+
+                // Fix references
+                return root.Visit(node =>
+                {
+                    if (node is RszDataNode dataNode && dataNode.Type == RszFieldType.GameObjectRef)
+                    {
+                        var refGuid = (Guid)dataNode.Decode();
+                        if (map.TryGetValue(refGuid, out var newGuid))
+                        {
+                            return RszSerializer.Serialize(RszFieldType.GameObjectRef, newGuid);
+                        }
+                    }
+                    return node;
+                });
+            }
+
             private ContextId GetNewContextId()
             {
                 return new ContextId(5, 0, 1, _contextId++);
@@ -245,7 +275,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 public void Save()
                 {
-                    _fileRepository.SetScnFile(ScenePath, Scn.Build());
+                    _fileRepository.SetScnFile(ScenePath, Scn.AddMissingResources().Build());
                     _fileRepository.SetUserFile(UserPath, User.Build());
                 }
             }

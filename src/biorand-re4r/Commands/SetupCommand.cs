@@ -33,13 +33,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         public override Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
             var pakList = Re4rRandomizer.GetDefaultPakList();
-
             var gamePath = settings.InputPath!;
-            var corePath = Path.Combine(gamePath, "re_chunk_000.pak");
-            var dlcPaths = Directory.GetFiles(Path.Combine(gamePath, "dlc"), "*.pak");
 
             var sb = new StringBuilder();
-            var pak = new PatchedPakFile([.. dlcPaths, corePath]);
+            var pak = new RePakCollection(gamePath);
             var newPak = new PakFileBuilder();
 
             var includeList = new[] {
