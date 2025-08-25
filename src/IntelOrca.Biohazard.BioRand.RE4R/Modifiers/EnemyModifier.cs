@@ -663,18 +663,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     minHealth = Math.Clamp(minHealth, 1, 100000);
                     maxHealth = Math.Clamp(maxHealth, minHealth, 100000);
 
+                    var range = maxHealth - minHealth;
+                    var wMinHealth = (int)Math.Round(minHealth + (range * windowStart));
+                    var wMaxHealth = (int)Math.Round(minHealth + (range * windowEnd));
+
                     if (!string.IsNullOrEmpty(spawn.MiniBoss))
                     {
-                        enemy.Health = maxHealth * 2;
+                        // Mini bosses get 2x chapter health
+                        enemy.Health = wMaxHealth * 2;
                     }
                     else
                     {
-                        var range = maxHealth - minHealth;
-                        var wMinHealth = (int)Math.Round(minHealth + (range * windowStart));
-                        var wMaxHealth = (int)Math.Round(minHealth + (range * windowEnd));
-
                         enemy.Health = rng.Next(wMinHealth, wMaxHealth + 1);
                     }
+
                     logger.LogLine(spawn.Guid, ecd.Name, enemy.Health);
                 }
                 else if (randomizer.GetConfigOption<bool>("random-enemies"))
