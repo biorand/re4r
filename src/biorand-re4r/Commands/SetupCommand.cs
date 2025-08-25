@@ -53,6 +53,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 "natives/stm/_anotherorder/leveldesign/chapter/.*",
                 "natives/stm/_anotherorder/leveldesign/location/.*",
                 "natives/stm/_anotherorder/message/mes_main_item/.*",
+                "natives/stm/_anotherorder/message/mes_main_sys/.*",
                 "natives/stm/_authoring/appsystem/globalvariables/.*",
                 "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_110[12]/.*",
                 "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_140[12]/.*",

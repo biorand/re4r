@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using chainsaw;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -20,17 +19,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             "natives/stm/_chainsaw/message/dlc/ch_mes_dlc_1101.msg.22",
             "natives/stm/_chainsaw/message/dlc/ch_mes_dlc_1102.msg.22",
             "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_caption.msg.22",
-            "natives/stm/_anotherorder/message/mes_main_item/ao_mes_main_item_caption.msg.22"
+            "natives/stm/_anotherorder/message/mes_main_item/ao_mes_main_item_caption.msg.22",
+            "natives/stm/_chainsaw/message/mes_main_charm/ch_mes_main_statuseffect.msg.22",
+            "natives/stm/_anotherorder/message/mes_main_sys/ao_mes_main_sys_common.msg.22"
         ];
-        private static (int ItemId, Guid Guid, string Caption)[] _caseMessages = [
-            (124176000, new Guid("8b0a0a1e-9ac0-4e9a-b4c1-fe27f91ebb84"), "A metallic silver attaché case."),
-            (124177600, new Guid("f27f936d-42d6-4cfd-bee1-45155ed0d84a"), "A metallic black attaché case."),
-            (124179200, new Guid("794cdbb8-829b-4ff7-bb66-a638a65f4603"), "A leather attaché case."),
-            (123684800, new Guid("4e14ee31-3411-4b56-a0b0-53348944bc62"), "A carbon fiber attaché case."),
-            (123686400, new Guid("d5a612c7-d9c3-425a-8235-095dd080f31f"), "A vintage attaché case."),
-            (124192000, new Guid("547ad9d0-bf0b-4875-ae12-c4e59ec7e1a2"), "A metallic gold attaché case."),
-            (124193600, new Guid("c7d6aed7-d48e-44ef-a3d5-72a5087a2f54"), "A classic leather attaché case.")
+        private static (int ItemId, Guid CaptionMsgGuid, Guid StatusMsgGuid, string Caption)[] _caseMessages = [
+            (124176000, new Guid("8b0a0a1e-9ac0-4e9a-b4c1-fe27f91ebb84"), new Guid("c5760a3e-33d6-4258-b1ca-54e98fc6c4d7"), "A metallic silver attaché case."),
+            (124177600, new Guid("f27f936d-42d6-4cfd-bee1-45155ed0d84a"), new Guid("191c5f4f-0fb1-4b34-b905-aa9792a8ed2b"), "A metallic black attaché case."),
+            (124179200, new Guid("794cdbb8-829b-4ff7-bb66-a638a65f4603"), new Guid("22d159ca-7916-4953-a18d-4a6572890c28"), "A leather attaché case."),
+            (123684800, new Guid("4e14ee31-3411-4b56-a0b0-53348944bc62"), new Guid("7bc7769a-5ac8-417f-88d0-6d02d942b7cd"), "A carbon fiber attaché case."),
+            (123686400, new Guid("d5a612c7-d9c3-425a-8235-095dd080f31f"), new Guid("c5d15e6c-8e50-45ee-b329-1a3703c7fec5"), "A vintage attaché case."),
+            (124192000, new Guid("547ad9d0-bf0b-4875-ae12-c4e59ec7e1a2"), new Guid("7185d3d0-dbb3-4b1e-92c5-1d266379e098"), "A metallic gold attaché case."),
+            (124193600, new Guid("c7d6aed7-d48e-44ef-a3d5-72a5087a2f54"), new Guid("cbf63460-c3b7-4547-ba68-636938ecca2c"), "A classic leather attaché case.")
         ];
+        private static int[] _startingCases = [124176000, 124192000, 124193600];
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
@@ -67,10 +69,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var itemRepo = ItemDefinitionRepository.Default;
             var userDataPaths = randomizer.Campaign == Campaign.Leon ? _leonPaths : _adaPaths;
-            var availablePerks = CasePerks.Default.All
+            var availablePerks = new WeightTable<CasePerk>(rng, CasePerks.Default.All
                 .Where(x => x.Enabled != 0)
-                .Shuffle(rng)
-                .ToQueue();
+                .Select(x => new WeightTableEntry<CasePerk>(x, x.Weight)));
 
             var msgDict = new Dictionary<Guid, string>();
             foreach (var userDataPath in userDataPaths)
@@ -82,21 +83,34 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (itemDefinition == null)
                         continue;
 
-                    var perk = availablePerks.Dequeue();
-                    var value = rng.Next(perk.Min, perk.Max + 1);
-                    suitcase._Effects = [
-                        new StatusEffectSetting()
+                    var isStartingCase = _startingCases.Contains(suitcase._ItemId);
+                    var minPerks = isStartingCase ? 1 : 2;
+                    var maxPerks = isStartingCase ? 1 : 3;
+                    var numPerks = rng.Next(minPerks, maxPerks + 1);
+                    var perks = new List<CasePerkWithValue>();
+                    for (var i = 0; i < numPerks; i++)
+                    {
+                        var perk = availablePerks.Next();
+                        var isGodValue = !isStartingCase && rng.NextProbability(10);
+                        var perkValue = isGodValue
+                            ? rng.Next(perk.GodMin, perk.GodMax + 1)
+                            : rng.Next(perk.Min, perk.Max + 1);
+                        perks.Add(new CasePerkWithValue()
                         {
-                            _StatusEffectID = perk.Id,
-                            _Value = value
-                        }
-                    ];
+                            Perk = perk,
+                            Value = perkValue
+                        });
+                    }
 
+                    suitcase._Effects[0]._Value = 0;
+                    suitcase._Effects.AddRange(perks.Select(x => x.StatusEffectSetting));
                     var caseMessage = _caseMessages.FirstOrDefault(x => x.ItemId == suitcase._ItemId);
                     if (caseMessage != default)
                     {
-                        msgDict[caseMessage.Guid] = $"{caseMessage.Caption} {string.Format(perk.Description, Math.Abs(value))}";
+                        msgDict[caseMessage.CaptionMsgGuid] = caseMessage.Caption + "\r\n" +
+                            string.Join("\r\n", perks.Select(x => $"    {x.Description}"));
                     }
+                    msgDict[caseMessage.StatusMsgGuid] = string.Join("\r\n", perks.Select(x => x.Description));
                 }
                 randomizer.FileRepository.SerializeUserFile(userDataPath, userData);
             }
@@ -142,10 +156,70 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private class CasePerk
         {
             public int Id { get; set; }
+            public double Weight { get; set; }
             public int Min { get; set; }
             public int Max { get; set; }
+            public int GodMin { get; set; }
+            public int GodMax { get; set; }
             public int Enabled { get; set; }
             public string Description { get; set; } = "";
+        }
+
+        private class CasePerkWithValue
+        {
+            public required CasePerk Perk { get; init; }
+            public required int Value { get; init; }
+
+            public string Description => string.Format(Perk.Description, Math.Abs(Value));
+            public StatusEffectSetting StatusEffectSetting => new StatusEffectSetting()
+            {
+                _StatusEffectID = Perk.Id,
+                _Value = Value
+            };
+        }
+
+        private class WeightTable<T>(Rng rng, IEnumerable<WeightTableEntry<T>> entries)
+        {
+            public List<WeightTableEntry<T>> Entries = entries.ToList();
+
+            public T Next()
+            {
+                var sum = Entries.Sum(x => x.Weight);
+                if (sum <= 0)
+                {
+                    foreach (var e in Entries)
+                    {
+                        e.Weight = e.OriginalWeight;
+                    }
+                    sum = Entries.Sum(x => x.Weight);
+                }
+                if (sum <= 0)
+                    throw new Exception("Weight <= 0");
+
+                var rValue = rng.NextDouble(0, sum);
+                var rCurrent = 0.0;
+                foreach (var e in Entries)
+                {
+                    if (e.Weight <= 0)
+                        continue;
+
+                    var rNext = rCurrent + e.Weight;
+                    if (rValue <= rNext)
+                    {
+                        e.Weight = 0;
+                        return e.Value;
+                    }
+                    rCurrent += e.Weight;
+                }
+                throw new Exception();
+            }
+        }
+
+        private class WeightTableEntry<T>(T value, double weight)
+        {
+            public T Value => value;
+            public double OriginalWeight => weight;
+            public double Weight { get; set; }
         }
     }
 }

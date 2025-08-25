@@ -220,6 +220,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         private void SetDiscovery(DistributedItem dItem, ItemDiscovery discovery)
         {
+            if (discovery == ItemDiscovery.Shop)
+            {
+                // These kinds of items can't be shop items
+                if (dItem.Definition.Kind == ItemKinds.CasePerk)
+                {
+                    discovery = ItemDiscovery.Reward;
+                }
+            }
+
             var index = _distributedItems.IndexOf(dItem);
             if (index != -1)
                 _distributedItems[index] = _distributedItems[index].WithDiscovery(discovery);

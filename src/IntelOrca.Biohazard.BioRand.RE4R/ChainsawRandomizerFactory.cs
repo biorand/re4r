@@ -74,7 +74,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private static void Ungzip(byte[] input, string targetPath)
         {
             using var inputStream = new MemoryStream(input);
-            using var outputStream = File.OpenWrite(targetPath);
+            using var outputStream = new FileStream(targetPath, FileMode.Create, FileAccess.Write);
             using var deflateStream = new GZipStream(inputStream, CompressionMode.Decompress);
             deflateStream.CopyTo(outputStream);
         }
