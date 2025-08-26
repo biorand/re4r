@@ -201,41 +201,42 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             private void InitializeShop()
             {
+                // Add missing shop items
+                AddItemToCategory(ItemIds.SentinelNine, 1);
+                shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
+                {
+                    _ItemId = ItemIds.SentinelNine,
+                    _PriceSettings = [
+                        new chainsaw.gui.shop.ItemPriceSetting()
+                            {
+                                _Difficulty = 20,
+                                _Price = new chainsaw.gui.shop.ItemPrice()
+                                {
+                                    _PurchasePrice = 15000,
+                                    _SellingPrice = 7500,
+                                }
+                            }
+                    ]
+                });
+                AddItemToCategory(ItemIds.SkullShaker, 1);
+                shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
+                {
+                    _ItemId = ItemIds.SkullShaker,
+                    _PriceSettings = [
+                        new chainsaw.gui.shop.ItemPriceSetting()
+                            {
+                                _Difficulty = 20,
+                                _Price = new chainsaw.gui.shop.ItemPrice()
+                                {
+                                    _PurchasePrice = 15000,
+                                    _SellingPrice = 7500,
+                                }
+                            }
+                    ]
+                });
+
                 if (randomizer.Campaign == Campaign.Leon)
                 {
-                    // Add missing shop items
-                    AddItemToCategory(ItemIds.SentinelNine, 1);
-                    shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
-                    {
-                        _ItemId = ItemIds.SentinelNine,
-                        _PriceSettings = [
-                            new chainsaw.gui.shop.ItemPriceSetting()
-                            {
-                                _Difficulty = 20,
-                                _Price = new chainsaw.gui.shop.ItemPrice()
-                                {
-                                    _PurchasePrice = 15000,
-                                    _SellingPrice = 7500,
-                                }
-                            }
-                        ]
-                    });
-                    AddItemToCategory(ItemIds.SkullShaker, 1);
-                    shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
-                    {
-                        _ItemId = ItemIds.SkullShaker,
-                        _PriceSettings = [
-                            new chainsaw.gui.shop.ItemPriceSetting()
-                            {
-                                _Difficulty = 20,
-                                _Price = new chainsaw.gui.shop.ItemPrice()
-                                {
-                                    _PurchasePrice = 15000,
-                                    _SellingPrice = 7500,
-                                }
-                            }
-                        ]
-                    });
                     AddItemToCategory(ItemIds.SWSawedOffW870, 1);
                     shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
                     {
