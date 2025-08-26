@@ -1,32 +1,31 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Linq;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Models
 {
-    internal class FlagCondition(RszInstance instance)
+    internal class FlagCondition(RszStructNode node)
     {
-        public RszInstance Instance => instance;
+        public RszStructNode Node => node;
 
         public bool Or
         {
-            get => instance.Get<int>("_Logic") == 1;
-            set => instance.Set("_Logic", value ? 1 : 0);
+            get => node.Get<int>("_Logic") == 1;
+            set => node.Set("_Logic", value ? 1 : 0);
         }
 
         public ImmutableArray<CheckFlagInfo> Flags
         {
             get
             {
-                return instance.GetList("_CheckFlags")
-                    .Select(x => new CheckFlagInfo((RszInstance)x!))
+                return node.Get<RszArrayNode>("_CheckFlags")
+                    .Select(x => new CheckFlagInfo((RszStructNode)x))
                     .ToImmutableArray();
             }
             set
             {
-                instance.Set("_CheckFlags", value.Select(x => (object)x.Instance).ToList());
+                node.Set("_CheckFlags", value.Select(x => (object)x.Node).ToList());
             }
         }
 
@@ -35,9 +34,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
             Flags = [];
         }
 
-        public void Add(ScnFile scn, Guid guid)
+        public void Add(Guid guid)
         {
-            Flags = Flags.Add(CheckFlagInfo.Create(scn, guid));
+            Flags = Flags.Add(CheckFlagInfo.Create(guid));
         }
 
         public override string ToString()

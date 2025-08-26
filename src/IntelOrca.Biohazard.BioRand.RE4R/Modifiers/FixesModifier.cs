@@ -145,18 +145,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var throneRoomArea = areas.FirstOrDefault(x => x.FileName == "level_cp10_chp3_1_002.scn.20");
             if (throneRoomArea != null)
             {
-                var component = throneRoomArea.ScnFile.FindComponent(new Guid("b1729389-c445-4c24-b500-72007144dfe6"), "chainsaw.CharacterSpawnController");
+                var component = throneRoomArea.Scene.FindComponent(new Guid("b1729389-c445-4c24-b500-72007144dfe6"), "chainsaw.CharacterSpawnController");
                 if (component != null)
                 {
                     var controller = new CharacterSpawnController(component);
-                    controller.SpawnCondition.Add(throneRoomArea.ScnFile, new Guid("0ef6f99b-43f7-41de-b22a-be79b599a469"));
+                    controller.SpawnCondition.Add(new Guid("0ef6f99b-43f7-41de-b22a-be79b599a469"));
                 }
             }
 
             var checkpointArea = areas.FirstOrDefault(x => x.FileName == "level_loc47_002.scn.20");
             if (checkpointArea != null)
             {
-                var component = checkpointArea.ScnFile.FindComponent(new Guid("31f4c494-ea57-41dd-a209-52a6ddbc9423"), "chainsaw.CharacterSpawnController");
+                var component = checkpointArea.Scene.FindComponent(new Guid("31f4c494-ea57-41dd-a209-52a6ddbc9423"), "chainsaw.CharacterSpawnController");
                 if (component != null)
                 {
                     var controller = new CharacterSpawnController(component);
@@ -428,7 +428,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             // Non-ganado enemies just spawn next to the church and can't be damaged.
             // So remove the no-damage control flags from them.
-            var scn = area.ScnFile;
             var controllerGuids = new Guid[]
             {
                 new Guid("56426f4d-01e8-4079-a8b8-3d4ee343b224"),
@@ -437,18 +436,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             foreach (var guid in controllerGuids)
             {
-                var go = scn.FindGameObject(guid);
+                var go = area.Scene.FindGameObject(guid);
                 if (go == null)
                     continue;
 
                 foreach (var child in go.Children)
                 {
-                    var spawn = child.Components.FirstOrDefault(x => x.Name.Contains("SpawnParam"));
+                    var spawn = child.Components.FirstOrDefault(x => x.Type.Name.Contains("SpawnParam"));
                     if (spawn == null)
                         continue;
 
-                    var checkFlags = spawn.GetList("_NoDamageCtrlFlag._CheckFlags");
-                    checkFlags.Clear();
+                    area.Scene = area.Scene.UpdateGameObject(child
+                        .AddOrUpdateComponent(spawn
+                            .Set("_NoDamageCtrlFlag._CheckFlags", new object[0])));
                 }
             }
         }
@@ -631,23 +631,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 new Guid("4924d5ff-3905-421f-b6b3-1d30d900be95") // pro
             };
 
-            var scn = area.ScnFile;
             foreach (var controllerGuid in controllerGuids)
             {
-                var gameObject = scn.FindGameObject(controllerGuid)!;
+                var gameObject = area.Scene.FindGameObject(controllerGuid)!;
                 var spawnControllerComponent = gameObject.FindComponent("chainsaw.CharacterSpawnController");
                 if (spawnControllerComponent != null)
                 {
                     var controller = new CharacterSpawnController(spawnControllerComponent);
-                    controller.SpawnCondition.Add(scn, new Guid("40807771-38e9-4ec8-a240-d75f4fdff461"));
+                    controller.SpawnCondition.Add(new Guid("40807771-38e9-4ec8-a240-d75f4fdff461"));
                 }
 
                 foreach (var child in gameObject.Children)
                 {
                     var transform = child.FindComponent("via.Transform")!;
-                    var position = transform.Get<Vector4>("Position");
+                    var position = transform.Get<Vector3>("Position");
                     position.X = 152;
-                    transform.Set("Position", position);
+                    transform = transform.Set("Position", position);
+                    area.Scene.UpdateGameObject(child.AddOrUpdateComponent(transform));
                 }
             }
         }

@@ -75,7 +75,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        public bool HasSimpleController => Controller?.Instance.RszClass.name == "chainsaw.CharacterSpawnController";
+        public bool HasSimpleController => Controller?.Node.Type.Name == "chainsaw.CharacterSpawnController";
 
         public bool HasKeyItem
         {

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -15,36 +14,42 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public EnemyClassFactory EnemyClassFactory { get; }
         public string Path => Definition.Path;
         public string FileName => System.IO.Path.GetFileName(Path);
-        public ScnFile ScnFile { get; }
+        public ScnFile.Builder ScnFile { get; }
+        public RszScene Scene
+        {
+            get => ScnFile.Scene;
+            set => ScnFile.Scene = value;
+        }
 
-        public Area(AreaDefinition definition, EnemyClassFactory enemyClassFactory, byte[] data)
+        public Area(AreaDefinition definition, EnemyClassFactory enemyClassFactory, ScnFile scn)
         {
             Definition = definition;
             EnemyClassFactory = enemyClassFactory;
-            ScnFile = ChainsawRandomizerFactory.Default.ReadScnFile(data);
+            ScnFile = scn.ToBuilder(FileRepository.RszRepository);
         }
 
-        public void Save(string path)
-        {
-            ScnFile.SaveAs(path);
-        }
-
-        public byte[] SaveData() => ScnFile.ToByteArray();
+        public ScnFile Apply() => ScnFile.AddMissingResources().Build();
 
         public Enemy[] Enemies
         {
             get
             {
                 var result = new List<Enemy>();
-                var objs = ScnFile.IterAllGameObjects(true).ToArray();
-                foreach (var gameObject in objs)
+                Scene.VisitGameObjects(gameObject =>
                 {
-                    var mainComponent = GetMainEnemyComponent(gameObject);
-                    if (mainComponent != null)
+                    var spawnController = GetSpawnController(gameObject);
+                    if (spawnController == null)
+                        return;
+
+                    foreach (var child in gameObject.Children)
                     {
-                        result.Add(new Enemy(this, gameObject, mainComponent));
+                        var mainComponent = GetMainEnemyComponent(child);
+                        if (mainComponent != null)
+                        {
+                            result.Add(new Enemy(this, gameObject, child, mainComponent));
+                        }
                     }
-                }
+                });
                 return result.ToArray();
             }
         }
@@ -64,34 +69,40 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return _enemySpawns.ToImmutableArray();
         }
 
-        private RszInstance? GetMainEnemyComponent(ScnFile.GameObjectData gameObject)
+        private RszStructNode? GetMainEnemyComponent(RszGameObject gameObject)
         {
-            return gameObject.Components.FirstOrDefault(x => EnemyClassFactory.FindEnemyKind(x.Name) != null);
+            return gameObject.Components.FirstOrDefault(x => EnemyClassFactory.FindEnemyKind(x.Type.Name) != null);
         }
 
         public Enemy ConvertTo(Enemy enemy, EnemyKindDefinition kind)
         {
             var gameObject = enemy.GameObject;
             var oldComponent = enemy.MainComponent;
-            if (oldComponent.RszClass.name == kind.ComponentName)
+            if (oldComponent.Type.Name == kind.ComponentName)
                 return enemy;
 
-            ScnFile.AddComponent(gameObject, kind.ComponentName);
-            gameObject.Components.Remove(oldComponent);
-            var newComponent = gameObject.Components.Last();
+            var newComponent = FileRepository.RszRepository.Create(kind.ComponentName);
 
-            if (gameObject.Prefab != null)
+            var components = gameObject.Components.ToBuilder();
+            for (var i = 0; i < components.Count; i++)
             {
-                gameObject.Prefab.Path = kind.Prefab;
+                if (components[i].Type == oldComponent.Type)
+                {
+                    components[i] = newComponent;
+                    break;
+                }
             }
+            gameObject = gameObject
+                .WithPrefab(kind.Prefab)
+                .WithComponents(components.ToImmutable());
 
-            var newEnemy = new Enemy(this, gameObject, newComponent);
+            var newEnemy = new Enemy(this, enemy.SpawnController, gameObject, newComponent);
 
             // Copy fields over
-            foreach (var f in oldComponent.Fields)
+            foreach (var f in oldComponent.Type.Fields)
             {
-                var oldValue = enemy.GetFieldValue(f.name);
-                newEnemy.SetFieldValue(f.name, oldValue!);
+                var oldValue = enemy.GetFieldValue(f.Name);
+                newEnemy.SetFieldValue(f.Name, oldValue!);
             }
 
             // Clear certain fields
@@ -104,9 +115,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public EnemySpawn Duplicate(EnemySpawn enemy, int contextId)
         {
-            var newGameObject = ScnFile.DuplicateGameObject(enemy.Enemy.GameObject);
+            var newGameObject = enemy.Enemy.GameObject.Clone();
             var newComponent = GetMainEnemyComponent(newGameObject) ?? throw new Exception("Unable to find new enemy component for duplicated enemy.");
-            var newEnemy = new Enemy(this, newGameObject, newComponent);
+            var newEnemy = new Enemy(this, enemy.Enemy.SpawnController, newGameObject, newComponent);
             newEnemy.ContextId = newEnemy.ContextId.WithIndex(contextId);
             var newEnemySpawn = new EnemySpawn(this, enemy.Enemy, newEnemy);
             _enemySpawns.Add(newEnemySpawn);
@@ -219,6 +230,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             if (weaponDef != null)
                 return weaponDef.Ranged;
             return false;
+        }
+
+        private static RszStructNode? GetSpawnController(RszGameObject gameObject)
+        {
+            foreach (var component in gameObject.Components)
+            {
+                if (component.Type.Name == "chainsaw.CharacterSpawnController" ||
+                    component.Type.Name == "chainsaw.CharacterSpawnPointController" ||
+                    component.Type.Name == "chainsaw.CharacterSpawnWaveController")
+                {
+                    return component;
+                }
+            }
+            return null;
         }
     }
 }

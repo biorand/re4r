@@ -1,16 +1,15 @@
 ﻿using System;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Models
 {
-    internal sealed class CheckFlagInfo(RszInstance instance)
+    internal sealed class CheckFlagInfo(RszStructNode node)
     {
-        public RszInstance Instance => instance;
+        public RszStructNode Node => node;
 
-        public static CheckFlagInfo Create(ScnFile scn, Guid flag)
+        public static CheckFlagInfo Create(Guid flag)
         {
-            var instance = scn.RSZ!.CreateInstance("chainsaw.CheckFlagInfo");
+            var instance = FileRepository.RszRepository.Create("chainsaw.CheckFlagInfo");
             var result = new CheckFlagInfo(instance)
             {
                 CompareValue = true,
@@ -21,14 +20,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
 
         public Guid Flag
         {
-            get => instance.Get<Guid>("_CheckFlag");
-            set => instance.Set("_CheckFlag", value);
+            get => node.Get<Guid>("_CheckFlag");
+            set => node.Set("_CheckFlag", value);
         }
 
         public bool CompareValue
         {
-            get => instance.Get<bool>("_CompareValue");
-            set => instance.Set("_CompareValue", value);
+            get => node.Get<bool>("_CompareValue");
+            set => node.Set("_CompareValue", value);
         }
 
         public override string ToString()

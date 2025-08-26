@@ -146,7 +146,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // Save area files
             Parallel.ForEach(areas, area =>
             {
-                _fileRepository.SetGameFileData(area.Definition.Path, area.SaveData());
+                _fileRepository.SetScnFile(area.Definition.Path, area.Apply());
             });
 
             // Output
@@ -193,11 +193,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var areas = new List<Area>();
             foreach (var areaDef in areaRepo.Areas)
             {
-                var areaData = _fileRepository.GetGameFileData(areaDef.Path);
-                if (areaData == null)
+                var scn = _fileRepository.GetScnFile(areaDef.Path);
+                if (scn == null)
                     continue;
 
-                var area = new Area(areaDef, EnemyClassFactory, areaData);
+                var area = new Area(areaDef, EnemyClassFactory, scn);
                 areas.Add(area);
             }
             _areas = areas.ToImmutableArray();

@@ -1,32 +1,31 @@
 ﻿using System;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Models
 {
-    internal class CharacterSpawnController(RszInstance instance)
+    internal class CharacterSpawnController(RszStructNode node)
     {
-        public RszInstance Instance => instance;
+        public RszStructNode Node => node;
 
         public bool Enabled
         {
-            get => instance.Get<byte>("Enabled") != 0;
-            set => instance.Set("Enabled", (byte)1);
+            get => node.Get<bool>("Enabled");
+            set => node.Set("Enabled", value);
         }
 
         public uint Difficulty
         {
-            get => instance.Get<uint>("_DifficutyParam");
-            set => instance.Set("_DifficutyParam", value);
+            get => node.Get<uint>("_DifficutyParam");
+            set => node.Set("_DifficutyParam", value);
         }
 
         public Guid Guid
         {
-            get => instance.Get<Guid>("_GUID");
-            set => instance.Set("_GUID", value);
+            get => node.Get<Guid>("_GUID");
+            set => node.Set("_GUID", value);
         }
 
-        public FlagCondition SpawnCondition => new FlagCondition(instance.Get<RszInstance>("_SpawnCondition")!);
-        public FlagCondition SpawnSkipCondition => new FlagCondition(instance.Get<RszInstance>("_SpawnSkipCondition")!);
+        public FlagCondition SpawnCondition => new FlagCondition(node.Get<RszStructNode>("_SpawnCondition")!);
+        public FlagCondition SpawnSkipCondition => new FlagCondition(node.Get<RszStructNode>("_SpawnSkipCondition")!);
     }
 }

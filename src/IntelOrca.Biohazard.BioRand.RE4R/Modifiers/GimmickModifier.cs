@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Rsz;
 
@@ -242,18 +241,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             private ImmutableArray<Gimmick> GetGimmicks()
             {
                 var result = ImmutableArray.CreateBuilder<Gimmick>();
-                foreach (var go in Scene.EnumerateGameObjects())
+                Scene.VisitGameObjects(go =>
                 {
                     var coreComponent = go.FindComponent("chainsaw.GimmickCore");
                     if (coreComponent == null)
-                        continue;
+                        return;
 
                     var gimmick = new Gimmick(this, go);
                     if (gimmick != null)
                     {
                         result.Add(gimmick);
                     }
-                }
+                });
                 return result.ToImmutable();
             }
         }

@@ -1,39 +1,37 @@
 ﻿using System;
 using System.Linq;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class Enemy
     {
         public Area Area { get; }
-        public ScnFile.GameObjectData GameObject { get; }
-        public RszInstance MainComponent { get; }
+        public RszGameObject SpawnController { get; }
+        public RszGameObject GameObject { get; private set; }
+        public RszStructNode MainComponent { get; private set; }
 
-        public Enemy(Area area, ScnFile.GameObjectData gameObject, RszInstance mainComponent)
+        public Enemy(Area area, RszGameObject spawnController, RszGameObject gameObject, RszStructNode mainComponent)
         {
             Area = area;
+            SpawnController = spawnController;
             GameObject = gameObject;
             MainComponent = mainComponent;
         }
 
         public Guid Guid => GameObject.Guid;
-        public EnemyKindDefinition Kind => Area.EnemyClassFactory.FindEnemyKind(MainComponent.Name)!;
+        public EnemyKindDefinition Kind => Area.EnemyClassFactory.FindEnemyKind(MainComponent.Type.Name)!;
 
         public ContextId ContextId
         {
             get
             {
-                var contextId = (RszInstance)GetFieldValue("_ContextID")!;
+                var contextId = (RszStructNode)GetFieldValue("_ContextID")!;
                 return ContextId.FromRsz(contextId);
             }
             set
             {
-                var contextId = (RszInstance)GetFieldValue("_ContextID")!;
-                contextId.SetFieldValue("_Category", value.Category);
-                contextId.SetFieldValue("_Kind", value.Kind);
-                contextId.SetFieldValue("_Group", value.Group);
-                contextId.SetFieldValue("_Index", value.Index);
+                MainComponent = MainComponent.SetField("_ContextID", value.ToRsz(FileRepository.RszRepository));
             }
         }
 
@@ -70,7 +68,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var arr = new[] { "_Ch1c0z2MontageID", "_Ch1c0z1MontageID", "_MontageID" };
                 foreach (var a in arr)
                 {
-                    if (MainComponent.Fields.Any(x => x.name == a))
+                    if (MainComponent.Type.Fields.Any(x => x.Name == a))
                     {
                         return a;
                     }
@@ -177,48 +175,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public object? GetFieldValue(string name)
         {
-            return MainComponent.GetFieldValue(name);
+            var val = MainComponent[name];
+            if (val is RszDataNode dataNode)
+                return dataNode.Decode();
+            return val;
         }
 
         public T GetFieldValue<T>(string name)
         {
-            return (T)MainComponent.GetFieldValue(name)!;
+            return MainComponent.Get<T>(name);
         }
 
         public void SetFieldValue<T>(string name, T value)
         {
-            var parts = name.Split('.');
-            var instance = MainComponent;
-            for (var i = 0; i < parts.Length - 1; i++)
-            {
-                if (instance.GetFieldValue(parts[i]) is RszInstance child)
-                {
-                    instance = child;
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            name = parts[parts.Length - 1];
-            var originalValue = instance.GetFieldValue(name);
-            if (value is not null && originalValue is not null)
-            {
-                var originalValueType = originalValue.GetType();
-                if (value.GetType() != originalValueType)
-                {
-                    var convertedValue = Convert.ChangeType(value, originalValueType)!;
-                    instance.SetFieldValue(name, convertedValue);
-                    return;
-                }
-            }
-            instance.SetFieldValue(name, value!);
+            MainComponent = MainComponent.Set(name, value);
         }
 
         public override string ToString()
         {
-            var componentName = MainComponent.Name;
+            var componentName = MainComponent.Type.Name;
             var cutOff = componentName.IndexOf("Spawn");
             if (cutOff != -1)
                 componentName = componentName[..cutOff];
