@@ -351,7 +351,6 @@ namespace chainsaw
     }
     internal class SpCategory03EvaluationSetting : SpCategoryEvaluationSettingBase
     {
-        public System.Int32 PartsItemId { get; set; }
     }
     internal class StabilityEvaluationSetting
     {
@@ -981,6 +980,17 @@ namespace chainsaw
         public System.UInt32 _DedicatedTarget { get; set; }
     }
 
+    internal class ItemUseResult_HealHitPoint : ItemUseResultInfoBase
+    {
+        public System.Boolean _FullHealHitPoint { get; set; }
+        public System.Int32 _HealHitPoint { get; set; }
+    }
+
+    internal class ItemUseResult_IncreaseHitPoint : ItemUseResultInfoBase
+    {
+        public System.Int32 _IncreaseHitPoint { get; set; }
+    }
+
     internal class DropItemSaveDataTable
     {
         public System.Collections.Generic.List<chainsaw.DropItemSaveDataTable.Data> Datas { get; set; } = [];
@@ -1182,6 +1192,9 @@ namespace chainsaw
         public chainsaw.WeaponPartsCustom _CurrentWeaponPartsCustom { get; set; } = new();
         public chainsaw.CustomLevelInWeapon _CustomLevelInWeapon { get; set; } = new();
         public System.Int32 _LimitBreakCustomPattern { get; set; }
+    }
+    internal class UniqueItem : Item
+    {
     }
     internal class WeaponPartsCustom
     {

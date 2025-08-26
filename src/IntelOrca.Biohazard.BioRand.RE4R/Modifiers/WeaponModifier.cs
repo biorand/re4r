@@ -126,7 +126,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             randomizer.FileRepository.SerializeUserFile(GetMainPath(randomizer), mainFile);
             randomizer.FileRepository.SerializeUserFile(GetDetailPath(randomizer), detailFile);
-            randomizer.FileRepository.DeserializeUserFile<WeaponDetailCustomUserdata>(GetDetailPath(randomizer));
             randomizer.FileRepository.SetMsgFile(WeaponCustomMsgPath, wpMsg.Build());
             randomizer.FileRepository.SetMsgFile(ShopMsgPath, shopMsg.Build());
 
