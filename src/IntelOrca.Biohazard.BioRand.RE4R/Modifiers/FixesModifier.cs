@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
 using chainsaw;
@@ -97,43 +98,42 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (firstArea == null)
                 return;
 
-            var scnFile = firstArea.ScnFile;
-            var inhibitor = scnFile.FindGameObject(new Guid("9fc712ca-478c-45b5-be12-5233edf4fe95"));
+            var inhibitor = firstArea.Scene.FindGameObject(new Guid("9fc712ca-478c-45b5-be12-5233edf4fe95"));
             if (inhibitor == null)
                 return;
 
             var inhibitorComponent = inhibitor.Components[1];
             for (var i = 0; i < 5; i++)
             {
-                inhibitorComponent.Set(
+                inhibitorComponent = inhibitorComponent.Set(
                     $"_Datas[{i}].Rule[0]._Enable.Matters[0]._Data.Flags._CheckFlags[0]._CheckFlag",
                     new Guid("0fb10e00-5384-4732-881a-af1fae2036c7"));
             }
+            firstArea.Scene = firstArea.Scene.UpdateGameObject(inhibitor
+                .AddOrUpdateComponent(inhibitorComponent));
         }
 
         private void FixDeadEnemyCounters(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             logger.LogLine("Updating dead enemy counters");
+
+            var allTargetIds = new RszArrayNode(RszFieldType.S32, _characterKindIds
+                .Select(x => RszSerializer.Serialize(RszFieldType.S32, x))
+                .ToImmutableArray());
+
             var areas = randomizer.Areas;
             foreach (var area in areas)
             {
-                var scnFile = area.ScnFile;
-                foreach (var go in scnFile.IterAllGameObjects(true))
+                area.Scene = area.Scene.VisitGameObjects(go =>
                 {
-                    var component = go.Components.FirstOrDefault(x => x.Name.StartsWith("chainsaw.DeadEnemyCounter"));
+                    var component = go.Components.FirstOrDefault(x => x.Type.Name.StartsWith("chainsaw.DeadEnemyCounter"));
                     if (component != null && component.Get<bool>("_HasCountTargetIDs"))
                     {
-                        var targetIds = component.GetFieldValue("_CountTargetIDs") as List<object>;
-                        if (targetIds != null)
-                        {
-                            targetIds.Clear();
-                            foreach (var id in _characterKindIds)
-                            {
-                                targetIds.Add(id);
-                            }
-                        }
+                        go = go.AddOrUpdateComponent(component
+                            .SetField("_CountTargetIDs", allTargetIds));
                     }
-                }
+                    return go;
+                });
             }
         }
 
@@ -172,14 +172,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var areas = randomizer.Areas;
             foreach (var area in areas)
             {
-                foreach (var go in area.ScnFile.IterAllGameObjects(true))
+                area.Scene = area.Scene.VisitGameObjects(go =>
                 {
                     var autoSaveSetting = go.FindComponent("chainsaw.AutoSaveSetting");
                     if (autoSaveSetting != null)
                     {
-                        autoSaveSetting.Set("_SaveOnPro", true);
+                        go = go.AddOrUpdateComponent(autoSaveSetting
+                            .Set("_SaveOnPro", true));
                     }
-                }
+                    return go;
+                });
             }
         }
 
@@ -245,14 +247,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 new Guid("f47d8cbc-15ed-4a06-b20f-a307c09d678e") // hard
             };
 
-            var scn = area.ScnFile;
             foreach (var controllerGuid in controllerGuids)
             {
-                var spawnControllerComponent = scn.FindComponent(controllerGuid, "chainsaw.CharacterSpawnController");
+                var spawnControllerComponent = area.Scene.FindComponent(controllerGuid, "chainsaw.CharacterSpawnController");
                 if (spawnControllerComponent != null)
                 {
                     var controller = new CharacterSpawnController(spawnControllerComponent);
-                    controller.SpawnCondition.Add(scn, new Guid("6ac0d9ef-16d3-46e6-af89-4efb1f8370ac"));
+                    controller.SpawnCondition.Add(new Guid("6ac0d9ef-16d3-46e6-af89-4efb1f8370ac"));
                 }
             }
         }
@@ -614,6 +615,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var transform = new Transform(keyHolder.GameObject);
                     transform.Position = new Vector3(x, y, z);
                     transform.Eular = new EulerAngles(d, 0, 0);
+                    keyHolder.Transform = transform;
                 }
             }
         }

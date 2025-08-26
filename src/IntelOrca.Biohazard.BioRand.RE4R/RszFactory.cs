@@ -24,11 +24,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 []);
         }
 
-        public static RszStructNode CreateTransform(Vector3? position = null, EulerAngles? rotation = null, Vector3? scale = null)
+        public static RszStructNode CreateTransform(Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null)
         {
             return Repository.Create("via.Transform")
                 .Set("Position", position ?? Vector3.Zero)
-                .Set("Rotation", rotation?.ToQuaternion() ?? Quaternion.Identity)
+                .Set("Rotation", rotation ?? Quaternion.Identity)
                 .Set("Scale", scale ?? Vector3.One);
         }
 

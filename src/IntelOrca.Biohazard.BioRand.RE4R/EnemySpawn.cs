@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Immutable;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -59,11 +58,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             get
             {
-                var parent = Enemy.GameObject.Parent;
-                if (parent == null)
+                var controller = Enemy.SpawnController;
+                if (controller == null)
                     return false;
 
-                var spawnControllerObj = parent.FindComponent("chainsaw.CharacterSpawnController");
+                var spawnControllerObj = controller.FindComponent("chainsaw.CharacterSpawnController");
                 if (spawnControllerObj == null)
                     return false;
 
@@ -98,15 +97,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             get
             {
-                var parent = Enemy.GameObject.Parent;
+                var parent = Enemy.SpawnController;
                 if (parent == null)
                     return null;
 
                 foreach (var component in parent.Components)
                 {
-                    if (component.RszClass.name == "chainsaw.CharacterSpawnController" ||
-                        component.RszClass.name == "chainsaw.CharacterSpawnPointController" ||
-                        component.RszClass.name == "chainsaw.CharacterSpawnWaveController")
+                    if (component.Type.Name == "chainsaw.CharacterSpawnController" ||
+                        component.Type.Name == "chainsaw.CharacterSpawnPointController" ||
+                        component.Type.Name == "chainsaw.CharacterSpawnWaveController")
                     {
                         return new CharacterSpawnController(component);
                     }

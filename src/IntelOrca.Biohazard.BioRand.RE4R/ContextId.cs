@@ -1,7 +1,5 @@
 ﻿using System;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Rsz;
-using RszInstance = RszTool.RszInstance;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -17,15 +15,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return new ContextId(rszValue._Category, rszValue._Kind, rszValue._Group, rszValue._Index);
         }
 
-        public static ContextId FromRsz(RszInstance instance)
-        {
-            var category = instance.Get<sbyte>("_Category")!;
-            var kind = instance.Get<byte>("_Kind")!;
-            var group = instance.Get<int>("_Group")!;
-            var index = instance.Get<int>("_Index")!;
-            return new ContextId(category, kind, group, index);
-        }
-
         public static ContextId FromRsz(REE.Rsz.IRszNode node)
         {
             var category = node.Get<sbyte>("_Category")!;
@@ -36,14 +25,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         }
 
         public ContextId WithIndex(int value) => new ContextId(Category, Kind, Group, value);
-
-        public void CopyTo(RszInstance instance)
-        {
-            instance.Set("_Category", Category);
-            instance.Set("_Kind", Kind);
-            instance.Set("_Group", Group);
-            instance.Set("_Index", Index);
-        }
 
         public REE.Rsz.IRszNode ToRsz(RszTypeRepository repo)
         {

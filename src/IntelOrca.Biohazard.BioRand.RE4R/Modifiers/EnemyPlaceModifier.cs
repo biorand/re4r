@@ -183,7 +183,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var contextId = GetNextContextId();
             logger.LogLine($"Enemy {contextId} Position = ({position.X}, {position.Y}, {position.Z})");
 
-            var transform = RszFactory.CreateTransform(position, rotation);
+            var transform = RszFactory.CreateTransform(position, rotation.ToQuaternion());
             var spawnParam = repo.Create("chainsaw.Ch1c0SpawnParamCommon")
                 .Set("_Enabled", true)
                 .Set("_StageID", stageId)

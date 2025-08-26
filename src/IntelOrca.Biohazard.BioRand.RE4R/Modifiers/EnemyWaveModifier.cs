@@ -55,7 +55,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                         var deathFlag = GetNextFlagGuid();
                         lastSpawn.Enemy.SetFieldValue("_DeathNotifyFlag", deathFlag);
-                        spawnController.SpawnCondition.Add(scn, deathFlag);
+                        spawnController.SpawnCondition.Add(deathFlag);
                         spawnController.SpawnSkipCondition.Flags = oldSpawnController.SpawnSkipCondition.Flags;
                         spawnController.SpawnSkipCondition.Or = oldSpawnController.SpawnSkipCondition.Or;
 
