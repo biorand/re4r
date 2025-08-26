@@ -197,7 +197,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 if (scn == null)
                     continue;
 
-                var area = new Area(areaDef, EnemyClassFactory, scn);
+                var area = new Area(this, areaDef, EnemyClassFactory, scn);
                 areas.Add(area);
             }
             _areas = areas.ToImmutableArray();

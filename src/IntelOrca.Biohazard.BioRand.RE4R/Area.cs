@@ -10,6 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         private List<EnemySpawn> _enemySpawns = [];
 
+        public ChainsawRandomizer Randomizer { get; }
         public AreaDefinition Definition { get; }
         public EnemyClassFactory EnemyClassFactory { get; }
         public string Path => Definition.Path;
@@ -21,14 +22,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             set => ScnFile.Scene = value;
         }
 
-        public Area(AreaDefinition definition, EnemyClassFactory enemyClassFactory, ScnFile scn)
+        public Area(ChainsawRandomizer randomizer, AreaDefinition definition, EnemyClassFactory enemyClassFactory, ScnFile scn)
         {
+            Randomizer = randomizer;
             Definition = definition;
             EnemyClassFactory = enemyClassFactory;
             ScnFile = scn.ToBuilder(FileRepository.RszRepository);
         }
 
-        public ScnFile Apply() => ScnFile.AddMissingResources().Build();
+        public ScnFile Apply()
+        {
+            ApplyEnemies();
+            return ScnFile.AddMissingResources().Build();
+        }
+
+        private void ApplyEnemies()
+        {
+            var enemySpawns = GetEnemySpawns();
+            foreach (var spawn in enemySpawns)
+            {
+                spawn.Enemy.ApplyComponent();
+                Scene = Scene.UpdateGameObject(spawn.Enemy.GameObject);
+            }
+        }
 
         public Enemy[] Enemies
         {
@@ -54,15 +70,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        public ImmutableArray<EnemySpawn> GetEnemySpawns(ChainsawRandomizer randomizer)
+        public ImmutableArray<EnemySpawn> GetEnemySpawns()
         {
             if (_enemySpawns.Count == 0)
             {
-                var enemyClasses = randomizer.EnemyClassFactory.GetClasses(randomizer);
+                var enemyClasses = Randomizer.EnemyClassFactory.GetClasses(Randomizer);
                 foreach (var enemy in Enemies)
                 {
                     var spawn = new EnemySpawn(this, enemy, enemy);
-                    SetClassPool(randomizer, enemyClasses, spawn);
+                    SetClassPool(enemyClasses, spawn);
                     _enemySpawns.Add(spawn);
                 }
             }
@@ -124,7 +140,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return newEnemySpawn;
         }
 
-        private void SetClassPool(ChainsawRandomizer randomizer, ImmutableArray<EnemyClassDefinition> enemyClasses, EnemySpawn spawn)
+        private void SetClassPool(ImmutableArray<EnemyClassDefinition> enemyClasses, EnemySpawn spawn)
         {
             // Get all allowed enemy classes
             if (!spawn.HasStaticSpawn)
@@ -170,14 +186,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
             spawn.ClassPool = enemyClasses;
 
-            if (randomizer.GetConfigOption<bool>("enemy-strong-mini-boss") && !string.IsNullOrEmpty(spawn.MiniBoss))
+            if (Randomizer.GetConfigOption<bool>("enemy-strong-mini-boss") && !string.IsNullOrEmpty(spawn.MiniBoss))
             {
                 // Mini boss should be an elite enemy
                 spawn.PreferredClassPool = spawn.ClassPool
                     .Where(x => x.Class <= 4)
                     .ToImmutableArray();
             }
-            else if (IsEnemyRanged(randomizer, spawn.OriginalEnemy))
+            else if (IsEnemyRanged(Randomizer, spawn.OriginalEnemy))
             {
                 // Prefer a ranged enemy
                 spawn.PreferredClassPool = spawn.ClassPool
@@ -185,7 +201,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     .ToImmutableArray();
             }
 
-            if (randomizer.GetConfigOption<bool>("nice-mendez-hill"))
+            if (Randomizer.GetConfigOption<bool>("nice-mendez-hill"))
             {
                 // Mendez hill
                 AvoidClasses(spawn, "level_loc47_003.scn.20",

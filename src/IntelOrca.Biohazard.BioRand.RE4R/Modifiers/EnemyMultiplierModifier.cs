@@ -36,7 +36,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private void RandomizeArea(ChainsawRandomizer randomizer, Area area, Rng rng)
         {
             // Duplicate enemy spawns
-            var spawns = area.GetEnemySpawns(randomizer);
+            var spawns = area.GetEnemySpawns();
             foreach (var spawn in spawns)
             {
                 var stageId = spawn.Enemy.StageID;

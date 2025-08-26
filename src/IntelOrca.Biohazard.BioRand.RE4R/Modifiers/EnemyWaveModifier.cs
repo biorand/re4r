@@ -25,7 +25,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 var waveProbability = Math.Clamp(randomizer.GetConfigOption<float>("enemy-waves-probability", 1), 0, 1);
                 var allSpawns = randomizer.Areas
-                    .SelectMany(x => x.GetEnemySpawns(randomizer))
+                    .SelectMany(x => x.GetEnemySpawns())
                     .Shuffle(rng);
 
                 var maxWavedEnemies = (int)(waveProbability * allSpawns.Length);

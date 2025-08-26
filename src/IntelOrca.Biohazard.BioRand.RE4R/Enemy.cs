@@ -19,6 +19,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             MainComponent = mainComponent;
         }
 
+        public void ApplyComponent()
+        {
+            GameObject = GameObject.AddOrUpdateComponent(MainComponent);
+        }
+
         public Guid Guid => GameObject.Guid;
         public EnemyKindDefinition Kind => Area.EnemyClassFactory.FindEnemyKind(MainComponent.Type.Name)!;
 

@@ -134,7 +134,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 var chapter = group.Key;
                 var enemies = group
-                    .SelectMany(x => x.GetEnemySpawns(randomizer))
+                    .SelectMany(x => x.GetEnemySpawns())
                     .ToImmutableArray();
                 RandomizeEnemyHealth(randomizer, chapter, enemies, rng, logger);
             }
@@ -147,7 +147,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     var chapter = group.Key;
                     var enemies = group
-                        .SelectMany(x => x.GetEnemySpawns(randomizer))
+                        .SelectMany(x => x.GetEnemySpawns())
                         .Where(x => !x.Enemy.Kind.NoItemDrop)
                         .Where(x => !x.HasKeyItem)
                         .Where(x => x.OriginalEnemy.Kind.Key != "mendez_2") // Mendez (phase 1)
@@ -176,7 +176,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Push("Randomizing scales");
                 var spawns = areaByChapter
                     .SelectMany(x => x)
-                    .SelectMany(x => x.GetEnemySpawns(randomizer))
+                    .SelectMany(x => x.GetEnemySpawns())
                     .ToImmutableArray();
                 if (enemyScaleProbability < 1)
                 {
@@ -195,7 +195,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var parasiteRng = rng.NextFork();
 
             // Get all the enemy spawns for this area
-            var spawns = area.GetEnemySpawns(randomizer);
+            var spawns = area.GetEnemySpawns();
 
             // Randomize classes
             ChooseClasses(randomizer, spawns, rng);
