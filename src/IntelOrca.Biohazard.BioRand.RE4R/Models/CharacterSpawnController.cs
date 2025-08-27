@@ -1,31 +1,117 @@
 ﻿using System;
+using System.Collections.Immutable;
+using System.Linq;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Models
 {
-    internal class CharacterSpawnController(RszStructNode node)
+    internal class CharacterSpawnController
     {
-        public RszStructNode Node => node;
+        public Area Area { get; }
+        public RszGameObject GameObject { get; private set; }
+        public RszStructNode Component { get; private set; }
+        public SpawnControllerKind Kind { get; }
+        public ImmutableArray<EnemySpawn> Enemies { get; private set; }
+
+        public CharacterSpawnController(Area area, RszGameObject gameObject)
+        {
+            Area = area;
+            GameObject = gameObject;
+            Component = FindComponent(gameObject) ?? throw new Exception("Component not found for spawn controller");
+            Kind = GetKindFromComponent(Component);
+            Enemies = ScanEnemies();
+        }
+
+        private ImmutableArray<EnemySpawn> ScanEnemies()
+        {
+            var enemies = ImmutableArray.CreateBuilder<EnemySpawn>();
+            GameObject.VisitGameObjects(go =>
+            {
+                var enemyComponent = GetMainEnemyComponent(go);
+                if (enemyComponent != null)
+                {
+                    var enemy = new Enemy(Area, go, enemyComponent);
+                    var spawn = new EnemySpawn(this, enemy, enemy);
+                    spawn.SetClassPool();
+                    enemies.Add(spawn);
+                }
+            });
+            return enemies.ToImmutableArray();
+        }
+
+        public RszGameObject Apply()
+        {
+            GameObject = GameObject
+                .AddOrUpdateComponent(Component)
+                .VisitGameObjects(go =>
+                {
+                    var enemy = Enemies.FirstOrDefault(x => x.Guid == go.Guid);
+                    return enemy != null ? enemy.Apply() : go;
+                });
+            return GameObject;
+        }
 
         public bool Enabled
         {
-            get => node.Get<bool>("Enabled");
-            set => node.Set("Enabled", value);
+            get => Component.Get<bool>("Enabled");
+            set => Component = Component.Set("Enabled", value);
         }
 
         public uint Difficulty
         {
-            get => node.Get<uint>("_DifficutyParam");
-            set => node.Set("_DifficutyParam", value);
+            get => Component.Get<uint>("_DifficutyParam");
+            set => Component = Component.Set("_DifficutyParam", value);
         }
 
         public Guid Guid
         {
-            get => node.Get<Guid>("_GUID");
-            set => node.Set("_GUID", value);
+            get => Component.Get<Guid>("_GUID");
+            set => Component = Component.Set("_GUID", value);
         }
 
-        public FlagCondition SpawnCondition => new FlagCondition(node.Get<RszStructNode>("_SpawnCondition")!);
-        public FlagCondition SpawnSkipCondition => new FlagCondition(node.Get<RszStructNode>("_SpawnSkipCondition")!);
+        public FlagCondition SpawnCondition => new FlagCondition(Component.Get<RszStructNode>("_SpawnCondition")!);
+        public FlagCondition SpawnSkipCondition => new FlagCondition(Component.Get<RszStructNode>("_SpawnSkipCondition")!);
+
+        private static RszStructNode? FindComponent(RszGameObject gameObject)
+        {
+            foreach (var component in gameObject.Components)
+            {
+                var kind = GetKindFromComponent(component);
+                if (kind != SpawnControllerKind.None)
+                {
+                    return component;
+                }
+            }
+            return null;
+        }
+
+        private static SpawnControllerKind GetKindFromComponent(RszStructNode component)
+        {
+            return component.Type.Name switch
+            {
+                "chainsaw.CharacterSpawnController" => SpawnControllerKind.Standard,
+                "chainsaw.CharacterSpawnPointController" => SpawnControllerKind.Point,
+                "chainsaw.CharacterSpawnWaveController" => SpawnControllerKind.Wave,
+                _ => SpawnControllerKind.None,
+            };
+        }
+
+        public static bool IsSpawnController(RszGameObject gameObject)
+        {
+            foreach (var component in gameObject.Components)
+            {
+                var kind = GetKindFromComponent(component);
+                if (kind != SpawnControllerKind.None)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private RszStructNode? GetMainEnemyComponent(RszGameObject gameObject)
+        {
+            return gameObject.Components.FirstOrDefault(x => Area.EnemyClassFactory.FindEnemyKind(x.Type.Name) != null);
+        }
     }
 }

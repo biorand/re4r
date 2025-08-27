@@ -7,21 +7,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     internal class Enemy
     {
         public Area Area { get; }
-        public RszGameObject SpawnController { get; }
         public RszGameObject GameObject { get; private set; }
         public RszStructNode MainComponent { get; private set; }
 
-        public Enemy(Area area, RszGameObject spawnController, RszGameObject gameObject, RszStructNode mainComponent)
+        public Enemy(Area area, RszGameObject gameObject, RszStructNode mainComponent)
         {
             Area = area;
-            SpawnController = spawnController;
             GameObject = gameObject;
             MainComponent = mainComponent;
         }
 
-        public void ApplyComponent()
+        public RszGameObject Apply()
         {
             GameObject = GameObject.AddOrUpdateComponent(MainComponent);
+            return GameObject;
         }
 
         public Guid Guid => GameObject.Guid;
@@ -186,20 +185,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public object? GetFieldValue(string name)
         {
+            if (MainComponent.Type.FindFieldIndex(name) == -1)
+                return null;
+
             var val = MainComponent[name];
             if (val is RszDataNode dataNode)
                 return dataNode.Decode();
             return val;
         }
 
-        public T GetFieldValue<T>(string name)
-        {
-            return MainComponent.Get<T>(name);
-        }
+        public T? GetFieldValue<T>(string name) => (T?)GetFieldValue(name);
 
         public void SetFieldValue<T>(string name, T value)
         {
-            MainComponent = MainComponent.Set(name, value);
+            if (MainComponent.Type.FindFieldIndex(name) != -1)
+            {
+                MainComponent = MainComponent.Set(name, value);
+            }
         }
 
         public override string ToString()

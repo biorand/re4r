@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using IntelOrca.Biohazard.BioRand.RE4R.Models;
 using IntelOrca.Biohazard.REE.Cryptography;
 using IntelOrca.Biohazard.REE.Variables;
 
@@ -25,7 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 var waveProbability = Math.Clamp(randomizer.GetConfigOption<float>("enemy-waves-probability", 1), 0, 1);
                 var allSpawns = randomizer.Areas
-                    .SelectMany(x => x.GetEnemySpawns())
+                    .SelectMany(x => x.Enemies)
                     .Shuffle(rng);
 
                 var maxWavedEnemies = (int)(waveProbability * allSpawns.Length);
@@ -41,14 +40,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (!oldSpawn.HasSimpleController)
                         continue;
 
+                    var area = oldSpawn.Area;
                     var scn = oldSpawn.Area.ScnFile;
-                    var oldSpawnController = oldSpawn.Controller!;
+                    var oldSpawnController = oldSpawn.SpawnController;
                     var lastSpawn = oldSpawn;
                     var numWaves = rng.Next(minWaves, maxWaves + 1);
                     for (var i = 1; i < numWaves; i++)
                     {
                         var spawnControllerGameObject = RszFactory.CreateSpawnPointController(rng.NextGuid(), $"BioRandOnDeathSpawn_{i}", waveDistance, [lastSpawn.Enemy]);
-                        var spawnController = new CharacterSpawnController(spawnControllerGameObject.Components[1]);
+                        var spawnController = area.CreateSpawnController(spawnControllerGameObject);
 
                         var newSpawn = lastSpawn.Duplicate(GetNextContextId());
                         spawnControllerGameObject = spawnControllerGameObject.AddOrUpdateChild(newSpawn.Enemy.GameObject);

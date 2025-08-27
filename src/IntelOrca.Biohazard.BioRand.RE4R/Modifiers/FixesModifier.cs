@@ -4,8 +4,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
 using chainsaw;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using IntelOrca.Biohazard.BioRand.RE4R.Models;
 using IntelOrca.Biohazard.REE.Messages;
 using IntelOrca.Biohazard.REE.Rsz;
 
@@ -145,22 +143,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var throneRoomArea = areas.FirstOrDefault(x => x.FileName == "level_cp10_chp3_1_002.scn.20");
             if (throneRoomArea != null)
             {
-                var component = throneRoomArea.Scene.FindComponent(new Guid("b1729389-c445-4c24-b500-72007144dfe6"), "chainsaw.CharacterSpawnController");
-                if (component != null)
+                var spawnController = throneRoomArea.FindSpawnController(new Guid("b1729389-c445-4c24-b500-72007144dfe6"));
+                if (spawnController != null)
                 {
-                    var controller = new CharacterSpawnController(component);
-                    controller.SpawnCondition.Add(new Guid("0ef6f99b-43f7-41de-b22a-be79b599a469"));
+                    spawnController.SpawnCondition.Add(new Guid("0ef6f99b-43f7-41de-b22a-be79b599a469"));
                 }
             }
 
             var checkpointArea = areas.FirstOrDefault(x => x.FileName == "level_loc47_002.scn.20");
             if (checkpointArea != null)
             {
-                var component = checkpointArea.Scene.FindComponent(new Guid("31f4c494-ea57-41dd-a209-52a6ddbc9423"), "chainsaw.CharacterSpawnController");
-                if (component != null)
+                var spawnController = checkpointArea.FindSpawnController(new Guid("31f4c494-ea57-41dd-a209-52a6ddbc9423"));
+                if (spawnController != null)
                 {
-                    var controller = new CharacterSpawnController(component);
-                    controller.SpawnCondition.Flags = controller.SpawnCondition.Flags
+                    spawnController.SpawnCondition.Flags = spawnController.SpawnCondition.Flags
                         .RemoveAll(x => x.Flag == new Guid("6ac9f5b8-a8a6-4e43-9410-54908e542128"));
                 }
             }
@@ -249,11 +245,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             foreach (var controllerGuid in controllerGuids)
             {
-                var spawnControllerComponent = area.Scene.FindComponent(controllerGuid, "chainsaw.CharacterSpawnController");
+                var spawnControllerComponent = area.FindSpawnController(controllerGuid);
                 if (spawnControllerComponent != null)
                 {
-                    var controller = new CharacterSpawnController(spawnControllerComponent);
-                    controller.SpawnCondition.Add(new Guid("6ac0d9ef-16d3-46e6-af89-4efb1f8370ac"));
+                    spawnControllerComponent.SpawnCondition.Add(new Guid("6ac0d9ef-16d3-46e6-af89-4efb1f8370ac"));
                 }
             }
         }
@@ -605,17 +600,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     (KindSmall, 72, 21, 37, -86)
                 };
                 var largeEnemies = new[] { "mendez_chase", "verdugo", "mendez_2", "krauser_2", "pesanta", "u3", "garrador" };
-                if (largeEnemies.Contains(keyHolder.Kind.Key))
+                if (largeEnemies.Contains(keyHolder.Enemy.Kind.Key))
                 {
                     positions = positions.Where(x => x.Item1 != KindSmall).ToArray();
                 }
                 var (kind, x, y, z, d) = rng.NextOf(positions);
                 if (kind != KindNone)
                 {
-                    var transform = new Transform(keyHolder.GameObject);
+                    var transform = new Transform(keyHolder.Enemy.GameObject);
                     transform.Position = new Vector3(x, y, z);
                     transform.Eular = new EulerAngles(d, 0, 0);
-                    keyHolder.Transform = transform;
+                    keyHolder.Enemy.Transform = transform;
                 }
             }
         }
@@ -635,21 +630,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             foreach (var controllerGuid in controllerGuids)
             {
-                var gameObject = area.Scene.FindGameObject(controllerGuid)!;
-                var spawnControllerComponent = gameObject.FindComponent("chainsaw.CharacterSpawnController");
+                var spawnControllerComponent = area.FindSpawnController(controllerGuid);
                 if (spawnControllerComponent != null)
                 {
-                    var controller = new CharacterSpawnController(spawnControllerComponent);
-                    controller.SpawnCondition.Add(new Guid("40807771-38e9-4ec8-a240-d75f4fdff461"));
-                }
-
-                foreach (var child in gameObject.Children)
-                {
-                    var transform = child.FindComponent("via.Transform")!;
-                    var position = transform.Get<Vector3>("Position");
-                    position.X = 152;
-                    transform = transform.Set("Position", position);
-                    area.Scene.UpdateGameObject(child.AddOrUpdateComponent(transform));
+                    spawnControllerComponent.SpawnCondition.Add(new Guid("40807771-38e9-4ec8-a240-d75f4fdff461"));
+                    foreach (var enemy in spawnControllerComponent.Enemies)
+                    {
+                        var transform = enemy.Enemy.Transform;
+                        transform.Position = new Vector3(152, transform.Position.Y, transform.Position.Z);
+                        enemy.Enemy.Transform = transform;
+                    }
                 }
             }
         }
