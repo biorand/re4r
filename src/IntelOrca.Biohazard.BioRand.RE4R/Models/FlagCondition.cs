@@ -5,9 +5,9 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Models
 {
-    internal class FlagCondition(RszStructNode node)
+    internal class FlagCondition(RszObjectNode node)
     {
-        public RszStructNode Node => node;
+        public RszObjectNode Node => node;
 
         public bool Or
         {
@@ -20,7 +20,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
             get
             {
                 return node.Get<RszArrayNode>("_CheckFlags")
-                    .Select(x => new CheckFlagInfo((RszStructNode)x))
+                    .Select(x => new CheckFlagInfo((RszObjectNode)x))
                     .ToImmutableArray();
             }
             set

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -226,9 +225,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 // Fix references
                 return root.Visit(node =>
                 {
-                    if (node is RszDataNode dataNode && dataNode.Type == RszFieldType.GameObjectRef)
+                    if (node is RszValueNode valueNode && valueNode.Type == RszFieldType.GameObjectRef)
                     {
-                        var refGuid = (Guid)dataNode.Decode();
+                        var refGuid = valueNode.Get<Guid>();
                         if (map.TryGetValue(refGuid, out var newGuid))
                         {
                             return RszSerializer.Serialize(RszFieldType.GameObjectRef, newGuid);
@@ -257,9 +256,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     set => Scn.Scene = value;
                 }
 
-                public RszStructNode UserData
+                public RszObjectNode UserData
                 {
-                    get => (RszStructNode)User.Objects[0];
+                    get => (RszObjectNode)User.Objects[0];
                     set => User.Objects = User.Objects.SetItem(0, value);
                 }
 

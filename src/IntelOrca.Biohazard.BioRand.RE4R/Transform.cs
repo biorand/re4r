@@ -16,7 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
         }
 
-        public Transform(RszStructNode node)
+        public Transform(RszObjectNode node)
         {
             Position = node.Get<Vector3>("Position");
             Rotation = node.Get<Quaternion>("Rotation");
@@ -40,7 +40,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        public RszStructNode ToComponent()
+        public RszObjectNode ToComponent()
         {
             return RszFactory.CreateTransform(Position, Rotation, Scale);
         }

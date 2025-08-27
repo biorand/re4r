@@ -134,7 +134,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                     craft._Datas.Add(newCraft);
                 }
-                return (RszStructNode)RszSerializer.Serialize(root.Type, craft);
+                return (RszObjectNode)RszSerializer.Serialize(root.Type, craft);
             });
         }
     }

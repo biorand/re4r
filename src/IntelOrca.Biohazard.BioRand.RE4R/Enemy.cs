@@ -8,9 +8,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         public Area Area { get; }
         public RszGameObject GameObject { get; private set; }
-        public RszStructNode MainComponent { get; private set; }
+        public RszObjectNode MainComponent { get; private set; }
 
-        public Enemy(Area area, RszGameObject gameObject, RszStructNode mainComponent)
+        public Enemy(Area area, RszGameObject gameObject, RszObjectNode mainComponent)
         {
             Area = area;
             GameObject = gameObject;
@@ -36,7 +36,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             get
             {
-                var contextId = (RszStructNode)GetFieldValue("_ContextID")!;
+                var contextId = (RszObjectNode)GetFieldValue("_ContextID")!;
                 return ContextId.FromRsz(contextId);
             }
             set
@@ -189,8 +189,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 return null;
 
             var val = MainComponent[name];
-            if (val is RszDataNode dataNode)
-                return dataNode.Decode();
+            if (val is RszValueNode valueNode)
+                return RszSerializer.Deserialize(valueNode);
             return val;
         }
 

@@ -5,7 +5,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
 {
     public static class RszExtensions
     {
-        public static RszStructNode? FindComponent(this IRszSceneNode sceneNode, Guid gameObjectGuid, string componentName)
+        public static RszObjectNode? FindComponent(this IRszSceneNode sceneNode, Guid gameObjectGuid, string componentName)
         {
             var gameObject = sceneNode.FindGameObject(gameObjectGuid);
             return gameObject != null ? gameObject.FindComponent(componentName) : null;

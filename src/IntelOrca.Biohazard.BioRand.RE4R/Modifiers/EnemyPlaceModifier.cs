@@ -146,7 +146,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return new EulerAngles(angle, 0, 0);
         }
 
-        private static RszStructNode CreateCheckFlag(Guid guid)
+        private static RszObjectNode CreateCheckFlag(Guid guid)
         {
             var checkFlagInfo = FileRepository.RszRepository.Create("chainsaw.CheckFlagInfo");
             checkFlagInfo.Set("_CheckFlag", guid);

@@ -273,19 +273,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             private ImmutableDictionary<string, object> GetProperties()
             {
                 var properties = new Dictionary<string, object>();
-                if (GameObject.FindComponent("chainsaw.GmSmoothWoodBox") is RszStructNode gmSmoothWoodBox)
+                if (GameObject.FindComponent("chainsaw.GmSmoothWoodBox") is RszObjectNode gmSmoothWoodBox)
                 {
                     properties["DropCount"] = gmSmoothWoodBox.Get<int>("_RandomDropItemNum");
                 }
                 if (ParamObject is RszGameObject paramObject)
                 {
-                    if (paramObject.FindComponent("chainsaw.GmOptionDropItem") is RszStructNode gmOptionDropItem)
+                    if (paramObject.FindComponent("chainsaw.GmOptionDropItem") is RszObjectNode gmOptionDropItem)
                     {
                         properties["Item"] = new Item(
                             gmOptionDropItem.Get<int>("ID"),
                             gmOptionDropItem.Get<int>("Count"));
                     }
-                    if (paramObject.FindComponent("chainsaw.GmOptionSmoothWoodBox") is RszStructNode gmOptionSmoothWoodBox)
+                    if (paramObject.FindComponent("chainsaw.GmOptionSmoothWoodBox") is RszObjectNode gmOptionSmoothWoodBox)
                     {
                         var enemyContextId = ContextId.FromRsz(gmOptionSmoothWoodBox["_EnemyContextID"]);
                         if (enemyContextId.Category != -1)

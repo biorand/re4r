@@ -9,7 +9,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
     {
         public Area Area { get; }
         public RszGameObject GameObject { get; private set; }
-        public RszStructNode Component { get; private set; }
+        public RszObjectNode Component { get; private set; }
         public SpawnControllerKind Kind { get; }
         public ImmutableArray<EnemySpawn> Enemies { get; private set; }
 
@@ -69,10 +69,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
             set => Component = Component.Set("_GUID", value);
         }
 
-        public FlagCondition SpawnCondition => new FlagCondition(Component.Get<RszStructNode>("_SpawnCondition")!);
-        public FlagCondition SpawnSkipCondition => new FlagCondition(Component.Get<RszStructNode>("_SpawnSkipCondition")!);
+        public FlagCondition SpawnCondition => new FlagCondition(Component.Get<RszObjectNode>("_SpawnCondition")!);
+        public FlagCondition SpawnSkipCondition => new FlagCondition(Component.Get<RszObjectNode>("_SpawnSkipCondition")!);
 
-        private static RszStructNode? FindComponent(RszGameObject gameObject)
+        private static RszObjectNode? FindComponent(RszGameObject gameObject)
         {
             foreach (var component in gameObject.Components)
             {
@@ -85,7 +85,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
             return null;
         }
 
-        private static SpawnControllerKind GetKindFromComponent(RszStructNode component)
+        private static SpawnControllerKind GetKindFromComponent(RszObjectNode component)
         {
             return component.Type.Name switch
             {
@@ -109,7 +109,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
             return false;
         }
 
-        private RszStructNode? GetMainEnemyComponent(RszGameObject gameObject)
+        private RszObjectNode? GetMainEnemyComponent(RszGameObject gameObject)
         {
             return gameObject.Components.FirstOrDefault(x => Area.EnemyClassFactory.FindEnemyKind(x.Type.Name) != null);
         }

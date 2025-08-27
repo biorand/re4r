@@ -3,9 +3,9 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Models
 {
-    internal sealed class CheckFlagInfo(RszStructNode node)
+    internal sealed class CheckFlagInfo(RszObjectNode node)
     {
-        public RszStructNode Node => node;
+        public RszObjectNode Node => node;
 
         public static CheckFlagInfo Create(Guid flag)
         {

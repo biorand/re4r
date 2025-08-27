@@ -209,15 +209,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var fileRepository = randomizer.FileRepository;
             fileRepository.ModifyUserFile(userFilePath, root =>
             {
-                var timerGuiParamHolder = (RszStructNode)root["_TimerGuiParamHolder"];
+                var timerGuiParamHolder = (RszObjectNode)root["_TimerGuiParamHolder"];
                 var timerParamSettings = (RszArrayNode)timerGuiParamHolder["_TimerParamSettings"];
-                var timerParamSettings0 = (RszStructNode)timerParamSettings[0];
+                var timerParamSettings0 = (RszObjectNode)timerParamSettings[0];
                 timerParamSettings0 = timerParamSettings0.SetField("_MaxSecond", updatedTimerSeconds);
                 timerParamSettings0 = timerParamSettings0.SetField("_RespawnTimer", updatedTimerSeconds);
                 foreach (var i in new[] { 10, 20, 30, 40 })
                 {
                     var subName = $"_TimerParam_Defficulty{i}";
-                    var sub = (RszStructNode)timerParamSettings0[subName];
+                    var sub = (RszObjectNode)timerParamSettings0[subName];
                     sub = sub.SetField("MaxSecond", updatedTimerSeconds);
                     sub = sub.SetField("RespawnTimer", updatedTimerSeconds);
                     timerParamSettings0 = timerParamSettings0.SetField(subName, sub);
@@ -264,7 +264,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var datas = (RszArrayNode)root["_Datas"];
                     for (var i = 0; i <= 2; i++)
                     {
-                        var data = (RszStructNode)datas[i];
+                        var data = (RszObjectNode)datas[i];
                         data = data.SetField("_Flags", ((RszArrayNode)data["_Flags"]).Add(0));
                         data = data.SetField("_SaleFlags", ((RszArrayNode)data["_SaleFlags"]).Add(0));
                         datas = datas.SetItem(i, data);
@@ -278,7 +278,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 fileRepository.ModifyUserFile(path, root =>
                 {
                     var datas = (RszArrayNode)root["_Datas"];
-                    var data = (RszStructNode)datas[18];
+                    var data = (RszObjectNode)datas[18];
                     data = data.SetField("_Flags", ((RszArrayNode)data["_Flags"]).Add(17));
                     data = data.SetField("_SaleFlags", ((RszArrayNode)data["_SaleFlags"]).Add(17));
                     datas = datas.SetItem(18, data);
@@ -321,13 +321,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         278216256  // SW - Red 9
                     );
                 }
-                return (RszStructNode)RszSerializer.Serialize(root.Type, userData);
+                return (RszObjectNode)RszSerializer.Serialize(root.Type, userData);
             });
 
             fileRepository.ModifyUserFile(playerLaserSightControllerDefinitionPath, root =>
             {
                 var settings = (RszArrayNode)root["_Settings"];
-                var template = (RszStructNode)settings[0];
+                var template = (RszObjectNode)settings[0];
                 foreach (var wp in weaponIds)
                 {
                     root = root.SetField("_Settings",
@@ -355,7 +355,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         }
                     }
                 }
-                return (RszStructNode)RszSerializer.Serialize(root.Type, userData);
+                return (RszObjectNode)RszSerializer.Serialize(root.Type, userData);
             });
         }
 
@@ -949,7 +949,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var datas = (RszArrayNode)root["Datas"];
                 for (var i = 0; i < datas.Length; i++)
                 {
-                    var item = (RszStructNode)datas[i];
+                    var item = (RszObjectNode)datas[i];
                     var id = item.Get<int>("ID");
                     if (id != ItemIds.SmallKey)
                         continue;

@@ -36,7 +36,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public void Save(FileRepository fileRepository)
         {
-            var rszType = ((RszStructNode)_inventoryCatalog.Objects[0]).Type;
+            var rszType = ((RszObjectNode)_inventoryCatalog.Objects[0]).Type;
             _inventoryCatalog.Objects = [RszSerializer.Serialize(rszType, _root)];
             fileRepository.SetUserFile(_path, _inventoryCatalog.Build());
         }
