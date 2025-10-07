@@ -174,7 +174,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                         new chainsaw.CheckFlagInfo()
                                         {
                                             _CheckFlag = Guid.Parse(placement.Condition),
-                                            _CompareValue = true
+                                            _CompareValue = false
                                         }
                                     }
                                 }))));
