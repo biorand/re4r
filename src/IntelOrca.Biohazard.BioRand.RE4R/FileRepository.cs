@@ -131,8 +131,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             var userFile = GetUserFile(path);
             var builder = userFile.ToBuilder(RszRepository);
-            var targetType = ((RszObjectNode)builder.Objects[0]).Type;
-            builder.Objects = [RszSerializer.Serialize(targetType, value!)];
+            var targetType = builder.Objects[0].Type;
+            builder.Objects = [(RszObjectNode)RszSerializer.Serialize(targetType, value!)];
             SetUserFile(path, builder.Build());
         }
 

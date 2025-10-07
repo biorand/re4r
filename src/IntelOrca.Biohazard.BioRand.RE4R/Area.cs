@@ -133,11 +133,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return spawnController;
         }
 
-        public EnemySpawn CreateEnemySpawn(CharacterSpawnController spawnController, RszGameObject gameObject)
-        {
-            return null;
-        }
-
         public EnemySpawn Duplicate(EnemySpawn enemy, int contextId)
         {
             // var newGameObject = enemy.Enemy.GameObject.Clone();
