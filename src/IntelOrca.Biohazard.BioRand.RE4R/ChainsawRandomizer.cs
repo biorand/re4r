@@ -227,7 +227,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 // new GimmickModifier(),
                 new LevelItemModifier(),
                 new EnemyPlaceModifier(),
-                // new EnemyMultiplierModifier(),
+                new EnemyMultiplierModifier(),
                 // new EnemyWaveModifier(),
                 new EnemyModifier(),
                 new FixesModifier(),

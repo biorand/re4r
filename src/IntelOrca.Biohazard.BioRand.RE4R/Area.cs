@@ -15,7 +15,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public string Path => Definition.Path;
         public string FileName => System.IO.Path.GetFileName(Path);
         public ScnFile.Builder ScnFile { get; }
-        public ImmutableArray<CharacterSpawnController> SpawnControllers { get; private set; }
 
         public RszScene Scene
         {
@@ -47,6 +46,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
+        public ImmutableArray<CharacterSpawnController> SpawnControllers { get; private set; }
         public IEnumerable<EnemySpawn> Enemies => SpawnControllers.SelectMany(x => x.Enemies);
 
         public Area(ChainsawRandomizer randomizer, AreaDefinition definition, EnemyClassFactory enemyClassFactory, ScnFile scn)
@@ -55,10 +55,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             Definition = definition;
             EnemyClassFactory = enemyClassFactory;
             ScnFile = scn.ToBuilder(FileRepository.RszRepository);
-            Scan();
+            SpawnControllers = Scan();
         }
 
-        private void Scan()
+        private ImmutableArray<CharacterSpawnController> Scan()
         {
             var spawnControllers = ImmutableArray.CreateBuilder<CharacterSpawnController>();
             Scene.VisitGameObjects(gameObject =>
@@ -68,17 +68,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     spawnControllers.Add(new CharacterSpawnController(this, gameObject));
                 }
             });
-            SpawnControllers = spawnControllers.ToImmutable();
+            return spawnControllers.ToImmutable();
         }
 
         public ScnFile Apply()
         {
-            Scene = Scene.VisitGameObjects(go =>
-            {
-                var spawnController = SpawnControllers.FirstOrDefault(x => x.GameObject.Guid == go.Guid);
-                return spawnController == null ? go : spawnController.Apply();
-            });
+            var appliedSpawnControllers = SpawnControllers
+                .Select(x => x.Apply())
+                .ToDictionary(x => x.Guid);
 
+            Scene = Scene.VisitGameObjects(go => appliedSpawnControllers.GetValueOrDefault(go.Guid) ?? go);
             return ScnFile.AddMissingResources().Build();
         }
 
@@ -133,25 +132,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return spawnController;
         }
 
-        public CharacterSpawnController AddSpawnController(RszGameObject gameObject)
+        public void AddSpawnController(RszGameObject gameObject)
         {
+            SpawnControllers = SpawnControllers.Add(new CharacterSpawnController(this, gameObject));
             BioRandFolder = BioRandFolder.Add(gameObject);
-
-            var spawnController = CreateSpawnController(gameObject);
-            SpawnControllers = SpawnControllers.Add(spawnController);
-            return spawnController;
         }
 
         public EnemySpawn Duplicate(EnemySpawn enemy, int contextId)
         {
-            // var newGameObject = enemy.Enemy.GameObject.Clone();
-            // var newComponent = GetMainEnemyComponent(newGameObject) ?? throw new Exception("Unable to find new enemy component for duplicated enemy.");
-            // var newEnemy = new Enemy(this, enemy.Enemy.SpawnController, newGameObject, newComponent);
-            // newEnemy.ContextId = newEnemy.ContextId.WithIndex(contextId);
-            // var newEnemySpawn = new EnemySpawn(this, enemy.Enemy, newEnemy);
-            // _enemySpawns.Add(newEnemySpawn);
-            // return newEnemySpawn;
-            return null;
+            var newGameObject = enemy.Enemy.GameObject.Clone();
+            var newComponent = GetMainEnemyComponent(newGameObject) ?? throw new Exception("Unable to find new enemy component for duplicated enemy.");
+            var newEnemy = new Enemy(this, newGameObject, newComponent);
+            newEnemy.ContextId = newEnemy.ContextId.WithIndex(contextId);
+            var newEnemySpawn = new EnemySpawn(enemy.SpawnController, enemy.Enemy, newEnemy);
+            enemy.SpawnController.AddEnemy(newEnemySpawn);
+            return newEnemySpawn;
         }
+
+        private RszObjectNode? GetMainEnemyComponent(RszGameObject gameObject)
+        {
+            return gameObject.Components.FirstOrDefault(x => EnemyClassFactory.FindEnemyKind(x.Type.Name) != null);
+        }
+
+        public override string ToString() => FileName;
     }
 }

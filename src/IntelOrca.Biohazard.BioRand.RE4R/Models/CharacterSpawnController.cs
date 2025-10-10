@@ -51,6 +51,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
             return GameObject;
         }
 
+        public void AddEnemy(EnemySpawn enemy)
+        {
+            GameObject = GameObject.AddOrUpdateChild(enemy.Enemy.GameObject);
+            Enemies = Enemies.Add(enemy);
+        }
+
         public bool Enabled
         {
             get => Component.Get<bool>("Enabled");
@@ -113,5 +119,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
         {
             return gameObject.Components.FirstOrDefault(x => Area.EnemyClassFactory.FindEnemyKind(x.Type.Name) != null);
         }
+
+        public override string ToString() => GameObject.Name;
     }
 }
