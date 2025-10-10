@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -52,7 +53,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var transform = CreateTransform();
             var characterSpawnControllerComponent = Repository
                 .Create("chainsaw.CharacterSpawnPointController")
-                    .Set("_Enabled", true)
+                    .Set("Enabled", true)
                     .Set("_DifficutyParam", 63U)
                     .Set("_GUID", guid)
                     .Set("_ActiveCountLimit", 100)
@@ -63,7 +64,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                         enemies.Select(e =>
                         {
                             return Repository.Create("chainsaw.CharacterSpawnPoint")
-                                .Set("_Transform", CreateMatrix(e))
+                                .Set("_Transform", SerializeMatrix(CreateMatrix(e)))
                                 .Set("_IsOutOfCameraOnly", false)
                                 .Set("_CoolDownTime", 3.0f);
                         }).ToArray());
@@ -72,6 +73,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 name,
                 "_Chainsaw/AppSystem/Prefab/CharacterSpawnPointController.pfb",
                 [transform, characterSpawnControllerComponent]);
+        }
+
+        private static RszValueNode SerializeMatrix(Matrix4x4 mat4)
+        {
+            var span = MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(ref mat4, 1));
+            return new RszValueNode(RszFieldType.Mat4, span.ToArray());
         }
 
         private static Matrix4x4 CreateMatrix(object o)

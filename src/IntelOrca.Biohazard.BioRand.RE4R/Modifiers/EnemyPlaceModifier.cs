@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Rsz;
 
@@ -159,18 +160,30 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var component = spawnController.Components[1];
             if (!string.IsNullOrEmpty(condition))
             {
-                component = component.Set("_SpawnCondition._Logic", 0);
-                component = component.Set("_SpawnCondition._CheckFlags", new[]
+                component = component.Set("_SpawnCondition", new FlagCondition()
                 {
-                    CreateCheckFlag(new Guid(condition)),
+                    _CheckFlags =
+                    [
+                        new CheckFlagInfo()
+                        {
+                            _CheckFlag = new Guid(condition),
+                            _CompareValue = true
+                        }
+                    ]
                 });
             }
             if (!string.IsNullOrEmpty(skipCondition))
             {
-                component = component.Set("_SpawnSkipCondition._Logic", 0);
-                component = component.Set("_SpawnSkipCondition._CheckFlags", new[]
+                component = component.Set("_SpawnSkipCondition", new FlagConditionStrict()
                 {
-                    CreateCheckFlag(new Guid(skipCondition)),
+                    _CheckFlags =
+                    [
+                        new CheckFlagInfo()
+                        {
+                            _CheckFlag = new Guid(skipCondition),
+                            _CompareValue = true
+                        }
+                    ]
                 });
             }
             return spawnController.AddOrUpdateComponent(component);

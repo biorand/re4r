@@ -63,7 +63,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return result;
         }
 
-        public bool HasStaticSpawn => SpawnController.Kind == SpawnControllerKind.Standard && SpawnController.SpawnCondition.Flags.Length == 0;
+        public bool HasStaticSpawn => SpawnController.Kind == SpawnControllerKind.Standard && SpawnController.SpawnCondition._CheckFlags.Count == 0;
         public bool HasSimpleController => SpawnController.Kind == SpawnControllerKind.Standard;
 
         public bool HasKeyItem

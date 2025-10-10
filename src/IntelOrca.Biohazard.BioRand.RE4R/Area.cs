@@ -125,17 +125,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return newEnemy;
         }
 
-        public CharacterSpawnController CreateSpawnController(RszGameObject gameObject)
+        public CharacterSpawnController AddSpawnController(RszGameObject gameObject)
         {
-            var spawnController = new CharacterSpawnController(this, gameObject);
+            var controller = new CharacterSpawnController(this, gameObject);
+            SpawnControllers = SpawnControllers.Add(controller);
             BioRandFolder = BioRandFolder.Add(gameObject);
-            return spawnController;
-        }
-
-        public void AddSpawnController(RszGameObject gameObject)
-        {
-            SpawnControllers = SpawnControllers.Add(new CharacterSpawnController(this, gameObject));
-            BioRandFolder = BioRandFolder.Add(gameObject);
+            return controller;
         }
 
         public EnemySpawn Duplicate(EnemySpawn enemy, int contextId)
@@ -145,7 +140,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var newEnemy = new Enemy(this, newGameObject, newComponent);
             newEnemy.ContextId = newEnemy.ContextId.WithIndex(contextId);
             var newEnemySpawn = new EnemySpawn(enemy.SpawnController, enemy.Enemy, newEnemy);
-            enemy.SpawnController.AddEnemy(newEnemySpawn);
             return newEnemySpawn;
         }
 

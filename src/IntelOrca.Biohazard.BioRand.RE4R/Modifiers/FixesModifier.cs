@@ -146,7 +146,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var spawnController = throneRoomArea.FindSpawnController(new Guid("b1729389-c445-4c24-b500-72007144dfe6"));
                 if (spawnController != null)
                 {
-                    spawnController.SpawnCondition.Add(new Guid("0ef6f99b-43f7-41de-b22a-be79b599a469"));
+                    var spawnCondition = spawnController.SpawnCondition;
+                    spawnCondition._CheckFlags.Add(new CheckFlagInfo()
+                    {
+                        _CheckFlag = new Guid("0ef6f99b-43f7-41de-b22a-be79b599a469"),
+                        _CompareValue = true
+                    });
+                    spawnController.SpawnCondition = spawnCondition;
                 }
             }
 
@@ -156,8 +162,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var spawnController = checkpointArea.FindSpawnController(new Guid("31f4c494-ea57-41dd-a209-52a6ddbc9423"));
                 if (spawnController != null)
                 {
-                    spawnController.SpawnCondition.Flags = spawnController.SpawnCondition.Flags
-                        .RemoveAll(x => x.Flag == new Guid("6ac9f5b8-a8a6-4e43-9410-54908e542128"));
+                    var spawnCondition = spawnController.SpawnCondition;
+                    spawnCondition._CheckFlags.RemoveAll(x => x._CheckFlag == new Guid("6ac9f5b8-a8a6-4e43-9410-54908e542128"));
+                    spawnController.SpawnCondition = spawnCondition;
                 }
             }
         }
@@ -248,7 +255,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var spawnControllerComponent = area.FindSpawnController(controllerGuid);
                 if (spawnControllerComponent != null)
                 {
-                    spawnControllerComponent.SpawnCondition.Add(new Guid("6ac0d9ef-16d3-46e6-af89-4efb1f8370ac"));
+                    var spawnCondition = spawnControllerComponent.SpawnCondition;
+                    spawnCondition._CheckFlags.Add(new CheckFlagInfo()
+                    {
+                        _CheckFlag = new Guid("6ac0d9ef-16d3-46e6-af89-4efb1f8370ac"),
+                        _CompareValue = true
+                    });
+                    spawnControllerComponent.SpawnCondition = spawnCondition;
                 }
             }
         }
@@ -633,7 +646,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var spawnControllerComponent = area.FindSpawnController(controllerGuid);
                 if (spawnControllerComponent != null)
                 {
-                    spawnControllerComponent.SpawnCondition.Add(new Guid("40807771-38e9-4ec8-a240-d75f4fdff461"));
+                    var spawnCondition = spawnControllerComponent.SpawnCondition;
+                    spawnCondition._CheckFlags.Add(new CheckFlagInfo()
+                    {
+                        _CheckFlag = new Guid("40807771-38e9-4ec8-a240-d75f4fdff461"),
+                        _CompareValue = true
+                    });
                     foreach (var enemy in spawnControllerComponent.Enemies)
                     {
                         var transform = enemy.Enemy.Transform;

@@ -25,7 +25,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var waveProbability = Math.Clamp(randomizer.GetConfigOption<float>("enemy-waves-probability", 1), 0, 1);
                 var allSpawns = randomizer.Areas
                     .SelectMany(x => x.Enemies)
-                    .Shuffle(rng);
+                    // .Shuffle(rng)
+                    .ToArray();
 
                 var maxWavedEnemies = (int)(waveProbability * allSpawns.Length);
                 var numWavedEnemies = 0;
@@ -48,19 +49,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     for (var i = 1; i < numWaves; i++)
                     {
                         var spawnControllerGameObject = RszFactory.CreateSpawnPointController(rng.NextGuid(), $"BioRandOnDeathSpawn_{i}", waveDistance, [lastSpawn.Enemy]);
-                        var spawnController = area.CreateSpawnController(spawnControllerGameObject);
-
-                        var newSpawn = lastSpawn.Duplicate(GetNextContextId());
-                        spawnControllerGameObject = spawnControllerGameObject.AddOrUpdateChild(newSpawn.Enemy.GameObject);
+                        var spawnController = area.AddSpawnController(spawnControllerGameObject);
 
                         var deathFlag = GetNextFlagGuid();
                         lastSpawn.Enemy.SetFieldValue("_DeathNotifyFlag", deathFlag);
-                        spawnController.SpawnCondition.Add(deathFlag);
-                        spawnController.SpawnSkipCondition.Flags = oldSpawnController.SpawnSkipCondition.Flags;
-                        spawnController.SpawnSkipCondition.Or = oldSpawnController.SpawnSkipCondition.Or;
+                        spawnController.SpawnCondition = new chainsaw.FlagCondition()
+                        {
+                            _CheckFlags = new List<chainsaw.CheckFlagInfo>()
+                            {
+                                new chainsaw.CheckFlagInfo()
+                                {
+                                    _CheckFlag = deathFlag,
+                                    _CompareValue = true
+                                }
+                            }
+                        };
+                        spawnController.SpawnSkipCondition = oldSpawnController.SpawnSkipCondition;
 
+                        var newSpawn = lastSpawn.Duplicate(GetNextContextId());
+                        spawnController.AddEnemy(newSpawn);
                         newSpawn.Enemy.SetFieldValue("_ForceFind", true);
-
                         lastSpawn = newSpawn;
                     }
 

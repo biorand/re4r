@@ -1133,6 +1133,10 @@ namespace chainsaw
         public int _Logic { get; set; }
     }
 
+    internal class FlagConditionStrict : FlagCondition
+    {
+    }
+
     internal class CheckFlagInfo
     {
         public System.Guid _CheckFlag { get; set; }

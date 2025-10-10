@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Linq;
+using chainsaw;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Models
@@ -75,8 +76,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
             set => Component = Component.Set("_GUID", value);
         }
 
-        public FlagCondition SpawnCondition => new FlagCondition(Component.Get<RszObjectNode>("_SpawnCondition")!);
-        public FlagCondition SpawnSkipCondition => new FlagCondition(Component.Get<RszObjectNode>("_SpawnSkipCondition")!);
+        public FlagCondition SpawnCondition
+        {
+            get => Component.Get<FlagCondition>("_SpawnCondition");
+            set => Component = Component.Set("_SpawnCondition", value);
+        }
+
+        public FlagConditionStrict SpawnSkipCondition
+        {
+            get => Component.Get<FlagConditionStrict>("_SpawnSkipCondition");
+            set => Component = Component.Set("_SpawnSkipCondition", value);
+        }
 
         private static RszObjectNode? FindComponent(RszGameObject gameObject)
         {

@@ -75,6 +75,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         if (currentStageIdCount < maxPerStage)
                         {
                             var newEnemy = enemyToDuplicate.Duplicate(GetNextContextId());
+                            enemyToDuplicate.SpawnController.AddEnemy(newEnemy);
                             newList.Add(newEnemy);
                             _stageEnemyCount[stageId]++;
                             delta--;
