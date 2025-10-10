@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Security.Cryptography;
-using System.Text;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -53,27 +52,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             spawnController = AddEnemyToSpawnController(def, spawnController, enemyDef, extra, rng, logger);
                         }
 
-                        area.Scene = area.Scene.Add(spawnController);
+                        area.AddSpawnController(spawnController);
                     }
                     else
                     {
                         foreach (var g in extra.Enemies.GroupBy(x => x.Stage))
                         {
+                            var extraEnemies = g.Where(extraEnemiesToPlace.Contains).ToArray();
+                            if (extraEnemies.Length == 0)
+                                continue;
+
                             var spawnController = RszFactory.CreateSpawnController("BioRandInitialSpawn");
                             spawnController = AddSpawnControllerConditions(spawnController, extra.Condition, extra.SkipCondition);
 
                             logger.Push($"CharacterSpawnController Condition = {extra.Condition} SkipCondition = {extra.SkipCondition}");
 
-                            foreach (var enemyDef in g)
+                            foreach (var enemyDef in extraEnemies)
                             {
-                                if (extraEnemiesToPlace.Contains(enemyDef))
-                                {
-                                    spawnController = AddEnemyToSpawnController(def, spawnController, enemyDef, extra, rng, logger);
-                                }
+                                spawnController = AddEnemyToSpawnController(def, spawnController, enemyDef, extra, rng, logger);
                             }
                             logger.Pop();
 
-                            area.Scene = area.Scene.Add(spawnController);
+                            area.AddSpawnController(spawnController);
                         }
                     }
                 }
@@ -185,7 +185,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var transform = RszFactory.CreateTransform(position, rotation.ToQuaternion());
             var spawnParam = repo.Create("chainsaw.Ch1c0SpawnParamCommon")
-                .Set("_Enabled", true)
+                .Set("Enabled", true)
                 .Set("_StageID", stageId)
                 .Set("_SpawmRadius", 20.0f)
                 .Set("_ContextID._Group", contextId.Group)
@@ -204,12 +204,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return RszFactory.CreateGameObject(name, "_Chainsaw/AppSystem/Prefab/ch1c0SpawnParam.pfb", [transform, spawnParam]);
         }
 
-        private static Guid HashGuid(params object?[] args) => HashGuid(string.Concat(args));
-        private static Guid HashGuid(string s)
-        {
-            var hash = MD5.HashData(Encoding.ASCII.GetBytes(s));
-            hash[8] = (byte)(0x40 | (hash[8] & 0x0F));
-            return new Guid(hash);
-        }
+        private static Guid HashGuid(params object?[] args) => string.Concat(args).GetGuidHash();
     }
 }

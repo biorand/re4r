@@ -37,7 +37,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var transform = CreateTransform();
             var characterSpawnControllerComponent = Repository
                 .Create("chainsaw.CharacterSpawnController")
-                    .Set("_Enabled", true)
+                    .Set("Enabled", true)
                     .Set("_DifficutyParam", 63U)
                     .Set("_GUID", Guid.NewGuid());
 
