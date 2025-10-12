@@ -10,7 +10,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
     internal class EnemyWaveModifier : Modifier
     {
-        private int _contextId = 9000;
         private List<Guid> _flagGuids = [];
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -25,7 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var waveProbability = Math.Clamp(randomizer.GetConfigOption<float>("enemy-waves-probability", 1), 0, 1);
                 var allSpawns = randomizer.Areas
                     .SelectMany(x => x.Enemies)
-                    // .Shuffle(rng)
+                    .Shuffle(rng)
                     .ToArray();
 
                 var maxWavedEnemies = (int)(waveProbability * allSpawns.Length);
@@ -66,7 +65,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         };
                         spawnController.SpawnSkipCondition = oldSpawnController.SpawnSkipCondition;
 
-                        var newSpawn = lastSpawn.Duplicate(GetNextContextId());
+                        var newSpawn = lastSpawn.Duplicate(randomizer.GetNextEnemyContextId());
                         spawnController.AddEnemy(newSpawn);
                         newSpawn.Enemy.SetFieldValue("_ForceFind", true);
                         lastSpawn = newSpawn;
@@ -77,11 +76,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 SetVariables(randomizer, logger);
             }
-        }
-
-        private int GetNextContextId()
-        {
-            return _contextId++;
         }
 
         private Guid GetNextFlagGuid()

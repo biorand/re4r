@@ -22,6 +22,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private ImmutableArray<Modifier> _modifiers = GetModifiers();
         private ImmutableArray<Area> _areas;
         private Rng _rng = new Rng();
+        private int _contextId = 5000;
 
         public EnemyClassFactory EnemyClassFactory { get; }
         public FileRepository FileRepository => _fileRepository;
@@ -223,8 +224,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 new MerchantShopModifier(),
                 new WeaponModifier(),
                 new ItemModifier(),
-                // new GimmickPlaceModifier(),
-                // new GimmickModifier(),
+                new GimmickPlaceModifier(),
+                new GimmickModifier(),
                 new LevelItemModifier(),
                 new EnemyPlaceModifier(),
                 new EnemyMultiplierModifier(),
@@ -269,6 +270,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var special = GetConfigOption<string>("special");
             var present = special?.Split(',').Contains(kind) == true;
             return present;
+        }
+
+        public int GetNextEnemyContextId()
+        {
+            return _contextId++;
         }
     }
 }
