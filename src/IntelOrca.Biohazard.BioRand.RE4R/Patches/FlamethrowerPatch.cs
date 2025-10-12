@@ -43,6 +43,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             AddFuel();
             UpdateCrafting();
             UpdateShop();
+            UpdateWeaponData();
             UpdateCharacters();
             FixSalazarCrash();
         }
@@ -498,6 +499,202 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             });
         }
 
+        private void UpdateWeaponData()
+        {
+            // Modifying the WeaponCustom file
+            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/weaponcustom/weaponcustomuserdata.user.2", root =>
+            {
+                var userdata = RszSerializer.Deserialize<chainsaw.WeaponCustomUserdata>(root)!;
+                var stage = userdata._WeaponStages.First(x => x._WeaponID == 4701);
+                // adding missing 5th level for damage
+                stage._WeaponCustom._Commons[0]._CustomAttackUp._AttackUpCustomStages.Add(new chainsaw.WeaponCustomUserdata.AttackUpCustomStage());
+                // adding all info and cost values for damage
+                for (var i = 0; i < 5; i++)
+                {
+                    stage._WeaponCustom._Commons[0]._CustomAttackUp._AttackUpCustomStages[i]._Info = _wpflamethrower[$"damage level {i + 1}"].ToString()!;
+                    stage._WeaponCustom._Commons[0]._CustomAttackUp._AttackUpCustomStages[i]._Cost = (int)_wpflamethrower[$"damage cost level {i + 1}"];
+                }
+                // adding and setting the attack params
+                for (var i = 0; i < 4; i++)
+                {
+                    stage._WeaponCustom._Commons[0]._CustomAttackUp._AttackUpCustomStages[4]._AttackUpParams.Add(new chainsaw.WeaponCustomUserdata.AttackUpParam());
+                    stage._WeaponCustom._Commons[0]._CustomAttackUp._AttackUpCustomStages[4]._AttackUpParams[i]._AttackUp = i;
+                    stage._WeaponCustom._Commons[0]._CustomAttackUp._AttackUpCustomStages[4]._AttackUpParams[i]._Level = 4;
+                }
+                // adding new common upgrade path for ammo
+                stage._WeaponCustom._Commons.Add(new chainsaw.WeaponCustomUserdata.Common());
+                stage._WeaponCustom._Commons[1]._CommonCustomCategory = 2;
+                // adding all info and cost values for damage
+                for (var i = 0; i < 5; i++)
+                {
+                    stage._WeaponCustom._Commons[1]._CustomAmmoMaxUp._AmmoMaxUpCustomStages.Add(new chainsaw.WeaponCustomUserdata.AmmoMaxUpCustomStage());
+                    stage._WeaponCustom._Commons[1]._CustomAmmoMaxUp._AmmoMaxUpCustomStages[i]._Info = _wpflamethrower[$"ammo capacity level {i + 1}"].ToString()!;
+                    stage._WeaponCustom._Commons[1]._CustomAmmoMaxUp._AmmoMaxUpCustomStages[i]._Cost = (int)_wpflamethrower[$"ammo capacity cost level {i + 1}"];
+                }
+                // adding level info for ammo
+                for (var i = 1; i < 5; i++)
+                {
+                    stage._WeaponCustom._Commons[1]._CustomAmmoMaxUp._AmmoMaxUpCustomStages[i]._AmmoMaxUpParams.Add(new chainsaw.WeaponCustomUserdata.AmmoMaxUpParam());
+                    stage._WeaponCustom._Commons[1]._CustomAmmoMaxUp._AmmoMaxUpCustomStages[i]._AmmoMaxUpParams[0]._AmmoMaxUp = 0;
+                    stage._WeaponCustom._Commons[1]._CustomAmmoMaxUp._AmmoMaxUpCustomStages[i]._AmmoMaxUpParams[0]._Level = i;
+                }
+                // change/add individual based on if it exists or not
+                if (stage._WeaponCustom._Individuals.Count == 0)
+                {
+                    stage._WeaponCustom._Individuals.Add(new chainsaw.WeaponCustomUserdata.Individual());
+                }
+                stage._WeaponCustom._Individuals[0]._IndividualCustomCategory = 1;
+                // update the values for the first existing level
+                if (stage._WeaponCustom._Individuals[0]._CustomThroughNum._ThroughNumCustomStages.Count == 0)
+                {
+                    stage._WeaponCustom._Individuals[0]._CustomThroughNum._ThroughNumCustomStages.Add(new chainsaw.WeaponCustomUserdata.ThroughNumCustomStage());
+                }
+                stage._WeaponCustom._Individuals[0]._CustomThroughNum._ThroughNumCustomStages[0]._Cost = -1;
+                stage._WeaponCustom._Individuals[0]._CustomThroughNum._ThroughNumCustomStages[0]._Info = _wpflamethrower[$"penetration level {1}"].ToString()!;
+                // adding all info and cost values for penetration
+                for (var i = 1; i < 5; i++)
+                {
+                    stage._WeaponCustom._Individuals[0]._CustomThroughNum._ThroughNumCustomStages.Add(new chainsaw.WeaponCustomUserdata.ThroughNumCustomStage());
+                    stage._WeaponCustom._Individuals[0]._CustomThroughNum._ThroughNumCustomStages[i]._Info = _wpflamethrower[$"penetration level {i + 1}"].ToString()!;
+                    stage._WeaponCustom._Individuals[0]._CustomThroughNum._ThroughNumCustomStages[i]._Cost = (int)_wpflamethrower[$"penetration cost level {i + 1}"];
+                }
+                // adding level info for penetration
+                for (var i = 1; i < 5; i++)
+                {
+                    stage._WeaponCustom._Individuals[0]._CustomThroughNum._ThroughNumCustomStages[i]._ThroughNumParams.Add(new chainsaw.WeaponCustomUserdata.ThroughNumParam());
+                    stage._WeaponCustom._Individuals[0]._CustomThroughNum._ThroughNumCustomStages[i]._ThroughNumParams[0]._ThroughNum = 0;
+                    stage._WeaponCustom._Individuals[0]._CustomThroughNum._ThroughNumCustomStages[i]._ThroughNumParams[0]._Level = i;
+                }
+                // adding new individual upgrade path for flame distance
+                stage._WeaponCustom._Individuals.Add(new chainsaw.WeaponCustomUserdata.Individual());
+                stage._WeaponCustom._Individuals[1]._IndividualCustomCategory = 10;
+                // adding all info and cost for flame distance
+                for (var i = 0; i < 5; i++)
+                {
+                    stage._WeaponCustom._Individuals[1]._CustomFlameDistance._FlameDistanceCustomStages.Add(new chainsaw.WeaponCustomUserdata.FlameDistanceCustomStage());
+                    stage._WeaponCustom._Individuals[1]._CustomFlameDistance._FlameDistanceCustomStages[i]._Info = _wpflamethrower[$"flame distance level {i + 1}"].ToString()!;
+                    stage._WeaponCustom._Individuals[1]._CustomFlameDistance._FlameDistanceCustomStages[i]._Cost = (int)_wpflamethrower[$"flame distance cost level {i + 1}"];
+                }
+                // adding level info for flame distance
+                for (var i = 0; i < 5; i++)
+                {
+                    stage._WeaponCustom._Individuals[1]._CustomFlameDistance._FlameDistanceCustomStages[i]._FlameDistanceParams.Add(new chainsaw.WeaponCustomUserdata.FlameDistanceParam());
+                    stage._WeaponCustom._Individuals[1]._CustomFlameDistance._FlameDistanceCustomStages[i]._FlameDistanceParams[0]._FlameDistance = 0;
+                    stage._WeaponCustom._Individuals[1]._CustomFlameDistance._FlameDistanceCustomStages[i]._FlameDistanceParams[0]._Level = i;
+                }
+                // updating exclusive values
+                stage._WeaponCustom._LimitBreak[0]._CustomLimitBreak._RateValue = (float)_wpflamethrower[$"damage exclusive"];
+                stage._WeaponCustom._LimitBreak[0]._CustomLimitBreak._LimitBreakCustomStages[0]._Cost = (int)_wpflamethrower[$"damage cost exclusive"];
+                return (RszObjectNode)RszSerializer.Serialize(root.Type, userdata);
+            });
+
+            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/weaponcustom/weaponcustomuserdata.user.2", root =>
+            {
+                var weaponStages = (RszArrayNode)root["_WeaponStages"];
+                for (var i = 0; i < weaponStages.Length; i++)
+                {
+                    var weaponStage = weaponStages[i];
+                    if (weaponStage.Get<int>("_WeaponID") == FlamethrowerWeaponId)
+                    {
+                        weaponStage = weaponStage.Set("_WeaponCustom._Individuals[1]._CustomFlameDistance._MessageId", new Guid("79ad9402-fb4b-42b0-8c98-5355812c931a"));
+                        weaponStage = weaponStage.Set("_WeaponCustom._Individuals[0]._CustomThroughNum._MessageId", new Guid("db128948-0960-4147-814d-fec706a5c34a"));
+                        weaponStage = weaponStage.Set("_WeaponCustom._LimitBreak[0]._CustomLimitBreak._MessageId", new Guid("876c8ba0-3637-4aff-a065-86254207705d"));
+                        weaponStage = weaponStage.Set("_WeaponCustom._LimitBreak[0]._CustomLimitBreak._PerksMessageId", new Guid("e8236563-0f8f-4d96-b662-d808852b48a7"));
+                        root = root.SetField("_WeaponStages", weaponStages.SetItem(i, weaponStage));
+                        break;
+                    }
+                }
+                return root;
+            });
+
+            // modify weapondetailcustom file
+            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2", root =>
+            {
+                var userdata = RszSerializer.Deserialize<chainsaw.WeaponDetailCustomUserdata>(root)!;
+                var stage = userdata._WeaponDetailStages.First(x => x._WeaponID == 4701);
+                // adding/editing all damage related upgrade values
+                var attackUpList = new[] { "_DamageRates", "_WinceRates", "_BreakRates", "_StoppingRates" };
+                foreach (var type in attackUpList)
+                {
+                    chainsaw.ShellBaseAttackInfo.CurveVariable templateAttackCustom = type switch
+                    {
+                        "_DamageRates" => stage._WeaponDetailCustom._CommonCustoms[0]._AttackUp._DamageRates[1],
+                        "_WinceRates" => stage._WeaponDetailCustom._CommonCustoms[0]._AttackUp._WinceRates[1],
+                        "_BreakRates" => stage._WeaponDetailCustom._CommonCustoms[0]._AttackUp._BreakRates[1],
+                        "_StoppingRates" => stage._WeaponDetailCustom._CommonCustoms[0]._AttackUp._StoppingRates[1],
+                        _ => throw new InvalidOperationException()
+                    };
+                    var newAttackCustom = CloneRszData(templateAttackCustom);
+                    if (type == "_DamageRates")
+                        stage._WeaponDetailCustom._CommonCustoms[0]._AttackUp._DamageRates.Add((chainsaw.ShellBaseAttackInfo.CurveVariable)newAttackCustom);
+                    else if (type == "_WinceRates")
+                        stage._WeaponDetailCustom._CommonCustoms[0]._AttackUp._WinceRates.Add((chainsaw.ShellBaseAttackInfo.CurveVariable)newAttackCustom);
+                    else if (type == "_BreakRates")
+                        stage._WeaponDetailCustom._CommonCustoms[0]._AttackUp._BreakRates.Add((chainsaw.ShellBaseAttackInfo.CurveVariable)newAttackCustom);
+                    else if (type == "_StoppingRates")
+                        stage._WeaponDetailCustom._CommonCustoms[0]._AttackUp._StoppingRates.Add((chainsaw.ShellBaseAttackInfo.CurveVariable)newAttackCustom);
+                }
+                // setting all values for damage, wince, break, and stopping
+                for (var i = 1; i < 5; i++)
+                {
+                    stage._WeaponDetailCustom._CommonCustoms[0]._AttackUp._DamageRates[i]._BaseValue = (float)_wpflamethrower[$"damage level {i + 1}"] / (float)_wpflamethrower[$"damage level 1"];
+                    stage._WeaponDetailCustom._CommonCustoms[0]._AttackUp._StoppingRates[i]._BaseValue = (float)_wpflamethrower[$"stopping level {i + 1}"] / (float)_wpflamethrower[$"stopping level 1"];
+                    stage._WeaponDetailCustom._CommonCustoms[0]._AttackUp._WinceRates[i]._BaseValue = 1.0f;
+                    stage._WeaponDetailCustom._CommonCustoms[0]._AttackUp._BreakRates[i]._BaseValue = 1.0f;
+                }
+                // adding/editing all ammo max related upgrade values
+                var templateAmmoCustom = userdata._WeaponDetailStages
+                    .First(x => x._WeaponID == 4000)
+                    ._WeaponDetailCustom._CommonCustoms[1];
+                var newAmmoCustom = CloneRszData(templateAmmoCustom);
+                stage._WeaponDetailCustom._CommonCustoms.Add(newAmmoCustom);
+                for (var i = 0; i < 5; i++)
+                {
+                    stage._WeaponDetailCustom._CommonCustoms[1]._AmmoMaxUp._AmmoMaxs[i] = (int)_wpflamethrower[$"ammo capacity level {i + 1}"];
+                }
+                // editing first individual custom penetration
+                if (stage._WeaponDetailCustom._IndividualCustoms.Count == 0)
+                {
+                    var templatePenetrationCustom = userdata._WeaponDetailStages
+                        .First(x => x._WeaponID == 4000)
+                        ._WeaponDetailCustom._IndividualCustoms[1];
+                    var newPenetrationCustom = CloneRszData(templatePenetrationCustom);
+                    stage._WeaponDetailCustom._IndividualCustoms.Add(newPenetrationCustom);
+                    stage._WeaponDetailCustom._IndividualCustoms[0]._IndividualCustomCategory = 1;
+                    for (var i = 0; i < 5; i++)
+                    {
+                        stage._WeaponDetailCustom._IndividualCustoms[0]._ThroughNums._ThroughNum_Normal.Add(0);
+                        stage._WeaponDetailCustom._IndividualCustoms[0]._ThroughNums._ThroughNum_Normal[i] = (int)_wpflamethrower[$"penetration level {i + 1}"];
+                    }
+                }
+                else
+                {
+                    stage._WeaponDetailCustom._IndividualCustoms[0]._IndividualCustomCategory = 1;
+                    for (var i = 1; i < 5; i++)
+                    {
+                        stage._WeaponDetailCustom._IndividualCustoms[0]._ThroughNums._ThroughNum_Normal.Add(0);
+                        stage._WeaponDetailCustom._IndividualCustoms[0]._ThroughNums._ThroughNum_Normal[i] = (int)_wpflamethrower[$"penetration level {i + 1}"];
+                    }
+                }
+                // adding/editing second individual custom flame distance
+                var templateFlameCustom = userdata._WeaponDetailStages
+                    .First(x => x._WeaponID == 4000)
+                    ._WeaponDetailCustom._IndividualCustoms[1];
+                var newFlameCustom = CloneRszData(templateFlameCustom);
+                stage._WeaponDetailCustom._IndividualCustoms.Add(newFlameCustom);
+                stage._WeaponDetailCustom._IndividualCustoms[1]._IndividualCustomCategory = 10;
+                for (var i = 0; i < 5; i++)
+                {
+                    stage._WeaponDetailCustom._IndividualCustoms[1]._FlameDistance._ShellDistance.Add(new float());
+                    stage._WeaponDetailCustom._IndividualCustoms[1]._FlameDistance._ShellDistance[i] = (float)_wpflamethrower[$"flame distance level {i + 1}"];
+                }
+                // editing limit break
+                stage._WeaponDetailCustom._LimitBreakCustoms[0]._LimitBreakAttackUp._DamageRateScale = (float)_wpflamethrower[$"damage exclusive"];
+                stage._WeaponDetailCustom._LimitBreakCustoms[0]._LimitBreakAttackUp._BreakRateScale = (float)_wpflamethrower[$"break exclusive"];
+                return (RszObjectNode)RszSerializer.Serialize(root.Type, userdata);
+            });
+        }
+
         private void UpdateCharacters()
         {
             string getBurnParamPath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}burnparamuserdata.user.2";
@@ -884,6 +1081,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 }
                 return root;
             });
+        }
+
+        private static T CloneRszData<T>(T source) where T : notnull
+        {
+            var typeName = source.GetType().FullName!.Replace('+', '.');
+            var rszNode = RszSerializer.Serialize(FileRepository.RszRepository.FromName(typeName)!, source);
+            var result = RszSerializer.Deserialize<T>(rszNode);
+            return result!;
         }
     }
 

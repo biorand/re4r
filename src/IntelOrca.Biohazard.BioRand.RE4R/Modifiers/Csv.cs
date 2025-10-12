@@ -99,7 +99,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         }
                     }
                 }
-                else if (c == '\0' || c == ',')
+                else if (c == ',')
+                {
+                    if (inQuote)
+                    {
+                        sb.Append(c);
+                    }
+                    else
+                    {
+                        list.Add(sb.ToString());
+                        sb.Clear();
+                    }
+                }
+                else if (c == '\0')
                 {
                     list.Add(sb.ToString());
                     sb.Clear();
