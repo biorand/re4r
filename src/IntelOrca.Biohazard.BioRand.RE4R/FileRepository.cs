@@ -93,6 +93,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             builder.Save(path, CompressionKind.Zstd);
         }
 
+        public PfbFile GetPfbFile(string path)
+        {
+            var data = GetGameFileData(path);
+            return data == null
+                ? throw new Exception("Unable to read data file.")
+                : new PfbFile(17, data);
+        }
+
+        public void ModifyPfbFile(string path, Func<RszScene, RszScene> callback)
+        {
+            var pfbFile = GetPfbFile(path).ToBuilder(RszRepository);
+            pfbFile.Scene = callback(pfbFile.Scene);
+            SetPfbFile(path, pfbFile.AddMissingResources().Build());
+        }
+
+        public void SetPfbFile(string path, PfbFile value)
+        {
+            SetGameFileData(path, value.Data);
+        }
+
         public ScnFile GetScnFile(string path)
         {
             var data = GetGameFileData(path);

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
+using IntelOrca.Biohazard.BioRand.RE4R.Patches;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -134,6 +135,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 logger.Input.LogHr();
             });
 
+            // Patches
+            new FlamethrowerPatch(this).Apply();
+
             // Apply modifiers
             IterateModifiers((n, m) =>
             {
@@ -219,8 +223,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 new MerchantShopModifier(),
                 new WeaponModifier(),
                 new ItemModifier(),
-                new GimmickPlaceModifier(),
-                new GimmickModifier(),
+                // new GimmickPlaceModifier(),
+                // new GimmickModifier(),
                 new LevelItemModifier(),
                 new EnemyPlaceModifier(),
                 new EnemyMultiplierModifier(),

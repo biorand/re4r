@@ -1,0 +1,197 @@
+name,,Lucky Number 7,M6C magnum,Dragonstail (SW),Golden Gun,Dragonstail,Auto-9,Golden Gun(SW),Punisher,Punisher MC (SW),XM96E1,Line Gun,Dragonsbreath,Elephantgun,Super Shotgun,Sawed-off W870 (SW),Spitfire,Spitfire (SW),LE5,Chicago Sweeper,Chicago Sweeper (SW),Dragonlore,SR M1093 (SW),7StingrayD,Stingray (SW),CQBR Assault,Dragonfly,Dirty Harry,The .45 longslide with laser sighting,Flamethrower
+weight,,1,,,1,1,1,,,,,1,,,,,,,,,,,,,,,,,,
+description,,"Feeling Lucky? Do you love to Gamble? 
+This is your moment to Shine.",,,"Deadly signature weapon of the notorious assassin.
+With Enough Investment you can modify the gun to 
+hold enough ammo for 5 shots.",,"Gun of the Cybernetically enhanced officer 
+of the Detroit Police Department.
+""Dead or alive you're coming with me""","Deadly signature weapon of the notorious assassin.
+With Enough Investment you can modify the gun to 
+hold enough ammo for 5 shots.",,,,"Mining tool used in Space.
+Great at clearing out large 
+crowds of Necromor... Ganados.",,,Ancient Relic of the Doom Slayer. Rip and tear until it is done.,,,,,,,,,,,,,,,"Uses pressurized gas to produce intense flames.
+Just like that night in the jungle..."
+perk,,"- 50/50 Chance of Each Shot Stunning
+Or Dealing Damage",,"- Gun modified to set enemies on fire.
+- High Critical Hit Chance, 
+But Less Damage than Normal","- Single shot Golden Gun. 
+- Uses 2 bullets per shot.","- Gun modified to set enemies on fire.
+- High Critical Hit Chance, But Less Damage than Normal","- High Rate of Fire Pistol using SMG Ammunition
+- Capable of Full Automatic Fire with Stock","-Single shot Golden Gun. 
+-Uses 2 bullets per shot.",,,,Shoots Pellets in vertical Line,Shots cause enemies set aflame,Shoots Slug Rounds With Destructive Power,Uses 2 Shells Per Shot,,,,,,,Shots cause enemies set aflame,,,,,,,,perk
+exclusive description,1,Gamble Your Shots 7 Times Faster,,Set Enemies aflame even Faster,Learn how to Insert 5 Bullets into the magazine,Set Enemies aflame even Faster,,Learn how to Insert 5 Bullets into the magazine,,,,Power output tweaks increasing overall damage.,,,,,,,,,,,,,,,,,,
+exclusive perk,1,Rate Of Fire 7x,,Critical Hit Rate 2x,Ammo Capacity 5x,Critical Hit Rate 2x,,Ammo Capacity 5x,,,,Damage 1.5X,,,,,,,,,,,,,,,,,,
+exclusive description,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+exclusive perk,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+id,,4000,,6103,4002,4003,4004,6113,,,,4101,4102,4100,6001,,4200,6104,,,,4400,,,,,,,,4701
+itemid,,274835456,,278200256,274838656,274840256,274841856,278216256,,,,274997056,274998656,274995456,278037056,,275155456,278201856,,,,275475456,,,,,,,,275957056
+price,,15000,,15000,15000,15000,15000,15000,,,,30000,30000,30000,30000,,20000,20000,,,,30000,,,,,,,,30000
+damage,level 1,3.33,,1.40,3.00,1.40,0.77,2.00,,,,6.40,6.40,6.40,6.00,,0.55,0.55,,,,2.50,,,,,,,,0.40
+damage,level 2,4.44,,1.75,3.50,1.75,0.88,2.50,,,,9.15,8.40,9.15,8.00,,0.70,0.70,,,,3.50,,,,,,,,0.50
+damage,level 3,5.55,,2.1,4.00,2.1,0.99,3.00,,,,11.90,10.40,11.90,10.00,,0.90,0.90,,,,4.50,,,,,,,,0.60
+damage,level 4,6.66,,2.45,4.50,2.45,1.11,3.50,,,,14.65,12.40,14.65,12.00,,1.05,1.05,,,,5.50,,,,,,,,0.70
+damage,level 5,7.77,,2.8,5.00,2.8,1.55,4.00,,,,17.4,14.6,17.4,14.00,,1.25,1.25,,,,6.50,,,,,,,,0.90
+wince,level 1,1.00,,1.00,1.00,1.00,1.00,1.00,,,,1.00,1.00,1.00,1.00,,1.00,1.00,,,,1.00,,,,,,,,1.00
+wince,level 2,1.15,,1.15,1.15,1.15,1.10,1.15,,,,1.16,1.16,1.30,1.30,,1.15,1.15,,,,1.40,,,,,,,,1.00
+wince,level 3,1.30,,1.30,1.30,1.30,1.20,1.30,,,,1.32,1.32,1.60,1.60,,1.30,1.30,,,,1.80,,,,,,,,1.00
+wince,level 4,1.45,,1.45,1.45,1.45,1.30,1.45,,,,1.50,1.50,1.90,1.90,,1.45,1.45,,,,2.20,,,,,,,,1.00
+wince,level 5,1.70,,1.70,1.70,1.70,1.40,1.70,,,,1.66,1.66,2.20,2.20,,1.70,1.70,,,,2.60,,,,,,,,1.00
+break,level 1,1.00,,1.00,1.00,1.00,1.00,1.00,,,,1.00,1.00,1.00,1.00,,1.00,1.00,,,,1.00,,,,,,,,1.00
+break,level 2,1.00,,1.00,1.20,1.00,1.20,1.20,,,,1.30,1.00,1.30,1.30,,1.00,1.00,,,,1.40,,,,,,,,1.00
+break,level 3,1.00,,1.00,1.40,1.00,1.40,1.40,,,,1.60,1.00,1.60,1.60,,1.00,1.00,,,,1.80,,,,,,,,1.00
+break,level 4,1.00,,1.00,1.70,1.00,1.70,1.70,,,,1.90,1.00,1.90,1.90,,1.00,1.00,,,,2.20,,,,,,,,1.00
+break,level 5,1.00,,1.00,2.00,1.00,3.00,2.00,,,,2.20,1.00,2.20,2.20,,1.00,1.00,,,,2.60,,,,,,,,1.00
+stopping,level 1,1.20,,1.00,1.00,1.00,1.00,1.00,,,,1.00,1.00,1.00,1.00,,1.00,1.00,,,,1.00,,,,,,,,1.00
+stopping,level 2,1.40,,1.20,1.20,1.20,1.20,1.20,,,,1.16,1.16,1.30,1.30,,1.40,1.40,,,,1.40,,,,,,,,1.20
+stopping,level 3,1.70,,1.40,1.40,1.40,1.40,1.40,,,,1.32,1.32,1.60,1.60,,1.70,1.70,,,,1.80,,,,,,,,1.40
+stopping,level 4,2.00,,1.70,1.70,1.70,1.70,1.70,,,,1.50,1.50,1.90,1.90,,1.90,1.90,,,,2.20,,,,,,,,1.70
+stopping,level 5,3.00,,2.00,2.00,2.00,2.00,2.00,,,,1.66,1.66,2.20,2.20,,2.25,2.25,,,,2.60,,,,,,,,2.00
+ammo capacity,level 1,3,,8,,8,,,,,,4,6,,,,20,20,,,,5,,,,,,,,500
+ammo capacity,level 2,4,,10,,10,,,,,,6,8,,,,30,30,,,,,,,,,,,,600
+ammo capacity,level 3,5,,12,,12,,,,,,8,10,,,,40,40,,,,,,,,,,,,700
+ammo capacity,level 4,6,,14,,14,,,,,,10,12,,,,50,50,,,,,,,,,,,,800
+ammo capacity,level 5,7,,16,,16,,,,,,12,14,,,,60,60,,,,,,,,,,,,1000
+critical rate,level 1,,,,4,,4,4,,,,4,,4,10,,0,0,,,,50,,,,,,,,
+critical rate,level 2,,,,8,,5,8,,,,6,,6,12,,,,,,,,,,,,,,,
+critical rate,level 3,,,,12,,6,12,,,,8,,8,14,,,,,,,,,,,,,,,
+critical rate,level 4,,,,16,,7,16,,,,10,,10,16,,,,,,,,,,,,,,,
+critical rate,level 5,,,,20,,8,20,,,,12,,12,20,,,,,,,,,,,,,,,
+penetration,level 1,1,,,,,,,,,,,1,1,,,,,,,,,,,,,,,,3
+penetration,level 2,3,,,,,,,,,,,2,2,,,,,,,,,,,,,,,,4
+penetration,level 3,4,,,,,,,,,,,3,3,,,,,,,,,,,,,,,,5
+penetration,level 4,6,,,,,,,,,,,4,4,,,,,,,,,,,,,,,,6
+penetration,level 5,7,,,,,,,,,,,5,5,,,,,,,,,,,,,,,,7
+reload speed,level 1,1.00,,1.00,1.40,1.00,1.00,1.40,,,,,,1,1,,1,1,,,,1,,,,,,,,
+reload speed,level 2,1.20,,1.20,1.80,1.20,1.20,1.80,,,,,,1.20,1.20,,1.20,1.20,,,,1.20,,,,,,,,
+reload speed,level 3,1.40,,1.40,2.20,1.40,1.40,2.20,,,,,,1.40,1.40,,1.40,1.40,,,,1.40,,,,,,,,
+reload speed,level 4,1.70,,1.70,2.60,1.70,1.70,2.60,,,,,,1.70,1.70,,1.70,1.70,,,,1.70,,,,,,,,
+reload speed,level 5,2.00,,2.00,3.00,2.00,2.00,3.00,,,,,,2,2,,2,2,,,,2,,,,,,,,
+fire rate,level 1,,,1.20,1.00,1.20,,1.00,,,,0.75,,,,,,,,,,1.00,,,,,,,,
+fire rate,level 2, ,,1.40,1.10,1.40,,1.10,,,,0.80,,,,,,,,,,0.80,,,,,,,,
+fire rate,level 3,,,1.60,1.19,1.60,,1.19,,,,0.88,,,,,,,,,,0.60,,,,,,,,
+fire rate,level 4,,,1.90,1.33,1.90,,1.33,,,,0.98,,,,,,,,,,0.40,,,,,,,,
+fire rate,level 5,,,2.20,1.52,2.20,,1.52,,,,1.10,,,,,,,,,,0.20,,,,,,,,
+reload rounds,level 1,,,,,,,,,,,,2,,,,,,,,,2,,,,,,,,
+reload rounds,level 2,,,,,,,,,,,,4,,,,,,,,,,,,,,,,,
+reload rounds,level 3,,,,,,,,,,,,6,,,,,,,,,,,,,,,,,
+reload rounds,level 4,,,,,,,,,,,,8,,,,,,,,,,,,,,,,,
+reload rounds,level 5,,,,,,,,,,,,10,,,,,,,,,,,,,,,,,
+durability,level 1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+durability,level 2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+durability,level 3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+durability,level 4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+durability,level 5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+damage cost,level 1,0,,,0,0,0,0,,,,0,,,,,,,,,,,,,,,,,,0
+damage cost,level 2,27777,,,"11,000",16000,9000,"11,000",,,,20000,,,,,,,,,,,,,,,,,,"15,000"
+damage cost,level 3,37777,,,"22,000",32000,20000,"22,000",,,,35000,,,,,,,,,,,,,,,,,,"22,000"
+damage cost,level 4,47777,,,"44,000",48000,38000,"44,000",,,,50000,,,,,,,,,,,,,,,,,,"44,000"
+damage cost,level 5,77777,,,"66,000",62000,56000,"66,000",,,,65000,,,,,,,,,,,,,,,,,,"50,000"
+ammo capacity cost,level 1,0,,,,0,,,,,,0,,,,,,,,,,,,,,,,,,0
+ammo capacity cost,level 2,27777,,,,7000,,,,,,10000,,,,,,,,,,,,,,,,,,"10,000"
+ammo capacity cost,level 3,37777,,,,10000,,,,,,12000,,,,,,,,,,,,,,,,,,"15,000"
+ammo capacity cost,level 4,47777,,,,13000,,,,,,14000,,,,,,,,,,,,,,,,,,"20,000"
+ammo capacity cost,level 5,77777,,,,16000,,,,,,16000,,,,,,,,,,,,,,,,,,"25,000"
+critical rate cost,level 1,,,,0,,0,0,,,,0,,,,,,,,,,,,,,,,,,
+critical rate cost,level 2,,,,"11,000",,"11,000","11,000",,,,10000,,,,,,,,,,,,,,,,,,
+critical rate cost,level 3,,,,"22,000",,"22,000","22,000",,,,12500,,,,,,,,,,,,,,,,,,
+critical rate cost,level 4,,,,"33,000",,"33,000","33,000",,,,15000,,,,,,,,,,,,,,,,,,
+critical rate cost,level 5,,,,"44,000",,"44,000","44,000",,,,17500,,,,,,,,,,,,,,,,,,
+penetration cost,level 1,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0
+penetration cost,level 2,27777,,,,,,,,,,,,,,,,,,,,,,,,,,,,"10,000"
+penetration cost,level 3,37777,,,,,,,,,,,,,,,,,,,,,,,,,,,,"15,000"
+penetration cost,level 4,47777,,,,,,,,,,,,,,,,,,,,,,,,,,,,"20,000"
+penetration cost,level 5,77777,,,,,,,,,,,,,,,,,,,,,,,,,,,,"25,000"
+reload speed cost,level 1,0,,,0,0,0,0,,,,,,,,,,,,,,,,,,,,,,
+reload speed cost,level 2,27777,,,"4,000",5000,5000,"4,000",,,,,,,,,,,,,,,,,,,,,,
+reload speed cost,level 3,37777,,,"8,000",7000,7000,"8,000",,,,,,,,,,,,,,,,,,,,,,
+reload speed cost,level 4,47777,,,"12,000",9000,9000,"12,000",,,,,,,,,,,,,,,,,,,,,,
+reload speed cost,level 5,77777,,,"16,000",11000,11000,"16,000",,,,,,,,,,,,,,,,,,,,,,
+fire rate cost,level 1,,,,0,0,,0,,,,0,,,,,,,,,,,,,,,,,,
+fire rate cost,level 2,,,,"4,000",6000,,"4,000",,,,10000,,,,,,,,,,,,,,,,,,
+fire rate cost,level 3,,,,"8,000",8000,,"8,000",,,,12500,,,,,,,,,,,,,,,,,,
+fire rate cost,level 4,,,,"12,000",10000,,"12,000",,,,15000,,,,,,,,,,,,,,,,,,
+fire rate cost,level 5,,,,"16,000",12000,,"16,000",,,,17500,,,,,,,,,,,,,,,,,,
+flame distance,level 1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,5.0
+flame distance,level 2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,5.5
+flame distance,level 3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,6.0
+flame distance,level 4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,7.0
+flame distance,level 5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8.0
+flame distance cost,level 1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0
+flame distance cost,level 2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"10,000"
+flame distance cost,level 3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"15,000"
+flame distance cost,level 4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"20,000"
+flame distance cost,level 5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"25,000"
+explosion radius scale,level 1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+explosion radius scale,level 2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+explosion radius scale,level 3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+explosion radius scale,level 4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+explosion radius scale,level 5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+explosion sensor radius scale,level 1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+explosion sensor radius scale,level 2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+explosion sensor radius scale,level 3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+explosion sensor radius scale,level 4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+explosion sensor radius scale,level 5,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+damage,exclusive,,,,,,,,,,,1.50,,,2.00,,1.50,,,,,1.50,,,,,,,,1.50
+break,exclusive,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1.20
+stopping,exclusive,,,,,,3.00,,,,,,,2.00,,,,,,,,,,,,,,,,
+ammo capacity,exclusive,,,,5.00,,,5.00,,,,,2.00,,2.00,,2.00,,,,,,,,,,,,,
+critical rate,exclusive,,,,,2.00,3.00,,,,,,,,,,,,,,,2.00,,,,,,,,
+penetration,exclusive,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+fire rate,exclusive,7.00,,2.00,,,,,,,,,,,,,,,,,,,,,,,,,,
+durability,exclusive,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+combat speed,exclusive,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+damage cost,exclusive,,,,,,,,,,,100000,,,,,,,,,,,,,,,,,,"120,000"
+stopping cost,exclusive,,,,,,90000,,,,,,,,,,,,,,,,,,,,,,,
+ammo capacity cost,exclusive,,,,150000,,,150000,,,,,,,,,,,,,,,,,,,,,,
+critical rate cost,exclusive,,,,,125000,75000,,,,,,,,,,,,,,,,,,,,,,,
+penetration cost,exclusive,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+fire rate cost,exclusive,77777,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+durability cost,exclusive,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+combat speed cost,exclusive,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+ammo type,,112800000,112800000,112800000,112800000,112800000,112806400,112800000,,,,112803200,112803200,112803200,112803200,,,,,,,,,,,,,,,112814400
+damage,,100,,280,600,280,144,500,,,,170,115,1100,250,,,,,,,,,,,,,,,80
+wince,,1000,,200,200,200,200,200,,,,400,500,750,400,,,,,,,,,,,,,,,0
+break,,0,,5000,200,5000,120,200,,,,400,500,750,5000,,,,,,,,,,,,,,,3500
+stopping,,1000,,200,200,200,200,200,,,,200,500,750,200,,,,,,,,,,,,,,,200
+attacktype,,1,,19,1,19,1,1,,,,1,1,1,1,,,,,,,,,,,,,,,14
+attackpower,,1,,1,1,1,2,1,,,,2,2,2,2,,,,,,,,,,,,,,,0
+throughnum,,1,,1,2,1,1,2,,,,1,1,2,2,,,,,,,,,,,,,,,3
+breaklevel,,2,,2,2,2,2,2,,,,2,1,2,2,,,,,,,,,,,,,,,3
+damagecrit,,500,,420,1200,420,361,800,,,,185,175,1500,350,,,,,,,,,,,,,,,50
+wincecrit,,0,,720,720,720,300,720,,,,400,500,750,400,,,,,,,,,,,,,,,0
+breakcrit,,400,,10000,360,10000,300,360,,,,400,500,750,5000,,,,,,,,,,,,,,,80
+stoppingcrit,,0,,600,600,600,300,600,,,,200,500,750,200,,,,,,,,,,,,,,,200
+attacktypecrit,,1,,19,1,19,1,1,,,,1,1,1,1,,,,,,,,,,,,,,,19
+attackpowercrit,,1,,1,1,1,2,1,,,,2,2,2,2,,,,,,,,,,,,,,,2
+throughnumcrit,,1,,1,3,2,1,2,,,,1,1,3,3,,,,,,,,,,,,,,,1
+breaklevelcrit,,2,,2,2,2,2,2,,,,2,2,2,2,,,,,,,,,,,,,,,
+damagearound,,,,,,,,,,,,170,115,0,250,,,,,,,,,,,,,,,
+wincearound,,,,,,,,,,,,400,500,0,400,,,,,,,,,,,,,,,
+breakaround,,,,,,,,,,,,400,500,0,5000,,,,,,,,,,,,,,,
+stoppingaround,,,,,,,,,,,,200,500,0,200,,,,,,,,,,,,,,,
+attacktypearound,,,,,,,,,,,,1,1,1,1,,,,,,,,,,,,,,,
+attackpoweraround,,,,,,,,,,,,2,2,2,2,,,,,,,,,,,,,,,
+throughnumaround,,,,,,,,,,,,1,1,1,2,,,,,,,,,,,,,,,
+breaklevelaround,,,,,,,,,,,,2,1,1,2,,,,,,,,,,,,,,,
+damagearoundcrit,,,,,,,,,,,,185,175,0,350,,,,,,,,,,,,,,,
+wincearoundcrit,,,,,,,,,,,,400,500,0,400,,,,,,,,,,,,,,,
+breakaroundcrit,,,,,,,,,,,,400,500,0,5000,,,,,,,,,,,,,,,
+stoppingaroundcrit,,,,,,,,,,,,200,500,0,200,,,,,,,,,,,,,,,
+attacktypearoundcrit,,,,,,,,,,,,1,1,1,1,,,,,,,,,,,,,,,
+attackpoweraroundcrit,,,,,,,,,,,,2,2,2,2,,,,,,,,,,,,,,,
+throughnumaroundcrit,,,,,,,,,,,,1,1,1,3,,,,,,,,,,,,,,,
+breaklevelaroundcrit,,,,,,,,,,,,2,2,2,2,,,,,,,,,,,,,,,
+aroundbulletcount,,,,,,,,,,,,16,12,0,14,,,,,,,,,,,,,,,
+verticalaroundscatterpatternmin,,,,,,,,,,,,0,1,0,1,,,,,,,,,,,,,,,
+verticalaroundscatterpatternmax,,,,,,,,,,,,0,5,0,12,,,,,,,,,,,,,,,
+horizontalaroundscatterpatternmin,,,,,,,,,,,,1,3,0,1,,,,,,,,,,,,,,,
+horizontalaroundscatterpatternmax,,,,,,,,,,,,14,11,0,12,,,,,,,,,,,,,,,
+baseammocapacity,,3,,8,2,8,60,,,,,4,6,5,4,,,,,,,,,,,,,,,500
+basecrit,,50,,25,4,25,4,,,,,4,10,4,10,,,,,,,,,,,,,,,
+basecritaround,,,,,,,,,,,,4,10,4,10,,,,,,,,,,,,,,,
+basereloadspeed,,1.00,,1.00,2.50,1.00,1.00,,,,,1,1,1,1,,,,,,,,,,,,,,,
+baserateoffire,,1.00,,1.19,1.00,1.19,3.00,,,,,1,1,1,1,,,,,,,,,,,,,,,
+basereloadrounds,,,,,,,,,,,,1,2,1,2,,,,,,,,,,,,,,,
+ammopershot,,1,,1,2,1,1,,,,,1,1,1,2,,,,,,,,,,,,,,,
+typeofshoot,,0,,0,0,0,1,,,,,,,,,,,,,,,,,,,,,,,
