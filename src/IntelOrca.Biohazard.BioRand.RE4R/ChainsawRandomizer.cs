@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
-using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -233,21 +232,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 new EnemyModifier(),
                 new FixesModifier(),
             }.ToImmutableArray();
-        }
-
-        private Dictionary<string, object?> GetRszDictionary(RszInstance instance)
-        {
-            var dict = new Dictionary<string, object?>();
-            foreach (var field in instance.Fields)
-            {
-                var value = instance.GetFieldValue(field.name);
-                if (value is RszInstance child)
-                {
-                    value = GetRszDictionary(child);
-                }
-                dict[field.name] = value;
-            }
-            return dict;
         }
 
         public T? GetConfigOption<T>(string key, T? defaultValue = default)

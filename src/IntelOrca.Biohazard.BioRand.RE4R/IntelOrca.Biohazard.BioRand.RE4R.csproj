@@ -11,11 +11,6 @@
     <PackageReference Include="RectangleBinPacking" Version="1.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\rsztool\RszTool\RszTool.csproj">
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="data/**/*" />
   </ItemGroup>
   <Target Name="SetSourceRevisionId" BeforeTargets="InitializeSourceControlInformation">
