@@ -99,6 +99,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 : AreaDefinitionRepository.Ada;
 
             var gimmickFiles = areaRepo.Gimmicks
+                .AsParallel()
                 .Select(x => new GimmickFile(randomizer, x))
                 .ToArray();
 

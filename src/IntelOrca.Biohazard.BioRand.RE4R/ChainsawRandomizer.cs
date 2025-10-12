@@ -190,17 +190,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var areaRepo = campaign == Campaign.Leon
                 ? AreaDefinitionRepository.Leon
                 : AreaDefinitionRepository.Ada;
-            var areas = new List<Area>();
-            foreach (var areaDef in areaRepo.Areas)
-            {
-                var scn = _fileRepository.GetScnFile(areaDef.Path);
-                if (scn == null)
-                    continue;
-
-                var area = new Area(this, areaDef, EnemyClassFactory, scn);
-                areas.Add(area);
-            }
-            _areas = areas.ToImmutableArray();
+            var areas = areaRepo.Areas
+                .AsParallel()
+                .Select(def => (def, scn: _fileRepository.GetScnFile(def.Path)))
+                .Where(item => item.def != null)
+                .Select(item => new Area(this, item.def, EnemyClassFactory, item.scn))
+                .ToList();
+            _areas = [.. areas];
             return areas;
         }
 
