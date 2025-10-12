@@ -11,6 +11,12 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
+    /// <summary>
+    /// Adds the flamethrower with stock values and crafting.
+    /// </summary>
+    /// <remarks>
+    /// Design and implementation by MightyKusKus.
+    /// </remarks>
     internal class FlamethrowerPatch
     {
         private const int FlamethrowerWeaponId = 4701;
@@ -20,19 +26,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         private const int GunpowderItemId = 117600000;
 
         private readonly ChainsawRandomizer _randomizer;
+        private readonly ImmutableDictionary<string, object> _wpflamethrower;
 
         public FileRepository FileRepository => _randomizer.FileRepository;
 
         public FlamethrowerPatch(ChainsawRandomizer randomizer)
         {
             _randomizer = randomizer;
+            _wpflamethrower = WeaponBaseStats.Default.Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
         }
 
         public void Apply()
         {
-            var wpbase = WeaponBaseStats.Default;
-            var wpflamethrower = wpbase.Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
+            UpdateStrings();
+            AddFlamethrower();
+            AddFuel();
+            UpdateCrafting();
+            UpdateShop();
+            UpdateCharacters();
+            FixSalazarCrash();
+        }
 
+        private void UpdateStrings()
+        {
             SetStrings("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_caption.msg.22", new Dictionary<Guid, string>
             {
                 [new Guid("4f8a97ce-e2b6-40e0-81fd-53c61916e3e1")] = "A Small Canister of pressurized gas.",
@@ -63,10 +79,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             {
                 [new Guid("e8236563-0f8f-4d96-b662-d808852b48a7")] = "Increase damage 1.5X.\nReduce time to burn"
             });
+        }
 
-            ///////////////////////////////////////
-            // Flamethrower
-            ///////////////////////////////////////
+        private void AddFlamethrower()
+        {
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/shell/bullet/wp4701/wp4701shellinfo.user.2", root =>
             {
                 return root
@@ -103,21 +119,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     if (attackData.Get<uint>("_KeyNameHash") == hash4701)
                     {
                         attackData = attackData
-                            .Set("_Damage", (int)wpflamethrower["damage"])
-                            .Set("STRUCT__Break__Value", (int)wpflamethrower["break"])
-                            .Set("STRUCT__Stopping__Value", (int)wpflamethrower["stopping"])
-                            .Set("_AttackPower", (int)wpflamethrower["attackpower"])
+                            .Set("_Damage", (int)_wpflamethrower["damage"])
+                            .Set("STRUCT__Break__Value", (int)_wpflamethrower["break"])
+                            .Set("STRUCT__Stopping__Value", (int)_wpflamethrower["stopping"])
+                            .Set("_AttackPower", (int)_wpflamethrower["attackpower"])
                             .Set("_IsThroughRestriction", true)
-                            .Set("_ThroughNum", (int)wpflamethrower["throughnum"])
-                            .Set("_BreakLevel", (int)wpflamethrower["breaklevel"]);
+                            .Set("_ThroughNum", (int)_wpflamethrower["throughnum"])
+                            .Set("_BreakLevel", (int)_wpflamethrower["breaklevel"]);
                         attackDataList = attackDataList.SetItem(i, attackData);
                     }
                     else if (attackData.Get<uint>("_KeyNameHash") == hashFloorEmber)
                     {
                         attackData = attackData
-                            .Set("_Damage", (int)wpflamethrower["damagecrit"])
-                            .Set("STRUCT__Break__Value", (int)wpflamethrower["breakcrit"])
-                            .Set("STRUCT__Stopping__Value", (int)wpflamethrower["stoppingcrit"]);
+                            .Set("_Damage", (int)_wpflamethrower["damagecrit"])
+                            .Set("STRUCT__Break__Value", (int)_wpflamethrower["breakcrit"])
+                            .Set("STRUCT__Stopping__Value", (int)_wpflamethrower["stoppingcrit"]);
                         attackDataList = attackDataList.SetItem(i, attackData);
                     }
                 }
@@ -134,7 +150,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     if (data.Get<int>("_ItemId") == FlamethrowerItemId)
                     {
                         data = data
-                            .Set("_WeaponDefineData._AmmoMax", (int)wpflamethrower["baseammocapacity"]);
+                            .Set("_WeaponDefineData._AmmoMax", (int)_wpflamethrower["baseammocapacity"]);
                         root = root.SetField("_Datas", datas.SetItem(i, data));
                         break;
                     }
@@ -202,10 +218,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 scene = scene.UpdateGameObject(gameObjectP1);
                 return scene;
             });
+        }
 
-            ///////////////////////////////////////
-            // Fuel
-            ///////////////////////////////////////
+        private void AddFuel()
+        {
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2", root =>
             {
                 var datas = (RszArrayNode)root["_Datas"];
@@ -270,10 +286,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 scene = scene.UpdateGameObject(gameObjectP1);
                 return scene;
             });
+        }
 
-            ///////////////////////////////////////
-            // Crafting for Fuel
-            ///////////////////////////////////////
+        private void UpdateCrafting()
+        {
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/itemcraftsettinguserdata.user.2", root =>
             {
                 var datas = (RszArrayNode)root["_Datas"];
@@ -310,10 +326,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         .Set("_Prefab.Path", new RszResourceNode("_Chainsaw/AppSystem/Prefab/Gui/AttacheCase/ItemModel/CraftItemModel_sm70_509.pfb")));
                 return root.SetField("_Settings", settings);
             });
+        }
 
-            ///////////////////////////////////////
-            // Shop
-            ///////////////////////////////////////
+        private void UpdateShop()
+        {
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopitemsettinguserdata.user.2", root =>
             {
                 var datas = (RszArrayNode)root["_Datas"];
@@ -327,8 +343,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                                 _Difficulty = 20,
                                 _Price = new
                                 {
-                                    _PurchasePrice = (int)wpflamethrower["price"],
-                                    _SellingPrice = (int)wpflamethrower["price"] * 0.5f,
+                                    _PurchasePrice = (int)_wpflamethrower["price"],
+                                    _SellingPrice = (int)_wpflamethrower["price"] * 0.5f,
                                 }
                             }
                         })
@@ -480,6 +496,364 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 scene = scene.UpdateGameObject(gameObjectP1);
                 return scene;
             });
+        }
+
+        private void UpdateCharacters()
+        {
+            string getBurnParamPath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}burnparamuserdata.user.2";
+            var characters = new[]
+            {
+                "ch1b5z1", "ch1b7z0",
+                "ch1c0z1", "ch1c0z2", "ch1c8z0",
+                "ch1d0z0", "ch1d1z1", "ch1d2z0", "ch1d3z0", "ch1d4z0",
+                "ch1d6z0",
+                "ch1e0z0",
+                "ch1f0z0", "ch1f1z0", "ch1f2z0", "ch1f4z1", "ch1f5z1", "ch1f6z0", "ch1f7z0", "ch1f8z0", "ch1fcz0", "ch1fdz0",
+                "ch8g2z0", "ch8g3z0", "ch8gaz0"
+            };
+
+            var templateBurnParamPath = getBurnParamPath("ch1c0z0");
+            FileRepository.ModifyUserFile(templateBurnParamPath, root =>
+            {
+                return root
+                .Set("_BurnupBorder", 20000) // Stops enemies insta drying from fire
+                .Set("_BurnLevelMax", 1200) // Increases the the maximum amount of burn an enemy can stack
+                .Set("_SubsidePower", 50);  // Decreases the rate at which burn level decreases
+            });
+
+            foreach (var ch in characters)
+            {
+                var burnParamPath = getBurnParamPath(ch);
+                if (FileRepository.GetGameFileData(burnParamPath) == null)
+                {
+                    // User data not there, add reference to it in main param file
+                    var paramPath = $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}paramuserdata.user.2";
+                    FileRepository.ModifyUserFile(paramPath, root =>
+                    {
+                        return root.SetField("_BurnParam", new RszUserDataNode(
+                            FileRepository.RszRepository.FromName("chainsaw.EnemyBurnParamUserData")!,
+                            $"_Chainsaw/AppSystem/Character/{ch}/UserData/{ch}BurnParamUserData.user"));
+                    });
+                }
+
+                FileRepository.SetGameFileData(burnParamPath, FileRepository.GetGameFileData(templateBurnParamPath)!);
+            }
+
+            //change garrador burn ID ISSUE
+            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/character/ch1d0z0/userdata/ch1d0z0burnparamuserdata.user.2", root =>
+            {
+                return root
+                .Set("_BurnEffectID", new RszValueNode(RszFieldType.Uint2, new byte[] { 7, 0, 0, 0, 0, 0, 0, 0 }))
+                .Set("_BurnupEffectID", new RszValueNode(RszFieldType.Uint2, new byte[] { 7, 0, 0, 0, 1, 0, 0, 0 }));
+            });
+
+            //Inserting missing damage values for burn
+            string getAttackHitPath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}attackhituserdata.user.2";
+            var charactersDamage = new[]
+            {
+                "ch1b5z1", "ch1b7z0","ch1c0z0",
+                "ch1c0z1", "ch1c0z2", "ch1c8z0",
+                "ch1d0z0", "ch1d1z1", "ch1d2z0", "ch1d3z0", "ch1d4z0", 
+                //"ch1d6z0",
+                "ch1e0z0",
+                "ch1f0z0", "ch1f1z0", "ch1f2z0", "ch1f4z1", "ch1f5z1",
+                "ch1f6z0",
+                "ch1f7z0", "ch1f8z0", "ch1fcz0", "ch1fdz0",
+                "ch8g2z0", "ch8g3z0", "ch8gaz0"
+            };
+
+            uint KeyNameHashValueBurnTickDamage = 4179126236;
+            uint KeyNameHashValueFinalBurnTickDamage = 3042382614;
+
+            foreach (var ch in charactersDamage)
+            {
+                var AttackHitPath = getAttackHitPath(ch);
+                if (FileRepository.GetGameFileData(AttackHitPath) != null)
+                {
+                    FileRepository.ModifyUserFile(AttackHitPath, root =>
+                    {
+                        var AttackDataList = (RszArrayNode)root["_AttackDataList"];
+                        for (int i = 0; i < AttackDataList.Length; i++)
+                        {
+                            var AttackData = AttackDataList[i];
+                            if (AttackData.Get<uint>("_KeyNameHash") == KeyNameHashValueBurnTickDamage)
+                            {
+                                AttackData = AttackData.Set("_Damage", (int)_wpflamethrower["damage"] * 1.5);
+                                AttackDataList = AttackDataList.SetItem(i, AttackData);
+                            }
+                            if (AttackData.Get<uint>("_KeyNameHash") == KeyNameHashValueFinalBurnTickDamage)
+                            {
+                                AttackData = AttackData.Set("_Damage", (int)_wpflamethrower["damage"] * 3);
+                                AttackDataList = AttackDataList.SetItem(i, AttackData);
+                            }
+                        }
+                        root = root.SetField("_AttackDataList", AttackDataList);
+                        return root;
+                    });
+                }
+            }
+
+            foreach (var ch in charactersDamage)
+            {
+                var AttackHitPath = getAttackHitPath(ch);
+                if (FileRepository.GetGameFileData(AttackHitPath) != null)
+                {
+                    FileRepository.ModifyUserFile(AttackHitPath, root =>
+                    {
+                        var AttackDataList = (RszArrayNode)root["_AttackDataList"];
+                        var AttackData = AttackDataList.FirstOrDefault(x => x.Get<uint>("_KeyNameHash") == KeyNameHashValueBurnTickDamage);
+                        if (AttackData == null)
+                        {
+                            AttackDataList = AttackDataList.Add(FileRepository.RszRepository
+                              .Create("chainsaw.collision.AttackHitUserData.AttackData")
+                                  .Set("_KeyNameHash", KeyNameHashValueBurnTickDamage)
+                                  .Set("_Damage", (int)_wpflamethrower[$"damage"] * 1.5)
+                                  .Set("STRUCT__Wince__HasValue", true)
+                                  .Set("STRUCT__Wince__Value", 0)
+                                  .Set("STRUCT__Break__HasValue", true)
+                                  .Set("STRUCT__Break__Value", 0)
+                                  .Set("STRUCT__Stopping__HasValue", true)
+                                  .Set("STRUCT__Stopping__Value", 0)
+                                  .Set("_IsPartnerDamage", false)
+                                  .Set("_AttackType", 21)
+                                  .Set("_AttackPower", 1)
+                                  .Set("_DeadType", 7)
+                                  .Set("_Priority", 8)
+                                  .Set("_SortType", 0)
+                                  .Set("_Option", 8)
+                                  .Set("_IntervalTime", 0)
+                                  .Set("_Enchant", 0)
+                                  .Set("_IsThroughRestriction", false)
+                                  .Set("_ThroughNum", 1)
+                                  .Set("_DirectionType", 0)
+                                  .Set("_JointNameHash", 2180083513)
+                                  .Set("_Mute", true)
+                                  .Set("_SoundTriggerId", 4294967295)
+                                  .Set("_EffectJointNameHash", 2180083513)
+                                  .Set("_AttackToEnemyUserData", new RszNullNode())
+                                  .Set("_AttackToPlayerUserData", new RszNullNode())
+                                  .Set("_AttackToGimmickUserData", new RszNullNode())
+                                  .Set("_BreakLevel", 2));
+                        }
+                        var AttackData2 = AttackDataList.FirstOrDefault(x => x.Get<uint>("_KeyNameHash") == KeyNameHashValueFinalBurnTickDamage);
+                        if (AttackData2 == null)
+                        {
+                            AttackDataList = AttackDataList.Add(FileRepository.RszRepository
+                                .Create("chainsaw.collision.AttackHitUserData.AttackData")
+                                    .Set("_KeyNameHash", KeyNameHashValueFinalBurnTickDamage)
+                                    .Set("_Damage", (int)_wpflamethrower["damage"] * 3)
+                                    .Set("STRUCT__Wince__HasValue", true)
+                                    .Set("STRUCT__Wince__Value", 0)
+                                    .Set("STRUCT__Break__HasValue", true)
+                                    .Set("STRUCT__Break__Value", 0)
+                                    .Set("STRUCT__Stopping__HasValue", true)
+                                    .Set("STRUCT__Stopping__Value", 0)
+                                    .Set("_IsPartnerDamage", false)
+                                    .Set("_AttackType", 21)
+                                    .Set("_AttackPower", 1)
+                                    .Set("_DeadType", 7)
+                                    .Set("_Priority", 8)
+                                    .Set("_SortType", 0)
+                                    .Set("_Option", 8)
+                                    .Set("_IntervalTime", 0)
+                                    .Set("_Enchant", 0)
+                                    .Set("_IsThroughRestriction", false)
+                                    .Set("_ThroughNum", 1)
+                                    .Set("_DirectionType", 0)
+                                    .Set("_JointNameHash", 2180083513)
+                                    .Set("_Mute", true)
+                                    .Set("_SoundTriggerId", 4294967295)
+                                    .Set("_EffectJointNameHash", 2180083513)
+                                    .Set("_AttackToEnemyUserData", new RszNullNode())
+                                    .Set("_AttackToPlayerUserData", new RszNullNode())
+                                    .Set("_AttackToGimmickUserData", new RszNullNode())
+                                    .Set("_BreakLevel", 2));
+                        }
+                        root = root.SetField("_AttackDataList", AttackDataList);
+                        return root;
+                    });
+                }
+            }
+
+            // Modify damage multipliers for regular hits
+            string getWeaponDamagePath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}weapondamagerateuserdata.user.2";
+
+            foreach (var ch in charactersDamage)
+            {
+                var weaponDamagePath = getWeaponDamagePath(ch);
+                if (FileRepository.GetGameFileData(weaponDamagePath) != null)
+                {
+                    FileRepository.ModifyUserFile(weaponDamagePath, root =>
+                    {
+                        var weaponDamageList = (RszArrayNode)root["_DataList"];
+                        for (int i = 0; i < weaponDamageList.Length; i++)
+                        {
+                            var weaponDamageData = weaponDamageList[i];
+                            if (weaponDamageData.Get<int>("_WeaponID") == 4701)
+                            {
+                                weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
+                                weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 1.0f);
+
+                                weaponDamageList = weaponDamageList.SetItem(i, weaponDamageData);
+                            }
+                        }
+                        root = root.SetField("_DataList", weaponDamageList);
+                        return root;
+                    });
+                }
+            }
+
+            string getEnhancedWeaponDamagePath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}enhancedweapondamagerateuserdata.user.2";
+
+            foreach (var ch in charactersDamage)
+            {
+                var weaponDamagePath = getEnhancedWeaponDamagePath(ch);
+                if (FileRepository.GetGameFileData(weaponDamagePath) != null)
+                {
+                    FileRepository.ModifyUserFile(weaponDamagePath, root =>
+                    {
+                        var weaponDamageList = (RszArrayNode)root["_DataList"];
+                        for (int i = 0; i < weaponDamageList.Length; i++)
+                        {
+                            var weaponDamageData = weaponDamageList[i];
+                            if (weaponDamageData.Get<int>("_WeaponID") == 4701)
+                            {
+                                weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
+                                weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 1.0f);
+
+                                weaponDamageList = weaponDamageList.SetItem(i, weaponDamageData);
+                            }
+                        }
+                        root = root.SetField("_DataList", weaponDamageList);
+                        return root;
+                    });
+                }
+            }
+
+            //Modify damage multipliers for headshot
+            string getWeaponHeadDamagePath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}weapondamagerateuserdatahead.user.2";
+
+            foreach (var ch in charactersDamage)
+            {
+                var weaponDamagePath = getWeaponHeadDamagePath(ch);
+                if (FileRepository.GetGameFileData(weaponDamagePath) != null)
+                {
+                    FileRepository.ModifyUserFile(weaponDamagePath, root =>
+                    {
+                        var weaponDamageList = (RszArrayNode)root["_DataList"];
+                        for (int i = 0; i < weaponDamageList.Length; i++)
+                        {
+                            var weaponDamageData = weaponDamageList[i];
+                            if (weaponDamageData.Get<int>("_WeaponID") == 4701)
+                            {
+                                weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
+                                weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 1.1f);
+
+                                weaponDamageList = weaponDamageList.SetItem(i, weaponDamageData);
+                            }
+                        }
+                        root = root.SetField("_DataList", weaponDamageList);
+                        return root;
+                    });
+                }
+            }
+
+            string getEnhancedWeaponHeadDamagePath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}enhancedweapondamagerateuserdatahead.user.2";
+
+            foreach (var ch in charactersDamage)
+            {
+                var weaponDamagePath = getEnhancedWeaponHeadDamagePath(ch);
+                if (FileRepository.GetGameFileData(weaponDamagePath) != null)
+                {
+                    FileRepository.ModifyUserFile(weaponDamagePath, root =>
+                    {
+                        var weaponDamageList = (RszArrayNode)root["_DataList"];
+                        for (int i = 0; i < weaponDamageList.Length; i++)
+                        {
+                            var weaponDamageData = weaponDamageList[i];
+                            if (weaponDamageData.Get<int>("_WeaponID") == 4701)
+                            {
+                                weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
+                                weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 1.1f);
+
+                                weaponDamageList = weaponDamageList.SetItem(i, weaponDamageData);
+                            }
+                        }
+                        root = root.SetField("_DataList", weaponDamageList);
+                        return root;
+                    });
+                }
+            }
+
+            ///////////////////////////////////////
+            // VFX for Burn
+            ///////////////////////////////////////
+            string getMainVfxPrefab(string ch) => $"natives/stm/_chainsaw/vfx/provider/epv_character/epv_{ch}/epvc_0015_{ch}_0000.pfb.17";
+            var charactershort = new[]
+            {
+                "chb5", "chb7", "chc0", "chc8", "chd2", "chd3", "chd4", 
+                //"chd6",
+                "che0", "chf0", "chf1",
+                "chf2",
+                "chf4", "chf5", "chf6", "chf7", "chf8", "chfd",
+                "chg2", "chg3", "chga"
+            };
+
+            foreach (var ch in charactershort)
+            {
+                var MainVfxPrefabPath = getMainVfxPrefab(ch);
+                if (FileRepository.GetGameFileData(MainVfxPrefabPath) != null)
+                {
+                    FileRepository.ModifyPfbFile(MainVfxPrefabPath, scene =>
+                    {
+                        var gameobject = scene.Children.OfType<RszGameObject>().First();
+                        var component = gameobject.FindComponent("via.effect.script.EPVDataContainer")!;
+                        var MainVfxPrefabList = (RszArrayNode)component["StandardData"];
+                        var MainVfxPrefabData = MainVfxPrefabList.FirstOrDefault(x => x.Get<uint>("ID") == 6);
+                        if (MainVfxPrefabData == null)
+                        {
+                            MainVfxPrefabList = MainVfxPrefabList.Add(FileRepository.RszRepository
+                              .Create("via.effect.script.EPVDataContainer.StandardDataSetting")
+                                  .Set("Comment", "ガナード　炎ダメージ")
+                                  .Set("ID", 6)
+                                  .Set("Data.Standby", true)
+                                  .Set("Data.Path", "_Chainsaw/VFX/Provider/EPV_Character/EPV_chc0/epvs_0015_chc0_burn_prg_0000.pfb"));
+                        }
+                        component = component.SetField("StandardData", MainVfxPrefabList);
+                        gameobject = gameobject.AddOrUpdateComponent(component);
+                        scene = scene.UpdateGameObject(gameobject);
+                        return scene;
+                    });
+                }
+            }
+
+            // Setting Burn VFX for Garrador issue
+            FileRepository.ModifyPfbFile("natives/stm/_chainsaw/vfx/provider/epv_character/epv_chd0/epvc_0015_chd0_0000.pfb.17", scene =>
+            {
+                var gameobject = scene.Children.OfType<RszGameObject>().First();
+                var component = gameobject.FindComponent("via.effect.script.EPVDataContainer")!;
+                var mainVfxPrefabList = (RszArrayNode)component["StandardData"];
+                var mainVfxPrefabData = mainVfxPrefabList.FirstOrDefault(x => x.Get<uint>("ID") == 7);
+                if (mainVfxPrefabData == null)
+                {
+                    mainVfxPrefabList = mainVfxPrefabList.Add(FileRepository.RszRepository
+                      .Create("via.effect.script.EPVDataContainer.StandardDataSetting")
+                          .Set("Comment", "ガナード　炎ダメージ")
+                          .Set("ID", 7)
+                          .Set("Data.Standby", true)
+                          .Set("Data.Path", "_Chainsaw/VFX/Provider/EPV_Character/EPV_chc0/epvs_0015_chc0_burn_prg_0000.pfb"));
+                }
+                component = component.SetField("StandardData", mainVfxPrefabList);
+                gameobject = gameobject.AddOrUpdateComponent(component);
+                scene = scene.UpdateGameObject(gameobject);
+                return scene;
+            });
+        }
+
+        private void FixSalazarCrash()
+        {
+            FileRepository.ModifyScnFile("natives/stm/_chainsaw/environment/scene/gimmick/st56/gimmick_st56_200.scn.20",
+                scene => scene.RemoveGameObject(new Guid("b9c3f5d1-a5df-44ce-80da-4024afb6e7b9")));
         }
 
         private void SetStrings(string path, Dictionary<Guid, string> strings)

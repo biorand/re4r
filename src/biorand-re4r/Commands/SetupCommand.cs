@@ -124,7 +124,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             "natives/stm/_chainsaw/message/mes_main_item/.*",
             "natives/stm/_chainsaw/message/mes_main_sys/.*",
             "natives/stm/_chainsaw/sound/resource/trigger/weapon/.*\\.user\\.2",
-            "natives/stm/_chainsaw/vfx/provider/epv_weapon/.*\\.pfb\\.17"
+            "natives/stm/_chainsaw/vfx/provider/epv_character/.*\\.pfb\\.17",
+            "natives/stm/_chainsaw/vfx/provider/epv_weapon/.*\\.pfb\\.17",
         ];
     }
 }
