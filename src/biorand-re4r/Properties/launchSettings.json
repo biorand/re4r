@@ -17,7 +17,11 @@
     },
     "setup": {
       "commandName": "Project",
-      "commandLineArgs": "setup -o C:\\Users\\Ted\\.biorand\\biorand-re4r.pak -i G:\\re4r\\vanilla"
+      "commandLineArgs": "setup -o G:\\biorand\\re4r\\vanilla-extract -i G:\\biorand\\re4r\\vanilla --full"
+    },
+    "setup-pak": {
+      "commandName": "Project",
+      "commandLineArgs": "setup -o C:\\Users\\Ted\\.biorand\\biorand-re4r.pak -i G:\\biorand\\re4r\\vanilla"
     },
     "agent": {
       "commandName": "Project",
