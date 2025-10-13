@@ -18,13 +18,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
         }
 
-        public ChainsawRandomizer Create()
-        {
-            var enemyClassFactory = EnemyClassFactory.Create();
-            var randomizer = new ChainsawRandomizer(enemyClassFactory);
-            return randomizer;
-        }
-
         private static Version GetCurrentVersion()
         {
             var version = CurrentAssembly?.GetName().Version ?? new Version();

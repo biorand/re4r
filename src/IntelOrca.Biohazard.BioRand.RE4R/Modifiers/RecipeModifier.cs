@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Immutable;
+using System.Linq;
 using chainsaw;
-using IntelOrca.Biohazard.BioRand.RE4R.Models;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -61,12 +61,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("inventory-additional-recipes"))
                 return;
 
+            var recipeData = randomizer.DynamicData.GetData(DynamicDataName.Recipe);
+            var recipes = Csv.Deserialize<Recipe>(recipeData);
+
             var path = GetPath(randomizer.Campaign);
             var fileRepository = randomizer.FileRepository;
             fileRepository.ModifyUserFile(path, root =>
             {
                 var craft = RszSerializer.Deserialize<ItemCraftSettingUserdata>(root)!;
-                var recipes = RecipeDefinitionFile.Default.Recipes;
                 foreach (var recipe in recipes)
                 {
                     var newCraft = new ItemCraftRecipe()
@@ -136,6 +138,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
                 return (RszObjectNode)RszSerializer.Serialize(root.Type, craft);
             });
+        }
+
+        internal sealed class Recipe
+        {
+            public string Name { get; set; } = "";
+            public int Id { get; set; }
+            public int Category { get; set; }
+            public int InputItemId0 { get; set; }
+            public int InputItemCount0 { get; set; }
+            public int InputItemId1 { get; set; }
+            public int InputItemCount1 { get; set; }
+            public int OutputItemId { get; set; }
+            public int OutputItemCount { get; set; }
+
+            public ImmutableArray<RecipeInputOutput> Input => [
+                new RecipeInputOutput() { Id = InputItemId0, Count = InputItemCount0 },
+                new RecipeInputOutput() { Id = InputItemId1, Count = InputItemCount1 },
+            ];
+
+            public RecipeInputOutput Output => new RecipeInputOutput() { Id = OutputItemId, Count = OutputItemCount };
+        }
+
+        internal sealed class RecipeInputOutput
+        {
+            public int Id { get; init; }
+            public int Count { get; init; }
         }
     }
 }

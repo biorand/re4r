@@ -143,6 +143,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             private readonly Dictionary<int, int> itemToChapterMap = new Dictionary<int, int>();
             private readonly List<int> _rewardWeapons = new List<int>();
+            private readonly WeaponStatTable _weaponStatTable = new WeaponStatTable(randomizer.DynamicData);
 
             private readonly Rng _distRng = rng.NextFork();
             private readonly Rng _rewardsRng = rng.NextFork();
@@ -761,8 +762,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     {
                         if (item.ItemDefinition.WeaponId is int wpId)
                         {
-                            var min = WeaponStatTable.Default.GetValue(wpId, "price/min");
-                            var max = WeaponStatTable.Default.GetValue(wpId, "price/max");
+                            var min = _weaponStatTable.GetValue(wpId, "price/min");
+                            var max = _weaponStatTable.GetValue(wpId, "price/max");
                             if (min != 0 && max != 0)
                             {
                                 item.BuyPrice = _priceRng.NextDouble(min, max).RoundPrice();

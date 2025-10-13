@@ -19,6 +19,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private Func<string, Guid> _addMessage = _ => default;
         private Dictionary<(int, WeaponUpgradePath), float> _baseStats = new();
+        private WeaponStatTable? _weaponStatTable;
 
         private static string GetMainPath(ChainsawRandomizer randomizer)
         {
@@ -36,6 +37,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+            _weaponStatTable ??= new WeaponStatTable(randomizer.DynamicData);
+
             var mainFile = randomizer.FileRepository.DeserializeUserFile<WeaponCustomUserdata>(GetMainPath(randomizer));
             var detailFile = randomizer.FileRepository.DeserializeUserFile<WeaponDetailCustomUserdata>(GetDetailPath(randomizer));
             var wpCustomMsg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath);
@@ -287,8 +290,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             foreach (var path in paths)
             {
                 var property = $"{WeaponStatTable.GetPropertyName(path)}";
-                var min = WeaponStatTable.Default.GetValue(wp.Id, $"{property}/exclusive/min");
-                var max = WeaponStatTable.Default.GetValue(wp.Id, $"{property}/exclusive/max");
+                var table = _weaponStatTable!;
+                var min = table.GetValue(wp.Id, $"{property}/exclusive/min");
+                var max = table.GetValue(wp.Id, $"{property}/exclusive/max");
                 if (min == 0)
                     continue;
 
@@ -336,7 +340,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private bool Supports(WeaponStats wp, WeaponUpgradePath path)
         {
             var property = WeaponStatTable.GetPropertyName(path);
-            var table = WeaponStatTable.Default;
+            var table = _weaponStatTable!;
             var l1min = table.GetValue(wp.Id, $"{property}/level 1/min");
             if (l1min == 0)
                 return false;
@@ -347,7 +351,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private StatRange? RandomizeFromRanges(Rng rng, WeaponStats wp, WeaponUpgradePath path, float minIncrement = 0.05f)
         {
             var property = WeaponStatTable.GetPropertyName(path);
-            var table = WeaponStatTable.Default;
+            var table = _weaponStatTable!;
             var super = rng.NextProbability(5);
             var highRoller = super ? " (high roller)" : "";
             var l1min = table.GetValue(wp.Id, $"{property}/level 1/min");
@@ -867,11 +871,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
     internal sealed class WeaponStatTable
     {
-        public static WeaponStatTable Default { get; } = new WeaponStatTable(EmbeddedData.GetFile("wpstats.csv"));
-
         private readonly string[][] _cells;
         private readonly Dictionary<string, int> _rowMap = new();
         private readonly Dictionary<int, int> _colMap = new();
+
+        public WeaponStatTable(DynamicData dynamicData)
+            : this(dynamicData.GetData(DynamicDataName.WeaponRng))
+        {
+        }
 
         private WeaponStatTable(byte[] wpstats)
         {

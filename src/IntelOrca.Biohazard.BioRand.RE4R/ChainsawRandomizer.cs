@@ -23,15 +23,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public EnemyClassFactory EnemyClassFactory { get; }
         public FileRepository FileRepository => _fileRepository;
+        public DynamicData DynamicData { get; }
 
         public ValuableDistributor ValuableDistributor => _valuableDistributor!;
         public ItemRandomizer ItemRandomizer => _itemRandomizer!;
         public ImmutableArray<Area> Areas => _areas;
         public Campaign Campaign { get; private set; }
 
-        public ChainsawRandomizer(EnemyClassFactory enemyClassFactory)
+        public ChainsawRandomizer(EnemyClassFactory enemyClassFactory, RandomizerInput input)
         {
             EnemyClassFactory = enemyClassFactory;
+            _input = input;
+
+            DynamicData = new DynamicData(_input.Configuration.GetValueOrDefault<bool>("debug-download-data"));
         }
 
         public void Dispose()
@@ -39,9 +43,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             _fileRepository?.Dispose();
         }
 
-        public RandomizerOutput Randomize(RandomizerInput input)
+        public RandomizerOutput Randomize()
         {
-            _input = input;
+            var input = _input;
             if (input.GamePath != null)
             {
                 _fileRepository = new FileRepository(input.GamePath);

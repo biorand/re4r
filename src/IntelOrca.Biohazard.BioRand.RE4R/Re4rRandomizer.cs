@@ -21,8 +21,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
             try
             {
-                using var randomizer = ChainsawRandomizerFactory.Default.Create();
-                return randomizer.Randomize(input);
+                var enemyClassFactory = EnemyClassFactory.Create();
+                using var randomizer = new ChainsawRandomizer(enemyClassFactory, input);
+                return randomizer.Randomize();
             }
             finally
             {

@@ -33,7 +33,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         public FlamethrowerPatch(ChainsawRandomizer randomizer)
         {
             _randomizer = randomizer;
-            _wpflamethrower = WeaponBaseStats.Default.Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
+            _wpflamethrower = new WeaponBaseStats(randomizer.DynamicData).Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
         }
 
         public void Apply()
@@ -1102,9 +1102,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
     internal sealed class WeaponBaseStats
     {
-        public static WeaponBaseStats Default { get; } = new WeaponBaseStats(EmbeddedData.GetFile("wpbase.csv"));
-
         public ImmutableArray<ImmutableDictionary<string, object>> Weapons { get; }
+
+        public WeaponBaseStats(DynamicData dynamicData)
+            : this(dynamicData.GetData(DynamicDataName.WeaponBase))
+        {
+        }
 
         private WeaponBaseStats(byte[] wpbase)
         {

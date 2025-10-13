@@ -846,6 +846,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Warning = "These options are only for testing / debugging the randomizer.";
             group.Items.Add(new GroupItem()
             {
+                Id = "debug-download-data",
+                Label = "Download Data",
+                Description = "Download latest spreadsheet data before generating the randomizer.",
+                Type = "switch",
+                Default = false
+            });
+            group.Items.Add(new GroupItem()
+            {
                 Id = $"enable-special",
                 Label = "Enable Personal Touch",
                 Description = "Enables a personal touch or meme for the current user.",

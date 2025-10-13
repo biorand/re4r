@@ -1,0 +1,7 @@
+Name,Id,Category,InputItemId0,InputItemCount0,InputItemId1,InputItemCount1,OutputItemId,OutputItemCount
+5 gunpowder + 25 handgun = 30 smg,21,1,117600000,5,112800000,25,112806400,30
+5 gunpowder + 60 smg = 20 handgun,22,1,117600000,5,112806400,60,112800000,20
+7 gunpowder + 8 shotgun = 4 rifle,23,1,117600000,7,112803200,8,112804800,4
+7 gunpowder + 8 rifle = 4 shotgun,24,1,117600000,7,112804800,8,112803200,4
+12 gunpowder + 50 handgun = 3 magnum,25,1,117600000,12,112800000,50,112801600,3
+1 resource (s) + 3 hand grenade = 1 heavy grenade,26,2,117606400,1,277075456,3,277077056,1
