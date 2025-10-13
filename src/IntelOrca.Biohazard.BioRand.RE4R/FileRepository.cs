@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.IO;
+using System.IO.Compression;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Messages;
 using IntelOrca.Biohazard.REE.Package;
 using IntelOrca.Biohazard.REE.Rsz;
@@ -196,6 +198,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var fullPath = Path.Combine(path, outputFile.Key);
                 Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
                 File.WriteAllBytes(fullPath, outputFile.Value);
+            }
+        }
+
+        public void ApplyOverlay(byte[] zipData)
+        {
+            var supplementZip = new ZipArchive(new MemoryStream(zipData));
+            foreach (var entry in supplementZip.Entries)
+            {
+                if (entry.Length == 0)
+                    continue;
+
+                var data = entry.GetData();
+                SetGameFileData(entry.FullName, data);
             }
         }
     }

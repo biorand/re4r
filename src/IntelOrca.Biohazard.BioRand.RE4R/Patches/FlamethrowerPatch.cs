@@ -38,6 +38,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         public void Apply()
         {
+            AddMedia();
             UpdateStrings();
             AddFlamethrower();
             AddFuel();
@@ -46,6 +47,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             UpdateWeaponData();
             UpdateCharacters();
             FixSalazarCrash();
+        }
+
+        private void AddMedia()
+        {
+            FileRepository.ApplyOverlay(EmbeddedData.GetFile("flamethrower.zip"));
         }
 
         private void UpdateStrings()
@@ -307,9 +313,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             .Set("_ResultSettings[1]._Result._ItemID", FuelItemId)
                             .Set("_ResultSettings[1]._Result._GeneratedNumMin", 300)
                             .Set("_ResultSettings[1]._Result._GeneratedNumMax", 300)
-                            .Set("_RequiredItems[0]._ItemID", 117606400)
+                            .Set("_RequiredItems[0]._ItemID", SmallResourceItemId)
                             .Set("_RequiredItems[0]._RequiredNum", 1)
-                            .Set("_RequiredItems[1]._ItemID", 117600000)
+                            .Set("_RequiredItems[1]._ItemID", GunpowderItemId)
                             .Set("_RequiredItems[1]._RequiredNum", 5);
                         root = root.SetField("_Datas", datas.SetItem(i, data));
                         break;

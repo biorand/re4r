@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
 using IntelOrca.Biohazard.BioRand.RE4R.Patches;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
@@ -171,21 +168,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             if (!_supplementApplied)
             {
                 _supplementApplied = true;
-                ApplyOverlay(EmbeddedData.GetFile("supplement.zip"));
-                ApplyOverlay(EmbeddedData.GetFile("delorca.zip"));
-            }
-        }
-
-        private void ApplyOverlay(byte[] zipData)
-        {
-            var supplementZip = new ZipArchive(new MemoryStream(zipData));
-            foreach (var entry in supplementZip.Entries)
-            {
-                if (entry.Length == 0)
-                    continue;
-
-                var data = entry.GetData();
-                _fileRepository.SetGameFileData(entry.FullName, data);
+                FileRepository.ApplyOverlay(EmbeddedData.GetFile("supplement.zip"));
+                FileRepository.ApplyOverlay(EmbeddedData.GetFile("delorca.zip"));
             }
         }
 
@@ -223,8 +207,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 new MerchantShopModifier(),
                 new WeaponModifier(),
                 new ItemModifier(),
-                // new GimmickPlaceModifier(),
-                // new GimmickModifier(),
+                new GimmickPlaceModifier(),
+                new GimmickModifier(),
                 new LevelItemModifier(),
                 new EnemyPlaceModifier(),
                 new EnemyMultiplierModifier(),
