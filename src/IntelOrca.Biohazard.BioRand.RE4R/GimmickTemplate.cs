@@ -1,24 +1,22 @@
-﻿using System.Linq;
-using RszTool;
+﻿using System;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal static class GimmickTemplate
     {
-        private static ScnFile? _template = null;
+        private static RszScene? _template = null;
 
-        public static ScnFile.GameObjectData Get(string name)
+        public static RszGameObject Get(string name)
         {
             var template = _template;
             if (template == null)
             {
-                template = ChainsawRandomizerFactory.Default.ReadScnFile(EmbeddedData.GetFile("gimmick.template.scn.20"));
+                var scnFile = new ScnFile(20, EmbeddedData.GetFile("gimmick.template.scn.20"));
+                template = scnFile.ReadScene(FileRepository.RszRepository);
                 _template = template;
             }
-
-            return template
-                .IterAllGameObjects()
-                .First(x => x.Name == name);
+            return template.FindGameObject(name) ?? throw new Exception($"{name} template not found");
         }
     }
 }

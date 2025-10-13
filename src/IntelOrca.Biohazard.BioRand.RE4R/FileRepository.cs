@@ -1,15 +1,29 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.IO;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Messages;
 using IntelOrca.Biohazard.REE.Package;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class FileRepository : IDisposable
     {
+        private static RszTypeRepository? _rszRepository;
+
+        public static RszTypeRepository RszRepository
+        {
+            get
+            {
+                if (_rszRepository == null)
+                {
+                    var rszJson = EmbeddedData.GetFile("rszre4.json.gz");
+                    _rszRepository = RszRepositorySerializer.Default.FromJsonGz(rszJson);
+                }
+                return _rszRepository;
+            }
+        }
+
         private readonly PatchedPakFile? _inputPakFile;
         private readonly string? _inputGamePath;
         private ConcurrentDictionary<string, byte[]> _outputFiles = new(StringComparer.OrdinalIgnoreCase);
@@ -49,7 +63,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             if (_inputGamePath == null)
             {
-                return _inputPakFile?.GetFileData(path);
+                return _inputPakFile?.GetEntryData(path);
             }
             else
             {
@@ -84,14 +98,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var data = GetGameFileData(path);
             return data == null
                 ? throw new Exception("Unable to read data file.")
-                : ChainsawRandomizerFactory.Default.ReadScnFile(data);
+                : new ScnFile(20, data);
         }
 
-        public void ModifyScnFile(string path, Action<ScnFile> callback)
+        public void ModifyScnFile(string path, Func<RszScene, RszScene> callback)
         {
-            var scnFile = GetScnFile(path);
-            callback(scnFile);
-            SetScnFile(path, scnFile);
+            var scnFile = GetScnFile(path).ToBuilder(RszRepository);
+            scnFile.Scene = callback(scnFile.Scene);
+            SetScnFile(path, scnFile.AddMissingResources().Build());
+        }
+
+        public void SetScnFile(string path, ScnFile value)
+        {
+            SetGameFileData(path, value.Data);
         }
 
         public UserFile GetUserFile(string path)
@@ -99,41 +118,35 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var data = GetGameFileData(path);
             return data == null
                 ? throw new Exception("Unable to read data file.")
-                : ChainsawRandomizerFactory.Default.ReadUserFile(data);
+                : new UserFile(data);
         }
 
         public T DeserializeUserFile<T>(string path)
         {
             var userFile = GetUserFile(path);
-            return userFile.RSZ!.RszParser.Deserialize<T>(userFile.RSZ.ObjectList[0]);
+            return RszSerializer.Deserialize<T>(userFile.GetObjects(RszRepository)[0])!;
         }
 
         public void SerializeUserFile<T>(string path, T value)
         {
             var userFile = GetUserFile(path);
-            userFile.RSZ!.InstanceCopyValues(
-                userFile.RSZ!.ObjectList[0],
-                userFile.RszParser.Serialize(value)!);
-            SetUserFile(path, userFile);
-        }
-
-        public void SetScnFile(string path, ScnFile value)
-        {
-            SetGameFileData(path, value.ToByteArray());
+            var builder = userFile.ToBuilder(RszRepository);
+            var targetType = builder.Objects[0].Type;
+            builder.Objects = [(RszObjectNode)RszSerializer.Serialize(targetType, value!)];
+            SetUserFile(path, builder.Build());
         }
 
         public void SetUserFile(string path, UserFile value)
         {
-            SetGameFileData(path, value.ToByteArray());
+            SetGameFileData(path, value.Data);
         }
 
-        public void ModifyUserFile(string path, Action<RSZFile, RszInstance> callback)
+        public void ModifyUserFile(string path, Func<RszObjectNode, RszObjectNode> callback)
         {
             var userFile = GetUserFile(path);
-            callback(userFile.RSZ!, userFile.RSZ!.ObjectList[0]);
-            userFile.RSZ.RebuildInstanceInfo();
-            userFile.RebuildInfoTable();
-            SetUserFile(path, userFile);
+            var builder = userFile.ToBuilder(RszRepository);
+            builder.Objects = [callback((RszObjectNode)builder.Objects[0])];
+            SetUserFile(path, builder.Build());
         }
 
         public MsgFile GetMsgFile(string path)

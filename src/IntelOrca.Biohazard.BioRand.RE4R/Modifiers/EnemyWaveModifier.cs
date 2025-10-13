@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using IntelOrca.Biohazard.BioRand.RE4R.Models;
 using IntelOrca.Biohazard.REE.Cryptography;
 using IntelOrca.Biohazard.REE.Variables;
-using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
     internal class EnemyWaveModifier : Modifier
     {
-        private int _contextId = 9000;
         private List<Guid> _flagGuids = [];
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -28,8 +23,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 var waveProbability = Math.Clamp(randomizer.GetConfigOption<float>("enemy-waves-probability", 1), 0, 1);
                 var allSpawns = randomizer.Areas
-                    .SelectMany(x => x.GetEnemySpawns(randomizer))
-                    .Shuffle(rng);
+                    .SelectMany(x => x.Enemies)
+                    .Shuffle(rng)
+                    .ToArray();
 
                 var maxWavedEnemies = (int)(waveProbability * allSpawns.Length);
                 var numWavedEnemies = 0;
@@ -44,26 +40,34 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (!oldSpawn.HasSimpleController)
                         continue;
 
+                    var area = oldSpawn.Area;
                     var scn = oldSpawn.Area.ScnFile;
-                    var oldSpawnController = oldSpawn.Controller!;
+                    var oldSpawnController = oldSpawn.SpawnController;
                     var lastSpawn = oldSpawn;
                     var numWaves = rng.Next(minWaves, maxWaves + 1);
                     for (var i = 1; i < numWaves; i++)
                     {
-                        var spawnControllerGameObject = CreateSpawnPointController(scn, $"BioRandOnDeathSpawn_{i}", rng.NextGuid(), waveDistance, [lastSpawn.Enemy]);
-                        var spawnController = new CharacterSpawnController(spawnControllerGameObject.Components[1]);
-
-                        var newSpawn = lastSpawn.Duplicate(GetNextContextId());
-                        Reparent(newSpawn.Enemy.GameObject, spawnControllerGameObject);
+                        var spawnControllerGameObject = RszFactory.CreateSpawnPointController(rng.NextGuid(), $"BioRandOnDeathSpawn_{i}", waveDistance, [lastSpawn.Enemy]);
+                        var spawnController = area.AddSpawnController(spawnControllerGameObject);
 
                         var deathFlag = GetNextFlagGuid();
                         lastSpawn.Enemy.SetFieldValue("_DeathNotifyFlag", deathFlag);
-                        spawnController.SpawnCondition.Add(scn, deathFlag);
-                        spawnController.SpawnSkipCondition.Flags = oldSpawnController.SpawnSkipCondition.Flags;
-                        spawnController.SpawnSkipCondition.Or = oldSpawnController.SpawnSkipCondition.Or;
+                        spawnController.SpawnCondition = new chainsaw.FlagCondition()
+                        {
+                            _CheckFlags = new List<chainsaw.CheckFlagInfo>()
+                            {
+                                new chainsaw.CheckFlagInfo()
+                                {
+                                    _CheckFlag = deathFlag,
+                                    _CompareValue = true
+                                }
+                            }
+                        };
+                        spawnController.SpawnSkipCondition = oldSpawnController.SpawnSkipCondition;
 
+                        var newSpawn = lastSpawn.Duplicate(randomizer.GetNextEnemyContextId());
+                        spawnController.AddEnemy(newSpawn);
                         newSpawn.Enemy.SetFieldValue("_ForceFind", true);
-
                         lastSpawn = newSpawn;
                     }
 
@@ -72,11 +76,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 SetVariables(randomizer, logger);
             }
-        }
-
-        private int GetNextContextId()
-        {
-            return _contextId++;
         }
 
         private Guid GetNextFlagGuid()
@@ -148,70 +147,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             });
             fileRepository.SerializeUserFile(variableTablePath, tableDefine);
-        }
-
-        private static void Reparent(ScnFile.GameObjectData gameObject, ScnFile.GameObjectData newParent)
-        {
-            gameObject.Parent?.Children.Remove(gameObject);
-            newParent.Children.Add(gameObject);
-            gameObject.Parent = newParent;
-        }
-
-        private static ScnFile.GameObjectData CreateSpawnPointController(ScnFile scn, string name, Guid guid, float waveDistance, Enemy[] enemies)
-        {
-            var newGameObject = scn.CreateGameObject(name);
-            newGameObject.Prefab = new ScnFile.PrefabInfo()
-            {
-                Path = "_Chainsaw/AppSystem/Prefab/CharacterSpawnPointController.pfb"
-            };
-            SetTransform(scn, newGameObject, Vector3.Zero);
-
-            var characterSpawnControllerComponent = CreateComponent(scn, newGameObject, "chainsaw.CharacterSpawnPointController");
-            characterSpawnControllerComponent.Set("v0", (byte)1);
-            characterSpawnControllerComponent.Set("_DifficutyParam", 63U);
-            characterSpawnControllerComponent.Set("_GUID", guid);
-            characterSpawnControllerComponent.Set("_ActiveCountLimit", 100);
-            characterSpawnControllerComponent.Set("_ActiveCountType", 0);
-            characterSpawnControllerComponent.Set("_IntervalTime", 30.0f);
-            characterSpawnControllerComponent.Set("_SpawnDistanceMin", waveDistance);
-
-            characterSpawnControllerComponent.Set("_SpawnPoints",
-                enemies.Select(enemyDef =>
-                {
-                    var transform = new Transform(GetOrCreateComponent(scn, enemyDef.GameObject, "via.Transform"));
-                    var spawnPoint = scn.RSZ!.CreateInstance("chainsaw.CharacterSpawnPoint");
-                    spawnPoint.Set("_Transform", transform.Matrix);
-                    spawnPoint.Set("_IsOutOfCameraOnly", false);
-                    spawnPoint.Set("_CoolDownTime", 3.0f);
-                    return (object)spawnPoint;
-                }).ToList());
-
-            return newGameObject;
-        }
-
-        private static void SetTransform(ScnFile scn, ScnFile.GameObjectData gameObject, Vector3 position, EulerAngles? eular = null)
-        {
-            var transform = new Transform(GetOrCreateComponent(scn, gameObject, "via.Transform"));
-            transform.Position = position;
-            transform.Eular = eular ?? new EulerAngles();
-            transform.Scale = Vector3.One;
-        }
-
-        private static RszInstance CreateComponent(ScnFile scn, ScnFile.GameObjectData gameObject, string className)
-        {
-            scn.AddComponent(gameObject, className);
-            return gameObject.Components.Last();
-        }
-
-        private static RszInstance GetOrCreateComponent(ScnFile scn, ScnFile.GameObjectData gameObject, string className)
-        {
-            var component = gameObject.FindComponent(className);
-            if (component == null)
-            {
-                scn.AddComponent(gameObject, className);
-                component = gameObject.Components.Last();
-            }
-            return component;
         }
     }
 }

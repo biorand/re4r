@@ -37,6 +37,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
         public override Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
+            KillRe4();
+
             var randomizer = GetRandomizer();
             var input = new RandomizerInput();
             input.Seed = settings.Seed;
@@ -68,6 +70,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
                 pakFile.WriteToFile(outputPath);
+#if DEBUG
+                ExtractNatives(zipFile, Path.GetDirectoryName(outputPath)!);
+#endif
             }
             else if (outputPath.EndsWith(".zip"))
             {
@@ -90,6 +95,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             return Task.FromResult(0);
         }
 
+        private static void ExtractNatives(byte[] zipFile, string outputPath)
+        {
+            var nativesDirectory = Path.Combine(outputPath, "natives");
+            if (Directory.Exists(nativesDirectory))
+                Directory.Delete(nativesDirectory, true);
+
+            using var zip = new ZipArchive(new MemoryStream(zipFile));
+            foreach (var entry in zip.Entries)
+            {
+                if (!entry.FullName.StartsWith("natives/", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                var destinationPath = Path.Combine(outputPath, entry.FullName);
+                Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
+                entry.ExtractToFile(destinationPath, overwrite: true);
+            }
+        }
+
         private static byte[] GetPakFile(byte[] zip)
         {
             var archive = new ZipArchive(new MemoryStream(zip));
@@ -102,6 +125,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         private IRandomizer GetRandomizer()
         {
             return new Re4rRandomizer();
+        }
+
+        private static void KillRe4()
+        {
+            // Kill RE4 process if running / don't wait for him to close
+            // There is only 1 process
+            var process = System.Diagnostics.Process.GetProcessesByName("re4").FirstOrDefault();
+            if (process != null)
+            {
+                try
+                {
+                    process.Kill(entireProcessTree: false);
+                }
+                catch
+                {
+                    // Ignore
+                }
+            }
         }
     }
 }

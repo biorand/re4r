@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Security.Cryptography;
-using System.Text;
+using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -44,33 +43,38 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     if (extra.Kind == "points")
                     {
-                        var spawnController = CreateSpawnPointController(scn, "BioRandSpawnPointController", extra.Enemies);
-                        AddSpawnControllerConditions(scn, spawnController, extra.Condition, extra.SkipCondition);
+                        var spawnController = RszFactory.CreateSpawnPointController(rng.NextGuid(), "BioRandSpawnPointController", 15, extra.Enemies);
+                        spawnController = AddSpawnControllerConditions(spawnController, extra.Condition, extra.SkipCondition);
 
                         logger.Push($"CharacterSpawnPointController Condition = {extra.Condition} SkipCondition = {extra.SkipCondition}");
 
                         foreach (var enemyDef in extra.Enemies)
                         {
-                            AddEnemyToSpawnController(def, scn, spawnController, enemyDef, extra, rng, logger);
+                            spawnController = AddEnemyToSpawnController(def, spawnController, enemyDef, extra, rng, logger);
                         }
+
+                        area.AddSpawnController(spawnController);
                     }
                     else
                     {
                         foreach (var g in extra.Enemies.GroupBy(x => x.Stage))
                         {
-                            var spawnController = CreateSpawnController(scn, "BioRandInitialSpawn");
-                            AddSpawnControllerConditions(scn, spawnController, extra.Condition, extra.SkipCondition);
+                            var extraEnemies = g.Where(extraEnemiesToPlace.Contains).ToArray();
+                            if (extraEnemies.Length == 0)
+                                continue;
+
+                            var spawnController = RszFactory.CreateSpawnController("BioRandInitialSpawn");
+                            spawnController = AddSpawnControllerConditions(spawnController, extra.Condition, extra.SkipCondition);
 
                             logger.Push($"CharacterSpawnController Condition = {extra.Condition} SkipCondition = {extra.SkipCondition}");
 
-                            foreach (var enemyDef in g)
+                            foreach (var enemyDef in extraEnemies)
                             {
-                                if (extraEnemiesToPlace.Contains(enemyDef))
-                                {
-                                    AddEnemyToSpawnController(def, scn, spawnController, enemyDef, extra, rng, logger);
-                                }
+                                spawnController = AddEnemyToSpawnController(def, spawnController, enemyDef, extra, rng, logger);
                             }
                             logger.Pop();
+
+                            area.AddSpawnController(spawnController);
                         }
                     }
                 }
@@ -78,16 +82,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void AddEnemyToSpawnController(AreaDefinition def, ScnFile scn, ScnFile.GameObjectData spawnController, AreaExtraEnemy enemyDef, AreaExtra extra, Rng rng, RandomizerLogger logger)
+        private RszGameObject AddEnemyToSpawnController(AreaDefinition def, RszGameObject spawnController, AreaExtraEnemy enemyDef, AreaExtra extra, Rng rng, RandomizerLogger logger)
         {
             var position = new Vector3(enemyDef.X, enemyDef.Y, enemyDef.Z);
             var rotation = enemyDef.Direction == 0
                 ? RandomRotation(rng)
                 : new EulerAngles(enemyDef.Direction, 0, 0);
-            var enemy = CreateEnemy(scn, spawnController, "BioRandEnemy", enemyDef.Stage, position, rotation, enemyDef.FindPlayer, rng, logger);
-            enemy.Guid = enemyDef.Guid.HasValue
-                ? enemyDef.Guid.Value
-                : HashGuid(enemyDef.Stage, enemyDef.X, enemyDef.Y, enemyDef.Z, extra.Condition, extra.SkipCondition);
+            var enemy = CreateEnemy("BioRandEnemy", enemyDef.Stage, position, rotation, enemyDef.FindPlayer, rng, logger)
+                .WithGuid(enemyDef.Guid.HasValue
+                    ? enemyDef.Guid.Value
+                    : HashGuid(enemyDef.Stage, enemyDef.X, enemyDef.Y, enemyDef.Z, extra.Condition, extra.SkipCondition));
 #if DEBUG
             if (!_guids.Add(enemy.Guid))
             {
@@ -118,6 +122,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 };
                 def.Restrictions = [.. (def.Restrictions ?? []), restriction];
             }
+            return spawnController.AddOrUpdateChild(enemy);
         }
 
         private static HashSet<AreaExtraEnemy> GetExtraEnemiesToPlace(ChainsawRandomizer randomizer, double amount, Rng rng)
@@ -142,176 +147,76 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return new EulerAngles(angle, 0, 0);
         }
 
-        private static RszInstance CreateCheckFlag(ScnFile scn, Guid guid)
+        private static RszObjectNode CreateCheckFlag(Guid guid)
         {
-            var checkFlagInfo = scn.RSZ!.CreateInstance("chainsaw.CheckFlagInfo");
+            var checkFlagInfo = FileRepository.RszRepository.Create("chainsaw.CheckFlagInfo");
             checkFlagInfo.Set("_CheckFlag", guid);
             checkFlagInfo.Set("_CompareValue", true);
             return checkFlagInfo;
         }
 
-        private static ScnFile.GameObjectData CreateSpawnController(ScnFile scn, string name)
+        private static RszGameObject AddSpawnControllerConditions(RszGameObject spawnController, string? condition, string? skipCondition)
         {
-            var newGameObject = scn.CreateGameObject(name);
-            newGameObject.Prefab = new ScnFile.PrefabInfo()
-            {
-                Path = "_Chainsaw/AppSystem/Prefab/CharacterSpawnController.pfb"
-            };
-            SetTransform(scn, newGameObject, Vector3.Zero);
-
-            var characterSpawnControllerComponent = CreateComponent(scn, newGameObject, "chainsaw.CharacterSpawnController");
-            characterSpawnControllerComponent.Set("v0", (byte)1);
-            characterSpawnControllerComponent.Set("_DifficutyParam", 63U);
-            characterSpawnControllerComponent.Set("_GUID", Guid.NewGuid());
-            return newGameObject;
-        }
-
-        private static ScnFile.GameObjectData CreateSpawnPointController(ScnFile scn, string name, AreaExtraEnemy[] enemies)
-        {
-            var newGameObject = scn.CreateGameObject(name);
-            newGameObject.Prefab = new ScnFile.PrefabInfo()
-            {
-                Path = "_Chainsaw/AppSystem/Prefab/CharacterSpawnPointController.pfb"
-            };
-            SetTransform(scn, newGameObject, Vector3.Zero);
-
-            var characterSpawnControllerComponent = CreateComponent(scn, newGameObject, "chainsaw.CharacterSpawnPointController");
-            characterSpawnControllerComponent.Set("v0", (byte)1);
-            characterSpawnControllerComponent.Set("_DifficutyParam", 63U);
-            characterSpawnControllerComponent.Set("_GUID", Guid.NewGuid());
-            characterSpawnControllerComponent.Set("_ActiveCountLimit", 1);
-            characterSpawnControllerComponent.Set("_ActiveCountType", 0);
-            characterSpawnControllerComponent.Set("_IntervalTime", 1.0f);
-            characterSpawnControllerComponent.Set("_SpawnDistanceMin", 1.0f);
-
-            // var spawnCondition = scn.RSZ!.CreateInstance("chainsaw.CharacterSpawnPointController.ImmediateSpawnCondition");
-            // spawnCondition.Set("SpawnCount", enemies.Length);
-            // characterSpawnControllerComponent.Set("_ImmediateSpawnConditionList", new List<object>() { spawnCondition });
-
-            characterSpawnControllerComponent.Set("_SpawnPoints",
-                enemies.Select(enemyDef =>
-                {
-                    var spawnPoint = scn.RSZ!.CreateInstance("chainsaw.CharacterSpawnPoint");
-                    spawnPoint.Set("_Transform", CreateMatrix(new Vector3(enemyDef.X, enemyDef.Y, enemyDef.Z), enemyDef.Direction));
-                    spawnPoint.Set("_IsOutOfCameraOnly", true);
-                    spawnPoint.Set("_CoolDownTime", 3.0f);
-                    return (object)spawnPoint;
-                }).ToList());
-
-            return newGameObject;
-        }
-
-        private static void AddSpawnControllerConditions(ScnFile scn, ScnFile.GameObjectData spawnController, string? condition, string? skipCondition)
-        {
+            var component = spawnController.Components[1];
             if (!string.IsNullOrEmpty(condition))
             {
-                spawnController.Components[1].Set("_SpawnCondition._Logic", 0);
-                spawnController.Components[1].Set("_SpawnCondition._CheckFlags", new List<object>()
-                    {
-                        CreateCheckFlag(scn, new Guid(condition)),
-                    });
+                component = component.Set("_SpawnCondition", new FlagCondition()
+                {
+                    _CheckFlags =
+                    [
+                        new CheckFlagInfo()
+                        {
+                            _CheckFlag = new Guid(condition),
+                            _CompareValue = true
+                        }
+                    ]
+                });
             }
             if (!string.IsNullOrEmpty(skipCondition))
             {
-                spawnController.Components[1].Set("_SpawnSkipCondition._Logic", 0);
-                spawnController.Components[1].Set("_SpawnSkipCondition._CheckFlags", new List<object>()
-                    {
-                        CreateCheckFlag(scn, new Guid(skipCondition)),
-                    });
+                component = component.Set("_SpawnSkipCondition", new FlagConditionStrict()
+                {
+                    _CheckFlags =
+                    [
+                        new CheckFlagInfo()
+                        {
+                            _CheckFlag = new Guid(skipCondition),
+                            _CompareValue = true
+                        }
+                    ]
+                });
             }
+            return spawnController.AddOrUpdateComponent(component);
         }
 
-        private ScnFile.GameObjectData CreateEnemy(ScnFile scn, ScnFile.GameObjectData parent, string name, int stageId, Vector3 position, EulerAngles rotation, bool findPlayer, Rng rng, RandomizerLogger logger)
+        private RszGameObject CreateEnemy(string name, int stageId, Vector3 position, EulerAngles rotation, bool findPlayer, Rng rng, RandomizerLogger logger)
         {
-            var newGameObject = scn.CreateGameObject(name);
-            newGameObject.Prefab = new ScnFile.PrefabInfo()
-            {
-                Path = "_Chainsaw/AppSystem/Prefab/ch1c0SpawnParam.pfb"
-            };
-            SetTransform(scn, newGameObject, position, rotation);
-            scn.RemoveGameObject(newGameObject);
-            newGameObject = scn.ImportGameObject(newGameObject, parent: parent);
+            var repo = FileRepository.RszRepository;
 
             var contextId = GetNextContextId();
-            var spawnParam = CreateComponent(scn, newGameObject, "chainsaw.Ch1c0SpawnParamCommon");
-            spawnParam.Set("v0", (byte)1);
-            spawnParam.Set("_StageID", stageId);
-            spawnParam.Set("_SpawmRadius", 20.0f);
-            spawnParam.Set("_ContextID._Group", contextId.Group);
-            spawnParam.Set("_ContextID._Index", contextId.Index);
-            spawnParam.Set("_RoleType", 3);
-            spawnParam.Set("_IsEnableUnreachable", true);
-            spawnParam.Set("_RolePatternHash", 3152132219U);
-            spawnParam.Set("_SegmentID", 1);
-            spawnParam.Set("_FirstForceMoveEndTime", -1.0f);
-            spawnParam.Set("_FirstForceMoveEndRadius", 0.2f);
-            spawnParam.Set("_PreFirstForceMovePatternHash", 3152132219U);
-            spawnParam.Set("_RoleActionEndOnDamage", true);
-            spawnParam.Set("_CriticalResistRate", 0.25f);
-            spawnParam.Set("_MontageID", 1017464743U);
-            spawnParam.Set("_ForceFind", findPlayer);
-
             logger.LogLine($"Enemy {contextId} Position = ({position.X}, {position.Y}, {position.Z})");
-            return newGameObject;
+
+            var transform = RszFactory.CreateTransform(position, rotation.ToQuaternion());
+            var spawnParam = repo.Create("chainsaw.Ch1c0SpawnParamCommon")
+                .Set("Enabled", true)
+                .Set("_StageID", stageId)
+                .Set("_SpawmRadius", 20.0f)
+                .Set("_ContextID._Group", contextId.Group)
+                .Set("_ContextID._Index", contextId.Index)
+                .Set("_RoleType", 3)
+                .Set("_IsEnableUnreachable", true)
+                .Set("_RolePatternHash", 3152132219U)
+                .Set("_SegmentID", 1)
+                .Set("_FirstForceMoveEndTime", -1.0f)
+                .Set("_FirstForceMoveEndRadius", 0.2f)
+                .Set("_PreFirstForceMovePatternHash", 3152132219U)
+                .Set("_RoleActionEndOnDamage", true)
+                .Set("_CriticalResistRate", 0.25f)
+                .Set("_MontageID", 1017464743U)
+                .Set("_ForceFind", findPlayer);
+            return RszFactory.CreateGameObject(name, "_Chainsaw/AppSystem/Prefab/ch1c0SpawnParam.pfb", [transform, spawnParam]);
         }
 
-        private static void SetTransform(ScnFile scn, ScnFile.GameObjectData gameObject, Vector3 position, EulerAngles? eular = null)
-        {
-            var transform = new Transform(GetOrCreateComponent(scn, gameObject, "via.Transform"));
-            transform.Position = position;
-            transform.Eular = eular ?? new EulerAngles();
-            transform.Scale = Vector3.One;
-        }
-
-        private static RszInstance CreateComponent(ScnFile scn, ScnFile.GameObjectData gameObject, string className)
-        {
-            scn.AddComponent(gameObject, className);
-            return gameObject.Components.Last();
-        }
-
-        private static RszInstance GetOrCreateComponent(ScnFile scn, ScnFile.GameObjectData gameObject, string className)
-        {
-            var component = gameObject.FindComponent(className);
-            if (component == null)
-            {
-                scn.AddComponent(gameObject, className);
-                component = gameObject.Components.Last();
-            }
-            return component;
-        }
-
-        private static RszTool.via.mat4 CreateMatrix(Vector3 position, float direction)
-        {
-            var translate = Matrix4x4.CreateTranslation(position);
-            var rotation = Matrix4x4.CreateFromYawPitchRoll(direction * MathF.PI / 180.0f, 0, 0);
-            var result = rotation * translate;
-
-            var mat4 = new RszTool.via.mat4();
-            mat4.m00 = result.M11;
-            mat4.m10 = result.M21;
-            mat4.m20 = result.M31;
-            mat4.m30 = result.M41;
-            mat4.m01 = result.M12;
-            mat4.m11 = result.M22;
-            mat4.m21 = result.M32;
-            mat4.m31 = result.M42;
-            mat4.m02 = result.M13;
-            mat4.m12 = result.M23;
-            mat4.m22 = result.M33;
-            mat4.m32 = result.M43;
-            mat4.m03 = result.M14;
-            mat4.m13 = result.M24;
-            mat4.m23 = result.M34;
-            mat4.m33 = result.M44;
-            return mat4;
-        }
-
-        private static Guid HashGuid(params object?[] args) => HashGuid(string.Concat(args));
-        private static Guid HashGuid(string s)
-        {
-            var hash = MD5.HashData(Encoding.ASCII.GetBytes(s));
-            hash[8] = (byte)(0x40 | (hash[8] & 0x0F));
-            return new Guid(hash);
-        }
+        private static Guid HashGuid(params object?[] args) => string.Concat(args).GetGuidHash();
     }
 }

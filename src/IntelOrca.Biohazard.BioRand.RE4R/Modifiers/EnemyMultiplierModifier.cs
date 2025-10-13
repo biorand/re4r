@@ -7,7 +7,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
     internal class EnemyMultiplierModifier : Modifier
     {
-        private int _contextId = 5000;
         private Dictionary<int, int> _stageEnemyCount = [];
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -36,7 +35,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private void RandomizeArea(ChainsawRandomizer randomizer, Area area, Rng rng)
         {
             // Duplicate enemy spawns
-            var spawns = area.GetEnemySpawns(randomizer);
+            var spawns = area.Enemies.ToImmutableArray();
             foreach (var spawn in spawns)
             {
                 var stageId = spawn.Enemy.StageID;
@@ -74,7 +73,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                         if (currentStageIdCount < maxPerStage)
                         {
-                            var newEnemy = enemyToDuplicate.Duplicate(GetNextContextId());
+                            var newEnemy = enemyToDuplicate.Duplicate(randomizer.GetNextEnemyContextId());
+                            enemyToDuplicate.SpawnController.AddEnemy(newEnemy);
                             newList.Add(newEnemy);
                             _stageEnemyCount[stageId]++;
                             delta--;
@@ -86,11 +86,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }
             }
-        }
-
-        private int GetNextContextId()
-        {
-            return _contextId++;
         }
     }
 }

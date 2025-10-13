@@ -1,11 +1,7 @@
-﻿using chainsaw;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+﻿using System.Linq;
+using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -67,9 +63,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var path = GetPath(randomizer.Campaign);
             var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile(path, (rsz, root) =>
+            fileRepository.ModifyUserFile(path, root =>
             {
-                var craft = rsz.RszParser.Deserialize<ItemCraftSettingUserdata>(root);
+                var craft = RszSerializer.Deserialize<ItemCraftSettingUserdata>(root)!;
                 var recipes = RecipeDefinitionFile.Default.Recipes;
                 foreach (var recipe in recipes)
                 {
@@ -138,7 +134,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                     craft._Datas.Add(newCraft);
                 }
-                rsz.InstanceCopyValues(rsz.ObjectList[0], rsz.RszParser.Serialize(craft));
+                return (RszObjectNode)RszSerializer.Serialize(root.Type, craft);
             });
         }
     }

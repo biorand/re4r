@@ -2,9 +2,10 @@
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -20,18 +21,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (area.DataPath == null)
                     continue;
 
-                var userFile = fileRepository.GetUserFile(area.DataPath);
-                if (userFile == null)
-                    continue;
-
-                var list = userFile.RSZ!.ObjectList[0].Get("Datas") as List<object>;
-                if (list == null || list.Count == 0)
+                var dropItemSaveDataTable = fileRepository.DeserializeUserFile<DropItemSaveDataTable>(area.DataPath);
+                if (dropItemSaveDataTable == null)
                     continue;
 
                 var pushedHeader = false;
-                foreach (RszInstance instance in list)
+                foreach (var data in dropItemSaveDataTable.Datas)
                 {
-                    var itemData = instance.Get<RszInstance>("ItemData");
+                    var itemData = data.ItemData;
                     if (itemData == null)
                         continue;
 
@@ -41,17 +38,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         logger.Push($"{Path.GetFileName(area.DataPath)}");
                     }
 
-                    var stageId = itemData.Get<int>("StageID");
-                    var itemId = itemData.Get<int>("ItemID");
-                    var itemCount = itemData.Get<int>("Count");
-                    var ammoItemId = itemData.Get<int>("AmmoItemID");
-                    var ammoCount = itemData.Get<int>("AmmoCount");
+                    var stageId = itemData.StageID;
+                    var itemId = itemData.ItemID;
+                    var itemCount = itemData.Count;
+                    var ammoItemId = itemData.AmmoItemID;
+                    var ammoCount = itemData.AmmoCount;
                     var item = itemRepo.Find(itemId);
                     if (item == null)
                         continue;
 
                     var ammoItem = itemRepo.Find(ammoItemId);
-                    var contextId = ContextId.FromRsz(instance.Get<RszInstance>("ID")!);
+                    var contextId = ContextId.FromRszValue(data.ID);
                     logger.LogLine($"{contextId} {stageId} Item = {item} x{itemCount} Ammo = {ammoItem ?? (null)} x{ammoCount}");
                 }
                 logger.Pop();
@@ -85,18 +82,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (area.DataPath == null)
                     continue;
 
-                var userFile = fileRepository.GetUserFile(area.DataPath);
-                if (userFile == null)
+                var dropItemSaveDataTable = fileRepository.DeserializeUserFile<DropItemSaveDataTable>(area.DataPath);
+                if (dropItemSaveDataTable == null)
                     continue;
 
-                var list = userFile.RSZ!.ObjectList[0].Get("Datas") as List<object>;
-                if (list == null)
-                    continue;
-
-                foreach (var item in list)
+                foreach (var item in dropItemSaveDataTable.Datas)
                 {
-                    var instance = (RszInstance)item;
-                    var oldItem = GetItem(instance);
+                    var oldItem = GetItem(item);
                     if (oldItem == null)
                         continue;
 
@@ -104,13 +96,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (oldItemDef == null)
                         continue;
 
-                    var contextId = ContextId.FromRsz(instance.Get<RszInstance>("ID")!);
+                    var contextId = ContextId.FromRszValue(item.ID);
                     var itemInfo = area.Items?.FirstOrDefault(x => x.CtxId == contextId);
                     var levelItem = new LevelItem(itemInfo?.Chapter ?? area.Chapter, contextId, oldItemDef, oldItem.Value)
                     {
                         Include = itemInfo?.Include,
                         Exclude = itemInfo?.Exclude,
-                        IsDlc = instance.Get<bool>("ItemStatic.IsDLC"),
+                        IsDlc = item.ItemStatic.IsDLC,
                         Valuable = itemInfo?.Valuable
                     };
                     levelItems.Add(levelItem);
@@ -119,7 +111,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return levelItems.ToImmutable();
         }
 
-        private void RandomizeItems(ChainsawRandomizer randomizer, ImmutableArray<LevelItem> levelItems, Rng rng, RandomizerLogger logger)
+        private static void RandomizeItems(ChainsawRandomizer randomizer, ImmutableArray<LevelItem> levelItems, Rng rng, RandomizerLogger logger)
         {
             var randomItemSettings = new RandomItemSettings
             {
@@ -165,7 +157,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Pop();
 
                 // Treasure
-                var treasureRatio = randomizer.GetConfigOption<double>("item-treasure-drop-ratio", 0.1);
+                var treasureRatio = randomizer.GetConfigOption("item-treasure-drop-ratio", 0.1);
                 var treasureCount = (int)(chapterItems.Count * treasureRatio);
                 logger.Push("Treasure");
                 for (var i = 0; i < treasureCount; i++)
@@ -240,7 +232,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             logger.LogLine($"{levelItem.ContextId} {levelItem.OriginalItem} becomes {levelItem.NewItem}");
         }
 
-        private void UpdateItemData(ChainsawRandomizer randomizer, ImmutableArray<LevelItem> levelItems)
+        private static void UpdateItemData(ChainsawRandomizer randomizer, ImmutableArray<LevelItem> levelItems)
         {
             var map = levelItems.ToDictionary(x => x.ContextId);
             var itemRepo = ItemDefinitionRepository.Default;
@@ -248,32 +240,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var areaRepository = AreaDefinitionRepository.GetRepository(randomizer.Campaign);
             foreach (var area in areaRepository.Items)
             {
-                var userFile = fileRepository.GetUserFile(area.DataPath);
-                if (userFile == null)
-                    continue;
-
-                var list = userFile.RSZ!.ObjectList[0].Get("Datas") as List<object>;
-                if (list == null)
-                    continue;
-
-                foreach (var item in list)
+                var dropItemSaveDataTable = fileRepository.DeserializeUserFile<DropItemSaveDataTable>(area.DataPath);
+                foreach (var item in dropItemSaveDataTable.Datas)
                 {
-                    var instance = (RszInstance)item;
-                    var oldItem = GetItem(instance);
+                    var oldItem = GetItem(item);
                     if (oldItem == null)
                         continue;
 
-                    var contextId = ContextId.FromRsz(instance.Get<RszInstance>("ID")!);
+                    var contextId = ContextId.FromRszValue(item.ID);
                     if (map.TryGetValue(contextId, out var levelItem))
                     {
                         if (levelItem.NewItem is Item newItem)
                         {
-                            UpdateItem(instance, newItem);
+                            UpdateItem(item, newItem);
                         }
                     }
                 }
-
-                fileRepository.SetUserFile(area.DataPath, userFile);
+                fileRepository.SerializeUserFile(area.DataPath, dropItemSaveDataTable);
             }
         }
 
@@ -287,38 +270,30 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (area.Path == null)
                     continue;
 
-                var scnFile = fileRepository.GetScnFile(area.Path);
-                if (scnFile == null)
-                    continue;
-
-                foreach (var go in scnFile.IterAllGameObjects(true))
+                fileRepository.ModifyScnFile(area.Path, scene =>
                 {
-                    var itemDrop = go.FindComponent("chainsaw.DropItem");
-                    if (itemDrop == null)
-                        continue;
-
-                    var itemData = itemDrop.Get<RszInstance>("_ItemData");
-                    if (itemData == null)
-                        continue;
-
-                    var contextId = ContextId.FromRsz(itemDrop.Get<RszInstance>("_ID")!);
-                    if (map.TryGetValue(contextId, out var levelItem))
+                    return scene.VisitGameObjects(go =>
                     {
-                        if (levelItem.NewItem is Item newItem)
+                        var itemDrop = go.FindComponent("chainsaw.DropItem");
+                        if (itemDrop != null)
                         {
-                            itemData.Set("ItemID", newItem.Id);
-                            itemData.Set("Count", newItem.Count);
-                            itemData.Set("AmmoItemID", 0);
-                            itemData.Set("AmmoCount", 0);
+                            var contextId = ContextId.FromRsz(itemDrop["_ID"]);
+                            if (map.TryGetValue(contextId, out var levelItem) && levelItem.NewItem is Item newItem)
+                            {
+                                go = go.AddOrUpdateComponent(itemDrop
+                                    .Set("_ItemData.ItemID", newItem.Id)
+                                    .Set("_ItemData.Count", newItem.Count)
+                                    .Set("_ItemData.AmmoItemID", 0)
+                                    .Set("_ItemData.AmmoCount", 0));
+                            }
                         }
-                    }
-                }
-
-                fileRepository.SetScnFile(area.Path, scnFile);
+                        return go;
+                    });
+                });
             }
         }
 
-        private void UpdateItem(RszInstance instance, Item newItem)
+        private static void UpdateItem(DropItemSaveDataTable.Data data, Item newItem)
         {
             var itemRepo = ItemDefinitionRepository.Default;
             var newItemDef = itemRepo.Find(newItem.Id);
@@ -331,32 +306,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 ammoDefinition = itemRepo.GetAmmo(newItemDef);
             }
 
-            var itemData = instance.Get<RszInstance>("ItemData");
+            var itemData = data.ItemData;
             if (itemData == null)
                 return;
 
-            itemData.Set("ItemID", newItem.Id);
+            itemData.ItemID = newItem.Id;
             if (ammoDefinition == null)
             {
-                itemData.Set("Count", newItem.Count);
-                itemData.Set("AmmoItemID", 0);
-                itemData.Set("AmmoCount", 0);
+                itemData.Count = newItem.Count;
+                itemData.AmmoItemID = 0;
+                itemData.AmmoCount = 0;
             }
             else
             {
-                itemData.Set("Count", 1);
-                itemData.Set("AmmoItemID", ammoDefinition.Id);
-                itemData.Set("AmmoCount", newItem.Count);
+                itemData.Count = 1;
+                itemData.AmmoItemID = ammoDefinition.Id;
+                itemData.AmmoCount = newItem.Count;
             }
         }
 
-        private static Item? GetItem(RszInstance instance)
+        private static Item? GetItem(DropItemSaveDataTable.Data data)
         {
-            var itemData = instance.Get<RszInstance>("ItemData");
+            var itemData = data.ItemData;
             if (itemData == null)
                 return null;
 
-            var itemId = itemData.Get<int>("ItemID");
+            var itemId = itemData.ItemID;
 
             var itemRepo = ItemDefinitionRepository.Default;
             var itemDef = itemRepo.Find(itemId);
@@ -364,12 +339,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 if (itemDef.Kind == ItemKinds.Weapon)
                 {
-                    var ammoCount = itemData.Get<int>("AmmoCount");
+                    var ammoCount = itemData.AmmoCount;
                     return new Item(itemId, ammoCount);
                 }
                 else
                 {
-                    var itemCount = itemData.Get<int>("Count");
+                    var itemCount = itemData.Count;
                     return new Item(itemId, itemCount);
                 }
             }

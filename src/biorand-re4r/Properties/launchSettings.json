@@ -7,17 +7,21 @@
     },
     "generate-pak": {
       "commandName": "Project",
-      "commandLineArgs": "generate -s 357436 -i ..\\biorand-re4r.pak -c ..\\default.json -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\\re_chunk_000.pak.patch_005.pak\"",
+      "commandLineArgs": "generate -s 357436 -c \"C:\\Users\\Ted\\.biorand\\re4r.json\" -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\\re_chunk_000.pak.patch_005.pak\" -i \"C:\\Users\\Ted\\.biorand\\biorand-re4r.pak\"",
       "workingDirectory": "C:\\Users\\Ted\\.biorand\\logs"
     },
     "generate-fluffy": {
       "commandName": "Project",
-      "commandLineArgs": "generate -s 357436 -i ..\\biorand-re4r.pak -c ..\\default.json -o F:\\games\\re4r\\fluffy\\Games\\RE4R\\Mods\\biorand.zip",
+      "commandLineArgs": "generate -s 357436 -c \"C:\\Users\\Ted\\.biorand\\re4r.json\" -o F:\\games\\re4r\\fluffy\\Games\\RE4R\\Mods\\biorand.zip -i \"C:\\Users\\Ted\\.biorand\\biorand-re4r.pak\"",
       "workingDirectory": "C:\\Users\\Ted\\.biorand\\logs"
     },
     "setup": {
       "commandName": "Project",
-      "commandLineArgs": "setup -o C:\\Users\\Ted\\.biorand\\biorand-re4r.pak -i G:\\re4r\\vanilla"
+      "commandLineArgs": "setup -o G:\\biorand\\re4r\\vanilla-extract -i G:\\biorand\\re4r\\vanilla --full"
+    },
+    "setup-pak": {
+      "commandName": "Project",
+      "commandLineArgs": "setup -o C:\\Users\\Ted\\.biorand\\biorand-re4r.pak -i G:\\biorand\\re4r\\vanilla"
     },
     "agent": {
       "commandName": "Project",

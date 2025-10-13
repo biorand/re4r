@@ -9,15 +9,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var itemData = ChainsawItemData.FromRandomizer(randomizer);
             foreach (var item in itemData.Definitions)
             {
-                var itemDefinition = ItemDefinitionRepository.Default.Find(item.ItemId);
+                var itemDefinition = ItemDefinitionRepository.Default.Find(item._ItemId);
                 if (itemDefinition == null)
                     continue;
 
                 if (!IsStackable(itemDefinition))
                     continue;
 
-                var data = IsWeapon(itemDefinition) ? item.WeaponDefineData : item.ItemDefineData;
-                logger.LogLine($"{itemDefinition.Name}, stack = {data.StackMax}");
+                var data = IsWeapon(itemDefinition) ? item._WeaponDefineData : item._ItemDefineData;
+                logger.LogLine($"{itemDefinition.Name}, stack = {data._StackMax}");
             }
         }
 
@@ -30,15 +30,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var itemData = ChainsawItemData.FromRandomizer(randomizer);
             foreach (var item in itemData.Definitions)
             {
-                var itemDefinition = ItemDefinitionRepository.Default.Find(item.ItemId);
+                var itemDefinition = ItemDefinitionRepository.Default.Find(item._ItemId);
                 if (itemDefinition == null)
                     continue;
 
                 if (!IsStackable(itemDefinition))
                     continue;
 
-                var data = IsWeapon(itemDefinition) ? item.WeaponDefineData : item.ItemDefineData;
-                data.StackMax = Math.Clamp((int)Math.Round(data.StackMax * stackMultiplier), 1, 999);
+                var data = IsWeapon(itemDefinition) ? item._WeaponDefineData : item._ItemDefineData;
+                data._StackMax = Math.Clamp((int)Math.Round(data._StackMax * stackMultiplier), 1, 999);
             }
             itemData.Save();
         }

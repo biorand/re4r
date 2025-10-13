@@ -3,7 +3,6 @@ using System.Text;
 using System.Threading;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Package;
-using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -37,16 +36,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var pakListBytes = EmbeddedData.GetFile("pakcontents.txt.gz").Ungzip();
             var pakListText = Encoding.UTF8.GetString(pakListBytes);
             return new PakList(pakListText);
-        }
-
-        public static ScnFile ReadScnFile(byte[] data)
-        {
-            return ChainsawRandomizerFactory.Default.ReadScnFile(data);
-        }
-
-        public static UserFile ReadUserFile(byte[] data)
-        {
-            return ChainsawRandomizerFactory.Default.ReadUserFile(data);
         }
     }
 }

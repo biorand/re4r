@@ -4,8 +4,10 @@ using System.Collections.Immutable;
 using System.Data;
 using System.Linq;
 using System.Text;
+using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Messages;
+using IntelOrca.Biohazard.REE.Rsz;
 using static IntelOrca.Biohazard.BioRand.RE4R.Modifiers.WeaponModifier;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -34,8 +36,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var mainFile = randomizer.FileRepository.GetUserFile(GetMainPath(randomizer));
-            var detailFile = randomizer.FileRepository.GetUserFile(GetDetailPath(randomizer));
+            var mainFile = randomizer.FileRepository.DeserializeUserFile<WeaponCustomUserdata>(GetMainPath(randomizer));
+            var detailFile = randomizer.FileRepository.DeserializeUserFile<WeaponDetailCustomUserdata>(GetDetailPath(randomizer));
             var wpCustomMsg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath);
             var weaponStatCollection = new WeaponStatCollection(mainFile, detailFile);
             foreach (var wp in weaponStatCollection.Weapons)
@@ -94,8 +96,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var shopMsg = randomizer.FileRepository.GetMsgFile(ShopMsgPath).ToBuilder();
             var wpMsg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath).ToBuilder();
-            var mainFile = randomizer.FileRepository.GetUserFile(GetMainPath(randomizer));
-            var detailFile = randomizer.FileRepository.GetUserFile(GetDetailPath(randomizer));
+            var mainFile = randomizer.FileRepository.DeserializeUserFile<WeaponCustomUserdata>(GetMainPath(randomizer));
+            var detailFile = randomizer.FileRepository.DeserializeUserFile<WeaponDetailCustomUserdata>(GetDetailPath(randomizer));
 
             shopMsg.SetStringAll(new Guid("6f60b94f-1766-4c98-8335-a69958e2d927"), "Critical Hit Rate");
             shopMsg.SetStringAll(new Guid("db128948-0960-4147-814d-fec706a5c34a"), "Penetration Power");
@@ -122,8 +124,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             weaponStatCollection.Apply();
 
-            randomizer.FileRepository.SetUserFile(GetMainPath(randomizer), mainFile);
-            randomizer.FileRepository.SetUserFile(GetDetailPath(randomizer), detailFile);
+            randomizer.FileRepository.SerializeUserFile(GetMainPath(randomizer), mainFile);
+            randomizer.FileRepository.SerializeUserFile(GetDetailPath(randomizer), detailFile);
             randomizer.FileRepository.SetMsgFile(WeaponCustomMsgPath, wpMsg.Build());
             randomizer.FileRepository.SetMsgFile(ShopMsgPath, shopMsg.Build());
 
@@ -730,7 +732,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (!fileRepository.Exists(filePath))
                         continue;
 
-                    randomizer.FileRepository.ModifyUserFile(filePath, (rsz, root) =>
+                    randomizer.FileRepository.ModifyUserFile(filePath, root =>
                     {
                         foreach (var kvp in wpGroup)
                         {
@@ -739,23 +741,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             switch (path)
                             {
                                 case WeaponUpgradePath.PowerDamage:
-                                    root.Set("_AttackInfo._DamageRate._BaseValue", value);
+                                    root = root.Set("_AttackInfo._DamageRate._BaseValue", value);
                                     break;
                                 case WeaponUpgradePath.PowerWince:
-                                    root.Set("_AttackInfo._WinceRate._BaseValue", value);
+                                    root = root.Set("_AttackInfo._WinceRate._BaseValue", value);
                                     break;
                                 case WeaponUpgradePath.PowerBreak:
-                                    root.Set("_AttackInfo._BreakRate._BaseValue", value);
+                                    root = root.Set("_AttackInfo._BreakRate._BaseValue", value);
                                     break;
                                 case WeaponUpgradePath.PowerStopping:
-                                    root.Set("_AttackInfo._StoppingRate._BaseValue", value);
+                                    root = root.Set("_AttackInfo._StoppingRate._BaseValue", value);
                                     break;
                                 case WeaponUpgradePath.CriticalRate:
-                                    root.Set("_AttackInfo._CriticalRate", value);
-                                    root.Set("_AttackInfo._CriticalRate_Fit", value);
+                                    root = root.Set("_AttackInfo._CriticalRate", value);
+                                    root = root.Set("_AttackInfo._CriticalRate_Fit", value);
                                     break;
                             }
                         }
+                        return root;
                     });
                 }
             }
@@ -776,13 +779,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var itemData = ChainsawItemData.FromRandomizer(randomizer);
             foreach (var item in itemData.Definitions)
             {
-                var itemDef = itemRepo.Find(item.ItemId);
+                var itemDef = itemRepo.Find(item._ItemId);
                 if (itemDef == null)
                     continue;
 
                 if (itemDef.WeaponId != null && GetBaseStat(itemDef.WeaponId.Value, WeaponUpgradePath.AmmoCapacity) is float ammoCapacity)
                 {
-                    item.WeaponDefineData.AmmoMax = (int)ammoCapacity;
+                    item._WeaponDefineData._AmmoMax = (int)ammoCapacity;
                 }
             }
             itemData.Save();

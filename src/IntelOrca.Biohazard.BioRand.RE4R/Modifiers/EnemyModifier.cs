@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -25,7 +25,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Push(area.FileName);
                 foreach (var enemy in area.Enemies)
                 {
-                    LogEnemy(enemy, logger);
+                    LogEnemy(enemy.Enemy, logger);
                 }
                 logger.Pop();
             }
@@ -92,12 +92,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 itemDrop);
         }
 
-        private static Vector4 GetPosition(Enemy enemy)
-        {
-            var transform = enemy.GameObject.FindComponent("via.Transform")!;
-            return transform.Get<Vector4>("v0");
-        }
-
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var randomItemSettings = new RandomItemSettings
@@ -140,7 +134,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 var chapter = group.Key;
                 var enemies = group
-                    .SelectMany(x => x.GetEnemySpawns(randomizer))
+                    .SelectMany(x => x.Enemies)
                     .ToImmutableArray();
                 RandomizeEnemyHealth(randomizer, chapter, enemies, rng, logger);
             }
@@ -153,7 +147,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     var chapter = group.Key;
                     var enemies = group
-                        .SelectMany(x => x.GetEnemySpawns(randomizer))
+                        .SelectMany(x => x.Enemies)
                         .Where(x => !x.Enemy.Kind.NoItemDrop)
                         .Where(x => !x.HasKeyItem)
                         .Where(x => x.OriginalEnemy.Kind.Key != "mendez_2") // Mendez (phase 1)
@@ -182,7 +176,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Push("Randomizing scales");
                 var spawns = areaByChapter
                     .SelectMany(x => x)
-                    .SelectMany(x => x.GetEnemySpawns(randomizer))
+                    .SelectMany(x => x.Enemies)
                     .ToImmutableArray();
                 if (enemyScaleProbability < 1)
                 {
@@ -201,7 +195,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var parasiteRng = rng.NextFork();
 
             // Get all the enemy spawns for this area
-            var spawns = area.GetEnemySpawns(randomizer);
+            var spawns = area.Enemies.ToImmutableArray();
 
             // Randomize classes
             ChooseClasses(randomizer, spawns, rng);
@@ -233,7 +227,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         weaponChoice = rng.Next(ecd.Weapon);
                     }
 
-                    spawn.ConvertType(area, weaponChoice?.Kind ?? ecd.Kind);
+                    spawn.ConvertType(weaponChoice?.Kind ?? ecd.Kind);
 
                     // Reset various fields
                     var e = spawn.Enemy;
@@ -254,10 +248,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var transform = e.GameObject.FindComponent("via.Transform");
                     if (transform != null)
                     {
-                        var v1 = transform.Get<Vector4>("v1");
-                        if (MathF.Round(v1.X, 1) != 0 || MathF.Round(v1.Z, 1) != 0)
+                        var rotation = transform.Get<Quaternion>("Rotation");
+                        if (MathF.Round(rotation.X, 1) != 0 || MathF.Round(rotation.Z, 1) != 0)
                         {
-                            transform.Set("v1", new Vector4(0, v1.Y, 0, v1.W));
+                            transform.Set("Rotation", new Quaternion(0, rotation.Y, 0, rotation.W));
                         }
                     }
 

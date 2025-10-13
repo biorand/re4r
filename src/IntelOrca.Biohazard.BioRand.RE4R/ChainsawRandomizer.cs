@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
-using RszTool;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -22,6 +21,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private ImmutableArray<Modifier> _modifiers = GetModifiers();
         private ImmutableArray<Area> _areas;
         private Rng _rng = new Rng();
+        private int _contextId = 5000;
 
         public EnemyClassFactory EnemyClassFactory { get; }
         public FileRepository FileRepository => _fileRepository;
@@ -146,7 +146,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // Save area files
             Parallel.ForEach(areas, area =>
             {
-                _fileRepository.SetGameFileData(area.Definition.Path, area.SaveData());
+                _fileRepository.SetScnFile(area.Definition.Path, area.Apply());
             });
 
             // Output
@@ -190,17 +190,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var areaRepo = campaign == Campaign.Leon
                 ? AreaDefinitionRepository.Leon
                 : AreaDefinitionRepository.Ada;
-            var areas = new List<Area>();
-            foreach (var areaDef in areaRepo.Areas)
-            {
-                var areaData = _fileRepository.GetGameFileData(areaDef.Path);
-                if (areaData == null)
-                    continue;
-
-                var area = new Area(areaDef, EnemyClassFactory, areaData);
-                areas.Add(area);
-            }
-            _areas = areas.ToImmutableArray();
+            var areas = areaRepo.Areas
+                .AsParallel()
+                .Select(def => (def, scn: _fileRepository.GetScnFile(def.Path)))
+                .Where(item => item.def != null)
+                .Select(item => new Area(this, item.def, EnemyClassFactory, item.scn))
+                .ToList();
+            _areas = [.. areas];
             return areas;
         }
 
@@ -234,21 +230,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }.ToImmutableArray();
         }
 
-        private Dictionary<string, object?> GetRszDictionary(RszInstance instance)
-        {
-            var dict = new Dictionary<string, object?>();
-            foreach (var field in instance.Fields)
-            {
-                var value = instance.GetFieldValue(field.name);
-                if (value is RszInstance child)
-                {
-                    value = GetRszDictionary(child);
-                }
-                dict[field.name] = value;
-            }
-            return dict;
-        }
-
         public T? GetConfigOption<T>(string key, T? defaultValue = default)
         {
             if (_input.Configuration == null)
@@ -269,6 +250,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var special = GetConfigOption<string>("special");
             var present = special?.Split(',').Contains(kind) == true;
             return present;
+        }
+
+        public int GetNextEnemyContextId()
+        {
+            return _contextId++;
         }
     }
 }

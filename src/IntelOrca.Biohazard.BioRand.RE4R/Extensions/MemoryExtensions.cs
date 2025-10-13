@@ -16,8 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
 
         public static void WriteToFile(this Span<byte> data, string path)
         {
-            using var fs = File.OpenWrite(path);
-            fs.Write(data);
+            File.WriteAllBytes(path, data);
         }
 
         public static void WriteToFile(this ReadOnlyMemory<byte> data, string path)
@@ -25,8 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
 
         public static void WriteToFile(this ReadOnlySpan<byte> data, string path)
         {
-            using var fs = File.OpenWrite(path);
-            fs.Write(data);
+            File.WriteAllBytes(path, data);
         }
 
         public static byte[] Ungzip(this byte[] input)

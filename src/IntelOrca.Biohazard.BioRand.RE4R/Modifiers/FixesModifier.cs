@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using IntelOrca.Biohazard.BioRand.RE4R.Models;
+using chainsaw;
 using IntelOrca.Biohazard.REE.Messages;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -68,21 +68,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private void ForceNgPlusMerchantLeon(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var path = "natives/stm/_chainsaw/environment/scene/gimmick/st40/gimmick_st40_502_p000.scn.20";
-            randomizer.FileRepository.ModifyScnFile(path, scn =>
+            randomizer.FileRepository.ModifyScnFile(path, scene =>
             {
-                scn.RemoveGameObject(new Guid("ca0ac85f-1238-49d9-a0fb-0d58a42487a1")); // merchant
-                scn.RemoveGameObject(new Guid("4a975fc1-2e1c-4fd3-a49a-1f35d6a30f0f")); // merchant flame
+                return scene
+                    .RemoveGameObject(new Guid("ca0ac85f-1238-49d9-a0fb-0d58a42487a1"))  // merchant
+                    .RemoveGameObject(new Guid("4a975fc1-2e1c-4fd3-a49a-1f35d6a30f0f")); // merchant flame
             });
         }
 
         private void ForceNgPlusMerchantAda(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var path = "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_501_ao.scn.20";
-            randomizer.FileRepository.ModifyScnFile(path, scn =>
+            randomizer.FileRepository.ModifyScnFile(path, scene =>
             {
-                scn.RemoveGameObject(new Guid("41a87b99-d47f-438d-a686-f19e6865379e")); // merchant
-                scn.RemoveGameObject(new Guid("33ba7a17-4b7d-4a23-b272-c5afcd62f3f1")); // merchant flame
-                scn.RemoveGameObject(new Guid("bf5cc10b-ff6b-46be-99e3-814629dfcff8")); // typwriter
+                return scene
+                    .RemoveGameObject(new Guid("41a87b99-d47f-438d-a686-f19e6865379e"))  // merchant
+                    .RemoveGameObject(new Guid("33ba7a17-4b7d-4a23-b272-c5afcd62f3f1"))  // merchant flame
+                    .RemoveGameObject(new Guid("bf5cc10b-ff6b-46be-99e3-814629dfcff8")); // typwriter
             });
         }
 
@@ -94,43 +96,42 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (firstArea == null)
                 return;
 
-            var scnFile = firstArea.ScnFile;
-            var inhibitor = scnFile.FindGameObject(new Guid("9fc712ca-478c-45b5-be12-5233edf4fe95"));
+            var inhibitor = firstArea.Scene.FindGameObject(new Guid("9fc712ca-478c-45b5-be12-5233edf4fe95"));
             if (inhibitor == null)
                 return;
 
             var inhibitorComponent = inhibitor.Components[1];
             for (var i = 0; i < 5; i++)
             {
-                inhibitorComponent.Set(
+                inhibitorComponent = inhibitorComponent.Set(
                     $"_Datas[{i}].Rule[0]._Enable.Matters[0]._Data.Flags._CheckFlags[0]._CheckFlag",
                     new Guid("0fb10e00-5384-4732-881a-af1fae2036c7"));
             }
+            firstArea.Scene = firstArea.Scene.UpdateGameObject(inhibitor
+                .AddOrUpdateComponent(inhibitorComponent));
         }
 
         private void FixDeadEnemyCounters(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             logger.LogLine("Updating dead enemy counters");
+
+            var allTargetIds = new RszArrayNode(RszFieldType.S32, _characterKindIds
+                .Select(x => RszSerializer.Serialize(RszFieldType.S32, x))
+                .ToImmutableArray());
+
             var areas = randomizer.Areas;
             foreach (var area in areas)
             {
-                var scnFile = area.ScnFile;
-                foreach (var go in scnFile.IterAllGameObjects(true))
+                area.Scene = area.Scene.VisitGameObjects(go =>
                 {
-                    var component = go.Components.FirstOrDefault(x => x.Name.StartsWith("chainsaw.DeadEnemyCounter"));
+                    var component = go.Components.FirstOrDefault(x => x.Type.Name.StartsWith("chainsaw.DeadEnemyCounter"));
                     if (component != null && component.Get<bool>("_HasCountTargetIDs"))
                     {
-                        var targetIds = component.GetFieldValue("_CountTargetIDs") as List<object>;
-                        if (targetIds != null)
-                        {
-                            targetIds.Clear();
-                            foreach (var id in _characterKindIds)
-                            {
-                                targetIds.Add(id);
-                            }
-                        }
+                        go = go.AddOrUpdateComponent(component
+                            .SetField("_CountTargetIDs", allTargetIds));
                     }
-                }
+                    return go;
+                });
             }
         }
 
@@ -142,23 +143,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var throneRoomArea = areas.FirstOrDefault(x => x.FileName == "level_cp10_chp3_1_002.scn.20");
             if (throneRoomArea != null)
             {
-                var component = throneRoomArea.ScnFile.FindComponent(new Guid("b1729389-c445-4c24-b500-72007144dfe6"), "chainsaw.CharacterSpawnController");
-                if (component != null)
+                var spawnController = throneRoomArea.FindSpawnController(new Guid("b1729389-c445-4c24-b500-72007144dfe6"));
+                if (spawnController != null)
                 {
-                    var controller = new CharacterSpawnController(component);
-                    controller.SpawnCondition.Add(throneRoomArea.ScnFile, new Guid("0ef6f99b-43f7-41de-b22a-be79b599a469"));
+                    var spawnCondition = spawnController.SpawnCondition;
+                    spawnCondition._CheckFlags.Add(new CheckFlagInfo()
+                    {
+                        _CheckFlag = new Guid("0ef6f99b-43f7-41de-b22a-be79b599a469"),
+                        _CompareValue = true
+                    });
+                    spawnController.SpawnCondition = spawnCondition;
                 }
             }
 
             var checkpointArea = areas.FirstOrDefault(x => x.FileName == "level_loc47_002.scn.20");
             if (checkpointArea != null)
             {
-                var component = checkpointArea.ScnFile.FindComponent(new Guid("31f4c494-ea57-41dd-a209-52a6ddbc9423"), "chainsaw.CharacterSpawnController");
-                if (component != null)
+                var spawnController = checkpointArea.FindSpawnController(new Guid("31f4c494-ea57-41dd-a209-52a6ddbc9423"));
+                if (spawnController != null)
                 {
-                    var controller = new CharacterSpawnController(component);
-                    controller.SpawnCondition.Flags = controller.SpawnCondition.Flags
-                        .RemoveAll(x => x.Flag == new Guid("6ac9f5b8-a8a6-4e43-9410-54908e542128"));
+                    var spawnCondition = spawnController.SpawnCondition;
+                    spawnCondition._CheckFlags.RemoveAll(x => x._CheckFlag == new Guid("6ac9f5b8-a8a6-4e43-9410-54908e542128"));
+                    spawnController.SpawnCondition = spawnCondition;
                 }
             }
         }
@@ -169,42 +175,35 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var areas = randomizer.Areas;
             foreach (var area in areas)
             {
-                foreach (var go in area.ScnFile.IterAllGameObjects(true))
+                area.Scene = area.Scene.VisitGameObjects(go =>
                 {
                     var autoSaveSetting = go.FindComponent("chainsaw.AutoSaveSetting");
                     if (autoSaveSetting != null)
                     {
-                        autoSaveSetting.Set("_SaveOnPro", true);
+                        go = go.AddOrUpdateComponent(autoSaveSetting
+                            .Set("_SaveOnPro", true));
                     }
-                }
+                    return go;
+                });
             }
         }
 
         private void SlowDownFactoryDoor(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+            const float speed = 0.025f;
             const string scnPath = "natives/stm/_chainsaw/environment/scene/gimmick/st44/gimmick_st44_210_p000.scn.20";
 
             logger.LogLine("Slow down factory door");
-
-            var fileRepository = randomizer.FileRepository;
-            var scn = fileRepository.GetScnFile(scnPath);
-            if (scn == null)
-                return;
-
-            var wheelObject = scn.FindGameObject(new Guid("f6ab6635-ec2f-420c-8d9b-c14583ce30a4"));
-            if (wheelObject == null)
-                return;
-
-            var holdHandleComponent = wheelObject.FindComponent("chainsaw.GmHoldHandle");
-            if (holdHandleComponent == null)
-                return;
-
-            const float speed = 0.025f;
-            holdHandleComponent.Set("_ReduceProcess", speed);
-            holdHandleComponent.Set("_ReduceProcessLv2", speed);
-            holdHandleComponent.Set("_ReduceProcessLv3", speed);
-
-            fileRepository.SetScnFile(scnPath, scn);
+            randomizer.FileRepository.ModifyScnFile(scnPath, scene =>
+            {
+                var wheelObject = scene.FindGameObject(new Guid("f6ab6635-ec2f-420c-8d9b-c14583ce30a4"))!;
+                return scene.UpdateGameObject(wheelObject
+                    .AddOrUpdateComponent(wheelObject
+                        .FindComponent("chainsaw.GmHoldHandle")!
+                            .Set("_ReduceProcess", speed)
+                            .Set("_ReduceProcessLv2", speed)
+                            .Set("_ReduceProcessLv3", speed)));
+            });
         }
 
         private void IncreaseJetSkiTimer(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -215,22 +214,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             logger.LogLine($"Set jet ski timer to {updatedTimerSeconds} seconds");
 
             var fileRepository = randomizer.FileRepository;
-            var userFile = fileRepository.GetUserFile(userFilePath);
-            if (userFile == null)
-                return;
-
-            var timerSettings = userFile.RSZ!.ObjectList[0].Get<RszInstance>("_TimerGuiParamHolder._TimerParamSettings[0]")!;
-            timerSettings.Set("_MaxSecond", updatedTimerSeconds);
-            timerSettings.Set("_RespawnTimer", updatedTimerSeconds);
-            foreach (var i in new[] { 10, 20, 30, 40 })
+            fileRepository.ModifyUserFile(userFilePath, root =>
             {
-                var sub = $"_TimerParam_Defficulty{i}";
-                var subObject = timerSettings.Get<RszInstance>(sub)!;
-                subObject.Set("MaxSecond", updatedTimerSeconds);
-                subObject.Set("RespawnTimer", updatedTimerSeconds);
-            }
+                var timerGuiParamHolder = (RszObjectNode)root["_TimerGuiParamHolder"];
+                var timerParamSettings = (RszArrayNode)timerGuiParamHolder["_TimerParamSettings"];
+                var timerParamSettings0 = (RszObjectNode)timerParamSettings[0];
+                timerParamSettings0 = timerParamSettings0.SetField("_MaxSecond", updatedTimerSeconds);
+                timerParamSettings0 = timerParamSettings0.SetField("_RespawnTimer", updatedTimerSeconds);
+                foreach (var i in new[] { 10, 20, 30, 40 })
+                {
+                    var subName = $"_TimerParam_Defficulty{i}";
+                    var sub = (RszObjectNode)timerParamSettings0[subName];
+                    sub = sub.SetField("MaxSecond", updatedTimerSeconds);
+                    sub = sub.SetField("RespawnTimer", updatedTimerSeconds);
+                    timerParamSettings0 = timerParamSettings0.SetField(subName, sub);
+                }
 
-            fileRepository.SetUserFile(userFilePath, userFile);
+                return root.SetField("_TimerGuiParamHolder",
+                    timerGuiParamHolder.SetField("_TimerParamSettings",
+                        timerParamSettings.SetItem(0, timerParamSettings0)));
+            });
         }
 
         private void ImproveKnightyKnightKnightRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -247,14 +250,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 new Guid("f47d8cbc-15ed-4a06-b20f-a307c09d678e") // hard
             };
 
-            var scn = area.ScnFile;
             foreach (var controllerGuid in controllerGuids)
             {
-                var spawnControllerComponent = scn.FindComponent(controllerGuid, "chainsaw.CharacterSpawnController");
+                var spawnControllerComponent = area.FindSpawnController(controllerGuid);
                 if (spawnControllerComponent != null)
                 {
-                    var controller = new CharacterSpawnController(spawnControllerComponent);
-                    controller.SpawnCondition.Add(scn, new Guid("6ac0d9ef-16d3-46e6-af89-4efb1f8370ac"));
+                    var spawnCondition = spawnControllerComponent.SpawnCondition;
+                    spawnCondition._CheckFlags.Add(new CheckFlagInfo()
+                    {
+                        _CheckFlag = new Guid("6ac0d9ef-16d3-46e6-af89-4efb1f8370ac"),
+                        _CompareValue = true
+                    });
+                    spawnControllerComponent.SpawnCondition = spawnCondition;
                 }
             }
         }
@@ -265,22 +272,30 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (randomizer.Campaign == Campaign.Leon)
             {
                 var path = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopupdateflagcataloguserdata.user.2";
-                fileRepository.ModifyUserFile(path, (rsz, root) =>
+                fileRepository.ModifyUserFile(path, root =>
                 {
+                    var datas = (RszArrayNode)root["_Datas"];
                     for (var i = 0; i <= 2; i++)
                     {
-                        root.GetList($"_Datas[{i}]._Flags").Add(0);
-                        root.GetList($"_Datas[{i}]._SaleFlags").Add(0);
+                        var data = (RszObjectNode)datas[i];
+                        data = data.SetField("_Flags", ((RszArrayNode)data["_Flags"]).Add(0));
+                        data = data.SetField("_SaleFlags", ((RszArrayNode)data["_SaleFlags"]).Add(0));
+                        datas = datas.SetItem(i, data);
                     }
+                    return root.SetField("_Datas", datas);
                 });
             }
             else
             {
                 var path = "natives/stm/_anotherorder/appsystem/ui/userdata/ingameshopupdateflagcataloguserdata_ao.user.2";
-                fileRepository.ModifyUserFile(path, (rsz, root) =>
+                fileRepository.ModifyUserFile(path, root =>
                 {
-                    root.GetList($"_Datas[18]._Flags").Add(17);
-                    root.GetList($"_Datas[18]._SaleFlags").Add(17);
+                    var datas = (RszArrayNode)root["_Datas"];
+                    var data = (RszObjectNode)datas[18];
+                    data = data.SetField("_Flags", ((RszArrayNode)data["_Flags"]).Add(17));
+                    data = data.SetField("_SaleFlags", ((RszArrayNode)data["_SaleFlags"]).Add(17));
+                    datas = datas.SetItem(18, data);
+                    return root.SetField("_Datas", datas);
                 });
             }
         }
@@ -301,51 +316,59 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile(weaponPartsCombineDefinitionPath, (file, rsz) =>
+            fileRepository.ModifyUserFile(weaponPartsCombineDefinitionPath, root =>
             {
-                var list = rsz.GetList("_Datas[6]._TargetItemIds");
+                var userData = RszSerializer.Deserialize<WeaponPartsCombineDefinitionUserdata>(root)!;
                 if (randomizer.Campaign == Campaign.Leon)
                 {
-                    list.Add(274838656); // Red9
-                    list.Add(274840256); // Blacktail
-                    list.Add(274841856); // Matilda
+                    userData._Datas[6]._TargetItemIds.AddRange(
+                        274838656, // Red9
+                        274840256, // Blacktail
+                        274841856  // Matilda
+                    );
                 }
                 else
                 {
-                    list.Add(278200256); // SW - Blacktail AC
-                    list.Add(278216256); // SW - Red 9
+                    userData._Datas[6]._TargetItemIds.AddRange(
+                        278200256, // SW - Blacktail AC
+                        278216256  // SW - Red 9
+                    );
                 }
+                return (RszObjectNode)RszSerializer.Serialize(root.Type, userData);
             });
 
-            fileRepository.ModifyUserFile(playerLaserSightControllerDefinitionPath, (file, rsz) =>
+            fileRepository.ModifyUserFile(playerLaserSightControllerDefinitionPath, root =>
             {
-                var list = rsz.GetList("_Settings");
+                var settings = (RszArrayNode)root["_Settings"];
+                var template = (RszObjectNode)settings[0];
                 foreach (var wp in weaponIds)
                 {
-                    var newItem = file.CloneInstance((RszInstance)list[0]!);
-                    newItem.Set("_WeaponID", wp);
-                    list.Add(newItem);
+                    root = root.SetField("_Settings",
+                        settings.Add(
+                            template.SetField("_WeaponID", wp)));
                 }
+                return root;
             });
 
-            fileRepository.ModifyUserFile(weaponDetailCustomPath, (file, rsz) =>
+            fileRepository.ModifyUserFile(weaponDetailCustomPath, root =>
             {
-                var list = rsz.GetArray<RszInstance>("_WeaponDetailStages");
-                var attachment = list[0].Get<RszInstance>("_WeaponDetailCustom._AttachmentCustoms[0]")!;
+                var userData = RszSerializer.Deserialize<WeaponDetailCustomUserdata>(root)!;
+                var attachment = userData._WeaponDetailStages[0]._WeaponDetailCustom._AttachmentCustoms[0];
                 foreach (var wp in weaponIds)
                 {
-                    foreach (var w in list)
+                    foreach (var w in userData._WeaponDetailStages)
                     {
-                        if (w.Get<int>("_WeaponID") == wp)
+                        if (w._WeaponID == wp)
                         {
-                            var attachments = w.GetList("_WeaponDetailCustom._AttachmentCustoms");
-                            if (!attachments.Any(x => ((RszInstance)x!).Get<int>("_ItemID") == 116008000))
+                            var attachments = w._WeaponDetailCustom._AttachmentCustoms;
+                            if (!attachments.Any(x => x._ItemID == 116008000))
                             {
-                                attachments.Add(file.CloneInstance(attachment));
+                                attachments.Add(attachment);
                             }
                         }
                     }
                 }
+                return (RszObjectNode)RszSerializer.Serialize(root.Type, userData);
             });
         }
 
@@ -357,17 +380,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return;
 
             logger.LogLine("Randomize first bear trap location");
-            randomizer.FileRepository.ModifyScnFile(scnPath, scn =>
+            randomizer.FileRepository.ModifyScnFile(scnPath, scene =>
             {
-                var bearTrapObject = scn.FindGameObject(new Guid("601d0ce7-ca40-40d0-bba9-73918a141a96"));
-                if (bearTrapObject == null)
-                    return;
-
-                var transform = bearTrapObject.FindComponent("via.Transform");
-                if (transform == null)
-                    return;
-
-                transform.Set("v0", new Vector4(-76.99f, 5.14f, 35.3336f, 0.0f));
+                var bearTrapObject = scene.FindGameObject(new Guid("601d0ce7-ca40-40d0-bba9-73918a141a96"));
+                if (bearTrapObject != null)
+                {
+                    var transform = bearTrapObject.FindComponent("via.Transform")!;
+                    scene = scene.UpdateGameObject(bearTrapObject
+                        .AddOrUpdateComponent(transform
+                            .Set("Position", new Vector3(-76.99f, 5.14f, 35.3336f))));
+                }
+                return scene;
             });
         }
 
@@ -381,9 +404,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 logger.LogLine($"Set purchase hold time to {time:0.00}");
                 var fileRepository = randomizer.FileRepository;
-                fileRepository.ModifyUserFile(userFilePath, (file, rsz) =>
+                fileRepository.ModifyUserFile(userFilePath, root =>
                 {
-                    rsz.Set("_InGameShopGuiParamHolder._HoldTime_Purchase", (float)time);
+                    return root.Set("_InGameShopGuiParamHolder._HoldTime_Purchase", (float)time);
                 });
             }
         }
@@ -398,10 +421,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             logger.LogLine($"Make bolt thrower fully automatic");
 
             var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile(userFilePath, (file, rsz) =>
+            fileRepository.ModifyUserFile(userFilePath, root =>
             {
-                rsz.Set($"_DataTable[{index}]._WeaponStructureParam.TypeOfReload", 0);
-                rsz.Set($"_DataTable[{index}]._WeaponStructureParam.TypeOfShoot", 1);
+                root = root.Set($"_DataTable[{index}]._WeaponStructureParam.TypeOfReload", 0);
+                root = root.Set($"_DataTable[{index}]._WeaponStructureParam.TypeOfShoot", 1);
+                return root;
             });
         }
 
@@ -413,7 +437,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             // Non-ganado enemies just spawn next to the church and can't be damaged.
             // So remove the no-damage control flags from them.
-            var scn = area.ScnFile;
             var controllerGuids = new Guid[]
             {
                 new Guid("56426f4d-01e8-4079-a8b8-3d4ee343b224"),
@@ -422,24 +445,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             foreach (var guid in controllerGuids)
             {
-                var go = scn.FindGameObject(guid);
+                var go = area.Scene.FindGameObject(guid);
                 if (go == null)
                     continue;
 
                 foreach (var child in go.Children)
                 {
-                    var spawn = child.Components.FirstOrDefault(x => x.Name.Contains("SpawnParam"));
+                    var spawn = child.Components.FirstOrDefault(x => x.Type.Name.Contains("SpawnParam"));
                     if (spawn == null)
                         continue;
 
-                    var checkFlags = spawn.GetList("_NoDamageCtrlFlag._CheckFlags");
-                    checkFlags.Clear();
+                    area.Scene = area.Scene.UpdateGameObject(child
+                        .AddOrUpdateComponent(spawn
+                            .Set("_NoDamageCtrlFlag._CheckFlags", new object[0])));
                 }
             }
         }
 
         private void ImproveAdaKnightRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+#if false
             if (!randomizer.GetConfigOption<bool>("random-enemies"))
                 return;
 
@@ -551,6 +576,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 scn2.RemoveGameObject(new Guid("ace7c27b-1cf1-4bb7-bb68-798101d596ef"));
                 scn2.RemoveGameObject(new Guid("9c389ab6-c2b3-488e-b9a9-304ef4831d59"));
             });
+#endif
         }
 
         private void ImproveAdaMaze(ChainsawRandomizer randomizer, Rng rng, RandomizerLogger logger)
@@ -587,16 +613,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     (KindSmall, 72, 21, 37, -86)
                 };
                 var largeEnemies = new[] { "mendez_chase", "verdugo", "mendez_2", "krauser_2", "pesanta", "u3", "garrador" };
-                if (largeEnemies.Contains(keyHolder.Kind.Key))
+                if (largeEnemies.Contains(keyHolder.Enemy.Kind.Key))
                 {
                     positions = positions.Where(x => x.Item1 != KindSmall).ToArray();
                 }
                 var (kind, x, y, z, d) = rng.NextOf(positions);
                 if (kind != KindNone)
                 {
-                    var transform = new Transform(keyHolder.GameObject);
+                    var transform = new Transform(keyHolder.Enemy.GameObject);
                     transform.Position = new Vector3(x, y, z);
                     transform.Eular = new EulerAngles(d, 0, 0);
+                    keyHolder.Enemy.Transform = transform;
                 }
             }
         }
@@ -614,23 +641,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 new Guid("4924d5ff-3905-421f-b6b3-1d30d900be95") // pro
             };
 
-            var scn = area.ScnFile;
             foreach (var controllerGuid in controllerGuids)
             {
-                var gameObject = scn.FindGameObject(controllerGuid)!;
-                var spawnControllerComponent = gameObject.FindComponent("chainsaw.CharacterSpawnController");
+                var spawnControllerComponent = area.FindSpawnController(controllerGuid);
                 if (spawnControllerComponent != null)
                 {
-                    var controller = new CharacterSpawnController(spawnControllerComponent);
-                    controller.SpawnCondition.Add(scn, new Guid("40807771-38e9-4ec8-a240-d75f4fdff461"));
-                }
-
-                foreach (var child in gameObject.Children)
-                {
-                    var transform = child.FindComponent("via.Transform")!;
-                    var position = transform.Get<Vector4>("v0");
-                    position.X = 152;
-                    transform.Set("v0", position);
+                    var spawnCondition = spawnControllerComponent.SpawnCondition;
+                    spawnCondition._CheckFlags.Add(new CheckFlagInfo()
+                    {
+                        _CheckFlag = new Guid("40807771-38e9-4ec8-a240-d75f4fdff461"),
+                        _CompareValue = true
+                    });
+                    foreach (var enemy in spawnControllerComponent.Enemies)
+                    {
+                        var transform = enemy.Enemy.Transform;
+                        transform.Position = new Vector3(152, transform.Position.Y, transform.Position.Z);
+                        enemy.Enemy.Transform = transform;
+                    }
                 }
             }
         }
@@ -708,24 +735,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 6010, 6100, 6110, 6200, 6400, 6800, 6900,
             };
 
+            var repo = FileRepository.RszRepository;
             var pathFormat = randomizer.Campaign == Campaign.Leon ? pathFormatLeon : pathFormatAda;
             var locations = randomizer.Campaign == Campaign.Leon ? locationsLeon : locationsAda;
             var rootName = randomizer.Campaign == Campaign.Leon ? "AIMap" : "AIMap_AO";
             foreach (var loc in locations)
             {
                 var path = string.Format(pathFormat, loc / 100, loc);
-                randomizer.FileRepository.ModifyScnFile(path, scn =>
+                randomizer.FileRepository.ModifyScnFile(path, scene =>
                 {
-                    var obj = scn.IterAllGameObjects().First(x => x.Name == rootName);
-                    var navigationMapClient = obj.FindComponent("chainsaw.NavigationMapClient");
-                    var bindInfoList = navigationMapClient!.GetList("_BindInfoList");
-                    if (bindInfoList.Count < 3)
+                    var obj = scene.FindGameObject(rootName)!;
+                    var navigationMapClient = obj.FindComponent("chainsaw.NavigationMapClient")!;
+                    var bindInfoList = (RszArrayNode)navigationMapClient["_BindInfoList"];
+                    if (bindInfoList.Length < 3)
                     {
-                        var bindInfo = scn.RSZ!.CreateInstance("chainsaw.NavigationMapClient.BindInfo");
-                        bindInfo.Set("_Purpose", 1);
-                        bindInfo.Set("_MapName", $"VolumeSpace_Loc{loc}");
-                        bindInfoList.Add(bindInfo);
+                        scene = scene.UpdateGameObject(
+                            obj.AddOrUpdateComponent(
+                                navigationMapClient.SetField("_BindInfoList",
+                                    bindInfoList.Add(repo
+                                        .Create("chainsaw.NavigationMapClient.BindInfo")
+                                            .Set("_Purpose", 1)
+                                            .Set("_MapName", $"VolumeSpace_Loc{loc}")))));
                     }
+                    return scene;
                 });
             }
         }
@@ -792,9 +824,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             // Fix super iron maiden
-            fileRepository.ModifyUserFile(regeneradorPath, (rsz, root) =>
+            fileRepository.ModifyUserFile(regeneradorPath, root =>
             {
-                root.Set("STRUCT__StrongTransformedHitPoint__HasValue", false);
+                return root.Set("STRUCT__StrongTransformedHitPoint__HasValue", false);
             });
 
             // Fix Pesanta
@@ -806,9 +838,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             // Fix U3
-            fileRepository.ModifyUserFile(u3Path, (rsz, root) =>
+            fileRepository.ModifyUserFile(u3Path, root =>
             {
-                root.Set("STRUCT__SecondFormHitPoint__HasValue", false);
+                return root.Set("STRUCT__SecondFormHitPoint__HasValue", false);
             });
         }
 
@@ -930,18 +962,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 : "natives/stm/_anotherorder/appsystem/ui/userdata/sellablekeyitemuserdata_ao.user.2";
 
             var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile(path, (rsz, root) =>
+            fileRepository.ModifyUserFile(path, root =>
             {
-                var list = root.GetArray<RszInstance>("Datas");
-                foreach (var l in list)
+                var datas = (RszArrayNode)root["Datas"];
+                for (var i = 0; i < datas.Length; i++)
                 {
-                    var id = l.Get<int>("ID");
+                    var item = (RszObjectNode)datas[i];
+                    var id = item.Get<int>("ID");
                     if (id != ItemIds.SmallKey)
                         continue;
 
-                    l.Set("Sellable[0]._Enable.Matters[0]._Data.Compare", 1);
-                    l.Set("Sellable[0]._Enable.Matters[0]._Data.Chapter", -1);
+                    item = item.Set("Sellable[0]._Enable.Matters[0]._Data.Compare", 1);
+                    item = item.Set("Sellable[0]._Enable.Matters[0]._Data.Chapter", -1);
+                    datas = datas.SetItem(id, item);
                 }
+                return root.SetField("Datas", datas);
             });
         }
 
@@ -955,18 +990,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             // Remove DLC items from catalog since they cause black screen on SW
             var path = "natives/stm/_anotherorder/appsystem/weapon/weaponcataloguserdata_ao.user.2";
-            randomizer.FileRepository.ModifyUserFile(path, (rsz, root) =>
+            randomizer.FileRepository.ModifyUserFile(path, root =>
             {
-                var list = root.GetList("_DataTable");
-                for (var i = 0; i < list.Count; i++)
+                var list = (RszArrayNode)root["_DataTable"];
+                for (var i = 0; i < list.Length; i++)
                 {
-                    var weaponId = ((RszInstance)list[i]!).Get<int>("_WeaponID");
+                    var weaponId = list[i].Get<int>("_WeaponID");
                     if (weaponId == 6000 || weaponId == 6001)
                     {
-                        list.RemoveAt(i);
+                        list = list.RemoveAt(i);
                         i--;
                     }
                 }
+                return root.SetField("_DataTable", list);
             });
         }
 

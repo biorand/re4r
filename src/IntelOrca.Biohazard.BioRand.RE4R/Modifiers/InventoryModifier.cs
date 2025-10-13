@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -16,15 +15,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             logger.LogLine($"PTAS = {inventory.PTAS}");
             logger.LogLine($"Spinels = {inventory.SpinelCount}");
 
-            var itemsById = inventory.PlayerData.InventoryItems
-                .GroupBy(x => x.Item.ItemId)
+            var itemsById = inventory.PlayerData.InventoryData.InventoryItems
+                .GroupBy(x => x.Item._ItemId)
                 .OrderBy(x => x.Key)
                 .ToArray();
             foreach (var itemGroup in itemsById)
             {
                 var item = itemGroup.First();
-                var count = itemGroup.Sum(x => x.Item.CurrentItemCount);
-                logger.LogLine($"{item.Item.ItemName} {count}");
+                var count = itemGroup.Sum(x => x.Item._CurrentItemCount);
+                var itemName = ItemDefinitionRepository.Default.GetName(item.Item._ItemId);
+                logger.LogLine($"{itemName} {count}");
             }
         }
 
@@ -66,16 +66,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             inventory.AssignShortcuts();
             inventory.Save(randomizer.FileRepository);
 
-            foreach (var item in inventory.PlayerData.InventoryItems)
+            foreach (var item in inventory.PlayerData.InventoryData.InventoryItems)
             {
-                var size = itemData.GetSize(item.Item.ItemId);
+                var size = itemData.GetSize(item.Item._ItemId);
                 var width = size.Width;
                 var height = size.Height;
                 if (item.CurrDirection != 0)
                 {
                     (width, height) = (height, width);
                 }
-                logger.LogLine($"Add item {item.Item} ({item.SlotIndexColumn}, {item.SlotIndexRow}) ({width}x{height}) Rotation = {item.CurrDirection}");
+                logger.LogLine($"Add item {item.Item} ({item.STRUCT_SlotIndex_Column}, {item.STRUCT_SlotIndex_Row}) ({width}x{height}) Rotation = {item.CurrDirection}");
             }
         }
 

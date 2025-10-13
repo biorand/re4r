@@ -2,96 +2,119 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using RszTool;
+using IntelOrca.Biohazard.BioRand.RE4R.Models;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class Area
     {
-        private List<EnemySpawn> _enemySpawns = [];
-
+        public ChainsawRandomizer Randomizer { get; }
         public AreaDefinition Definition { get; }
         public EnemyClassFactory EnemyClassFactory { get; }
         public string Path => Definition.Path;
         public string FileName => System.IO.Path.GetFileName(Path);
-        public ScnFile ScnFile { get; }
+        public ScnFile.Builder ScnFile { get; }
 
-        public Area(AreaDefinition definition, EnemyClassFactory enemyClassFactory, byte[] data)
+        public RszScene Scene
         {
-            Definition = definition;
-            EnemyClassFactory = enemyClassFactory;
-            ScnFile = ChainsawRandomizerFactory.Default.ReadScnFile(data);
+            get => ScnFile.Scene;
+            set => ScnFile.Scene = value;
         }
 
-        public void Save(string path)
-        {
-            ScnFile.SaveAs(path);
-        }
-
-        public byte[] SaveData() => ScnFile.ToByteArray();
-
-        public Enemy[] Enemies
+        public RszFolder BioRandFolder
         {
             get
             {
-                var result = new List<Enemy>();
-                var objs = ScnFile.IterAllGameObjects(true).ToArray();
-                foreach (var gameObject in objs)
+                var biorandFolder = Scene.Children.OfType<RszFolder>().FirstOrDefault(x => x.Name == "BioRand");
+                if (biorandFolder == null)
                 {
-                    var mainComponent = GetMainEnemyComponent(gameObject);
-                    if (mainComponent != null)
-                    {
-                        result.Add(new Enemy(this, gameObject, mainComponent));
-                    }
+                    biorandFolder = new RszFolder(FileRepository.RszRepository
+                        .Create("via.Folder")
+                            .Set("Name", "BioRand")
+                            .Set("Update", true)
+                            .Set("Draw", true)
+                            .Set("Startup", true), []);
+                    Scene = Scene.Add(biorandFolder);
                 }
-                return result.ToArray();
+                return biorandFolder;
             }
-        }
-
-        public ImmutableArray<EnemySpawn> GetEnemySpawns(ChainsawRandomizer randomizer)
-        {
-            if (_enemySpawns.Count == 0)
+            set
             {
-                var enemyClasses = randomizer.EnemyClassFactory.GetClasses(randomizer);
-                foreach (var enemy in Enemies)
-                {
-                    var spawn = new EnemySpawn(this, enemy, enemy);
-                    SetClassPool(randomizer, enemyClasses, spawn);
-                    _enemySpawns.Add(spawn);
-                }
+                Scene = Scene.WithChildren(
+                    Scene.Children.Replace(BioRandFolder, value));
             }
-            return _enemySpawns.ToImmutableArray();
         }
 
-        private RszInstance? GetMainEnemyComponent(ScnFile.GameObjectData gameObject)
+        public ImmutableArray<CharacterSpawnController> SpawnControllers { get; private set; }
+        public IEnumerable<EnemySpawn> Enemies => SpawnControllers.SelectMany(x => x.Enemies);
+
+        public Area(ChainsawRandomizer randomizer, AreaDefinition definition, EnemyClassFactory enemyClassFactory, ScnFile scn)
         {
-            return gameObject.Components.FirstOrDefault(x => EnemyClassFactory.FindEnemyKind(x.Name) != null);
+            Randomizer = randomizer;
+            Definition = definition;
+            EnemyClassFactory = enemyClassFactory;
+            ScnFile = scn.ToBuilder(FileRepository.RszRepository);
+            SpawnControllers = Scan();
+        }
+
+        private ImmutableArray<CharacterSpawnController> Scan()
+        {
+            var spawnControllers = ImmutableArray.CreateBuilder<CharacterSpawnController>();
+            Scene.VisitGameObjects(gameObject =>
+            {
+                if (CharacterSpawnController.IsSpawnController(gameObject))
+                {
+                    spawnControllers.Add(new CharacterSpawnController(this, gameObject));
+                }
+            });
+            return spawnControllers.ToImmutable();
+        }
+
+        public ScnFile Apply()
+        {
+            var appliedSpawnControllers = SpawnControllers
+                .Select(x => x.Apply())
+                .ToDictionary(x => x.Guid);
+
+            Scene = Scene.VisitGameObjects(go => appliedSpawnControllers.GetValueOrDefault(go.Guid) ?? go);
+            return ScnFile.AddMissingResources().Build();
+        }
+
+        public CharacterSpawnController? FindSpawnController(Guid gameObjectGuid)
+        {
+            return SpawnControllers.FirstOrDefault(x => x.GameObject.Guid == gameObjectGuid);
         }
 
         public Enemy ConvertTo(Enemy enemy, EnemyKindDefinition kind)
         {
             var gameObject = enemy.GameObject;
             var oldComponent = enemy.MainComponent;
-            if (oldComponent.RszClass.name == kind.ComponentName)
+            if (oldComponent.Type.Name == kind.ComponentName)
                 return enemy;
 
-            ScnFile.AddComponent(gameObject, kind.ComponentName);
-            gameObject.Components.Remove(oldComponent);
-            var newComponent = gameObject.Components.Last();
+            var newComponent = FileRepository.RszRepository.Create(kind.ComponentName);
 
-            if (gameObject.Prefab != null)
+            var components = gameObject.Components.ToBuilder();
+            for (var i = 0; i < components.Count; i++)
             {
-                gameObject.Prefab.Path = kind.Prefab;
+                if (components[i].Type == oldComponent.Type)
+                {
+                    components[i] = newComponent;
+                    break;
+                }
             }
+            gameObject = gameObject
+                .WithPrefab(kind.Prefab)
+                .WithComponents(components.ToImmutable());
 
             var newEnemy = new Enemy(this, gameObject, newComponent);
 
             // Copy fields over
-            foreach (var f in oldComponent.Fields)
+            foreach (var f in oldComponent.Type.Fields)
             {
-                var oldValue = enemy.GetFieldValue(f.name);
-                newEnemy.SetFieldValue(f.name, oldValue!);
+                var oldValue = enemy.GetFieldValue(f.Name);
+                newEnemy.SetFieldValue(f.Name, oldValue!);
             }
 
             // Clear certain fields
@@ -102,123 +125,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return newEnemy;
         }
 
+        public CharacterSpawnController AddSpawnController(RszGameObject gameObject)
+        {
+            var controller = new CharacterSpawnController(this, gameObject);
+            SpawnControllers = SpawnControllers.Add(controller);
+            BioRandFolder = BioRandFolder.Add(gameObject);
+            return controller;
+        }
+
         public EnemySpawn Duplicate(EnemySpawn enemy, int contextId)
         {
-            var newGameObject = ScnFile.DuplicateGameObject(enemy.Enemy.GameObject);
+            var newGameObject = enemy.Enemy.GameObject.Clone();
             var newComponent = GetMainEnemyComponent(newGameObject) ?? throw new Exception("Unable to find new enemy component for duplicated enemy.");
             var newEnemy = new Enemy(this, newGameObject, newComponent);
             newEnemy.ContextId = newEnemy.ContextId.WithIndex(contextId);
-            var newEnemySpawn = new EnemySpawn(this, enemy.Enemy, newEnemy);
-            _enemySpawns.Add(newEnemySpawn);
+            var newEnemySpawn = new EnemySpawn(enemy.SpawnController, enemy.Enemy, newEnemy);
             return newEnemySpawn;
         }
 
-        private void SetClassPool(ChainsawRandomizer randomizer, ImmutableArray<EnemyClassDefinition> enemyClasses, EnemySpawn spawn)
+        private RszObjectNode? GetMainEnemyComponent(RszGameObject gameObject)
         {
-            // Get all allowed enemy classes
-            if (!spawn.HasStaticSpawn)
-            {
-                enemyClasses = enemyClasses.RemoveAll(x => x.Key == "pig");
-            }
-
-            var restrictions = Definition.Restrictions;
-            if (restrictions != null)
-            {
-                var restrictionBlock = restrictions
-                    .FirstOrDefault(x => x.Guids == null || x.Guids.Contains(spawn.OriginalGuid));
-
-                if (restrictionBlock != null)
-                {
-                    spawn.Horde = restrictionBlock.Horde;
-                    spawn.LockWeapon = restrictionBlock.LockWeapon;
-                    spawn.PreventDuplicate = restrictionBlock.PreventDuplicate;
-                    spawn.MiniBoss = restrictionBlock.MiniBoss;
-
-                    var includedClasses = restrictionBlock.Include;
-                    if (includedClasses == null)
-                    {
-                        var excludedClasses = restrictionBlock.Exclude;
-                        if (excludedClasses == null)
-                        {
-                            if (!spawn.Horde && !spawn.LockWeapon && !spawn.PreventDuplicate)
-                            {
-                                enemyClasses = ImmutableArray<EnemyClassDefinition>.Empty;
-                                spawn.PreventDuplicate = true;
-                            }
-                        }
-                        else
-                        {
-                            enemyClasses = enemyClasses.Where(x => !excludedClasses.Contains(x.Key)).ToImmutableArray();
-                        }
-                    }
-                    else
-                    {
-                        enemyClasses = enemyClasses.Where(x => includedClasses.Contains(x.Key)).ToImmutableArray();
-                    }
-                }
-            }
-            spawn.ClassPool = enemyClasses;
-
-            if (randomizer.GetConfigOption<bool>("enemy-strong-mini-boss") && !string.IsNullOrEmpty(spawn.MiniBoss))
-            {
-                // Mini boss should be an elite enemy
-                spawn.PreferredClassPool = spawn.ClassPool
-                    .Where(x => x.Class <= 4)
-                    .ToImmutableArray();
-            }
-            else if (IsEnemyRanged(randomizer, spawn.OriginalEnemy))
-            {
-                // Prefer a ranged enemy
-                spawn.PreferredClassPool = spawn.ClassPool
-                    .Where(x => x.Ranged)
-                    .ToImmutableArray();
-            }
-
-            if (randomizer.GetConfigOption<bool>("nice-mendez-hill"))
-            {
-                // Mendez hill
-                AvoidClasses(spawn, "level_loc47_003.scn.20",
-                    "chainsaw_mad",
-                    "garrador",
-                    "krauser_1",
-                    "krauser_2",
-                    "mendez_2",
-                    "pesanta",
-                    "super_iron_maiden",
-                    "super-colmillos",
-                    "u3",
-                    "verdugo");
-
-                // Krauser 1 fight
-                AvoidClasses(spawn, "level_loc55_004.scn.20",
-                    "chainsaw",
-                    "chainsaw_mad",
-                    "krauser_2",
-                    "mendez_2",
-                    "pesanta",
-                    "super_iron_maiden",
-                    "super-colmillos",
-                    "u3",
-                    "verdugo");
-            }
+            return gameObject.Components.FirstOrDefault(x => EnemyClassFactory.FindEnemyKind(x.Type.Name) != null);
         }
 
-        private static void AvoidClasses(EnemySpawn spawn, string fileName, params string[] avoidClasses)
-        {
-            if (!spawn.Area.FileName.EndsWith(fileName))
-                return;
-
-            spawn.PreferredClassPool = spawn.ClassPool
-                .Where(x => !avoidClasses.Contains(x.Key))
-                .ToImmutableArray();
-        }
-
-        private static bool IsEnemyRanged(ChainsawRandomizer randomizer, Enemy enemy)
-        {
-            var weaponDef = randomizer.EnemyClassFactory.Weapons.FirstOrDefault(x => x.Id == enemy.Weapon);
-            if (weaponDef != null)
-                return weaponDef.Ranged;
-            return false;
-        }
+        public override string ToString() => FileName;
     }
 }

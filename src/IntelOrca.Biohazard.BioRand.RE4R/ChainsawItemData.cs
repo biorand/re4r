@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using RszTool;
+using chainsaw;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal sealed class ChainsawItemData
     {
         private readonly FileRepository _fileRepository;
-        private readonly (string Path, UserFile Data)[] _itemDefinitions;
+        private readonly (string Path, ItemDefinitionUserData Data)[] _itemDefinitions;
 
-        private ChainsawItemData(FileRepository repository, (string, UserFile)[] itemDefinitions)
+        private ChainsawItemData(FileRepository repository, (string, ItemDefinitionUserData)[] itemDefinitions)
         {
             _fileRepository = repository;
             _itemDefinitions = itemDefinitions;
@@ -37,7 +36,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var fileRepository = randomizer.FileRepository;
             var itemDefinitions = files
-                .Select(x => (x, fileRepository.GetUserFile(x)))
+                .Select(x => (x, fileRepository.DeserializeUserFile<ItemDefinitionUserData>(x)))
                 .ToArray();
             return new ChainsawItemData(fileRepository, itemDefinitions);
         }
@@ -46,7 +45,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             for (var i = 0; i < _itemDefinitions.Length; i++)
             {
-                _fileRepository.SetUserFile(_itemDefinitions[i].Path, _itemDefinitions[i].Data);
+                _fileRepository.SerializeUserFile(_itemDefinitions[i].Path, _itemDefinitions[i].Data);
             }
         }
 
@@ -54,9 +53,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             foreach (var def in Definitions)
             {
-                if (def.ItemId == itemId)
+                if (def._ItemId == itemId)
                 {
-                    return Math.Max(def.ItemDefineData.StackMax, def.WeaponDefineData.AmmoMax);
+                    return Math.Max(def._ItemDefineData._StackMax, def._WeaponDefineData._AmmoMax);
                 }
             }
             return 0;
@@ -66,9 +65,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             foreach (var def in Definitions)
             {
-                if (def.ItemId == itemId)
+                if (def._ItemId == itemId)
                 {
-                    return Math.Max(def.ItemDefineData.DefaultDurabilityMax, def.WeaponDefineData.DefaultDurabilityMax);
+                    return Math.Max(def._ItemDefineData._DefaultDurabilityMax, def._WeaponDefineData._DefaultDurabilityMax);
                 }
             }
             return 0;
@@ -78,20 +77,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             foreach (var def in Definitions)
             {
-                if (def.ItemId == itemId)
+                if (def._ItemId == itemId)
                 {
-                    var itemSize = def.ItemDefineData.ItemSize;
-                    var weaponItemSize = def.WeaponDefineData.ItemSize;
+                    var itemSize = def._ItemDefineData._ItemSize;
+                    var weaponItemSize = def._WeaponDefineData._ItemSize;
 
                     var itemDefinition = ItemDefinitionRepository.Default.Find(itemId);
                     if (itemDefinition == null)
-                        return itemSize;
+                        return new ItemSize(itemSize);
 
                     var isWeapon =
                         itemDefinition.Kind == ItemKinds.Weapon ||
                         itemDefinition.Kind == ItemKinds.Grenade ||
                         itemDefinition.Kind == ItemKinds.Knife;
-                    return isWeapon ? weaponItemSize : itemSize;
+                    return new ItemSize(isWeapon ? weaponItemSize : itemSize);
                 }
             }
 
@@ -102,42 +101,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return ItemSize.Parse(itemDefinition2.Size);
         }
 
-        public ChainsawItemDefinition[] Definitions =>
-            _itemDefinitions.SelectMany(x =>
-                x.Data.RSZ!.ObjectList[0].GetList("_Datas")
-                    .Select(x => new ChainsawItemDefinition((RszInstance)x!))
-                    .ToArray())
-                .ToArray();
-
-        public sealed class ChainsawItemDefinition(RszInstance _instance)
-        {
-            public int ItemId => _instance.Get<int>("_ItemId")!;
-            public ItemDefineData ItemDefineData => new ItemDefineData((RszInstance)_instance.Get("_ItemDefineData")!);
-            public WeaponDefineData WeaponDefineData => new WeaponDefineData((RszInstance)_instance.Get("_WeaponDefineData")!);
-        }
-
-        public class ItemDefineData(RszInstance _instance)
-        {
-            public RszInstance Instance => _instance;
-
-            public ItemSize ItemSize => new ItemSize(_instance.Get<int>("_ItemSize")!);
-            public int StackMax
-            {
-                get => _instance.Get<int>("_StackMax")!;
-                set => _instance.Set("_StackMax", value);
-            }
-            public int DefaultDurabilityMax => _instance.Get<int>("_DefaultDurabilityMax")!;
-        }
-
-        public sealed class WeaponDefineData(RszInstance instance) : ItemDefineData(instance)
-        {
-            public int AmmoMax
-            {
-                get => Instance.Get<int>("_AmmoMax")!;
-                set => Instance.Set("_AmmoMax", value);
-            }
-            public int AmmoCost => Instance.Get<int>("_AmmoCost")!;
-        }
+        public IEnumerable<chainsaw.ItemDefinitionUserData.Data> Definitions => _itemDefinitions.SelectMany(x => x.Data._Datas);
     }
 
     public struct ItemSize(int kind)

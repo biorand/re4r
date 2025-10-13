@@ -5,9 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using IntelOrca.Biohazard.BioRand.RE4R.Models;
-using RszTool;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -61,7 +59,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             foreach (var placement in placements)
             {
-                factory.AddGimmick(placement);
+                factory.AddGimmick(rng, placement);
             }
             factory.SaveAll();
         }
@@ -117,7 +115,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
-            public void AddGimmick(GimmickPlacement placement)
+            public void AddGimmick(Rng rng, GimmickPlacement placement)
             {
                 var contextId = GetNewContextId();
                 var filePair = GetScnForStage(placement.Stage);
@@ -125,93 +123,118 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var kind = placement.Kind;
                 if (kind == "bawk") kind = "Biorand_Chicken";
 
-                var gimmick = filePair.Scene.ImportGameObject(GimmickTemplate.Get(kind));
-                gimmick.Instance!.SetFieldValue("v0", $"{gimmick.Name}_{placement.LineNumber}");
+                var gimmick = CloneGimmickFromTemplate(kind, rng);
+                gimmick = gimmick.WithName($"{gimmick.Name}_{placement.LineNumber}");
 
-                var gimmickCore = gimmick.FindComponent("chainsaw.GimmickCore")!;
-                contextId.CopyTo(gimmickCore.Get<RszInstance>("_ID")!);
+                gimmick = gimmick.AddOrUpdateComponent(gimmick
+                    .FindComponent("chainsaw.GimmickCore")!
+                    .SetField("_ID", contextId.ToRsz(FileRepository.RszRepository)));
 
-                var gimmickTransform = new Transform(gimmick);
-                gimmickTransform.Position = placement.Position;
-                gimmickTransform.Eular = placement.Eular;
-                gimmickTransform.Scale = Vector3.One;
+                gimmick = gimmick.AddOrUpdateComponent(gimmick
+                    .FindComponent("via.Transform")!
+                    .Set("Position", placement.Position)
+                    .Set("Rotation", placement.Eular.ToQuaternion())
+                    .Set("Scale", Vector3.One));
 
-                AddCondition(filePair.Scene, gimmick, placement);
+                gimmick = AddCondition(gimmick, placement);
 
-                var userData = filePair.User.RSZ!.CreateInstance("chainsaw.GimmickSaveDataTable.Data");
-                contextId.CopyTo(userData.Get<RszInstance>("ID")!);
-                userData.GetList("Save.Attr").AddRange([(byte)0, (byte)0, (byte)0, (byte)0]);
-                var dataList = filePair.User.RSZ.ObjectList[0].GetList("Datas");
-                dataList.Add(userData);
+                filePair.Scene = filePair.Scene.Add(gimmick);
+
+                var userData = FileRepository.RszRepository.Create("chainsaw.GimmickSaveDataTable.Data");
+                userData = userData.SetField("ID", contextId.ToRsz(FileRepository.RszRepository));
+                userData = userData.Set("Save.Attr", new byte[] { 0, 0, 0, 0 });
+                filePair.UserData = filePair.UserData.SetField("Datas",
+                    ((RszArrayNode)filePair.UserData["Datas"]).Add(userData));
             }
 
-            private static ScnFile.GameObjectData? FindChildRecursive(ScnFile.GameObjectData parent, string name)
-            {
-                if (parent.Name == name)
-                    return parent;
-
-                foreach (var child in parent.Children)
-                {
-                    if (child.Name == name)
-                        return child;
-
-                    var d = FindChildRecursive(child, name);
-                    if (d != null)
-                        return d;
-                }
-                return null;
-            }
-
-            private void AddCondition(ScnFile scn, ScnFile.GameObjectData gimmick, GimmickPlacement placement)
+            private RszGameObject AddCondition(RszGameObject gimmick, GimmickPlacement placement)
             {
                 if (string.IsNullOrEmpty(placement.Condition) && placement.Chapter == 0)
-                    return;
+                    return gimmick;
 
-                var paramObject = gimmick.Children.First(x => x.Name == "ParamObject");
-                var stratumBool = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.StratumBool");
-                stratumBool.Set("Value", true);
-                stratumBool.Set("_Enable.Logic", 1);
+                var repo = FileRepository.RszRepository;
+                var paramObject = gimmick.FindGameObject("ParamObject")!;
+                var stratumBool = repo
+                    .Create("chainsaw.RuleStratum.StratumBool")
+                    .Set("Value", true)
+                    .Set("_Enable.Logic", 1);
 
                 if (!string.IsNullOrEmpty(placement.Condition))
                 {
-                    var particleFlag = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.ParticleFlag");
-                    var fc = new FlagCondition(particleFlag.Get<RszInstance>("Flags")!);
-                    var f = CheckFlagInfo.Create(scn, Guid.Parse(placement.Condition));
-                    f.CompareValue = false;
-                    fc.Flags = [f];
-                    var container = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.Container");
-                    container.Set("_Data", particleFlag);
-                    stratumBool.GetList("_Enable.Matters").Add(container);
+                    stratumBool = stratumBool.Set("_Enable.Matters", stratumBool
+                        .Get<RszArrayNode>("_Enable.Matters")
+                        .Add(repo
+                            .Create("chainsaw.RuleStratum.Container")
+                            .Set("_Data", repo
+                                .Create("chainsaw.RuleStratum.ParticleFlag")
+                                .Set("Flags", new chainsaw.FlagCondition()
+                                {
+                                    _CheckFlags =
+                                    {
+                                        new chainsaw.CheckFlagInfo()
+                                        {
+                                            _CheckFlag = Guid.Parse(placement.Condition),
+                                            _CompareValue = false
+                                        }
+                                    }
+                                }))));
                 }
                 if (placement.Chapter != 0)
                 {
-                    var particleChapter = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.ParticleChapter");
-                    particleChapter.Set("Compare", 1);
-                    particleChapter.Set("Chapter", ChapterId.FromNumber(randomizer.Campaign, placement.Chapter));
-                    var container = scn.RSZ!.CreateInstance("chainsaw.RuleStratum.Container");
-                    container.Set("_Data", particleChapter);
-                    stratumBool.GetList("_Enable.Matters").Add(container);
+                    stratumBool = stratumBool.Set("_Enable.Matters", stratumBool
+                        .Get<RszArrayNode>("_Enable.Matters")
+                        .Add(repo
+                            .Create("chainsaw.RuleStratum.Container")
+                            .Set("_Data", repo
+                                .Create("chainsaw.RuleStratum.ParticleChapter")
+                                .Set("Compare", 1)
+                                .Set("Chapter", ChapterId.FromNumber(randomizer.Campaign, placement.Chapter)))));
                 }
 
-                var gmOptionHide = scn.RSZ!.CreateInstance("chainsaw.GmOptionHide");
-                gmOptionHide.Set("v0", (byte)1);
-                gmOptionHide.GetList("Rule").Add(stratumBool);
-                paramObject.Components.Add(gmOptionHide);
+                paramObject = paramObject.AddOrUpdateComponent(repo
+                    .Create("chainsaw.GmOptionHide")
+                    .Set("Enabled", true)
+                    .Set("Rule", new[] { stratumBool }));
 
-                if (gimmick.Name!.StartsWith("Biorand_MerchantTorch"))
+                if (gimmick.Name.StartsWith("Biorand_MerchantTorch"))
                 {
-                    var objectHide = scn.RSZ!.CreateInstance("chainsaw.ObjectHide");
-                    objectHide.Set("v0", (byte)1);
-                    objectHide.GetList("Settings").Add(stratumBool.Clone());
-                    paramObject.Components.Add(objectHide);
+                    paramObject = paramObject.AddOrUpdateComponent(repo
+                        .Create("chainsaw.ObjectHide")
+                        .Set("Enabled", true)
+                        .Set("Settings", new[] { stratumBool }));
                 }
+
+                return gimmick.AddOrUpdateChild(paramObject);
             }
 
-            private static Vector4 CreateRotation(Vector3 euler)
+            private static RszGameObject CloneGimmickFromTemplate(string kind, Rng rng)
             {
-                const float toRad = MathF.PI / 180.0f;
-                var q = Quaternion.CreateFromYawPitchRoll(euler.X * toRad, euler.Y * toRad, euler.Z * toRad);
-                return new Vector4(q.X, q.Y, q.Z, q.W);
+                var map = new Dictionary<Guid, Guid>();
+
+                // Create new guids for all game objects
+                var root = GimmickTemplate
+                    .Get(kind)
+                    .VisitGameObjects(gameObject =>
+                    {
+                        // Change to new guid (keep map of old to new)
+                        var newGuid = rng.NextGuid();
+                        map[gameObject.Guid] = newGuid;
+                        return gameObject.WithGuid(newGuid);
+                    });
+
+                // Fix references
+                return root.Visit(node =>
+                {
+                    if (node is RszValueNode valueNode && valueNode.Type == RszFieldType.GameObjectRef)
+                    {
+                        var refGuid = valueNode.Get<Guid>();
+                        if (map.TryGetValue(refGuid, out var newGuid))
+                        {
+                            return RszSerializer.Serialize(RszFieldType.GameObjectRef, newGuid);
+                        }
+                    }
+                    return node;
+                });
             }
 
             private ContextId GetNewContextId()
@@ -224,8 +247,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 private readonly FileRepository _fileRepository;
 
                 public string ScenePath { get; }
-                public ScnFile Scene { get; }
-                public UserFile User { get; }
+                public ScnFile.Builder Scn { get; }
+                public UserFile.Builder User { get; }
+
+                public RszScene Scene
+                {
+                    get => Scn.Scene;
+                    set => Scn.Scene = value;
+                }
+
+                public RszObjectNode UserData
+                {
+                    get => (RszObjectNode)User.Objects[0];
+                    set => User.Objects = User.Objects.SetItem(0, value);
+                }
 
                 public string UserPath => $"{ScenePath[..^7]}_savedata.user.2";
 
@@ -233,14 +268,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     _fileRepository = fileRepository;
                     ScenePath = path;
-                    Scene = fileRepository.GetScnFile(ScenePath);
-                    User = fileRepository.GetUserFile(UserPath);
+                    Scn = fileRepository.GetScnFile(ScenePath).ToBuilder(FileRepository.RszRepository);
+                    User = fileRepository.GetUserFile(UserPath).ToBuilder(FileRepository.RszRepository);
                 }
 
                 public void Save()
                 {
-                    _fileRepository.SetScnFile(ScenePath, Scene);
-                    _fileRepository.SetUserFile(UserPath, User);
+                    _fileRepository.SetScnFile(ScenePath, Scn.AddMissingResources().Build());
+                    _fileRepository.SetUserFile(UserPath, User.Build());
                 }
             }
         }
