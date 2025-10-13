@@ -842,6 +842,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 WeaponUpgradeKind.AmmoCapacity => 2,
                 WeaponUpgradeKind.CriticalRate => 3,
                 WeaponUpgradeKind.Penetration => 4,
+                WeaponUpgradeKind.FlameDistance => 6,
                 WeaponUpgradeKind.Repair => 7,
                 WeaponUpgradeKind.Polish => 8,
                 WeaponUpgradeKind.Durability => 9,

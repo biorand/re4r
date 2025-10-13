@@ -66,8 +66,14 @@
       "id": 112812800
     },
     {
-      "name": "it_sm70_509_00_0",
-      "id": 112814400
+      "name": "Fuel",
+      "kind": "ammo",
+      "id": 112814400,
+      "value": 40,
+      "size": "2x1",
+      "class": "flame",
+      "stack": 1600,
+      "mode": "main"
     },
     {
       "name": "SW - Blast Arrows",
@@ -1586,18 +1592,23 @@
     {
       "name": "it_wp4600_10_0",
       "id": 275795616,
-      "weaponId": 4701,
       "mode": "disabled"
     },
     {
-      "name": "it_wp4701_00_0",
+      "name": "Flamethrower",
+      "kind": "weapon",
       "id": 275957056,
-      "weaponId": 4702,
-      "mode": "disabled"
+      "size": "6x2",
+      "class": "flame",
+      "weaponId": 4701,
+      "mode": "main",
+      "value": 30000
     },
     {
       "name": "it_wp4702_00_0",
-      "id": 275958656
+      "id": 275958656,
+      "weaponId": 4702,
+      "mode": "disabled"
     },
     {
       "name": "it_wp4800_00_0",

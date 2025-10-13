@@ -596,8 +596,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     var weaponStage = weaponStages[i];
                     if (weaponStage.Get<int>("_WeaponID") == FlamethrowerWeaponId)
                     {
-                        weaponStage = weaponStage.Set("_WeaponCustom._Individuals[1]._CustomFlameDistance._MessageId", new Guid("79ad9402-fb4b-42b0-8c98-5355812c931a"));
+                        weaponStage = weaponStage.Set("_WeaponCustom._Commons[0]._CustomAttackUp._MessageId", new Guid("dd368036-649b-41a0-8f8a-4c8f26452d28"));
+                        weaponStage = weaponStage.Set("_WeaponCustom._Commons[1]._CustomAmmoMaxUp._MessageId", new Guid("66757d70-f8da-4585-92de-8df01ea601d3"));
                         weaponStage = weaponStage.Set("_WeaponCustom._Individuals[0]._CustomThroughNum._MessageId", new Guid("db128948-0960-4147-814d-fec706a5c34a"));
+                        weaponStage = weaponStage.Set("_WeaponCustom._Individuals[1]._CustomFlameDistance._MessageId", new Guid("79ad9402-fb4b-42b0-8c98-5355812c931a"));
                         weaponStage = weaponStage.Set("_WeaponCustom._LimitBreak[0]._CustomLimitBreak._MessageId", new Guid("876c8ba0-3637-4aff-a065-86254207705d"));
                         weaponStage = weaponStage.Set("_WeaponCustom._LimitBreak[0]._CustomLimitBreak._PerksMessageId", new Guid("e8236563-0f8f-4d96-b662-d808852b48a7"));
                         root = root.SetField("_WeaponStages", weaponStages.SetItem(i, weaponStage));
