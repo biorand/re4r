@@ -43,41 +43,82 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 result.Add(element);
             }
             return result.ToArray();
+        }
 
-            static void SplitLine(List<string> list, StringBuilder sb, string line)
+        public static string[,] Read(string data)
+        {
+            var lines = data.Split(g_separator, System.StringSplitOptions.RemoveEmptyEntries);
+            if (lines.Length <= 0)
+                return new string[0, 0];
+
+            var sb = new StringBuilder();
+            var rows = new List<string[]>();
+            var columns = new List<string>();
+            for (var i = 1; i < lines.Length; i++)
             {
-                list.Clear();
-                var inQuote = false;
-                for (var i = 0; i <= line.Length; i++)
+                SplitLine(columns, sb, lines[i]);
+                rows.Add(columns.ToArray());
+            }
+
+            var numRows = rows.Count;
+            var numColumns = columns.Count;
+            var result = new string[numColumns, numRows];
+            for (var y = 0; y < numRows; y++)
+            {
+                var row = rows[y];
+                for (var x = 0; x < numColumns; x++)
                 {
-                    var c = i == line.Length ? '\0' : line[i];
-                    if (c == '"')
+                    result[x, y] = row.Length > x ? row[x] : "";
+                }
+            }
+            return result;
+        }
+
+        private static void SplitLine(List<string> list, StringBuilder sb, string line)
+        {
+            list.Clear();
+            var inQuote = false;
+            for (var i = 0; i <= line.Length; i++)
+            {
+                var c = i == line.Length ? '\0' : line[i];
+                if (c == '"')
+                {
+                    if (!inQuote)
                     {
-                        if (!inQuote)
+                        inQuote = true;
+                    }
+                    else
+                    {
+                        if (i < line.Length - 1 && line[i + 1] == '"')
                         {
-                            inQuote = true;
+                            sb.Append('"');
                         }
                         else
                         {
-                            if (i < line.Length - 1 && line[i + 1] == '"')
-                            {
-                                sb.Append('"');
-                            }
-                            else
-                            {
-                                inQuote = false;
-                            }
+                            inQuote = false;
                         }
                     }
-                    else if (c == '\0' || c == ',')
+                }
+                else if (c == ',')
+                {
+                    if (inQuote)
+                    {
+                        sb.Append(c);
+                    }
+                    else
                     {
                         list.Add(sb.ToString());
                         sb.Clear();
                     }
-                    else
-                    {
-                        sb.Append(c);
-                    }
+                }
+                else if (c == '\0')
+                {
+                    list.Add(sb.ToString());
+                    sb.Clear();
+                }
+                else
+                {
+                    sb.Append(c);
                 }
             }
         }

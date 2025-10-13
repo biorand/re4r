@@ -10,6 +10,7 @@
         public const int AmmoBolts = 112808000;
         public const int AmmoMines = 117603200;
         public const int AmmoArrows = 112480000;
+        public const int AmmoFuel = 112814400;
         public const int Money = 124000000;
         public const int FirstAidSpray = 114416000;
         public const int HerbG = 114400000;
@@ -90,5 +91,6 @@
         public const int RocketLauncher = 276275456;
         public const int RocketLauncherInfiniteAda = 278213056;
         public const int RocketLauncherAda = 276277056;
+        public const int Flamethrower = 275957056;
     }
 }

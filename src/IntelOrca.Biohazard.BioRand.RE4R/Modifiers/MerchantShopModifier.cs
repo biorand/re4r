@@ -237,6 +237,37 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 if (randomizer.Campaign == Campaign.Leon)
                 {
+                    AddItemToCategory(ItemIds.Flamethrower, 0);
+                    shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
+                    {
+                        _ItemId = ItemIds.Flamethrower,
+                        _PriceSettings = [
+                            new chainsaw.gui.shop.ItemPriceSetting()
+                            {
+                                _Difficulty = 20,
+                                _Price = new chainsaw.gui.shop.ItemPrice()
+                                {
+                                    _PurchasePrice = 30000,
+                                    _SellingPrice = 15000,
+                                }
+                            }
+                        ]
+                    });
+                    shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
+                    {
+                        _ItemId = ItemIds.AmmoFuel,
+                        _PriceSettings = [
+                            new chainsaw.gui.shop.ItemPriceSetting()
+                            {
+                                _Difficulty = 20,
+                                _Price = new chainsaw.gui.shop.ItemPrice()
+                                {
+                                    _PurchasePrice = 40,
+                                    _SellingPrice = 15,
+                                }
+                            }
+                        ]
+                    });
                     AddItemToCategory(ItemIds.SWSawedOffW870, 1);
                     shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
                     {

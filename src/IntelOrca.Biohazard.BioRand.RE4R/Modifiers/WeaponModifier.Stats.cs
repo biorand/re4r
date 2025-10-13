@@ -28,6 +28,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             Indestructible,
             Repair,
             Polish,
+            FlameDistance,
         }
 
         internal enum WeaponUpgradePath
@@ -180,7 +181,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Categories.ReloadSpeed => new ReloadSpeedUpgrade(i._CustomReloadSpeed, d._ReloadSpeed),
                         Categories.FireRate => new FireRateUpgrade(i._CustomRapid, d._Rapid),
                         Categories.AmmoCost => throw new NotSupportedException(),
-                        Categories.FlameDistance => throw new NotSupportedException(),
+                        Categories.FlameDistance => new FlameDistanceUpgrade(i._CustomFlameDistance, d._FlameDistance),
                         Categories.Others => throw new NotSupportedException(),
                         _ => throw new NotSupportedException()
                     });
@@ -847,6 +848,80 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         }
 
         internal record FireRateUpgradeLevel(int Cost, string Info, float Speed, float PumpSpeed) : IWeaponUpgradeLevel
+        {
+        }
+
+        internal class FlameDistanceUpgrade(CustomFlameDistance main, FlameDistance detail) : IWeaponUpgrade
+        {
+            public FlameDistanceUpgrade() : this(new CustomFlameDistance(), new FlameDistance()) { }
+            public WeaponUpgradeKind Kind => WeaponUpgradeKind.FlameDistance;
+            public object Main => new Individual()
+            {
+                _IndividualCustomCategory = Categories.FlameDistance,
+                _CustomFlameDistance = main
+            };
+            public object Detail => new IndividualCustom()
+            {
+                _IndividualCustomCategory = Categories.FlameDistance,
+                _FlameDistance = detail
+            };
+            public Guid MessageId
+            {
+                get => main._MessageId;
+                set => main._MessageId = value;
+            }
+            public ImmutableArray<FlameDistanceUpgradeLevel> Levels
+            {
+                get
+                {
+                    var result = ImmutableArray.CreateBuilder<FlameDistanceUpgradeLevel>();
+                    for (var i = 0; i < main._FlameDistanceCustomStages.Count; i++)
+                    {
+                        var cost = main._FlameDistanceCustomStages[i]._Cost;
+                        var info = main._FlameDistanceCustomStages[i]._Info;
+                        var value = detail._ShellDistance.Count > i
+                            ? detail._ShellDistance[i]
+                            : 0;
+                        result.Add(new FlameDistanceUpgradeLevel(
+                            cost,
+                            info,
+                            value));
+                    }
+                    return result.ToImmutable();
+                }
+                set
+                {
+                    main._FlameDistanceCustomStages.Resize(value.Length);
+                    detail._ShellDistance.Resize(value.Length);
+                    for (var i = 0; i < main._FlameDistanceCustomStages.Count; i++)
+                    {
+                        main._FlameDistanceCustomStages[i] ??= new FlameDistanceCustomStage();
+                        main._FlameDistanceCustomStages[i]._Cost = value[i].Cost;
+                        main._FlameDistanceCustomStages[i]._Info = value[i].Info;
+                        if (i != 0)
+                        {
+                            main._FlameDistanceCustomStages[i]._FlameDistanceParams =
+                            [
+                                new FlameDistanceParam()
+                                {
+                                    _Level = i,
+                                    _FlameDistance = 0
+                                }
+                            ];
+                        }
+                        detail._ShellDistance[i] = value[i].Distance;
+                    }
+                }
+            }
+            public ImmutableArray<int> Cost
+            {
+                get => Levels.Select(x => x.Cost).ToImmutableArray();
+                set => Levels = Levels.Zip(value).Select(x => x.First with { Cost = x.Second }).ToImmutableArray();
+            }
+            IReadOnlyList<IWeaponUpgradeLevel> IWeaponUpgrade.Levels => Levels;
+        }
+
+        internal record FlameDistanceUpgradeLevel(int Cost, string Info, float Distance) : IWeaponUpgradeLevel
         {
         }
 

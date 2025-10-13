@@ -160,6 +160,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 DropKinds.AmmoBolts => GetRandomAmmo(ItemIds.AmmoBolts, rng, settings),
                 DropKinds.AmmoMines => GetRandomAmmo(ItemIds.AmmoMines, rng, settings),
                 DropKinds.AmmoArrows => GetRandomAmmo(ItemIds.AmmoArrows, rng, settings),
+                DropKinds.AmmoFuel => GetRandomAmmo(ItemIds.AmmoFuel, rng, settings),
                 DropKinds.Fas => new Item(ItemIds.FirstAidSpray, 1),
                 DropKinds.Fish => GetRandomSingleItem(rng, ItemKinds.Fish, allowReoccurance: true),
                 DropKinds.EggBrown => new Item(ItemIds.EggBrown, 1),
