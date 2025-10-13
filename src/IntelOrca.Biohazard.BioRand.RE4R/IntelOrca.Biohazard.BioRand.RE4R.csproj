@@ -3,7 +3,6 @@
     <TargetFramework>net9.0</TargetFramework>
     <RootNamespace>IntelOrca.Biohazard.BioRand.RE4R</RootNamespace>
     <Nullable>enable</Nullable>
-    <RestoreSources>M:\git\reeutils\src\IntelOrca.Biohazard.REE\bin\Debug</RestoreSources>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="IntelOrca.Biohazard.REE" Version="1.3.2" />
