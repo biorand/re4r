@@ -108,7 +108,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             {
                 return root
                     .Set("_FolderType", 8)
-                    .Set("_FlameShellIntervalTime", 0.2);
+                    .Set("_FlameShellIntervalTime", 0.5);
             });
 
             SetSoundTrgr("natives/stm/_chainsaw/sound/resource/trigger/weapon/snd_trgr_wp_gun_cm.user.2", 686504397, true, 0);
