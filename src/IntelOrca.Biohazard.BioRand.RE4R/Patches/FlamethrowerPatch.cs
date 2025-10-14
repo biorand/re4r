@@ -95,14 +95,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 return root
                     .Set("_LifeInfo._Distance", 5)
                     .Set("_LifeInfo._WaterSufaceHit", true)
-                    .Set("_AttackInfo._ColliderRadius", 0.20);
+                    .Set("_AttackInfo._ColliderRadius", 0.15);
             });
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/shell/bullet/wp4701/wp4701embershellinfo.user.2", root =>
             {
                 return root
                     .Set("_LifeInfo._WaterSufaceHit", true)
                     .Set("_AttackInfo._ColliderRadius", 1.0)
-                    .Set("_LifeInfo._Time", 7);
+                    .Set("_LifeInfo._Time", 3);
             });
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/shell/bullet/wp4701/wp4701shellgeneratoruserdata.user.2", root =>
             {
