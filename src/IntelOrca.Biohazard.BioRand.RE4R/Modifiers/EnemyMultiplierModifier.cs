@@ -58,7 +58,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     enemyLimit = maxPerStage;
                 }
 
-                var stageSpawns = g.Where(x => !x.PreventDuplicate).ToArray();
+                var stageSpawns = g.Where(x => !x.IsOrphan && !x.PreventDuplicate).ToArray();
                 var newEnemyCount = Math.Min(enemyLimit, stageSpawns.Length * multiplier);
                 var delta = (int)Math.Round(newEnemyCount - stageSpawns.Length);
                 if (delta != 0)
@@ -74,7 +74,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         if (currentStageIdCount < maxPerStage)
                         {
                             var newEnemy = enemyToDuplicate.Duplicate(randomizer.GetNextEnemyContextId());
-                            enemyToDuplicate.SpawnController.AddEnemy(newEnemy);
+                            var spawnController = enemyToDuplicate.SpawnController ?? throw new Exception("No spawn controller found");
+                            spawnController.AddEnemy(newEnemy);
                             newList.Add(newEnemy);
                             _stageEnemyCount[stageId]++;
                             delta--;

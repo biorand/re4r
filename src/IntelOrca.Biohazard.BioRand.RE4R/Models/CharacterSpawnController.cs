@@ -32,7 +32,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
                 if (enemyComponent != null)
                 {
                     var enemy = new Enemy(Area, go, enemyComponent);
-                    var spawn = new EnemySpawn(this, enemy, enemy);
+                    var spawn = new EnemySpawn(Area, this, enemy, enemy);
                     spawn.SetClassPool();
                     enemies.Add(spawn);
                 }

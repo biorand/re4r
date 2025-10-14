@@ -47,7 +47,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         }
 
         public ImmutableArray<CharacterSpawnController> SpawnControllers { get; private set; }
-        public IEnumerable<EnemySpawn> Enemies => SpawnControllers.SelectMany(x => x.Enemies);
+        public ImmutableArray<EnemySpawn> OrphanEnemies { get; private set; }
+        public IEnumerable<EnemySpawn> Enemies => SpawnControllers.SelectMany(x => x.Enemies).Concat(OrphanEnemies);
 
         public Area(ChainsawRandomizer randomizer, AreaDefinition definition, EnemyClassFactory enemyClassFactory, ScnFile scn)
         {
@@ -55,20 +56,42 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             Definition = definition;
             EnemyClassFactory = enemyClassFactory;
             ScnFile = scn.ToBuilder(FileRepository.RszRepository);
-            SpawnControllers = Scan();
+            Scan();
         }
 
-        private ImmutableArray<CharacterSpawnController> Scan()
+        private void Scan()
         {
             var spawnControllers = ImmutableArray.CreateBuilder<CharacterSpawnController>();
-            Scene.VisitGameObjects(gameObject =>
+            var orphanEnemies = ImmutableArray.CreateBuilder<EnemySpawn>();
+            ScanInner(Scene);
+            SpawnControllers = spawnControllers.ToImmutable();
+            OrphanEnemies = orphanEnemies.ToImmutable();
+
+            void ScanInner(IRszSceneNode node)
             {
-                if (CharacterSpawnController.IsSpawnController(gameObject))
+                if (node is RszGameObject gameObject)
                 {
-                    spawnControllers.Add(new CharacterSpawnController(this, gameObject));
+                    if (CharacterSpawnController.IsSpawnController(gameObject))
+                    {
+                        spawnControllers.Add(new CharacterSpawnController(this, gameObject));
+                        return;
+                    }
+
+                    var enemyComponent = GetMainEnemyComponent(gameObject);
+                    if (enemyComponent != null)
+                    {
+                        var enemy = new Enemy(this, gameObject, enemyComponent);
+                        var enemySpawn = new EnemySpawn(this, null, enemy, enemy);
+                        enemySpawn.SetClassPool();
+                        orphanEnemies.Add(enemySpawn);
+                    }
                 }
-            });
-            return spawnControllers.ToImmutable();
+
+                foreach (var child in node.Children)
+                {
+                    ScanInner(child);
+                }
+            }
         }
 
         public ScnFile Apply()
@@ -139,7 +162,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var newComponent = GetMainEnemyComponent(newGameObject) ?? throw new Exception("Unable to find new enemy component for duplicated enemy.");
             var newEnemy = new Enemy(this, newGameObject, newComponent);
             newEnemy.ContextId = newEnemy.ContextId.WithIndex(contextId);
-            var newEnemySpawn = new EnemySpawn(enemy.SpawnController, enemy.Enemy, newEnemy);
+            var newEnemySpawn = new EnemySpawn(enemy.Area, enemy.SpawnController, enemy.Enemy, newEnemy);
             return newEnemySpawn;
         }
 

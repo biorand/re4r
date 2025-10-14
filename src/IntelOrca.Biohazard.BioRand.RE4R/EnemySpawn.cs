@@ -8,7 +8,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class EnemySpawn
     {
-        public CharacterSpawnController SpawnController { get; }
+        public Area Area { get; }
+        public CharacterSpawnController? SpawnController { get; }
         public Enemy OriginalEnemy { get; }
         public Enemy Enemy { get; private set; }
         public bool Horde { get; set; }
@@ -19,10 +20,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public ImmutableArray<EnemyClassDefinition> ClassPool { get; set; } = [];
         public EnemyClassDefinition? ChosenClass { get; set; }
 
-        public Area Area => SpawnController.Area;
-
-        public EnemySpawn(CharacterSpawnController spawnController, Enemy originalEnemy, Enemy enemy)
+        public EnemySpawn(Area area, CharacterSpawnController? spawnController, Enemy originalEnemy, Enemy enemy)
         {
+            Area = area;
             SpawnController = spawnController;
             OriginalEnemy = originalEnemy;
             Enemy = enemy;
@@ -63,8 +63,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return result;
         }
 
-        public bool HasStaticSpawn => SpawnController.Kind == SpawnControllerKind.Standard && SpawnController.SpawnCondition._CheckFlags.Count == 0;
-        public bool HasSimpleController => SpawnController.Kind == SpawnControllerKind.Standard;
+        public bool IsOrphan => SpawnController == null;
+        public bool HasStaticSpawn =>
+            SpawnController != null &&
+            SpawnController.Kind == SpawnControllerKind.Standard &&
+            SpawnController.SpawnCondition._CheckFlags.Count == 0;
+        public bool HasSimpleController => SpawnController != null && SpawnController.Kind == SpawnControllerKind.Standard;
 
         public bool HasKeyItem
         {

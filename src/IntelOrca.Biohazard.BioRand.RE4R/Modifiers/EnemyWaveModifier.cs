@@ -33,7 +33,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     if (numWavedEnemies >= maxWavedEnemies)
                         break;
-                    if (oldSpawn.PreventDuplicate)
+                    if (oldSpawn.IsOrphan || oldSpawn.PreventDuplicate)
                         continue;
                     if (!string.IsNullOrEmpty(oldSpawn.MiniBoss))
                         continue;
@@ -42,7 +42,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     var area = oldSpawn.Area;
                     var scn = oldSpawn.Area.ScnFile;
-                    var oldSpawnController = oldSpawn.SpawnController;
+                    var oldSpawnController = oldSpawn.SpawnController ?? throw new Exception("No spawn controller found");
                     var lastSpawn = oldSpawn;
                     var numWaves = rng.Next(minWaves, maxWaves + 1);
                     for (var i = 1; i < numWaves; i++)
