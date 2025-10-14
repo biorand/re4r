@@ -13,7 +13,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            _shop ??= ChainsawMerchantShop.FromData(randomizer.FileRepository, randomizer.Campaign);
+            _shop = ChainsawMerchantShop.FromData(randomizer.FileRepository, randomizer.Campaign);
             var shop = _shop;
             var itemRepo = ItemDefinitionRepository.Default;
 
@@ -126,7 +126,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("random-merchant"))
                 return;
 
-            _shop ??= ChainsawMerchantShop.FromData(randomizer.FileRepository, randomizer.Campaign);
+            _shop = ChainsawMerchantShop.FromData(randomizer.FileRepository, randomizer.Campaign);
 
             var rng = randomizer.CreateRng();
             var internalRandomizer = new ShopRandomizer(rng, randomizer, _shop, logger);
@@ -238,37 +238,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 if (randomizer.Campaign == Campaign.Leon)
                 {
-                    AddItemToCategory(ItemIds.Flamethrower, 0);
-                    shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
-                    {
-                        _ItemId = ItemIds.Flamethrower,
-                        _PriceSettings = [
-                            new chainsaw.gui.shop.ItemPriceSetting()
-                            {
-                                _Difficulty = 20,
-                                _Price = new chainsaw.gui.shop.ItemPrice()
-                                {
-                                    _PurchasePrice = 30000,
-                                    _SellingPrice = 15000,
-                                }
-                            }
-                        ]
-                    });
-                    shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
-                    {
-                        _ItemId = ItemIds.AmmoFuel,
-                        _PriceSettings = [
-                            new chainsaw.gui.shop.ItemPriceSetting()
-                            {
-                                _Difficulty = 20,
-                                _Price = new chainsaw.gui.shop.ItemPrice()
-                                {
-                                    _PurchasePrice = 40,
-                                    _SellingPrice = 15,
-                                }
-                            }
-                        ]
-                    });
                     AddItemToCategory(ItemIds.SWSawedOffW870, 1);
                     shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
                     {

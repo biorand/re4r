@@ -337,6 +337,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         private void UpdateShop()
         {
+            // Add flamethrower to weapon shop category
+            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/ingameshoppurchasecategorysettinguserdata.user.2", root =>
+            {
+                var userdata = RszSerializer.Deserialize<chainsaw.InGameShopPurchaseCategorySettingUserdata>(root)!;
+                var category1 = userdata._Settings.First(x => x._Category == 1);
+                category1._Datas.Add(new chainsaw.InGameShopPurchaseCategorySingleSetting.Data()
+                {
+                    _ItemId = FlamethrowerItemId,
+                    _SortPriority = category1._Datas.Max(x => x._SortPriority) + 10
+                });
+                return (RszObjectNode)RszSerializer.Serialize(root.Type, userdata);
+            });
+
+            // Add flamethrower and fuel to shop
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopitemsettinguserdata.user.2", root =>
             {
                 var datas = (RszArrayNode)root["_Datas"];
