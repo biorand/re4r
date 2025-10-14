@@ -241,7 +241,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"inventory-stack-limit-{dropKind}",
-                    Label = dropKind,
+                    Label = DropKinds.GetLabel(dropKind),
                     Type = "range",
                     Min = 0,
                     Max = 9999,
