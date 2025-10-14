@@ -523,8 +523,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var value = (int)MathF.Round(sr.Values[i]);
                 levels[i] = penetration.Levels[i] with
                 {
-                    Value = value,
-                    Info = value.ToString()
+                    Cost = sr.Cost[i],
+                    Info = value.ToString(),
+                    Value = value
                 };
             }
             penetration.Levels = [.. levels];
