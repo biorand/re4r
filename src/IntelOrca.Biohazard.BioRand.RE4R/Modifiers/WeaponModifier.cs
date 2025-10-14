@@ -504,15 +504,30 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void RandomizePenetration(WeaponStats stat, StatRange sr)
         {
-            stat.Modifiers = stat.Modifiers.Add(new PenetrationUpgrade
+            var penetration = stat.Modifiers.OfType<PenetrationUpgrade>().FirstOrDefault();
+            if (penetration == null)
             {
-                MessageId = _addMessage("Increase penetration."),
-                Levels = Enumerable.Range(0, 5).Select(i =>
+                penetration = new PenetrationUpgrade
                 {
-                    var value = (int)MathF.Round(sr.Values[i]);
-                    return new PenetrationUpgradeLevel(sr.Cost[i], value.ToString(), value);
-                }).ToImmutableArray()
-            });
+                    MessageId = _addMessage("Increase penetration."),
+                    Levels = Enumerable.Range(0, 5)
+                        .Select(i => new PenetrationUpgradeLevel(0, "0", 0))
+                        .ToImmutableArray()
+                };
+                stat.Modifiers = stat.Modifiers.Add(penetration);
+            }
+
+            var levels = penetration.Levels.ToArray();
+            for (var i = 0; i < 5; i++)
+            {
+                var value = (int)MathF.Round(sr.Values[i]);
+                levels[i] = penetration.Levels[i] with
+                {
+                    Value = value,
+                    Info = value.ToString()
+                };
+            }
+            penetration.Levels = [.. levels];
         }
 
         private void RandomizeReloadSpeed(WeaponStats stat, StatRange sr)
