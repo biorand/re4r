@@ -36,8 +36,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var prop = mapping[j];
                     if (prop != null)
                     {
-                        var value = Convert.ChangeType(columns[j], prop.PropertyType);
-                        prop.SetValue(element, value);
+                        var text = columns[j];
+                        if (!string.IsNullOrEmpty(text))
+                        {
+                            var value = Convert.ChangeType(columns[j], prop.PropertyType);
+                            prop.SetValue(element, value);
+                        }
                     }
                 }
                 result.Add(element);

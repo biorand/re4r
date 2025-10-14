@@ -149,13 +149,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public int InputItemCount0 { get; set; }
             public int InputItemId1 { get; set; }
             public int InputItemCount1 { get; set; }
+            public int InputItemId2 { get; set; }
+            public int InputItemCount2 { get; set; }
             public int OutputItemId { get; set; }
             public int OutputItemCount { get; set; }
 
-            public ImmutableArray<RecipeInputOutput> Input => [
-                new RecipeInputOutput() { Id = InputItemId0, Count = InputItemCount0 },
-                new RecipeInputOutput() { Id = InputItemId1, Count = InputItemCount1 },
-            ];
+            public ImmutableArray<RecipeInputOutput> Input =>
+                new[] {
+                    new RecipeInputOutput() { Id = InputItemId0, Count = InputItemCount0 },
+                    new RecipeInputOutput() { Id = InputItemId1, Count = InputItemCount1 },
+                    new RecipeInputOutput() { Id = InputItemId2, Count = InputItemCount2 }
+                }
+                .Where(x => x.Count != 0)
+                .ToImmutableArray();
 
             public RecipeInputOutput Output => new RecipeInputOutput() { Id = OutputItemId, Count = OutputItemCount };
         }
