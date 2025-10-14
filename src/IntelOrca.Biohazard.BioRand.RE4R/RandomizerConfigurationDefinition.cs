@@ -235,21 +235,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Default = true
             });
 
-            group = page.CreateGroup("Stack Limits");
-            foreach (var dropKind in DropKinds.Stackable)
-            {
-                group.Items.Add(new GroupItem()
-                {
-                    Id = $"inventory-stack-limit-{dropKind}",
-                    Label = DropKinds.GetLabel(dropKind),
-                    Type = "range",
-                    Min = 0,
-                    Max = 9999,
-                    Step = 1,
-                    Default = 0
-                });
-            }
-
             foreach (var x in new[] { "Primary", "Secondary" })
             {
                 group = page.CreateGroup($"{x} Weapon");
@@ -274,6 +259,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
+
+            group = page.CreateGroup("Stack Limits");
+            foreach (var dropKind in DropKinds.Stackable)
+            {
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"inventory-stack-limit-{dropKind}",
+                    Label = DropKinds.GetLabel(dropKind),
+                    Type = "range",
+                    Min = 0,
+                    Max = 9999,
+                    Step = 1,
+                    Default = 0
+                });
+            }
 
             page = configDefinition.CreatePage("Items");
             group = page.CreateGroup("");
