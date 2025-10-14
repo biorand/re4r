@@ -108,7 +108,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             {
                 return root
                     .Set("_FolderType", 8)
-                    .Set("_FlameShellIntervalTime", 0.3);
+                    .Set("_FlameShellIntervalTime", (float)_wpflamethrower["flameinterval"]);
             });
 
             SetSoundTrgr("natives/stm/_chainsaw/sound/resource/trigger/weapon/snd_trgr_wp_gun_cm.user.2", 686504397, true, 0);
@@ -783,12 +783,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             var AttackData = AttackDataList[i];
                             if (AttackData.Get<uint>("_KeyNameHash") == KeyNameHashValueBurnTickDamage)
                             {
-                                AttackData = AttackData.Set("_Damage", (int)_wpflamethrower["wincecrit"] );
+                                AttackData = AttackData.Set("_Damage", (int)_wpflamethrower["burndamage"] );
                                 AttackDataList = AttackDataList.SetItem(i, AttackData);
                             }
                             if (AttackData.Get<uint>("_KeyNameHash") == KeyNameHashValueFinalBurnTickDamage)
                             {
-                                AttackData = AttackData.Set("_Damage", (int)_wpflamethrower["wincecrit"] * 2);
+                                AttackData = AttackData.Set("_Damage", (int)_wpflamethrower["burndamage"] * 2);
                                 AttackDataList = AttackDataList.SetItem(i, AttackData);
                             }
                         }
@@ -812,7 +812,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             AttackDataList = AttackDataList.Add(FileRepository.RszRepository
                               .Create("chainsaw.collision.AttackHitUserData.AttackData")
                                   .Set("_KeyNameHash", KeyNameHashValueBurnTickDamage)
-                                  .Set("_Damage", (int)_wpflamethrower[$"wincecrit"] )
+                                  .Set("_Damage", (int)_wpflamethrower[$"burndamage"] )
                                   .Set("STRUCT__Wince__HasValue", true)
                                   .Set("STRUCT__Wince__Value", 0)
                                   .Set("STRUCT__Break__HasValue", true)
@@ -846,7 +846,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             AttackDataList = AttackDataList.Add(FileRepository.RszRepository
                                 .Create("chainsaw.collision.AttackHitUserData.AttackData")
                                     .Set("_KeyNameHash", KeyNameHashValueFinalBurnTickDamage)
-                                    .Set("_Damage", (int)_wpflamethrower["wincecrit"] * 2)
+                                    .Set("_Damage", (int)_wpflamethrower["burndamage"] * 2)
                                     .Set("STRUCT__Wince__HasValue", true)
                                     .Set("STRUCT__Wince__Value", 0)
                                     .Set("STRUCT__Break__HasValue", true)
