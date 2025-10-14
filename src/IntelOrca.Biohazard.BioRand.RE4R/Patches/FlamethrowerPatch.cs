@@ -783,12 +783,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             var AttackData = AttackDataList[i];
                             if (AttackData.Get<uint>("_KeyNameHash") == KeyNameHashValueBurnTickDamage)
                             {
-                                AttackData = AttackData.Set("_Damage", (int)_wpflamethrower["damage"] * 1.5);
+                                AttackData = AttackData.Set("_Damage", (int)_wpflamethrower["damagecrit"] * 2);
                                 AttackDataList = AttackDataList.SetItem(i, AttackData);
                             }
                             if (AttackData.Get<uint>("_KeyNameHash") == KeyNameHashValueFinalBurnTickDamage)
                             {
-                                AttackData = AttackData.Set("_Damage", (int)_wpflamethrower["damage"] * 3);
+                                AttackData = AttackData.Set("_Damage", (int)_wpflamethrower["damagecrit"] * 4);
                                 AttackDataList = AttackDataList.SetItem(i, AttackData);
                             }
                         }
