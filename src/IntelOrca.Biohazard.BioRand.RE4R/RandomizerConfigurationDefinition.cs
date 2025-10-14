@@ -538,6 +538,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"mendez-down-resistance",
+                Label = "Mendez Down Resistance",
+                Description = "Higher percentage will increase required number of hits on Mendez to down him.",
+                Type = "percent",
+                Min = 0,
+                Max = 1,
+                Step = 0.1,
+                Default = 0.2
+            });
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
