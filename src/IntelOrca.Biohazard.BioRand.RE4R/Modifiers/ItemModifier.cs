@@ -23,10 +23,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var stackMultiplier = randomizer.GetConfigOption<double>("inventory-stack-multiplier", 1);
-            if (stackMultiplier == 1)
-                return;
-
             var itemData = ChainsawItemData.FromRandomizer(randomizer);
             foreach (var item in itemData.Definitions)
             {
@@ -37,8 +33,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (!IsStackable(itemDefinition))
                     continue;
 
+                var optionName = $"inventory-stack-limit-{itemDefinition.DropKind}";
+                var stackSize = Math.Clamp(randomizer.GetConfigOption<int>(optionName), 0, 9999);
+                if (stackSize == 0)
+                    continue;
+
                 var data = IsWeapon(itemDefinition) ? item._WeaponDefineData : item._ItemDefineData;
-                data._StackMax = Math.Clamp((int)Math.Round(data._StackMax * stackMultiplier), 1, 999);
+                data._StackMax = stackSize;
             }
             itemData.Save();
         }
@@ -55,6 +56,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 definition.Kind == ItemKinds.Resource ||
                 definition.Kind == ItemKinds.Egg ||
                 definition.Kind == ItemKinds.Fish ||
+                definition.Kind == ItemKinds.Viper ||
                 definition.Kind == ItemKinds.Health;
         }
 

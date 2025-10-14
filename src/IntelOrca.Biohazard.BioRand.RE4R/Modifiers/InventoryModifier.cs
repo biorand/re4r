@@ -84,6 +84,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var randomKinds = new[] {
                 ItemKinds.Fish,
                 ItemKinds.Fish,
+                ItemKinds.Viper,
+                ItemKinds.Viper,
                 ItemKinds.Health,
                 ItemKinds.Health,
                 ItemKinds.Egg,

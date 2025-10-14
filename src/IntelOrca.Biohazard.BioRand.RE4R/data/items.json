@@ -7,7 +7,8 @@
       "value": 100,
       "size": "2x1",
       "class": "handgun",
-      "stack": 50
+      "stack": 50,
+      "dropKind": "ammo-handgun"
     },
     {
       "name": "Magnum Ammo",
@@ -16,7 +17,8 @@
       "value": 1000,
       "size": "2x1",
       "class": "magnum",
-      "stack": 10
+      "stack": 10,
+      "dropKind": "ammo-magnum"
     },
     {
       "name": "Shotgun Shells",
@@ -25,7 +27,8 @@
       "value": 500,
       "size": "2x1",
       "class": "shotgun",
-      "stack": 15
+      "stack": 15,
+      "dropKind": "ammo-shotgun"
     },
     {
       "name": "Rifle Ammo",
@@ -34,7 +37,8 @@
       "value": 500,
       "size": "2x1",
       "class": "rifle",
-      "stack": 15
+      "stack": 15,
+      "dropKind": "ammo-rifle"
     },
     {
       "name": "Submachine Gun Ammo",
@@ -43,7 +47,8 @@
       "value": 10,
       "size": "2x1",
       "class": "smg",
-      "stack": 120
+      "stack": 120,
+      "dropKind": "ammo-smg"
     },
     {
       "name": "Bolts",
@@ -51,7 +56,8 @@
       "id": 112808000,
       "value": 250,
       "class": "bolt",
-      "stack": 10
+      "stack": 10,
+      "dropKind": "ammo-bolts"
     },
     {
       "name": "it_sm70_506_00_0",
@@ -73,7 +79,8 @@
       "size": "2x1",
       "class": "flame",
       "stack": 1600,
-      "mode": "main"
+      "mode": "main",
+      "dropKind": "ammo-fuel"
     },
     {
       "name": "SW - Blast Arrows",
@@ -81,7 +88,8 @@
       "mode": "sw",
       "class": "arrow",
       "stack": 10,
-      "id": 112480000
+      "id": 112480000,
+      "dropKind": "ammo-arrows"
     },
     {
       "name": "it_sm70_300_10_0",
@@ -97,13 +105,15 @@
       "name": "SW - Lord of the Waterway",
       "kind": "fish",
       "mode": "sw",
-      "id": 114080000
+      "id": 114080000,
+      "dropKind": "fish"
     },
     {
       "name": "Green Herb",
       "kind": "health",
       "id": 114400000,
-      "value": 500
+      "value": 500,
+      "dropKind": "herb-g"
     },
     {
       "name": "it_sm71_500_10_0",
@@ -113,7 +123,8 @@
       "name": "Red Herb",
       "kind": "health",
       "id": 114401600,
-      "value": 1000
+      "value": 1000,
+      "dropKind": "herb-r"
     },
     {
       "name": "it_sm71_501_10_0",
@@ -123,79 +134,92 @@
       "name": "Yellow Herb",
       "kind": "health",
       "id": 114403200,
-      "value": 5000
+      "value": 5000,
+      "dropKind": "herb-y"
     },
     {
       "name": "G+G",
       "kind": "health",
       "id": 114404800,
-      "value": 1000
+      "value": 1000,
+      "dropKind": "herb-gg"
     },
     {
       "name": "G+G+G",
       "kind": "health",
       "id": 114406400,
-      "value": 3000
+      "value": 3000,
+      "dropKind": "herb-ggg"
     },
     {
       "name": "G+R",
       "kind": "health",
       "id": 114408000,
-      "value": 3000
+      "value": 3000,
+      "dropKind": "herb-gr"
     },
     {
       "name": "G+Y",
       "kind": "health",
       "id": 114409600,
-      "value": 6000
+      "value": 6000,
+      "dropKind": "herb-gy"
     },
     {
       "name": "R+Y",
       "kind": "health",
       "id": 114411200,
-      "value": 7000
+      "value": 7000,
+      "dropKind": "herb-ry"
     },
     {
       "name": "G+R+Y",
       "kind": "health",
       "id": 114412800,
-      "value": 10000
+      "value": 10000,
+      "dropKind": "herb-gry"
     },
     {
       "name": "G+G+Y",
       "kind": "health",
       "id": 114414400,
-      "value": 4000
+      "value": 4000,
+      "dropKind": "herb-ggy"
     },
     {
       "name": "First Aid Spray",
       "kind": "health",
       "id": 114416000,
-      "value": 5000
+      "value": 5000,
+      "dropKind": "fas"
     },
     {
       "name": "Black Bass",
       "kind": "fish",
       "id": 114417600,
-      "value": 1000
+      "value": 1000,
+      "dropKind": "fish"
     },
     {
       "name": "Lunker Bass",
       "kind": "fish",
       "id": 114419200,
-      "value": 5000
+      "value": 5000,
+      "dropKind": "fish"
     },
     {
       "name": "Black Bass (L)",
       "kind": "fish",
       "id": 114420800,
-      "value": 2500
+      "value": 2500,
+      "dropKind": "fish"
     },
     {
       "name": "Viper",
-      "kind": "fish",
+      "kind": "viper",
       "id": 114422400,
-      "value": 1000
+      "value": 1000,
+      "dropKind": "viper"
     },
     {
       "name": "Rhinoceros Beetle",
@@ -280,18 +304,21 @@
     {
       "name": "Gunpowder",
       "kind": "gunpowder",
-      "id": 117600000
+      "id": 117600000,
+      "dropKind": "gunpowder"
     },
     {
       "name": "Resource (Large)",
       "kind": "resource",
-      "id": 117601600
+      "id": 117601600,
+      "dropKind": "resource-large"
     },
     {
       "name": "Attachable Mines",
       "kind": "ammo",
       "id": 117603200,
-      "stack": 10
+      "stack": 10,
+      "dropKind": "ammo-mines"
     },
     {
       "name": "Broken Knife",
@@ -302,7 +329,8 @@
     {
       "name": "Resources (Small)",
       "kind": "resource",
-      "id": 117606400
+      "id": 117606400,
+      "dropKind": "resource-small"
     },
     {
       "name": "Hexagonal Emblem",
@@ -997,7 +1025,8 @@
     {
       "name": "Pesetas",
       "kind": "money",
-      "id": 124000000
+      "id": 124000000,
+      "dropKind": "money"
     },
     {
       "name": "Body Armor",
@@ -1627,7 +1656,8 @@
       "mode": "disabled",
       "size": "8x2",
       "class": "special",
-      "weaponId": 4900
+      "weaponId": 4900,
+      "dropKind": "rocket-launcher"
     },
     {
       "name": "Special Rocket Launcher",
@@ -1665,13 +1695,15 @@
       "name": "Kitchen Knife",
       "kind": "knife",
       "id": 276438656,
-      "weaponId": 5002
+      "weaponId": 5002,
+      "dropKind": "knife"
     },
     {
       "name": "Boot Knife",
       "kind": "knife",
       "id": 276440256,
-      "weaponId": 5003
+      "weaponId": 5003,
+      "dropKind": "knife"
     },
     {
       "name": "it_wp5004_00_0",
@@ -1710,37 +1742,43 @@
       "name": "Hand Grenade",
       "kind": "grenade",
       "id": 277075456,
-      "weaponId": 5400
+      "weaponId": 5400,
+      "dropKind": "grenade-light"
     },
     {
       "name": "Heavy Grenade",
       "kind": "grenade",
       "id": 277077056,
-      "weaponId": 5401
+      "weaponId": 5401,
+      "dropKind": "grenade-heavy"
     },
     {
       "name": "Flash Grenade",
       "kind": "grenade",
       "id": 277078656,
-      "weaponId": 5402
+      "weaponId": 5402,
+      "dropKind": "grenade-flash"
     },
     {
       "name": "Chicken Egg",
       "kind": "egg",
       "id": 277080256,
-      "weaponId": 5403
+      "weaponId": 5403,
+      "dropKind": "egg-white"
     },
     {
       "name": "Brown Chicken Egg",
       "kind": "egg",
       "id": 277081856,
-      "weaponId": 5404
+      "weaponId": 5404,
+      "dropKind": "egg-brown"
     },
     {
       "name": "Gold Chicken Egg",
       "kind": "egg",
       "id": 277083456,
-      "weaponId": 5405
+      "weaponId": 5405,
+      "dropKind": "egg-gold"
     },
     {
       "name": "it_wp5406_00_0",

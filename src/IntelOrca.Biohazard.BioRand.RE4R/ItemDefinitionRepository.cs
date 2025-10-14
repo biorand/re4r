@@ -13,6 +13,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public ImmutableArray<string> Kinds { get; private set; }
         public ImmutableDictionary<string, ImmutableArray<ItemDefinition>> KindToItemMap { get; private set; } =
             ImmutableDictionary<string, ImmutableArray<ItemDefinition>>.Empty;
+        public ImmutableDictionary<string, ImmutableArray<ItemDefinition>> DropKindToItemMap { get; private set; } =
+            ImmutableDictionary<string, ImmutableArray<ItemDefinition>>.Empty;
         public ImmutableDictionary<int, ItemDefinition> IdToItemMap { get; private set; } =
             ImmutableDictionary<int, ItemDefinition>.Empty;
         public ImmutableDictionary<int, ItemDefinition> WeaponIdToItemMap { get; private set; } =
@@ -43,6 +45,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 .ToImmutableArray();
             KindToItemMap = releventItems
                 .GroupBy(x => x.Kind!)
+                .ToImmutableDictionary(x => x.Key, x => x.ToImmutableArray());
+            DropKindToItemMap = releventItems
+                .Where(x => x.DropKind != null)
+                .GroupBy(x => x.DropKind!)
                 .ToImmutableDictionary(x => x.Key, x => x.ToImmutableArray());
             IdToItemMap = Items.ToImmutableDictionary(x => x.Id);
             WeaponIdToItemMap = Items
@@ -79,12 +85,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             return GetAll(ItemKinds.Ammo, weapon.Class).FirstOrDefault();
         }
+
+        public ImmutableArray<ItemDefinition> FromDropKind(string dropKind)
+        {
+            var result = DropKindToItemMap.GetValueOrDefault(dropKind);
+            return result.IsDefault ? [] : result;
+        }
     }
 
     public static class ItemKinds
     {
         public const string Ammo = "ammo";
         public const string Fish = "fish";
+        public const string Viper = "viper";
         public const string Health = "health";
         public const string Egg = "egg";
         public const string Treasure = "treasure";

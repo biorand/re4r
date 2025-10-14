@@ -228,23 +228,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"inventory-stack-multiplier",
-                Label = "Stack Multiplier",
-                Description = "Multiply every item stack size. This number will essentially be how many grenades or resources can be stacked.",
-                Type = "range",
-                Min = 1,
-                Max = 999,
-                Step = 1,
-                Default = 1
-            });
-            group.Items.Add(new GroupItem()
-            {
                 Id = $"inventory-additional-recipes",
                 Label = "Additional Recipes",
                 Description = "Adds additional recipes for crafting ammo from other ammo. Warning: replaces herb recipes which may be unwanted when stack multiplier is enabled.",
                 Type = "switch",
                 Default = true
             });
+
+            group = page.CreateGroup("Stack Limits");
+            foreach (var dropKind in DropKinds.Stackable)
+            {
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"inventory-stack-limit-{dropKind}",
+                    Label = dropKind,
+                    Type = "range",
+                    Min = 0,
+                    Max = 9999,
+                    Step = 1,
+                    Default = 0
+                });
+            }
 
             foreach (var x in new[] { "Primary", "Secondary" })
             {

@@ -20,6 +20,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public const string AmmoFuel = "ammo-fuel";
         public const string Fas = "fas";
         public const string Fish = "fish";
+        public const string Viper = "viper";
         public const string EggBrown = "egg-brown";
         public const string EggWhite = "egg-white";
         public const string EggGold = "egg-gold";
@@ -72,6 +73,38 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             .Except([Money])
             .ToImmutableArray();
         public static ImmutableArray<string> HighValue => [.. _highValue];
+        public static ImmutableArray<string> Stackable => [
+            AmmoHandgun,
+            AmmoShotgun,
+            AmmoRifle,
+            AmmoSmg,
+            AmmoMagnum,
+            AmmoBolts,
+            AmmoMines,
+            AmmoArrows,
+            AmmoFuel,
+            Fas,
+            Fish,
+            Viper,
+            EggBrown,
+            EggWhite,
+            EggGold,
+            GrenadeFlash,
+            GrenadeHeavy,
+            GrenadeLight,
+            Gunpowder,
+            HerbGG,
+            HerbGGY,
+            HerbGGG,
+            HerbGR,
+            HerbGRY,
+            HerbGY,
+            HerbR,
+            HerbRY,
+            HerbY,
+            ResourceLarge,
+            ResourceSmall
+        ];
 
         public static string GetLabel(string drop)
         {
