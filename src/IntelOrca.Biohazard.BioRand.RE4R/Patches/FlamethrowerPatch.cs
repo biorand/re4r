@@ -239,7 +239,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     {
                         data = data
                             .Set("_ItemDefineData._ItemSize", 6)
-                            .Set("_ItemDefineData._StackMax", 1600);
+                            .Set("_ItemDefineData._StackMax", 1000);
                         root = root.SetField("_Datas", datas.SetItem(i, data));
                         break;
                     }
