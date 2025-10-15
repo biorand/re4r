@@ -98,21 +98,74 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public static string[,] Read(string data)
         {
-            var lines = data.Split(g_separator, System.StringSplitOptions.RemoveEmptyEntries);
-            if (lines.Length <= 0)
-                return new string[0, 0];
-
-            var sb = new StringBuilder();
             var rows = new List<string[]>();
             var columns = new List<string>();
-            for (var i = 1; i < lines.Length; i++)
+
+            var sb = new StringBuilder();
+            var inQuote = false;
+            for (var i = 0; i <= data.Length; i++)
             {
-                SplitLine(columns, sb, lines[i]);
-                rows.Add(columns.ToArray());
+                var c = i == data.Length ? '\0' : data[i];
+                if (c == '"')
+                {
+                    if (!inQuote)
+                    {
+                        inQuote = true;
+                    }
+                    else
+                    {
+                        if (i < data.Length - 1 && data[i + 1] == '"')
+                        {
+                            sb.Append('"');
+                        }
+                        else
+                        {
+                            inQuote = false;
+                        }
+                    }
+                    continue;
+                }
+                else if (c == ',')
+                {
+                    if (inQuote)
+                    {
+                        sb.Append(c);
+                    }
+                    else
+                    {
+                        columns.Add(sb.ToString());
+                        sb.Clear();
+                    }
+                    continue;
+                }
+                else if (!inQuote && c == '\r')
+                {
+                    // Check if next char is \n
+                    if (data.Length > i + 1)
+                    {
+                        if (data[i + 1] == '\n')
+                        {
+                            // leave handling to next char
+                            continue;
+                        }
+                    }
+                }
+
+                if ((!inQuote && (c == '\r' || c == '\n')) || c == '\0')
+                {
+                    columns.Add(sb.ToString());
+                    sb.Clear();
+                    rows.Add(columns.ToArray());
+                    columns.Clear();
+                }
+                else
+                {
+                    sb.Append(c);
+                }
             }
 
             var numRows = rows.Count;
-            var numColumns = columns.Count;
+            var numColumns = rows.Max(x => x.Length);
             var result = new string[numColumns, numRows];
             for (var y = 0; y < numRows; y++)
             {
