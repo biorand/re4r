@@ -387,8 +387,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     if (data.Get<int>("_ItemId") == FuelItemId)
                     {
                         data = data
-                            .Set("_PriceSettings[0]._Price._PurchasePrice", 40)
-                            .Set("_PriceSettings[0]._Price._SellingPrice", 15);
+                            .Set("_PriceSettings[0]._Price._PurchasePrice", 20)
+                            .Set("_PriceSettings[0]._Price._SellingPrice", 10);
                         datas = datas.SetItem(i, data);
                         break;
                     }
