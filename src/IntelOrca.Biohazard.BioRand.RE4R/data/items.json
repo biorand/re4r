@@ -78,7 +78,7 @@
       "value": 40,
       "size": "2x1",
       "class": "flame",
-      "stack": 1600,
+      "stack": 1000,
       "mode": "main",
       "dropKind": "ammo-fuel"
     },
