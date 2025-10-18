@@ -517,7 +517,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 scene = scene.UpdateGameObject(gameObjectP1);
                 return scene;
             });
-        }
+        }    
 
         private void UpdateWeaponData()
         {
@@ -715,6 +715,44 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 stage._WeaponDetailCustom._LimitBreakCustoms[0]._LimitBreakAttackUp._BreakRateScale = (float)_wpflamethrower[$"break exclusive"];
                 return (RszObjectNode)RszSerializer.Serialize(root.Type, userdata);
             });
+
+            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/weapon/weaponequipparamcataloguserdata.user.2", root =>
+            {
+                var datas = (RszArrayNode)root["_Datas"];
+                for (var i = 0; i < datas.Length; i++)
+                {
+                    if (datas[i].Get<int>("_WeaponID") == 4701)
+                    {
+                    var data = datas[i];
+                        {
+                            if (!string.IsNullOrWhiteSpace(_wpflamethrower[$"baserateoffire"]?.ToString()))
+                            {
+                                data = data
+                                .Set("_WeaponStructureParam._RapidSpeed", _wpflamethrower[$"baserateoffire"]);
+                            }
+                            if (!string.IsNullOrWhiteSpace(_wpflamethrower[$"basereloadrounds"]?.ToString()))
+                            {
+                                data = data
+                                .Set("_WeaponStructureParam.ReloadNum", (Int32)_wpflamethrower[$"basereloadrounds"]);
+                            }
+                            if (!string.IsNullOrWhiteSpace(_wpflamethrower[$"basereloadspeed"]?.ToString()))
+                            {
+                                data = data
+                                .Set("_WeaponStructureParam._ReloadSpeedRate", _wpflamethrower[$"basereloadspeed"]);
+                            }
+                            if (!string.IsNullOrWhiteSpace(_wpflamethrower[$"typeofshoot"]?.ToString()))
+                            {
+                                data = data
+                                .Set("_WeaponStructureParam.TypeOfShoot", _wpflamethrower[$"typeofshoot"]);
+                            }
+                            root = root.SetField("_DataTable", datas.SetItem(i, data));
+                            break;
+                        }
+                    }
+                }   
+                return root;
+            });
+
         }
 
         private void UpdateCharacters()
