@@ -139,6 +139,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // Patches
             new FlamethrowerPatch(this).Apply();
             new MendezPatch(this).Apply();
+            new CraftWindowPatch(this).Apply();
 
             // Apply modifiers
             IterateModifiers((n, m) =>
