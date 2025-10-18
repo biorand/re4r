@@ -718,7 +718,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/weapon/weaponequipparamcataloguserdata.user.2", root =>
             {
-                var datas = (RszArrayNode)root["_Datas"];
+                var datas = (RszArrayNode)root["_DataTable"];
                 for (var i = 0; i < datas.Length; i++)
                 {
                     if (datas[i].Get<int>("_WeaponID") == 4701)
