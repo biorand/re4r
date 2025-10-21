@@ -50,8 +50,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             // Weapons
             var weapons = randomizer.ValuableDistributor.GetItems(ItemDiscovery.Start);
+            var addedClasses = new System.Collections.Generic.HashSet<string>();
             foreach (var weapon in weapons)
             {
+                var weaponClass = weapon.Definition.Class ?? string.Empty;
+                // Skip if we've already added a weapon of this class
+                if (addedClasses.Contains(weaponClass))
+                    continue;
+
+                addedClasses.Add(weaponClass);
                 inventory.AddItem(new Item(weapon.Definition.Id));
                 var ammo = itemRandomizer.GetRandomItemDefinition(rng, ItemKinds.Ammo, weapon.Definition.Class);
                 if (ammo != null)
