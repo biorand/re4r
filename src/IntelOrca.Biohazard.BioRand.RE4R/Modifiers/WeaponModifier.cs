@@ -719,7 +719,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 if (m is IWeaponUpgrade upgrade)
                 {
-                    var scale = rng.NextDouble(0.5, 2);
+                    var scale = rng.NextDouble(0.5, 1.5);
                     upgrade.Cost = upgrade.Cost.Select(x => (x * scale).RoundPrice()).ToImmutableArray();
                 }
                 else if (m is IWeaponExclusive exclusive)
