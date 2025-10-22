@@ -275,6 +275,36 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 });
             }
 
+            page = configDefinition.CreatePage("Weapon");
+            group = page.CreateGroup("");
+            foreach (var sw in ItemClasses.StartingWeapons)
+            {
+                if (sw == ItemClasses.None)
+                    continue;
+
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"weapon-min-{sw}",
+                    Label = $"Min. {sw.ToTitleCase()} Scale",
+                    Type = "scale",
+                    Min = 0.5,
+                    Max = 5.0,
+                    Step = 0.1,
+                    Default = 1.0
+                });
+
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"weapon-max-{sw}",
+                    Label = $"Max. {sw.ToTitleCase()} Scale",
+                    Type = "scale",
+                    Min = 0.5,
+                    Max = 5.0,
+                    Step = 0.1,
+                    Default = 1.0
+                });
+            }
+
             page = configDefinition.CreatePage("Items");
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
