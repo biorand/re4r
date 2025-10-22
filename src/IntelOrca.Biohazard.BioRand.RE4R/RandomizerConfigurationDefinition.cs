@@ -280,33 +280,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-scale-enabled",
-                Label = $"Enable Weapon Scaling",
+                Id = $"weapon-power-scale-enabled",
+                Label = $"Enable Weapon Power Scaling",
                 Description = "Enables weapon scaling from this page else default randomizer settings.",
                 Type = "switch",
                 Default = false
             });
-            group = page.CreateGroup("High Roller Bonuses");
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-high-roller-min",
-                Label = $"Min. High Roller Scaling Bonus",
-                Type = "range",
-                Min = 1,
-                Max = 5,
-                Step = 0.1,
-                Default = 1.2
+                Id = $"weapon-exclusive-scale-enabled",
+                Label = $"Enable Weapon Exclusive Scaling",
+                Description = "Enables weapon exclusive scaling from this page else default randomizer settings.",
+                Type = "switch",
+                Default = false
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-high-roller-max",
-                Label = $"Max. High Roller Scaling Bonus",
-                Type = "range",
-                Min = 1,
-                Max = 5,
-                Step = 0.1,
-                Default = 1.5
+                Id = $"weapon-high-roller-enabled",
+                Label = $"Enable Weapon High Roller Scaling",
+                Description = "Enables weapon high roller scaling from this page else default randomizer settings.",
+                Type = "switch",
+                Default = false
             });
+
             // Exclusives
             group = page.CreateGroup("Exclusives");
             // Power
@@ -392,6 +388,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 20,
                 Step = 1,
                 Default = 5
+            });
+
+            group = page.CreateGroup("High Roller Bonuses");
+            group.Warning = "If Enabled, these bonuses will be applied as an additional multiplier to weapon stats when a weapon rolls as a high roller.";
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-high-roller-min",
+                Label = $"Min. High Roller Scaling Bonus",
+                Type = "range",
+                Min = 1,
+                Max = 5,
+                Step = 0.1,
+                Default = 1.2
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-high-roller-max",
+                Label = $"Max. High Roller Scaling Bonus",
+                Type = "range",
+                Min = 1,
+                Max = 5,
+                Step = 0.1,
+                Default = 1.5
             });
             
             group = page.CreateGroup($"Power Scaling Details");
