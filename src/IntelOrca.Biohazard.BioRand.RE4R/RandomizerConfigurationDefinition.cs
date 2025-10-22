@@ -296,9 +296,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-high-roller-enabled",
-                Label = $"Enable Weapon High Roller Scaling",
-                Description = "Enables weapon high roller scaling from this page else default randomizer settings.",
+                Id = $"weapon-god-roll-enabled",
+                Label = $"Enable Weapon God Roll Scaling",
+                Description = "Enables weapon god roll scaling from this page else default randomizer settings.",
                 Type = "switch",
                 Default = false
             });
@@ -308,7 +308,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // Power
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-min-exclusive-power",
+                Id = $"weapon-exclusive-power-min",
                 Label = $"Min. Exclusive Power Multiplier",
                 Type = "range",
                 Min = 1.25,
@@ -318,7 +318,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-max-exclusive-power",
+                Id = $"weapon-exclusive-power-max",
                 Label = $"Max. Exclusive Power Multiplier",
                 Type = "range",
                 Min = 1.25,
@@ -329,7 +329,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // Critical
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-min-exclusive-crit",
+                Id = $"weapon-exclusive-crit-min",
                 Label = $"Min. Exclusive Crit Multiplier",
                 Type = "range",
                 Min = 1,
@@ -339,7 +339,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-max-exclusive-crit",
+                Id = $"weapon-exclusive-crit-max",
                 Label = $"Max. Exclusive Crit Multiplier",
                 Type = "range",
                 Min = 1,
@@ -350,7 +350,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // Ammo
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-min-exclusive-ammo",
+                Id = $"weapon-exclusive-ammo-min",
                 Label = $"Min. Exclusive Ammo Multiplier",
                 Type = "range",
                 Min = 1,
@@ -360,7 +360,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-max-exclusive-ammo",
+                Id = $"weapon-exclusive-ammo-max",
                 Label = $"Max. Exclusive Ammo Multiplier",
                 Type = "range",
                 Min = 1,
@@ -371,7 +371,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // Penetration
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-min-exclusive-pen",
+                Id = $"weapon-exclusive-pen-min",
                 Label = $"Min. Exclusive Penetration Multiplier",
                 Type = "range",
                 Min = 1,
@@ -381,7 +381,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-max-exclusive-pen",
+                Id = $"weapon-exclusive-pen-max",
                 Label = $"Max. Exclusive Penetration Multiplier",
                 Type = "range",
                 Min = 1,
@@ -390,12 +390,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Default = 5
             });
 
-            group = page.CreateGroup("High Roller Bonuses");
-            group.Warning = "If Enabled, these bonuses will be applied as an additional multiplier to weapon stats when a weapon rolls as a high roller.";
+            group = page.CreateGroup("God Roll Bonuses");
+            group.Warning = "If Enabled, these bonuses will be applied as an additional multiplier to the Max Level 5 stats for the weapon if it gets a god roll.";
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-high-roller-min",
-                Label = $"Min. High Roller Scaling Bonus",
+                Id = $"weapon-god-roll-min",
+                Label = $"Min. God Roll Scaling Bonus",
                 Type = "range",
                 Min = 1,
                 Max = 5,
@@ -404,17 +404,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"weapon-high-roller-max",
-                Label = $"Max. High Roller Scaling Bonus",
+                Id = $"weapon-god-roll-max",
+                Label = $"Max. God Roll Scaling Bonus",
                 Type = "range",
                 Min = 1,
                 Max = 5,
                 Step = 0.1,
-                Default = 1.5
+                Default = 1.3
             });
             
             group = page.CreateGroup($"Power Scaling Details");
-                group.Warning = "All multipliers below are ranges and a value between the ranges will be chosen at random and applied to the weapon's base power. \nFor example a lvl 5 min of 2.0x and max of 3.0x means the weapon at lvl 5 upgrade will have its power multiplied by a random value between 2.0 and 3.0.";
+                group.Warning = "If Enabled, a value between the ranges will be rolled and applied to the weapon's base power for Level 1 and Level 5.\nFor example a lvl 5 min of 2.0x and max of 3.0x means the weapon at lvl 5 upgrade will have its base power multiplied by a random value between 2.0 and 3.0.";
 
             foreach (var sw in ItemClasses.StartingWeapons)
             {
