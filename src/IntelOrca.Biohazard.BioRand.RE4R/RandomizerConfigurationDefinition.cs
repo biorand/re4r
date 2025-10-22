@@ -489,7 +489,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group = page.CreateGroup($"Knife Power Scaling");
                 group.Items.Add(new GroupItem()
                 {
-                    Id = $"weapon-lv1min-{sw}",
+                    Id = $"weapon-lv1min-knife",
                     Label = $"Min. Level 1 Multiplier",
                     Type = "range",
                     Min = 0.5,
@@ -500,7 +500,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
                 group.Items.Add(new GroupItem()
                 {
-                    Id = $"weapon-lv1max-{sw}",
+                    Id = $"weapon-lv1max-knife",
                     Label = $"Max. Level 1 Multiplier",
                     Type = "range",
                     Min = 0.5,
