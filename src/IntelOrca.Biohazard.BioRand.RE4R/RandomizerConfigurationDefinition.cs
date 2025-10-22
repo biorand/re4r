@@ -277,8 +277,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             //Weapon Page
             page = configDefinition.CreatePage("Weapon");
-            group = page.CreateGroup("Configuration");
-            group.Warning = "WIP PAGE. USE AT YOUR OWN RISK.";
+            group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-power-scale-enabled",
@@ -487,48 +486,48 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 });
             }
             group = page.CreateGroup($"Knife Power Scaling");
-                group.Items.Add(new GroupItem()
-                {
-                    Id = $"weapon-lv1min-knife",
-                    Label = $"Min. Level 1 Multiplier",
-                    Type = "range",
-                    Min = 0.5,
-                    Max = 5,
-                    Step = 0.1,
-                    Default = 0.8f
-                });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-lv1min-knife",
+                Label = $"Min. Level 1 Multiplier",
+                Type = "range",
+                Min = 0.5,
+                Max = 5,
+                Step = 0.1,
+                Default = 0.8f
+            });
 
-                group.Items.Add(new GroupItem()
-                {
-                    Id = $"weapon-lv1max-knife",
-                    Label = $"Max. Level 1 Multiplier",
-                    Type = "range",
-                    Min = 0.5,
-                    Max = 5,
-                    Step = 0.1,
-                    Default = 1.2f
-                });
-                group.Items.Add(new GroupItem()
-                {
-                    Id = $"weapon-lv5min-knife",
-                    Label = $"Min. Level 5 Multiplier",
-                    Type = "range",
-                    Min = 0.5,
-                    Max = 5,
-                    Step = 0.1,
-                    Default = 1.5f
-                });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-lv1max-knife",
+                Label = $"Max. Level 1 Multiplier",
+                Type = "range",
+                Min = 0.5,
+                Max = 5,
+                Step = 0.1,
+                Default = 1.2f
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-lv5min-knife",
+                Label = $"Min. Level 5 Multiplier",
+                Type = "range",
+                Min = 0.5,
+                Max = 5,
+                Step = 0.1,
+                Default = 1.5f
+            });
 
-                group.Items.Add(new GroupItem()
-                {
-                    Id = $"weapon-lv5max-knife",
-                    Label = $"Max. Level 5 Multiplier",
-                    Type = "range",
-                    Min = 0.5,
-                    Max = 5,
-                    Step = 0.1,
-                    Default = 2.5f
-                });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-lv5max-knife",
+                Label = $"Max. Level 5 Multiplier",
+                Type = "range",
+                Min = 0.5,
+                Max = 5,
+                Step = 0.1,
+                Default = 2.5f
+            });
 
             page = configDefinition.CreatePage("Items");
             group = page.CreateGroup("");
