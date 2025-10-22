@@ -393,6 +393,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 1,
                 Default = 5
             });
+            
+            group = page.CreateGroup($"Power Scaling Details");
+                group.Warning = "All multipliers below are ranges and a value between the ranges will be chosen at random and applied to the weapon's base power. \nFor example a lvl 5 min of 2.0x and max of 3.0x means the weapon at lvl 5 upgrade will have its power multiplied by a random value between 2.0 and 3.0.";
 
             foreach (var sw in ItemClasses.StartingWeapons)
             {
@@ -418,9 +421,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 else if (sw == ItemClasses.Flame)
                 { lvl1minDefault = 0.9f; lvl1maxDefault = 1.2f; lvl5mindefault = 1.8f; lvl5maxdefault = 2.2f; }
             
-            group = page.CreateGroup($"Power Scaling Details");
-                group.Warning = "All multipliers below are ranges and a value between the ranges will be chosen at random and applied to the weapon's base power. \nFor example a lvl 5 min of 2.0x and max of 3.0x means the weapon at lvl 5 upgrade will have its power multiplied by a random value between 2.0 and 3.0.";
-
             group = page.CreateGroup($"{sw.ToTitleCase()} Power Scaling");
                 group.Items.Add(new GroupItem()
                 {
