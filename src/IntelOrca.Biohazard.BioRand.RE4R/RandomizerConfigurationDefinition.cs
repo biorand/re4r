@@ -281,7 +281,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 if (sw == ItemClasses.None)
                     continue;
-
+            group = page.CreateGroup($"{sw} Scale");
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"weapon-lv1min-{sw}",
