@@ -278,6 +278,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             //Weapon Page
             page = configDefinition.CreatePage("Weapon");
             group = page.CreateGroup("");
+            group.Warning = "WIP PAGE. USE AT YOUR OWN RISK.";
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-power-scale-enabled",
