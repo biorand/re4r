@@ -398,7 +398,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 if (sw == ItemClasses.None)
                     continue;
-            group = page.CreateGroup($"{sw} Power Scaling");
+            group = page.CreateGroup($"{sw.ToTitleCase()} Power Scaling");
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"weapon-lv1min-{sw}",
