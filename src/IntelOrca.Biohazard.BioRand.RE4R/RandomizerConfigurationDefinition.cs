@@ -313,7 +313,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-min-exclusive-power",
-                Label = $"Min. Exclusive Power Scale",
+                Label = $"Min. Exclusive Power Multiplier",
                 Type = "range",
                 Min = 1.25,
                 Max = 20,
@@ -323,7 +323,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-max-exclusive-power",
-                Label = $"Max. Exclusive Power Scale",
+                Label = $"Max. Exclusive Power Multiplier",
                 Type = "range",
                 Min = 1.25,
                 Max = 20,
@@ -334,7 +334,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-min-exclusive-crit",
-                Label = $"Min. Exclusive Crit Scale",
+                Label = $"Min. Exclusive Crit Multiplier",
                 Type = "range",
                 Min = 1,
                 Max = 20,
@@ -344,7 +344,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-max-exclusive-crit",
-                Label = $"Max. Exclusive Crit Scale",
+                Label = $"Max. Exclusive Crit Multiplier",
                 Type = "range",
                 Min = 1,
                 Max = 20,
@@ -355,7 +355,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-min-exclusive-ammo",
-                Label = $"Min. Exclusive Ammo Scale",
+                Label = $"Min. Exclusive Ammo Multiplier",
                 Type = "range",
                 Min = 1,
                 Max = 20,
@@ -365,7 +365,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-max-exclusive-ammo",
-                Label = $"Max. Exclusive Ammo Scale",
+                Label = $"Max. Exclusive Ammo Multiplier",
                 Type = "range",
                 Min = 1,
                 Max = 20,
@@ -376,7 +376,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-min-exclusive-pen",
-                Label = $"Min. Exclusive Penetration Scale",
+                Label = $"Min. Exclusive Penetration Multiplier",
                 Type = "range",
                 Min = 1,
                 Max = 20,
@@ -386,7 +386,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-max-exclusive-pen",
-                Label = $"Max. Exclusive Penetration Scale",
+                Label = $"Max. Exclusive Penetration Multiplier",
                 Type = "range",
                 Min = 1,
                 Max = 20,
@@ -396,51 +396,74 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             foreach (var sw in ItemClasses.StartingWeapons)
             {
-                if (sw == ItemClasses.None)
+                if (sw == ItemClasses.None || sw == ItemClasses.Arrow)
                     continue;
+
+                float lvl1minDefault = 1.0f;
+                float lvl1maxDefault = 1.0f;
+                float lvl5mindefault = 2.0f;
+                float lvl5maxdefault = 2.0f;
+                if (sw == ItemClasses.Handgun)
+                { lvl1minDefault = 0.8f; lvl1maxDefault = 1.2f; lvl5mindefault = 1.5f; lvl5maxdefault = 3.3f; }
+                else if (sw == ItemClasses.Shotgun)
+                { lvl1minDefault = 0.8f; lvl1maxDefault = 1.2f; lvl5mindefault = 1.5f; lvl5maxdefault = 3.0f; }
+                else if (sw == ItemClasses.Smg)
+                { lvl1minDefault = 0.9f; lvl1maxDefault = 1.2f; lvl5mindefault = 1.5f; lvl5maxdefault = 3.5f; }
+                else if (sw == ItemClasses.Magnum)
+                { lvl1minDefault = 0.8f; lvl1maxDefault = 1.1f; lvl5mindefault = 1.3f; lvl5maxdefault = 2.5f; }
+                else if (sw == ItemClasses.Rifle)
+                { lvl1minDefault = 0.8f; lvl1maxDefault = 1.2f; lvl5mindefault = 1.5f; lvl5maxdefault = 3.0f; }
+                else if (sw == ItemClasses.Bolt)
+                { lvl1minDefault = 1.0f; lvl1maxDefault = 1.0f; lvl5mindefault = 2.0f; lvl5maxdefault = 3.0f; }
+                else if (sw == ItemClasses.Flame)
+                { lvl1minDefault = 0.9f; lvl1maxDefault = 1.2f; lvl5mindefault = 1.8f; lvl5maxdefault = 2.2f; }
+            
+            group = page.CreateGroup($"Power Scaling Details");
+                group.Warning = "All multipliers below are ranges and a value between the ranges will be chosen at random and applied to the weapon's base power. \nFor example a lvl 5 min of 2.0x and max of 3.0x means the weapon at lvl 5 upgrade will have its power multiplied by a random value between 2.0 and 3.0.";
+
             group = page.CreateGroup($"{sw.ToTitleCase()} Power Scaling");
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"weapon-lv1min-{sw}",
-                    Label = $"Min. Level 1 Scale",
+                    Label = $"Min. Level 1 Multiplier",
                     Type = "range",
                     Min = 0.5,
                     Max = 5,
                     Step = 0.1,
-                    Default = 1
+                    Default = lvl1minDefault
                 });
 
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"weapon-lv1max-{sw}",
-                    Label = $"Max. Level 1 Scale",
+                    Label = $"Max. Level 1 Multiplier",
                     Type = "range",
                     Min = 0.5,
                     Max = 5,
                     Step = 0.1,
-                    Default = 1
+                    Default = lvl1maxDefault
                 });
 
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"weapon-lv5min-{sw}",
-                    Label = $"Min. Level 5 Scale",
+                    Label = $"Min. Level 5 Multiplier",
                     Type = "range",
                     Min = 0.5,
                     Max = 5,
                     Step = 0.1,
-                    Default = 1
+                    Default = lvl5mindefault
                 });
 
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"weapon-lv5max-{sw}",
-                    Label = $"Max. Level 5 Scale",
+                    Label = $"Max. Level 5 Multiplier",
                     Type = "range",
                     Min = 0.5,
                     Max = 5,
                     Step = 0.1,
-                    Default = 1
+                    Default = lvl5maxdefault
                 });
             }
 
