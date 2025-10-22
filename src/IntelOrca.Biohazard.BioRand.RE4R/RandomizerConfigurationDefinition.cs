@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using static IntelOrca.Biohazard.BioRand.RandomizerConfigurationDefinition;
 
@@ -7,7 +6,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal static class Re4rRandomizerConfigurationDefinition
     {
-    public static RandomizerConfigurationDefinition Create(EnemyClassFactory enemyClassFactory, Modifiers.WeaponStatTable weaponStatTable)
+        public static RandomizerConfigurationDefinition Create(EnemyClassFactory enemyClassFactory)
         {
             var configDefinition = new RandomizerConfigurationDefinition();
 
@@ -399,17 +398,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 if (sw == ItemClasses.None)
                     continue;
-                group = page.CreateGroup($"{sw.ToTitleCase()} Power Scaling");
-                var weapon = ItemDefinitionRepository.Default.KindToItemMap[ItemKinds.Weapon]
-                    .FirstOrDefault(d => d.Class == sw);
-                int weaponId = weapon?.Id ?? 0;
-                var property = "damage";
-
-                var defaultLv1Min = weaponId != 0 ? weaponStatTable.GetValue(weaponId, $"{property}/level 1/min") : 0;
-                var defaultLv1Max = weaponId != 0 ? weaponStatTable.GetValue(weaponId, $"{property}/level 1/max") : 0;
-                var defaultLv5Min = weaponId != 0 ? weaponStatTable.GetValue(weaponId, $"{property}/level 5/min") : 0;
-                var defaultLv5Max = weaponId != 0 ? weaponStatTable.GetValue(weaponId, $"{property}/level 5/max") : 0;
-
+            group = page.CreateGroup($"{sw.ToTitleCase()} Power Scaling");
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"weapon-lv1min-{sw}",
@@ -418,7 +407,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Min = 0.5,
                     Max = 5,
                     Step = 0.1,
-                    Default = defaultLv1Min > 0 ? 1 : 1
+                    Default = 1
                 });
 
                 group.Items.Add(new GroupItem()
@@ -429,7 +418,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Min = 0.5,
                     Max = 5,
                     Step = 0.1,
-                    Default = defaultLv1Max > 0 ? 1 : 1
+                    Default = 1
                 });
 
                 group.Items.Add(new GroupItem()
@@ -440,7 +429,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Min = 0.5,
                     Max = 5,
                     Step = 0.1,
-                    Default = defaultLv5Min > 0 ? 1 : 1
+                    Default = 1
                 });
 
                 group.Items.Add(new GroupItem()
@@ -451,7 +440,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Min = 0.5,
                     Max = 5,
                     Step = 0.1,
-                    Default = defaultLv5Max > 0 ? 1 : 1
+                    Default = 1
                 });
             }
 
