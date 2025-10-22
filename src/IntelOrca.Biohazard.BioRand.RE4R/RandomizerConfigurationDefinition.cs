@@ -275,17 +275,134 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 });
             }
 
+            //Weapon Page
             page = configDefinition.CreatePage("Weapon");
             group = page.CreateGroup("");
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-scale-enabled",
+                Label = $"Enable Weapon Scaling",
+                Description = "Enables weapon scaling from this page else default randomizer settings.",
+                Type = "switch",
+                Default = false
+            });
+            group = page.CreateGroup("High Roller Bonuses");
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-high-roller-min",
+                Label = $"Min. High Roller Scaling Bonus",
+                Type = "range",
+                Min = 1,
+                Max = 5,
+                Step = 0.1,
+                Default = 1.2
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-high-roller-max",
+                Label = $"Max. High Roller Scaling Bonus",
+                Type = "range",
+                Min = 1,
+                Max = 5,
+                Step = 0.1,
+                Default = 1.5
+            });
+            // Exclusives
+            group = page.CreateGroup("Exclusives");
+            // Power
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-min-exclusive-power",
+                Label = $"Min. Exclusive Power Scale",
+                Type = "range",
+                Min = 1.25,
+                Max = 20,
+                Step = 0.25,
+                Default = 1.5
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-max-exclusive-power",
+                Label = $"Max. Exclusive Power Scale",
+                Type = "range",
+                Min = 1.25,
+                Max = 20,
+                Step = 0.25,
+                Default = 2
+            });
+            // Critical
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-min-exclusive-crit",
+                Label = $"Min. Exclusive Crit Scale",
+                Type = "range",
+                Min = 1,
+                Max = 20,
+                Step = 1,
+                Default = 3
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-max-exclusive-crit",
+                Label = $"Max. Exclusive Crit Scale",
+                Type = "range",
+                Min = 1,
+                Max = 20,
+                Step = 1,
+                Default = 5
+            });
+            // Ammo
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-min-exclusive-ammo",
+                Label = $"Min. Exclusive Ammo Scale",
+                Type = "range",
+                Min = 1,
+                Max = 20,
+                Step = 1,
+                Default = 2
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-max-exclusive-ammo",
+                Label = $"Max. Exclusive Ammo Scale",
+                Type = "range",
+                Min = 1,
+                Max = 20,
+                Step = 1,
+                Default = 4
+            });
+            // Penetration
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-min-exclusive-pen",
+                Label = $"Min. Exclusive Penetration Scale",
+                Type = "range",
+                Min = 1,
+                Max = 20,
+                Step = 1,
+                Default = 2
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-max-exclusive-pen",
+                Label = $"Max. Exclusive Penetration Scale",
+                Type = "range",
+                Min = 1,
+                Max = 20,
+                Step = 1,
+                Default = 5
+            });
+
             foreach (var sw in ItemClasses.StartingWeapons)
             {
                 if (sw == ItemClasses.None)
                     continue;
-            group = page.CreateGroup($"{sw} Scale");
+            group = page.CreateGroup($"{sw} Power Scaling");
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"weapon-lv1min-{sw}",
-                    Label = $"Min. {sw.ToTitleCase()} Level 1 Scale",
+                    Label = $"Min. Level 1 Scale",
                     Type = "range",
                     Min = 0.5,
                     Max = 5,
@@ -296,7 +413,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"weapon-lv1max-{sw}",
-                    Label = $"Max. {sw.ToTitleCase()} Level 1 Scale",
+                    Label = $"Max. Level 1 Scale",
                     Type = "range",
                     Min = 0.5,
                     Max = 5,
@@ -307,7 +424,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"weapon-lv5min-{sw}",
-                    Label = $"Min. {sw.ToTitleCase()} Level 5 Scale",
+                    Label = $"Min. Level 5 Scale",
                     Type = "range",
                     Min = 0.5,
                     Max = 5,
@@ -318,7 +435,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"weapon-lv5max-{sw}",
-                    Label = $"Max. {sw.ToTitleCase()} Level 5 Scale",
+                    Label = $"Max. Level 5 Scale",
                     Type = "range",
                     Min = 0.5,
                     Max = 5,
