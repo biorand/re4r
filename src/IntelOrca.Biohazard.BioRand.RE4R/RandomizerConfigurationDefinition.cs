@@ -277,7 +277,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             //Weapon Page
             page = configDefinition.CreatePage("Weapon");
-            group = page.CreateGroup("");
+            group = page.CreateGroup("Configuration");
             group.Warning = "WIP PAGE. USE AT YOUR OWN RISK.";
             group.Items.Add(new GroupItem()
             {
@@ -415,7 +415,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             
             group = page.CreateGroup($"Power Scaling Details");
-                group.Warning = "If Enabled, a value between the ranges will be rolled and applied to the weapon's base power for Level 1 and Level 5.\nFor example a lvl 5 min of 2.0x and max of 3.0x means the weapon at lvl 5 upgrade will have its base power multiplied by a random value between 2.0 and 3.0.";
+            group.Warning = "If Enabled, a value between the ranges will be rolled and applied to the weapon's base power for Level 1 and Level 5.\nFor example a lvl 5 min of 2.0x and max of 3.0x means the weapon at lvl 5 upgrade will have its base power multiplied by a random value between 2.0 and 3.0.";
 
             foreach (var sw in ItemClasses.StartingWeapons)
             {
@@ -440,8 +440,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 { lvl1minDefault = 1.0f; lvl1maxDefault = 1.0f; lvl5mindefault = 2.0f; lvl5maxdefault = 3.0f; }
                 else if (sw == ItemClasses.Flame)
                 { lvl1minDefault = 0.9f; lvl1maxDefault = 1.2f; lvl5mindefault = 1.8f; lvl5maxdefault = 2.2f; }
-            
-            group = page.CreateGroup($"{sw.ToTitleCase()} Power Scaling");
+
+                group = page.CreateGroup($"{sw.ToTitleCase()} Power Scaling");
                 group.Items.Add(new GroupItem()
                 {
                     Id = $"weapon-lv1min-{sw}",
@@ -486,6 +486,49 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Default = lvl5maxdefault
                 });
             }
+            group = page.CreateGroup($"Knife Power Scaling");
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"weapon-lv1min-{sw}",
+                    Label = $"Min. Level 1 Multiplier",
+                    Type = "range",
+                    Min = 0.5,
+                    Max = 5,
+                    Step = 0.1,
+                    Default = 0.8f
+                });
+
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"weapon-lv1max-{sw}",
+                    Label = $"Max. Level 1 Multiplier",
+                    Type = "range",
+                    Min = 0.5,
+                    Max = 5,
+                    Step = 0.1,
+                    Default = 1.2f
+                });
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"weapon-lv5min-knife",
+                    Label = $"Min. Level 5 Multiplier",
+                    Type = "range",
+                    Min = 0.5,
+                    Max = 5,
+                    Step = 0.1,
+                    Default = 1.5f
+                });
+
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"weapon-lv5max-knife",
+                    Label = $"Max. Level 5 Multiplier",
+                    Type = "range",
+                    Min = 0.5,
+                    Max = 5,
+                    Step = 0.1,
+                    Default = 2.5f
+                });
 
             page = configDefinition.CreatePage("Items");
             group = page.CreateGroup("");
