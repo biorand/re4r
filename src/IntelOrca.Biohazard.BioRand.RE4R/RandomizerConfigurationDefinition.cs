@@ -284,24 +284,46 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
                 group.Items.Add(new GroupItem()
                 {
-                    Id = $"weapon-min-{sw}",
-                    Label = $"Min. {sw.ToTitleCase()} Scale",
-                    Type = "scale",
+                    Id = $"weapon-lv1min-{sw}",
+                    Label = $"Min. {sw.ToTitleCase()} Level 1 Scale",
+                    Type = "range",
                     Min = 0.5,
-                    Max = 5.0,
+                    Max = 5,
                     Step = 0.1,
-                    Default = 1.0
+                    Default = 1
                 });
 
                 group.Items.Add(new GroupItem()
                 {
-                    Id = $"weapon-max-{sw}",
-                    Label = $"Max. {sw.ToTitleCase()} Scale",
-                    Type = "scale",
+                    Id = $"weapon-lv1max-{sw}",
+                    Label = $"Max. {sw.ToTitleCase()} Level 1 Scale",
+                    Type = "range",
                     Min = 0.5,
-                    Max = 5.0,
+                    Max = 5,
                     Step = 0.1,
-                    Default = 1.0
+                    Default = 1
+                });
+
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"weapon-lv5min-{sw}",
+                    Label = $"Min. {sw.ToTitleCase()} Level 5 Scale",
+                    Type = "range",
+                    Min = 0.5,
+                    Max = 5,
+                    Step = 0.1,
+                    Default = 1
+                });
+
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"weapon-lv5max-{sw}",
+                    Label = $"Max. {sw.ToTitleCase()} Level 5 Scale",
+                    Type = "range",
+                    Min = 0.5,
+                    Max = 5,
+                    Step = 0.1,
+                    Default = 1
                 });
             }
 
