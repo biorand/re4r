@@ -390,8 +390,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Default = 1.3
             });
             
+            group = page.CreateGroup($"Power Scaling Details");
+            group.Warning = "If Enabled, a value between the min and max will be rolled and applied to the weapon's vanilla base power for Level 1 and Level 5. Example: the vanilla SG base power = 1.0 thus it will have 1.2 power at level 1 if the level 1 multiplier rolls 1.2 and will have 2.5 power at level 5 if the level 5 multiplier rolls 2.5.";        
+            
             group = page.CreateGroup($"Knife Power Scaling");
-            group.Warning = "If Enabled, a value between the ranges will be rolled and applied to the weapon's base power for Level 1 and Level 5.\nFor example a lvl 5 min of 2.0x and max of 3.0x means the weapon at lvl 5 upgrade will have its base power multiplied by a random value between 2.0 and 3.0.";
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-lv1min-knife",
