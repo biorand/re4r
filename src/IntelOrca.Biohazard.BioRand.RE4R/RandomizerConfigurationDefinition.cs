@@ -255,6 +255,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             //Weapon Page
             page = configDefinition.CreatePage("Weapon");
             group = page.CreateGroup("");
+            group.Warning = "WIP Page. This page requires all Random Weapon options to be enabled in the Merchant page to function.";
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-power-scale-enabled",
