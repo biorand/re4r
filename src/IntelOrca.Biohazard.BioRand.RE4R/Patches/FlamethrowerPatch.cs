@@ -414,14 +414,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             });
 
 
-            //Creating new fuel shop param file based on template
+            // Creating new fuel shop param file based on template
             var templateFuelShopParamPath = "natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_sm70_500_00.pfb.17";
             var fuelShopParamData = FileRepository.GetGameFileData(templateFuelShopParamPath)!;
             FileRepository.SetGameFileData(templateFuelShopParamPath, fuelShopParamData);
             var fuelShopParamPath = "natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_sm70_509_00.pfb.17";
             FileRepository.SetGameFileData(fuelShopParamPath, fuelShopParamData);
 
-            //Creating new fuel shop param file based on template
+            // Creating new fuel shop param file based on template
             var templateFlamethrowerShopParamPath = "natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_wp4000_00.pfb.17";
             var flamethrowerShopParamData = FileRepository.GetGameFileData(templateFlamethrowerShopParamPath)!;
             FileRepository.SetGameFileData(templateFlamethrowerShopParamPath, flamethrowerShopParamData);
@@ -517,7 +517,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 scene = scene.UpdateGameObject(gameObjectP1);
                 return scene;
             });
-        }    
+        }
 
         private void UpdateWeaponData()
         {
@@ -525,7 +525,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/weaponcustom/weaponcustomuserdata.user.2", root =>
             {
                 var userdata = RszSerializer.Deserialize<chainsaw.WeaponCustomUserdata>(root)!;
-                var stage = userdata._WeaponStages.First(x => x._WeaponID == 4701);
+                var stage = userdata._WeaponStages.First(x => x._WeaponID == FlamethrowerWeaponId);
                 // adding missing 5th level for damage
                 stage._WeaponCustom._Commons[0]._CustomAttackUp._AttackUpCustomStages.Add(new chainsaw.WeaponCustomUserdata.AttackUpCustomStage());
                 // adding all info and cost values for damage
@@ -633,7 +633,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2", root =>
             {
                 var userdata = RszSerializer.Deserialize<chainsaw.WeaponDetailCustomUserdata>(root)!;
-                var stage = userdata._WeaponDetailStages.First(x => x._WeaponID == 4701);
+                var stage = userdata._WeaponDetailStages.First(x => x._WeaponID == FlamethrowerWeaponId);
                 // adding/editing all damage related upgrade values
                 var attackUpList = new[] { "_DamageRates", "_WinceRates", "_BreakRates", "_StoppingRates" };
                 foreach (var type in attackUpList)
@@ -721,38 +721,35 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 var datas = (RszArrayNode)root["_DataTable"];
                 for (var i = 0; i < datas.Length; i++)
                 {
-                    if (datas[i].Get<int>("_WeaponID") == 4701)
+                    if (datas[i].Get<int>("_WeaponID") == FlamethrowerWeaponId)
                     {
-                    var data = datas[i];
+                        var data = datas[i];
+                        if (!string.IsNullOrWhiteSpace(_wpflamethrower["baserateoffire"]?.ToString()))
                         {
-                            if (!string.IsNullOrWhiteSpace(_wpflamethrower[$"baserateoffire"]?.ToString()))
-                            {
-                                data = data
-                                .Set("_WeaponStructureParam._RapidSpeed", _wpflamethrower[$"baserateoffire"]);
-                            }
-                            if (!string.IsNullOrWhiteSpace(_wpflamethrower[$"basereloadrounds"]?.ToString()))
-                            {
-                                data = data
-                                .Set("_WeaponStructureParam.ReloadNum", (Int32)_wpflamethrower[$"basereloadrounds"]);
-                            }
-                            if (!string.IsNullOrWhiteSpace(_wpflamethrower[$"basereloadspeed"]?.ToString()))
-                            {
-                                data = data
-                                .Set("_WeaponStructureParam._ReloadSpeedRate", _wpflamethrower[$"basereloadspeed"]);
-                            }
-                            if (!string.IsNullOrWhiteSpace(_wpflamethrower[$"typeofshoot"]?.ToString()))
-                            {
-                                data = data
-                                .Set("_WeaponStructureParam.TypeOfShoot", _wpflamethrower[$"typeofshoot"]);
-                            }
-                            root = root.SetField("_DataTable", datas.SetItem(i, data));
-                            break;
+                            data = data
+                                .Set("_WeaponStructureParam._RapidSpeed", _wpflamethrower["baserateoffire"]);
                         }
+                        if (!string.IsNullOrWhiteSpace(_wpflamethrower["basereloadrounds"]?.ToString()))
+                        {
+                            data = data
+                                .Set("_WeaponStructureParam.ReloadNum", (Int32)_wpflamethrower["basereloadrounds"]);
+                        }
+                        if (!string.IsNullOrWhiteSpace(_wpflamethrower["basereloadspeed"]?.ToString()))
+                        {
+                            data = data
+                                .Set("_WeaponStructureParam._ReloadSpeedRate", _wpflamethrower["basereloadspeed"]);
+                        }
+                        if (!string.IsNullOrWhiteSpace(_wpflamethrower["typeofshoot"]?.ToString()))
+                        {
+                            data = data
+                                .Set("_WeaponStructureParam.TypeOfShoot", _wpflamethrower["typeofshoot"]);
+                        }
+                        root = root.SetField("_DataTable", datas.SetItem(i, data));
+                        break;
                     }
-                }   
+                }
                 return root;
             });
-
         }
 
         private void UpdateCharacters()
@@ -796,7 +793,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 FileRepository.SetGameFileData(burnParamPath, FileRepository.GetGameFileData(templateBurnParamPath)!);
             }
 
-            //change garrador burn ID ISSUE
+            // Change garrador burn ID ISSUE
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/character/ch1d0z0/userdata/ch1d0z0burnparamuserdata.user.2", root =>
             {
                 return root
@@ -804,7 +801,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 .Set("_BurnupEffectID", new RszValueNode(RszFieldType.Uint2, new byte[] { 7, 0, 0, 0, 1, 0, 0, 0 }));
             });
 
-            //Inserting missing damage values for burn
+            // Inserting missing damage values for burn
             string getAttackHitPath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}attackhituserdata.user.2";
             var charactersDamage = new[]
             {
@@ -835,7 +832,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             var AttackData = AttackDataList[i];
                             if (AttackData.Get<uint>("_KeyNameHash") == KeyNameHashValueBurnTickDamage)
                             {
-                                AttackData = AttackData.Set("_Damage", (int)_wpflamethrower["burndamage"] );
+                                AttackData = AttackData.Set("_Damage", (int)_wpflamethrower["burndamage"]);
                                 AttackDataList = AttackDataList.SetItem(i, AttackData);
                             }
                             if (AttackData.Get<uint>("_KeyNameHash") == KeyNameHashValueFinalBurnTickDamage)
@@ -864,7 +861,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             AttackDataList = AttackDataList.Add(FileRepository.RszRepository
                               .Create("chainsaw.collision.AttackHitUserData.AttackData")
                                   .Set("_KeyNameHash", KeyNameHashValueBurnTickDamage)
-                                  .Set("_Damage", (int)_wpflamethrower[$"burndamage"] )
+                                  .Set("_Damage", (int)_wpflamethrower[$"burndamage"])
                                   .Set("STRUCT__Wince__HasValue", true)
                                   .Set("STRUCT__Wince__Value", 0)
                                   .Set("STRUCT__Break__HasValue", true)
@@ -946,7 +943,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         for (int i = 0; i < weaponDamageList.Length; i++)
                         {
                             var weaponDamageData = weaponDamageList[i];
-                            if (weaponDamageData.Get<int>("_WeaponID") == 4701)
+                            if (weaponDamageData.Get<int>("_WeaponID") == FlamethrowerWeaponId)
                             {
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 1.0f);
@@ -973,7 +970,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         for (int i = 0; i < weaponDamageList.Length; i++)
                         {
                             var weaponDamageData = weaponDamageList[i];
-                            if (weaponDamageData.Get<int>("_WeaponID") == 4701)
+                            if (weaponDamageData.Get<int>("_WeaponID") == FlamethrowerWeaponId)
                             {
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 1.0f);
@@ -987,7 +984,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 }
             }
 
-            //Modify damage multipliers for headshot
+            // Modify damage multipliers for headshot
             string getWeaponHeadDamagePath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}weapondamagerateuserdatahead.user.2";
 
             foreach (var ch in charactersDamage)
@@ -1001,7 +998,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         for (int i = 0; i < weaponDamageList.Length; i++)
                         {
                             var weaponDamageData = weaponDamageList[i];
-                            if (weaponDamageData.Get<int>("_WeaponID") == 4701)
+                            if (weaponDamageData.Get<int>("_WeaponID") == FlamethrowerWeaponId)
                             {
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 1.1f);
@@ -1028,7 +1025,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         for (int i = 0; i < weaponDamageList.Length; i++)
                         {
                             var weaponDamageData = weaponDamageList[i];
-                            if (weaponDamageData.Get<int>("_WeaponID") == 4701)
+                            if (weaponDamageData.Get<int>("_WeaponID") == FlamethrowerWeaponId)
                             {
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 1.1f);
