@@ -27,6 +27,10 @@
       "commandName": "Project",
       "commandLineArgs": "agent https://beta-api.biorand.net -k 2wbhTK38nQxp2HTU5AAoaaho8YNobErH -i M:\\apps\\re4rr\\custom.pak"
     },
+    "mod": {
+      "commandName": "Project",
+      "commandLineArgs": "mod -m flamethrower -o M:\\temp\\out -i \"D:\\SteamLibrary\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\""
+    },
     "update": {
       "commandName": "Project",
       "commandLineArgs": "update"

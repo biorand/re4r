@@ -22,8 +22,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         Name = "Flamethrower",
         Description = "Adds the flamethrower to the merchant's shop.",
         Version = "1.0",
-        Authors = "MightKusKus")]
-    internal class FlamethrowerPatch
+        Author = "MightKusKus")]
+    internal class FlamethrowerPatch : IPatch
     {
         private const int FlamethrowerWeaponId = 4701;
         private const int FlamethrowerItemId = 275957056;
@@ -31,15 +31,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         private const int SmallResourceItemId = 117606400;
         private const int GunpowderItemId = 117600000;
 
-        private readonly ChainsawRandomizer _randomizer;
         private readonly ImmutableDictionary<string, object> _wpflamethrower;
 
-        public FileRepository FileRepository => _randomizer.FileRepository;
+        public IPatchContext FileRepository { get; }
 
-        public FlamethrowerPatch(ChainsawRandomizer randomizer)
+        public FlamethrowerPatch(IPatchContext context)
         {
-            _randomizer = randomizer;
-            _wpflamethrower = new WeaponBaseStats(randomizer.DynamicData).Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
+            FileRepository = context;
+            // _wpflamethrower = new WeaponBaseStats(randomizer.DynamicData).Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
+            _wpflamethrower = new WeaponBaseStats(new DynamicData(false)).Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
         }
 
         public void Apply()

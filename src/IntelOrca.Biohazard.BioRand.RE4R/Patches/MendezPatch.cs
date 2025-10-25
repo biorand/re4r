@@ -1,10 +1,9 @@
 ﻿using System;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class MendezPatch
+    internal class MendezPatch : IPatch
     {
         private readonly ChainsawRandomizer _randomizer;
 

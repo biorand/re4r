@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
-using IntelOrca.Biohazard.BioRand.RE4R.Patches;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -140,8 +138,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // Patches
             if (campaign != Campaign.Ada)
             {
-                new FlamethrowerPatch(this).Apply();
-                new MendezPatch(this).Apply();
+                ExportedMods.ApplyAll(this, FileRepository);
             }
 
             // Apply modifiers

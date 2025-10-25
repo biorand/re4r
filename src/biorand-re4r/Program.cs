@@ -27,6 +27,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 config.AddCommand<UpdateCommand>("update")
                     .WithDescription("Updates csv file(s).")
                     .WithExample("update");
+                config.AddCommand<ModCommand>("mod")
+                    .WithDescription("Export one or more standalone mods or combine them into a super mod. Run with no arguments to display available mods.")
+                    .WithExample("mod")
+                    .WithExample("mod", "-m", "flamethrower", "-o", "mods", "-i", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4")
+                    .WithExample("mod", "-m", "flamethrower", "-o", "supermod.zip", "-i", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4");
             });
             return app.Run(args);
         }
