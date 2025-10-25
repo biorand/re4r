@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
 using IntelOrca.Biohazard.BioRand.RE4R.Patches;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;

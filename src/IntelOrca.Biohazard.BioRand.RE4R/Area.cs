@@ -29,7 +29,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var biorandFolder = Scene.Children.OfType<RszFolder>().FirstOrDefault(x => x.Name == "BioRand");
                 if (biorandFolder == null)
                 {
-                    biorandFolder = new RszFolder(FileRepository.RszRepository
+                    biorandFolder = new RszFolder(Randomizer.FileRepository.TypeRepository
                         .Create("via.Folder")
                             .Set("Name", "BioRand")
                             .Set("Update", true)
@@ -55,7 +55,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             Randomizer = randomizer;
             Definition = definition;
             EnemyClassFactory = enemyClassFactory;
-            ScnFile = scn.ToBuilder(FileRepository.RszRepository);
+            ScnFile = scn.ToBuilder(Randomizer.FileRepository.TypeRepository);
             Scan();
         }
 
@@ -116,7 +116,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             if (oldComponent.Type.Name == kind.ComponentName)
                 return enemy;
 
-            var newComponent = FileRepository.RszRepository.Create(kind.ComponentName);
+            var newComponent = Randomizer.FileRepository.TypeRepository.Create(kind.ComponentName);
 
             var components = gameObject.Components.ToBuilder();
             for (var i = 0; i < components.Count; i++)

@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.IO;
-using System.IO.Compression;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using IntelOrca.Biohazard.REE.Messages;
 using IntelOrca.Biohazard.REE.Package;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal class FileRepository : IDisposable
+    internal class FileRepository : IPatchContext, IDisposable
     {
         private static RszTypeRepository? _rszRepository;
 
@@ -25,6 +22,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 return _rszRepository;
             }
         }
+
+        public RszTypeRepository TypeRepository => RszRepository;
 
         private readonly PatchedPakFile? _inputPakFile;
         private readonly string? _inputGamePath;
@@ -56,9 +55,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             _inputPakFile?.Dispose();
         }
 
-        public bool Exists(string path) => GetGameFileData(path) != null;
+        public byte[] GetSupplementFile(string path)
+        {
+            return EmbeddedData.GetFile(path);
+        }
 
-        public byte[]? GetGameFileData(string path)
+        public byte[]? GetFile(string path)
         {
             if (_outputFiles.TryGetValue(path, out var data))
                 return data;
@@ -78,9 +80,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        public void SetGameFileData(string path, ReadOnlyMemory<byte> data) => SetGameFileData(path, data.ToArray());
-
-        public void SetGameFileData(string path, byte[] data)
+        public void SetFile(string path, byte[] data)
         {
             _outputFiles[path] = data;
         }
@@ -93,92 +93,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 builder.AddEntry(outputFile.Key, outputFile.Value);
             }
             builder.Save(path, CompressionKind.Zstd);
-        }
-
-        public PfbFile GetPfbFile(string path)
-        {
-            var data = GetGameFileData(path);
-            return data == null
-                ? throw new Exception("Unable to read data file.")
-                : new PfbFile(17, data);
-        }
-
-        public void ModifyPfbFile(string path, Func<RszScene, RszScene> callback)
-        {
-            var pfbFile = GetPfbFile(path).ToBuilder(RszRepository);
-            pfbFile.Scene = callback(pfbFile.Scene);
-            SetPfbFile(path, pfbFile.AddMissingResources().Build());
-        }
-
-        public void SetPfbFile(string path, PfbFile value)
-        {
-            SetGameFileData(path, value.Data);
-        }
-
-        public ScnFile GetScnFile(string path)
-        {
-            var data = GetGameFileData(path);
-            return data == null
-                ? throw new Exception("Unable to read data file.")
-                : new ScnFile(20, data);
-        }
-
-        public void ModifyScnFile(string path, Func<RszScene, RszScene> callback)
-        {
-            var scnFile = GetScnFile(path).ToBuilder(RszRepository);
-            scnFile.Scene = callback(scnFile.Scene);
-            SetScnFile(path, scnFile.AddMissingResources().Build());
-        }
-
-        public void SetScnFile(string path, ScnFile value)
-        {
-            SetGameFileData(path, value.Data);
-        }
-
-        public UserFile GetUserFile(string path)
-        {
-            var data = GetGameFileData(path);
-            return data == null
-                ? throw new Exception("Unable to read data file.")
-                : new UserFile(data);
-        }
-
-        public T DeserializeUserFile<T>(string path)
-        {
-            var userFile = GetUserFile(path);
-            return RszSerializer.Deserialize<T>(userFile.GetObjects(RszRepository)[0])!;
-        }
-
-        public void SerializeUserFile<T>(string path, T value)
-        {
-            var userFile = GetUserFile(path);
-            var builder = userFile.ToBuilder(RszRepository);
-            var targetType = builder.Objects[0].Type;
-            builder.Objects = [(RszObjectNode)RszSerializer.Serialize(targetType, value!)];
-            SetUserFile(path, builder.Build());
-        }
-
-        public void SetUserFile(string path, UserFile value)
-        {
-            SetGameFileData(path, value.Data);
-        }
-
-        public void ModifyUserFile(string path, Func<RszObjectNode, RszObjectNode> callback)
-        {
-            var userFile = GetUserFile(path);
-            var builder = userFile.ToBuilder(RszRepository);
-            builder.Objects = [callback((RszObjectNode)builder.Objects[0])];
-            SetUserFile(path, builder.Build());
-        }
-
-        public MsgFile GetMsgFile(string path)
-        {
-            return new MsgFile(GetGameFileData(path));
-        }
-
-        public void SetMsgFile(string path, MsgFile msg)
-        {
-            SetGameFileData(path, msg.Data.ToArray());
         }
 
         public PakFileBuilder GetOutputPakFile()
@@ -198,19 +112,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var fullPath = Path.Combine(path, outputFile.Key);
                 Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
                 File.WriteAllBytes(fullPath, outputFile.Value);
-            }
-        }
-
-        public void ApplyOverlay(byte[] zipData)
-        {
-            var supplementZip = new ZipArchive(new MemoryStream(zipData));
-            foreach (var entry in supplementZip.Entries)
-            {
-                if (entry.Length == 0)
-                    continue;
-
-                var data = entry.GetData();
-                SetGameFileData(entry.FullName, data);
             }
         }
     }

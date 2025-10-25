@@ -41,7 +41,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
             set
             {
-                MainComponent = MainComponent.SetField("_ContextID", value.ToRsz(FileRepository.RszRepository));
+                MainComponent = MainComponent.SetField("_ContextID", value.ToRsz(Area.Randomizer.FileRepository.TypeRepository));
             }
         }
 

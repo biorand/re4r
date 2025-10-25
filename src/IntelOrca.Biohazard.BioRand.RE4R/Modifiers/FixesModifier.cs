@@ -735,7 +735,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 6010, 6100, 6110, 6200, 6400, 6800, 6900,
             };
 
-            var repo = FileRepository.RszRepository;
+            var repo = randomizer.FileRepository.TypeRepository;
             var pathFormat = randomizer.Campaign == Campaign.Leon ? pathFormatLeon : pathFormatAda;
             var locations = randomizer.Campaign == Campaign.Leon ? locationsLeon : locationsAda;
             var rootName = randomizer.Campaign == Campaign.Leon ? "AIMap" : "AIMap_AO";

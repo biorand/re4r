@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Cryptography;
 using IntelOrca.Biohazard.REE.Variables;
 
@@ -101,7 +102,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var fileRepository = randomizer.FileRepository;
 
             // uvar
-            var uvarBytes = fileRepository.GetGameFileData(globalVariablesPath) ?? throw new Exception();
+            var uvarBytes = fileRepository.GetFile(globalVariablesPath) ?? throw new Exception();
             var uvar = new UvarFile(uvarBytes);
 
             var biorandGroup = new UvarFile.Builder(uvar.GetEmbedded(0)); // TODO improve API
@@ -126,7 +127,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var uvarBuilder = uvar.ToBuilder();
             uvarBuilder.Children.Add(biorandGroup);
-            fileRepository.SetGameFileData(globalVariablesPath, uvarBuilder.Build().Data);
+            fileRepository.SetFile(globalVariablesPath, uvarBuilder.Build().Data);
 
             // tabledefine
             var tableDefine = fileRepository.DeserializeUserFile<chainsaw.ScenarioFlagData>(variableTablePath);

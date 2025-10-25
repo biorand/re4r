@@ -79,6 +79,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             private int _contextId = 50_000;
             private (string, int)[]? _pathsWithUserData;
 
+            public FileRepository FileRepository => randomizer.FileRepository;
+
             private FilePair GetScnForStage(int stage)
             {
                 var stageA = stage / 1000;
@@ -90,7 +92,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (pathsWithUserData == null)
                     {
                         pathsWithUserData = paths
-                            .Where(x => randomizer.FileRepository.Exists($"{x[..^7]}_savedata.user.2"))
+                            .Where(x => FileRepository.Exists($"{x[..^7]}_savedata.user.2"))
                             .Select(x => (x, int.Parse(Regex.Replace(x, @".+st(\d\d)_(\d\d\d).+", "$1$2"))))
                             .ToArray();
                         _pathsWithUserData = pathsWithUserData;
@@ -100,7 +102,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         .Where(x => (x.Item2 / 1000) == (stage / 1000))
                         .OrderBy(x => Math.Abs(x.Item2 - stage))
                         .First();
-                    filePair = new FilePair(randomizer.FileRepository, first.Item1);
+                    filePair = new FilePair(FileRepository, first.Item1);
                     _stageToFilePair[stage] = filePair;
                 }
 
@@ -128,7 +130,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 gimmick = gimmick.AddOrUpdateComponent(gimmick
                     .FindComponent("chainsaw.GimmickCore")!
-                    .SetField("_ID", contextId.ToRsz(FileRepository.RszRepository)));
+                    .SetField("_ID", contextId.ToRsz(FileRepository.TypeRepository)));
 
                 gimmick = gimmick.AddOrUpdateComponent(gimmick
                     .FindComponent("via.Transform")!
@@ -140,8 +142,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 filePair.Scene = filePair.Scene.Add(gimmick);
 
-                var userData = FileRepository.RszRepository.Create("chainsaw.GimmickSaveDataTable.Data");
-                userData = userData.SetField("ID", contextId.ToRsz(FileRepository.RszRepository));
+                var userData = FileRepository.TypeRepository.Create("chainsaw.GimmickSaveDataTable.Data");
+                userData = userData.SetField("ID", contextId.ToRsz(FileRepository.TypeRepository));
                 userData = userData.Set("Save.Attr", new byte[] { 0, 0, 0, 0 });
                 filePair.UserData = filePair.UserData.SetField("Datas",
                     ((RszArrayNode)filePair.UserData["Datas"]).Add(userData));
@@ -152,7 +154,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (string.IsNullOrEmpty(placement.Condition) && placement.Chapter == 0)
                     return gimmick;
 
-                var repo = FileRepository.RszRepository;
+                var repo = FileRepository.TypeRepository;
                 var paramObject = gimmick.FindGameObject("ParamObject")!;
                 var stratumBool = repo
                     .Create("chainsaw.RuleStratum.StratumBool")
@@ -268,8 +270,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     _fileRepository = fileRepository;
                     ScenePath = path;
-                    Scn = fileRepository.GetScnFile(ScenePath).ToBuilder(FileRepository.RszRepository);
-                    User = fileRepository.GetUserFile(UserPath).ToBuilder(FileRepository.RszRepository);
+                    Scn = fileRepository.GetScnFile(ScenePath).ToBuilder(_fileRepository.TypeRepository);
+                    User = fileRepository.GetUserFile(UserPath).ToBuilder(_fileRepository.TypeRepository);
                 }
 
                 public void Save()
