@@ -61,7 +61,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var item in itemModels)
             {
                 var craftItemModelPath = getCraftItemModelPath(item);
-                FileRepository.SetGameFileData(craftItemModelPath, FileRepository.GetGameFileData(templateCraftItemModel));
+                FileRepository.SetFile(craftItemModelPath, FileRepository.GetFile(templateCraftItemModel)!);
             }
 
             //modify prefab files to use correct meshes and materials
