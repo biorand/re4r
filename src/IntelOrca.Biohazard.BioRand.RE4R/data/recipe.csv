@@ -1,7 +1,13 @@
-Name,Id,Category,InputItemId0,InputItemCount0,InputItemId1,InputItemCount1,OutputItemId,OutputItemCount
-5 gunpowder + 25 handgun = 30 smg,21,1,117600000,5,112800000,25,112806400,30
-5 gunpowder + 60 smg = 20 handgun,22,1,117600000,5,112806400,60,112800000,20
-7 gunpowder + 8 shotgun = 4 rifle,23,1,117600000,7,112803200,8,112804800,4
-7 gunpowder + 8 rifle = 4 shotgun,24,1,117600000,7,112804800,8,112803200,4
-12 gunpowder + 50 handgun = 3 magnum,25,1,117600000,12,112800000,50,112801600,3
-1 resource (s) + 3 hand grenade = 1 heavy grenade,26,2,117606400,1,277075456,3,277077056,1
+Name,Id,Category,InputItemId0,InputItemCount0,InputItemId1,InputItemCount1,InputItemId2,InputItemCount2,OutputItemId,OutputItemCount
+10 gunpowder + 1 resource (s) = 7 shotgun shells,2,1,117600000,10,117606400,1,,,112803200,7
+5 gunpowder + 25 handgun = 20 smg,21,1,117600000,5,112800000,20,,,112806400,20
+5 gunpowder + 60 smg = 10 handgun,22,1,117600000,5,112806400,40,,,112800000,15
+7 gunpowder + 8 shotgun = 4 rifle,23,1,117600000,7,112803200,8,,,112804800,4
+7 gunpowder + 8 rifle = 5 shotgun,24,1,117600000,7,112804800,8,,,112803200,5
+10 gunpowder + 40 handgun = 3 magnum,25,1,117600000,10,112800000,40,,,112801600,3
+1 resource (s) + 3 hand grenade = 1 heavy grenade,26,2,117606400,1,277075456,3,,,277077056,1
+1 resource (l) + 1 resource (l) = 1 resource (s),28,2,117601600,1,117601600,1,,,117606400,1
+8 gunpowder + 1 resource (s) = 200 flame fuel,29,1,117600000,8,117606400,1,,,112814400,200
+3 mines + 1 resource (s) = 1 hand grenade,30,2,117606400,1,117603200,3,,,277075456,1
+300 flame fuel + 300 flame fuel = 4 gunpowder,31,2,112814400,300,112814400,300,,,117600000,4
+1 resource (s) + 1 resource (s) = 1 resource (l),32,2,117606400,1,117606400,1,,,117601600,1
