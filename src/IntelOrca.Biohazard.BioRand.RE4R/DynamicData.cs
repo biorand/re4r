@@ -4,7 +4,7 @@ using System.Net.Http;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal sealed class DynamicData(bool download)
+    public sealed class DynamicData(bool download)
     {
         private const string GoogleSheetUrl = "https://docs.google.com/spreadsheets/d/1YAOHcvyQ6Tp2n6io9iEcJjpjZoQXuUC0NGwGFKKafQ4/export?format=csv&gid={0}";
         private static readonly ImmutableDictionary<DynamicDataName, (string, int)> g_map = new Dictionary<DynamicDataName, (string, int)>
@@ -16,7 +16,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private readonly Dictionary<DynamicDataName, byte[]> _map = [];
 
-        public byte[] GetData(DynamicDataName name)
+        public string? GetFileName(DynamicDataName name)
+        {
+            if (!g_map.TryGetValue(name, out var entry))
+            {
+                var (fileName, _) = entry;
+                return fileName;
+            }
+            return null;
+        }
+
+        public byte[]? GetData(DynamicDataName name)
         {
             if (!_map.TryGetValue(name, out var data))
             {
@@ -42,7 +52,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         }
     }
 
-    internal enum DynamicDataName
+    public enum DynamicDataName
     {
         Recipe,
         WeaponBase,

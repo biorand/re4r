@@ -24,6 +24,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 config.AddCommand<SetupCommand>("setup")
                     .WithDescription("Create a mini pak containing all the required vanilla assets.")
                     .WithExample("setup", "-o", "custom.pak", "-i", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4");
+                config.AddCommand<UpdateCommand>("update")
+                    .WithDescription("Updates csv file(s).")
+                    .WithExample("update");
             });
             return app.Run(args);
         }
