@@ -13,6 +13,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         RszTypeRepository TypeRepository { get; }
 
         /// <summary>
+        /// Gets the dynamic data, data that may local or downloaded just-in-time.
+        /// </summary>
+        DynamicData DynamicData { get; }
+
+        /// <summary>
         /// Gets the data for a vanilla file, or the data for a replaced file.
         /// </summary>
         /// <param name="path">E.g. "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2"</param>

@@ -108,6 +108,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private class PatchContext(IPakFile vanilla, ModBuilder modBuilder) : IPatchContext
         {
             public RszTypeRepository TypeRepository => FileRepository.RszRepository;
+            public DynamicData DynamicData { get; } = new DynamicData(download: false);
+
             public byte[]? GetSupplementFile(string path) => EmbeddedData.GetFile(path);
             public byte[]? GetFile(string path) => modBuilder[path] ?? vanilla.GetEntryData(path);
             public void SetFile(string path, byte[] data) => modBuilder[path] = data;

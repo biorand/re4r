@@ -29,16 +29,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly string? _inputGamePath;
         private ConcurrentDictionary<string, byte[]> _outputFiles = new(StringComparer.OrdinalIgnoreCase);
 
+        public DynamicData DynamicData { get; } = new DynamicData(download: false);
+
         public FileRepository()
         {
         }
 
-        public FileRepository(PatchedPakFile inputPakFile)
+        public FileRepository(PatchedPakFile inputPakFile, DynamicData dynamicData)
         {
             _inputPakFile = inputPakFile;
+            DynamicData = dynamicData;
         }
 
-        public FileRepository(string inputGamePath)
+        public FileRepository(string inputGamePath, DynamicData dynamicData)
         {
             if (inputGamePath.EndsWith(".pak", System.StringComparison.OrdinalIgnoreCase))
             {
@@ -48,6 +51,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 _inputGamePath = inputGamePath;
             }
+            DynamicData = dynamicData;
         }
 
         public void Dispose()

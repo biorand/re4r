@@ -38,8 +38,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         public FlamethrowerPatch(IPatchContext context)
         {
             FileRepository = context;
-            // _wpflamethrower = new WeaponBaseStats(randomizer.DynamicData).Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
-            _wpflamethrower = new WeaponBaseStats(new DynamicData(false)).Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
+            _wpflamethrower = new WeaponBaseStats(context.DynamicData).Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
         }
 
         public void Apply()
