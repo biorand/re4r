@@ -18,7 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public string? GetFileName(DynamicDataName name)
         {
-            if (!g_map.TryGetValue(name, out var entry))
+            if (g_map.TryGetValue(name, out var entry))
             {
                 var (fileName, _) = entry;
                 return fileName;
