@@ -43,6 +43,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 {
                     _all = PatchTypes
                         .Select(x => x.GetCustomAttribute<ExportModAttribute>()!)
+                        .Where(x => x != null)
                         .ToImmutableArray();
                 }
                 return _all;

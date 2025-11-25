@@ -51,7 +51,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             {
                 var modAttribute = mods.First(x => x.Name.Equals(mod, StringComparison.OrdinalIgnoreCase));
                 var modBuilder = ExportedMods.ExportMod(settings.InputPath, modAttribute.Name);
-                modBuilder.SavePakFile(Path.Combine(settings.OutputPath, modAttribute.FileName));
+                modBuilder.SavePakFile(Path.Combine(settings.OutputPath, modAttribute.FileName + ".pak"));
+                modBuilder.SaveFluffyZipFile(Path.Combine(settings.OutputPath, modAttribute.FileName + ".zip"));
             }
 
             return 0;
