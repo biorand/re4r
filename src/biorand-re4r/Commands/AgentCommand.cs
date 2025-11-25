@@ -18,6 +18,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
             [CommandOption("-i|--input")]
             public required string InputPath { get; init; }
+
+            [CommandOption("-b|--beta")]
+            public bool Beta { get; init; }
         }
 
         public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
@@ -27,7 +30,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 settings.Host,
                 settings.ApiKey,
                 1,
-                new RandomizerAgentHandler(settings.InputPath));
+                new RandomizerAgentHandler(settings.InputPath, settings.Beta));
             var cts = new CancellationTokenSource();
             Console.CancelKeyPress += (sender, e) =>
             {
@@ -47,12 +50,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         private class RandomizerAgentHandler : IRandomizerAgentHandler
         {
             private readonly string _gamePath;
+            private readonly bool _beta;
 
             public IRandomizer Randomizer { get; } = new Re4rRandomizer();
 
-            public RandomizerAgentHandler(string gamePath)
+            public RandomizerAgentHandler(string gamePath, bool beta)
             {
                 _gamePath = gamePath;
+                _beta = beta;
             }
 
             public Task<bool> CanGenerateAsync(RandomizerAgent.QueueResponseItem queueItem)
@@ -67,6 +72,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 var config = input.Configuration;
 
                 // Special things for specific users
+                if (_beta)
+                {
+                    if (!queueItem.UserTags.Contains("re4r:tester"))
+                    {
+                        throw new RandomizerUserException("The RE4R beta randomizer is currently only available to testers.");
+                    }
+                }
+
                 var specials = new List<string>();
                 var userName = queueItem.UserName ?? "";
                 if (userName.Equals("bawkbasoup", StringComparison.OrdinalIgnoreCase))
