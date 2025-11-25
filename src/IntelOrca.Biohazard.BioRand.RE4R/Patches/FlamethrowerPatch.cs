@@ -17,7 +17,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
     /// <remarks>
     /// Design and implementation by MightyKusKus.
     /// </remarks>
-    internal class FlamethrowerPatch
+    [ExportMod(
+        FileName = "flamethrower",
+        Name = "Flamethrower",
+        Description = "Adds the flamethrower to the merchant's shop.",
+        Version = "1.0",
+        Author = "MightKusKus")]
+    internal class FlamethrowerPatch : IPatch
     {
         private const int FlamethrowerWeaponId = 4701;
         private const int FlamethrowerItemId = 275957056;
@@ -25,15 +31,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         private const int SmallResourceItemId = 117606400;
         private const int GunpowderItemId = 117600000;
 
-        private readonly ChainsawRandomizer _randomizer;
         private readonly ImmutableDictionary<string, object> _wpflamethrower;
 
-        public FileRepository FileRepository => _randomizer.FileRepository;
+        public IPatchContext FileRepository { get; }
 
-        public FlamethrowerPatch(ChainsawRandomizer randomizer)
+        public FlamethrowerPatch(IPatchContext context)
         {
-            _randomizer = randomizer;
-            _wpflamethrower = new WeaponBaseStats(randomizer.DynamicData).Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
+            FileRepository = context;
+            _wpflamethrower = new WeaponBaseStats(context.DynamicData).Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
         }
 
         public void Apply()
@@ -51,7 +56,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         private void AddMedia()
         {
-            FileRepository.ApplyOverlay(EmbeddedData.GetFile("flamethrower.zip"));
+            FileRepository.ApplyOverlay(FileRepository.GetSupplementFile("flamethrower.zip"));
         }
 
         private void UpdateStrings()
@@ -327,7 +332,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/guiresource/guiresourcesettinguserdata_craft.user.2", root =>
             {
                 var settings = (RszArrayNode)root["_Settings"];
-                settings = settings.Add(FileRepository.RszRepository
+                settings = settings.Add(FileRepository.TypeRepository
                     .Create("chainsaw.GuiResourceSetting_Craft")
                         .Set("_ItemId", FuelItemId)
                         .Set("_Prefab.Path", new RszResourceNode("_Chainsaw/AppSystem/Prefab/Gui/AttacheCase/ItemModel/CraftItemModel_sm70_509.pfb")));
@@ -355,7 +360,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             {
                 var datas = (RszArrayNode)root["_Datas"];
                 // Flamethrower
-                datas = datas.Add(FileRepository.RszRepository
+                datas = datas.Add(FileRepository.TypeRepository
                     .Create("chainsaw.InGameShopItemSettingUserdata.Data")
                         .Set("_ItemId", FlamethrowerItemId)
                         .Set("_PriceSettings", new[] {
@@ -401,11 +406,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopitemmodelsettinguserdata_2nd.user.2", root =>
             {
                 var datas = (RszArrayNode)root["_Datas"];
-                datas = datas.Add(FileRepository.RszRepository
+                datas = datas.Add(FileRepository.TypeRepository
                     .Create("chainsaw.InGameShopItemModelSettingUserData.Data")
                         .Set("_ItemId", FlamethrowerItemId)
                         .Set("_Prefab.Path", new RszResourceNode("_Chainsaw/AppSystem/Prefab/Gui/InGameShop/ItemModel/ingameshop_itemmodel_wp4701_00.pfb")));
-                datas = datas.Add(FileRepository.RszRepository
+                datas = datas.Add(FileRepository.TypeRepository
                     .Create("chainsaw.InGameShopItemModelSettingUserData.Data")
                         .Set("_ItemId", FuelItemId)
                         .Set("_Prefab.Path", new RszResourceNode("_Chainsaw/AppSystem/Prefab/Gui/InGameShop/ItemModel/ingameshop_itemmodel_sm70_509_00.pfb")));
@@ -416,17 +421,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
             // Creating new fuel shop param file based on template
             var templateFuelShopParamPath = "natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_sm70_500_00.pfb.17";
-            var fuelShopParamData = FileRepository.GetGameFileData(templateFuelShopParamPath)!;
-            FileRepository.SetGameFileData(templateFuelShopParamPath, fuelShopParamData);
+            var fuelShopParamData = FileRepository.GetFile(templateFuelShopParamPath)!;
+            FileRepository.SetFile(templateFuelShopParamPath, fuelShopParamData);
             var fuelShopParamPath = "natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_sm70_509_00.pfb.17";
-            FileRepository.SetGameFileData(fuelShopParamPath, fuelShopParamData);
+            FileRepository.SetFile(fuelShopParamPath, fuelShopParamData);
 
             // Creating new fuel shop param file based on template
             var templateFlamethrowerShopParamPath = "natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_wp4000_00.pfb.17";
-            var flamethrowerShopParamData = FileRepository.GetGameFileData(templateFlamethrowerShopParamPath)!;
-            FileRepository.SetGameFileData(templateFlamethrowerShopParamPath, flamethrowerShopParamData);
+            var flamethrowerShopParamData = FileRepository.GetFile(templateFlamethrowerShopParamPath)!;
+            FileRepository.SetFile(templateFlamethrowerShopParamPath, flamethrowerShopParamData);
             var flamethrowerShopParamPath = "natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_wp4701_00.pfb.17";
-            FileRepository.SetGameFileData(flamethrowerShopParamPath, flamethrowerShopParamData);
+            FileRepository.SetFile(flamethrowerShopParamPath, flamethrowerShopParamData);
 
             FileRepository.ModifyPfbFile("natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_sm70_509_00.pfb.17", scene =>
             {
@@ -692,7 +697,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 else
                 {
                     stage._WeaponDetailCustom._IndividualCustoms[0]._IndividualCustomCategory = 1;
-                    for (var i = 1; i < 5; i++)
+                    for (var i = 0; i < 5; i++)
                     {
                         stage._WeaponDetailCustom._IndividualCustoms[0]._ThroughNums._ThroughNum_Normal.Add(0);
                         stage._WeaponDetailCustom._IndividualCustoms[0]._ThroughNums._ThroughNum_Normal[i] = (int)_wpflamethrower[$"penetration level {i + 1}"];
@@ -778,19 +783,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in characters)
             {
                 var burnParamPath = getBurnParamPath(ch);
-                if (FileRepository.GetGameFileData(burnParamPath) == null)
+                if (FileRepository.GetFile(burnParamPath) == null)
                 {
                     // User data not there, add reference to it in main param file
                     var paramPath = $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}paramuserdata.user.2";
                     FileRepository.ModifyUserFile(paramPath, root =>
                     {
                         return root.SetField("_BurnParam", new RszUserDataNode(
-                            FileRepository.RszRepository.FromName("chainsaw.EnemyBurnParamUserData")!,
+                            FileRepository.TypeRepository.FromName("chainsaw.EnemyBurnParamUserData")!,
                             $"_Chainsaw/AppSystem/Character/{ch}/UserData/{ch}BurnParamUserData.user"));
                     });
                 }
 
-                FileRepository.SetGameFileData(burnParamPath, FileRepository.GetGameFileData(templateBurnParamPath)!);
+                FileRepository.SetFile(burnParamPath, FileRepository.GetFile(templateBurnParamPath)!);
             }
 
             // Change garrador burn ID ISSUE
@@ -822,7 +827,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactersDamage)
             {
                 var AttackHitPath = getAttackHitPath(ch);
-                if (FileRepository.GetGameFileData(AttackHitPath) != null)
+                if (FileRepository.GetFile(AttackHitPath) != null)
                 {
                     FileRepository.ModifyUserFile(AttackHitPath, root =>
                     {
@@ -850,7 +855,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactersDamage)
             {
                 var AttackHitPath = getAttackHitPath(ch);
-                if (FileRepository.GetGameFileData(AttackHitPath) != null)
+                if (FileRepository.GetFile(AttackHitPath) != null)
                 {
                     FileRepository.ModifyUserFile(AttackHitPath, root =>
                     {
@@ -858,7 +863,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         var AttackData = AttackDataList.FirstOrDefault(x => x.Get<uint>("_KeyNameHash") == KeyNameHashValueBurnTickDamage);
                         if (AttackData == null)
                         {
-                            AttackDataList = AttackDataList.Add(FileRepository.RszRepository
+                            AttackDataList = AttackDataList.Add(FileRepository.TypeRepository
                               .Create("chainsaw.collision.AttackHitUserData.AttackData")
                                   .Set("_KeyNameHash", KeyNameHashValueBurnTickDamage)
                                   .Set("_Damage", (int)_wpflamethrower[$"burndamage"])
@@ -892,7 +897,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         var AttackData2 = AttackDataList.FirstOrDefault(x => x.Get<uint>("_KeyNameHash") == KeyNameHashValueFinalBurnTickDamage);
                         if (AttackData2 == null)
                         {
-                            AttackDataList = AttackDataList.Add(FileRepository.RszRepository
+                            AttackDataList = AttackDataList.Add(FileRepository.TypeRepository
                                 .Create("chainsaw.collision.AttackHitUserData.AttackData")
                                     .Set("_KeyNameHash", KeyNameHashValueFinalBurnTickDamage)
                                     .Set("_Damage", (int)_wpflamethrower["burndamage"] * 2)
@@ -935,7 +940,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactersDamage)
             {
                 var weaponDamagePath = getWeaponDamagePath(ch);
-                if (FileRepository.GetGameFileData(weaponDamagePath) != null)
+                if (FileRepository.GetFile(weaponDamagePath) != null)
                 {
                     FileRepository.ModifyUserFile(weaponDamagePath, root =>
                     {
@@ -962,7 +967,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactersDamage)
             {
                 var weaponDamagePath = getEnhancedWeaponDamagePath(ch);
-                if (FileRepository.GetGameFileData(weaponDamagePath) != null)
+                if (FileRepository.GetFile(weaponDamagePath) != null)
                 {
                     FileRepository.ModifyUserFile(weaponDamagePath, root =>
                     {
@@ -990,7 +995,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactersDamage)
             {
                 var weaponDamagePath = getWeaponHeadDamagePath(ch);
-                if (FileRepository.GetGameFileData(weaponDamagePath) != null)
+                if (FileRepository.GetFile(weaponDamagePath) != null)
                 {
                     FileRepository.ModifyUserFile(weaponDamagePath, root =>
                     {
@@ -1017,7 +1022,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactersDamage)
             {
                 var weaponDamagePath = getEnhancedWeaponHeadDamagePath(ch);
-                if (FileRepository.GetGameFileData(weaponDamagePath) != null)
+                if (FileRepository.GetFile(weaponDamagePath) != null)
                 {
                     FileRepository.ModifyUserFile(weaponDamagePath, root =>
                     {
@@ -1056,7 +1061,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactershort)
             {
                 var MainVfxPrefabPath = getMainVfxPrefab(ch);
-                if (FileRepository.GetGameFileData(MainVfxPrefabPath) != null)
+                if (FileRepository.GetFile(MainVfxPrefabPath) != null)
                 {
                     FileRepository.ModifyPfbFile(MainVfxPrefabPath, scene =>
                     {
@@ -1066,7 +1071,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         var MainVfxPrefabData = MainVfxPrefabList.FirstOrDefault(x => x.Get<uint>("ID") == 6);
                         if (MainVfxPrefabData == null)
                         {
-                            MainVfxPrefabList = MainVfxPrefabList.Add(FileRepository.RszRepository
+                            MainVfxPrefabList = MainVfxPrefabList.Add(FileRepository.TypeRepository
                               .Create("via.effect.script.EPVDataContainer.StandardDataSetting")
                                   .Set("Comment", "ガナード　炎ダメージ")
                                   .Set("ID", 6)
@@ -1090,7 +1095,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 var mainVfxPrefabData = mainVfxPrefabList.FirstOrDefault(x => x.Get<uint>("ID") == 7);
                 if (mainVfxPrefabData == null)
                 {
-                    mainVfxPrefabList = mainVfxPrefabList.Add(FileRepository.RszRepository
+                    mainVfxPrefabList = mainVfxPrefabList.Add(FileRepository.TypeRepository
                       .Create("via.effect.script.EPVDataContainer.StandardDataSetting")
                           .Set("Comment", "ガナード　炎ダメージ")
                           .Set("ID", 7)
@@ -1140,10 +1145,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             });
         }
 
-        private static T CloneRszData<T>(T source) where T : notnull
+        private T CloneRszData<T>(T source) where T : notnull
         {
             var typeName = source.GetType().FullName!.Replace('+', '.');
-            var rszNode = RszSerializer.Serialize(FileRepository.RszRepository.FromName(typeName)!, source);
+            var rszNode = RszSerializer.Serialize(FileRepository.TypeRepository.FromName(typeName)!, source);
             var result = RszSerializer.Deserialize<T>(rszNode);
             return result!;
         }

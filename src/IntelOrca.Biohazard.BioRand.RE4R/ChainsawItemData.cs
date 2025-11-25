@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using chainsaw;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {

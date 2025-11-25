@@ -4,7 +4,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
-using IntelOrca.Biohazard.BioRand.RE4R.Patches;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -48,7 +47,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var input = _input;
             if (input.GamePath != null)
             {
-                _fileRepository = new FileRepository(input.GamePath);
+                _fileRepository = new FileRepository(input.GamePath, DynamicData);
             }
 
             var logFiles = new Dictionary<string, string>();
@@ -139,8 +138,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // Patches
             if (campaign != Campaign.Ada)
             {
-                new FlamethrowerPatch(this).Apply();
-                new MendezPatch(this).Apply();
+                ExportedMods.ApplyAll(this, FileRepository);
             }
 
             // Apply modifiers

@@ -222,7 +222,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public GimmickFile(ChainsawRandomizer randomizer, string path)
             {
                 _randomizer = randomizer;
-                ScnFile = randomizer.FileRepository.GetScnFile(path).ToBuilder(FileRepository.RszRepository);
+                ScnFile = randomizer.FileRepository.GetScnFile(path).ToBuilder(randomizer.FileRepository.TypeRepository);
 
                 Path = path;
                 Gimmicks = GetGimmicks();
