@@ -137,8 +137,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
 
             // Patches
-            new FlamethrowerPatch(this).Apply();
-            new MendezPatch(this).Apply();
+            if (campaign != Campaign.Ada)
+            {
+                new FlamethrowerPatch(this).Apply();
+                new MendezPatch(this).Apply();
+            }
 
             // Apply modifiers
             IterateModifiers((n, m) =>
