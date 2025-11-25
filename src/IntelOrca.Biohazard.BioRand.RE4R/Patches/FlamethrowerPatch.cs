@@ -698,7 +698,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 else
                 {
                     stage._WeaponDetailCustom._IndividualCustoms[0]._IndividualCustomCategory = 1;
-                    for (var i = 1; i < 5; i++)
+                    for (var i = 0; i < 5; i++)
                     {
                         stage._WeaponDetailCustom._IndividualCustoms[0]._ThroughNums._ThroughNum_Normal.Add(0);
                         stage._WeaponDetailCustom._IndividualCustoms[0]._ThroughNums._ThroughNum_Normal[i] = (int)_wpflamethrower[$"penetration level {i + 1}"];
