@@ -36,5 +36,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         /// </summary>
         /// <param name="path">E.g. "flamethrower.zip" or "wpstats.csv".</param>
         byte[]? GetSupplementFile(string path);
+
+        /// <summary>
+        /// Gets a randomizer config option or the default value provided if not specified.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        T? GetConfigOption<T>(string key, T? defaultValue = default);
     }
 }

@@ -25,6 +25,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public RszTypeRepository TypeRepository => RszRepository;
 
+        private readonly ChainsawRandomizer? _randomizer;
         private readonly PatchedPakFile? _inputPakFile;
         private readonly string? _inputGamePath;
         private ConcurrentDictionary<string, byte[]> _outputFiles = new(StringComparer.OrdinalIgnoreCase);
@@ -41,8 +42,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             DynamicData = dynamicData;
         }
 
-        public FileRepository(string inputGamePath, DynamicData dynamicData)
+        public FileRepository(ChainsawRandomizer randomizer, string inputGamePath, DynamicData dynamicData)
         {
+            _randomizer = randomizer;
             if (inputGamePath.EndsWith(".pak", System.StringComparison.OrdinalIgnoreCase))
             {
                 _inputPakFile = new PatchedPakFile(inputGamePath);
@@ -117,6 +119,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
                 File.WriteAllBytes(fullPath, outputFile.Value);
             }
+        }
+
+        public T? GetConfigOption<T>(string key, T? defaultValue = default)
+        {
+            var randomizer = _randomizer;
+            return randomizer == null ? defaultValue : randomizer.GetConfigOption(key, defaultValue);
         }
     }
 }

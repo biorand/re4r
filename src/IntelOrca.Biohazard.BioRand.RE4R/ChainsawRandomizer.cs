@@ -47,7 +47,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var input = _input;
             if (input.GamePath != null)
             {
-                _fileRepository = new FileRepository(input.GamePath, DynamicData);
+                _fileRepository = new FileRepository(this, input.GamePath, DynamicData);
             }
 
             var logFiles = new Dictionary<string, string>();

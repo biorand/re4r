@@ -1,32 +1,22 @@
-using System;
 using System.Linq;
 using System.Numerics;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class CraftWindowPatch
+    internal class CraftWindowPatch(IPatchContext context) : IPatch
     {
-        private readonly ChainsawRandomizer _randomizer;
-
-        public FileRepository FileRepository => _randomizer.FileRepository;
-
-        public CraftWindowPatch(ChainsawRandomizer randomizer)
-        {
-            _randomizer = randomizer;
-        }
-
         public void Apply()
         {
             string getCraftItemModelPath(string item) => $"natives/stm/_Chainsaw/AppSystem/Prefab/Gui/AttacheCase/ItemModel/craftitemmodel_{item}.pfb.17";
             string getCraftItemModelPathGui(string item) => $"_Chainsaw/AppSystem/Prefab/Gui/AttacheCase/ItemModel/craftitemmodel_{item}.pfb";
             var itemModels = new[]
             {
-            "sm73_500", // Gunpowder
-            "sm73_501", // Small Resource
-            "sm73_504", // Large Resource
-            "wp5400", // Hand Grenade
-            "wp5003" // Boot Knife
+                "sm73_500", // Gunpowder
+                "sm73_501", // Small Resource
+                "sm73_504", // Large Resource
+                "wp5400", // Hand Grenade
+                "wp5003" // Boot Knife
             };
 
             //add new craft items to craft gui settings
@@ -42,16 +32,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     _ => 0
                 };
 
-                FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/guiresource/guiresourcesettinguserdata_craft.user.2", root =>
-            {
-                var settings = (RszArrayNode)root["_Settings"];
-                settings = settings.Add(FileRepository.RszRepository
-                    .Create("chainsaw.GuiResourceSetting_Craft")
-                        .Set("_ItemId", itemId)
-                        .Set("_Prefab.Path", new RszResourceNode(getCraftItemModelPathGui(item))));
-                        root = root.SetField("_AttackDataList", settings);
-                        return root;
-            });
+                context.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/guiresource/guiresourcesettinguserdata_craft.user.2", root =>
+                {
+                    var settings = (RszArrayNode)root["_Settings"];
+                    settings = settings.Add(FileRepository.RszRepository
+                        .Create("chainsaw.GuiResourceSetting_Craft")
+                            .Set("_ItemId", itemId)
+                            .Set("_Prefab.Path", new RszResourceNode(getCraftItemModelPathGui(item))));
+                    root = root.SetField("_Settings", settings);
+                    return root;
+                });
             }
 
 
@@ -61,7 +51,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var item in itemModels)
             {
                 var craftItemModelPath = getCraftItemModelPath(item);
-                FileRepository.SetFile(craftItemModelPath, FileRepository.GetFile(templateCraftItemModel)!);
+                context.SetFile(craftItemModelPath, context.GetFile(templateCraftItemModel)!);
             }
 
             //modify prefab files to use correct meshes and materials
@@ -109,7 +99,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
                 var craftItemModelPath = getCraftItemModelPath(item);
 
-                FileRepository.ModifyPfbFile(craftItemModelPath, scene =>
+                context.ModifyPfbFile(craftItemModelPath, scene =>
                 {
                     var gameObjectTarget = scene.Children.OfType<RszGameObject>().FirstOrDefault()!;
                     gameObjectTarget = gameObjectTarget.WithName($"CharmItemModel_{item}");
@@ -117,7 +107,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     return scene;
                 });
 
-                FileRepository.ModifyPfbFile(craftItemModelPath, scene =>
+                context.ModifyPfbFile(craftItemModelPath, scene =>
                 {
                     var gameObjectP1 = scene.Children.OfType<RszGameObject>().FirstOrDefault()!;
                     var gameObjectp2 = gameObjectP1.Children.OfType<RszGameObject>().FirstOrDefault()!;
@@ -135,7 +125,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     return scene;
                 });
 
-                FileRepository.ModifyPfbFile(craftItemModelPath, scene =>
+                context.ModifyPfbFile(craftItemModelPath, scene =>
                 {
                     var gameObjectP1 = scene.Children.OfType<RszGameObject>().FirstOrDefault()!;
                     var gameObjectp2 = gameObjectP1.Children.OfType<RszGameObject>().FirstOrDefault()!;
@@ -168,16 +158,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         }
 
         static class ItemIds
-{
-    public const int Gunpowder = 117600000;
-    public const int HandGrenade = 277075456;
-    public const int SmallResource = 117606400;
-    public const int LargeResource = 117601600;
-    public const int BootKnife = 276440256;
-}
-
+        {
+            public const int Gunpowder = 117600000;
+            public const int HandGrenade = 277075456;
+            public const int SmallResource = 117606400;
+            public const int LargeResource = 117601600;
+            public const int BootKnife = 276440256;
+        }
     }
-    
-
-    
 }
