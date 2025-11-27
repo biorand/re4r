@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
-using System.Text;
 using System.Text.RegularExpressions;
 using IntelOrca.Biohazard.REE.Rsz;
 
@@ -13,6 +12,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+            var gimmicks = randomizer.DynamicData.GetData(DynamicDataName.Gimmicks) ?? throw new Exception("Failed to get gimmick data");
+            var placements = Csv.Deserialize<GimmickPlacement>(gimmicks)
+                .Where(x => x.Campaign == randomizer.Campaign)
+                .Where(x => x.Kind.Trim() is string s && !string.IsNullOrEmpty(s) && !s.StartsWith('#'))
+                .ToImmutableArray();
+
             var rng = randomizer.CreateRng();
 
             var bawk = randomizer.HasSpecialTouch("bawk");
@@ -26,7 +31,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 : AreaDefinitionRepository.Ada;
             var gimmickPaths = areaRepo.Gimmicks.ToArray();
             var factory = new GimmickFactory(randomizer, gimmickPaths);
-            var placements = GimmickPlacement.GetPlacements(randomizer.Campaign);
 
             if (!bawk)
                 placements = placements.RemoveAll(x => x.Kind == "bawk");
@@ -126,7 +130,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (kind == "bawk") kind = "Biorand_Chicken";
 
                 var gimmick = CloneGimmickFromTemplate(kind, rng);
-                gimmick = gimmick.WithName($"{gimmick.Name}_{placement.LineNumber}");
+                gimmick = gimmick.WithName($"{gimmick.Name}_{placement.Id}");
 
                 gimmick = gimmick.AddOrUpdateComponent(gimmick
                     .FindComponent("chainsaw.GimmickCore")!
@@ -284,63 +288,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private sealed class GimmickPlacement
         {
-            public int LineNumber { get; }
-            public string Kind { get; }
-            public int Stage { get; }
-            public Vector3 Position { get; }
-            public EulerAngles Eular { get; }
-            public string Condition { get; }
-            public int Chapter { get; }
+            public int Id { get; set; }
+            public string Kind { get; set; } = "";
+            public int Stage { get; set; }
+            public float X { get; set; }
+            public float Y { get; set; }
+            public float Z { get; set; }
+            public float Yaw { get; set; }
+            public float Pitch { get; set; }
+            public float Roll { get; set; }
+            public string Condition { get; set; } = "";
+            public int Chapter { get; set; }
+            public Campaign Campaign { get; set; }
 
-            private GimmickPlacement(int lineNumber, string[] p)
-            {
-                LineNumber = lineNumber;
-                Kind = p[0];
-                Stage = int.Parse(p[1]);
-                Position = new Vector3(
-                    float.Parse(p[2]),
-                    float.Parse(p[3]),
-                    float.Parse(p[4]));
-                Eular = new EulerAngles(
-                    float.Parse(p[5]),
-                    float.Parse(p[6]),
-                    float.Parse(p[7]));
-                Condition = p[8];
-                Chapter = string.IsNullOrEmpty(p[9]) ? 0 : int.Parse(p[9]);
-            }
-
-            public static ImmutableArray<GimmickPlacement> GetPlacements(Campaign campaign)
-            {
-                var gimmicksFile = campaign == Campaign.Leon
-                    ? EmbeddedData.GetFile("gimmicks.csv")
-                    : EmbeddedData.GetFile("gimmicks_sw.csv");
-
-                var lines = Encoding.UTF8.GetString(gimmicksFile)
-                    .ReplaceLineEndings("\n")
-                    .Split("\n");
-
-                var result = ImmutableArray.CreateBuilder<GimmickPlacement>();
-                var header = true;
-                for (var i = 0; i < lines.Length; i++)
-                {
-                    var line = lines[i].Trim();
-                    if (line.StartsWith("#") || line.Length == 0)
-                        continue;
-
-                    if (header)
-                    {
-                        header = false;
-                        continue;
-                    }
-
-                    result.Add(new GimmickPlacement(i + 1, line.Split(',')));
-                }
-                return result.ToImmutable();
-            }
+            public Vector3 Position => new(X, Y, Z);
+            public EulerAngles Eular => new(Yaw, Pitch, Roll);
 
             public override string ToString()
             {
-                return $"{Kind}";
+                return $"{Id}_{Kind}";
             }
         }
     }
