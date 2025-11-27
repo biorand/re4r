@@ -175,7 +175,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 _supplementApplied = true;
                 FileRepository.ApplyOverlay(EmbeddedData.GetFile("supplement.zip"));
-                FileRepository.ApplyOverlay(EmbeddedData.GetFile("delorca.zip"));
             }
         }
 
