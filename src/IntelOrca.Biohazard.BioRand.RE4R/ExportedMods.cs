@@ -79,7 +79,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             var exportedModAttribute = All.FirstOrDefault(x => x.Name == name)
                 ?? throw new ArgumentException($"{name} not found", nameof(name));
-            var type = PatchTypes.FirstOrDefault(x => x.GetCustomAttribute<ExportModAttribute>()!.Name == exportedModAttribute.Name)
+            var type = PatchTypes.FirstOrDefault(x => x.GetCustomAttribute<ExportModAttribute>()?.Name == exportedModAttribute.Name)
                 ?? throw new Exception($"Type for {name} not found");
 
             var vanilla = new RePakCollection(inputPath);

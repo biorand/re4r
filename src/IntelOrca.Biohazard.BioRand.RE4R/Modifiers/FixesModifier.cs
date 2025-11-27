@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
@@ -48,7 +47,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 ImproveBoltThrower(randomizer, logger);
             }
-            AllowLaserSightOnAnything(randomizer, logger);
             FixDeadEnemyCounters(randomizer, logger);
             FixSpawnControllers(randomizer, logger);
             if (randomizer.GetConfigOption<bool>("enable-autosave-pro"))
@@ -298,78 +296,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     return root.SetField("_Datas", datas);
                 });
             }
-        }
-
-        private void AllowLaserSightOnAnything(ChainsawRandomizer randomizer, RandomizerLogger logger)
-        {
-            var weaponPartsCombineDefinitionPath = "natives/stm/_chainsaw/appsystem/ui/userdata/weaponpartscombinedefinitionuserdata.user.2";
-            var playerLaserSightControllerDefinitionPath = "natives/stm/_chainsaw/appsystem/weapon/lasersight/playerlasersightcontrolleruserdata.user.2";
-            var weaponDetailCustomPath = "natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2";
-
-            var weaponIds = new[] { 4002, 4003, 4004 };
-
-            if (randomizer.Campaign == Campaign.Ada)
-            {
-                weaponPartsCombineDefinitionPath = "natives/stm/_anotherorder/appsystem/ui/userdata/weaponpartscombinedefinitionuserdata_ao.user.2";
-                weaponDetailCustomPath = "natives/stm/_anotherorder/appsystem/weaponcustom/weapondetailcustomuserdata_ao.user.2";
-                weaponIds = [6103, 6113];
-            }
-
-            var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile(weaponPartsCombineDefinitionPath, root =>
-            {
-                var userData = RszSerializer.Deserialize<WeaponPartsCombineDefinitionUserdata>(root)!;
-                if (randomizer.Campaign == Campaign.Leon)
-                {
-                    userData._Datas[6]._TargetItemIds.AddRange(
-                        274838656, // Red9
-                        274840256, // Blacktail
-                        274841856  // Matilda
-                    );
-                }
-                else
-                {
-                    userData._Datas[6]._TargetItemIds.AddRange(
-                        278200256, // SW - Blacktail AC
-                        278216256  // SW - Red 9
-                    );
-                }
-                return (RszObjectNode)RszSerializer.Serialize(root.Type, userData);
-            });
-
-            fileRepository.ModifyUserFile(playerLaserSightControllerDefinitionPath, root =>
-            {
-                var settings = (RszArrayNode)root["_Settings"];
-                var template = (RszObjectNode)settings[0];
-                foreach (var wp in weaponIds)
-                {
-                    root = root.SetField("_Settings",
-                        settings.Add(
-                            template.SetField("_WeaponID", wp)));
-                }
-                return root;
-            });
-
-            fileRepository.ModifyUserFile(weaponDetailCustomPath, root =>
-            {
-                var userData = RszSerializer.Deserialize<WeaponDetailCustomUserdata>(root)!;
-                var attachment = userData._WeaponDetailStages[0]._WeaponDetailCustom._AttachmentCustoms[0];
-                foreach (var wp in weaponIds)
-                {
-                    foreach (var w in userData._WeaponDetailStages)
-                    {
-                        if (w._WeaponID == wp)
-                        {
-                            var attachments = w._WeaponDetailCustom._AttachmentCustoms;
-                            if (!attachments.Any(x => x._ItemID == 116008000))
-                            {
-                                attachments.Add(attachment);
-                            }
-                        }
-                    }
-                }
-                return (RszObjectNode)RszSerializer.Serialize(root.Type, userData);
-            });
         }
 
         private void RandomizeFirstBearTrap(ChainsawRandomizer randomizer, RandomizerLogger logger, Rng rng)
