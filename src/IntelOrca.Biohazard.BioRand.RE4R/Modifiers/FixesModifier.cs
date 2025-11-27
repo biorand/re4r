@@ -16,7 +16,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             // Once
             SetBuyHoldTime(randomizer, logger);
-            EnableEarlyUpgrades(randomizer, logger);
 
             if (randomizer.Campaign == Campaign.Leon)
             {
@@ -260,40 +259,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     });
                     spawnControllerComponent.SpawnCondition = spawnCondition;
                 }
-            }
-        }
-
-        private void EnableEarlyUpgrades(ChainsawRandomizer randomizer, RandomizerLogger logger)
-        {
-            var fileRepository = randomizer.FileRepository;
-            if (randomizer.Campaign == Campaign.Leon)
-            {
-                var path = "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopupdateflagcataloguserdata.user.2";
-                fileRepository.ModifyUserFile(path, root =>
-                {
-                    var datas = (RszArrayNode)root["_Datas"];
-                    for (var i = 0; i <= 2; i++)
-                    {
-                        var data = (RszObjectNode)datas[i];
-                        data = data.SetField("_Flags", ((RszArrayNode)data["_Flags"]).Add(0));
-                        data = data.SetField("_SaleFlags", ((RszArrayNode)data["_SaleFlags"]).Add(0));
-                        datas = datas.SetItem(i, data);
-                    }
-                    return root.SetField("_Datas", datas);
-                });
-            }
-            else
-            {
-                var path = "natives/stm/_anotherorder/appsystem/ui/userdata/ingameshopupdateflagcataloguserdata_ao.user.2";
-                fileRepository.ModifyUserFile(path, root =>
-                {
-                    var datas = (RszArrayNode)root["_Datas"];
-                    var data = (RszObjectNode)datas[18];
-                    data = data.SetField("_Flags", ((RszArrayNode)data["_Flags"]).Add(17));
-                    data = data.SetField("_SaleFlags", ((RszArrayNode)data["_SaleFlags"]).Add(17));
-                    datas = datas.SetItem(18, data);
-                    return root.SetField("_Datas", datas);
-                });
             }
         }
 
