@@ -3,11 +3,33 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    internal class EnemyPlacement
+    {
+        public Campaign Campaign { get; set; }
+        public string Guid { get; set; } = "";
+        public int Chapter { get; set; }
+        public string Description { get; set; } = "";
+        public string Condition { get; set; } = "";
+        public string SkipCondition { get; set; } = "";
+        public string MiniBoss { get; set; } = "";
+        public int Stage { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
+        public float Yaw { get; set; }
+        public float Pitch { get; set; }
+        public float Roll { get; set; }
+        public ImmutableArray<string> Tags { get; set; } = [];
+        public string Include { get; set; } = "";
+        public string Exclude { get; set; } = "";
+    }
+
     internal class EnemyModifier : Modifier
     {
         private int _contextId;
@@ -18,8 +40,102 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private Dictionary<int, int> _stageEnemyCount = new();
 
+        private static List<EnemyPlacement> _placements = new List<EnemyPlacement>();
+
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+            if (logger.Name == "input")
+            {
+                foreach (var a in randomizer.Areas)
+                {
+                    var def = a.Definition;
+                    foreach (var e in a.Enemies)
+                    {
+                        var placement = new EnemyPlacement();
+                        placement.Campaign = randomizer.Campaign;
+                        var restriction = (def.Restrictions ?? []).FirstOrDefault(x => x.Guids.Contains(e.Guid));
+                        if (restriction != null)
+                        {
+                            UseRestriction(placement, restriction);
+                        }
+
+                        var eular = e.Enemy.Transform.Eular;
+                        placement.Guid = e.Guid.ToString();
+                        placement.Chapter = def.Chapter;
+                        placement.Stage = e.StageID;
+                        placement.Description = GetEnemyDescription(e.Enemy);
+                        _placements.Add(placement);
+                    }
+                    foreach (var extra in def.Extra ?? [])
+                    {
+                        foreach (var e in extra.Enemies ?? [])
+                        {
+                            var placement = new EnemyPlacement();
+                            placement.Campaign = randomizer.Campaign;
+                            var restriction = (def.Restrictions ?? []).FirstOrDefault(x => (x.Guids ?? []).Any(x => x == e.Guid));
+                            if (restriction != null)
+                            {
+                                UseRestriction(placement, restriction);
+                            }
+                            if (e.Small)
+                            {
+                                placement.Tags = placement.Tags.Add("small");
+                            }
+                            if (e.FindPlayer)
+                            {
+                                placement.Tags = placement.Tags.Add("aggroed");
+                            }
+                            if (e.Ranged)
+                            {
+                                placement.Tags = placement.Tags.Add("ranged");
+                            }
+                            placement.Guid = e.Guid?.ToString() ?? "";
+                            placement.Chapter = def.Chapter;
+                            placement.Description = "[EXTRA] ";
+                            placement.Stage = e.Stage;
+                            placement.X = e.X;
+                            placement.Y = e.Y;
+                            placement.Z = e.Z;
+                            placement.Yaw = e.Direction;
+                            placement.Pitch = 0;
+                            placement.Roll = 0;
+                            placement.Condition = extra.Condition ?? "";
+                            placement.SkipCondition = extra.SkipCondition ?? "";
+                            _placements.Add(placement);
+                        }
+                    }
+                }
+                if (randomizer.Campaign == Campaign.Ada)
+                {
+                    var sb = new StringBuilder();
+                    foreach (var p in _placements)
+                    {
+                        var ppp = new object[]
+                        {
+                            p.Campaign,
+                            p.Guid,
+                            p.Chapter,
+                            p.Description,
+                            p.Stage,
+                            p.X,
+                            p.Y,
+                            p.Z,
+                            p.Yaw,
+                            p.Pitch,
+                            p.Roll,
+                            p.Condition,
+                            p.SkipCondition,
+                            p.MiniBoss,
+                            string.Join(" ", p.Tags),
+                            p.Include,
+                            p.Exclude
+                        };
+                        sb.AppendLine(string.Join(",", ppp));
+                    }
+                    var s = sb.ToString();
+                }
+            }
+
             foreach (var area in randomizer.Areas)
             {
                 logger.Push(area.FileName);
@@ -29,6 +145,86 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
                 logger.Pop();
             }
+
+            static void UseRestriction(EnemyPlacement placement, AreaRestriction restriction)
+            {
+                var tags = new List<string>();
+
+                if (restriction.Include == null &&
+                    restriction.Exclude == null &&
+                    !restriction.PreventDuplicate &&
+                    !restriction.Horde &&
+                    !restriction.LockWeapon &&
+                    !restriction.PreventDuplicate)
+                {
+                    placement.Tags = placement.Tags.Add("preserve");
+                    placement.Tags = placement.Tags.Add("noduplicate");
+                }
+                else
+                {
+                    if (restriction.LockWeapon)
+                        placement.Tags = placement.Tags.Add("lockweapon");
+                    if (restriction.PreventDuplicate)
+                        placement.Tags = placement.Tags.Add("noduplicate");
+                    if (restriction.Horde)
+                        placement.Tags = placement.Tags.Add("horde");
+                    placement.MiniBoss = restriction.MiniBoss ?? "";
+                    placement.Include = string.Join(" ", restriction.Include ?? []);
+                    placement.Exclude = string.Join(" ", restriction.Exclude ?? []);
+                }
+            }
+        }
+
+        private static string GetEnemyDescription(Enemy enemy)
+        {
+            var weapons = "";
+            foreach (var w in new[] { enemy.Weapon, enemy.SecondaryWeapon })
+            {
+                if (w != 0)
+                {
+                    var ecf = EnemyClassFactory.Default;
+                    var weaponDef = ecf.Weapons.FirstOrDefault(x => x.Id == w);
+                    if (weaponDef != null)
+                    {
+                        if (weapons.Length != 0)
+                            weapons += " | ";
+                        weapons += weaponDef.Key;
+                    }
+                }
+            }
+
+            var itemDrop = ".";
+            if (enemy.ItemDrop is Item drop)
+            {
+                itemDrop = "*";
+                if (!drop.IsAutomatic)
+                {
+                    var itemRepo = ItemDefinitionRepository.Default;
+                    var itemDef = itemRepo.Find(drop.Id);
+                    if (itemDef != null)
+                    {
+                        itemDrop = itemDef.Name ?? itemDef.Id.ToString();
+                        itemDrop += $" x{drop.Count}";
+                    }
+                }
+            }
+
+            var parasite = "";
+            if ((enemy.ParasiteKind ?? 0) != 0)
+            {
+                if (enemy.ParasiteKind == 1)
+                    parasite = "pA(";
+                else if (enemy.ParasiteKind == 2)
+                    parasite = "pB(";
+                else if (enemy.ParasiteKind == 3)
+                    parasite = "pC(";
+                if (enemy.ForceParasiteAppearance)
+                    parasite += "100%)";
+                else
+                    parasite += $"{enemy.ParasiteAppearanceProbability}%)";
+            }
+
+            return string.Join(" ", enemy.Kind.Key, parasite, weapons, itemDrop);
         }
 
         private static void LogEnemy(Enemy enemy, RandomizerLogger logger)
