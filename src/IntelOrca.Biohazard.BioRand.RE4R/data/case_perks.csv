@@ -6,12 +6,12 @@ Id,Weight,Min,Max,GodMin,GodMax,Enabled,Description
 100400,5,5,15,16,25,1,{0}% SMG Ammo Craft Bonus Frequency
 100500,5,5,15,16,25,1,{0}% Mine Ammo Craft Bonus Frequency
 100700,5,5,15,16,25,1,{0}% Bolt Ammo Craft Bonus Frequency
-200000,2,-1,-1,-2,-2,1,-1 Gunpowder Craft Cost Reduction
+200000,1,-1,-1,-2,-2,1,-1 Gunpowder Craft Cost Reduction
 300000,4,5,15,16,25,1,Increases the health recovery of green herbs by {0}%.
 300100,4,5,15,16,25,1,Increases the health recovery of eggs by {0}%.
 300200,4,5,15,16,25,1,Increases the health recovery of fish by {0}%.
 300300,4,5,15,16,25,1,Increases the health recovery of vipers by {0}%.
-400000,1,3,6,7,10,1,Increases the run speed by {0}%.
+400000,2,3,6,7,10,1,Increases the run speed by {0}%.
 500000,1,0,0,0,0,0,Increases the drop rate of red herbs by {0}%.
 500100,1,0,0,0,0,0,Increases the drop rate of handgun ammo by {0}%.
 500200,1,0,0,0,0,0,Increases the drop rate of large resources by {0}%.

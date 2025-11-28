@@ -13,6 +13,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             [DynamicDataName.WeaponBase] = ("wpbase.csv", 882011316),
             [DynamicDataName.WeaponRng] = ("wpstats.csv", 345409638),
             [DynamicDataName.Gimmicks] = ("gimmicks.csv", 857253225),
+            [DynamicDataName.CasePerks] = ("case_perks.csv", 433155121),
         }.ToImmutableDictionary();
 
         private readonly Dictionary<DynamicDataName, byte[]> _map = [];
@@ -58,6 +59,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         Recipe,
         WeaponBase,
         WeaponRng,
-        Gimmicks
+        Gimmicks,
+        CasePerks,
     }
 }

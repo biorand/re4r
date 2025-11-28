@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using chainsaw;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -37,6 +36,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+            var casePerks = new CasePerks(randomizer.DynamicData);
             var itemRepo = ItemDefinitionRepository.Default;
             var userDataPaths = randomizer.Campaign == Campaign.Leon ? _leonPaths : _adaPaths;
             foreach (var userDataPath in userDataPaths)
@@ -51,7 +51,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     logger.Push($"{itemDefinition.Name}");
                     foreach (var effect in suitcase._Effects)
                     {
-                        var casePerk = CasePerks.Default.FromStatusEffectId(effect._StatusEffectID);
+                        var casePerk = casePerks.FromStatusEffectId(effect._StatusEffectID);
                         var description = casePerk == null
                             ? effect._StatusEffectID.ToString()
                             : string.Format(casePerk.Description, Math.Abs(effect._Value));
@@ -68,9 +68,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("random-case-perks"))
                 return;
 
+            var casePerks = new CasePerks(randomizer.DynamicData);
             var itemRepo = ItemDefinitionRepository.Default;
             var userDataPaths = randomizer.Campaign == Campaign.Leon ? _leonPaths : _adaPaths;
-            var availablePerks = new WeightTable<CasePerk>(rng, CasePerks.Default.All
+            var availablePerks = new WeightTable<CasePerk>(rng, casePerks.All
                 .Where(x => x.Enabled != 0)
                 .Select(x => new WeightTableEntry<CasePerk>(x, x.Weight)));
 
@@ -138,13 +139,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private class CasePerks
         {
-            public static CasePerks Default { get; } = new CasePerks();
-
             public ImmutableArray<CasePerk> All { get; } = [];
 
-            private CasePerks()
+            public CasePerks(DynamicData dynamicData)
             {
-                var data = EmbeddedData.GetFile("case_perks.csv");
+                var data = dynamicData.GetData(DynamicDataName.CasePerks) ?? throw new Exception("Failed to get case perks");
                 All = [.. Csv.Deserialize<CasePerk>(data)];
             }
 
