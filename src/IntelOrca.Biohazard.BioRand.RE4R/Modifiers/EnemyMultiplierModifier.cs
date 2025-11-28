@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -58,7 +59,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     enemyLimit = maxPerStage;
                 }
 
-                var stageSpawns = g.Where(x => !x.IsOrphan && !x.PreventDuplicate).ToArray();
+                var stageSpawns = g.Where(x => !x.IsOrphan && !x.EnemyPlacement.HasTag(EnemyTags.NoDuplicate)).ToArray();
                 var newEnemyCount = Math.Min(enemyLimit, stageSpawns.Length * multiplier);
                 var delta = (int)Math.Round(newEnemyCount - stageSpawns.Length);
                 if (delta != 0)

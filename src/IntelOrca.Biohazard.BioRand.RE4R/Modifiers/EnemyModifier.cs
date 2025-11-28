@@ -10,7 +10,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
     internal class EnemyModifier : Modifier
     {
-        private int _contextId;
         private int _uniqueHp;
         private Rng.Table<EnemyClassDefinition>? _allEnemyRngTable;
         private Rng.Table<int>? _parasiteRngTable;
@@ -104,7 +103,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             };
             var ammoOnlyAvailableWeapons = randomizer.GetConfigOption("enemy-drop-ammo-only-available-weapons", true);
 
-            _contextId = 5000;
             _uniqueHp = 1;
             _allEnemyClasses = randomizer.EnemyClassFactory.GetClasses(randomizer);
 
@@ -203,8 +201,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (randomizer.GetConfigOption<bool>("enemy-strong-mini-boss"))
             {
                 var miniBossGroups = spawns
-                    .Where(x => !string.IsNullOrEmpty(x.MiniBoss))
-                    .GroupBy(x => x.MiniBoss);
+                    .Where(x => !string.IsNullOrEmpty(x.EnemyPlacement.MiniBoss))
+                    .GroupBy(x => x.EnemyPlacement.MiniBoss);
                 foreach (var g in miniBossGroups)
                 {
                     var first = g.First();
@@ -218,11 +216,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             // Randomize
             foreach (var spawn in spawns)
             {
+                if (spawn.EnemyPlacement.HasTag(EnemyTags.Preserve))
+                    continue;
+
                 if (spawn.ChosenClass is EnemyClassDefinition ecd)
                 {
                     // Determine weapon
                     WeaponChoice? weaponChoice = null;
-                    if (!spawn.LockWeapon && ecd.Weapon.Length != 0)
+                    if (!spawn.EnemyPlacement.HasTag(EnemyTags.LockWeapon) && ecd.Weapon.Length != 0)
                     {
                         weaponChoice = rng.Next(ecd.Weapon);
                     }
@@ -256,7 +257,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
 
                     // Set weapon
-                    if (!spawn.LockWeapon)
+                    if (!spawn.EnemyPlacement.HasTag(EnemyTags.LockWeapon))
                     {
                         if (weaponChoice == null)
                         {
@@ -417,7 +418,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private int GetRandomHighClassEnemy(List<EnemySpawn> chapterSpawns, Rng rng, bool noHorde = false)
         {
             var possibleClassNumbers = chapterSpawns
-                .Where(x => !(noHorde && x.Horde))
+                .Where(x => !(noHorde && x.EnemyPlacement.HasTag(EnemyTags.Horde)))
                 .Select(GetEnemyClass)
                 .Distinct()
                 .Order()
@@ -452,7 +453,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var boss = Bosses.GetBoss(spawn.Guid);
             if (boss != null)
                 return 1;
-            if (!string.IsNullOrEmpty(spawn.MiniBoss))
+            if (!string.IsNullOrEmpty(spawn.EnemyPlacement.MiniBoss))
                 return 2;
 
             return spawn.ChosenClass?.Class ?? 6;
@@ -555,7 +556,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var wMinHealth = (int)Math.Round(minHealth + (range * windowStart));
                     var wMaxHealth = (int)Math.Round(minHealth + (range * windowEnd));
 
-                    if (!string.IsNullOrEmpty(spawn.MiniBoss))
+                    if (!string.IsNullOrEmpty(spawn.EnemyPlacement.MiniBoss))
                     {
                         // Mini bosses get 2x chapter health
                         enemy.Health = wMaxHealth * 2;

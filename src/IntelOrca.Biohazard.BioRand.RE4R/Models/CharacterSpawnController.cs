@@ -32,7 +32,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
                 if (enemyComponent != null)
                 {
                     var enemy = new Enemy(Area, go, enemyComponent);
-                    var spawn = new EnemySpawn(Area, this, enemy, enemy);
+                    var enemyPlacement = Area.Randomizer.EnemyService.Find(enemy.Guid) ?? throw new RandomizerUserException($"Failed to find enemy placement for {enemy.Guid}");
+                    var spawn = new EnemySpawn(Area, this, enemy, enemy, enemyPlacement);
                     spawn.SetClassPool();
                     enemies.Add(spawn);
                 }

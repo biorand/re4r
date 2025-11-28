@@ -39,16 +39,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         var text = columns[j];
                         if (!string.IsNullOrEmpty(text))
                         {
-                            var value = prop.PropertyType.IsEnum
-                                ? Enum.Parse(prop.PropertyType, columns[j])
-                                : Convert.ChangeType(columns[j], prop.PropertyType);
-                            prop.SetValue(element, value);
+                            prop.SetValue(element, ParseValue(columns[j], prop.PropertyType));
                         }
                     }
                 }
                 result.Add(element);
             }
             return result.ToArray();
+        }
+
+        private static object ParseValue(string input, Type targetType)
+        {
+            if (targetType == typeof(Guid))
+            {
+                return Guid.Parse(input);
+            }
+            else if (targetType.IsEnum)
+            {
+                return Enum.Parse(targetType, input);
+            }
+            else
+            {
+                return Convert.ChangeType(input, targetType);
+            }
         }
 
         public static string[,] Read(string data)

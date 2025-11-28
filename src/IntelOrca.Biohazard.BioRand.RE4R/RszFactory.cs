@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -92,21 +93,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var result = scale * rotation * position;
                 return result;
             }
-            else if (o is AreaExtraEnemy ee)
+            else if (o is EnemyPlacement ee)
             {
-                return CreateMatrix(new Vector3(ee.X, ee.Y, ee.Z), ee.Direction);
+                var position = Matrix4x4.CreateTranslation(ee.Position);
+                var rotation = Matrix4x4.CreateFromQuaternion(ee.Rotation.ToQuaternion());
+                var scale = Matrix4x4.CreateScale(Vector3.One);
+                var result = scale * rotation * position;
+                return result;
             }
             else
             {
                 throw new NotSupportedException();
             }
-        }
-
-        private static Matrix4x4 CreateMatrix(Vector3 position, float direction)
-        {
-            var translate = Matrix4x4.CreateTranslation(position);
-            var rotation = Matrix4x4.CreateFromYawPitchRoll(direction * MathF.PI / 180.0f, 0, 0);
-            return rotation * translate;
         }
     }
 }

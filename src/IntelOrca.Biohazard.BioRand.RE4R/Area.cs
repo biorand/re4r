@@ -81,7 +81,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     if (enemyComponent != null)
                     {
                         var enemy = new Enemy(this, gameObject, enemyComponent);
-                        var enemySpawn = new EnemySpawn(this, null, enemy, enemy);
+                        var enemyPlacement = Randomizer.EnemyService.Find(enemy.Guid) ?? throw new RandomizerUserException($"Failed to find enemy placement for {enemy.Guid}");
+                        var enemySpawn = new EnemySpawn(this, null, enemy, enemy, enemyPlacement);
                         enemySpawn.SetClassPool();
                         orphanEnemies.Add(enemySpawn);
                     }
@@ -162,7 +163,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var newComponent = GetMainEnemyComponent(newGameObject) ?? throw new Exception("Unable to find new enemy component for duplicated enemy.");
             var newEnemy = new Enemy(this, newGameObject, newComponent);
             newEnemy.ContextId = newEnemy.ContextId.WithIndex(contextId);
-            var newEnemySpawn = new EnemySpawn(enemy.Area, enemy.SpawnController, enemy.Enemy, newEnemy);
+            var newEnemyPlacement = Randomizer.EnemyService.Duplicate(enemy.EnemyPlacement, newEnemy.Guid);
+            var newEnemySpawn = new EnemySpawn(enemy.Area, enemy.SpawnController, enemy.Enemy, newEnemy, newEnemyPlacement);
             return newEnemySpawn;
         }
 

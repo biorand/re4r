@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Cryptography;
 using IntelOrca.Biohazard.REE.Variables;
 
@@ -34,9 +34,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     if (numWavedEnemies >= maxWavedEnemies)
                         break;
-                    if (oldSpawn.IsOrphan || oldSpawn.PreventDuplicate)
+                    if (oldSpawn.IsOrphan || oldSpawn.EnemyPlacement.HasTag(EnemyTags.NoDuplicate))
                         continue;
-                    if (!string.IsNullOrEmpty(oldSpawn.MiniBoss))
+                    if (!string.IsNullOrEmpty(oldSpawn.EnemyPlacement.MiniBoss))
                         continue;
                     if (!oldSpawn.HasSimpleController)
                         continue;

@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -12,20 +13,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public CharacterSpawnController? SpawnController { get; }
         public Enemy OriginalEnemy { get; }
         public Enemy Enemy { get; private set; }
-        public bool Horde { get; set; }
-        public bool LockWeapon { get; set; }
-        public bool PreventDuplicate { get; set; }
-        public string? MiniBoss { get; set; }
         public ImmutableArray<EnemyClassDefinition> PreferredClassPool { get; set; } = [];
         public ImmutableArray<EnemyClassDefinition> ClassPool { get; set; } = [];
         public EnemyClassDefinition? ChosenClass { get; set; }
+        public EnemyPlacement EnemyPlacement { get; }
 
-        public EnemySpawn(Area area, CharacterSpawnController? spawnController, Enemy originalEnemy, Enemy enemy)
+        public EnemySpawn(Area area, CharacterSpawnController? spawnController, Enemy originalEnemy, Enemy enemy, EnemyPlacement enemyPlacement)
         {
             Area = area;
             SpawnController = spawnController;
             OriginalEnemy = originalEnemy;
             Enemy = enemy;
+            EnemyPlacement = enemyPlacement;
         }
 
         public RszGameObject Apply()
@@ -41,7 +40,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             var newEnemy = Area.ConvertTo(Enemy, kind);
             if (newEnemy != Enemy)
-                LockWeapon = false;
+                EnemyPlacement.TagsAsArray = EnemyPlacement.TagsAsArray.Remove(EnemyTags.LockWeapon);
             Enemy = newEnemy;
         }
 
@@ -55,8 +54,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public EnemySpawn Duplicate(int contextId)
         {
             var result = Area.Duplicate(this, contextId);
-            result.Horde = Horde;
-            result.LockWeapon = LockWeapon;
             result.ClassPool = ClassPool;
             result.PreferredClassPool = PreferredClassPool;
             result.ChosenClass = ChosenClass;
@@ -105,45 +102,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 enemyClasses = enemyClasses.RemoveAll(x => x.Key == "pig");
             }
 
-            var restrictions = Area.Definition.Restrictions;
-            if (restrictions != null)
+            if (!spawn.EnemyPlacement.IncludeAsArray.IsDefaultOrEmpty)
             {
-                var restrictionBlock = restrictions
-                    .FirstOrDefault(x => x.Guids == null || x.Guids.Contains(spawn.OriginalGuid));
-
-                if (restrictionBlock != null)
+                enemyClasses = enemyClasses.Where(x => spawn.EnemyPlacement.IncludeAsArray.Contains(x.Key)).ToImmutableArray();
+            }
+            else if (!spawn.EnemyPlacement.ExcludeAsArray.IsDefaultOrEmpty)
+            {
+                enemyClasses = enemyClasses.Where(x => !spawn.EnemyPlacement.ExcludeAsArray.Contains(x.Key)).ToImmutableArray();
+            }
+            else if (spawn.EnemyPlacement.HasTag(EnemyTags.Small))
+            {
+                var excludeArray = new[]
                 {
-                    spawn.Horde = restrictionBlock.Horde;
-                    spawn.LockWeapon = restrictionBlock.LockWeapon;
-                    spawn.PreventDuplicate = restrictionBlock.PreventDuplicate;
-                    spawn.MiniBoss = restrictionBlock.MiniBoss;
-
-                    var includedClasses = restrictionBlock.Include;
-                    if (includedClasses == null)
-                    {
-                        var excludedClasses = restrictionBlock.Exclude;
-                        if (excludedClasses == null)
-                        {
-                            if (!spawn.Horde && !spawn.LockWeapon && !spawn.PreventDuplicate)
-                            {
-                                enemyClasses = ImmutableArray<EnemyClassDefinition>.Empty;
-                                spawn.PreventDuplicate = true;
-                            }
-                        }
-                        else
-                        {
-                            enemyClasses = enemyClasses.Where(x => !excludedClasses.Contains(x.Key)).ToImmutableArray();
-                        }
-                    }
-                    else
-                    {
-                        enemyClasses = enemyClasses.Where(x => includedClasses.Contains(x.Key)).ToImmutableArray();
-                    }
-                }
+                    "mendez_chase", "verdugo", "mendez_2", "krauser_2", "pesanta", "u3"
+                };
+                enemyClasses = enemyClasses.Where(x => !excludeArray.Contains(x.Key)).ToImmutableArray();
             }
             spawn.ClassPool = enemyClasses;
 
-            if (randomizer.GetConfigOption<bool>("enemy-strong-mini-boss") && !string.IsNullOrEmpty(spawn.MiniBoss))
+            if (randomizer.GetConfigOption<bool>("enemy-strong-mini-boss") && !string.IsNullOrEmpty(spawn.EnemyPlacement.MiniBoss))
             {
                 // Mini boss should be an elite enemy
                 spawn.PreferredClassPool = spawn.ClassPool

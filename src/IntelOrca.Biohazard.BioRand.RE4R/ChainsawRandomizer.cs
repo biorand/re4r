@@ -26,6 +26,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public ValuableDistributor ValuableDistributor => _valuableDistributor!;
         public ItemRandomizer ItemRandomizer => _itemRandomizer!;
+        public EnemyService EnemyService { get; private set; }
         public ImmutableArray<Area> Areas => _areas;
         public Campaign Campaign { get; private set; }
 
@@ -35,6 +36,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             _input = input;
 
             DynamicData = new DynamicData(_input.Configuration.GetValueOrDefault<bool>("debug-download-data"));
+            EnemyService = new EnemyService(DynamicData);
         }
 
         public void Dispose()
