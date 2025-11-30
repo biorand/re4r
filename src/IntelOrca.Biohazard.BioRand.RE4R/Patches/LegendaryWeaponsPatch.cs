@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using IntelOrca.Biohazard.REE.Cryptography;
 using IntelOrca.Biohazard.REE.Rsz;
 using Range = IntelOrca.Biohazard.REE.Rsz.Native.Range;
 
@@ -30,6 +31,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
             UpdateMessages();
             UpdateShellInfo();
+            UpdateBulletAttackHit();
 
             void UpdateMessages()
             {
@@ -113,6 +115,103 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         return root;
                     });
                 }
+            }
+
+            void UpdateBulletAttackHit()
+            {
+                context.ModifyUserFile("natives/stm/_chainsaw/appsystem/shell/bullet/bulletattackhituserdata.user.2", root =>
+                {
+                    uint baseHash;
+                    uint critHash;
+                    uint baseAttachHash;
+                    uint critAttachHash;
+                    if (IsShotgunWeapon(id))
+                    {
+                        baseHash = (uint)MurMur3.HashData($"wp{id:0000}Center"); // Base Hash
+                        critHash = (uint)MurMur3.HashData($"wp{id:0000}Center_c"); // Crit Hash
+                        baseAttachHash = (uint)MurMur3.HashData($"wp{id:0000}Center_f"); // Base Hash that has an attachment
+                        critAttachHash = (uint)MurMur3.HashData($"wp{id:0000}Center_f_c"); // Crit Hash that has an attachment
+                    }
+                    else
+                    {
+                        baseHash = (uint)MurMur3.HashData($"wp{id:0000}"); // Base Hash
+                        critHash = (uint)MurMur3.HashData($"wp{id:0000}_c"); // Crit Hash
+                        baseAttachHash = (uint)MurMur3.HashData($"wp{id:0000}_f"); // Base Hash that has an attachment
+                        critAttachHash = (uint)MurMur3.HashData($"wp{id:0000}_f_c"); // Crit Hash that has an attachment
+                    }
+
+                    var baseAroundHash = (uint)MurMur3.HashData($"wp{id:0000}"); // Base Hash
+                    var critAroundHash = (uint)MurMur3.HashData($"wp{id:0000}_c"); // Crit Hash
+                    var baseAroundAttachHash = (uint)MurMur3.HashData($"wp{id:0000}_f"); // Base Hash that has an attachment
+                    var critAroundAttachHash = (uint)MurMur3.HashData($"wp{id:0000}_f_c"); // Crit Hash that has an attachment
+
+                    var attackDataList = (RszArrayNode)root["_AttackDataList"];
+                    for (var i = 0; i < attackDataList.Length; i++)
+                    {
+                        var attackData = attackDataList[i];
+                        var keyNameHash = attackData.Get<uint>("_KeyNameHash");
+                        if (keyNameHash == baseHash || keyNameHash == baseAttachHash)
+                        {
+                            attackData = attackData
+                                .Set("_Damage", (int)info["damage"])
+                                .Set("STRUCT__Break__Value", (int)info["break"])
+                                .Set("STRUCT__Stopping__Value", (int)info["stopping"])
+                                .Set("STRUCT__Wince__Value", (int)info["wince"])
+                                .Set("_AttackType", (int)info["attacktype"])
+                                .Set("_AttackPower", (int)info["attackpower"])
+                                .Set("_IsThroughRestriction", true)
+                                .Set("_ThroughNum", (int)info["throughnum"])
+                                .Set("_BreakLevel", (int)info["breaklevel"]);
+                            attackDataList = attackDataList.SetItem(i, attackData);
+                        }
+                        else if (keyNameHash == critHash || keyNameHash == critAttachHash)
+                        {
+                            attackData = attackData
+                                .Set("_Damage", (int)info["damagecrit"])
+                                .Set("STRUCT__Break__Value", (int)info["breakcrit"])
+                                .Set("STRUCT__Stopping__Value", (int)info["stoppingcrit"])
+                                .Set("STRUCT__Wince__Value", (int)info["wincecrit"])
+                                .Set("_AttackType", (int)info["attacktypecrit"])
+                                .Set("_AttackPower", (int)info["attackpowercrit"])
+                                .Set("_IsThroughRestriction", true)
+                                .Set("_ThroughNum", (int)info["throughnumcrit"])
+                                .Set("_BreakLevel", (int)info["breaklevelcrit"]);
+                            attackDataList = attackDataList.SetItem(i, attackData);
+                        }
+                        if (IsShotgunWeapon(id))
+                        {
+                            if (keyNameHash == baseAroundHash || keyNameHash == baseAroundAttachHash)
+                            {
+                                attackData = attackData
+                                    .Set("_Damage", (int)info["damagearound"])
+                                    .Set("STRUCT__Break__Value", (int)info["breakaround"])
+                                    .Set("STRUCT__Stopping__Value", (int)info["stoppingaround"])
+                                    .Set("STRUCT__Wince__Value", (int)info["wincearound"])
+                                    .Set("_AttackType", (int)info["attacktypearound"])
+                                    .Set("_AttackPower", (int)info["attackpoweraround"])
+                                    .Set("_IsThroughRestriction", true)
+                                    .Set("_ThroughNum", (int)info["throughnumaround"])
+                                    .Set("_BreakLevel", (int)info["breaklevelaround"]);
+                                attackDataList = attackDataList.SetItem(i, attackData);
+                            }
+                            else if (keyNameHash == critAroundHash || keyNameHash == critAroundAttachHash)
+                            {
+                                attackData = attackData
+                                    .Set("_Damage", (int)info["damagearoundcrit"])
+                                    .Set("STRUCT__Break__Value", (int)info["breakaroundcrit"])
+                                    .Set("STRUCT__Stopping__Value", (int)info["stoppingaroundcrit"])
+                                    .Set("STRUCT__Wince__Value", (int)info["wincearoundcrit"])
+                                    .Set("_AttackType", (int)info["attacktypearoundcrit"])
+                                    .Set("_AttackPower", (int)info["attackpoweraroundcrit"])
+                                    .Set("_IsThroughRestriction", true)
+                                    .Set("_ThroughNum", (int)info["throughnumaroundcrit"])
+                                    .Set("_BreakLevel", (int)info["breaklevelaroundcrit"]);
+                                attackDataList = attackDataList.SetItem(i, attackData);
+                            }
+                        }
+                    }
+                    return root.SetField("_AttackDataList", attackDataList);
+                });
             }
         }
 
