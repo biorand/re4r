@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using IntelOrca.Biohazard.REE.Cryptography;
@@ -32,6 +31,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             UpdateMessages();
             UpdateShellInfo();
             UpdateBulletAttackHit();
+            UpdateItemDefinition();
+            UpdateWeaponEquipParam();
+            UpdateShop();
 
             void UpdateMessages()
             {
@@ -213,19 +215,101 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     return root.SetField("_AttackDataList", attackDataList);
                 });
             }
+
+            void UpdateItemDefinition()
+            {
+                context.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2", root =>
+                {
+                    var datas = (RszArrayNode)root["_Datas"];
+                    for (var i = 0; i < datas.Length; i++)
+                    {
+                        var data = datas[i];
+                        if (data.Get<int>("_ItemId") == (int)info["itemid"])
+                        {
+                            if (info["baseammocapacity"] is int baseAmmoCapacity)
+                            {
+                                data = data.Set("_WeaponDefineData._AmmoMax", baseAmmoCapacity); // Setting base ammo capacity
+                            }
+                            if (info["ammopershot"] is int ammoPerShot)
+                            {
+                                data = data.Set("_WeaponDefineData._AmmoCost", ammoPerShot); // Setting ammo cost per shot
+                            }
+                            if (info["ammo type"] is int ammoType)
+                            {
+                                data = data.Set("_WeaponDefineData._UsableAmmoList", new[] { ammoType }); // Setting ammo type
+                            }
+                            root = root.SetField("_Datas", datas.SetItem(i, data));
+                            break;
+                        }
+                    }
+                    return root;
+                });
+            }
+
+            void UpdateWeaponEquipParam()
+            {
+                context.ModifyUserFile("natives/stm/_chainsaw/appsystem/weapon/weaponequipparamcataloguserdata.user.2", root =>
+                {
+                    var datas = (RszArrayNode)root["_DataTable"];
+                    for (var i = 0; i < datas.Length; i++)
+                    {
+                        if (datas[i].Get<int>("_WeaponID") == id)
+                        {
+                            var data = datas[i];
+                            {
+                                if (info["baserateoffire"] is int baseRateOfFire)
+                                {
+                                    data = data.Set("_WeaponStructureParam._RapidSpeed", baseRateOfFire);
+                                }
+                                if (info["basereloadrounds"] is int baseReloadRounds)
+                                {
+                                    data = data.Set("_WeaponStructureParam.ReloadNum", baseReloadRounds);
+                                }
+                                if (info["basereloadspeed"] is int baseReloadSpeed)
+                                {
+                                    data = data.Set("_WeaponStructureParam._ReloadSpeedRate", baseReloadSpeed);
+                                }
+                                root = root.SetField("_DataTable", datas.SetItem(i, data));
+                                break;
+                            }
+                        }
+                    }
+                    return root;
+                });
+            }
+
+            void UpdateShop()
+            {
+                context.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopitemsettinguserdata.user.2", root =>
+                {
+                    var datas = (RszArrayNode)root["_Datas"];
+                    for (var i = 0; i < datas.Length; i++)
+                    {
+                        var data = datas[i];
+                        if (data.Get<int>("_ItemId") == id)
+                        {
+                            var price = (int)info["price"];
+                            data = data.Set("_PriceSettings", new[] {
+                                new
+                                {
+                                    _Difficulty = 20,
+                                    _Price = new
+                                    {
+                                        _PurchasePrice = price, // Setting purchase price
+                                        _SellingPrice = price / 2, // Setting selling price to 50% of purchase price
+                                    }
+                                }
+                            });
+                            root = root.SetField("_Datas", datas.SetItem(i, data));
+                            break;
+                        }
+                    }
+                    return root;
+                });
+            }
         }
 
         private static bool IsShotgunWeapon(int weaponId) => weaponId is 4100 or 4101 or 4102 or 6001;
-
-        private void SetStrings(string path, Dictionary<Guid, string> strings)
-        {
-            var msgFile = context.GetMsgFile(path).ToBuilder();
-            foreach (var kvp in strings)
-            {
-                msgFile.SetStringAll(kvp.Key, kvp.Value);
-            }
-            context.SetMsgFile(path, msgFile.Build());
-        }
 
         private static Range CreateRange(float min, float max)
         {
