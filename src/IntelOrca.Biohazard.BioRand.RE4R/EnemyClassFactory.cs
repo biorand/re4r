@@ -82,6 +82,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 var plaga = c.GetBooleanProperty("plaga") ?? false;
                 var ranged = c.GetBooleanProperty("ranged") ?? false;
 
+                var groups = new List<string>();
+                if (c.TryGetProperty("groups", out var groupsElement))
+                {
+                    foreach (var groupElement in groupsElement.EnumerateArray())
+                    {
+                        groups.Add(groupElement.GetString() ?? throw new InvalidDataException());
+                    }
+                }
+
                 var weaponChoices = new List<WeaponChoice>();
                 if (c.TryGetProperty("weapon", out var weapon))
                 {
@@ -126,6 +135,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     key,
                     name,
                     category,
+                    groups.ToImmutableArray(),
                     classification,
                     maxPack ?? classification,
                     minHealth,

@@ -7,6 +7,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         string key,
         string name,
         string category,
+        ImmutableArray<string> groups,
         int classification,
         int maxPack,
         int minHealth,
@@ -19,6 +20,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         public string Key => key;
         public string Name => name;
+        public ImmutableArray<string> Groups => groups;
         public int Class => classification;
         public int MaxPack => maxPack;
         public int MinHealth => minHealth;

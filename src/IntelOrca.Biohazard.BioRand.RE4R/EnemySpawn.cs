@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
@@ -95,6 +96,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var spawn = this;
             var randomizer = area.Randomizer;
             var enemyClasses = randomizer.EnemyClassFactory.GetClasses(randomizer);
+            var keyToEnemyClass = enemyClasses.ToDictionary(x => x.Key);
 
             // Get all allowed enemy classes
             if (!spawn.HasStaticSpawn)
@@ -104,11 +106,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             if (!spawn.EnemyPlacement.IncludeAsArray.IsDefaultOrEmpty)
             {
-                enemyClasses = enemyClasses.Where(x => spawn.EnemyPlacement.IncludeAsArray.Contains(x.Key)).ToImmutableArray();
+                enemyClasses = enemyClasses.Union(spawn.EnemyPlacement.IncludeAsArray.SelectMany(MapClasses)).ToImmutableArray();
             }
             else if (!spawn.EnemyPlacement.ExcludeAsArray.IsDefaultOrEmpty)
             {
-                enemyClasses = enemyClasses.Where(x => !spawn.EnemyPlacement.ExcludeAsArray.Contains(x.Key)).ToImmutableArray();
+                enemyClasses = enemyClasses.Except(spawn.EnemyPlacement.ExcludeAsArray.SelectMany(MapClasses)).ToImmutableArray();
             }
             else if (spawn.EnemyPlacement.HasTag(EnemyTags.Small))
             {
@@ -179,6 +181,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 if (weaponDef != null)
                     return weaponDef.Ranged;
                 return false;
+            }
+
+            EnemyClassDefinition[] MapClasses(string className)
+            {
+                var result = enemyClasses
+                    .Where(x => x.Groups.Contains(className))
+                    .Select(x => x.Key)
+                    .Append(className)
+                    .Select(x => keyToEnemyClass.GetValueOrDefault(x)!)
+                    .Where(x => x != null)
+                    .ToArray();
+                return result;
             }
         }
     }
