@@ -113,8 +113,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             ApplySupplement();
 
-            var areas = GetAreas(campaign);
-
             _itemRandomizer = new ItemRandomizer(this, logger.Process);
 
             var rng = new Rng(input.Seed);
@@ -128,6 +126,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var enemyRng = CreateRng();
             var itemRng = CreateRng();
 
+            // Patches
+            if (campaign != Campaign.Ada)
+            {
+                ExportedMods.ApplyAll(this, FileRepository);
+            }
+
+            // Create areas after patches
+            var areas = GetAreas(campaign);
+
             // Input
             IterateModifiers((n, m) =>
             {
@@ -136,12 +143,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 logger.Input.Pop();
                 logger.Input.LogHr();
             });
-
-            // Patches
-            if (campaign != Campaign.Ada)
-            {
-                ExportedMods.ApplyAll(this, FileRepository);
-            }
 
             // Apply modifiers
             IterateModifiers((n, m) =>

@@ -30,6 +30,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
+                Id = $"disable-radio-calls",
+                Label = "Disable Radio Calls",
+                Description = "Disable radio calls so they do not interrupt gameplay.",
+                Type = "switch",
+                Default = true
+            });
+            group = page.CreateGroup("");
+            group.Items.Add(new GroupItem()
+            {
                 Id = $"allow-bonus-items",
                 Label = "Allow Bonus Weapons",
                 Description = "Let Biorand include the unlockable weapons (Primal Knife, Chicago Sweeper, Handcannon, Infinite Rocket Launcher) in the pool. You must have all the weapons unlocked.",
@@ -60,19 +69,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"early-case-drops",
-                Label = "Front-loaded case drops",
-                Description = "Larger case upgrades are guaranteed to be available by certain chapters. If disabled, you may find larger case upgrades are not available until the second half of the game.",
-                Type = "switch",
-                Default = true
-            });
+            group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
                 Id = $"automatic-bolt-thrower",
                 Label = "Automatic Bolt Thrower",
                 Description = "If enabled, the bolt thrower can be repeatedly fired without loading a new bolt each time.",
+                Type = "switch",
+                Default = true
+            });
+            group = page.CreateGroup("");
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"early-case-drops",
+                Label = "Front-loaded case drops",
+                Description = "Larger case upgrades are guaranteed to be available by certain chapters. If disabled, you may find larger case upgrades are not available until the second half of the game.",
                 Type = "switch",
                 Default = true
             });
@@ -167,7 +178,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Description = "Let Biorand randomize the weapon exclusive upgrades.",
                 Type = "switch",
                 Default = true
-            });            
+            });
             group = page.CreateGroup("Stock Increase per Chapter");
             foreach (var kind in DropKinds.ShopCompatible)
             {
@@ -390,10 +401,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.1,
                 Default = 1.3
             });
-            
+
             group = page.CreateGroup($"Power Scaling Details");
-            group.Warning = "If Enabled, a value between the min and max will be rolled and applied to the weapon's vanilla base power for Level 1 and Level 5. Example: the vanilla SG base power = 1.0 thus it will have 1.2 power at level 1 if the level 1 multiplier rolls 1.2 and will have 2.5 power at level 5 if the level 5 multiplier rolls 2.5.";        
-            
+            group.Warning = "If Enabled, a value between the min and max will be rolled and applied to the weapon's vanilla base power for Level 1 and Level 5. Example: the vanilla SG base power = 1.0 thus it will have 1.2 power at level 1 if the level 1 multiplier rolls 1.2 and will have 2.5 power at level 5 if the level 5 multiplier rolls 2.5.";
+
             group = page.CreateGroup($"Knife Power Scaling");
             group.Items.Add(new GroupItem()
             {
@@ -505,7 +516,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Default = lvl5maxdefault
                 });
             }
-            
+
 
             page = configDefinition.CreatePage("Items");
             group = page.CreateGroup("");

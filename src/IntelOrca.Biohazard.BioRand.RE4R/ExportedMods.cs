@@ -114,6 +114,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             public byte[]? GetFile(string path) => modBuilder[path] ?? vanilla.GetEntryData(path);
             public void SetFile(string path, byte[] data) => modBuilder[path] = data;
             public T? GetConfigOption<T>(string key, T? defaultValue = default) => defaultValue;
+            public bool ExportingMod => true;
         }
     }
 }

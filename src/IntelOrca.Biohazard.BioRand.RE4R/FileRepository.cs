@@ -24,6 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         }
 
         public RszTypeRepository TypeRepository => RszRepository;
+        public bool ExportingMod => false;
 
         private readonly ChainsawRandomizer? _randomizer;
         private readonly PatchedPakFile? _inputPakFile;
