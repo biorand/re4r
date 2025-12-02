@@ -106,7 +106,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             if (!spawn.EnemyPlacement.IncludeAsArray.IsDefaultOrEmpty)
             {
-                enemyClasses = enemyClasses.Union(spawn.EnemyPlacement.IncludeAsArray.SelectMany(MapClasses)).ToImmutableArray();
+                enemyClasses = enemyClasses.Intersect(spawn.EnemyPlacement.IncludeAsArray.SelectMany(MapClasses)).ToImmutableArray();
             }
             else if (!spawn.EnemyPlacement.ExcludeAsArray.IsDefaultOrEmpty)
             {
@@ -126,7 +126,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 // Mini boss should be an elite enemy
                 spawn.PreferredClassPool = spawn.ClassPool
-                    .Where(x => x.Class <= 4)
+                    .Where(x => x.Groups.Contains("strongminiboss"))
                     .ToImmutableArray();
             }
             else if (IsEnemyRanged(randomizer, spawn.OriginalEnemy))
