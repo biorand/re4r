@@ -63,9 +63,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private static Area? FindBestAreaForEnemy(ChainsawRandomizer randomizer, EnemyPlacement placement)
         {
             return randomizer.Areas
-                .Where(x => x.Definition.Chapter == placement.Chapter && x.Enemies.Any())
+                .Where(x => x.Enemies.Any())
+                .Where(x => IsAreaCompatible(x, placement))
                 .OrderBy(x => x.Enemies.Min(x => Math.Abs(x.StageID - placement.Stage)))
                 .FirstOrDefault();
+
+            static bool IsAreaCompatible(Area area, EnemyPlacement placement)
+            {
+                if (placement.HasTag(EnemyTags.AnyChapter))
+                {
+                    if (!area.Definition.ChapterOnly)
+                    {
+                        return area.Definition.Location == placement.Location;
+                    }
+                }
+                else
+                {
+                    if (area.Definition.ChapterOnly)
+                    {
+                        return placement.Chapter == area.Definition.Chapter;
+                    }
+                }
+                return false;
+            }
         }
 
         private static RszGameObject AddEnemyToSpawnController(ChainsawRandomizer randomizer, RszGameObject spawnController, EnemyPlacement e, Rng rng, RandomizerLogger logger)

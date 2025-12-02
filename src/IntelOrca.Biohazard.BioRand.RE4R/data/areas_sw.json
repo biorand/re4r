@@ -4,6 +4,7 @@
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp0_1/level_cp11_chp0_1.scn.20",
       "chapter": 1,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -243,7 +244,8 @@
     // Chapter 2 (Checkpoint, Church, Pesanta)
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_1/level_cp11_chp1_1.scn.20",
-      "chapter": 2
+      "chapter": 2,
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc47/level_loc47.scn.20",
@@ -364,6 +366,7 @@
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_2/level_cp11_chp1_2.scn.20",
       "chapter": 2,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -390,6 +393,7 @@
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_1/level_cp11_chp2_1.scn.20",
       "chapter": 3,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -512,6 +516,7 @@
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_2/level_cp11_chp2_2.scn.20",
       "chapter": 3,
+      "chapterOnly": true,
       "extra": [
         {
           // enemies outside Mendez house on way back from factory
@@ -553,6 +558,7 @@
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_1/level_cp11_chp3_1.scn.20",
       "chapter": 4,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -1149,6 +1155,7 @@
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_2/level_cp11_chp3_2.scn.20",
       "chapter": 5,
+      "chapterOnly": true,
       "extra": [
         {
           // Castle embattlements start
@@ -1494,6 +1501,7 @@
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp4_1/level_cp11_chp4_1.scn.20",
       "chapter": 6,
+      "chapterOnly": true,
       "extra": [
         {
           // Island start
@@ -2048,6 +2056,7 @@
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp5_1/level_cp11_chp5_1.scn.20",
       "chapter": 7,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [

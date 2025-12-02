@@ -8,6 +8,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_010.scn.20",
       "chapter": 1,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [ // Forget your makeup?
@@ -270,6 +271,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_020.scn.20",
       "chapter": 1,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [ // SIEGE
@@ -301,6 +303,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/level_cp10_chp1_1_030.scn.20",
       "chapter": 1,
+      "chapterOnly": true,
       "description": "farm & ",
       "restrictions": [
         {
@@ -320,9 +323,9 @@
         },
         {
           "guids": [ // FARM EXTRA ENEMIES
-          "22dac8b8-9255-6015-4d4d-d2cadfe81a4d", // Left of Ch5 Cabin 1
-          "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2
-          "8a7b4245-b96a-bf68-4c75-778aea239fb3" // Left of Ch5 Cabin 3
+            "22dac8b8-9255-6015-4d4d-d2cadfe81a4d", // Left of Ch5 Cabin 1
+            "9b2496c5-7ef9-8dfd-4b98-f739ba539166", // Left of Ch5 Cabin 2
+            "8a7b4245-b96a-bf68-4c75-778aea239fb3" // Left of Ch5 Cabin 3
 
           ],
           "exclude": [
@@ -333,12 +336,12 @@
         },
         {
           "guids": [ // FARM AMBUSH MENDEZ 2
-          "af8fb44e-0b00-4147-8f63-e0ac49d544c6", // Ambusher by save room
-          "409a4aad-e036-4fa3-aef0-16d39cce09eb", // Ambusher by save room 2
-          "5bc4bd86-e148-4270-85bb-7f9131f6558e", // Pitchfork Ganados at boulderfall path
-          "7da8fbc2-663d-4703-8308-7ac68d7a5f05", // Inside Planation House Window
-          "cb4b8afb-fbf4-4565-bff1-b8d663ef9594", // Inside Plantation House Guest
-          "53103451-d99a-48b4-a487-058857b4e5b7" // Luis House Porch
+            "af8fb44e-0b00-4147-8f63-e0ac49d544c6", // Ambusher by save room
+            "409a4aad-e036-4fa3-aef0-16d39cce09eb", // Ambusher by save room 2
+            "5bc4bd86-e148-4270-85bb-7f9131f6558e", // Pitchfork Ganados at boulderfall path
+            "7da8fbc2-663d-4703-8308-7ac68d7a5f05", // Inside Planation House Window
+            "cb4b8afb-fbf4-4565-bff1-b8d663ef9594", // Inside Plantation House Guest
+            "53103451-d99a-48b4-a487-058857b4e5b7" // Luis House Porch
           ],
           "exclude": [
             "mendez_chase",
@@ -487,7 +490,7 @@
         },
         {
           "guids": [ // FARM MENDEZ 2
-          "d6435c61-016a-4642-b9ef-ba77cd846689" // inside Barn
+            "d6435c61-016a-4642-b9ef-ba77cd846689" // inside Barn
           ],
           "exclude": [
             "pesanta",
@@ -499,7 +502,7 @@
         },
         {
           "guids": [ // FARM COLMILLO EXCLUSION
-          "555d5526-4f48-48da-bb1e-8b6e38b88dfa" // Big Barn Door Smasher
+            "555d5526-4f48-48da-bb1e-8b6e38b88dfa" // Big Barn Door Smasher
           ],
           "exclude": [
             "pesanta",
@@ -539,11 +542,11 @@
         },
         {
           "guids": [ // TUNNEL & LUIS HOUSE MENDEZ 2
-          "f0f8e593-e48d-b346-4c27-d5d1f47163fd", // Guarding Small Key Drawer
-          "86175bf5-e8c7-3aad-495f-64f374d4cf2f", // Luis Guardian
-          "6e1e06c9-453a-9fff-47ca-91d127d10b1a", // First Bodyblocker in Tunnel
-          "bd9831e1-2dfe-ec59-4632-3c5d18cc0c59", // Second Bodyblocker in Tunnel
-          "58367a3d-d456-44ef-8aab-e481393ec3fb" // Escape hatch Guard
+            "f0f8e593-e48d-b346-4c27-d5d1f47163fd", // Guarding Small Key Drawer
+            "86175bf5-e8c7-3aad-495f-64f374d4cf2f", // Luis Guardian
+            "6e1e06c9-453a-9fff-47ca-91d127d10b1a", // First Bodyblocker in Tunnel
+            "bd9831e1-2dfe-ec59-4632-3c5d18cc0c59", // Second Bodyblocker in Tunnel
+            "58367a3d-d456-44ef-8aab-e481393ec3fb" // Escape hatch Guard
           ],
           "exclude": [
             "mendez_chase",
@@ -559,6 +562,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/level_cp10_chp1_2.scn.20",
       "chapter": 2,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -822,6 +826,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_3/level_cp10_chp1_3.scn.20",
       "chapter": 3,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [ // RETURN TO VILLAGE MENDEZ 2
@@ -1366,7 +1371,8 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_3/level_cp10_chp1_3_000.scn.20",
-      "chapter": 3
+      "chapter": 3,
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc40/level_loc40.scn.20",
@@ -1443,13 +1449,14 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/level_cp10_chp2_1.scn.20",
       "chapter": 4,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [ // CH4 START DOCK EXTRA ENEMIES
-          "8f41237a-25bc-6c57-4e2d-ac55bc853647", // Right of Dockhouse Outside"
-          "758e4359-8446-3d26-424f-ea835ec179a8", // Left of Dockhouse Outside 2
-          "fc13bdb8-91e3-29a9-423c-4ad3835a8bcd", // Left of Dockhouse Outside
-          "de3add5e-2c80-3914-4ff2-fdec08ffe4f3" // Path Ahead of Dockhouse Outside 2
+            "8f41237a-25bc-6c57-4e2d-ac55bc853647", // Right of Dockhouse Outside"
+            "758e4359-8446-3d26-424f-ea835ec179a8", // Left of Dockhouse Outside 2
+            "fc13bdb8-91e3-29a9-423c-4ad3835a8bcd", // Left of Dockhouse Outside
+            "de3add5e-2c80-3914-4ff2-fdec08ffe4f3" // Path Ahead of Dockhouse Outside 2
           ],
           "exclude": [
             "krauser_1"
@@ -1956,7 +1963,8 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/level_cp10_chp2_1_100.scn.20",
-      "chapter": 4
+      "chapter": 4,
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc45/level_loc45_302.scn.20",
@@ -2027,7 +2035,7 @@
             "df4ab3e1-b373-56c2-4983-52eea339546f", // Northeast Room El Gigante Add
             "9f490ff6-8f19-af82-4119-147230688de2" // North Room El Gigante Add
           ],
-          "exclude":[
+          "exclude": [
             "mendez_chase"
           ]
         }
@@ -2042,6 +2050,7 @@
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2.scn.20",
       "description": "church/village/farm",
       "chapter": 5,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -2132,6 +2141,7 @@
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2_100.scn.20",
       "description": "cabin",
       "chapter": 5,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -2218,12 +2228,14 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/level_cp10_chp2_2_200.scn.20",
-      "chapter": 5
+      "chapter": 5,
+      "chapterOnly": true
     },
     // Chapter 6 (bella sisters, mendez)
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_3/level_cp10_chp2_3.scn.20",
       "chapter": 6,
+      "chapterOnly": true,
       "restrictions": [
         {
           "exclude": [
@@ -2668,6 +2680,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1.scn.20",
       "chapter": 7,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -2686,7 +2699,7 @@
             "6046d805-d530-3e2e-4d9d-e03238dbccf1", // Corner before Stairs
             "83c64219-302c-4afb-85fc-8659524e7e8c" // Ambush after Cannon
           ],
-          "exclude":[
+          "exclude": [
             "mendez_2",
             "mendez_chase",
             "garrador"
@@ -2701,7 +2714,7 @@
             "e1e305e5-b5b6-ae7f-4673-cb7b5eea844b", // Far Left Corner First Garrador
             "58830efe-b06d-111d-4bc1-0109ef98c7c2" // Close Left Corner First Garrador
           ],
-          "exclude":[
+          "exclude": [
             "mendez_2",
             "mendez_chase"
           ]
@@ -2714,7 +2727,7 @@
             "12d491bb-e3cd-4ba5-4577-2b88ddfd6be0", // Left Far Corner before water Hall
             "b3d3260e-d22c-308f-49f4-cc1869c474cb" // Guarding Entrance to Water Hall
           ],
-          "exclude":[
+          "exclude": [
             "mendez_2",
             "mendez_chase",
             "garrador"
@@ -3296,6 +3309,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_000.scn.20",
       "chapter": 7,
+      "chapterOnly": true,
       "restrictions": [
         {
           "exclude": [
@@ -3307,6 +3321,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_001.scn.20",
       "chapter": 7,
+      "chapterOnly": true,
       "restrictions": [
         {
           "exclude": [
@@ -3318,6 +3333,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_002.scn.20",
       "chapter": 7,
+      "chapterOnly": true,
       "restrictions": [
         {
           "exclude": [
@@ -3329,6 +3345,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_003.scn.20",
       "chapter": 7,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -3345,6 +3362,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_004.scn.20",
       "chapter": 7,
+      "chapterOnly": true,
       "restrictions": [
         {
           "exclude": [
@@ -3356,6 +3374,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_005.scn.20",
       "chapter": 7,
+      "chapterOnly": true,
       "description": "Water hall - start",
       "restrictions": [
         {
@@ -3404,6 +3423,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_006.scn.20",
       "chapter": 7,
+      "chapterOnly": true,
       "description": "Water hall - cranks",
       "restrictions": [
         {
@@ -3465,6 +3485,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_007.scn.20",
       "chapter": 7,
+      "chapterOnly": true,
       "restrictions": [
         {
           "exclude": [
@@ -3476,6 +3497,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_1/level_cp10_chp3_1_008.scn.20",
       "chapter": 7,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -3501,6 +3523,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2.scn.20",
       "chapter": 8,
+      "chapterOnly": true,
       "extra": [
         {
           "enemies": [
@@ -3783,11 +3806,13 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_000.scn.20",
-      "chapter": 8
+      "chapter": 8,
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_001.scn.20",
       "chapter": 8,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -3819,9 +3844,10 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_002.scn.20",
       "chapter": 8,
-      "restrictions":[
+      "chapterOnly": true,
+      "restrictions": [
         {
-          "exclude":[
+          "exclude": [
             "mendez_2",
             "u3",
             "pesanta"
@@ -3832,6 +3858,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_2/level_cp10_chp3_2_003.scn.20",
       "chapter": 8,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -3860,7 +3887,7 @@
       "chapter": 8,
       "restrictions": [
         {
-          "exclude":[
+          "exclude": [
             "mendez_2",
             "mendez_chase",
             "u3",
@@ -3915,6 +3942,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3.scn.20",
       "chapter": 9,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -4402,21 +4430,25 @@
     // {
     //   // Ashley section
     //   "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_000.scn.20",
-    //   "chapter": 9
+    //   "chapter": 9,
+    //   "chapterOnly": true
     // },
     // {
     //   // Ashley section (crypt 1)
     //   "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_001.scn.20",
-    //   "chapter": 9
+    //   "chapter": 9,
+    //   "chapterOnly": true
     // },
     // {
     //   // Ashley section (crypt 2)
     //   "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_002.scn.20",
-    //   "chapter": 9
+    //   "chapter": 9,
+    //   "chapterOnly": true
     // },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_003.scn.20",
       "chapter": 9,
+      "chapterOnly": true,
       "restrictions": [
         {
           "exclude": [
@@ -4428,6 +4460,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_004.scn.20",
       "chapter": 9,
+      "chapterOnly": true,
       "restrictions": [
         {
           "exclude": [
@@ -4441,6 +4474,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_005.scn.20",
       "chapter": 9,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -4455,6 +4489,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_006.scn.20",
       "chapter": 9,
+      "chapterOnly": true,
       "restrictions": [
         {
           "exclude": [
@@ -4467,6 +4502,7 @@
       // Knighty-knight knights room
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_007.scn.20",
       "chapter": 9,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -4496,6 +4532,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp3_3/level_cp10_chp3_3_008.scn.20",
       "chapter": 9,
+      "chapterOnly": true,
       "restrictions": [ // GOAT HEAD ROOM
         {
           "guids": [
@@ -4654,6 +4691,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1.scn.20",
       "chapter": 10,
+      "chapterOnly": true,
       "extra": [
         {
           "enemies": [
@@ -4928,11 +4966,13 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_000.scn.20",
-      "chapter": 10
+      "chapter": 10,
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_001.scn.20",
       "chapter": 10,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -4965,6 +5005,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_002.scn.20",
       "chapter": 10,
+      "chapterOnly": true,
       "description": "Double garrador (Unicorn Horns) room",
       "restrictions": [
         {
@@ -4984,6 +5025,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_1/level_cp10_chp4_1_003.scn.20",
       "chapter": 10,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -4995,7 +5037,7 @@
           "guids": [ // MENDEZ 2
             "b56acb03-f611-4ac2-88c2-7c24f0d59fa4" // Exit Stairs in Dugo Cavern
           ],
-          "exclude":[
+          "exclude": [
             "mendez_2"
           ]
         }
@@ -5217,6 +5259,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_2/level_cp10_chp4_2.scn.20",
       "chapter": 11,
+      "chapterOnly": true,
       "restrictions": [
         {
           "exclude": [
@@ -5650,6 +5693,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3.scn.20",
       "chapter": 12,
+      "chapterOnly": true,
       "restrictions": [
         {
           "guids": [
@@ -5873,12 +5917,14 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3_000.scn.20",
-      "chapter": 12
+      "chapter": 12,
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3_001.scn.20",
       "chapter": 12,
-      "restrictions":[
+      "chapterOnly": true,
+      "restrictions": [
         {
           "guids": [
             "7df6dab2-a291-47b4-a527-15363e414765", // Before Giant Flamespitter Salazar
@@ -5891,8 +5937,8 @@
             "f004dde7-b9e2-4cdc-8717-5d5d6e4df38e", // Halfway Up Midway Ascent 3
             "c61f1db8-31c8-4fff-9bc7-176dec07ca36" // Halfway Up Midway Ascent 2
           ],
-            "exclude": [
-              "mendez_2"
+          "exclude": [
+            "mendez_2"
           ]
         }
       ]
@@ -5900,6 +5946,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3_002.scn.20",
       "chapter": 12,
+      "chapterOnly": true,
       "description": "Clock tower - lift",
       "restrictions": [
         {
@@ -5951,11 +5998,13 @@
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3_003.scn.20",
-      "chapter": 12
+      "chapter": 12,
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp4_3/level_cp10_chp4_3_004.scn.20",
-      "chapter": 12
+      "chapter": 12,
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_chainsaw/leveldesign/location/loc56/level_loc56.scn.20",
@@ -6192,6 +6241,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp5_1/level_cp10_chp5_1.scn.20",
       "chapter": 13,
+      "chapterOnly": true,
       "extra": [
         {
           "enemies": [
@@ -6998,6 +7048,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp5_2/level_cp10_chp5_2.scn.20",
       "chapter": 14,
+      "chapterOnly": true,
       "restrictions": [
         {
           "exclude": [
@@ -8237,6 +8288,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp5_3/level_cp10_chp5_3.scn.20",
       "chapter": 15,
+      "chapterOnly": true,
       "extra": [
         {
           "enemies": [
@@ -8541,6 +8593,7 @@
     {
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp5_4/level_cp10_chp5_4.scn.20",
       "chapter": 16,
+      "chapterOnly": true,
       "restrictions": [
         {
           "exclude": [

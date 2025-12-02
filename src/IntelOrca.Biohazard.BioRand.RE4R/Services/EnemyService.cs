@@ -88,6 +88,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public ImmutableArray<string> IncludeAsArray => Include.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToImmutableArray();
         public ImmutableArray<string> ExcludeAsArray => Exclude.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToImmutableArray();
 
+        public int Location => Stage / 1000;
+
         public EnemyPlacement Duplicate(Guid guid)
         {
             return new EnemyPlacement()
@@ -122,5 +124,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public const string LockWeapon = "lockweapon";
         public const string Horde = "horde";
         public const string NoPlaga = "noplaga";
+        public const string AnyChapter = "anychapter";
     }
 }
