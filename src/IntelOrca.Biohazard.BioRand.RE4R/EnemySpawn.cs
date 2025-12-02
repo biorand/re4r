@@ -92,18 +92,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public void SetClassPool()
         {
-            var area = Area;
             var spawn = this;
-            var randomizer = area.Randomizer;
-            var enemyClasses = randomizer.EnemyClassFactory.GetClasses(randomizer);
+            var randomizer = Area.Randomizer;
+            var allEnemyClasses = randomizer.EnemyClassFactory.GetClasses(randomizer);
+            var enemyClasses = allEnemyClasses;
             var keyToEnemyClass = enemyClasses.ToDictionary(x => x.Key);
 
-            // Get all allowed enemy classes
-            if (!spawn.HasStaticSpawn)
-            {
-                enemyClasses = enemyClasses.RemoveAll(x => x.Key == "pig");
-            }
-
+            // Include / exclude list
             if (!spawn.EnemyPlacement.IncludeAsArray.IsDefaultOrEmpty)
             {
                 enemyClasses = enemyClasses.Intersect(spawn.EnemyPlacement.IncludeAsArray.SelectMany(MapClasses)).ToImmutableArray();
@@ -114,66 +109,43 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
             else if (spawn.EnemyPlacement.HasTag(EnemyTags.Small))
             {
-                var excludeArray = new[]
-                {
-                    "mendez_chase", "verdugo", "mendez_2", "krauser_2", "pesanta", "u3"
-                };
-                enemyClasses = enemyClasses.Where(x => !excludeArray.Contains(x.Key)).ToImmutableArray();
+                // TODO remove when all instances moved to include column
+                enemyClasses = enemyClasses
+                    .Where(x => x.Groups.Contains("small"))
+                    .ToImmutableArray();
             }
+
+            // Pigs crash the game if a conditional spawn
+            if (!spawn.HasStaticSpawn)
+            {
+                enemyClasses = enemyClasses.RemoveAll(x => x.Key == "pig");
+            }
+
+            // Set possible classes
             spawn.ClassPool = enemyClasses;
 
+            // Now set preferred classes
+            if (randomizer.GetConfigOption<bool>("nice-mendez-hill"))
+            {
+                enemyClasses = enemyClasses
+                    .Where(x => !x.Groups.Contains("toxic"))
+                    .ToImmutableArray();
+            }
             if (randomizer.GetConfigOption<bool>("enemy-strong-mini-boss") && !string.IsNullOrEmpty(spawn.EnemyPlacement.MiniBoss))
             {
                 // Mini boss should be an elite enemy
-                spawn.PreferredClassPool = spawn.ClassPool
+                enemyClasses = enemyClasses
                     .Where(x => x.Groups.Contains("strongminiboss"))
                     .ToImmutableArray();
             }
             else if (IsEnemyRanged(randomizer, spawn.OriginalEnemy))
             {
                 // Prefer a ranged enemy
-                spawn.PreferredClassPool = spawn.ClassPool
+                enemyClasses = enemyClasses
                     .Where(x => x.Ranged)
                     .ToImmutableArray();
             }
-
-            if (randomizer.GetConfigOption<bool>("nice-mendez-hill"))
-            {
-                // Mendez hill
-                AvoidClasses(spawn, "level_loc47_003.scn.20",
-                    "chainsaw_mad",
-                    "garrador",
-                    "krauser_1",
-                    "krauser_2",
-                    "mendez_2",
-                    "pesanta",
-                    "super_iron_maiden",
-                    "super-colmillos",
-                    "u3",
-                    "verdugo");
-
-                // Krauser 1 fight
-                AvoidClasses(spawn, "level_loc55_004.scn.20",
-                    "chainsaw",
-                    "chainsaw_mad",
-                    "krauser_2",
-                    "mendez_2",
-                    "pesanta",
-                    "super_iron_maiden",
-                    "super-colmillos",
-                    "u3",
-                    "verdugo");
-            }
-
-            static void AvoidClasses(EnemySpawn spawn, string fileName, params string[] avoidClasses)
-            {
-                if (!spawn.Area.FileName.EndsWith(fileName))
-                    return;
-
-                spawn.PreferredClassPool = spawn.ClassPool
-                    .Where(x => !avoidClasses.Contains(x.Key))
-                    .ToImmutableArray();
-            }
+            spawn.PreferredClassPool = enemyClasses;
 
             static bool IsEnemyRanged(ChainsawRandomizer randomizer, Enemy enemy)
             {
@@ -185,7 +157,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             EnemyClassDefinition[] MapClasses(string className)
             {
-                var result = enemyClasses
+                var result = allEnemyClasses
                     .Where(x => x.Groups.Contains(className))
                     .Select(x => x.Key)
                     .Append(className)
