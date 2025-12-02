@@ -121,5 +121,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public const string Small = "small";
         public const string LockWeapon = "lockweapon";
         public const string Horde = "horde";
+        public const string NoPlaga = "noplaga";
     }
 }

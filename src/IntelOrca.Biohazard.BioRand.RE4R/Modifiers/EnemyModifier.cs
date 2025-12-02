@@ -280,7 +280,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     if (ecd.Plaga)
                     {
-                        RandomizeParasite(randomizer, e, parasiteRng);
+                        RandomizeParasite(randomizer, spawn, parasiteRng);
                     }
 
                     logger.LogLine($"{e.Guid} {e.StageID} {ecd.Name}");
@@ -576,8 +576,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void RandomizeParasite(ChainsawRandomizer randomizer, Enemy enemy, Rng rng)
+        private void RandomizeParasite(ChainsawRandomizer randomizer, EnemySpawn spawn, Rng rng)
         {
+            var enemy = spawn.Enemy;
             if (_parasiteRngTable == null)
             {
                 var table = rng.CreateProbabilityTable<int>();
@@ -589,7 +590,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (enemy.ParasiteKind != null)
             {
                 var kind = 0;
-                if (!_parasiteRngTable.IsEmpty)
+                if (!spawn.EnemyPlacement.HasTag(EnemyTags.NoPlaga) && !_parasiteRngTable.IsEmpty)
                     kind = _parasiteRngTable.Next();
                 if (kind == 0)
                 {
