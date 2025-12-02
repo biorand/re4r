@@ -623,7 +623,7 @@
       "kind": "zealot",
       "name": "Zealot (Red)",
       "category": "Zealot",
-      "groups": [ "fodder", "small", "strongminiboss" ],
+      "groups": [ "fodder", "small", "strongminiboss", "toxic" ],
       "class": 5,
       "maxPack": 1,
       "minHealth": 1000,
