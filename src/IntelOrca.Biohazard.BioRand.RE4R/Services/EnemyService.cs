@@ -74,6 +74,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public string Include { get; set; } = "";
         public string Exclude { get; set; } = "";
 
+        public bool HasEmptyPosition => X == 0 && Y == 0 && Z == 0;
         public bool HasEmptyRotation => Yaw == 0 && Pitch == 0 && Roll == 0;
         public Vector3 Position => new Vector3(X, Y, Z);
         public EulerAngles Rotation => new EulerAngles(Yaw, Pitch, Roll);

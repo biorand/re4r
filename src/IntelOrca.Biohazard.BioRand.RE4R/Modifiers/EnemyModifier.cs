@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Numerics;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
-using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -245,15 +244,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (e.RolePatternHash == 3243946825)
                         e.RolePatternHash = 1615772969;
 
-                    // Reset orientation (when converting sideways novistadors)
-                    var transform = e.GameObject.FindComponent("via.Transform");
-                    if (transform != null)
+                    // Update position (if vanilla enemy)
+                    if (!spawn.EnemyPlacement.IsExtra)
                     {
-                        var rotation = transform.Get<Quaternion>("Rotation");
-                        if (MathF.Round(rotation.X, 1) != 0 || MathF.Round(rotation.Z, 1) != 0)
+                        var transform = e.Transform;
+                        if (!spawn.EnemyPlacement.HasEmptyPosition)
                         {
-                            transform.Set("Rotation", new Quaternion(0, rotation.Y, 0, rotation.W));
+                            transform.Position = spawn.EnemyPlacement.Position;
                         }
+                        else
+                        {
+                            // Reset orientation (when converting sideways novistadors)
+                            var euler = transform.Rotation.ToEuler();
+                            if (MathF.Round(euler.Pitch) != 0 || MathF.Round(euler.Roll) != 0)
+                            {
+                                transform.Rotation = new EulerAngles(euler.Yaw, 0, 0).ToQuaternion();
+                            }
+                        }
+                        e.Transform = transform;
                     }
 
                     // Set weapon
