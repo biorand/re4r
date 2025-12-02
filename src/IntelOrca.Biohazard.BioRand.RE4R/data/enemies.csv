@@ -1,26 +1,26 @@
 Campaign,Guid,Chapter,Description,Stage,X,Y,Z,Yaw,Pitch,Roll,Condition,SkipCondition,MiniBoss,Tags,Include,Exclude
 Leon,36e28438-0a9c-475c-8a31-c8c4d905e925,1,police   .,40500,0,0,0,0,0,0,,,,preserve noduplicate,,
-Leon,ccd9520b-2fd0-44e7-9b14-24491bce2367,1,villager   .,40510,0,0,0,0,0,0,,,,,,mendez_2 pesanta u3 verdugo krauser_1 mendez_chase
-Leon,52061032-d686-401c-b1b7-ebdcd629e8ea,1,villager   .,40510,0,0,0,0,0,0,,,,,,mendez_2 pesanta u3 verdugo krauser_1 mendez_chase
-Leon,bacf6775-91ec-4932-85ed-db488c2a35ee,1,villager   .,40510,0,0,0,0,0,0,,,,,,mendez_2 pesanta krauser_1 u3 verdugo
-Leon,afc35303-7d98-4615-ad30-ac0c99e2e709,1,villager  hatchet .,40510,0,0,0,0,0,0,,,,,,mendez_2 pesanta krauser_1 u3 verdugo
-Leon,7627dd62-89c8-4964-ac6e-0df675e2ad10,1,villager  hatchet *,40504,0,0,0,0,0,0,,,,,,mendez_2 pesanta krauser_1 u3 verdugo
-Leon,ed0cf043-e107-480c-a3c1-58877a84f22f,1,villager  hoe *,40504,0,0,0,0,0,0,,,,,,mendez_2 pesanta krauser_1 u3 verdugo
-Leon,444f5d9b-4b54-4c44-8d66-2557f501407a,1,villager  pitchfork *,40504,0,0,0,0,0,0,,,,,,mendez_2 pesanta krauser_1 u3 verdugo
-Leon,4ab9f0a3-891e-441e-a1d6-3de1028fda1a,1,villager  hatchet *,40505,0,0,0,0,0,0,,,,,,mendez_2 pesanta krauser_1 u3 verdugo
-Leon,,1,[EXTRA],40501,-255,6,50,0,0,0,,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,,,,pesanta u3 mendez_2 krauser_1
-Leon,,1,[EXTRA],40501,-240,6,54,0,0,0,,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,,,,pesanta u3 mendez_2 krauser_1
-Leon,,1,[EXTRA],40501,-176,10,75,48,0,0,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,b3bee246-d762-4244-bdb8-c7db24764ae8,,small,,
-Leon,,1,[EXTRA],40501,-185,10,76,83,0,0,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,b3bee246-d762-4244-bdb8-c7db24764ae8,,small,,
-Leon,,1,[EXTRA],40510,-183,10,80,0,0,0,,ed3e9aac-6ad2-4eb4-a714-a96808ca8bdc,,small,,
-Leon,,1,[EXTRA],40510,-186,13,69,0,0,0,b3bee246-d762-4244-bdb8-c7db24764ae8,ed3e9aac-6ad2-4eb4-a714-a96808ca8bdc,,small,,pesanta u3 mendez_2 krauser_1
-Leon,,1,[EXTRA],40504,-144,8,58,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1
-Leon,,1,[EXTRA],40504,-128,7,48,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1
-Leon,,1,[EXTRA],40504,-120,7,48,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
-Leon,,1,[EXTRA],40504,-123,7,46,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1
-Leon,,1,[EXTRA],40504,-113,5,32,0,0,0,35882cb7-d15a-4ea9-b44b-8329e14b5309,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
-Leon,,1,[EXTRA],40504,-108,7,45,0,0,0,35882cb7-d15a-4ea9-b44b-8329e14b5309,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
-Leon,,1,[EXTRA],40504,-124,7,35,0,0,0,35882cb7-d15a-4ea9-b44b-8329e14b5309,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
+Leon,ccd9520b-2fd0-44e7-9b14-24491bce2367,1,villager   .,40510,0,0,0,0,0,0,,,,,,mendez_2 pesanta u3 verdugo krauser_1 mendez_chase chainsaw_mad regenerador 
+Leon,52061032-d686-401c-b1b7-ebdcd629e8ea,1,villager   .,40510,0,0,0,0,0,0,,,,,,mendez_2 pesanta u3 verdugo krauser_1 mendez_chase chainsaw_mad regenerador 
+Leon,bacf6775-91ec-4932-85ed-db488c2a35ee,1,villager   .,40510,0,0,0,0,0,0,,,,,,mendez_2 pesanta krauser_1 u3 verdugo 
+Leon,afc35303-7d98-4615-ad30-ac0c99e2e709,1,villager  hatchet .,40510,0,0,0,0,0,0,,,,,,mendez_2 pesanta krauser_1 u3 verdugo 
+Leon,7627dd62-89c8-4964-ac6e-0df675e2ad10,1,villager  hatchet *,40504,0,0,0,0,0,0,,,,,,mendez_2 pesanta krauser_1 u3 verdugo 
+Leon,ed0cf043-e107-480c-a3c1-58877a84f22f,1,villager  hoe *,40504,0,0,0,0,0,0,,,,,,mendez_2 pesanta krauser_1 u3 verdugo 
+Leon,444f5d9b-4b54-4c44-8d66-2557f501407a,1,villager  pitchfork *,40504,0,0,0,0,0,0,,,,,,mendez_2 pesanta krauser_1 u3 verdugo 
+Leon,4ab9f0a3-891e-441e-a1d6-3de1028fda1a,1,villager  hatchet *,40505,0,0,0,0,0,0,,,,,,mendez_2 pesanta krauser_1 u3 verdugo 
+Leon,07d41ff3-1ec6-d325-466c-6fd249922e51,1,[EXTRA] OPENER // Flank Right of Sign,40501,-255,6,50,0,0,0,,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,,,,pesanta u3 mendez_2 krauser_1 chainsaw_mad regenerador verdugo
+Leon,caa655c1-7de3-82e4-45cc-94769362c824,1,[EXTRA] OPENER // Behind Wire Fence,40501,-240,6,54,0,0,0,,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,,,,pesanta u3 mendez_2 krauser_1 chainsaw_mad regenerador verdugo
+Leon,f2802869-58b2-4e5c-9b11-a72604ff5be3,1,[EXTRA] HUNTERS CABIN // Ambusher Before First cutscene,40501,-176,10,75,48,0,0,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,b3bee246-d762-4244-bdb8-c7db24764ae8,,small,,krauser_1 mendez_2 verdugo pesanta u3
+Leon,61523dde-7cf4-46f1-abaa-1a6e4f55b2d1,1,[EXTRA] HUNTERS CABIN // Guest Room ,40501,-185,10,76,83,0,0,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,b3bee246-d762-4244-bdb8-c7db24764ae8,,small,,krauser_1 mendez_2 verdugo pesanta u3
+Leon,f774819f-49fc-4e13-995f-d22ac50d15c0,1,[EXTRA] HUNTERS CABIN // Dining Room,40510,-183,10,80,0,0,0,b3bee246-d762-4244-bdb8-c7db24764ae8,ed3e9aac-6ad2-4eb4-a714-a96808ca8bdc,,small,,krauser_1 mendez_2 verdugo pesanta u3
+Leon,777a5601-d506-4483-839c-b5fc6849edd1,1,[EXTRA] HUNTERS CABIN // Top of the stairs,40510,-186,13,69,0,0,0,b3bee246-d762-4244-bdb8-c7db24764ae8,ed3e9aac-6ad2-4eb4-a714-a96808ca8bdc,,small,,krauser_1 mendez_2 verdugo pesanta u3
+Leon,00a00310-dfa9-6e14-42f0-6707fd6256b0,1,[EXTRA] RUINED HOUSE // Across the Bridge,40504,-144,8,58,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1 chainsaw_mad regenerador verdugo
+Leon,b230cab9-e6a1-3b1d-4753-1feedc3a4d59,1,[EXTRA] RUINED HOUSE // Before Crow Clearing,40504,-128,7,48,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1 chainsaw_mad regenerador verdugo
+Leon,cd1d1e06-fd32-2c59-43df-bbd0f7ed71fa,1,[EXTRA] RUINED HOUSE // Before Ruined House Entrance,40504,-120,7,48,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1 mendez_2 chainsaw_mad regenerador verdugo
+Leon,304b2af5-9353-aedb-4ff2-3eebe4935a40,1,[EXTRA] RUINED HOUSE // Standing by Crow,40504,-123,7,46,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1 mendez_2 chainsaw_mad regenerador verdugo
+Leon,f024256f-5ba5-4bca-4dfc-79afe3e77cce,1,[EXTRA] PATH TO SIEGE // Before Crouch Branch,40504,-113,5,32,0,0,0,35882cb7-d15a-4ea9-b44b-8329e14b5309,,,,,pesanta u3 mendez_chase krauser_1 mendez_2 chainsaw_mad regenerador verdugo
+Leon,cd91a02f-8b2a-853d-4ecb-8d59389eb6bd,1,[EXTRA] PATH TO SIEGE // After Ruined House,40504,-108,7,45,0,0,0,35882cb7-d15a-4ea9-b44b-8329e14b5309,,,,,pesanta u3 mendez_chase krauser_1 mendez_2 chainsaw_mad regenerador verdugo
+Leon,75152fe5-89b9-ecce-4c4d-6eb76be6ac98,1,[EXTRA] PATH TO SIEGE // The Drawer Guardian,40504,-124,7,35,0,0,0,35882cb7-d15a-4ea9-b44b-8329e14b5309,,,,,pesanta u3 mendez_chase krauser_1 mendez_2 chainsaw_mad regenerador verdugo
 Leon,da73460d-62b6-4dc2-9882-1183bba45389,1,chainsaw   Emerald x1,40200,0,0,0,0,0,0,,,,noduplicate horde,,
 Leon,d47e2d46-cd1f-41b4-8f5e-9c58183540ee,1,chainsaw   Emerald x1,40200,0,0,0,0,0,0,,,,noduplicate horde,,
 Leon,0c2ca06f-f6ac-4cc2-8405-12399fd2db4b,1,villager   *,40200,0,0,0,0,0,0,,,,,,
@@ -40,7 +40,7 @@ Leon,3c07568b-9298-4bd6-b624-5872f4e60384,1,villager  hatchet *,40200,0,0,0,0,0,
 Leon,0ed74b78-7241-42c8-84cb-cddcb0534869,1,villager  hoe *,40200,0,0,0,0,0,0,,,,,,
 Leon,6bf678af-432d-419b-bc9f-18e09e097112,1,villager   *,40211,0,0,0,0,0,0,,,,,,
 Leon,1034c33d-6f02-4679-9ab8-4a1acce410a3,1,villager  hatchet *,40211,0,0,0,0,0,0,,,,,,
-Leon,beeac7f4-214f-4b31-ad01-78fd82f1f584,1,villager   *,40210,0,0,0,0,0,0,,,,noduplicate horde,,
+Leon,beeac7f4-214f-4b31-ad01-78fd82f1f584,1,villager   *,40210,0,0,0,0,0,0,,,,noduplicate horde,,krauser_1 mendez_2 verdugo pesanta u3
 Leon,63af98e8-3120-40e3-8748-32adc26e36c5,1,villager   .,40200,0,0,0,0,0,0,,,,,,
 Leon,9cce7c37-d655-4c86-8bd0-1023ae850ce3,1,villager   .,40200,0,0,0,0,0,0,,,,,,
 Leon,e5ca768d-af15-4752-9868-ea4154cb7fd0,1,villager  hatchet *,40200,0,0,0,0,0,0,,,,,,
@@ -101,7 +101,7 @@ Leon,ae8d0d23-6690-4d6a-be6d-bffd5a143f8b,1,villager  pitchfork *,43300,0,0,0,0,
 Leon,af8fb44e-0b00-4147-8f63-e0ac49d544c6,1,villager  pitchfork *,43300,0,0,0,0,0,0,,,,,,mendez_chase pesanta u3 mendez_2
 Leon,9dde2bb3-bd1b-4f1a-92c8-fe55980e78d4,1,villager  hatchet *,43300,0,0,0,0,0,0,,,,,,
 Leon,409a4aad-e036-4fa3-aef0-16d39cce09eb,1,villager  hatchet *,43300,0,0,0,0,0,0,,,,,,mendez_chase pesanta u3 mendez_2
-Leon,555d5526-4f48-48da-bb1e-8b6e38b88dfa,1,villager  hammer Velvet Blue x1,43300,0,0,0,0,0,0,,,,,,
+Leon,555d5526-4f48-48da-bb1e-8b6e38b88dfa,1,villager  hammer Velvet Blue x1,43300,0,0,0,0,0,0,,,,,,colmillos super-colmillos
 Leon,c50d4b6f-6f81-4b38-b2cb-3535ddea7bc6,1,villager  machete *,43302,0,0,0,0,0,0,,,,,,
 Leon,9d93c218-a547-4513-87af-48426c7daa57,1,villager  hatchet *,43302,0,0,0,0,0,0,,,,,,
 Leon,4c763a50-db63-4c64-ac28-d1da23b13ee5,1,villager  hoe *,43302,0,0,0,0,0,0,,,,,,
@@ -116,16 +116,16 @@ Leon,10ebbec3-879d-4115-98fa-bb92fa5d3cc3,1,villager  hatchet *,43400,0,0,0,0,0,
 Leon,616362e3-482e-49ed-bcb1-11eb72ee114a,1,villager  dynamite *,43400,0,0,0,0,0,0,,,,,,
 Leon,ac45380d-9056-455f-9057-1a50e96b1eae,1,villager  pitchfork *,43400,0,0,0,0,0,0,,,,,,
 Leon,53103451-d99a-48b4-a487-058857b4e5b7,1,villager  hoe *,43410,0,0,0,0,0,0,,,,,,mendez_chase pesanta u3 mendez_2
-Leon,58367a3d-d456-44ef-8aab-e481393ec3fb,1,villager  hatchet *,43410,0,0,0,0,0,0,,,,,,
-Leon,,1,[EXTRA],43301,47,5,-171,0,0,0,dd9080b0-2a6e-4051-ab11-240d6add1c7d,235d453d-6e24-41d4-be5f-a929971e439e,,,,mendez_chase pesanta u3
-Leon,,1,[EXTRA],43301,39,4,-164,0,0,0,dd9080b0-2a6e-4051-ab11-240d6add1c7d,235d453d-6e24-41d4-be5f-a929971e439e,,,,mendez_chase pesanta u3
-Leon,,1,[EXTRA],43301,39,4,-155,0,0,0,dd9080b0-2a6e-4051-ab11-240d6add1c7d,235d453d-6e24-41d4-be5f-a929971e439e,,,,mendez_chase pesanta u3
-Leon,,1,[EXTRA],43303,146,-6,-119,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,small,,
-Leon,,1,[EXTRA],43303,157,-6,-114,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,small,,
-Leon,,1,[EXTRA],43410,230,-4,-128,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,,
-Leon,,1,[EXTRA],43410,228,-4,-131,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,,
-Leon,,1,[EXTRA],43410,238,-4,-125,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,small,,
-Leon,,1,[EXTRA],43410,255,-7,-143,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,,
+Leon,58367a3d-d456-44ef-8aab-e481393ec3fb,1,villager  hatchet *,43410,0,0,0,0,0,0,,,,small,,colmillos super-colmillos arana mendez_2 verdugo
+Leon,8a7b4245-b96a-bf68-4c75-778aea239fb3,1,[EXTRA] FARM // Left of Ch5 Cabin Far,43301,47,5,-171,0,0,0,dd9080b0-2a6e-4051-ab11-240d6add1c7d,235d453d-6e24-41d4-be5f-a929971e439e,,,,mendez_chase pesanta u3
+Leon,9b2496c5-7ef9-8dfd-4b98-f739ba539166,1,[EXTRA] FARM // Left of Ch5 Cabin Near,43301,39,4,-164,0,0,0,dd9080b0-2a6e-4051-ab11-240d6add1c7d,235d453d-6e24-41d4-be5f-a929971e439e,,,,mendez_chase pesanta u3
+Leon,22dac8b8-9255-6015-4d4d-d2cadfe81a4d,1,[EXTRA] FARM // Left of Ch5 Cabin Close,43301,39,4,-155,0,0,0,dd9080b0-2a6e-4051-ab11-240d6add1c7d,235d453d-6e24-41d4-be5f-a929971e439e,,,,mendez_chase pesanta u3
+Leon,6e1e06c9-453a-9fff-47ca-91d127d10b1a,1,[EXTRA] LAKE SETTLEMENT // First Bodyblocker in tunnel,43303,146,-6,-119,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,small,,mendez_chase pesanta u3 mendez_2 verdugo
+Leon,bd9831e1-2dfe-ec59-4632-3c5d18cc0c59,1,[EXTRA] LAKE SETTLEMENT // Second Bodyblocker in tunnel,43303,157,-6,-114,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,small,,mendez_chase pesanta u3 mendez_2 verdugo
+Leon,a26ebf20-34a2-e931-4cc9-f4cfe7ebe4b1,1,[EXTRA] LAKE SETTLEMENT HOUSE // Guarding ammo Cupboard,43410,230,-4,-128,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,small,,mendez_chase pesanta u3 colmillos super-colmillos arana mendez_2
+Leon,f0f8e593-e48d-b346-4c27-d5d1f47163fd,1,[EXTRA] LAKE SETTLEMENT HOUSE // Guarding small key drawer,43410,228,-4,-131,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,small,,mendez_chase pesanta u3 colmillos super-colmillos arana mendez_2
+Leon,9dbdd9c2-85eb-18bb-47b5-a0887f15e59e,1,[EXTRA] LAKE SETTLEMENT HOUSE // Guarding ammo Cupboard 2,43410,238,-4,-125,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,small,,mendez_chase pesanta u3 colmillos super-colmillos arana mendez_2
+Leon,86175bf5-e8c7-3aad-495f-64f374d4cf2f,1,[EXTRA] LAKE SETTLEMENT HOUSE // Guarding Luis,43410,255,-7,-143,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,small,,mendez_chase pesanta u3 colmillos super-colmillos arana mendez_2
 Leon,09ea044f-52d4-4d8b-818c-c8c833743221,1,cow   .,43300,0,0,0,0,0,0,,,,,,pesanta u3 mendez_chase garrador
 Leon,d6435c61-016a-4642-b9ef-ba77cd846689,1,cow   .,43300,0,0,0,0,0,0,,,,,,pesanta u3 mendez_chase garrador
 Leon,7636e2b3-5651-4b92-b785-dc694be139c0,1,pig   .,43300,0,0,0,0,0,0,,,,,,pesanta u3 mendez_chase garrador
@@ -133,26 +133,26 @@ Leon,83af39cb-c79f-47ce-93db-90bf861e0305,1,pig   .,43300,0,0,0,0,0,0,,,,,,pesan
 Leon,d041f1e4-a079-4877-9fe5-f8fd40e0d848,1,pig   .,43300,0,0,0,0,0,0,,,,,,pesanta u3 mendez_chase garrador
 Leon,57a10b46-e53a-460a-9927-eac41a0bdeb7,2,villager  knife *,44300,0,0,0,0,0,0,,,,,,pesanta u3 verdugo mendez_2
 Leon,f00699a5-ef50-47f3-b5ec-a9570fdce2c0,2,chainsaw   Emerald x1,44101,0,0,0,0,0,0,,,,,,pesanta u3 krauser_1 mendez_chase
-Leon,284ded3c-7439-40a4-be87-13defa465fb8,2,villager   *,44110,0,0,0,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
-Leon,205c1b72-188a-499a-a008-fc53246158bc,2,villager   *,44110,0,0,0,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
+Leon,284ded3c-7439-40a4-be87-13defa465fb8,2,villager   *,44110,0,0,0,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1 mendez_2 verdugo krauser_2
+Leon,205c1b72-188a-499a-a008-fc53246158bc,2,villager   *,44110,0,0,0,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1 mendez_2 verdugo krauser_2
 Leon,2863e7f0-7742-42a1-a5e4-1e3cd4b07f0f,2,villager  hatchet *,44201,0,0,0,0,0,0,,,,,,pesanta u3 verdugo garrador mendez_2
 Leon,86343faa-9b94-4a53-b9e2-989b45bd8ca1,2,villager   *,44201,0,0,0,0,0,0,,,,,,pesanta u3 verdugo garrador mendez_2
 Leon,486bb31a-1880-42a3-ae23-f5c19c0c1d69,2,villager  hatchet *,44201,0,0,0,0,0,0,,,,,,pesanta u3 verdugo garrador mendez_2
 Leon,1012b7b7-e040-4e08-b7ce-8b617df378f5,2,villager   *,44201,0,0,0,0,0,0,,,,,,pesanta u3 verdugo garrador mendez_2
-Leon,27e34e40-4a4c-4fdb-a001-83462f938541,2,villager  hoe *,44201,0,0,0,0,0,0,,,,,,pesanta u3 krauser_1 mendez_chase
-Leon,,2,[EXTRA],44101,-10,6,134,0,0,0,,,,,,pesanta u3 krauser_1 mendez_chase
-Leon,,2,[EXTRA],44101,-19,6,128,0,0,0,,,,,,pesanta u3 mendez_2 mendez_chase krauser_1
-Leon,,2,[EXTRA],44101,-20,5,140,0,0,0,,,,small,,pesanta u3 mendez_2 mendez_chase krauser_1
-Leon,,2,[EXTRA],44101,-4,9,102,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
-Leon,,2,[EXTRA],44101,-9,8,94,0,0,0,,,,,,pesanta u3 krauser_1 mendez_chase
-Leon,,2,[EXTRA],44101,4,9,89,0,0,0,,,,,,pesanta u3 krauser_1 mendez_chase
-Leon,,2,[EXTRA],44110,3,9,97,0,0,0,,,,small,,pesanta u3 mendez_chase krauser_1 mendez_2
-Leon,,2,[EXTRA],44110,11,9,108,0,0,0,,,,small,,pesanta u3 mendez_chase krauser_1 mendez_2
-Leon,,2,[EXTRA],44110,6,9,102,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
-Leon,,2,[EXTRA],44110,5,13,106,0,0,0,,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
-Leon,85850656-bb05-4152-ac1d-cc069d4995fb,2,villager  hatchet Kitchen Knife x1,44210,0,0,0,0,0,0,,,,,,pesanta u3 verdugo chainsaw_mad garrador mendez_2
-Leon,cd744af1-6b44-4f37-a88e-944d56d34ac0,2,villager  hatchet it_sm71_500_10_0 x1,44210,0,0,0,0,0,0,,,,,,pesanta u3 verdugo chainsaw_mad garrador
-Leon,cc9144a7-2c67-4ffa-9a9d-44dd47cddb94,2,villager  pitchfork Pesetas x250,44210,0,0,0,0,0,0,,,,,,pesanta u3 verdugo chainsaw_mad garrador mendez_2
+Leon,27e34e40-4a4c-4fdb-a001-83462f938541,2,villager  hoe *,44201,0,0,0,0,0,0,,,,,,pesanta u3 krauser_1 mendez_chase mendez_2
+Leon,,2,[EXTRA] CLEARING // Spawn under treasure lantern,44101,-10,6,134,0,0,0,ae0a629e-f606-423b-b6a6-35ea820a31fc,62573b29-936b-444c-83d6-45f6a0983c0d,,,,pesanta u3 krauser_1 mendez_chase
+Leon,,2,[EXTRA] CLEARING // Next to Pendant Well,44101,-19,6,128,0,0,0,ae0a629e-f606-423b-b6a6-35ea820a31fc,62573b29-936b-444c-83d6-45f6a0983c0d,,,,pesanta u3 mendez_2 mendez_chase krauser_1
+Leon,,2,[EXTRA] CLEARING // Hiding in Shack,44101,-20,5,140,0,0,0,ae0a629e-f606-423b-b6a6-35ea820a31fc,62573b29-936b-444c-83d6-45f6a0983c0d,,small,,pesanta u3 mendez_2 mendez_chase krauser_1
+Leon,,2,[EXTRA] MENDEZ HOUSE // Guarding Bird nest,44101,-4,9,102,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,pesanta u3 mendez_chase krauser_1 mendez_2
+Leon,,2,[EXTRA] MENDEZ HOUSE // Left of House Close,44101,-9,8,94,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,pesanta u3 krauser_1 mendez_chase
+Leon,,2,[EXTRA] MENDEZ HOUSE // Left of House Far,44101,4,9,89,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,pesanta u3 krauser_1 mendez_chase
+Leon,,2,[EXTRA] MENDEZ HOUSE // Fly My Pretty,44110,3,9,97,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,small,,pesanta u3 mendez_chase krauser_1 mendez_2
+Leon,,2,[EXTRA] MENDEZ HOUSE // Key Item Wardrobe Guardian,44110,11,9,108,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,small,,pesanta u3 mendez_chase krauser_1 mendez_2
+Leon,,2,[EXTRA] MENDEZ HOUSE // Dining Room,44110,6,9,102,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,pesanta u3 mendez_chase krauser_1 mendez_2
+Leon,,2,[EXTRA] MENDEZ HOUSE // Mendez Room,44110,5,13,106,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,pesanta u3 mendez_chase krauser_1 mendez_2
+Leon,85850656-bb05-4152-ac1d-cc069d4995fb,2,villager  hatchet Kitchen Knife x1,44210,0,0,0,0,0,0,,,,,,pesanta u3 verdugo chainsaw_mad krauser_1 garrador mendez_2 colmillos super-colmillos
+Leon,cd744af1-6b44-4f37-a88e-944d56d34ac0,2,villager  hatchet it_sm71_500_10_0 x1,44210,0,0,0,0,0,0,,,,,,pesanta u3 verdugo chainsaw_mad krauser_1 garrador mendez_2 colmillos super-colmillos
+Leon,cc9144a7-2c67-4ffa-9a9d-44dd47cddb94,2,villager  pitchfork Pesetas x250,44210,0,0,0,0,0,0,,,,,,pesanta u3 verdugo chainsaw_mad krauser_1 garrador mendez_2 colmillos super-colmillos
 Leon,4f0940a5-66cc-4866-ada8-271a7ea83f74,2,villager   *,44400,0,0,0,0,0,0,,,,,,pesanta u3
 Leon,28e02bee-815f-4c2a-959a-45bdfc9bdc6a,2,villager  dynamite *,44400,0,0,0,0,0,0,,,,,,pesanta u3 verdugo mendez_2
 Leon,03625e3c-16cb-4abf-b52d-6a66dec3f86b,2,villager   *,44400,0,0,0,0,0,0,,,,,,pesanta u3 verdugo mendez_2
@@ -243,22 +243,22 @@ Leon,ebbf32d5-0df2-449e-87e3-6c858977cd5c,3,villager  hatchet *,45400,0,0,0,0,0,
 Leon,5c1adb04-509c-49b0-9ba2-a7159684c0ba,3,villager  torch *,45400,0,0,0,0,0,0,,,,,,pesanta u3 mendez_2
 Leon,3fed9bf9-92da-4ec3-bc30-fd7d3fa9dbe7,3,villager  knife *,45400,0,0,0,0,0,0,,,,,,
 Leon,b9e08930-9a3d-404b-9c7e-99b61665ae3b,3,villager  crossbow *,45400,0,0,0,0,0,0,,,,,,pesanta u3 mendez_2
-Leon,,3,[EXTRA],44102,-17,5,70,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,small,,
-Leon,,3,[EXTRA],44102,-19,5,64,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 krauser_1
-Leon,,3,[EXTRA],44100,-19,4,48,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 mendez_2 krauser_1
-Leon,,3,[EXTRA],40213,39,1,6,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 krauser_1
-Leon,,3,[EXTRA],40213,33,1,6,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 krauser_1
-Leon,,3,[EXTRA],40213,35,1,11,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 mendez_2 krauser_1
-Leon,,3,[EXTRA],45200,86,9,80,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 mendez_chase krauser_1
-Leon,,3,[EXTRA],45200,76,7,75,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 mendez_chase krauser_1
-Leon,,3,[EXTRA],45200,92,10,79,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,small,,
-Leon,,3,[EXTRA],45200,88,7,69,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 mendez_chase krauser_1 mendez_2
-Leon,,3,[EXTRA],45200,114,10,112,0,0,0,5c984a33-bf76-412f-a798-c2582fe8b32f,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,pesanta u3 mendez_chase krauser_1
-Leon,,3,[EXTRA],45200,102,10,117,0,0,0,5c984a33-bf76-412f-a798-c2582fe8b32f,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,pesanta u3 mendez_chase krauser_1
-Leon,,3,[EXTRA],45301,173,8,152,0,0,0,5c984a33-bf76-412f-a798-c2582fe8b32f,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,small,,pesanta u3 mendez_chase krauser_1 mendez_2
-Leon,,3,[EXTRA],45302,178,8,152,0,0,0,5c984a33-bf76-412f-a798-c2582fe8b32f,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,pesanta u3 mendez_chase krauser_1
-Leon,,3,[EXTRA],45302,179,8,140,0,0,0,5c984a33-bf76-412f-a798-c2582fe8b32f,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,pesanta u3 mendez_chase krauser_1
-Leon,,3,[EXTRA],45302,185,8,130,0,0,0,5c984a33-bf76-412f-a798-c2582fe8b32f,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,pesanta u3 mendez_chase krauser_1
+Leon,,3,[EXTRA] VILLAGE 2 // Shack Between Mendez House and Village,44102,-17,5,70,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,small,,
+Leon,,3,[EXTRA] VILLAGE 2 // Outside Shack Between Mendez House and Village,44102,-19,5,64,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 krauser_1
+Leon,,3,[EXTRA] VILLAGE 2 // Outside Door to Village,44100,-19,4,48,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 mendez_2 krauser_1
+Leon,,3,[EXTRA] VILLAGE 2 // Insignia Key House Close,40213,39,1,6,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 krauser_1
+Leon,,3,[EXTRA] VILLAGE 2 // Insignia Key House Far,40213,33,1,6,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 krauser_1
+Leon,,3,[EXTRA] GRAVEYARD // Insignia Key House under lantern,40213,35,1,11,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 mendez_2 krauser_1
+Leon,,3,[EXTRA] GRAVEYARD // Guarding Church Gate,45200,86,9,80,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 mendez_chase krauser_1
+Leon,,3,[EXTRA] GRAVEYARD // East Graveyard Path,45200,76,7,75,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 mendez_chase krauser_1
+Leon,,3,[EXTRA] GRAVEYARD // North Graveyard Spawn,45200,92,10,79,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,small,,
+Leon,,3,[EXTRA] GRAVEYARD // Northwest Graveyard Spawn,45200,88,7,69,0,0,0,,5c984a33-bf76-412f-a798-c2582fe8b32f,,,,pesanta u3 mendez_chase krauser_1 mendez_2
+Leon,,3,[EXTRA] CHURCH // Guarding Treasure Chest Behind Church,45200,114,10,112,0,0,0,5c984a33-bf76-412f-a798-c2582fe8b32f,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,pesanta u3 mendez_chase krauser_1
+Leon,,3,[EXTRA] CHURCH // Behind Church,45200,102,10,117,0,0,0,5c984a33-bf76-412f-a798-c2582fe8b32f,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,pesanta u3 mendez_chase krauser_1
+Leon,,3,[EXTRA] GIGANTE ARENA DAY // Guarding Wooden Gate,45301,173,8,152,0,0,0,5c984a33-bf76-412f-a798-c2582fe8b32f,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,small,,pesanta u3 mendez_chase krauser_1 mendez_2
+Leon,,3,[EXTRA] GIGANTE ARENA DAY // Other side of Gate,45302,178,8,152,0,0,0,5c984a33-bf76-412f-a798-c2582fe8b32f,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,pesanta u3 mendez_chase krauser_1
+Leon,,3,[EXTRA] GIGANTE ARENA DAY // North side of room,45302,179,8,140,0,0,0,5c984a33-bf76-412f-a798-c2582fe8b32f,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,pesanta u3 mendez_chase krauser_1
+Leon,,3,[EXTRA] GIGANTE ARENA DAY // East side of room,45302,185,8,130,0,0,0,5c984a33-bf76-412f-a798-c2582fe8b32f,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,pesanta u3 mendez_chase krauser_1
 Leon,,3,[EXTRA],45500,231,4,83,0,0,0,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
 Leon,,3,[EXTRA],45500,223,4,81,0,0,0,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
 Leon,,3,[EXTRA],45500,213,1,79,0,0,0,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
@@ -270,8 +270,6 @@ Leon,,3,[EXTRA],45500,207,-3,78,0,0,0,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,sma
 Leon,,3,[EXTRA],45500,211,-5,60,0,0,0,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,small,,pesanta u3 mendez_chase krauser_1 mendez_2
 Leon,,3,[EXTRA],45500,231,-7,53,0,0,0,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
 Leon,,3,[EXTRA],45500,219,-5,59,0,0,0,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,,pesanta u3 mendez_chase krauser_1
-Leon,,3,[EXTRA],45500,220,-5,65,0,0,0,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,,pesanta u3 mendez_chase krauser_1
-Leon,,3,[EXTRA],45500,219,-3,75,0,0,0,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
 Leon,,3,[EXTRA],45500,209,-4,72,0,0,0,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,,,pesanta u3 mendez_chase krauser_1 mendez_2
 Leon,,3,[EXTRA],45410,112,-4,47,0,0,0,1d2d4566-31c9-4998-ad8d-c5d707c60f06,,,small,,pesanta u3 mendez_chase krauser_1 mendez_2
 Leon,493e2bef-f232-4689-911d-02b75c432363,3,villager  machete .,40110,0,0,0,0,0,0,,,,,,
@@ -315,7 +313,7 @@ Leon,e7e9fb7c-e1ee-41d3-adb7-c6670e8d3efa,4,villager pA(30%) hatchet *,46200,0,0
 Leon,6ac6b7c6-f672-498d-8f7a-9ee589e9bec6,4,villager pA(25%) dynamite *,46200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1
 Leon,52ac6206-002d-4ce9-8e66-68b9e8163927,4,villager pA(25%) shovel *,46200,0,0,0,0,0,0,,,,,,
 Leon,c4802138-2cb7-4b18-8953-31950c9defef,4,villager pA(25%) molotov *,46200,0,0,0,0,0,0,,,,,,
-Leon,f0862cac-a1f6-4e71-b631-f277df501af3,4,villager pA(100%)  *,46100,0,0,0,0,0,0,,,,,,
+Leon,f0862cac-a1f6-4e71-b631-f277df501af3,4,villager pA(100%)  *,46100,0,0,0,0,0,0,,,,,,chainsaw chainsaw_mad
 Leon,de81d7ec-2156-42a3-af94-f4dd8fb52001,4,villager pA(100%) machete *,46100,0,0,0,0,0,0,,,,,,
 Leon,f2789c0b-6ac1-4dce-a5c9-f084f1bed5ee,4,villager pA(25%) torch *,43400,0,0,0,0,0,0,,,,,,
 Leon,e525aa44-0945-464e-81e0-756bb464c3c8,4,villager pA(25%) torch *,43400,0,0,0,0,0,0,,,,,,
@@ -329,44 +327,43 @@ Leon,bab5e13f-1ff5-4de7-a464-4df53fdd23f9,4,colmillos   *,43400,0,0,0,0,0,0,,,,,
 Leon,a2f5c81d-7ef6-4a7f-a2da-c619ad1be342,4,colmillos   *,43400,0,0,0,0,0,0,,,,,,
 Leon,5d850e68-5ae8-4b8e-a781-1c066f2ae9f0,4,colmillos   *,45200,0,0,0,0,0,0,,,,,,
 Leon,85c77320-a38b-4784-b9b4-abc1eb4d4dc4,4,colmillos   .,45200,0,0,0,0,0,0,,,,,,
-Leon,,4,[EXTRA],46111,344,-6,97,0,0,0,,,,small,,krauser_1 mendez_2
-Leon,,4,[EXTRA],46111,340,-6,98,0,0,0,,,,small,,krauser_1 mendez_2
-Leon,,4,[EXTRA],46100,342,-6,109,0,0,0,,,,,,krauser_1
-Leon,,4,[EXTRA],46100,348,-7,109,0,0,0,,,,,,krauser_1 mendez_2
-Leon,,4,[EXTRA],46100,354,-6,105,0,0,0,,,,,,krauser_1
-Leon,,4,[EXTRA],46100,356,-6,98,0,0,0,,,,,,krauser_1
-Leon,,4,[EXTRA],46100,349,-7,116,0,0,0,,,,,,krauser_1
-Leon,,4,[EXTRA],46100,350,-7,125,0,0,0,,,,,,krauser_1 mendez_2
-Leon,,4,[EXTRA],46100,310,-4,109,0,0,0,,,,small,,
-Leon,,4,[EXTRA],46201,308,-4,129,0,0,0,,,,small,,
-Leon,,4,[EXTRA],46201,309,-4,158,0,0,0,,,,small,,chainsaw_mad garrador chainsaw mendez_chase krauser_1
-Leon,,4,[EXTRA],46201,290,-7,142,0,0,0,,,,,,chainsaw_mad garrador chainsaw mendez_chase krauser_1
-Leon,,4,[EXTRA],46201,283,-7,143,0,0,0,,,,,,chainsaw_mad garrador chainsaw mendez_chase krauser_1
-Leon,,4,[EXTRA],46100,413,-7,-25,0,0,0,,,,,,
-Leon,,4,[EXTRA],46100,417,-7,-23,0,0,0,,,,,,
-Leon,,4,[EXTRA],46100,415,-7,-17,0,0,0,,,,,,
-Leon,,4,[EXTRA],46100,413,-7,-23,0,0,0,,,,,,
-Leon,,4,[EXTRA],46110,405,-6,-152,0,0,0,,,,small,,
-Leon,,4,[EXTRA],46110,397,-6,-150,0,0,0,,,,small,,
-Leon,,4,[EXTRA],46110,403,-6,-150,0,0,0,,,,small,,
-Leon,,4,[EXTRA],46100,300,-7,-12,0,0,0,,,,small,,
-Leon,,4,[EXTRA],45300,118,-7,143,0,0,0,,,,,,
-Leon,,4,[EXTRA],45300,122,-7,147,0,0,0,,,,,,
-Leon,,4,[EXTRA],45300,116,-5,140,0,0,0,,,,small,,mendez_2
-Leon,,4,[EXTRA],45300,126,-4,142,0,0,0,,,,small,,mendez_2
-Leon,,4,[EXTRA],45301,141,9,142,0,0,0,,,,small,,
-Leon,,4,[EXTRA],45300,124,9,139,0,0,0,,,,small,,
-Leon,,4,[EXTRA],45300,112,9,130,0,0,0,,,,small,,
-Leon,,4,[EXTRA],45300,98,8,137,0,0,0,,,,small,,
-Leon,,4,[EXTRA],45200,94,10,85,0,0,0,,,,,,
-Leon,,4,[EXTRA],45200,86,10,95,0,0,0,,,,,,
-Leon,,4,[EXTRA],45401,104,11,98,0,0,0,,,,small,,
-Leon,,4,[EXTRA],45401,103,11,104,0,0,0,,,,small,,
-Leon,,4,[EXTRA],45401,108,11,95,0,0,0,,,,small,,
-Leon,,4,[EXTRA],45401,104,16,105,0,0,0,,,,small,,
-Leon,,4,[EXTRA],45401,97,16,99,0,0,0,,,,small,,
-Leon,,4,[EXTRA],45401,103,16,91,0,0,0,,,,small,,
-Leon,,4,[EXTRA],45401,111,22,104,0,0,0,,,,small,,
+Leon,,4,[EXTRA] DOCK HOUSE // Ambush Left,46111,344,-6,97,0,0,0,,,,small,,krauser_1 mendez_2
+Leon,,4,[EXTRA] DOCK HOUSE // Ambush Right,46111,340,-6,98,0,0,0,,,,small,,krauser_1 mendez_2
+Leon,,4,[EXTRA] DOCK HOUSE // Right of Dockhouse exterior,46100,342,-6,109,0,0,0,,,,,,krauser_1
+Leon,,4,[EXTRA] DOCK HOUSE // Path Ahead Dockhouse exterior,46100,348,-7,109,0,0,0,,,,,,krauser_1 mendez_2
+Leon,,4,[EXTRA] DOCK HOUSE // Left of Dockhouse Outside 2,46100,354,-6,105,0,0,0,,,,,,krauser_1
+Leon,,4,[EXTRA] DOCK HOUSE // Left of Dockhouse Outside ,46100,356,-6,98,0,0,0,,,,,,krauser_1
+Leon,,4,[EXTRA] DOCK HOUSE // Path Ahead of Dockhouse Outside,46100,349,-7,116,0,0,0,,,,,,krauser_1
+Leon,,4,[EXTRA] DOCK HOUSE // Path ahead of Dockhouse outside 3,46100,350,-7,125,0,0,0,,,,,,krauser_1 mendez_2
+Leon,,4,[EXTRA] RITUAL SITE // Guarding top of stairs,46100,310,-4,109,0,0,0,,,,small,,
+Leon,,4,[EXTRA] RITUAL SITE // Guarding Cave,46201,308,-4,129,0,0,0,,,,small,,
+Leon,,4,[EXTRA] INSIGNIA CAVE // Guarding Insignia,46201,309,-4,158,0,0,0,,,,small,,chainsaw_mad garrador chainsaw mendez_chase krauser_1
+Leon,,4,[EXTRA] INSIGNIA CAVE // Guarding Boat Right,46201,290,-7,142,0,0,0,,,,,,chainsaw_mad garrador chainsaw mendez_chase krauser_1
+Leon,,4,[EXTRA] INSIGNIA CAVE // Guarding Boat Left,46201,283,-7,143,0,0,0,,,,,,chainsaw_mad garrador chainsaw mendez_chase krauser_1
+Leon,,4,[EXTRA] BAWK ISLAND // ,46100,413,-7,-25,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,,,
+Leon,,4,[EXTRA],46100,417,-7,-23,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,,,
+Leon,,4,[EXTRA],46100,415,-7,-17,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,,,
+Leon,,4,[EXTRA],46100,413,-7,-23,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,,,
+Leon,,4,[EXTRA],46110,405,-6,-152,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
+Leon,,4,[EXTRA],46110,397,-6,-150,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
+Leon,,4,[EXTRA],46110,403,-6,-150,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
+Leon,,4,[EXTRA],46100,300,-7,-12,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
+Leon,,4,[EXTRA],45300,118,-7,143,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,,,
+Leon,,4,[EXTRA],45300,122,-7,147,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,,,
+Leon,,4,[EXTRA],45300,116,-5,140,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,mendez_2
+Leon,,4,[EXTRA],45300,126,-4,142,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,mendez_2
+Leon,,4,[EXTRA],45301,141,9,142,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
+Leon,,4,[EXTRA],45300,124,9,139,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
+Leon,,4,[EXTRA],45300,112,9,130,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
+Leon,,4,[EXTRA],45300,98,8,137,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
+Leon,,4,[EXTRA],45200,94,10,85,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,,,
+Leon,,4,[EXTRA],45200,86,10,95,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,,,
+Leon,,4,[EXTRA],45401,104,11,98,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
+Leon,,4,[EXTRA],45401,103,11,104,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
+Leon,,4,[EXTRA],45401,108,11,95,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
+Leon,,4,[EXTRA],45401,104,16,105,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
+Leon,,4,[EXTRA],45401,97,16,99,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
+Leon,,4,[EXTRA],45401,103,16,91,0,0,0,8f90e599-9205-4e47-bd3c-36bb973b890d,,,small,,
 Leon,484ec7c2-ded4-49d7-819b-23f6e23a208a,4,el_gigante   .,45302,0,0,0,0,0,0,,,,preserve noduplicate,,
 Leon,0ac27748-d843-4759-ad87-d79f68b93fc3,4,wolf   *,45302,0,0,0,0,0,0,,,,preserve noduplicate,,
 Leon,,4,[EXTRA],45302,170,8,141,0,0,0,452c74e5-f786-428a-b538-9f58d0fd51dd,,,,,
@@ -374,44 +371,42 @@ Leon,,4,[EXTRA],45302,179,8,132,0,0,0,452c74e5-f786-428a-b538-9f58d0fd51dd,,,,,
 Leon,,4,[EXTRA],45302,187,8,130,0,0,0,452c74e5-f786-428a-b538-9f58d0fd51dd,,,,,
 Leon,,4,[EXTRA],45302,195,8,139,0,0,0,452c74e5-f786-428a-b538-9f58d0fd51dd,,,,,
 Leon,2526d07e-ca07-4676-8512-119ece440fa3,5,ashley_1   .,45210,0,0,0,0,0,0,,,,preserve noduplicate,,
-Leon,45a30278-212c-4ceb-b8b1-403ee9494747,5,villager_2 pA(50%) hatchet *,45401,0,0,0,0,0,0,,,,,,mendez_2 mendez_chase
-Leon,e8eb5d2a-ba66-408a-b186-1592f8c04191,5,villager_2 pA(25%) torch *,45401,0,0,0,0,0,0,,,,,,mendez_2 mendez_chase
-Leon,26f0c018-b535-4a11-a1db-6bf28fc848cf,5,villager_2 pA(50%) torch *,45401,0,0,0,0,0,0,,,,,,
-Leon,7cb46c28-1577-4616-b8e9-ccc17848449f,5,villager_2 pA(50%) hatchet *,45401,0,0,0,0,0,0,,,,,,
-Leon,c6b59d63-e24e-471f-b001-15efdb161002,5,villager_2 pA(50%) torch *,45200,0,0,0,0,0,0,,,,,,
-Leon,3b66428c-055e-4826-a4d6-6db61391f138,5,villager_2 pA(50%) torch *,45200,0,0,0,0,0,0,,,,,,mendez_2 mendez_chase
-Leon,3ce0d457-8bf8-4b61-933a-dfb1c61a9de6,5,villager_2 pA(100%) hatchet *,45200,0,0,0,0,0,0,,,,,,
-Leon,b6bc9f87-a0fc-463d-a35c-673aa88a42a0,5,villager_2 pA(50%) hoe *,45200,0,0,0,0,0,0,,,,,,
-Leon,e2d7c4e6-5d03-4f24-85ee-db541faeee4a,5,villager_2 pA(50%) torch *,45200,0,0,0,0,0,0,,,,,,
-Leon,f8d33d7d-d412-4dbc-92d1-c03265e5014a,5,villager_2 pA(30%) molotov *,45200,0,0,0,0,0,0,,,,,,mendez_2 mendez_chase
-Leon,2ff99fc0-c11f-4752-9da1-ae30fef17e26,5,villager_2 pA(100%) torch *,45200,0,0,0,0,0,0,,,,,,
-Leon,fda43ccc-36c5-43b9-bde5-2188a08f08c8,5,villager_2  torch *,40200,0,0,0,0,0,0,,,,,,mendez_2 mendez_chase
-Leon,7c90bf5d-56dd-4d4f-89b1-42b9ad36dd89,5,villager_2 pA(30%) torch *,40200,0,0,0,0,0,0,,,,,,
-Leon,d7d53ea5-58dd-4db8-a9cd-8451b2c2770f,5,villager_2 pA(100%) pitchfork *,40200,0,0,0,0,0,0,,,,,,
-Leon,68a5a93a-660f-40b8-9390-66af1d865a08,5,villager_2 pA(30%) torch *,40200,0,0,0,0,0,0,,,,,,
-Leon,d4f9e170-876c-46f5-add6-565a83a69525,5,villager_2 pA(25%) hoe *,40200,0,0,0,0,0,0,,,,,,
-Leon,8e9782c5-3de1-490d-abce-24498a4cea1e,5,villager_2 pA(25%) torch *,40200,0,0,0,0,0,0,,,,,,mendez_2 mendez_chase
+Leon,45a30278-212c-4ceb-b8b1-403ee9494747,5,villager_2 pA(50%) hatchet *,45401,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,e8eb5d2a-ba66-408a-b186-1592f8c04191,5,villager_2 pA(25%) torch *,45401,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,26f0c018-b535-4a11-a1db-6bf28fc848cf,5,villager_2 pA(50%) torch *,45401,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,7cb46c28-1577-4616-b8e9-ccc17848449f,5,villager_2 pA(50%) hatchet *,45401,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,c6b59d63-e24e-471f-b001-15efdb161002,5,villager_2 pA(50%) torch *,45200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,3b66428c-055e-4826-a4d6-6db61391f138,5,villager_2 pA(50%) torch *,45200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,3ce0d457-8bf8-4b61-933a-dfb1c61a9de6,5,villager_2 pA(100%) hatchet *,45200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,b6bc9f87-a0fc-463d-a35c-673aa88a42a0,5,villager_2 pA(50%) hoe *,45200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,e2d7c4e6-5d03-4f24-85ee-db541faeee4a,5,villager_2 pA(50%) torch *,45200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,f8d33d7d-d412-4dbc-92d1-c03265e5014a,5,villager_2 pA(30%) molotov *,45200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,2ff99fc0-c11f-4752-9da1-ae30fef17e26,5,villager_2 pA(100%) torch *,45200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,fda43ccc-36c5-43b9-bde5-2188a08f08c8,5,villager_2  torch *,40200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,7c90bf5d-56dd-4d4f-89b1-42b9ad36dd89,5,villager_2 pA(30%) torch *,40200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,d7d53ea5-58dd-4db8-a9cd-8451b2c2770f,5,villager_2 pA(100%) pitchfork *,40200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,68a5a93a-660f-40b8-9390-66af1d865a08,5,villager_2 pA(30%) torch *,40200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,d4f9e170-876c-46f5-add6-565a83a69525,5,villager_2 pA(25%) hoe *,40200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,8e9782c5-3de1-490d-abce-24498a4cea1e,5,villager_2 pA(25%) torch *,40200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
 Leon,1da8386a-9144-4950-9a91-ebaded80c533,5,villager_2 pA(25%) torch *,40210,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
-Leon,f5e19380-486a-4c4d-9227-6936a110fd45,5,villager_2 pA(25%)  *,40200,0,0,0,0,0,0,,,,,,
-Leon,a3261cb0-ddcc-4be3-a9ae-92381c8101ae,5,villager_2 pA(100%) torch *,40200,0,0,0,0,0,0,,,,,,
-Leon,56463088-741b-4ae2-a4f2-e4691f787db2,5,villager_2  molotov *,40200,0,0,0,0,0,0,,,,,,
-Leon,eb0115ec-6a86-4fcc-9438-4e85f4eed890,5,villager_2  hammer Sapphire x1,40200,0,0,0,0,0,0,,,,,,
-Leon,cd43b230-e27f-450c-9f50-1629cd11f8c6,5,villager_2 pA(100%) torch *,43300,0,0,0,0,0,0,,,,,,garrador mendez_chase krauser_1
-Leon,320ce183-402f-4e54-98ea-216fc4b98cfa,5,villager_2 pA(30%) torch *,43300,0,0,0,0,0,0,,,,,,garrador mendez_chase krauser_1
-Leon,14f66159-a9cf-4bca-9a48-1149d6827a97,5,villager_2 pA(25%)  *,43300,0,0,0,0,0,0,,,,,,garrador mendez_chase krauser_1
-Leon,22ce72e5-1122-4fe5-8585-02b1ba6feccc,5,villager_2 pA(30%) pitchfork *,43310,0,0,0,0,0,0,,,,,,mendez_2 mendez_chase
-Leon,6f275fa4-3534-4ddf-85d1-11f7ed82f246,5,villager_2 pA(30%) torch *,43300,0,0,0,0,0,0,,,,,,garrador mendez_chase krauser_1
-Leon,8cf43fa7-91f1-4924-a9a2-889ead8a0be4,5,villager_2 pA(30%) torch *,43310,0,0,0,0,0,0,,,,,,garrador mendez_chase krauser_1
+Leon,f5e19380-486a-4c4d-9227-6936a110fd45,5,villager_2 pA(25%)  *,40200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,a3261cb0-ddcc-4be3-a9ae-92381c8101ae,5,villager_2 pA(100%) torch *,40200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,56463088-741b-4ae2-a4f2-e4691f787db2,5,villager_2  molotov *,40200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,eb0115ec-6a86-4fcc-9438-4e85f4eed890,5,villager_2  hammer Sapphire x1,40200,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,cd43b230-e27f-450c-9f50-1629cd11f8c6,5,villager_2 pA(100%) torch *,43300,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,320ce183-402f-4e54-98ea-216fc4b98cfa,5,villager_2 pA(30%) torch *,43300,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,14f66159-a9cf-4bca-9a48-1149d6827a97,5,villager_2 pA(25%)  *,43300,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,22ce72e5-1122-4fe5-8585-02b1ba6feccc,5,villager_2 pA(30%) pitchfork *,43310,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,6f275fa4-3534-4ddf-85d1-11f7ed82f246,5,villager_2 pA(30%) torch *,43300,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,8cf43fa7-91f1-4924-a9a2-889ead8a0be4,5,villager_2 pA(30%) torch *,43310,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
 Leon,467d8ce2-db14-495b-b37e-9c3c094a48fb,5,brute   Emerald x1,43300,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
-Leon,66ae425a-9c7e-4660-ba50-1ff65c0c8c77,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,
-Leon,5bb5c451-e1b6-491e-9187-780752795d8c,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,
-Leon,8c7ed602-fd7b-4a44-9dea-034b49879754,5,villager_2  hoe *,43300,0,0,0,0,0,0,,,,,,
-Leon,8838795c-b27f-4d3f-a6dc-8b4a65364eed,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,
-Leon,3e34749c-d2b8-433d-93ea-17c876a86b2f,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,
-Leon,626b3e69-b510-4657-b513-0d6ad030bfe1,5,colmillos   Alexandrite x1,44101,0,0,0,0,0,0,,,,,,
-Leon,95c8581e-0ce3-4722-a83e-3a6dc2815174,5,colmillos   Alexandrite x1,40200,0,0,0,0,0,0,,,,,,
-Leon,,5,[EXTRA],44110,5,17,104,0,0,0,,,,small,,mendez_2 krauser_1 mendez_chase garrador
-Leon,,5,[EXTRA],44110,10,17,106,0,0,0,,,,small,,mendez_2 krauser_1 mendez_chase garrador
+Leon,66ae425a-9c7e-4660-ba50-1ff65c0c8c77,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,5bb5c451-e1b6-491e-9187-780752795d8c,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,8c7ed602-fd7b-4a44-9dea-034b49879754,5,villager_2  hoe *,43300,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,8838795c-b27f-4d3f-a6dc-8b4a65364eed,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,3e34749c-d2b8-433d-93ea-17c876a86b2f,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,626b3e69-b510-4657-b513-0d6ad030bfe1,5,colmillos   Alexandrite x1,44101,0,0,0,0,0,0,,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,95c8581e-0ce3-4722-a83e-3a6dc2815174,5,colmillos   Alexandrite x1,40200,0,0,0,0,0,0,,,leon-savage-mutt,noduplicate,boss elite,
 Leon,2b3bc7f9-1164-42ec-a6ce-d13bf401fc11,5,ashley_2   .,43301,0,0,0,0,0,0,,,,preserve noduplicate,,
 Leon,2bf139b2-e92a-43a3-be51-96dcf51c04f0,5,villager_2  hatchet Handgun Ammo x10,43301,0,0,0,0,0,0,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
 Leon,8cd9592e-45ed-4e26-a5bb-f6806394e4ae,5,villager_2  machete it_sm71_500_10_0 x1,43301,0,0,0,0,0,0,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
@@ -419,9 +414,9 @@ Leon,44b15c6a-c6cf-4bdf-bd05-c7c914b7b387,5,villager_2  pitchfork Wooden Planks 
 Leon,44b0b56e-e031-4473-b04a-b4def0d00864,5,villager_2  torch Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
 Leon,b99b5d8d-406b-4a0a-9e0b-8e931f87960e,5,villager_2 pA(50%) knife Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
 Leon,4f3694d0-a6cc-41eb-baf4-c4475b542b1a,5,villager_2   Handgun Ammo x10,43301,0,0,0,0,0,0,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,3b1ddc4c-2a8a-4fc9-950f-ebb201d780f3,5,villager_2   it_sm71_501_10_0 x1,43311,0,0,0,0,0,0,,,,,,
+Leon,3b1ddc4c-2a8a-4fc9-950f-ebb201d780f3,5,villager_2   it_sm71_501_10_0 x1,43311,0,0,0,0,0,0,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
 Leon,726001e1-253d-4a8f-b3b2-27b6c92ae242,5,villager_2   Wooden Planks x1,43311,0,0,0,0,0,0,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,6d222620-e341-453f-9a4a-3d84fc725aca,5,villager_2   it_sm71_501_10_0 x1,43311,0,0,0,0,0,0,,,,,,
+Leon,6d222620-e341-453f-9a4a-3d84fc725aca,5,villager_2   it_sm71_501_10_0 x1,43311,0,0,0,0,0,0,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
 Leon,4bae7e39-e7ce-45d8-a6af-ca43f98bc3f0,5,villager_2  hammer Emerald x1,43301,0,0,0,0,0,0,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
 Leon,3f5a6e2f-ea98-45aa-a8a6-65d314ead54a,5,villager_2  knife *,43301,0,0,0,0,0,0,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
 Leon,0f2dc793-e360-4a4f-a7bd-4bff959c0e76,5,villager_2  hatchet Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
@@ -456,23 +451,23 @@ Leon,ef8032dc-3ad1-45d5-9e7f-f7890e211cd5,5,villager_2 pA(0%) machete *,43301,0,
 Leon,,6,[EXTRA],47200,168,3,-207,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,
 Leon,,6,[EXTRA],47200,176,7,-226,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,
 Leon,,6,[EXTRA],47200,177,7,-217,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,
-Leon,,6,[EXTRA],47200,165,7,-211,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,small,,
-Leon,,6,[EXTRA],47200,149,7,-222,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,small,,
+Leon,,6,[EXTRA],47200,165,7,-211,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,small,
+Leon,,6,[EXTRA],47200,149,7,-222,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,small,
 Leon,,6,[EXTRA],47200,135,7,-201,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,
 Leon,,6,[EXTRA],47200,153,3,-215,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,
 Leon,,6,[EXTRA],47201,186,3,-186,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,
-Leon,,6,[EXTRA],47201,192,3,-179,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,small,,
-Leon,,6,[EXTRA],47201,199,3,-183,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,small,,
-Leon,,6,[EXTRA],47201,192,3,-189,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,small,,
-Leon,,6,[EXTRA],47201,198,3,-194,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,
-Leon,,6,[EXTRA],47400,283,9,-248,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,
-Leon,,6,[EXTRA],47400,287,9,-244,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,
-Leon,,6,[EXTRA],47400,266,8,-254,0,0,0,2028f283-c0b9-4173-8a6e-a0c63292e6f5,,,small,,
-Leon,,6,[EXTRA],47401,275,12,-203,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,small,,
-Leon,,6,[EXTRA],47401,274,15,-190,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,small,,
-Leon,,6,[EXTRA],47401,284,18,-183,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,
-Leon,,6,[EXTRA],47401,299,18,-182,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,
-Leon,,6,[EXTRA],47401,311,18,-181,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,
+Leon,,6,[EXTRA],47201,192,3,-179,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,small,
+Leon,,6,[EXTRA],47201,199,3,-183,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,small,
+Leon,,6,[EXTRA],47201,192,3,-189,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,small,
+Leon,,6,[EXTRA] PRE-MENDEZ HILL // Guarding Merchant,47201,198,3,-194,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,small,
+Leon,,6,[EXTRA] POST-MENDEZ HILL // Ambush Left,47400,283,9,-248,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,,6,[EXTRA] POST-MENDEZ HILL // Ambush Right,47400,287,9,-244,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,,6,[EXTRA] POST-MENDEZ HILL // Ambush Behind,47400,266,8,-254,0,0,0,2028f283-c0b9-4173-8a6e-a0c63292e6f5,,,,,boss elite
+Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 1,47401,275,12,-203,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 2,47401,274,15,-190,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 3,47401,284,18,-183,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 4,47401,299,18,-182,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 5,47401,311,18,-181,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,mendez_2 krauser_1 mendez_chase garrador
 Leon,7356b16d-7c57-4fc9-a8b6-c0e008d2e11d,6,villager_2 pA(100%)  *,47102,0,0,0,0,0,0,,,,,,garrador mendez_chase
 Leon,0657cd56-9f0c-4c28-9519-60ed978d4d21,6,villager_2  torch *,47101,0,0,0,0,0,0,,,,,,garrador mendez_chase
 Leon,17544312-16a5-4feb-a8d9-32dd4e519f8e,6,villager_2 pA(30%) torch *,47101,0,0,0,0,0,0,,,,,,
@@ -563,14 +558,14 @@ Leon,,6,[EXTRA],47410,289,13,-212,0,0,0,f61225f0-a6b7-4eb1-abea-c7358db3a9e5,,,s
 Leon,,6,[EXTRA],47410,288,10,-222,0,0,0,f61225f0-a6b7-4eb1-abea-c7358db3a9e5,,,small,,
 Leon,,6,[EXTRA],47410,284,10,-222,0,0,0,f61225f0-a6b7-4eb1-abea-c7358db3a9e5,,,small,,
 Leon,e584ce9e-b722-4618-a0ec-7680f30e0c0e,7,ashley_1   .,50100,0,0,0,0,0,0,,,,preserve noduplicate,,
-Leon,,7,[EXTRA],50200,-305,-7,55,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,mendez_2 mendez_chase garrador
-Leon,,7,[EXTRA],50200,-306,-4,50,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,small,,mendez_2 mendez_chase garrador
-Leon,,7,[EXTRA],50200,-300,-1,66,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,small,,mendez_2 mendez_chase garrador
-Leon,,7,[EXTRA],50201,-280,-5,69,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,mendez_2 mendez_chase garrador
-Leon,,7,[EXTRA],50201,-283,-5,65,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,mendez_2 mendez_chase garrador
-Leon,,7,[EXTRA],50201,-288,-5,63,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,mendez_2 mendez_chase garrador
-Leon,,7,[EXTRA],50201,-286,-5,81,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,mendez_2 mendez_chase garrador
-Leon,,7,[EXTRA],50202,-272,-6,52,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,mendez_2 mendez_chase garrador
+Leon,,7,[EXTRA],50200,-305,-7,55,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,,7,[EXTRA],50200,-306,-4,50,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,small,,mendez_2 krauser_1 mendez_chase garrador
+Leon,,7,[EXTRA],50200,-300,-1,66,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,small,,mendez_2 krauser_1 mendez_chase garrador
+Leon,,7,[EXTRA],50201,-280,-5,69,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,,7,[EXTRA],50201,-283,-5,65,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,,7,[EXTRA],50201,-288,-5,63,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,,7,[EXTRA],50201,-286,-5,81,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,mendez_2 krauser_1 mendez_chase garrador
+Leon,,7,[EXTRA],50202,-272,-6,52,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,mendez_2 krauser_1 mendez_chase garrador
 Leon,,7,[EXTRA],50302,-190,10,53,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,
 Leon,,7,[EXTRA],50302,-191,10,50,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,
 Leon,,7,[EXTRA],50302,-196,10,52,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,
@@ -628,7 +623,7 @@ Leon,6f400c47-1ae0-4e3e-b721-a5ac15b44ea3,7,zealot  morning_star | wooden_shield
 Leon,ef2fec64-8e2d-4e2f-b85e-3b486dbe02eb,7,zealot  scythe *,50401,0,0,0,0,0,0,,,,,,
 Leon,a9ba3bc1-8b79-434c-9c92-8214c8b641be,7,zealot  morning_star | wooden_shield *,50401,0,0,0,0,0,0,,,,,,
 Leon,86dad996-a9fe-4425-bba5-72fbae50fcfe,7,zealot  scythe *,50401,0,0,0,0,0,0,,,,,,
-Leon,17d48b81-166f-4396-b95d-9610f7346ee7,7,zealot  morning_star *,50400,0,0,0,0,0,0,,,,,,
+Leon,17d48b81-166f-4396-b95d-9610f7346ee7,7,zealot  morning_star *,50400,0,0,0,0,0,0,,,,,,mendez_chase mendez_2 pesanta u3 garrador verdugo
 Leon,1b9bc5ff-09be-4d1d-a143-38495e3d1830,7,garrador   Red Beryl x1,50503,0,0,0,0,0,0,,,leon-prison-garrador,noduplicate,,mendez_chase
 Leon,0222c3d4-54d3-4a94-a94a-7055372d6ce3,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,mendez_chase mendez_2 pesanta u3 garrador verdugo
 Leon,66d38cec-3c77-45ac-949c-9b6e42ce48cf,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,mendez_chase mendez_2 pesanta u3 garrador verdugo
@@ -663,28 +658,28 @@ Leon,a85a3325-54d9-4151-8ccd-67040b144b66,7,zealot pA(100%)  *,50601,0,0,0,0,0,0
 Leon,b0905760-397f-4ba2-9e98-66a81d3df981,7,zealot pA(100%) torch *,50601,0,0,0,0,0,0,,,,,,
 Leon,14c8b64f-a4e3-4ebf-a406-7b691346d79a,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,armadura gold-armadura colmillos cow garrador gold-armadura mendez_2 mendez_chase pig krauser_2 super-colmillos verdugo
 Leon,8d7a4afd-c753-4a94-b6fe-20ca7ebb75a8,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,armadura gold-armadura colmillos cow garrador gold-armadura mendez_2 mendez_chase pig krauser_2 super-colmillos verdugo
-Leon,69982bac-2a25-465e-8d17-3c574c6d7cf6,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
-Leon,d0b4f426-af63-4f0c-8940-aaa5e4008142,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
-Leon,31a9370c-c696-423d-8efd-78f46f539ccb,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
-Leon,174e2dad-03b4-4b72-83b2-829dfc8ab3e8,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
-Leon,01227435-cb43-4157-bb5e-b3d2bd7288f5,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
-Leon,a4f6586c-2d8a-465e-be79-6a68df991900,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
-Leon,a341fadc-41f7-4533-859a-7bcc2a9f92d4,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
+Leon,69982bac-2a25-465e-8d17-3c574c6d7cf6,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
+Leon,d0b4f426-af63-4f0c-8940-aaa5e4008142,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
+Leon,31a9370c-c696-423d-8efd-78f46f539ccb,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
+Leon,174e2dad-03b4-4b72-83b2-829dfc8ab3e8,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
+Leon,01227435-cb43-4157-bb5e-b3d2bd7288f5,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
+Leon,a4f6586c-2d8a-465e-be79-6a68df991900,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
+Leon,a341fadc-41f7-4533-859a-7bcc2a9f92d4,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
 Leon,e9a4f361-cf53-45dc-8b9c-57bf4d35f9aa,7,zealot  morning_star *,50601,0,0,0,0,0,0,,,,,,armadura gold-armadura colmillos cow garrador gold-armadura mendez_2 mendez_chase pig krauser_2 super-colmillos verdugo
 Leon,de41d7f1-ec17-4560-9324-0561a66257a3,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,armadura gold-armadura colmillos cow garrador gold-armadura mendez_2 mendez_chase pig krauser_2 super-colmillos verdugo
 Leon,b4613cd5-cab7-45ab-a8e9-6f244af517a7,7,zealot  hatchet *,50601,0,0,0,0,0,0,,,,,,armadura gold-armadura colmillos cow garrador gold-armadura mendez_2 mendez_chase pig krauser_2 super-colmillos verdugo
-Leon,265cdbe1-e8be-428a-9fb3-3be29c6a5340,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
-Leon,1a384e5f-a660-4447-b7c7-8801897e23f8,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
-Leon,438eab7c-cabd-4122-b13b-4cd3afd81730,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
-Leon,6e9c144f-54b6-46f3-a30b-6f8d7d143599,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
-Leon,7709a438-92d0-49c9-bc99-d14edb211f46,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
-Leon,9c46d00a-3643-4fc7-8446-f3a6df844725,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
-Leon,470d9b44-a47e-4c40-96d4-e7f6eb6fafee,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
+Leon,265cdbe1-e8be-428a-9fb3-3be29c6a5340,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
+Leon,1a384e5f-a660-4447-b7c7-8801897e23f8,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
+Leon,438eab7c-cabd-4122-b13b-4cd3afd81730,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
+Leon,6e9c144f-54b6-46f3-a30b-6f8d7d143599,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
+Leon,7709a438-92d0-49c9-bc99-d14edb211f46,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
+Leon,9c46d00a-3643-4fc7-8446-f3a6df844725,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
+Leon,470d9b44-a47e-4c40-96d4-e7f6eb6fafee,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
 Leon,558fb789-24f9-4363-ad1c-87182db08514,7,zealot  hatchet *,50601,0,0,0,0,0,0,,,,,,armadura gold-armadura colmillos cow garrador gold-armadura mendez_2 mendez_chase pig krauser_2 super-colmillos verdugo
 Leon,c9393781-d730-4e5f-b193-3da9cb94226b,7,zealot  morning_star | wooden_shield *,50601,0,0,0,0,0,0,,,,,,armadura gold-armadura colmillos cow garrador gold-armadura mendez_2 mendez_chase pig krauser_2 super-colmillos verdugo
 Leon,8f84d26c-dedf-4447-8c03-afacb64c699f,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,armadura gold-armadura colmillos cow garrador gold-armadura mendez_2 mendez_chase pig krauser_2 super-colmillos verdugo
-Leon,8f329f90-3776-4519-a3d0-6cd9ca7f0d64,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
-Leon,0003ddf2-1d36-40c6-ba37-ffe598772afe,7,zealot   *,50601,0,0,0,0,0,0,,,,,zealot,
+Leon,8f329f90-3776-4519-a3d0-6cd9ca7f0d64,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
+Leon,0003ddf2-1d36-40c6-ba37-ffe598772afe,7,zealot   *,50601,0,0,0,0,0,0,,,,preserve noduplicate,,
 Leon,7a0912fc-fb63-46aa-b46b-39fa7fed8930,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,
 Leon,5197f7d0-630a-430e-aee0-6d4b2d5524d6,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,
 Leon,103eb9de-0f8a-4f69-bbd2-4b3bd6eb4061,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,
@@ -693,8 +688,8 @@ Leon,442b7646-9ff2-41bc-b880-fbd4c04558a3,7,zealot  crossbow *,50300,0,0,0,0,0,0
 Leon,8f4b2d33-ee62-46a0-a240-c84aad72ffae,7,zealot   *,50300,0,0,0,0,0,0,,,,,,
 Leon,b2b746b0-2480-4597-9bcd-5f0b43eba110,7,zealot pA(10%) torch *,50300,0,0,0,0,0,0,,,,,,
 Leon,5c241eb2-12df-4e3c-846b-3472e74ceec6,7,zealot pB(0%) torch *,50300,0,0,0,0,0,0,,,,,,
-Leon,b8e9133b-8b74-454d-ab3d-f4bfa38278bb,7,zealot   *,50300,0,0,0,0,0,0,,,,,,
-Leon,771885a4-f01e-4213-99e9-fa193aff6417,7,zealot pA(10%) torch *,50301,0,0,0,0,0,0,,,,,,
+Leon,b8e9133b-8b74-454d-ab3d-f4bfa38278bb,7,zealot   *,50300,0,0,0,0,0,0,,,,,,garrador mendez_chase mendez_2
+Leon,771885a4-f01e-4213-99e9-fa193aff6417,7,zealot pA(10%) torch *,50301,0,0,0,0,0,0,,,,,,garrador mendez_chase mendez_2
 Leon,a92db3ac-7ab1-4fa4-a963-5b46dc5b1164,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,garrador mendez_chase mendez_2
 Leon,5ad85f90-e959-45ff-b570-9901177ca34a,7,zealot  torch *,50301,0,0,0,0,0,0,,,,,,garrador mendez_chase mendez_2
 Leon,320e0e16-e63d-4e5b-9e3d-41d8ba10cba9,7,zealot   *,50300,0,0,0,0,0,0,,,,,,
@@ -706,32 +701,32 @@ Leon,0a4abd13-78c6-4eed-99b9-52c807420f6a,7,zealot   *,50301,0,0,0,0,0,0,,,,,,
 Leon,4e25c42b-d3cd-47bc-bcaf-28bd16cb36ab,7,zealot   *,50301,0,0,0,0,0,0,,,,,,
 Leon,1a8ecedb-cbe5-470a-b9e1-30459ea80287,7,zealot   *,50301,0,0,0,0,0,0,,,,,,
 Leon,931075a4-562f-4b4a-9558-f3c7cd34fcdf,7,zealot   *,50300,0,0,0,0,0,0,,,,,,
-Leon,,8,[EXTRA],51100,19,21,39,0,0,0,,,,,,
-Leon,,8,[EXTRA],51100,19,21,43,0,0,0,,,,,,
-Leon,,8,[EXTRA],51100,18,21,45,0,0,0,,,,,,
-Leon,,8,[EXTRA],51100,21,21,48,0,0,0,,,,,,
-Leon,,8,[EXTRA],51101,37,21,25,0,0,0,,,,,,
-Leon,,8,[EXTRA],51101,31,21,30,0,0,0,,,,small,,
-Leon,,8,[EXTRA],51101,26,21,30,0,0,0,,,,small,,
-Leon,,8,[EXTRA],51101,31,20,24,0,0,0,,,,small,,
-Leon,,8,[EXTRA],51101,19,20,34,0,0,0,,,,small,,
-Leon,,8,[EXTRA],51101,18,20,26,0,0,0,,,,small,,
-Leon,,8,[EXTRA],51101,37,24,14,0,0,0,,,,small,,
-Leon,,8,[EXTRA],51400,30,26,1,0,0,0,,,,small,,
-Leon,,8,[EXTRA],51400,31,26,-4,0,0,0,,,,small,,
-Leon,,8,[EXTRA],51403,24,27,3,0,0,0,,,,small,,
-Leon,,8,[EXTRA],51403,21,27,3,0,0,0,,,,small,,
-Leon,,8,[EXTRA],51500,31,27,-31,0,0,0,,,,,,
-Leon,,8,[EXTRA],51501,22,27,-32,0,0,0,,,,,,
-Leon,,8,[EXTRA],51501,15,27,-32,0,0,0,,,,,,
-Leon,,8,[EXTRA],51501,10,27,-32,0,0,0,,,,,,
-Leon,,8,[EXTRA],51503,-10,27,-67,0,0,0,,,,small,,
-Leon,,8,[EXTRA],51503,-17,27,-66,0,0,0,,,,small,,
-Leon,,8,[EXTRA],51503,-33,29,-64,0,0,0,,,,small,,
-Leon,,8,[EXTRA],51600,-23,25,-97,0,0,0,,,,,,
-Leon,,8,[EXTRA],51600,-5,23,-104,0,0,0,,,,,,
-Leon,,8,[EXTRA],51600,-7,23,-101,0,0,0,,,,,,
-Leon,,8,[EXTRA],51600,-11,23,-99,0,0,0,,,,,,
+Leon,,8,[EXTRA],51100,19,21,39,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
+Leon,,8,[EXTRA],51100,19,21,43,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
+Leon,,8,[EXTRA],51100,18,21,45,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
+Leon,,8,[EXTRA],51100,21,21,48,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
+Leon,,8,[EXTRA],51101,37,21,25,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
+Leon,,8,[EXTRA],51101,31,21,30,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,small,,
+Leon,,8,[EXTRA],51101,26,21,30,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,small,,
+Leon,,8,[EXTRA],51101,31,20,24,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,small,,
+Leon,,8,[EXTRA],51101,19,20,34,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,small,,
+Leon,,8,[EXTRA],51101,18,20,26,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,small,,
+Leon,,8,[EXTRA],51101,37,24,14,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,small,,
+Leon,,8,[EXTRA],51400,30,26,1,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,small,,
+Leon,,8,[EXTRA],51400,31,26,-4,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,small,,
+Leon,,8,[EXTRA],51403,24,27,3,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,small,,
+Leon,,8,[EXTRA],51403,21,27,3,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,small,,
+Leon,,8,[EXTRA],51500,31,27,-31,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
+Leon,,8,[EXTRA],51501,22,27,-32,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
+Leon,,8,[EXTRA],51501,15,27,-32,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
+Leon,,8,[EXTRA],51501,10,27,-32,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
+Leon,,8,[EXTRA],51503,-10,27,-67,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,small,,
+Leon,,8,[EXTRA],51503,-17,27,-66,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,small,,
+Leon,,8,[EXTRA],51503,-33,29,-64,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,small,,
+Leon,,8,[EXTRA],51600,-23,25,-97,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
+Leon,,8,[EXTRA],51600,-5,23,-104,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
+Leon,,8,[EXTRA],51600,-7,23,-101,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
+Leon,,8,[EXTRA],51600,-11,23,-99,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
 Leon,2076e20c-1813-4f01-bd45-4b191506016a,8,zealot pB(0%) staff Crimson Lantern x1,51404,0,0,0,0,0,0,,,leon-red-zealot-lantern,noduplicate,,krauser_1 krauser_2 mendez_chase pesanta u3
 Leon,29cab82c-9681-4d3c-97f5-f90f7eecabe8,8,zealot pB(0%)  *,51404,0,0,0,0,0,0,,,,,,
 Leon,52676b5d-d269-4017-bcbe-1011c9dd5ae0,8,zealot pB(0%)  Crimson Lantern x1,51404,0,0,0,0,0,0,,,,,,
@@ -754,7 +749,7 @@ Leon,dcbdccd8-3687-4fb6-bef9-7f5c33043597,8,zealot pA(0%)  *,51404,0,0,0,0,0,0,,
 Leon,0ef7a058-9cdc-45d8-8461-d783da3d6ad5,8,zealot pB(0%) torch *,51404,0,0,0,0,0,0,,,,,,
 Leon,15c9e5b1-5a15-4374-ab3a-60ea02b29742,8,zealot pA(0%) morning_star *,51404,0,0,0,0,0,0,,,,,,
 Leon,2df47e4f-30a7-4cea-bffc-88a7383790de,8,zealot pB(0%) hatchet *,51404,0,0,0,0,0,0,,,,,,
-Leon,092b7776-bb3b-4d67-b9f0-9320d713b755,8,arana   *,51503,0,0,0,0,0,0,,,,,,
+Leon,092b7776-bb3b-4d67-b9f0-9320d713b755,8,arana   *,51503,0,0,0,0,0,0,,,,,preserve noduplicate,
 Leon,68ad3dbb-aefc-48ec-a4af-72a5523f091c,8,arana   *,51504,0,0,0,0,0,0,,,,,,
 Leon,da9b15b8-f256-4891-a585-5a6f2e2d9332,8,zealot  hatchet *,51504,0,0,0,0,0,0,,,,,,
 Leon,fb5b1932-0e13-4014-9dc5-a751f81daadb,8,zealot  scythe *,51600,0,0,0,0,0,0,,,,,,
@@ -1187,7 +1182,7 @@ Leon,ca49a2b5-5f87-4013-baa0-22c059ce5f5e,11,villager  molotov *,55103,0,0,0,0,0
 Leon,65ff1927-4b44-4012-b73e-b587abfee502,11,villager  torch *,55103,0,0,0,0,0,0,,,,,,
 Leon,06ad5feb-ae53-4d65-a130-3e6e8cedfadc,11,villager pA(50%) shovel *,55103,0,0,0,0,0,0,,,,,,
 Leon,13828073-1008-408b-a2ed-09ddc2c78e41,11,chainsaw   Sapphire x1,55103,0,0,0,0,0,0,,,,,,
-Leon,aa55e6a1-26e1-4d20-829e-cff0434a3bce,11,chainsaw   Emerald x1,55103,0,0,0,0,0,0,,,,,,
+Leon,aa55e6a1-26e1-4d20-829e-cff0434a3bce,11,chainsaw   Emerald x1,55103,0,0,0,0,0,0,,,,preserve,,
 Leon,e755e462-ca17-43c7-b5c4-88843b54b208,11,villager_2  torch *,55103,0,0,0,0,0,0,,,,,,
 Leon,f498c259-0f83-49ee-ac39-ad0c3ba84540,11,villager_2  torch *,55103,0,0,0,0,0,0,,,,,,
 Leon,c8df8feb-70cd-453e-9a47-6bd351be0566,11,villager_2  dynamite *,55103,0,0,0,0,0,0,,,,,,
@@ -1221,10 +1216,10 @@ Leon,045876a5-b863-432d-bf0d-e67b677b1119,11,villager_2  pitchfork *,55202,0,0,0
 Leon,def06b49-4717-4404-b823-42decc0a3ea6,11,villager_2  hatchet *,55202,0,0,0,0,0,0,,,,,,
 Leon,27225330-cd64-46b4-b654-22cd04d7ddc7,11,villager_2  dynamite *,55202,0,0,0,0,0,0,,,,,,
 Leon,6c68dd30-5387-4fba-b05e-e4846570025a,11,krauser_1   .,55302,0,0,0,0,0,0,,,,preserve noduplicate,,
-Leon,,11,[EXTRA],55302,178,0,48,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,aggroed,,
-Leon,,11,[EXTRA],55302,183,0,47,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,aggroed,,
-Leon,,11,[EXTRA],55302,179,0,46,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,small aggroed,,
-Leon,,11,[EXTRA],55302,185,0,50,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,small aggroed,,
+Leon,,11,[EXTRA],55302,178,0,48,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,aggroed,, super-colmillos colmillos krauser_1 krauser_2 pesanta u3 garrador armadura gold-armadura mendez_chase verdugo mendez_2 regenerador
+Leon,,11,[EXTRA],55302,183,0,47,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,aggroed,, super-colmillos colmillos krauser_1 krauser_2 pesanta u3 garrador armadura gold-armadura mendez_chase verdugo mendez_2 regenerador
+Leon,,11,[EXTRA],55302,179,0,46,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,small aggroed,, super-colmillos colmillos krauser_1 krauser_2 pesanta u3 garrador armadura gold-armadura mendez_chase verdugo mendez_2 regenerador
+Leon,,11,[EXTRA],55302,185,0,50,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,small aggroed,, super-colmillos colmillos krauser_1 krauser_2 pesanta u3 garrador armadura gold-armadura mendez_chase verdugo mendez_2 regenerador
 Leon,af0d08df-ec8c-48a4-8316-3004814e785b,11,novistador   *,55300,0,0,0,0,0,0,,,,,,
 Leon,5ebef8cc-9e35-43c4-b846-3f73db9b0dfa,11,novistador   *,55300,0,0,0,0,0,0,,,,preserve noduplicate,,
 Leon,4410ac54-e315-4113-b4df-bb8f1da45e2f,11,novistador   *,55300,0,0,0,0,0,0,,,,preserve noduplicate,,
@@ -1333,9 +1328,6 @@ Leon,,12,[EXTRA],56200,259,51,-113,0,0,0,bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3,,,
 Leon,,12,[EXTRA],56200,259,51,-111,0,0,0,bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3,,,,,
 Leon,,12,[EXTRA],56200,259,51,-107,0,0,0,bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3,,,,,
 Leon,,12,[EXTRA],56200,261,51,-111,0,0,0,bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3,,,,,
-Leon,,12,[EXTRA],56200,263,56,-110,0,0,0,bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3,,,,,
-Leon,,12,[EXTRA],56200,254,56,-110,0,0,0,bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3,,,,,
-Leon,,12,[EXTRA],56200,259,56,-110,0,0,0,bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3,,,,,
 Leon,,12,[EXTRA],56200,259,54,-122,0,0,0,bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3,,,small,,
 Leon,,12,[EXTRA],56200,259,54,-99,0,0,0,bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3,,,small,,
 Leon,,12,[EXTRA],56201,301,48,-115,0,0,0,bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3,,,,,
