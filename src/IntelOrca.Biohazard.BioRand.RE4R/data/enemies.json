@@ -867,7 +867,8 @@
       "minHealth": 500,
       "maxHealth": 2000,
       "name": "Plaga Araña",
-      "field:_MontageID": 1106175613
+      "field:_MontageID": 1106175613,
+      "field:_EnableGannardParent": [ false, true ]
     },
     {
       "key": "brute",
