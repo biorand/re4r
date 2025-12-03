@@ -126,5 +126,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public const string Horde = "horde";
         public const string NoPlaga = "noplaga";
         public const string AnyChapter = "anychapter";
+        public const string NoToxic = "notoxic";
+        public const string Ranged = "ranged";
     }
 }

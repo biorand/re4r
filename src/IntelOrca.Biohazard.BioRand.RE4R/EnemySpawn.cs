@@ -125,11 +125,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             spawn.ClassPool = enemyClasses;
 
             // Now set preferred classes
-            if (randomizer.GetConfigOption<bool>("nice-mendez-hill"))
+            if (spawn.EnemyPlacement.HasTag(EnemyTags.NoToxic))
             {
-                enemyClasses = enemyClasses
-                    .Where(x => !x.Groups.Contains("toxic"))
-                    .ToImmutableArray();
+                if (randomizer.GetConfigOption<bool>("nice-mendez-hill"))
+                {
+                    enemyClasses = enemyClasses
+                        .Where(x => !x.Groups.Contains("toxic"))
+                        .ToImmutableArray();
+                }
             }
             if (randomizer.GetConfigOption<bool>("enemy-strong-mini-boss") && !string.IsNullOrEmpty(spawn.EnemyPlacement.MiniBoss))
             {
@@ -138,7 +141,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     .Where(x => x.Groups.Contains("strongminiboss"))
                     .ToImmutableArray();
             }
-            else if (IsEnemyRanged(randomizer, spawn.OriginalEnemy))
+            else if (spawn.EnemyPlacement.HasTag(EnemyTags.Ranged))
             {
                 // Prefer a ranged enemy
                 enemyClasses = enemyClasses
@@ -146,14 +149,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     .ToImmutableArray();
             }
             spawn.PreferredClassPool = enemyClasses;
-
-            static bool IsEnemyRanged(ChainsawRandomizer randomizer, Enemy enemy)
-            {
-                var weaponDef = randomizer.EnemyClassFactory.Weapons.FirstOrDefault(x => x.Id == enemy.Weapon);
-                if (weaponDef != null)
-                    return weaponDef.Ranged;
-                return false;
-            }
 
             EnemyClassDefinition[] MapClasses(string className)
             {
