@@ -821,7 +821,7 @@
       "kind": "colmillos",
       "name": "Colmillos",
       "category": "Colmillos",
-      "groups": [ "fodder", "small" ],
+      "groups": [ "small" ],
       "class": 6,
       "minHealth": 500,
       "maxHealth": 2000,
