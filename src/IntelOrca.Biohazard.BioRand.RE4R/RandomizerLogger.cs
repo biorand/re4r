@@ -30,6 +30,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             Push();
         }
 
+        public void Push(params object[] columns)
+        {
+            LogLine(columns);
+            Push();
+        }
+
         public void Pop()
         {
             _indent--;
@@ -47,14 +53,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public void LogHr()
         {
             _sb.AppendLine(_hr);
-        }
-
-        public void LogHeader(string header)
-        {
-            _sb.AppendLine();
-            LogHr();
-            _sb.AppendLine(header);
-            LogHr();
         }
 
         public void LogLine(string line)

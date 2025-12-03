@@ -209,6 +209,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             return new Modifier[]
             {
+                new DropTableModifier(),
                 new CasePerkModifier(),
                 new InventoryModifier(),
                 new RecipeModifier(),

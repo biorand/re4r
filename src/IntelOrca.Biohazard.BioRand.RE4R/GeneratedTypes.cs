@@ -1,6 +1,7 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
 using System.Collections.Generic;
+using IntelOrca.Biohazard.REE.Rsz;
 using IntelOrca.Biohazard.REE.Rsz.Native;
 
 namespace chainsaw
@@ -1317,6 +1318,45 @@ namespace chainsaw
     internal class CharacterInitialSettings
     {
         public System.Int32 _CharacterMaxHP { get; set; }
+    }
+
+    internal class RandomDrop
+    {
+        internal class CommonDropTableUserdata
+        {
+            public List<DropGroup> DropGroups { get; set; } = [];
+        }
+
+        internal class DropGroup
+        {
+            public int DropType { get; set; }
+            public int ItemID { get; set; }
+            public List<Block> Blocks { get; set; } = [];
+            public int MinPoint { get; set; }
+            public int MaxPoint { get; set; }
+            public int PointType { get; set; }
+            public int CalcOption { get; set; }
+            public RszArrayNode Conditions { get; set; }
+        }
+
+        internal class Block
+        {
+            public int PointLevel { get; set; }
+            public List<Box> Boxes { get; set; } = [];
+        }
+
+        internal class Box
+        {
+            public ItemInfo Item { get; set; } = new();
+            public int Weight { get; set; }
+        }
+
+        internal class ItemInfo
+        {
+            public int Count { get; set; }
+            public int AmmoCount { get; set; }
+            public int Durability { get; set; }
+        }
     }
 }
 
