@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -155,6 +156,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             SpawnControllers = SpawnControllers.Add(controller);
             BioRandFolder = BioRandFolder.Add(gameObject);
             return controller;
+        }
+
+        public EnemySpawn AddOrphanEnemy(RszGameObject gameObject)
+        {
+            var mainComponent = GetMainEnemyComponent(gameObject) ?? throw new Exception("Unable to find new enemy component for duplicated enemy.");
+            var enemy = new Enemy(this, gameObject, mainComponent);
+            var enemySpawn = new EnemySpawn(this, null, enemy, enemy, new EnemyPlacement());
+            OrphanEnemies = OrphanEnemies.Add(enemySpawn);
+            BioRandFolder = BioRandFolder.Add(gameObject);
+            return enemySpawn;
         }
 
         public EnemySpawn Duplicate(EnemySpawn enemy, int contextId)

@@ -183,6 +183,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             set => SetFieldValue("_ParasiteAppearanceProbability", value);
         }
 
+        public Guid ParasiteSpawn
+        {
+            get => GetFieldValue<Guid>("_ParasiteTypeCSpawnParamObj");
+            set => SetFieldValue("_ParasiteTypeCSpawnParamObj", value);
+        }
+
         public object? GetFieldValue(string name)
         {
             if (MainComponent.Type.FindFieldIndex(name) == -1)

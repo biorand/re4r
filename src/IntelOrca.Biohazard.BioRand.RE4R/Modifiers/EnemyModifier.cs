@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -595,6 +596,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 table.Add(0, randomizer.GetConfigOption<double>("parasite-ratio-none"));
                 table.Add(1, randomizer.GetConfigOption<double>("parasite-ratio-a"));
                 table.Add(2, randomizer.GetConfigOption<double>("parasite-ratio-b"));
+                table.Add(3, randomizer.GetConfigOption<double>("parasite-ratio-c"));
                 _parasiteRngTable = table;
             }
             if (enemy.ParasiteKind != null)
@@ -613,6 +615,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     enemy.ParasiteKind = kind;
                     enemy.ForceParasiteAppearance = true;
                     enemy.ParasiteAppearanceProbability = 100;
+                    if (kind == 3)
+                    {
+                        var aranaSpawn = CreateOrphanArana(spawn.Area, $"PlagaC for {enemy.GameObject.Name}", enemy.StageID, rng);
+                        enemy.ParasiteSpawn = aranaSpawn.Guid;
+                    }
                 }
             }
         }
@@ -687,6 +694,31 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 maxPackSize = ecd.MaxPack;
             maxPackSize = Math.Clamp(maxPackSize, 1, ecd.MaxPack);
             return rng.Next(1, maxPackSize + 1);
+        }
+
+        private static EnemySpawn CreateOrphanArana(Area area, string name, int stageId, Rng rng)
+        {
+            var contextId = area.Randomizer.EnemyService.GetNextContextId();
+            var transform = RszFactory.CreateTransform();
+            var spawnParam = FileRepository.RszRepository.Create("chainsaw.Ch1e0z0SpawnParam")
+                .Set("Enabled", true)
+                .Set("_StageID", stageId)
+                .Set("_SpawmRadius", 20.0f)
+                .Set("_ContextID._Group", contextId.Group)
+                .Set("_ContextID._Index", contextId.Index)
+                .Set("_RoleType", 3)
+                .Set("_IsEnableUnreachable", true)
+                .Set("_RolePatternHash", 3152132219U)
+                .Set("_SegmentID", 1)
+                .Set("_FirstForceMoveEndTime", -1.0f)
+                .Set("_FirstForceMoveEndRadius", 0.2f)
+                .Set("_PreFirstForceMovePatternHash", 3152132219U)
+                .Set("_RoleActionEndOnDamage", true)
+                .Set("_CriticalResistRate", 0.25f)
+                .Set("_MontageID", 1106175613U)
+                .Set("_EnableGannardParent", rng.NextProbability(50));
+            var gameObject = RszFactory.CreateGameObject(name, "_Chainsaw/AppSystem/Prefab/ch1e0z0SpawnParam.pfb", [transform, spawnParam]);
+            return area.AddOrphanEnemy(gameObject);
         }
     }
 }

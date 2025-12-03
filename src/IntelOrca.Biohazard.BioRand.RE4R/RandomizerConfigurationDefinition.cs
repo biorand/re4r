@@ -968,6 +968,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.01,
                 Default = 0.05
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"parasite-ratio-c",
+                Label = "Plaga Araña",
+                Category = new GroupItemCategory(new ConfigCategory("Araña", "#0f0", "#000")),
+                Description = "Spider Plaga that come off and attack you or control another enemy.",
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 0.05
+            });
 
             page = configDefinition.CreatePage("Health");
             group = page.CreateGroup("");
