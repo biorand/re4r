@@ -796,6 +796,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.1,
                 Default = 0.2
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"arana-latch-probability",
+                Label = "Araña Latch Probability",
+                Description = "The probability that an Araña (spider plaga thing) will latch onto another enemy and control it.",
+                Type = "percent",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 0.5
+            });
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {

@@ -289,6 +289,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         e.SetFieldValue(fd.Name, fieldValue);
                     }
 
+                    // Arana latch
+                    if (ecd.Key == "arana")
+                    {
+                        var latchProbability = area.Randomizer.GetConfigOption<double>("arana-latch-probability");
+                        var shouldLatch = rng.NextDouble() <= latchProbability;
+                        e.SetFieldValue("_EnableGannardParent", shouldLatch);
+                    }
+
                     if (ecd.Plaga)
                     {
                         RandomizeParasite(randomizer, spawn, parasiteRng);
@@ -698,6 +706,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private static EnemySpawn CreateOrphanArana(Area area, string name, int stageId, Rng rng)
         {
+            var latchProbability = area.Randomizer.GetConfigOption<double>("arana-latch-probability");
+            var shouldLatch = rng.NextDouble() <= latchProbability;
+
             var contextId = area.Randomizer.EnemyService.GetNextContextId();
             var transform = RszFactory.CreateTransform();
             var spawnParam = FileRepository.RszRepository.Create("chainsaw.Ch1e0z0SpawnParam")
@@ -716,7 +727,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .Set("_RoleActionEndOnDamage", true)
                 .Set("_CriticalResistRate", 0.25f)
                 .Set("_MontageID", 1106175613U)
-                .Set("_EnableGannardParent", rng.NextProbability(50));
+                .Set("_EnableGannardParent", shouldLatch);
             var gameObject = RszFactory.CreateGameObject(name, "_Chainsaw/AppSystem/Prefab/ch1e0z0SpawnParam.pfb", [transform, spawnParam]);
             return area.AddOrphanEnemy(gameObject);
         }
