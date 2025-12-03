@@ -62,11 +62,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private static Area? FindBestAreaForEnemy(ChainsawRandomizer randomizer, EnemyPlacement placement)
         {
-            return randomizer.Areas
-                .Where(x => x.Enemies.Any())
+            var result = randomizer.Areas
                 .Where(x => IsAreaCompatible(x, placement))
-                .OrderBy(x => x.Enemies.Min(x => Math.Abs(x.StageID - placement.Stage)))
+                .OrderBy(x => GetOrder(x, placement))
                 .FirstOrDefault();
+            return result;
 
             static bool IsAreaCompatible(Area area, EnemyPlacement placement)
             {
@@ -85,6 +85,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }
                 return false;
+            }
+
+            static int GetOrder(Area area, EnemyPlacement placement)
+            {
+                if (area.Enemies.Any())
+                {
+                    return area.Enemies.Min(x => Math.Abs(x.StageID - placement.Stage));
+                }
+                else
+                {
+                    return int.MaxValue;
+                }
             }
         }
 
