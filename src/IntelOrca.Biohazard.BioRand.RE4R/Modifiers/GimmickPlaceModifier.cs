@@ -14,6 +14,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var gimmicks = randomizer.DynamicData.GetData(DynamicDataName.Gimmicks) ?? throw new Exception("Failed to get gimmick data");
             var placements = Csv.Deserialize<GimmickPlacement>(gimmicks)
+                .Select((x, i) => { x.Id = i + 2; return x; })
                 .Where(x => x.Campaign == randomizer.Campaign)
                 .Where(x => x.Kind.Trim() is string s && !string.IsNullOrEmpty(s) && !s.StartsWith('#'))
                 .ToImmutableArray();
