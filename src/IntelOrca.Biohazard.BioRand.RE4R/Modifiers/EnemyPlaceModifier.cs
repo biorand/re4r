@@ -54,6 +54,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var allExtraEnemies = randomizer.EnemyService.EnemyPlacements
                 .Where(x => x.IsExtra)
+                .Where(x => x.Campaign == randomizer.Campaign)
                 .Shuffle(rng);
 
             var count = (int)Math.Round(allExtraEnemies.Length * amount);
