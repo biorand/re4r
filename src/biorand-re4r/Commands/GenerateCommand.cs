@@ -23,6 +23,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
             [CommandOption("-o|--output")]
             public string? OutputPath { get; init; }
+
+            [CommandOption("-k|--kill")]
+            public bool Kill { get; init; }
         }
 
         public override ValidationResult Validate(CommandContext context, Settings settings)
@@ -37,7 +40,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
         public override Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
-            KillRe4();
+            if (settings.Kill)
+            {
+                KillRe4();
+            }
 
             var randomizer = GetRandomizer();
             var input = new RandomizerInput();
