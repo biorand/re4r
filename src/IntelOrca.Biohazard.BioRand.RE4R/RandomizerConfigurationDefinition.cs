@@ -779,9 +779,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
+                Id = $"balanced-enemies",
+                Label = "Balanced Enemies",
+                Description = "Restrict certain enemies to a set of types that produce a more fair and consistent randomizer. Good for permadeath runs but may reduce chaos.",
+                Type = "switch",
+                Default = false
+            });
+            group.Items.Add(new GroupItem()
+            {
                 Id = $"nice-mendez-hill",
-                Label = "Prevent Toxic Mendez Hill",
-                Description = "Prevent difficult enemies appearing on Mendez Hill. Enable this during your permadeath runs.",
+                Label = "Safer Mendez Hill / Krauser Fight",
+                Description = "Prevent difficult enemies appearing on Mendez Hill and first Krauser fight. Enable this during your permadeath runs.",
+                Type = "switch",
+                Default = false
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"ashley-safe-enemies",
+                Label = "Safer Ashley Escorting",
+                Description = "Disable enemies that can easily kill Ashley during chapters where you are escorting her.",
                 Type = "switch",
                 Default = false
             });

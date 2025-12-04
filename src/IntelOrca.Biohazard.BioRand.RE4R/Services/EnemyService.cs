@@ -118,15 +118,64 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
     internal static class EnemyTags
     {
+        /// <summary>
+        /// Keep enemy the same kind.
+        /// </summary>
         public const string Preserve = "preserve";
+
+        /// <summary>
+        /// Do not multiply the enemy.
+        /// </summary>
         public const string NoDuplicate = "noduplicate";
+
+        /// <summary>
+        /// Do not create a wave for this enemy.
+        /// </summary>
+        public const string NoWave = "nowave";
+
+        /// <summary>
+        /// Make the enemy find the player immediately.
+        /// </summary>
         public const string Aggroed = "aggroed";
-        public const string Small = "small";
+
+        /// <summary>
+        /// If the enemy kind is the same, keep the weapon the same.
+        /// </summary>
         public const string LockWeapon = "lockweapon";
+
+        /// <summary>
+        /// Prevent enemy carrying important items.
+        /// </summary>
         public const string Horde = "horde";
+
+        /// <summary>
+        /// Prevent the enemy from plaga-ing.
+        /// </summary>
         public const string NoPlaga = "noplaga";
+
+        /// <summary>
+        /// Make enemy non-chapter specific. Active for all chapters.
+        /// </summary>
         public const string AnyChapter = "anychapter";
+
+        /// <summary>
+        /// Prevent enemy from being a toxic enemy when prevent toxic Mendez hill is enabled.
+        /// </summary>
         public const string NoToxic = "notoxic";
+
+        /// <summary>
+        /// Try to make enemy one that attacks from a distance. E.g. crossbow, dynamite, JJ, RPG etc.
+        /// </summary>
         public const string Ranged = "ranged";
+
+        /// <summary>
+        /// Try to make enemy one that is unlikely to easily kill Ashley.
+        /// </summary>
+        public const string AshleySafe = "ashleysafe";
+
+        /// <summary>
+        /// The include/exclude list of the enemy is essential for preventing game crash or glitch.
+        /// </summary>
+        public const string Essential = "essential";
     }
 }

@@ -98,21 +98,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var enemyClasses = allEnemyClasses;
             var keyToEnemyClass = enemyClasses.ToDictionary(x => x.Key);
 
-            // Include / exclude list
-            if (!spawn.EnemyPlacement.IncludeAsArray.IsDefaultOrEmpty)
+            if (spawn.EnemyPlacement.HasTag(EnemyTags.Essential))
             {
-                enemyClasses = enemyClasses.Intersect(spawn.EnemyPlacement.IncludeAsArray.SelectMany(MapClasses)).ToImmutableArray();
-            }
-            else if (!spawn.EnemyPlacement.ExcludeAsArray.IsDefaultOrEmpty)
-            {
-                enemyClasses = enemyClasses.Except(spawn.EnemyPlacement.ExcludeAsArray.SelectMany(MapClasses)).ToImmutableArray();
-            }
-            else if (spawn.EnemyPlacement.HasTag(EnemyTags.Small))
-            {
-                // TODO remove when all instances moved to include column
-                enemyClasses = enemyClasses
-                    .Where(x => x.Groups.Contains("small"))
-                    .ToImmutableArray();
+                IncludeExclude();
             }
 
             // Pigs crash the game if a conditional spawn
@@ -125,12 +113,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             spawn.ClassPool = enemyClasses;
 
             // Now set preferred classes
+            if (!spawn.EnemyPlacement.HasTag(EnemyTags.Essential))
+            {
+                if (randomizer.GetConfigOption<bool>("balanced-enemies"))
+                {
+                    IncludeExclude();
+                }
+            }
             if (spawn.EnemyPlacement.HasTag(EnemyTags.NoToxic))
             {
                 if (randomizer.GetConfigOption<bool>("nice-mendez-hill"))
                 {
                     enemyClasses = enemyClasses
                         .Where(x => !x.Groups.Contains("toxic"))
+                        .ToImmutableArray();
+                }
+            }
+            if (spawn.EnemyPlacement.HasTag(EnemyTags.AshleySafe))
+            {
+                if (randomizer.GetConfigOption<bool>("ashley-safe-enemies"))
+                {
+                    enemyClasses = enemyClasses
+                        .Where(x => !x.Groups.Contains("ashleyunsafe"))
                         .ToImmutableArray();
                 }
             }
@@ -160,6 +164,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     .Where(x => x != null)
                     .ToArray();
                 return result;
+            }
+
+            void IncludeExclude()
+            {
+                if (!spawn.EnemyPlacement.IncludeAsArray.IsDefaultOrEmpty)
+                {
+                    enemyClasses = enemyClasses.Intersect(spawn.EnemyPlacement.IncludeAsArray.SelectMany(MapClasses)).ToImmutableArray();
+                }
+                else if (!spawn.EnemyPlacement.ExcludeAsArray.IsDefaultOrEmpty)
+                {
+                    enemyClasses = enemyClasses.Except(spawn.EnemyPlacement.ExcludeAsArray.SelectMany(MapClasses)).ToImmutableArray();
+                }
             }
         }
     }
