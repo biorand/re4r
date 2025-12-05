@@ -1141,7 +1141,7 @@
     {
       "key": "pesanta",
       "kind": "pesanta",
-      "name": "Pesanta !!UNSTABLE!!",
+      "name": "Pesanta",
       "category": "Pesanta",
       "groups": [ "boss", "strongminiboss", "toxic", "big" ],
       "class": 1,
@@ -1154,7 +1154,7 @@
     {
       "key": "u3",
       "kind": "u3",
-      "name": "U3 !!UNSTABLE!!",
+      "name": "U3",
       "category": "U3",
       "groups": [ "boss", "strongminiboss", "toxic", "big" ],
       "class": 1,
@@ -1167,7 +1167,7 @@
     {
       "key": "sadler_human",
       "kind": "sadler_human",
-      "name": "Sadler (Human) !!UNSTABLE!!",
+      "name": "Sadler (Human)",
       "category": "Sadler",
       "groups": [ "boss", "strongminiboss", "big" ],
       "class": 1,
