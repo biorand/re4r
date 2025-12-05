@@ -62,7 +62,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         RandomizeGmOptionDropItem(randomizer, g, randomItemSettings, rng);
                         break;
                     case GimmickKinds.HidingLocker:
-                        FixHidingLocker(g);
+                        // Disable temporarily to test out hiding lockers on condition
+                        // FixHidingLocker(g);
                         break;
                     case GimmickKinds.WoodenBarrel:
                     case GimmickKinds.WoodenBox:

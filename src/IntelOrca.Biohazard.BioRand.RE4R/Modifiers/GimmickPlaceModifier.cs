@@ -160,7 +160,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     return gimmick;
 
                 var repo = FileRepository.TypeRepository;
-                var paramObject = gimmick.FindGameObject("ParamObject")!;
+                var paramObject = gimmick.FindGameObject("ParamObject");
+                if (paramObject == null)
+                {
+                    paramObject = RszFactory.CreateGameObject("ParamObject", "", [
+                        RszFactory.CreateTransform(),
+                        repo.Create("chainsaw.ParamObject")
+                            .Set("Enabled", true)]);
+                }
+
                 var stratumBool = repo
                     .Create("chainsaw.RuleStratum.StratumBool")
                     .Set("Value", true)
@@ -203,7 +211,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .Set("Enabled", true)
                     .Set("Rule", new[] { stratumBool }));
 
-                if (gimmick.Name.StartsWith("Biorand_MerchantTorch"))
+                // if (gimmick.Name.StartsWith("Biorand_MerchantTorch"))
                 {
                     paramObject = paramObject.AddOrUpdateComponent(repo
                         .Create("chainsaw.ObjectHide")

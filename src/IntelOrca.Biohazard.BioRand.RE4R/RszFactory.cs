@@ -16,7 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             return new RszGameObject(
                 Guid.NewGuid(),
-                "_Chainsaw/AppSystem/Prefab/ch1c0SpawnParam.pfb",
+                prefab,
                 Repository.Create("via.GameObject")
                     .Set("Name", name)
                     .Set("UpdateSelf", true)
