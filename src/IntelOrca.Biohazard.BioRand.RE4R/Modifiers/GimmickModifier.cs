@@ -19,8 +19,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Push($"{Path.GetFileName(path)}");
                 foreach (var g in grouping)
                 {
+                    var position = g.Transform.Position;
                     var props = g.Properties.OrderBy(x => x.Key).ToArray();
-                    logger.LogLine($"{g.ContextId} {g.Kind} {string.Join(" ", props.Select(x => $"{x.Key} = {x.Value}"))}");
+                    logger.LogLine(
+                        g.Guid,
+                        g.ContextId,
+                        g.Kind,
+                        position.X.ToString("0.0"),
+                        position.Y.ToString("0.0"),
+                        position.Z.ToString("0.0"),
+                        string.Join(" ", props.Select(x => $"{x.Key} = {x.Value}")));
                 }
                 logger.Pop();
             }
@@ -62,8 +70,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         RandomizeGmOptionDropItem(randomizer, g, randomItemSettings, rng);
                         break;
                     case GimmickKinds.HidingLocker:
-                        // Disable temporarily to test out hiding lockers on condition
-                        // FixHidingLocker(g);
+                        FixHidingLocker(g);
                         break;
                     case GimmickKinds.WoodenBarrel:
                     case GimmickKinds.WoodenBox:
@@ -134,7 +141,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             if (g.ParamObject is RszGameObject paramObject)
             {
-                g.GimmickFile.Scene = g.GimmickFile.Scene.RemoveGameObject(paramObject.Guid);
+                paramObject = paramObject.WithComponents(
+                    paramObject.Components
+                        .RemoveAll(x => x.Type.Name == "chainsaw.CheckFlagSettings"));
+                g.GimmickFile.Scene = g.GimmickFile.Scene.UpdateGameObject(paramObject);
             }
         }
 
@@ -263,8 +273,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             public GimmickFile GimmickFile { get; } = gimmickFile;
             public RszGameObject GameObject { get; } = gameObject;
+
+            public Guid Guid => GameObject.Guid;
             public string Kind => GetKindFromPrefab(GameObject.Prefab);
             public ContextId ContextId => GetContextId(GameObject);
+            public Transform Transform => new(GameObject);
             public ImmutableDictionary<string, object> Properties => GetProperties();
 
             public void Remove()
