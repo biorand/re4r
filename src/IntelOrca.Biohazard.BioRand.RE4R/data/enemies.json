@@ -1027,7 +1027,7 @@
       "kind": "garrador",
       "name": "Garrador",
       "category": "Garrador",
-      "groups": [ "elite", "small", "strongminiboss", "toxic", "ashleyunsafe", "big" ],
+      "groups": [ "elite", "strongminiboss", "toxic", "ashleyunsafe", "big" ],
       "class": 4,
       "minHealth": 5000,
       "maxHealth": 10000,
