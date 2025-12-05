@@ -211,7 +211,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .Set("Enabled", true)
                     .Set("Rule", new[] { stratumBool }));
 
-                // if (gimmick.Name.StartsWith("Biorand_MerchantTorch"))
+                if (!gimmick.Name.StartsWith("Biorand_Merchant_"))
                 {
                     paramObject = paramObject.AddOrUpdateComponent(repo
                         .Create("chainsaw.ObjectHide")
