@@ -34,7 +34,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     if (numWavedEnemies >= maxWavedEnemies)
                         break;
-                    if (oldSpawn.IsOrphan || oldSpawn.EnemyPlacement.HasTag(EnemyTags.NoDuplicate))
+                    if (oldSpawn.IsOrphan || oldSpawn.EnemyPlacement.HasTag(EnemyTags.NoWave))
                         continue;
                     if (!string.IsNullOrEmpty(oldSpawn.EnemyPlacement.MiniBoss))
                         continue;
