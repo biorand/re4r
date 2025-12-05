@@ -6,17 +6,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal sealed class RandomizerLoggerIO
     {
-        public RandomizerLogger Input { get; } = new();
-        public RandomizerLogger Process { get; } = new();
-        public RandomizerLogger Output { get; } = new();
+        public RandomizerLogger Input { get; } = new("input");
+        public RandomizerLogger Process { get; } = new("process");
+        public RandomizerLogger Output { get; } = new("output");
     }
 
-    internal sealed class RandomizerLogger
+    internal sealed class RandomizerLogger(string name)
     {
         private readonly StringBuilder _sb = new StringBuilder();
         private readonly string _hr = new string('-', 80);
         private int _indent;
 
+        public string Name => name;
         public string Output => _sb.ToString();
 
         public void Push()
