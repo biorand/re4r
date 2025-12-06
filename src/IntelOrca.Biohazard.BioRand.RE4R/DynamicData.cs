@@ -15,6 +15,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             [DynamicDataName.Gimmicks] = ("gimmicks.csv", 857253225),
             [DynamicDataName.CasePerks] = ("case_perks.csv", 433155121),
             [DynamicDataName.Enemies] = ("enemies.csv", 2122364676),
+            [DynamicDataName.Items] = ("items.csv", 827998375),
         }.ToImmutableDictionary();
 
         private readonly Dictionary<DynamicDataName, byte[]> _map = [];
@@ -63,5 +64,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         Gimmicks,
         CasePerks,
         Enemies,
+        Items,
     }
 }

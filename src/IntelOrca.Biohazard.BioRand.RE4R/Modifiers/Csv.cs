@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 
@@ -50,7 +51,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private static object ParseValue(string input, Type targetType)
         {
-            if (targetType == typeof(Guid))
+            if (targetType == typeof(ImmutableArray<string>))
+            {
+                return input.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToImmutableArray();
+            }
+            else if (targetType == typeof(Guid))
             {
                 return Guid.Parse(input);
             }

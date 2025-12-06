@@ -306,7 +306,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return new Item(ItemIds.Money, value);
         }
 
-        public Item? GetRandomTreasure(Rng rng)
+        public Item GetRandomTreasure(Rng rng)
         {
             var table = _treasureProbabilityTable;
             if (table == null)

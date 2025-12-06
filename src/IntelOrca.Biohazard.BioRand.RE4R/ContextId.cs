@@ -10,6 +10,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public int Group { get; } = group;
         public int Index { get; } = index;
 
+        public bool IsEmpty => Category == 0 && Kind == 0 && Group == 0 && Index == 0;
+
         internal static ContextId FromRszValue(chainsaw.ContextID rszValue)
         {
             return new ContextId(rszValue._Category, rszValue._Kind, rszValue._Group, rszValue._Index);
