@@ -429,8 +429,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     continue;
 
                 var scale = MathF.Round(rng.NextFloat(min, max) * 100) / 100;
-                spawn.Enemy.SetFieldValue("_BodyScale._IsFixedScale", true);
-                spawn.Enemy.SetFieldValue("_BodyScale._FixedScale", scale);
+                spawn.Enemy.SetFieldValue("_BodyScale", new
+                {
+                    _IsFixedScale = true,
+                    _FixedScale = scale,
+                    _RandomScaleSeed = 0,
+                    _RandomCreateContextID = 0
+                });
             }
         }
 
