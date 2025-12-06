@@ -59,7 +59,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var items = Csv.Deserialize<ItemPlacement>(itemsCsv)
                 .Where(x => x.Chapter != 0)
                 .Where(x => x.Campaign == randomizer.Campaign)
-                .Where(x => CanChangeItem(randomizer, x))
                 .ToDictionary(x => x.Guid);
 
             // Get context IDs for each item
@@ -77,7 +76,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
-            var result = Randomize(randomizer, items.Values, rng, logger);
+            var itemsToChange = items.Values.Where(x => CanChangeItem(randomizer, x)).ToArray();
+            var result = Randomize(randomizer, itemsToChange, rng, logger);
             foreach (var fp in filePairs)
             {
                 if (!preserveModels)
