@@ -1,11 +1,13 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
+using System.Text.RegularExpressions;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public static class StageIds
     {
+        private static Regex _locationRegex = new(@"/loc(\d\d)/", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static ImmutableArray<StageDefinition> _stages;
 
         public static ImmutableArray<StageDefinition> Stages
@@ -24,6 +26,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public static StageDefinition? FromId(int id)
         {
             return Stages.FirstOrDefault(x => x.Stage == id);
+        }
+
+        public static int? GetLocationFromPath(string path)
+        {
+            var m = _locationRegex.Match(path);
+            return m.Success ? int.Parse(m.Groups[1].Value) : null;
         }
 
         public class StagesDefinition

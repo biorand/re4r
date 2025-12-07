@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using chainsaw;
@@ -14,7 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var filePairs = GetFilePairs(randomizer);
+            var filePairs = ItemFilePair.GetPairs(randomizer);
             foreach (var fp in filePairs)
             {
                 logger.Push($"{Path.GetFileName(fp.ScenePath)}");
@@ -53,20 +55,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var preserveModels = randomizer.GetConfigOption<bool>("preserve-item-models");
             var rng = randomizer.CreateRng();
 
-            var filePairs = GetFilePairs(randomizer);
-
-            var itemsCsv = randomizer.DynamicData.GetData(DynamicDataName.Items) ?? throw new Exception("Unable to find item data.");
-            var items = Csv.Deserialize<ItemPlacement>(itemsCsv)
-                .Where(x => x.Chapter != 0)
-                .Where(x => x.Campaign == randomizer.Campaign)
-                .ToDictionary(x => x.Guid);
+            var itemService = randomizer.ItemService;
+            var filePairs = ItemFilePair.GetPairs(randomizer);
 
             // Get context IDs for each item
             foreach (var fp in filePairs)
             {
                 foreach (var gameObject in fp.GetItemGameObjects())
                 {
-                    if (items.TryGetValue(gameObject.Guid, out var placement))
+                    var placement = itemService.FromGuid(gameObject.Guid);
+                    if (placement != null)
                     {
                         var itemDrop = gameObject.FindComponent("chainsaw.DropItem")!;
                         var itemData = itemDrop.Get<chainsaw.DropItemContext.SaveData>("_ItemData");
@@ -76,7 +74,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
-            var itemsToChange = items.Values.Where(x => CanChangeItem(randomizer, x)).ToArray();
+            var itemsToChange = itemService.ItemPlacements
+                .Where(x => x.Campaign == randomizer.Campaign)
+                .Where(x => CanChangeItem(randomizer, x))
+                .ToArray();
             var result = Randomize(randomizer, itemsToChange, rng, logger);
             foreach (var fp in filePairs)
             {
@@ -123,14 +124,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Push("Valuables");
                 foreach (var valuable in valuables)
                 {
-                    var levelItem = TakeRandomHighValueItem(valuableItems, rng);
-                    if (levelItem == null)
+                    var placement = TakeRandomHighValueItem(valuableItems, rng);
+                    if (placement == null)
                         break;
 
-                    chapterItems.Remove(levelItem);
+                    chapterItems.Remove(placement);
                     var newItem = new Item(valuable.Definition.Id, 1);
-                    result[levelItem.ContextId] = newItem;
-                    LogItemChange(levelItem, newItem);
+                    result[placement.ContextId] = newItem;
+                    LogItemChange(placement, newItem);
                 }
                 logger.Pop();
 
@@ -140,35 +141,35 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Push("Treasure");
                 for (var i = 0; i < treasureCount; i++)
                 {
-                    var levelItem = TakeRandomHighValueItem(valuableItems, rng);
-                    if (levelItem == null)
+                    var placement = TakeRandomHighValueItem(valuableItems, rng);
+                    if (placement == null)
                         break;
 
-                    chapterItems.Remove(levelItem);
+                    chapterItems.Remove(placement);
                     var newItem = randomizer.ItemRandomizer.GetRandomTreasure(rng);
-                    result[levelItem.ContextId] = newItem;
-                    LogItemChange(levelItem, newItem);
+                    result[placement.ContextId] = newItem;
+                    LogItemChange(placement, newItem);
                 }
                 logger.Pop();
 
                 // General items
                 logger.Push("General");
                 var generalItems = chapterItems.Shuffle(rng).ToQueue();
-                while (generalItems.TryDequeue(out var levelItem))
+                while (generalItems.TryDequeue(out var placement))
                 {
                     if (ammoOnlyAvailableWeapons)
                     {
                         randomItemSettings.ValidateDropKind = (drop) =>
                         {
                             var ammoType = DropKinds.GetAmmoType(drop);
-                            return ammoType == null || randomizer.ValuableDistributor.IsAmmoAvailableYet(ammoType.Value, levelItem.Chapter);
+                            return ammoType == null || randomizer.ValuableDistributor.IsAmmoAvailableYet(ammoType.Value, placement.Chapter);
                         };
                     }
                     var randomItem = itemRandomizer.GetNextGeneralDrop(rng, randomItemSettings);
                     if (randomItem is Item newItem)
                     {
-                        result[levelItem.ContextId] = newItem;
-                        LogItemChange(levelItem, newItem);
+                        result[placement.ContextId] = newItem;
+                        LogItemChange(placement, newItem);
                     }
                 }
                 logger.Pop();
@@ -180,16 +181,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             void LogItemChange(ItemPlacement placement, Item item)
             {
-                logger.LogLine($"{placement.Guid} becomes {item}");
+                logger.LogLine($"{placement.GuidOrAuto} becomes {item}");
             }
-        }
-
-        private ImmutableArray<ItemFilePair> GetFilePairs(ChainsawRandomizer randomizer)
-        {
-            var areaRepository = AreaDefinitionRepository.GetRepository(randomizer.Campaign);
-            return areaRepository.Items
-                .Select(x => new ItemFilePair(randomizer, x.Path, x.DataPath))
-                .ToImmutableArray();
         }
 
         private static bool CanChangeItem(ChainsawRandomizer randomizer, ItemPlacement placement)
@@ -229,122 +222,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return result;
         }
 
-        private class ItemFilePair
-        {
-            private readonly ChainsawRandomizer _randomizer;
-            private readonly ScnFile.Builder _scn;
-
-            public string ScenePath { get; }
-            public string UserdataPath { get; }
-
-            public RszScene Scene
-            {
-                get => _scn.Scene;
-                set => _scn.Scene = value;
-            }
-
-            public chainsaw.DropItemSaveDataTable Userdata { get; private set; }
-
-            public ItemFilePair(ChainsawRandomizer randomizer, string scenePath, string userdataPath)
-            {
-                _randomizer = randomizer;
-                _scn = randomizer.FileRepository.GetScnFile(scenePath).ToBuilder(_randomizer.FileRepository.TypeRepository);
-
-                ScenePath = scenePath;
-                UserdataPath = userdataPath;
-                Userdata = randomizer.FileRepository.DeserializeUserFile<chainsaw.DropItemSaveDataTable>(userdataPath);
-            }
-
-            public void Save()
-            {
-                _randomizer.FileRepository.SetScnFile(ScenePath, _scn.Build());
-                _randomizer.FileRepository.SerializeUserFile(UserdataPath, Userdata);
-            }
-
-            public IEnumerable<RszGameObject> GetItemGameObjects()
-            {
-                var result = new List<RszGameObject>();
-                Scene.VisitGameObjects(gameObject =>
-                {
-                    var dropItem = gameObject.FindComponent("chainsaw.DropItem");
-                    if (dropItem != null)
-                    {
-                        result.Add(gameObject);
-                    }
-                });
-                return result;
-            }
-
-            public IEnumerable<chainsaw.DropItemSaveDataTable.Data> GetItemDatas()
-            {
-                return Userdata.Datas;
-            }
-
-            public void UpdateModels(Dictionary<ContextId, Item> placements)
-            {
-                Scene = Scene.VisitGameObjects(go =>
-                {
-                    var itemDrop = go.FindComponent("chainsaw.DropItem");
-                    if (itemDrop != null)
-                    {
-                        var contextId = ContextId.FromRsz(itemDrop["_ID"]);
-                        if (placements.TryGetValue(contextId, out var item))
-                        {
-                            go = go.AddOrUpdateComponent(itemDrop
-                                .Set("_ItemData.ItemID", item.Id)
-                                .Set("_ItemData.Count", item.Count)
-                                .Set("_ItemData.AmmoItemID", 0)
-                                .Set("_ItemData.AmmoCount", item.Count));
-                        }
-                    }
-                    return go;
-                });
-            }
-
-            public void UpdateData(Dictionary<ContextId, Item> placements)
-            {
-                foreach (var data in Userdata.Datas)
-                {
-                    if (placements.TryGetValue(ContextId.FromRszValue(data.ID), out var item))
-                    {
-                        UpdateItem(data, item);
-                    }
-                }
-            }
-
-            private static void UpdateItem(DropItemSaveDataTable.Data data, Item newItem)
-            {
-                var itemRepo = ItemDefinitionRepository.Default;
-                var newItemDef = itemRepo.Find(newItem.Id);
-                if (newItemDef == null)
-                    return;
-
-                ItemDefinition? ammoDefinition = null;
-                if (newItemDef.Kind == ItemKinds.Weapon)
-                {
-                    ammoDefinition = itemRepo.GetAmmo(newItemDef);
-                }
-
-                var itemData = data.ItemData;
-                if (itemData == null)
-                    return;
-
-                itemData.ItemID = newItem.Id;
-                if (ammoDefinition == null)
-                {
-                    itemData.Count = newItem.Count;
-                    itemData.AmmoItemID = 0;
-                    itemData.AmmoCount = 0;
-                }
-                else
-                {
-                    itemData.Count = 1;
-                    itemData.AmmoItemID = ammoDefinition.Id;
-                    itemData.AmmoCount = newItem.Count;
-                }
-            }
-        }
-
         private class ItemPlacementThing
         {
             public required ItemPlacement Placement { get; init; }
@@ -354,8 +231,147 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         }
     }
 
+    [DebuggerDisplay("{ScenePath}")]
+    internal class ItemFilePair
+    {
+        private readonly ChainsawRandomizer _randomizer;
+        private readonly ScnFile.Builder _scn;
+
+        public static ImmutableArray<ItemFilePair> GetPairs(ChainsawRandomizer randomizer)
+        {
+            var areaRepository = AreaDefinitionRepository.GetRepository(randomizer.Campaign);
+            return areaRepository.Items
+                .Select(x => new ItemFilePair(randomizer, x.Path, x.DataPath))
+                .ToImmutableArray();
+        }
+
+        public string ScenePath { get; }
+        public string UserdataPath { get; }
+
+        public RszScene Scene
+        {
+            get => _scn.Scene;
+            set => _scn.Scene = value;
+        }
+
+        public chainsaw.DropItemSaveDataTable Userdata { get; private set; }
+
+        public int? Location { get; }
+        public bool ChapterOnly => ScenePath.Contains("chapter");
+
+        public ItemFilePair(ChainsawRandomizer randomizer, string scenePath, string userdataPath)
+        {
+            _randomizer = randomizer;
+            _scn = randomizer.FileRepository.GetScnFile(scenePath).ToBuilder(_randomizer.FileRepository.TypeRepository);
+
+            ScenePath = scenePath;
+            UserdataPath = userdataPath;
+            Userdata = randomizer.FileRepository.DeserializeUserFile<chainsaw.DropItemSaveDataTable>(userdataPath);
+
+            Location = StageIds.GetLocationFromPath(ScenePath);
+        }
+
+        public void Save()
+        {
+            _randomizer.FileRepository.SetScnFile(ScenePath, _scn.Build());
+            _randomizer.FileRepository.SerializeUserFile(UserdataPath, Userdata);
+        }
+
+        public IEnumerable<RszGameObject> GetItemGameObjects()
+        {
+            var result = new List<RszGameObject>();
+            Scene.VisitGameObjects(gameObject =>
+            {
+                var dropItem = gameObject.FindComponent("chainsaw.DropItem");
+                if (dropItem != null)
+                {
+                    result.Add(gameObject);
+                }
+            });
+            return result;
+        }
+
+        public IEnumerable<chainsaw.DropItemSaveDataTable.Data> GetItemDatas()
+        {
+            return Userdata.Datas;
+        }
+
+        public void UpdateModels(Dictionary<ContextId, Item> placements)
+        {
+            Scene = Scene.VisitGameObjects(go =>
+            {
+                var itemDrop = go.FindComponent("chainsaw.DropItem");
+                if (itemDrop != null)
+                {
+                    var contextId = ContextId.FromRsz(itemDrop["_ID"]);
+                    if (placements.TryGetValue(contextId, out var item))
+                    {
+                        go = go.AddOrUpdateComponent(itemDrop
+                            .Set("_ItemData.ItemID", item.Id)
+                            .Set("_ItemData.Count", item.Count)
+                            .Set("_ItemData.AmmoItemID", 0)
+                            .Set("_ItemData.AmmoCount", item.Count));
+                    }
+                }
+                return go;
+            });
+        }
+
+        public void UpdateData(Dictionary<ContextId, Item> placements)
+        {
+            foreach (var data in Userdata.Datas)
+            {
+                if (placements.TryGetValue(ContextId.FromRszValue(data.ID), out var item))
+                {
+                    UpdateItem(data, item);
+                }
+            }
+        }
+
+        private static void UpdateItem(DropItemSaveDataTable.Data data, Item newItem)
+        {
+            var itemRepo = ItemDefinitionRepository.Default;
+            var newItemDef = itemRepo.Find(newItem.Id);
+            if (newItemDef == null)
+                return;
+
+            ItemDefinition? ammoDefinition = null;
+            if (newItemDef.Kind == ItemKinds.Weapon)
+            {
+                ammoDefinition = itemRepo.GetAmmo(newItemDef);
+            }
+
+            var itemData = data.ItemData;
+            if (itemData == null)
+                return;
+
+            itemData.ItemID = newItem.Id;
+            if (ammoDefinition == null)
+            {
+                itemData.Count = newItem.Count;
+                itemData.AmmoItemID = 0;
+                itemData.AmmoCount = 0;
+            }
+            else
+            {
+                itemData.Count = 1;
+                itemData.AmmoItemID = ammoDefinition.Id;
+                itemData.AmmoCount = newItem.Count;
+            }
+        }
+
+        public void AddItem(RszGameObject gameObject, DropItemSaveDataTable.Data userdata)
+        {
+            Scene = Scene.Add(gameObject);
+            Userdata.Datas.Add(userdata);
+        }
+    }
+
+    [DebuggerDisplay("{GuidOrAuto}")]
     internal class ItemPlacement
     {
+        [Key]
+        public int Row { get; set; }
         public Campaign Campaign { get; set; }
         public int Chapter { get; set; }
         public Guid Guid { get; set; }
@@ -374,11 +390,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public Item OldItem { get; set; }
         public ContextId ContextId { get; set; }
+
+        public Guid GuidOrAuto => Guid == default ? $"item_{Row}".GetGuidHash() : Guid;
+        public bool IsExtra => Guid == default || Description.StartsWith("[EXTRA]");
     }
 
     public static class ItemTags
     {
         public const string Preserve = "preserve";
         public const string Dlc = "dlc";
+        public const string ChapterOnly = "chapteronly";
     }
 }

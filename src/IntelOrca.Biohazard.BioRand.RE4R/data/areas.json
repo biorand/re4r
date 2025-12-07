@@ -9087,11 +9087,6 @@
   "items": [
     {
       "chapter": 1,
-      "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_0/item_cp10_chp1_0.scn.20",
-      "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_0/item_cp10_chp1_0_itemdata.user.2"
-    },
-    {
-      "chapter": 1,
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/item_cp10_chp1_1.scn.20",
       "dataPath": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/item_cp10_chp1_1_itemdata.user.2"
     },

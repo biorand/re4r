@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -26,12 +28,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var sb = new StringBuilder();
             var columns = new List<string>();
             SplitLine(columns, sb, lines[0]);
-            var mapping = columns.Select(typ.GetProperty).ToArray();
+            var mapping = GetPropertyMapping(typ, columns, out var keyProperty);
             for (var i = 1; i < lines.Length; i++)
             {
                 SplitLine(columns, sb, lines[i]);
 
                 var element = Activator.CreateInstance<T>();
+                keyProperty?.SetValue(element, i + 1);
                 for (var j = 0; j < columns.Count; j++)
                 {
                     var prop = mapping[j];
@@ -47,6 +50,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 result.Add(element);
             }
             return result.ToArray();
+        }
+
+        private static PropertyInfo?[] GetPropertyMapping(Type typ, IEnumerable<string> columns, out PropertyInfo? keyProperty)
+        {
+            keyProperty = typ.GetProperties().FirstOrDefault(static x => x.GetCustomAttribute<KeyAttribute>() != null);
+            return columns.Select(typ.GetProperty).ToArray();
         }
 
         private static object ParseValue(string input, Type targetType)
