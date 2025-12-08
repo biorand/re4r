@@ -36,6 +36,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"skip-ashley-section",
+                Label = "Skip Ashley Section",
+                Description = "Skips the Ashley segment entirely. Leon will be able to pickup the chest keys.",
+                Type = "switch",
+                Default = false
+            });
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {

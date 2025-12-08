@@ -1142,6 +1142,13 @@ namespace chainsaw
         public System.Guid _CheckFlag { get; set; }
         public bool _CompareValue { get; set; }
     }
+    internal class SetFlagSettings
+    {
+        internal class SetFlagData
+        {
+            public System.Guid _Flag { get; set; }
+        }
+    }
     internal class InventoryCatalogUserData
     {
         public System.Int32 _PTAS { get; set; }
@@ -1317,6 +1324,31 @@ namespace chainsaw
     internal class CharacterInitialSettings
     {
         public System.Int32 _CharacterMaxHP { get; set; }
+    }
+    internal class RuleStratum
+    {
+        internal class StratumBool
+        {
+            public Rule _Enable { get; set; } = new();
+            public bool Value { get; set; }
+        }
+        internal class Rule
+        {
+            public int Logic { get; set; }
+            public System.Collections.Generic.List<Container> Matters { get; set; } = [];
+        }
+        internal class Container
+        {
+            public Particle _Data { get; set; } = new();
+        }
+        internal class Particle
+        {
+        }
+        internal class ParticleChapter : Particle
+        {
+            public int Compare { get; set; }
+            public int Chapter { get; set; }
+        }
     }
 }
 
