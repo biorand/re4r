@@ -1,15 +1,17 @@
 Campaign,Guid,Chapter,Description,Stage,X,Y,Z,Yaw,Pitch,Roll,Condition,SkipCondition,MiniBoss,Tags,Include,Exclude
 Leon,36e28438-0a9c-475c-8a31-c8c4d905e925,1,police   * // Forget your makeup?,40500,0,0,0,0,0,0,,,,preserve noduplicate,,
-Leon,ccd9520b-2fd0-44e7-9b14-24491bce2367,1,villager   *,40510,0,0,0,0,0,0,,,,,,boss
-Leon,52061032-d686-401c-b1b7-ebdcd629e8ea,1,villager   * // First Desnucado,40510,0,0,0,0,0,0,,,,essential,small,
-Leon,bacf6775-91ec-4932-85ed-db488c2a35ee,1,villager   *,40510,0,0,0,0,0,0,,,,,,boss
-Leon,afc35303-7d98-4615-ad30-ac0c99e2e709,1,villager  hatchet * // Patrol Ganados after Basement,40510,0,0,0,0,0,0,,,,essential,small,
-Leon,7627dd62-89c8-4964-ac6e-0df675e2ad10,1,villager  hatchet *,40504,0,0,0,0,0,0,,,,,,boss
+Leon,ccd9520b-2fd0-44e7-9b14-24491bce2367,1,villager   *,40510,0,0,0,0,0,0,,,,,,boss colmillos
+Leon,52061032-d686-401c-b1b7-ebdcd629e8ea,1,villager   * // First Desnucado,40510,0,0,0,0,0,0,,,,essential,,boss colmillos
+Leon,bacf6775-91ec-4932-85ed-db488c2a35ee,1,villager   *,40510,0,0,0,0,0,0,,,,,,boss colmillos
+Leon,afc35303-7d98-4615-ad30-ac0c99e2e709,1,villager  hatchet * // Patrol Ganados after Basement,40510,0,0,0,0,0,0,,,,essential,,boss colmillos
+Leon,7627dd62-89c8-4964-ac6e-0df675e2ad10,1,villager  hatchet *,40504,0,0,0,0,0,0,,,,,,boss colmillos
 Leon,ed0cf043-e107-480c-a3c1-58877a84f22f,1,villager  hoe * // LEDGE REINFORCEMENT,40504,0,0,0,0,0,0,,,,essential,climber,
 Leon,444f5d9b-4b54-4c44-8d66-2557f501407a,1,villager  pitchfork *,40504,0,0,0,0,0,0,,,,,,boss
 Leon,4ab9f0a3-891e-441e-a1d6-3de1028fda1a,1,villager  hatchet *,40505,0,0,0,0,0,0,,,,,,boss
 Leon,07d41ff3-1ec6-d325-466c-6fd249922e51,1,[EXTRA] OPENER // Flank Right of Sign,40501,-255,6,50,0,0,0,,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,,essential,,boss
 Leon,caa655c1-7de3-82e4-45cc-94769362c824,1,[EXTRA] OPENER // Behind Wire Fence,40501,-240,6,54,0,0,0,,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,,essential,,boss
+Leon,,1,[EXTRA],40502,-192,10,91,-90,0,0,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,b3bee246-d762-4244-bdb8-c7db24764ae8,,aggroed,,boss
+Leon,,1,[EXTRA],40502,-209,9,79,-60,0,0,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,b3bee246-d762-4244-bdb8-c7db24764ae8,,aggroed,,boss
 Leon,f2802869-58b2-4e5c-9b11-a72604ff5be3,1,[EXTRA] HUNTERS CABIN // Ambusher Before First cutscene,40501,-176,10,75,48,0,0,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,b3bee246-d762-4244-bdb8-c7db24764ae8,,,,boss
 Leon,61523dde-7cf4-46f1-abaa-1a6e4f55b2d1,1,[EXTRA] HUNTERS CABIN // Guest Room ,40501,-185,10,76,83,0,0,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,b3bee246-d762-4244-bdb8-c7db24764ae8,,,,boss
 Leon,f774819f-49fc-4e13-995f-d22ac50d15c0,1,[EXTRA] HUNTERS CABIN // Dining Room,40510,-183,10,80,0,0,0,b3bee246-d762-4244-bdb8-c7db24764ae8,ed3e9aac-6ad2-4eb4-a714-a96808ca8bdc,,,,boss
@@ -101,7 +103,7 @@ Leon,ae8d0d23-6690-4d6a-be6d-bffd5a143f8b,1,villager  pitchfork * // Cog Wheel R
 Leon,af8fb44e-0b00-4147-8f63-e0ac49d544c6,1,villager  pitchfork * //Cog Wheel Reinforcements 1,43300,0,0,0,0,0,0,,,,,,colmillos super-colmillos
 Leon,9dde2bb3-bd1b-4f1a-92c8-fe55980e78d4,1,villager  hatchet * // Cog Wheel Reinforcements 2,43300,0,0,0,0,0,0,,,,,,colmillos super-colmillos
 Leon,409a4aad-e036-4fa3-aef0-16d39cce09eb,1,villager  hatchet * // Cog Wheel Reinforcements 3,43300,0,0,0,0,0,0,,,,,,colmillos super-colmillos
-Leon,555d5526-4f48-48da-bb1e-8b6e38b88dfa,1,villager  hammer Velvet Blue x1 // Barn Door Smasher,43300,0,0,0,0,0,0,,,,,,fodder super-colmillos
+Leon,555d5526-4f48-48da-bb1e-8b6e38b88dfa,1,villager  hammer Velvet Blue x1 // Barn Door Smasher,43300,0,0,0,0,0,0,,,,,,colmillos super-colmillos
 Leon,c50d4b6f-6f81-4b38-b2cb-3535ddea7bc6,1,villager  machete * // Bridge Enemy,43302,0,0,0,0,0,0,,,,,climber,
 Leon,9d93c218-a547-4513-87af-48426c7daa57,1,villager  hatchet * // Bridge Enemy,43302,0,0,0,0,0,0,,,,,climber,
 Leon,4c763a50-db63-4c64-ac28-d1da23b13ee5,1,villager  hoe * // Bridge Enemy,43302,0,0,0,0,0,0,,,,,climber,
@@ -909,7 +911,7 @@ Leon,f0339e7b-24ac-40ab-914b-57c2b835e750,9,zealot pB(0%) morning_star *,52303,0
 Leon,847b3b82-8170-4872-bd00-350dff8596be,9,zealot pA(0%) hatchet | wooden_shield *,52303,0,0,0,0,0,0,,,,,,ashleyunsafe
 Leon,1cc8e0cb-fd2a-40b4-8bd7-2e12d6799c5b,9,zealot pB(0%) hatchet | wooden_shield *,52303,0,0,0,0,0,0,,,,,,ashleyunsafe
 Leon,2552b095-5e86-43fa-83d5-419c3b362ab3,9,zealot pB(0%) hatchet | wooden_shield *,52303,0,0,0,0,0,0,,,,,,ashleyunsafe
-Leon,266c5c02-5c1e-4b82-8a35-e93b003265f4,9,zealot pB(50%) staff Red Beryl x1 // Red Zealot,50401,0,0,0,0,0,0,,,,,,ashleyunsafe
+Leon,266c5c02-5c1e-4b82-8a35-e93b003265f4,9,zealot pB(50%) staff Red Beryl x1 // Red Zealot // NEWWWWW BOSS,50401,0,0,0,0,0,0,,,leon-red-zealot-mainhall,,,fodder elite invincible krauser_1
 Leon,d8b139d0-af0e-48c1-9415-a9c756a37a9b,9,zealot  hatchet *,50401,0,0,0,0,0,0,,,,,,ashleyunsafe
 Leon,67291da2-4b42-4bb4-8602-057283ccf719,9,zealot pA(30%) morning_star *,50401,0,0,0,0,0,0,,,,,,ashleyunsafe
 Leon,c483f279-a5ce-46cb-a0d5-e63991ea36b3,9,zealot pB(50%)  *,50401,0,0,0,0,0,0,,,,,,ashleyunsafe
@@ -1500,7 +1502,7 @@ Leon,,14,[EXTRA],63108,-8,22,-137,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,107
 Leon,,14,[EXTRA],63108,-8,22,-144,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,ashleyunsafe
 Leon,,14,[EXTRA],63108,-13,22,-128,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,ashleyunsafe
 Leon,,14,[EXTRA] SEWAGE DISPOSAL // After Keypad Door,63109,-12,22,-118,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,ashleyunsafe
-Leon,,14,[EXTRA] WRECKING BALL // Wrecking Boss,62200,32,16.4,-112.3,87,0,0,4bb2c758-193c-4cfe-b9b3-1fbf4103a2f4,,,,boss,
+Leon,,14,[EXTRA] WRECKING BALL // WRECKING BOSS,62200,32,16.4,-112.3,87,0,0,4bb2c758-193c-4cfe-b9b3-1fbf4103a2f4,,leon-wrecking-ball-boss,,,fodder elite invincible krauser_1
 Leon,,14,[EXTRA] WRECKING BALL // Elevator Courtyard Far Left,62201,49,16,-130,0,0,0,80f4d85a-bc81-45a3-adf0-bbaf955306e7,,,,,ashleyunsafe
 Leon,,14,[EXTRA] WRECKING BALL // Elevator Courtyard Left,62201,54,16,-130,0,0,0,80f4d85a-bc81-45a3-adf0-bbaf955306e7,,,,,ashleyunsafe
 Leon,,14,[EXTRA] WRECKING BALL // Elevator Courtyard Right,62201,58,16.4,-129.9,0,0,0,80f4d85a-bc81-45a3-adf0-bbaf955306e7,,,,,ashleyunsafe
