@@ -1349,6 +1349,10 @@ namespace chainsaw
             public int Compare { get; set; }
             public int Chapter { get; set; }
         }
+        internal class ParticleFlag : Particle
+        {
+            public chainsaw.FlagCondition Flags { get; set; }
+        }
     }
 }
 
