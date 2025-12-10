@@ -24,6 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     logger.LogLine(
                         g.Guid,
                         g.ContextId,
+                        g.GameObject.Name,
                         g.Kind,
                         position.X.ToString("0.0"),
                         position.Y.ToString("0.0"),
@@ -275,7 +276,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public RszGameObject GameObject { get; } = gameObject;
 
             public Guid Guid => GameObject.Guid;
-            public string Kind => GetKindFromPrefab(GameObject.Prefab);
+            public string Kind => DetectKind();
             public ContextId ContextId => GetContextId(GameObject);
             public Transform Transform => new(GameObject);
             public ImmutableDictionary<string, object> Properties => GetProperties();
@@ -322,6 +323,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     return default;
 
                 return ContextId.FromRsz(coreComponent["_ID"]);
+            }
+
+            private string DetectKind()
+            {
+                foreach (var component in GameObject.Components)
+                {
+                    if (GetKindFromComponent(component.Type.Name) is string componentKind)
+                    {
+                        return componentKind;
+                    }
+                }
+                return GetKindFromPrefab(GameObject.Prefab);
+            }
+
+            private static string? GetKindFromComponent(string componentType)
+            {
+                if (componentType.StartsWith("chainsaw.Gm"))
+                {
+                    return componentType.Substring(9);
+                }
+                return null;
             }
 
             private static string GetKindFromPrefab(string? prefab)
