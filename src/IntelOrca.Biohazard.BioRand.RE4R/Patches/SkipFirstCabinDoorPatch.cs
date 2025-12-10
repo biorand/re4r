@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
@@ -30,11 +31,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
                 return scene;
             });
+
             context.ModifyUserFile("natives/stm/_chainsaw/environment/scene/gimmick/st40/gimmick_st40_903_p000_savedata.user.2", root =>
             {
+                var origin = new Vector3(-196.38161f, 10.06376f, 85.859848f);
+                var accessPoint0 = origin + new Vector3(-0.02361f, 0.0f, -0.499443f);
+
                 var datas = root.Get<RszArrayNode>("Datas");
                 datas = datas.SetItem(15, datas[10]
-                    .Set("ID._Index", 1933));
+                    .Set("ID._Index", 1933)
+                    .Set("AccessPoints[0].Position", accessPoint0)
+                    .Set("AIMapData[0].Position", origin)
+                    .Set("AIMapData[0].RotationY", MathF.PI / 2));
                 return root.Set("Datas", datas);
             });
         }
