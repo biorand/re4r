@@ -90,6 +90,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             @"natives/stm/.*\.scn\.20",
             @"natives/stm/.*\.user\.2",
             @"natives/stm/.*\.uvar\.3",
+            @"natives/stm/_chainsaw/postprocess/light/ibl/.*",
+            @"natives/stm/streaming/_chainsaw/postprocess/light/ibl/.*"
         ];
 
         private static readonly ImmutableArray<string> MiniPatterns = [
