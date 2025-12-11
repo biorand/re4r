@@ -1,4 +1,6 @@
-﻿using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -7,9 +9,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private static AreaDefinitionRepository? _leon;
         private static AreaDefinitionRepository? _ada;
 
-        public AreaDefinition[] Areas { get; set; } = [];
-        public ItemAreaDefinition[] Items { get; set; } = [];
-        public string[] Gimmicks { get; set; } = [];
+        public AreaDefinition[] General { get; set; } = [];
+        public AreaDefinition[] Items { get; set; } = [];
+        public AreaDefinition[] Gimmicks { get; set; } = [];
+
+        public IEnumerable<AreaDefinition> All
+        {
+            get
+            {
+                foreach (var d in General)
+                    d.Kind = AreaKind.General;
+                foreach (var d in Items)
+                    d.Kind = AreaKind.Items;
+                foreach (var d in Gimmicks)
+                    d.Kind = AreaKind.Gimmicks;
+                return General.Concat(Items).Concat(Gimmicks);
+            }
+        }
 
         public static AreaDefinitionRepository GetRepository(Campaign campaign)
         {
@@ -31,39 +47,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 _ada ??= EmbeddedData.GetFile("areas_sw.json").DeserializeJson<AreaDefinitionRepository>();
                 return _ada;
-            }
-        }
-    }
-
-    public class ItemAreaDefinition
-    {
-        public int Chapter { get; set; }
-        public string Path { get; set; } = "";
-        public string DataPath { get; set; } = "";
-        public ItemAreaItem[]? Items { get; set; }
-    }
-
-    public class ItemAreaItem
-    {
-        public string? ContextId { get; set; }
-        public string[]? Include { get; set; }
-        public string[]? Exclude { get; set; }
-        public string? Valuable { get; set; }
-        public int? Chapter { get; set; }
-
-        public ContextId? CtxId
-        {
-            get
-            {
-                if (ContextId == null)
-                    return null;
-
-                var parts = ContextId.Split(',');
-                return new ContextId(
-                    sbyte.Parse(parts[0]),
-                    byte.Parse(parts[1]),
-                    int.Parse(parts[2]),
-                    int.Parse(parts[3]));
             }
         }
     }

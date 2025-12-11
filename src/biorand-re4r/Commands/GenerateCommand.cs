@@ -40,12 +40,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
         public override Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
+            var reporter = new ConsoleReporter();
             if (settings.Kill)
             {
-                KillRe4();
+                reporter.RunTask("Killing re4.exe", () => KillRe4());
             }
 
-            var randomizer = GetRandomizer();
+            var randomizer = new Re4rRandomizer(reporter);
             var input = new RandomizerInput();
             input.Seed = settings.Seed;
             input.GamePath = settings.InputPath;
@@ -74,29 +75,41 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             var outputPath = settings.OutputPath!;
             if (outputPath.EndsWith(".pak"))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
-                pakFile.WriteToFile(outputPath);
+                reporter.RunTask($"Writing {outputPath}", () =>
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
+                    pakFile.WriteToFile(outputPath);
+                });
 #if DEBUG
-                ExtractNatives(zipFile, Path.GetDirectoryName(outputPath)!);
+                reporter.RunTask($"Extracting files", () =>
+                {
+                    ExtractNatives(zipFile, Path.GetDirectoryName(outputPath)!);
+                });
 #endif
             }
             else if (outputPath.EndsWith(".zip"))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
-                zipFile.WriteToFile(outputPath);
+                reporter.RunTask($"Writing {outputPath}", () =>
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
+                    zipFile.WriteToFile(outputPath);
+                });
             }
             else
             {
-                using var zip = new ZipArchive(new MemoryStream(zipFile));
-                foreach (var entry in zip.Entries)
+                reporter.RunTask($"Writing {outputPath}", () =>
                 {
-                    if (!entry.FullName.StartsWith("natives/", StringComparison.OrdinalIgnoreCase))
-                        continue;
+                    using var zip = new ZipArchive(new MemoryStream(zipFile));
+                    foreach (var entry in zip.Entries)
+                    {
+                        if (!entry.FullName.StartsWith("natives/", StringComparison.OrdinalIgnoreCase))
+                            continue;
 
-                    var destinationPath = Path.Combine(outputPath, entry.FullName);
-                    Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
-                    entry.ExtractToFile(destinationPath, overwrite: true);
-                }
+                        var destinationPath = Path.Combine(outputPath, entry.FullName);
+                        Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
+                        entry.ExtractToFile(destinationPath, overwrite: true);
+                    }
+                });
             }
             return Task.FromResult(0);
         }
@@ -128,11 +141,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             return output.ToArray();
         }
 
-        private IRandomizer GetRandomizer()
-        {
-            return new Re4rRandomizer();
-        }
-
         private static void KillRe4()
         {
             // Kill RE4 process if running / don't wait for him to close
@@ -148,6 +156,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 {
                     // Ignore
                 }
+            }
+        }
+
+        private class ConsoleReporter() : IProgressReporter
+        {
+            public void RunTask(string text, Action cb)
+            {
+                AnsiConsole
+                    .Status()
+                    .Spinner(Spinner.Known.Dots2)
+                    .SpinnerStyle(Style.Parse("teal"))
+                    .Start(text, ctx =>
+                    {
+                        cb();
+                    });
+                AnsiConsole.MarkupLine($"[lime]:check_box_with_check:  {text}[/]");
             }
         }
     }

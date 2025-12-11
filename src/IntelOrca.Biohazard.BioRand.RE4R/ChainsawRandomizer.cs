@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Threading.Tasks;
 using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
@@ -21,24 +20,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private int _contextId = 5000;
 
         public EnemyClassFactory EnemyClassFactory { get; }
+        public IProgressReporter Reporter { get; }
         public FileRepository FileRepository => _fileRepository;
         public DynamicData DynamicData { get; }
 
+        public AreaService AreaService { get; private set; }
         public ValuableDistributor ValuableDistributor => _valuableDistributor!;
         public ItemRandomizer ItemRandomizer => _itemRandomizer!;
         public EnemyService EnemyService { get; private set; }
         public ItemService ItemService { get; private set; }
-        public ImmutableArray<Area> Areas => _areas;
+        public FlagService FlagService { get; private set; }
         public Campaign Campaign { get; private set; }
 
-        public ChainsawRandomizer(EnemyClassFactory enemyClassFactory, RandomizerInput input)
+        public ChainsawRandomizer(EnemyClassFactory enemyClassFactory, RandomizerInput input, IProgressReporter reporter)
         {
             EnemyClassFactory = enemyClassFactory;
             _input = input;
+            Reporter = reporter;
 
             DynamicData = new DynamicData(_input.Configuration.GetValueOrDefault<bool>("debug-download-data"));
+            AreaService = new AreaService(this);
             EnemyService = new EnemyService(DynamicData);
             ItemService = new ItemService(DynamicData);
+            FlagService = new FlagService(this);
         }
 
         public void Dispose()
@@ -72,10 +76,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 logFiles[$"output_{name}.log"] = log.Output.Output;
             }
 
-            var output = new ChainsawRandomizerOutput(input, _fileRepository.GetOutputPakFile(), logFiles);
-            return new RandomizerOutput(
-                [
-                    new RandomizerOutputAsset(
+            RandomizerOutput? result = null;
+            Reporter.RunTask("Building mod", () =>
+            {
+                var output = new ChainsawRandomizerOutput(input, _fileRepository.GetOutputPakFile(), logFiles);
+                result = new RandomizerOutput(
+                    [
+                        new RandomizerOutputAsset(
                             "1-patch",
                             "Patch",
                             "Simply drop this file into your RE 4 install folder.",
@@ -87,15 +94,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                             "Drop this zip file into Fluffy Mod Manager's mod folder and enable it.",
                             $"biorand-re4r-{input.Seed}-mod.zip",
                             output.GetOutputMod())
-                ],
-                """
+                    ],
+                    """
                     <p class="mt-3">What should I do if my game crashes?</p>
                     <ol class="ml-8 list-decimal text-gray-300">
                       <li>Reload from last checkpoint and try again.</li>
                       <li>Alter the enemy sliders slightly or reduce the number temporarily. This will reshuffle the enemies. Reload from last checkpoint and try again.</li> <li>As a last resort, change your seed, and reload from last checkpoint.</li>
                     </ol>
                     """,
-                logFiles);
+                    logFiles);
+            });
+            return result!;
         }
 
         public RandomizerLoggerIO Randomize(RandomizerInput input, Campaign campaign)
@@ -131,11 +140,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             // Patches
             if (campaign != Campaign.Ada)
             {
-                ExportedMods.ApplyAll(this, FileRepository);
+                Reporter.RunTask("Applying patches", () => ExportedMods.ApplyAll(this, FileRepository));
             }
 
             // Create areas after patches
-            var areas = GetAreas(campaign);
+            Reporter.RunTask("Loading scenes", () => AreaService.LoadAreas(campaign));
 
             // Input
             IterateModifiers((n, m) =>
@@ -150,16 +159,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             IterateModifiers((n, m) =>
             {
                 logger.Process.Push(n);
-                m.Apply(this, logger.Process);
+                Reporter.RunTask($"Running modifier: {n}", () => m.Apply(this, logger.Process));
                 logger.Process.Pop();
                 logger.Process.LogHr();
             });
 
-            // Save area files
-            Parallel.ForEach(areas, area =>
-            {
-                _fileRepository.SetScnFile(area.Definition.Path, area.Apply());
-            });
+            FlagService.Save(logger.Process);
+            Reporter.RunTask("Rebuilding scenes", () => AreaService.Save(logger.Process));
 
             // Output
             IterateModifiers((n, m) =>
@@ -183,21 +189,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        private List<Area> GetAreas(Campaign campaign)
-        {
-            var areaRepo = campaign == Campaign.Leon
-                ? AreaDefinitionRepository.Leon
-                : AreaDefinitionRepository.Ada;
-            var areas = areaRepo.Areas
-                .AsParallel()
-                .Select(def => (def, scn: _fileRepository.GetScnFile(def.Path)))
-                .Where(item => item.def != null)
-                .Select(item => new Area(this, item.def, EnemyClassFactory, item.scn))
-                .ToList();
-            _areas = [.. areas];
-            return areas;
-        }
-
         private void IterateModifiers(Action<string, Modifier> action)
         {
             foreach (var modifier in _modifiers)
@@ -217,6 +208,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 new MerchantShopModifier(),
                 new WeaponModifier(),
                 new ItemModifier(),
+                new BattleModifier(),
                 new GimmickPlaceModifier(),
                 new GimmickModifier(),
                 new DropItemPlaceModifier(),

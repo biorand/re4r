@@ -19,10 +19,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            foreach (var area in randomizer.Areas)
+            foreach (var area in randomizer.AreaService.Areas)
             {
+                var enemies = area.Enemies.ToArray();
+                if (enemies.Length == 0)
+                    continue;
+
                 logger.Push(area.FileName);
-                foreach (var enemy in area.Enemies)
+                foreach (var enemy in enemies)
                 {
                     LogEnemy(enemy.Enemy, logger);
                 }
@@ -109,7 +113,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             _allEnemyClasses = randomizer.EnemyClassFactory.GetClasses(randomizer);
 
             var rng = randomizer.CreateRng();
-            var areaByChapter = randomizer.Areas.GroupBy(x => x.Definition.Chapter);
+            var areaByChapter = randomizer.AreaService.Areas
+                .Where(x => x.Definition.Kind == AreaKind.General)
+                .GroupBy(x => x.Definition.Chapter);
 
             if (randomizer.GetConfigOption<bool>("random-enemies"))
             {

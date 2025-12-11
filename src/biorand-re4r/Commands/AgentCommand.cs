@@ -25,7 +25,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
         public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
-            var randomizer = new Re4rRandomizer();
+            var randomizer = new Re4rRandomizer(new EmptyReporter());
             var agent = new RandomizerAgent(
                 settings.Host,
                 settings.ApiKey,
@@ -52,7 +52,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             private readonly string _gamePath;
             private readonly bool _beta;
 
-            public IRandomizer Randomizer { get; } = new Re4rRandomizer();
+            public IRandomizer Randomizer { get; } = new Re4rRandomizer(new EmptyReporter());
 
             public RandomizerAgentHandler(string gamePath, bool beta)
             {
@@ -99,6 +99,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             public void LogError(Exception ex, string message) => AnsiConsole.MarkupLine($"[red]{Timestamp} {message} ({ex.Message})[/]");
 
             private static string Timestamp => DateTime.Now.ToString("[[yyyy-MM-dd HH:mm]]");
+        }
+
+        private class EmptyReporter : IProgressReporter
+        {
+            public void RunTask(string text, Action cb)
+            {
+                cb();
+            }
         }
     }
 }

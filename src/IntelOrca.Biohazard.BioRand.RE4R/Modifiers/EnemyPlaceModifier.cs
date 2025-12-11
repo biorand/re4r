@@ -23,7 +23,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .Where(x => x.Key != null)
                 .ToDictionary(x => x.Key, x => x.ToArray());
 
-            foreach (var area in randomizer.Areas)
+            foreach (var area in randomizer.AreaService.Areas)
             {
                 if (!extraEnemiesToPlace.TryGetValue(area, out var enemiesToPlace))
                     continue;
@@ -63,7 +63,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private static Area? FindBestAreaForEnemy(ChainsawRandomizer randomizer, EnemyPlacement placement)
         {
-            var result = randomizer.Areas
+            var result = randomizer.AreaService.Areas
                 .Where(x => IsAreaCompatible(x, placement))
                 .OrderBy(x => GetOrder(x, placement))
                 .FirstOrDefault();

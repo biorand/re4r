@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
@@ -12,24 +13,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var gimmicks = GetAllGimmicks(randomizer);
-            foreach (var grouping in gimmicks.GroupBy(x => x.GimmickFile.Path).OrderBy(x => x.Key))
+            foreach (var area in randomizer.AreaService.Areas)
             {
-                var path = grouping.Key;
-                logger.Push($"{Path.GetFileName(path)}");
-                foreach (var g in grouping)
+                var gimmicks = area.Gimmicks.ToArray();
+                if (gimmicks.Length == 0)
+                    continue;
+
+                logger.Push(area.FileName);
+                foreach (var gameObject in gimmicks)
                 {
-                    var position = g.Transform.Position;
-                    var props = g.Properties.OrderBy(x => x.Key).ToArray();
+                    var gimmick = new Gimmick(area, gameObject);
+                    var position = gimmick.Transform.Position;
                     logger.LogLine(
-                        g.Guid,
-                        g.ContextId,
-                        g.GameObject.Name,
-                        g.Kind,
+                        gimmick.Guid,
+                        gimmick.ContextId,
+                        gimmick.Name,
+                        gimmick.Kind,
                         position.X.ToString("0.0"),
                         position.Y.ToString("0.0"),
-                        position.Z.ToString("0.0"),
-                        string.Join(" ", props.Select(x => $"{x.Key} = {x.Value}")));
+                        position.Z.ToString("0.0"));
                 }
                 logger.Pop();
             }
@@ -53,7 +55,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             };
 
             // Get all gimmicks and modify
-            var gimmicks = GetAllGimmicks(randomizer);
+            var gimmicks = randomizer.AreaService.Areas
+                .SelectMany(area => area.Gimmicks.Select(gameObject => new Gimmick(area, gameObject)))
+                .ToImmutableArray();
 
             // Removal
             if (enableGimmickModification)
@@ -92,31 +96,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         break;
                 }
             }
-
-            // Save all gimmick files
-            var files = gimmicks.Select(x => x.GimmickFile).Distinct();
-            foreach (var f in files)
-            {
-                f.Save();
-            }
-        }
-
-        private static ImmutableArray<Gimmick> GetAllGimmicks(ChainsawRandomizer randomizer)
-        {
-            var areaRepo = randomizer.Campaign == Campaign.Leon
-                ? AreaDefinitionRepository.Leon
-                : AreaDefinitionRepository.Ada;
-
-            var gimmickFiles = areaRepo.Gimmicks
-                .AsParallel()
-                .Select(x => new GimmickFile(randomizer, x))
-                .ToArray();
-
-            var gimmicks = gimmickFiles
-                .SelectMany(x => x.Gimmicks)
-                .ToImmutableArray();
-
-            return gimmicks;
         }
 
         private static ImmutableArray<Gimmick> RemoveSomeGimmicks(ImmutableArray<Gimmick> gimmicks, Rng rng, double amount, params string[] kinds)
@@ -145,7 +124,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 paramObject = paramObject.WithComponents(
                     paramObject.Components
                         .RemoveAll(x => x.Type.Name == "chainsaw.CheckFlagSettings"));
-                g.GimmickFile.Scene = g.GimmickFile.Scene.UpdateGameObject(paramObject);
+                g.Area.Scene = g.Area.Scene.UpdateGameObject(paramObject);
             }
         }
 
@@ -170,7 +149,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private static void ReplaceGimmick(Gimmick original, string kind)
         {
-            original.GimmickFile.Scene = original.GimmickFile.Scene
+            original.Area.Scene = original.Area.Scene
                 .RemoveGameObject(original.GameObject.Guid)
                 .Add(GimmickTemplate
                     .Get(kind)
@@ -189,7 +168,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     if (itemRandomizer.GetNextGeneralDrop(rng, randomItemSettings) is Item drop)
                     {
-                        g.GimmickFile.Scene = g.GimmickFile.Scene.UpdateGameObject(
+                        g.Area.Scene = g.Area.Scene.UpdateGameObject(
                             paramObject.AddOrUpdateComponent(gmOptionDropItem
                                 .Set("ID", drop.Id)
                                 .Set("Count", drop.Count)));
@@ -217,64 +196,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private class GimmickFile
+        [DebuggerDisplay("{Name}")]
+        private class Gimmick(Area area, RszGameObject gameObject)
         {
-            private readonly ChainsawRandomizer _randomizer;
+            public Area Area => area;
+            public RszGameObject GameObject => gameObject;
 
-            public string Path { get; }
-            public ScnFile.Builder ScnFile { get; }
-            public ImmutableArray<Gimmick> Gimmicks { get; private set; }
-
-            public RszScene Scene
-            {
-                get => ScnFile.Scene;
-                set => ScnFile.Scene = value;
-            }
-
-            public GimmickFile(ChainsawRandomizer randomizer, string path)
-            {
-                _randomizer = randomizer;
-                ScnFile = randomizer.FileRepository.GetScnFile(path).ToBuilder(randomizer.FileRepository.TypeRepository);
-
-                Path = path;
-                Gimmicks = GetGimmicks();
-            }
-
-            public void Remove(Gimmick gimmick)
-            {
-                Scene = Scene.RemoveGameObject(gimmick.GameObject.Guid);
-                Gimmicks = Gimmicks.Remove(gimmick);
-            }
-
-            public void Save()
-            {
-                _randomizer.FileRepository.SetScnFile(Path, ScnFile.AddMissingResources().Build());
-            }
-
-            private ImmutableArray<Gimmick> GetGimmicks()
-            {
-                var result = ImmutableArray.CreateBuilder<Gimmick>();
-                Scene.VisitGameObjects(go =>
-                {
-                    var coreComponent = go.FindComponent("chainsaw.GimmickCore");
-                    if (coreComponent == null)
-                        return;
-
-                    var gimmick = new Gimmick(this, go);
-                    if (gimmick != null)
-                    {
-                        result.Add(gimmick);
-                    }
-                });
-                return result.ToImmutable();
-            }
-        }
-
-        private class Gimmick(GimmickFile gimmickFile, RszGameObject gameObject)
-        {
-            public GimmickFile GimmickFile { get; } = gimmickFile;
-            public RszGameObject GameObject { get; } = gameObject;
-
+            public string Name => GameObject.Name;
             public Guid Guid => GameObject.Guid;
             public string Kind => DetectKind();
             public ContextId ContextId => GetContextId(GameObject);
@@ -283,7 +211,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             public void Remove()
             {
-                GimmickFile.Remove(this);
+                area.Scene = area.Scene.RemoveGameObject(Guid);
             }
 
             private ImmutableDictionary<string, object> GetProperties()

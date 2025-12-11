@@ -13,7 +13,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var rng = randomizer.CreateRng();
-            var areaByChapter = randomizer.Areas.GroupBy(x => x.Definition.Chapter);
+            var areaByChapter = randomizer.AreaService.Areas.GroupBy(x => x.Definition.Chapter);
             if (randomizer.GetConfigOption<bool>("random-enemies"))
             {
                 logger.Push("Duplicating enemies");
