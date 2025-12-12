@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
@@ -24,6 +25,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 .Where(x => x.Chapter != 0)
                 .ToList();
 
+            _guidToEnemyPlacements = EnemyPlacements.ToDictionary(x => x.GuidOrAuto);
+        }
+
+        public void Remove(IEnumerable<EnemyPlacement> placements)
+        {
+            EnemyPlacements = EnemyPlacements.Except(placements).ToList();
             _guidToEnemyPlacements = EnemyPlacements.ToDictionary(x => x.GuidOrAuto);
         }
 
@@ -52,6 +59,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
     {
         private ImmutableArray<string> _tags = [];
 
+        [Key]
+        public int Row { get; set; }
         public Campaign Campaign { get; set; }
         public Guid Guid { get; set; }
         public int Chapter { get; set; }
@@ -66,6 +75,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public string Condition { get; set; } = "";
         public string SkipCondition { get; set; } = "";
         public string MiniBoss { get; set; } = "";
+        public string Battle { get; set; } = "";
         public string Tags
         {
             get => string.Join(" ", _tags);
@@ -74,12 +84,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public string Include { get; set; } = "";
         public string Exclude { get; set; } = "";
 
+        public Guid DeathFlag { get; set; }
+
         public bool HasEmptyPosition => X == 0 && Y == 0 && Z == 0;
         public bool HasEmptyRotation => Yaw == 0 && Pitch == 0 && Roll == 0;
         public Vector3 Position => new Vector3(X, Y, Z);
         public EulerAngles Rotation => new EulerAngles(Yaw, Pitch, Roll);
         public bool IsExtra => Guid == default || Description.StartsWith("[EXTRA]");
-        public Guid GuidOrAuto => Guid != default ? Guid : string.Concat(Campaign, Stage, X, Y, Z, Condition, SkipCondition).GetGuidHash();
+        public Guid GuidOrAuto => Guid != default ? Guid : $"Enemy_{Row}".GetGuidHash();
         public bool HasTag(string tag) => _tags.Contains(tag);
         public ImmutableArray<string> TagsAsArray
         {
@@ -177,5 +189,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         /// The include/exclude list of the enemy is essential for preventing game crash or glitch.
         /// </summary>
         public const string Essential = "essential";
+
+        /// <summary>
+        /// Killing the enemy is required to progress.
+        /// </summary>
+        public const string Guardian = "guardian";
     }
 }

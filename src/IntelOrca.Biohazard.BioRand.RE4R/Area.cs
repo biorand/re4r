@@ -17,6 +17,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public string FileName => System.IO.Path.GetFileName(Path);
         public ScnFile.Builder ScnFile { get; }
 
+        public DropItemSaveDataFile ItemSaveData { get; }
+        public GimmickSaveDataFile GimmickSaveData { get; }
+
         public RszScene Scene
         {
             get => ScnFile.Scene;
@@ -51,12 +54,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public ImmutableArray<EnemySpawn> OrphanEnemies { get; private set; }
         public IEnumerable<EnemySpawn> Enemies => SpawnControllers.SelectMany(x => x.Enemies).Concat(OrphanEnemies);
 
-        public Area(ChainsawRandomizer randomizer, AreaDefinition definition, EnemyClassFactory enemyClassFactory, ScnFile scn)
+        public Area(ChainsawRandomizer randomizer, AreaDefinition definition, EnemyClassFactory enemyClassFactory)
         {
             Randomizer = randomizer;
             Definition = definition;
             EnemyClassFactory = enemyClassFactory;
-            ScnFile = scn.ToBuilder(Randomizer.FileRepository.TypeRepository);
+            ScnFile = randomizer.FileRepository.GetScnFile(definition.Path).ToBuilder(randomizer.FileRepository.TypeRepository);
+            ItemSaveData = new DropItemSaveDataFile(randomizer.FileRepository, definition.DropItemSaveDataPath);
+            GimmickSaveData = new GimmickSaveDataFile(randomizer.FileRepository, definition.GimmickSaveDataPath);
             Scan();
         }
 
@@ -96,14 +101,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        public ScnFile Apply()
+        public void Save()
         {
             var appliedSpawnControllers = SpawnControllers
                 .Select(x => x.Apply())
                 .ToDictionary(x => x.Guid);
 
             Scene = Scene.VisitGameObjects(go => appliedSpawnControllers.GetValueOrDefault(go.Guid) ?? go);
-            return ScnFile.AddMissingResources().Build();
+            Randomizer.FileRepository.SetScnFile(Path, ScnFile.AddMissingResources().Build());
+            ItemSaveData.Apply();
+            GimmickSaveData.Apply();
         }
 
         public CharacterSpawnController? FindSpawnController(Guid gameObjectGuid)
@@ -182,6 +189,40 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private RszObjectNode? GetMainEnemyComponent(RszGameObject gameObject)
         {
             return gameObject.Components.FirstOrDefault(x => EnemyClassFactory.FindEnemyKind(x.Type.Name) != null);
+        }
+
+        public IEnumerable<RszGameObject> Items
+        {
+            get
+            {
+                var result = new List<RszGameObject>();
+                Scene.VisitGameObjects(gameObject =>
+                {
+                    var dropItem = gameObject.FindComponent("chainsaw.DropItem");
+                    if (dropItem != null)
+                    {
+                        result.Add(gameObject);
+                    }
+                });
+                return result;
+            }
+        }
+
+        public IEnumerable<RszGameObject> Gimmicks
+        {
+            get
+            {
+                var result = new List<RszGameObject>();
+                Scene.VisitGameObjects(gameObject =>
+                {
+                    var gimmick = gameObject.FindComponent("chainsaw.GimmickCore");
+                    if (gimmick != null)
+                    {
+                        result.Add(gameObject);
+                    }
+                });
+                return result;
+            }
         }
 
         public override string ToString() => FileName;

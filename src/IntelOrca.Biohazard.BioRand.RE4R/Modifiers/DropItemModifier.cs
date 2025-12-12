@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Rsz;
@@ -16,28 +14,33 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var filePairs = ItemFilePair.GetPairs(randomizer);
-            foreach (var fp in filePairs)
+            var areaService = randomizer.AreaService;
+            foreach (var area in areaService.Areas)
             {
-                logger.Push($"{Path.GetFileName(fp.ScenePath)}");
+                var items = area.Items.ToArray();
+                if (items.Length == 0)
+                    continue;
 
-                var datas = fp.GetItemDatas().ToDictionary(x => ContextId.FromRszValue(x.ID));
-                foreach (var go in fp.GetItemGameObjects())
+                logger.Push($"{area.FileName}");
+                foreach (var go in items)
                 {
                     var dropItem = go.FindComponent("chainsaw.DropItem");
                     if (dropItem == null)
                         continue;
 
-                    var contextId = ContextId.FromRsz(dropItem.Get<RszObjectNode>("_ID"));
-                    if (!datas.TryGetValue(contextId, out var data))
-                        continue;
+                    var stage = dropItem.Get<int>("_ItemData.StageID");
+                    var itemId = dropItem.Get<int>("_ItemData.ItemID");
+                    var itemCount = dropItem.Get<int>("_ItemData.Count");
+                    // dropItem.Get<int>("_ItemData.AmmoItemID");
+                    // dropItem.Get<int>("_ItemData.AmmoCount");
 
+                    var contextId = ContextId.FromRsz(dropItem.Get<RszObjectNode>("_ID"));
                     var position = new Transform(go).Position;
-                    var item = new Item(data.ItemData.ItemID, data.ItemData.Count);
+                    var item = new Item(itemId, itemCount);
                     logger.LogLine(
                         go.Guid,
                         item,
-                        data.ItemData.StageID,
+                        stage,
                         position.X.ToString("0.0"),
                         position.Y.ToString("0.0"),
                         position.Z.ToString("0.0"),
@@ -55,13 +58,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var preserveModels = randomizer.GetConfigOption<bool>("preserve-item-models");
             var rng = randomizer.CreateRng();
 
+            var areaService = randomizer.AreaService;
             var itemService = randomizer.ItemService;
-            var filePairs = ItemFilePair.GetPairs(randomizer);
 
             // Get context IDs for each item
-            foreach (var fp in filePairs)
+            foreach (var item in areaService.Areas)
             {
-                foreach (var gameObject in fp.GetItemGameObjects())
+                foreach (var gameObject in item.Items)
                 {
                     var placement = itemService.FromGuid(gameObject.Guid);
                     if (placement != null)
@@ -79,15 +82,35 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .Where(x => CanChangeItem(randomizer, x))
                 .ToArray();
             var result = Randomize(randomizer, itemsToChange, rng, logger);
-            foreach (var fp in filePairs)
+            foreach (var area in areaService.Areas)
             {
                 if (!preserveModels)
                 {
-                    fp.UpdateModels(result);
+                    UpdateModels(area, result);
                 }
-                fp.UpdateData(result);
-                fp.Save();
+                area.ItemSaveData.Update(result);
             }
+        }
+
+        private void UpdateModels(Area area, Dictionary<ContextId, Item> placements)
+        {
+            area.Scene = area.Scene.VisitGameObjects(go =>
+            {
+                var itemDrop = go.FindComponent("chainsaw.DropItem");
+                if (itemDrop != null)
+                {
+                    var contextId = ContextId.FromRsz(itemDrop["_ID"]);
+                    if (placements.TryGetValue(contextId, out var item))
+                    {
+                        go = go.AddOrUpdateComponent(itemDrop
+                            .Set("_ItemData.ItemID", item.Id)
+                            .Set("_ItemData.Count", item.Count)
+                            .Set("_ItemData.AmmoItemID", 0)
+                            .Set("_ItemData.AmmoCount", item.Count));
+                    }
+                }
+                return go;
+            });
         }
 
         private Dictionary<ContextId, Item> Randomize(ChainsawRandomizer randomizer, IEnumerable<ItemPlacement> placements, Rng rng, RandomizerLogger logger)
@@ -225,145 +248,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private class ItemPlacementThing
         {
             public required ItemPlacement Placement { get; init; }
-            public required ItemFilePair FilePair { get; init; }
             public required ImmutableArray<RszGameObject> GameObjects { get; init; }
             public required ImmutableArray<chainsaw.DropItemSaveDataTable.Data> Data { get; init; }
-        }
-    }
-
-    [DebuggerDisplay("{ScenePath}")]
-    internal class ItemFilePair
-    {
-        private readonly ChainsawRandomizer _randomizer;
-        private readonly ScnFile.Builder _scn;
-
-        public static ImmutableArray<ItemFilePair> GetPairs(ChainsawRandomizer randomizer)
-        {
-            var areaRepository = AreaDefinitionRepository.GetRepository(randomizer.Campaign);
-            return areaRepository.Items
-                .Select(x => new ItemFilePair(randomizer, x.Path, x.DataPath))
-                .ToImmutableArray();
-        }
-
-        public string ScenePath { get; }
-        public string UserdataPath { get; }
-
-        public RszScene Scene
-        {
-            get => _scn.Scene;
-            set => _scn.Scene = value;
-        }
-
-        public chainsaw.DropItemSaveDataTable Userdata { get; private set; }
-
-        public int? Location { get; }
-        public bool ChapterOnly => ScenePath.Contains("chapter");
-
-        public ItemFilePair(ChainsawRandomizer randomizer, string scenePath, string userdataPath)
-        {
-            _randomizer = randomizer;
-            _scn = randomizer.FileRepository.GetScnFile(scenePath).ToBuilder(_randomizer.FileRepository.TypeRepository);
-
-            ScenePath = scenePath;
-            UserdataPath = userdataPath;
-            Userdata = randomizer.FileRepository.DeserializeUserFile<chainsaw.DropItemSaveDataTable>(userdataPath);
-
-            Location = StageIds.GetLocationFromPath(ScenePath);
-        }
-
-        public void Save()
-        {
-            _randomizer.FileRepository.SetScnFile(ScenePath, _scn.Build());
-            _randomizer.FileRepository.SerializeUserFile(UserdataPath, Userdata);
-        }
-
-        public IEnumerable<RszGameObject> GetItemGameObjects()
-        {
-            var result = new List<RszGameObject>();
-            Scene.VisitGameObjects(gameObject =>
-            {
-                var dropItem = gameObject.FindComponent("chainsaw.DropItem");
-                if (dropItem != null)
-                {
-                    result.Add(gameObject);
-                }
-            });
-            return result;
-        }
-
-        public IEnumerable<chainsaw.DropItemSaveDataTable.Data> GetItemDatas()
-        {
-            return Userdata.Datas;
-        }
-
-        public void UpdateModels(Dictionary<ContextId, Item> placements)
-        {
-            Scene = Scene.VisitGameObjects(go =>
-            {
-                var itemDrop = go.FindComponent("chainsaw.DropItem");
-                if (itemDrop != null)
-                {
-                    var contextId = ContextId.FromRsz(itemDrop["_ID"]);
-                    if (placements.TryGetValue(contextId, out var item))
-                    {
-                        go = go.AddOrUpdateComponent(itemDrop
-                            .Set("_ItemData.ItemID", item.Id)
-                            .Set("_ItemData.Count", item.Count)
-                            .Set("_ItemData.AmmoItemID", 0)
-                            .Set("_ItemData.AmmoCount", item.Count));
-                    }
-                }
-                return go;
-            });
-        }
-
-        public void UpdateData(Dictionary<ContextId, Item> placements)
-        {
-            foreach (var data in Userdata.Datas)
-            {
-                if (placements.TryGetValue(ContextId.FromRszValue(data.ID), out var item))
-                {
-                    UpdateItem(data, item);
-                }
-            }
-        }
-
-        private static void UpdateItem(DropItemSaveDataTable.Data data, Item newItem)
-        {
-            var itemRepo = ItemDefinitionRepository.Default;
-            var newItemDef = itemRepo.Find(newItem.Id);
-            if (newItemDef == null)
-                return;
-
-            ItemDefinition? ammoDefinition = null;
-            if (newItemDef.Kind == ItemKinds.Weapon)
-            {
-                ammoDefinition = itemRepo.GetAmmo(newItemDef);
-            }
-
-            var itemData = data.ItemData;
-            if (itemData == null)
-                return;
-
-            itemData.ItemID = newItem.Id;
-            if (ammoDefinition == null)
-            {
-                itemData.Count = newItem.Count;
-                itemData.AmmoItemID = 0;
-                itemData.AmmoCount = 0;
-            }
-            else
-            {
-                itemData.Count = 1;
-                itemData.AmmoItemID = ammoDefinition.Id;
-                itemData.AmmoCount = newItem.Count;
-            }
-        }
-
-        public void AddItem(RszGameObject gameObject, DropItemSaveDataTable.Data userdata)
-        {
-            Scene = Scene.Add(gameObject);
-            Userdata.Datas.Add(userdata);
         }
     }
 

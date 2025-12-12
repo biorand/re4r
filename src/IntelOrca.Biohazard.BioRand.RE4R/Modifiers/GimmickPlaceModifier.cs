@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
-using System.Text.RegularExpressions;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -26,12 +25,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var enableGimmicks = randomizer.GetConfigOption("ea-extra-gimmicks", false);
             var numBreakableContainers = randomizer.GetConfigOption<double>("gimmicks-breakable-containers", 1);
 
-            var fileRepository = randomizer.FileRepository;
-            var areaRepo = randomizer.Campaign == Campaign.Leon
-                ? AreaDefinitionRepository.Leon
-                : AreaDefinitionRepository.Ada;
-            var gimmickPaths = areaRepo.Gimmicks.ToArray();
-            var factory = new GimmickFactory(randomizer, gimmickPaths);
+            var factory = new GimmickFactory(randomizer);
 
             if (!bawk)
                 placements = placements.RemoveAll(x => x.Kind == "bawk");
@@ -78,45 +72,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return placements.Except(remove).ToImmutableArray();
         }
 
-        private class GimmickFactory(ChainsawRandomizer randomizer, string[] paths)
+        private class GimmickFactory(ChainsawRandomizer randomizer)
         {
-            private readonly Dictionary<int, FilePair> _stageToFilePair = new();
+            private readonly Dictionary<int, Area> _stageToArea = new();
             private int _contextId = 50_000;
-            private (string, int)[]? _pathsWithUserData;
 
             public FileRepository FileRepository => randomizer.FileRepository;
 
-            private FilePair GetScnForStage(int stage)
+            private Area GetScnForStage(int stage)
             {
-                var stageA = stage / 1000;
-                var stageB = stage % 1000;
-
-                if (!_stageToFilePair.TryGetValue(stage, out var filePair))
+                if (!_stageToArea.TryGetValue(stage, out var area))
                 {
-                    var pathsWithUserData = _pathsWithUserData;
-                    if (pathsWithUserData == null)
-                    {
-                        pathsWithUserData = paths
-                            .Where(x => FileRepository.Exists($"{x[..^7]}_savedata.user.2"))
-                            .Select(x => (x, int.Parse(Regex.Replace(x, @".+st(\d\d)_(\d\d\d).+", "$1$2"))))
-                            .ToArray();
-                        _pathsWithUserData = pathsWithUserData;
-                    }
-
-                    var first = pathsWithUserData
-                        .Where(x => (x.Item2 / 1000) == (stage / 1000))
-                        .OrderBy(x => Math.Abs(x.Item2 - stage))
+                    _stageToArea[stage] = area = randomizer.AreaService.Areas
+                        .Where(x => x.Definition.Location == (stage / 1000))
+                        .OrderBy(x => Math.Abs((x.Definition.Stage ?? 0) - stage))
                         .First();
-                    filePair = new FilePair(FileRepository, first.Item1);
-                    _stageToFilePair[stage] = filePair;
                 }
-
-                return filePair;
+                return area;
             }
 
             public void SaveAll()
             {
-                foreach (var kvp in _stageToFilePair)
+                foreach (var kvp in _stageToArea)
                 {
                     kvp.Value.Save();
                 }
@@ -125,7 +102,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public void AddGimmick(Rng rng, GimmickPlacement placement)
             {
                 var contextId = GetNewContextId();
-                var filePair = GetScnForStage(placement.Stage);
+                var area = GetScnForStage(placement.Stage);
 
                 var kind = placement.Kind;
                 if (kind == "bawk") kind = "Biorand_Chicken";
@@ -135,7 +112,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 gimmick = gimmick.AddOrUpdateComponent(gimmick
                     .FindComponent("chainsaw.GimmickCore")!
-                    .SetField("_ID", contextId.ToRsz(FileRepository.TypeRepository)));
+                    .Set("_ID", contextId));
 
                 gimmick = gimmick.AddOrUpdateComponent(gimmick
                     .FindComponent("via.Transform")!
@@ -145,13 +122,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 gimmick = AddCondition(gimmick, placement);
 
-                filePair.Scene = filePair.Scene.Add(gimmick);
-
-                var userData = FileRepository.TypeRepository.Create("chainsaw.GimmickSaveDataTable.Data");
-                userData = userData.SetField("ID", contextId.ToRsz(FileRepository.TypeRepository));
-                userData = userData.Set("Save.Attr", new byte[] { 0, 0, 0, 0 });
-                filePair.UserData = filePair.UserData.SetField("Datas",
-                    ((RszArrayNode)filePair.UserData["Datas"]).Add(userData));
+                area.Scene = area.Scene.Add(gimmick);
+                area.GimmickSaveData.AddBasic(contextId);
             }
 
             private RszGameObject AddCondition(RszGameObject gimmick, GimmickPlacement placement)
@@ -252,46 +224,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 });
             }
 
-            private ContextId GetNewContextId()
+            private chainsaw.ContextID GetNewContextId()
             {
-                return new ContextId(5, 0, 1, _contextId++);
-            }
-
-            private class FilePair
-            {
-                private readonly FileRepository _fileRepository;
-
-                public string ScenePath { get; }
-                public ScnFile.Builder Scn { get; }
-                public UserFile.Builder User { get; }
-
-                public RszScene Scene
+                return new chainsaw.ContextID()
                 {
-                    get => Scn.Scene;
-                    set => Scn.Scene = value;
-                }
-
-                public RszObjectNode UserData
-                {
-                    get => (RszObjectNode)User.Objects[0];
-                    set => User.Objects = User.Objects.SetItem(0, value);
-                }
-
-                public string UserPath => $"{ScenePath[..^7]}_savedata.user.2";
-
-                public FilePair(FileRepository fileRepository, string path)
-                {
-                    _fileRepository = fileRepository;
-                    ScenePath = path;
-                    Scn = fileRepository.GetScnFile(ScenePath).ToBuilder(_fileRepository.TypeRepository);
-                    User = fileRepository.GetUserFile(UserPath).ToBuilder(_fileRepository.TypeRepository);
-                }
-
-                public void Save()
-                {
-                    _fileRepository.SetScnFile(ScenePath, Scn.AddMissingResources().Build());
-                    _fileRepository.SetUserFile(UserPath, User.Build());
-                }
+                    _Category = 5,
+                    _Kind = 0,
+                    _Group = 1,
+                    _Index = _contextId++
+                };
             }
         }
 

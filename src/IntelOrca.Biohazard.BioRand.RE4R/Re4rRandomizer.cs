@@ -6,7 +6,7 @@ using IntelOrca.Biohazard.REE.Package;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    public class Re4rRandomizer : IRandomizer
+    public class Re4rRandomizer(IProgressReporter reporter) : IRandomizer
     {
         public string BuildVersion => ChainsawRandomizerFactory.Default.GitHash;
         public RandomizerConfigurationDefinition ConfigurationDefinition => Re4rRandomizerConfigurationDefinition.Create(EnemyClassFactory.Default);
@@ -22,7 +22,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             try
             {
                 var enemyClassFactory = EnemyClassFactory.Create();
-                using var randomizer = new ChainsawRandomizer(enemyClassFactory, input);
+                using var randomizer = new ChainsawRandomizer(enemyClassFactory, input, reporter);
                 return randomizer.Randomize();
             }
             finally

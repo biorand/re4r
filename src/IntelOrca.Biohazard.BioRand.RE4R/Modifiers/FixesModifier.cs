@@ -87,7 +87,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private void DisableFirstAreaInhibitor(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             logger.LogLine("Updating first area inhibitor");
-            var areas = randomizer.Areas;
+            var areas = randomizer.AreaService.Areas;
             var firstArea = areas.FirstOrDefault(x => x.FileName == "level_cp10_chp1_1_010.scn.20");
             if (firstArea == null)
                 return;
@@ -115,7 +115,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .Select(x => RszSerializer.Serialize(RszFieldType.S32, x))
                 .ToImmutableArray());
 
-            var areas = randomizer.Areas;
+            var areas = randomizer.AreaService.Areas;
             foreach (var area in areas)
             {
                 area.Scene = area.Scene.VisitGameObjects(go =>
@@ -134,7 +134,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private void FixSpawnControllers(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             logger.LogLine("Updating spawn controllers");
-            var areas = randomizer.Areas;
+            var areas = randomizer.AreaService.Areas;
 
             var throneRoomArea = areas.FirstOrDefault(x => x.FileName == "level_cp10_chp3_1_002.scn.20");
             if (throneRoomArea != null)
@@ -168,7 +168,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private void EnableProfessionalAutoSave(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             logger.LogLine("Updating auto saves");
-            var areas = randomizer.Areas;
+            var areas = randomizer.AreaService.Areas;
             foreach (var area in areas)
             {
                 area.Scene = area.Scene.VisitGameObjects(go =>
@@ -234,7 +234,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void ImproveKnightyKnightKnightRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var area = randomizer.Areas.FirstOrDefault(x => x.FileName == "level_cp10_chp3_3_007.scn.20");
+            var area = randomizer.AreaService.Areas.FirstOrDefault(x => x.FileName == "level_cp10_chp3_3_007.scn.20");
             if (area == null)
                 return;
 
@@ -321,7 +321,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void ImproveBellTriggeredEnemies(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var area = randomizer.Areas.FirstOrDefault(x => x.FileName == "level_loc45.scn.20");
+            var area = randomizer.AreaService.Areas.FirstOrDefault(x => x.FileName == "level_loc45.scn.20");
             if (area == null)
                 return;
 
@@ -474,7 +474,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("random-enemies"))
                 return;
 
-            var area = randomizer.Areas.FirstOrDefault(x => x.FileName == "level_loc51_chp3_1.scn.20");
+            var area = randomizer.AreaService.Areas.FirstOrDefault(x => x.FileName == "level_loc51_chp3_1.scn.20");
             if (area == null)
                 return;
 
@@ -520,7 +520,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void ImproveAdaGarradorRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var area = randomizer.Areas.FirstOrDefault(x => x.FileName == "level_loc55.scn.20");
+            var area = randomizer.AreaService.Areas.FirstOrDefault(x => x.FileName == "level_loc55.scn.20");
             if (area == null)
                 return;
 
