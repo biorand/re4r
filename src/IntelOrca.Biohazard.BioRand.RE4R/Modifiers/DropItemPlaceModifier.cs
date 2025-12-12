@@ -58,6 +58,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var bestDiff = int.MaxValue;
             foreach (var area in areas)
             {
+                if (area.Definition.Kind != AreaKind.Items)
+                    continue;
+
                 if (area.Definition.ChapterOnly != chapterOnly)
                     continue;
 

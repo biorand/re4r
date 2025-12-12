@@ -610,18 +610,22 @@
   "items": [
     {
       "chapter": 1,
+      "chapterOnly": true,
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_1/item_cp10_chp1_1.scn.20"
     },
     {
       "chapter": 2,
+      "chapterOnly": true,
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp1_2/item_cp10_chp1_2.scn.20"
     },
     {
       "chapter": 4,
+      "chapterOnly": true,
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_1/item_cp10_chp2_1.scn.20"
     },
     {
       "chapter": 5,
+      "chapterOnly": true,
       "path": "natives/stm/_chainsaw/leveldesign/chapter/cp10_chp2_2/item_cp10_chp2_2.scn.20"
     },
     {

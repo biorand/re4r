@@ -17,8 +17,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             if (randomizer.Campaign == Campaign.Leon)
             {
-                DisableFirstAreaInhibitor(randomizer, logger);
-                ForceNgPlusMerchantLeon(randomizer, logger);
                 RandomizeFirstBearTrap(randomizer, logger);
                 SlowDownFactoryDoor(randomizer, logger);
                 if (randomizer.GetConfigOption<bool>("random-enemies"))
@@ -30,7 +28,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             else
             {
-                ForceNgPlusMerchantAda(randomizer, logger);
                 if (randomizer.GetConfigOption<bool>("random-enemies"))
                 {
                     ImproveBellTriggeredEnemies(randomizer, logger);
@@ -57,52 +54,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             FixEnemyWeaponDamage(randomizer, logger);
             // FixSmallKeySellable(randomizer, logger);
             FixSentinelNineIssue(randomizer, logger);
-        }
-
-        private void ForceNgPlusMerchantLeon(ChainsawRandomizer randomizer, RandomizerLogger logger)
-        {
-            var path = "natives/stm/_chainsaw/environment/scene/gimmick/st40/gimmick_st40_502_p000.scn.20";
-            randomizer.FileRepository.ModifyScnFile(path, scene =>
-            {
-                return scene
-                    .RemoveGameObject(new Guid("ca0ac85f-1238-49d9-a0fb-0d58a42487a1"))  // merchant
-                    .RemoveGameObject(new Guid("4a975fc1-2e1c-4fd3-a49a-1f35d6a30f0f")); // merchant flame
-            });
-        }
-
-        private void ForceNgPlusMerchantAda(ChainsawRandomizer randomizer, RandomizerLogger logger)
-        {
-            var path = "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_501_ao.scn.20";
-            randomizer.FileRepository.ModifyScnFile(path, scene =>
-            {
-                return scene
-                    .RemoveGameObject(new Guid("41a87b99-d47f-438d-a686-f19e6865379e"))  // merchant
-                    .RemoveGameObject(new Guid("33ba7a17-4b7d-4a23-b272-c5afcd62f3f1"))  // merchant flame
-                    .RemoveGameObject(new Guid("bf5cc10b-ff6b-46be-99e3-814629dfcff8")); // typwriter
-            });
-        }
-
-        private void DisableFirstAreaInhibitor(ChainsawRandomizer randomizer, RandomizerLogger logger)
-        {
-            logger.LogLine("Updating first area inhibitor");
-            var areas = randomizer.AreaService.Areas;
-            var firstArea = areas.FirstOrDefault(x => x.FileName == "level_cp10_chp1_1_010.scn.20");
-            if (firstArea == null)
-                return;
-
-            var inhibitor = firstArea.Scene.FindGameObject(new Guid("9fc712ca-478c-45b5-be12-5233edf4fe95"));
-            if (inhibitor == null)
-                return;
-
-            var inhibitorComponent = inhibitor.Components[1];
-            for (var i = 0; i < 5; i++)
-            {
-                inhibitorComponent = inhibitorComponent.Set(
-                    $"_Datas[{i}].Rule[0]._Enable.Matters[0]._Data.Flags._CheckFlags[0]._CheckFlag",
-                    new Guid("0fb10e00-5384-4732-881a-af1fae2036c7"));
-            }
-            firstArea.Scene = firstArea.Scene.UpdateGameObject(inhibitor
-                .AddOrUpdateComponent(inhibitorComponent));
         }
 
         private void FixDeadEnemyCounters(ChainsawRandomizer randomizer, RandomizerLogger logger)
