@@ -45,8 +45,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     area.AddSpawnController(spawnController);
                 }
+                logger.Pop();
             }
-            logger.Pop();
         }
 
         private static ImmutableArray<EnemyPlacement> GetExtraEnemiesToPlace(ChainsawRandomizer randomizer, double amount, Rng rng)

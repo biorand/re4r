@@ -2,12 +2,12 @@
   "profiles": {
     "generate": {
       "commandName": "Project",
-      "commandLineArgs": "generate -s 357436 -i ..\\biorand-re4r.pak -c \"C:\\Users\\Ted\\.biorand\\default.json\" -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\"",
+      "commandLineArgs": "generate -s 357436 -c ..\\re4r.json -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\" -i ..\\biorand-re4r.pak",
       "workingDirectory": "C:\\Users\\Ted\\.biorand\\logs"
     },
     "generate-pak": {
       "commandName": "Project",
-      "commandLineArgs": "generate -s 357436 -c \"C:\\Users\\Ted\\.biorand\\re4r.json\" -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\\re_chunk_000.pak.patch_005.pak\" -i \"C:\\Users\\Ted\\.biorand\\biorand-re4r.pak\"",
+      "commandLineArgs": "generate -s 357436 -c ..\\re4r.json -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\\re_chunk_000.pak.patch_005.pak\" -i ..\\biorand-re4r.pak -k",
       "workingDirectory": "C:\\Users\\Ted\\.biorand\\logs"
     },
     "generate-fluffy": {

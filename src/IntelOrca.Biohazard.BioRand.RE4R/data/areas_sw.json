@@ -1,247 +1,22 @@
 {
   "areas": [
-    // Chapter 1 (Pesanta, Castle Catapults)
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp0_1/level_cp11_chp0_1.scn.20",
       "chapter": 1,
-      "chapterOnly": true,
-      "restrictions": [
-        {
-          "guids": [
-            "10b3d44e-8143-4afb-83eb-307b21b146eb",
-            "8f1f7715-519f-42dd-80fa-ebab58038d95"
-          ],
-          "exclude": [
-            "mendez_chase"
-          ]
-        },
-        {
-          "guids": [
-            // pesanta & phantoms
-            "09daf2a1-f3ac-42fd-af68-d7f5bad710d1",
-            "33bda65f-fa3a-4385-a2c7-92786d5f0b6f",
-            "eb3c928c-2763-4b41-9d3c-52a877b5926e",
-            "8f074c94-1558-42c7-a229-06df8003c838",
-            "7fa95596-fa15-46b4-ac47-9c9bb6959b4d",
-            "c28b1d60-0a4c-445d-9685-4c944a088af6",
-            "06006f15-15c0-4b9e-b4ec-a1ce7c7448ef",
-            "10fd570d-1c56-4cd5-a957-4df333513591",
-            "bff1c4b6-06b0-4fde-8545-6f662b3d715e",
-            "93209a64-6cc9-4deb-adf9-829b3186cfe7",
-            "c9210318-c74a-40c9-80d4-adb1bed5377f",
-            "2e66805d-5d5b-4b89-8198-be5613097dda",
-            "cf4f0bc7-04b8-4bbc-bcd6-3ebe8c0455de",
-            "407d5ed5-faae-44a8-86ad-6eed26b9489a",
-            "c5d8dd84-4fc1-4d59-a410-40262422f661",
-            "520a4075-f439-468d-876b-8cf20aebe6d7",
-            "3ed53c74-4de6-4bda-be94-e00eb8a531fb",
-            "2774472d-7e71-43cc-8259-d1fefe5ee949",
-            "3c088daa-fc5f-41ad-aa06-abf5d1cf18df",
-            "09264deb-78a3-4f46-b0a3-a7f19bbd3a42",
-            "e8a318e4-a757-4fe0-99df-ddb848eaa693",
-            "934c2317-47f6-4dd6-87ea-ba1fc79f66a9",
-            "cf02e0db-4506-43b5-848e-8f7c90545340",
-            "e01e9440-43ff-41a2-b2cd-9ad914b80803",
-            "c2de3d51-435d-4b22-9892-0a9a41c54336",
-            "038b3c6f-e1d0-4903-b19c-2cc2f2074ec4",
-            "43ced140-d3d4-41f2-83a8-d7a25f3cfe1c",
-            "288b45b5-93c0-4810-a8fd-8a39e63623df",
-            "ab9d6923-3d93-4276-b9fa-17b2d36661b9",
-            "e9960359-75bd-47c7-84fa-7ee99575cc5f",
-            "7260226e-5aeb-4a99-94e6-71de863cbfec",
-            "e257ac55-a383-4f22-a314-5450da7725d1",
-            "7a1fbb0c-18ef-4287-a38b-8604b491d7fd",
-            "e3fbe93f-57d4-4ef9-aa56-fecdc86d546e",
-            "2942f502-6e11-4a45-ab90-d10e0d703205",
-            "a991e916-6532-4884-9d91-0bb519c23353",
-            "16e4b24b-81cf-4fe7-914d-c55c5b5b00a2",
-            "aa056341-a4ad-4c3b-b8d4-5b3cc5d5d3c8",
-            "c1bd225e-3635-43f1-80bf-d580b50f6c92",
-            "5dc0e042-8ba0-4539-915d-d0818e14ffd7",
-            "148a6732-1bc2-4d2a-a433-c8bdaae13214",
-            "45d454d9-336b-47c9-8bf3-b8d4f608664f",
-            "5899c4e8-8e14-44ab-8a48-f4e358955e92",
-            "8bacaa4e-77ed-4beb-a496-cad93d9cd8e0",
-            "e7db629a-25b2-497e-9cbe-49d06b00de1b",
-            "1f7b0029-8205-4a4f-8ba8-be85a2525c1a",
-            "81fc29ce-6292-4385-b8ab-ec0ee75719c0",
-            "457a4b4c-b767-41e7-a366-2b55667ce329",
-            "a9410566-e866-4c0e-b4ca-7e68d8395845",
-            "4724eac4-aba3-414d-a12b-fa6fbe8fcf71",
-            "6428b298-7cd5-4323-a296-4b63cbde84aa",
-            "0390645d-0983-4d33-8d48-41f663abe549",
-            "631816b7-fdea-4eac-a719-7fcfa73f0063",
-            "8624a9b0-353b-43f6-b934-14fadccf090a",
-            "8f998e37-233d-4381-b8df-d9d0ec1deefb",
-            "888401fe-c037-4092-92c2-cccf498d1c71",
-            "73053a52-a658-444c-a4ce-ce5ecb816bb4",
-            "62a8d226-659e-44c3-bfab-bb178e10fc1c",
-            "64bddffd-76d2-437c-8b33-f5bd84058f7c",
-            "ec477269-df9e-4fc0-91b0-f31749adb200",
-            "810a2d98-0246-4999-bcfa-d3dd4dcfed74",
-            "fa02c753-340f-4396-a2c0-3905c0bb85bf",
-            "b5b53346-d837-4850-b23f-38e1d52fbd9d",
-            "d08115ac-37b4-4d2a-b088-badb7b9406a1",
-            "736e5092-1012-4312-9fc4-3309d7ab5867",
-            "e565986b-266c-41a5-b26d-05fe779540a1",
-            "ae22bc5a-6d3c-492b-99ae-a16e3377c9a3",
-            "d3497176-5073-41ae-962d-71a9f38826b7",
-            "892d6aad-7bea-49f2-ba51-0b7f9402e261",
-            "e7192435-0d07-4dbe-a73c-793a4d647148",
-            "982b74e8-a04d-427e-a8b7-ad0f08df37fe",
-            "90683d5a-5d7e-43ce-a0bb-d71acbfbee5e",
-            "e380bf11-dc04-4422-a8cf-1f4a471b457f",
-            "d1296ddf-a7ae-4875-af87-2fa8d2672cda",
-            "a12ebb20-3b42-4621-9a32-9e9ad2ebc51d",
-            "a9f5c5c9-264c-4c94-8678-6b29918c5ca2",
-            "583b6579-f696-4520-970c-8c053203d263",
-            "e74a8fbd-d853-473b-97c2-00c65dedeaac",
-            "d1a85c47-7765-49ba-afd8-4b5b42bdcd4c",
-            "03d0abaf-679a-430f-b4d9-d4d087e424cf",
-            "d3fc78ba-6e4d-4df3-9350-35b1e1010ab8",
-            "1be9871e-861c-4b93-9b3f-e72ec0a97969",
-            "76560042-9d85-4ca9-a570-7414bb23c844",
-            "8920cd5a-387c-4322-9331-e15ccfcb01cf",
-            "9022d513-956a-45fd-882b-dd5143c9dfc3",
-            "58830e42-8162-44ec-9fb6-75c43d71fd6d",
-            "13dd7b32-836f-4a57-97c1-b39e84dce2d8",
-            "89bfec29-a11f-4b2c-9027-cc89baf3ee3f",
-            "8e9d007e-2961-45e6-8719-ec26919c8b49",
-            "1797ea75-fcdf-473d-b30b-b3c18fb3c966",
-            "c84a40fb-5d6b-41ae-94dc-b37bbdea6501",
-            "0bf7306b-6358-4fd4-8d69-93923cf36e7b",
-            "8da3c794-83e7-4c46-b1b1-be26b30b88da",
-            "e3355bf3-6edb-49bf-b200-9369658f6411",
-            "61c7e9ce-ea7a-488d-97cd-f4fe0e49d438",
-            "d63fdff3-b9f9-462e-95ac-d8d0c11ef1dc",
-            "26a93255-b14e-4e5a-801c-478c95d28188",
-            "5fcabfbe-a254-4cd5-bcf6-994482ec8d71",
-            "30b9af8b-57fa-436a-87bb-203358651340",
-            "512f7419-3879-44d8-99a2-090b7ac522c8",
-            "6df04842-9148-432b-adf6-75309af8d000",
-            "895c1028-17f3-445d-9c9e-1cc7bf9abb1c",
-            "55171050-c653-414a-93c0-5166096c7719",
-            "89d26ffb-24d2-40c8-9871-40aa88b5060c",
-            "cd4377ca-1e75-4b34-84e9-ccefcd7dc4af",
-            "99114936-7020-4d17-89a2-13874b704661",
-            "ed0ed7df-db46-4820-a7c3-15924bd2628a",
-            "4ee210ae-f56a-43dc-bcd2-b5b436352af8",
-            "f7c102d5-44d6-4091-bd97-9ea799638440",
-            "e0c7d67a-2d31-4002-9e8b-0478cb3867fb",
-            "f2c808e7-8eb7-42c5-a8b6-fb035f63ec50",
-            "e6bdf05b-f77e-42b2-a77d-56e9e7fe1413",
-            "5367270f-acc3-464d-8f8c-8e701136da05",
-            "ebd9382b-6757-4ab7-8854-5e9257edd043",
-            "22547491-8a61-41a4-a9cd-e56f8caa854b",
-            "52ce1a9a-c40e-4309-b598-112524d1af06",
-            "2e4bb968-8be5-4e7a-9fd2-707559d3fc8d",
-            "70b5219b-442c-45d4-9ab0-c7bae8961908",
-            "329d2702-fb2a-4a40-8979-7ce87b5aa6a5",
-            "ec175883-51e8-47e8-bbc2-6bf244742bf1",
-            "670c9fdc-3df1-4122-89b2-0d9448debf39",
-            "6a6f4958-c696-42f3-ae87-35e86dd2f240",
-            "f89f8347-898f-4a40-a81a-e3ccfb2f65d7",
-            "3cc9a4df-f9f8-4a1a-974b-632075b98408",
-            "6bc11b33-2dde-46c5-906c-4cb879683c13",
-            "cc1f3297-cae5-4f29-b553-a7d7166a46f8",
-            "afda2a8a-10d2-4d8c-9e14-c27bfe1b8cc2",
-            "aef55de1-d9a2-4832-94a8-68473dd59dcb",
-            "88bb7cce-d257-491d-9107-16f98728d9b3"
-          ]
-        }
-      ],
-      "extra": [
-        {
-          "skipCondition": "2e7583f9-0162-49c0-a0b2-f9ca1355d17c",
-          "enemies": [
-            {
-              "guid": "10b3d44e-8143-4afb-83eb-307b21b146eb",
-              "direction": 94,
-              "small": true,
-              "stage": 50500,
-              "x": -136,
-              "y": 12,
-              "z": 38
-            },
-            {
-              "guid": "8f1f7715-519f-42dd-80fa-ebab58038d95",
-              "direction": -83,
-              "small": true,
-              "stage": 50500,
-              "x": -127,
-              "y": 12,
-              "z": 36
-            }
-          ]
-        },
-        {
-          "condition": "16bc856a-0e68-4c7b-b03c-80240d5270e7",
-          "skipCondition": "8d172089-227c-4922-918d-85d9ca803af0",
-          "enemies": [
-            {
-              "small": true,
-              "stage": 50401,
-              "x": -122,
-              "y": 10,
-              "z": 52,
-              "findPlayer": true
-            },
-            {
-              "small": true,
-              "stage": 50401,
-              "x": -123,
-              "y": 10,
-              "z": 52,
-              "findPlayer": true
-            }
-          ]
-        },
-        {
-          "condition": "283f50f0-3286-43e9-90a1-57bb906303d3",
-          "skipCondition": "8d172089-227c-4922-918d-85d9ca803af0",
-          "enemies": [
-            {
-              "direction": -90,
-              "stage": 50400,
-              "x": -175,
-              "y": 10,
-              "z": 52,
-              "findPlayer": true
-            }
-          ]
-        }
-      ]
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc50/level_loc50_100.scn.20",
-      "chapter": 1,
-      "restrictions": [
-        {
-          "guids": [
-            "8a8fc458-170c-41dd-a86b-e3461d140d6d", // catapult zealot
-            "3d856215-0c3d-474b-b260-10287c179ac3" // catapult zealot
-          ]
-        }
-      ]
+      "chapter": 1
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc50/level_loc50_200.scn.20",
-      "chapter": 1,
-      "restrictions": [
-        {
-          "guids": [
-            "ddb8d7b7-f339-4118-92ae-0bc710665597", // catapult zealot
-            "6aa2ce50-8755-4d25-b6f2-4bb81f46ed4b", // catapult zealot
-            "37162bf4-f041-409c-872b-176b6924f2f9" // catapult zealot
-          ]
-        }
-      ]
+      "chapter": 1
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc50/level_loc50_300.scn.20",
       "chapter": 1
     },
-    // Chapter 2 (Checkpoint, Church, Pesanta)
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_1/level_cp11_chp1_1.scn.20",
       "chapter": 2,
@@ -253,1749 +28,61 @@
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc45/level_loc45.scn.20",
-      "chapter": 2,
-      "extra": [
-        {
-          "enemies": [
-            {
-              "direction": -58,
-              "small": true,
-              "stage": 45401,
-              "x": 94,
-              "y": 10,
-              "z": 103
-            }
-          ]
-        }
-      ]
+      "chapter": 2
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc40/level_loc40.scn.20",
-      "chapter": 2,
-      "extra": [
-        {
-          "condition": "ac431e91-dc27-44f7-9860-d28b0997759d",
-          "skipCondition": "696bb6e5-9c27-4483-a857-84bbca690f6b",
-          "enemies": [
-            {
-              "direction": 76,
-              "small": true,
-              "stage": 40213,
-              "x": 38,
-              "y": 1,
-              "z": 7
-            },
-            {
-              "direction": -9,
-              "small": true,
-              "stage": 40213,
-              "x": 32,
-              "y": 1,
-              "z": 15
-            }
-          ]
-        },
-        {
-          "condition": "696bb6e5-9c27-4483-a857-84bbca690f6b",
-          "skipCondition": "fec37180-ceb6-41c3-b713-c144702216ec",
-          "enemies": [
-            {
-              "direction": 108,
-              "stage": 40200,
-              "x": -23,
-              "y": 0,
-              "z": 6,
-              "findPlayer": true
-            },
-            {
-              "direction": 176,
-              "stage": 40200,
-              "x": -10,
-              "y": 0,
-              "z": 11,
-              "findPlayer": true
-            },
-            {
-              "direction": 5,
-              "stage": 40200,
-              "x": 14,
-              "y": 0,
-              "z": -16,
-              "findPlayer": true
-            },
-            {
-              "direction": -159,
-              "stage": 40200,
-              "x": 17,
-              "y": 1,
-              "z": 7,
-              "findPlayer": true
-            }
-          ]
-        }
-      ]
+      "chapter": 2
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc44/level_loc44.scn.20",
-      "chapter": 2,
-      "extra": [
-        {
-          "condition": "b9700373-2c85-4ae3-966d-9fac1b6b9938",
-          "skipCondition": "fec37180-ceb6-41c3-b713-c144702216ec",
-          "enemies": [
-            {
-              "direction": 135,
-              "small": true,
-              "stage": 44100,
-              "x": -16,
-              "y": 4,
-              "z": 46
-            },
-            {
-              "direction": 14,
-              "small": true,
-              "stage": 44102,
-              "x": -17,
-              "y": 5,
-              "z": 71
-            }
-          ]
-        }
-      ]
+      "chapter": 2
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_2/level_cp11_chp1_2.scn.20",
       "chapter": 2,
-      "chapterOnly": true,
-      "restrictions": [
-        {
-          "guids": [
-            "2b7268ca-f11a-4143-9969-cb500b4b7301",
-            "82597fbf-d245-4de3-85d8-7072c2d60fb3",
-            "6e0120af-95ce-4700-8e16-a9b9f466b885",
-            "12a93bdb-f76b-484f-829c-8679e6f45df5",
-            "d33d8bf7-90c1-42d5-831b-64513f836fe8",
-            "3c3eec3d-724b-46d1-b262-b72139d90f49",
-            "3bc9baa5-a1ae-4b01-ba9d-da3f30adf45b",
-            "0652786e-e56a-49f4-9ae2-8dcf9593fb49",
-            "d30ceaf2-672b-46f1-b57a-d0701ae754f4",
-            "c568fc40-190e-44d0-b194-a333bd491be0",
-            "4ad9f25c-d04f-405e-bd28-16370ea521a3",
-            "b931b3ed-f3d5-45ec-81eb-c81cb448357e",
-            "86662e91-ef79-4913-bc1f-0b6bbfcca204",
-            "eebc019b-1015-47f0-a01f-c8ca259a8fa6",
-            "49dddaa3-cf59-44ed-9929-c9b10a3ad7d2"
-          ]
-        }
-      ]
+      "chapterOnly": true
     },
-    // Chapter 3 (Mendez House, Factory, Village, Farm, El Gigante)
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_1/level_cp11_chp2_1.scn.20",
       "chapter": 3,
-      "chapterOnly": true,
-      "restrictions": [
-        {
-          "guids": [
-            "bb2a1147-5eff-46a7-a1b9-76a3d09c06b6",
-            "7a5110d1-f7cb-40dc-83ca-7f9ca3cc7bf0",
-            "7d247c22-a763-421a-9523-3c5ec022e893"
-          ]
-        }
-      ],
-      "extra": [
-        {
-          // enemies in Mendez house
-          "skipCondition": "d9df2598-1ffe-442f-bc3e-745291a7f13b",
-          "enemies": [
-            {
-              "direction": 173,
-              "small": true,
-              "stage": 44110,
-              "x": 14,
-              "y": 13,
-              "z": 99
-            },
-            {
-              "direction": 168,
-              "small": true,
-              "stage": 44110,
-              "x": 11,
-              "y": 9,
-              "z": 109
-            },
-            {
-              "direction": -18,
-              "small": true,
-              "stage": 44110,
-              "x": 3,
-              "y": 9,
-              "z": 97
-            },
-            {
-              "direction": -104,
-              "small": true,
-              "stage": 44110,
-              "x": 12,
-              "y": 9,
-              "z": 98
-            }
-          ]
-        },
-        {
-          // enemy in bedroom when key is picked up
-          "condition": "58499a9d-af3d-4f6e-9df5-7b8e2602190e",
-          "skipCondition": "d9df2598-1ffe-442f-bc3e-745291a7f13b",
-          "enemies": [
-            {
-              "direction": 83,
-              "stage": 44110,
-              "x": 8,
-              "y": 13,
-              "z": 107
-            }
-          ]
-        },
-        {
-          // enemies outside of factory
-          "enemies": [
-            {
-              "direction": -115,
-              "small": true,
-              "stage": 44300,
-              "x": 49,
-              "y": -4,
-              "z": 187,
-              "findPlayer": true
-            },
-            {
-              "direction": 69,
-              "stage": 44200,
-              "x": 6,
-              "y": -1,
-              "z": 170
-            }
-          ]
-        },
-        {
-          // enemies in factory on way down
-          "enemies": [
-            {
-              "direction": 170,
-              "stage": 44410,
-              "x": 4,
-              "y": -6,
-              "z": 229
-            }
-          ]
-        },
-        {
-          // enemies in factory on way up
-          "condition": "d9df2598-1ffe-442f-bc3e-745291a7f13b",
-          "enemies": [
-            {
-              "direction": -145,
-              "small": true,
-              "stage": 44410,
-              "x": 15,
-              "y": -6,
-              "z": 227
-            },
-            {
-              "direction": 0,
-              "small": true,
-              "stage": 44410,
-              "x": 13,
-              "y": -6,
-              "z": 216
-            }
-          ]
-        }
-      ]
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_2/level_cp11_chp2_2.scn.20",
       "chapter": 3,
-      "chapterOnly": true,
-      "extra": [
-        {
-          // enemies outside Mendez house on way back from factory
-          "condition": "d9df2598-1ffe-442f-bc3e-745291a7f13b",
-          "enemies": [
-            {
-              "direction": 57,
-              "stage": 44101,
-              "x": -11,
-              "y": 8,
-              "z": 93
-            },
-            {
-              "direction": 129,
-              "stage": 44101,
-              "x": -8,
-              "y": 9,
-              "z": 106
-            }
-          ]
-        }
-        // {
-        //   "condition": "f0dfc060-3264-4e4e-8b75-d0da7f488c9d"
-        // }
-      ]
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc43/level_loc43.scn.20",
-      "chapter": 3,
-      "restrictions": [
-        {
-          "guids": [
-            "afac38f0-0c3c-4e19-8058-fed0d7105fd3"
-          ]
-        }
-      ]
+      "chapter": 3
     },
-    // Chapter 4 (Luis Fire, Bindery, Knights, Maze, Embattlements)
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_1/level_cp11_chp3_1.scn.20",
       "chapter": 4,
-      "chapterOnly": true,
-      "restrictions": [
-        {
-          "guids": [
-            "af33fe47-7e7e-4fc6-8092-0c2fa6fe83fc", // zealot
-            "1e9ba825-2ee2-49ce-84b9-fa960d3c3c6a", // zealot
-            "c9c9785d-ce65-4fac-aa55-1a9c4ce62987", // zealot
-            "1071e5e5-350d-4206-b09f-b86d1b901798", // zealot
-            "11d8c955-2bcc-45f9-b650-9d649b3b6dd7", // extra enemy
-            "d6f9fc93-fdce-404c-888a-0931543943db", // extra enemy
-            "16f99555-73d6-4259-9d63-981abbee5e4d", // extra enemy
-            "423f087e-9f65-4af2-afc4-aadebbfd546e", // extra enemy
-            "c18dcf57-2e50-4263-83e5-4800ccc1ecde", // extra enemy
-            "c869956c-330d-4db5-a87c-edb096cec4c2", // extra enemy
-            "f2341d12-61a1-4bda-857c-9d1d5ac45ed8", // extra enemy
-            "c0ac5bd9-7d13-42c6-bddb-3d6a6779b4de", // extra enemy
-            "d7b50fdb-c777-4f8e-9c18-e325da09877e" // extra enemy
-          ],
-          "exclude": [
-            "mendez_chase"
-          ]
-        }
-      ],
-      "extra": [
-        {
-          "enemies": [
-            {
-              "guid": "11d8c955-2bcc-45f9-b650-9d649b3b6dd7",
-              "direction": 8,
-              "small": true,
-              "stage": 51858,
-              "x": -28,
-              "y": 22,
-              "z": -23
-            },
-            {
-              "guid": "d6f9fc93-fdce-404c-888a-0931543943db",
-              "direction": -123,
-              "small": true,
-              "stage": 51858,
-              "x": -27,
-              "y": 18,
-              "z": -20
-            }
-          ]
-        },
-        {
-          // during fire
-          "condition": "9dd89010-ecc1-46a8-813b-2c68f9bab0c7",
-          "skipCondition": "0870aade-e2bf-4b75-bff2-7556d8f09f84",
-          "enemies": [
-            {
-              "guid": "d7b50fdb-c777-4f8e-9c18-e325da09877e",
-              "direction": 87,
-              "small": true,
-              "stage": 51859,
-              "x": -36,
-              "y": 6,
-              "z": -6
-            },
-            {
-              "guid": "c0ac5bd9-7d13-42c6-bddb-3d6a6779b4de",
-              "direction": -87,
-              "small": true,
-              "stage": 51859,
-              "x": -31,
-              "y": 6,
-              "z": -2
-            },
-            {
-              "guid": "f2341d12-61a1-4bda-857c-9d1d5ac45ed8",
-              "direction": 101,
-              "small": true,
-              "stage": 51859,
-              "x": -33,
-              "y": 6,
-              "z": 2
-            }
-          ]
-        },
-        {
-          // after fire
-          "condition": "0870aade-e2bf-4b75-bff2-7556d8f09f84",
-          "enemies": [
-            {
-              "guid": "c869956c-330d-4db5-a87c-edb096cec4c2",
-              "direction": 7,
-              "stage": 51858,
-              "x": -41,
-              "y": 6,
-              "z": -21
-            },
-            {
-              "guid": "c18dcf57-2e50-4263-83e5-4800ccc1ecde",
-              "direction": 87,
-              "stage": 51858,
-              "x": -46,
-              "y": 6,
-              "z": -18
-            },
-            {
-              "guid": "423f087e-9f65-4af2-afc4-aadebbfd546e",
-              "direction": -83,
-              "small": true,
-              "stage": 51858,
-              "x": -41,
-              "y": 10,
-              "z": -18
-            },
-            {
-              "guid": "16f99555-73d6-4259-9d63-981abbee5e4d",
-              "direction": -74,
-              "small": true,
-              "stage": 51858,
-              "x": -41,
-              "y": 14,
-              "z": -18
-            }
-          ]
-        },
-        {
-          // after Luis splits off
-          "condition": "4ab1f833-9da4-416a-ad2c-1a068123b87c",
-          "enemies": [
-            {
-              "direction": -2,
-              "stage": 51850,
-              "x": -31,
-              "y": 26,
-              "z": -46
-            },
-            {
-              "direction": 1,
-              "stage": 51850,
-              "x": -31,
-              "y": 26,
-              "z": -57
-            }
-          ]
-        },
-        {
-          // in bindery
-          "condition": "ad489639-1eaf-4d49-b82a-9791de414ad0",
-          "skipCondition": "ce59d5e1-2378-4afb-be7c-98aa46a99f57",
-          "enemies": [
-            {
-              "direction": -134,
-              "stage": 51502,
-              "x": 2,
-              "y": 27,
-              "z": -32
-            },
-            {
-              "direction": 26,
-              "stage": 51502,
-              "x": -8,
-              "y": 27,
-              "z": -38
-            },
-            {
-              "direction": 103,
-              "stage": 51502,
-              "x": -3,
-              "y": 27,
-              "z": -34
-            }
-          ]
-        },
-        {
-          // in front of wall trap
-          "enemies": [
-            {
-              "direction": 100,
-              "stage": 51854,
-              "x": 21,
-              "y": 17,
-              "z": -8
-            }
-          ]
-        },
-        {
-          // wall trap begin
-          "condition": "f113410d-1355-4deb-8e6e-875e728e08d4",
-          "enemies": [
-            {
-              "direction": 93,
-              "stage": 51855,
-              "x": 8,
-              "y": 17,
-              "z": -8
-            }
-          ]
-        },
-        {
-          // wall trap return
-          "condition": "8bdeedac-debc-4f40-a554-405544bd5710",
-          "skipCondition": "b6398a59-a627-4662-a859-0f7013e8833b",
-          "enemies": [
-            {
-              "direction": -88,
-              "stage": 51855,
-              "x": 2,
-              "y": 17,
-              "z": -8
-            }
-          ]
-        },
-        {
-          // after lantern placed
-          "condition": "b414f084-15be-45b4-9666-9cb29c8106b6",
-          "enemies": [
-            {
-              "direction": 92,
-              "stage": 51854,
-              "x": 24,
-              "y": 19,
-              "z": -15,
-              "findPlayer": true
-            }
-          ]
-        },
-        {
-          // bottom of stairs before wine bottle room
-          "enemies": [
-            {
-              "direction": -84,
-              "stage": 51857,
-              "x": 11,
-              "y": 13,
-              "z": 8
-            }
-          ]
-        },
-        {
-          // bottom of ladder after wine bottle room
-          "condition": "4ed9cc6e-4e38-4163-a8b5-0389b11655c2",
-          "enemies": [
-            {
-              "direction": -175,
-              "stage": 51857,
-              "x": 25,
-              "y": 13,
-              "z": 14
-            }
-          ]
-        },
-        {
-          // before maze
-          "skipCondition": "a7dc5ebc-953e-42bc-9cc3-7db267316230",
-          "enemies": [
-            {
-              "direction": -139,
-              "stage": 51100,
-              "x": 25,
-              "y": 21,
-              "z": 59
-            },
-            {
-              "direction": 175,
-              "stage": 51100,
-              "x": 19,
-              "y": 21,
-              "z": 48
-            },
-            {
-              "direction": 97,
-              "stage": 51100,
-              "x": 27,
-              "y": 21,
-              "z": 40
-            },
-            {
-              "direction": 94,
-              "stage": 51101,
-              "x": 31,
-              "y": 21,
-              "z": 30
-            },
-            {
-              "direction": -88,
-              "stage": 51200,
-              "x": 47,
-              "y": 21,
-              "z": 40
-            }
-          ]
-        },
-        {
-          // after the maze key holder cutscene
-          "condition": "a7dc5ebc-953e-42bc-9cc3-7db267316230",
-          "enemies": [
-            {
-              "direction": -85,
-              "stage": 51200,
-              "x": 86,
-              "y": 27,
-              "z": 18,
-              "findPlayer": true
-            },
-            {
-              "direction": 4,
-              "stage": 51200,
-              "x": 61,
-              "y": 25,
-              "z": 19,
-              "findPlayer": true
-            },
-            {
-              "direction": 2,
-              "small": true,
-              "stage": 51200,
-              "x": 46,
-              "y": 25,
-              "z": 26,
-              "findPlayer": true
-            },
-            {
-              "direction": 92,
-              "stage": 51200,
-              "x": 45,
-              "y": 21,
-              "z": 40,
-              "findPlayer": true
-            },
-            {
-              "direction": -178,
-              "small": true,
-              "stage": 51200,
-              "x": 54,
-              "y": 21,
-              "z": 36,
-              "findPlayer": true
-            },
-            {
-              "direction": 5,
-              "stage": 51200,
-              "x": 56,
-              "y": 21,
-              "z": 50,
-              "findPlayer": true
-            },
-            {
-              "direction": 5,
-              "small": true,
-              "stage": 51200,
-              "x": 51,
-              "y": 25,
-              "z": 36,
-              "findPlayer": true
-            },
-            {
-              "direction": -88,
-              "small": true,
-              "stage": 51200,
-              "x": 78,
-              "y": 21,
-              "z": 48,
-              "findPlayer": true
-            },
-            {
-              "direction": 81,
-              "stage": 51200,
-              "x": 84,
-              "y": 21,
-              "z": 22,
-              "findPlayer": true
-            },
-            {
-              "direction": -89,
-              "small": true,
-              "stage": 51200,
-              "x": 83,
-              "y": 21,
-              "z": 28,
-              "findPlayer": true
-            },
-            {
-              "direction": 1,
-              "small": true,
-              "stage": 51200,
-              "x": 86,
-              "y": 21,
-              "z": 32,
-              "findPlayer": true
-            },
-            {
-              "direction": 167,
-              "stage": 51200,
-              "x": 85,
-              "y": 21,
-              "z": 51
-            },
-            {
-              "direction": -137,
-              "small": true,
-              "stage": 51200,
-              "x": 47,
-              "y": 21,
-              "z": 55,
-              "findPlayer": true
-            },
-            {
-              "direction": -89,
-              "small": true,
-              "stage": 51301,
-              "x": 73,
-              "y": 24,
-              "z": 40,
-              "findPlayer": true
-            },
-            {
-              "direction": 3,
-              "small": true,
-              "stage": 51200,
-              "x": 61,
-              "y": 21,
-              "z": 26,
-              "findPlayer": true
-            },
-            {
-              "direction": 165,
-              "stage": 51200,
-              "x": 68,
-              "y": 21,
-              "z": 31,
-              "findPlayer": true
-            }
-          ]
-        },
-        {
-          // after the maze
-          "condition": "9accaa46-2d7c-4b2a-a110-559657390c75",
-          "enemies": [
-            {
-              "direction": 2,
-              "stage": 51202,
-              "x": 85,
-              "y": 27,
-              "z": 10
-            },
-            {
-              "direction": 1,
-              "stage": 51202,
-              "x": 76,
-              "y": 27,
-              "z": 6
-            },
-            {
-              "direction": -178,
-              "small": true,
-              "stage": 51202,
-              "x": 81,
-              "y": 27,
-              "z": 9
-            },
-            {
-              "direction": 3,
-              "stage": 51600,
-              "x": 76,
-              "y": 27,
-              "z": -11
-            },
-            {
-              "direction": -86,
-              "stage": 51600,
-              "x": 81,
-              "y": 23,
-              "z": -27
-            }
-          ]
-        },
-        {
-          // embattlements
-          "condition": "9accaa46-2d7c-4b2a-a110-559657390c75",
-          "enemies": [
-            {
-              "direction": -5,
-              "stage": 51600,
-              "x": 82,
-              "y": 27,
-              "z": -90
-            },
-            {
-              "direction": -156,
-              "stage": 51600,
-              "x": 83,
-              "y": 27,
-              "z": -78
-            },
-            {
-              "direction": 17,
-              "stage": 51870,
-              "x": 84,
-              "y": 23,
-              "z": -93
-            },
-            {
-              "direction": 115,
-              "stage": 51870,
-              "x": 86,
-              "y": 23,
-              "z": -87
-            }
-          ]
-        }
-      ]
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc51/level_loc51_chp3_1.scn.20",
-      "chapter": 4,
-      "restrictions": [
-        {
-          "guids": [
-            "a3dca3fa-e58c-464f-aff9-216dba45ffc8", // armadur (cage fight)
-            "4658ba02-8fa0-4dd6-b6a0-36d1bc9363fb", // armadur (cage fight)
-            "c0274662-72b7-4f23-9c3f-ee1d8a5a174a", // armadur (cage fight)
-            "8168407b-a4f3-48fb-a553-39527eaab8ce", // armadur (cage fight)
-            "4a43992c-71b0-4a2e-ba91-9a588716f255", // armadur (cage fight)
-            "025c604b-e2ac-4c15-afc8-166d95a56618", // armadur (cage fight)
-            "052db33d-943f-4749-94c2-5a4947875ec9", // armadur (cage fight)
-            "46e5709d-8522-4502-9552-50d34c51d358", // armadur (cage fight)
-            "b99aba1c-b3f1-4a34-8c93-62e220414ee5", // armadur (cage fight)
-            "1d78466a-5422-4060-951d-77bba8dbd947" // armadura (cage fight)
-          ],
-          "exclude": [
-            "mendez_chase"
-          ]
-        },
-        {
-          "guids": [
-            "34ede7c5-f7bb-4cec-acd6-9c563b6197b3", // zealot (crossbow) at cage fight
-            "520a78bd-23dd-4f53-81cb-b1ff7ce11af9", // zealot (crossbow) at cage fight
-            "ab2fb0c0-d7f3-499c-bbd7-c8ae077f1bbc", // zealot (crossbow) at cage fight
-            "16a47761-f8a0-4b63-8fa5-5832a1c6828d", // zealot (crossbow) at cage fight
-            "5d27dc30-d263-45e7-8151-9ebe69b3c46c", // zealot (crossbow) at cage fight
-            "ac86625f-d7ea-44ab-a05f-4f384397eef6", // zealot (crossbow) at cage fight
-            "7a813144-e784-4523-960d-cf05697ef63b", // zealot (crossbow) at cage fight
-            "53212245-0156-4d87-a726-6d2a250f0737" // zealot (crossbow) at cage fight
-          ]
-        },
-        {
-          "guids": [
-            "1a4b7f3e-01fe-47b4-a23d-628aa94b5978" // red zealot with moonstone
-          ],
-          "preventDuplicate": true,
-          "miniBoss": "ada-maze-red-zealot",
-          "exclude": [
-            "krauser_1",
-            "krauser_2",
-            "mendez_chase",
-            "pesanta",
-            "u3"
-          ]
-        },
-        {
-          "guids": [
-            "053ddc1d-1f18-4424-b81e-bc4bb7315549", // maze zealot spawn
-            "784d9ef9-5bc8-4d9e-bc7d-349897d50e8d", // maze zealot spawn
-            "cd5c20be-9f49-4307-a6be-25efd3c801fb", // maze zealot spawn
-            "b29f2544-6b5b-4de5-a1c6-9fb2342b56f7", // maze zealot spawn
-            "dfd05baf-589b-4ca7-8bee-8c3b79de9fa0", // maze zealot spawn
-            "39cd9d7a-38e6-43ef-8d6b-f9785cc8e116", // maze zealot spawn
-            "cdb438db-4f29-45e8-9d6d-ac6179b389e7", // maze zealot spawn
-            "b8ba5ace-023c-4aff-8f07-7793e365b205", // maze zealot spawn
-            "603136b6-80f4-4776-abbb-776102fa3928", // maze zealot spawn
-            "50838391-c554-4e86-843b-2eb4273e656d", // maze zealot spawn
-            "d5b38a9f-ebd3-4e20-ae46-80066f680390", // maze zealot spawn
-            "3edd46a4-5b11-4364-b317-739af2544483", // maze zealot spawn
-            "8f1f4979-5165-441d-92b0-c291ecb9730f", // maze zealot spawn
-            "b3b2110a-0495-458d-ab75-2fdd87ccde76", // maze zealot spawn
-            "abf6d953-7a4e-461a-a202-3d9738bc1a98", // maze zealot spawn
-            "75b7efc4-9a8b-4f4b-b28f-e27c5c76a02e", // maze zealot spawn
-            "0cecfc21-8870-464d-8496-3992bb2bbaf0", // maze zealot spawn
-            "c1931ba7-c1c2-458f-98a2-01d3f96965de" // maze zealot spawn
-          ],
-          "exclude": [
-            "armadura",
-            "colmillos",
-            "cow",
-            "garrador",
-            "gold-armadura",
-            "mendez_2",
-            "mendez_chase",
-            "novistador",
-            "pesanta",
-            "pig",
-            "super-colmillos",
-            "u3",
-            "verdugo"
-          ]
-        }
-      ]
+      "chapter": 4
     },
-    // Chapter 5 (Embattlements, Caverns, Double Garrador, U3, Clocktower)
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_2/level_cp11_chp3_2.scn.20",
       "chapter": 5,
-      "chapterOnly": true,
-      "extra": [
-        {
-          // Castle embattlements start
-          "enemies": [
-            {
-              "direction": -153,
-              "findPlayer": true,
-              "stage": 51600,
-              "x": 77,
-              "y": 27,
-              "z": -97
-            },
-            {
-              "direction": 160,
-              "stage": 51600,
-              "x": 58,
-              "y": 27,
-              "z": -113
-            },
-            {
-              "direction": 125,
-              "findPlayer": true,
-              "stage": 51600,
-              "x": 21,
-              "y": 27,
-              "z": -120
-            },
-            {
-              "direction": -58,
-              "stage": 51600,
-              "x": 46,
-              "y": 31,
-              "z": -111
-            }
-          ]
-        },
-        {
-          // Before cavens
-          "enemies": [
-            {
-              "direction": -110,
-              "stage": 55850,
-              "x": 37,
-              "y": 13,
-              "z": -118
-            },
-            {
-              "direction": -179,
-              "stage": 55850,
-              "x": 65,
-              "y": -29,
-              "z": -114
-            }
-          ]
-        },
-        {
-          // Just before U3 first phase
-          "skipCondition": "1ea60f26-e525-4ef2-ac0b-78bdd07ed961",
-          "enemies": [
-            {
-              "direction": -176,
-              "small": true,
-              "stage": 55200,
-              "x": 135,
-              "y": 1,
-              "z": 38
-            },
-            {
-              "direction": -117,
-              "small": true,
-              "stage": 55200,
-              "x": 137,
-              "y": 1,
-              "z": 32
-            }
-          ]
-        },
-        {
-          // U3 first phase
-          "condition": "1ea60f26-e525-4ef2-ac0b-78bdd07ed961",
-          "skipCondition": "e794dfa4-d9bd-4e35-8ccd-b4fd1e3c6399",
-          "enemies": [
-            {
-              "direction": 23,
-              "stage": 55860,
-              "x": 129,
-              "y": -57,
-              "z": 106,
-              "findPlayer": true
-            },
-            {
-              "direction": 84,
-              "stage": 55860,
-              "x": 125,
-              "y": -57,
-              "z": 111,
-              "findPlayer": true
-            }
-          ]
-        },
-        {
-          // Straight after U3 first phase dies
-          "condition": "d6e6fde3-9208-4077-a2b8-271e12c01c09",
-          "skipCondition": "e794dfa4-d9bd-4e35-8ccd-b4fd1e3c6399",
-          "enemies": [
-            {
-              "direction": -66,
-              "stage": 55860,
-              "x": 143,
-              "y": -57,
-              "z": 113,
-              "findPlayer": true
-            }
-          ]
-        },
-        {
-          // U3 second phase
-          "condition": "e794dfa4-d9bd-4e35-8ccd-b4fd1e3c6399",
-          "enemies": [
-            {
-              "direction": 60,
-              "stage": 55860,
-              "x": 111,
-              "y": -62,
-              "z": 83,
-              "findPlayer": true
-            },
-            {
-              "direction": 10,
-              "stage": 55860,
-              "x": 122,
-              "y": -62,
-              "z": 77,
-              "findPlayer": true
-            },
-            {
-              "direction": -8,
-              "stage": 55860,
-              "x": 128,
-              "y": -62,
-              "z": 79,
-              "findPlayer": true
-            },
-            {
-              "direction": 111,
-              "stage": 55860,
-              "x": 114,
-              "y": -62,
-              "z": 92,
-              "findPlayer": true
-            }
-          ]
-        },
-        {
-          // After U3, on path out of mine
-          "condition": "ac01c1e3-7a77-46aa-a5e0-557771245ca0",
-          "enemies": [
-            {
-              "direction": 152,
-              "small": true,
-              "stage": 55300,
-              "x": 183,
-              "y": -42,
-              "z": 50
-            },
-            {
-              "direction": -19,
-              "small": true,
-              "stage": 55300,
-              "x": 189,
-              "y": -44,
-              "z": 56
-            },
-            {
-              "direction": -26,
-              "stage": 55302,
-              "x": 207,
-              "y": -18,
-              "z": 50
-            },
-            {
-              "direction": 166,
-              "stage": 55302,
-              "x": 190,
-              "y": -6,
-              "z": 48
-            }
-          ]
-        },
-        {
-          // Clocktower
-          "enemies": [
-            {
-              "direction": -88,
-              "stage": 56104,
-              "x": 201,
-              "y": 46,
-              "z": -88
-            }
-          ]
-        },
-        {
-          // Cliffside
-          "enemies": [
-            {
-              "direction": -28,
-              "stage": 56201,
-              "x": 301,
-              "y": 48,
-              "z": -115
-            },
-            {
-              "direction": 152,
-              "stage": 56201,
-              "x": 297,
-              "y": 48,
-              "z": -104
-            }
-          ]
-        },
-        {
-          // Dock
-          "enemies": [
-            {
-              "direction": -1,
-              "stage": 56302,
-              "x": 349,
-              "y": -7,
-              "z": -75
-            },
-            {
-              "direction": 3,
-              "stage": 56302,
-              "x": 336,
-              "y": -7,
-              "z": -76
-            },
-            {
-              "direction": -87,
-              "stage": 56302,
-              "x": 342,
-              "y": -7,
-              "z": -62
-            }
-          ]
-        }
-      ]
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc55/level_loc55.scn.20",
-      "chapter": 5,
-      "restrictions": [
-        {
-          "guids": [
-            "3e656c9e-04f2-4ee7-a56f-34d9d15f607a",
-            "a38d7aac-b586-47d7-8d05-237de875ecbe",
-            "c2d49373-550b-44b5-a739-0bbc6d3257ed"
-          ],
-          "preventDuplicate": true,
-          "miniBoss": "ada-garradors",
-          "exclude": [
-            "mendez_chase"
-          ]
-        },
-        {
-          "guids": [
-            "ddf71148-30bd-4253-9d9a-c4824578ea02",
-            "1ce8f3ad-a921-4ba1-90cd-fcfc4e8ec2d0",
-            "195419f1-d7ae-42cc-b630-2adaba227dcd",
-            "e9db6514-bfed-4bcd-88f7-1173146559dd",
-            "e61b20df-7642-4484-97ee-2240ec43bc86",
-            "a3b820c6-fd7d-4b20-a463-9d47aa470ae7",
-            "94e8deb2-93a9-424a-bc06-3e8e3d7e2ebb",
-            "73316891-de14-459f-80f6-8cbc512e7067",
-            "2332599f-3c22-4025-a058-30b87c9e3241",
-            "2de0ac73-bbb7-4205-87af-03b2fbbba772",
-            "49e0b35f-62b3-4812-84db-fd6e55baa976",
-            "c0794572-9269-4fc4-ba6e-cb24c513d394",
-            "0692a9c5-971c-4ef4-964c-bb4cf851b29d",
-            "4c6b7624-1a19-441e-a974-5a92abfdd99d",
-            "729f9500-1517-4fa0-8991-d513dd9956ca",
-            "2503943a-4dc6-471f-8c32-910e550291ec",
-            "7445be02-03d7-4f80-953e-17fc66028178",
-            "5befec8e-c704-469b-b746-4ba5a3d4c59b",
-            "652e874e-2851-45d8-b71f-ac445b5c675d",
-            "5f242a40-e32c-4f18-9fc5-bdaad676a012",
-            "fbc0f3be-677d-4cce-916e-14a7f9e20987",
-            "b8083838-4b90-4638-b656-3e7c23d338de"
-          ],
-          "exclude": [
-            "armadura",
-            "colmillos",
-            "cow",
-            "garrador",
-            "gold-armadura",
-            "mendez_2",
-            "mendez_chase",
-            "pesanta",
-            "pig",
-            "regenerador",
-            "iron_maiden",
-            "super_iron_maiden",
-            "super-colmillos",
-            "u3",
-            "verdugo"
-          ]
-        },
-        {
-          "guids": [
-            "d3c407a9-08cd-416c-b978-cd7c1c9908b3", // u3 (phase 1)
-            "56ca7658-5434-4d3b-8622-9a9891e1daa1", // u3 (phase 2)
-            "143966b9-0ce5-4b70-a467-0fe98ac27823", // novistador
-            "85b869ee-885e-450a-8889-4c08d0cc2079", // novistador
-            "3bd367b5-71ce-4680-ab1d-4cf089e19c04", // novistador
-            "6a6134d5-8668-4023-a9ab-60506d3fdb9e", // novistador
-            "078c9a3c-0687-4c75-a0d2-b65a772f06ea", // novistador
-            "76929440-6b96-4fbb-9983-9657652547a8", // novistador
-            "f4dd8fd3-b607-4456-be44-b9e48d883494", // novistador
-            "fe739f81-8cfc-42f0-8246-1bf716ed4ae2", // novistador
-            "8c2769af-5ce7-4b9e-9ed2-716db061762e", // novistador
-            "9b6d7e72-e1ba-4afe-9f0c-b65c54b99f49", // novistador
-            "34ed6a18-c0b4-40de-b781-80420dae8274", // novistador
-            "1c094d1a-3783-4733-afe3-39847f7caf2a", // novistador
-            "2117da55-6e86-4cd1-8c14-03300b701bbd", // novistador
-            "fb1c8cd0-5139-466b-8ebf-499b3d142ee2" // novistador
-          ]
-        }
-      ]
+      "chapter": 5
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc56/level_loc56.scn.20",
-      "chapter": 5,
-      "restrictions": [
-        {
-          "guids": [
-            "8b3d4abd-c4ed-4252-aaf2-990c4506f81e", // novistador (request)
-            "0bae95e0-bd9a-40b7-9b95-00a0220c9bf5", // novistador (request)
-            "9e339555-5396-45ee-8746-47adb1fb5a70" // novistador (request)
-          ]
-        }
-      ]
+      "chapter": 5
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp4_1/level_cp11_chp4_1.scn.20",
       "chapter": 6,
-      "chapterOnly": true,
-      "extra": [
-        {
-          // Island start
-          "enemies": [
-            {
-              "direction": 94,
-              "stage": 64200,
-              "x": 61,
-              "y": 29,
-              "z": -156
-            },
-            {
-              "direction": 111,
-              "stage": 64103,
-              "x": 76,
-              "y": 23,
-              "z": -144
-            },
-            {
-              "direction": 120,
-              "small": true,
-              "stage": 64103,
-              "x": 79,
-              "y": 23,
-              "z": -149
-            },
-            {
-              "direction": -65,
-              "small": true,
-              "stage": 64101,
-              "x": 66,
-              "y": 26,
-              "z": -182
-            }
-          ]
-        },
-        {
-          // Straight after leon/ashley cutscene
-          "enemies": [
-            {
-              "condition": "8f9af929-4fd5-43ea-8e4f-c559cb910240",
-              "direction": 2,
-              "stage": 61000,
-              "x": 42,
-              "y": 22,
-              "z": -85,
-              "findPlayer": true
-            }
-          ]
-        },
-        {
-          // On route to fridge room
-          "enemies": [
-            {
-              "direction": -177,
-              "stage": 61850,
-              "x": 54,
-              "y": 22,
-              "z": -59
-            },
-            {
-              "direction": -86,
-              "stage": 61852,
-              "x": 72,
-              "y": 17,
-              "z": -65
-            },
-            {
-              "direction": -80,
-              "small": true,
-              "stage": 61204,
-              "x": 100,
-              "y": 11,
-              "z": -44
-            },
-            {
-              "direction": -91,
-              "stage": 61204,
-              "x": 105,
-              "y": 15,
-              "z": -42
-            },
-            {
-              "direction": 91,
-              "stage": 61300,
-              "x": 107,
-              "y": 17,
-              "z": -58
-            },
-            {
-              "direction": -84,
-              "stage": 61302,
-              "x": 113,
-              "y": 18,
-              "z": -70
-            },
-            {
-              "direction": 6,
-              "stage": 61302,
-              "x": 102,
-              "y": 18,
-              "z": -71
-            },
-            {
-              "direction": 5,
-              "stage": 61400,
-              "x": 109,
-              "y": 18,
-              "z": -95
-            }
-          ]
-        },
-        {
-          // Fridge room
-          "enemies": [
-            {
-              "direction": -162,
-              "small": true,
-              "stage": 61305,
-              "x": 94,
-              "y": 19,
-              "z": -88
-            }
-          ]
-        },
-        {
-          // After pulling plug out fridge room
-          "condition": "cf43c5fd-212c-45cf-981a-d7a5f0e38c73",
-          "enemies": [
-            {
-              "direction": 3,
-              "small": true,
-              "stage": 61305,
-              "x": 94,
-              "y": 19,
-              "z": -98,
-              "findPlayer": true
-            },
-            {
-              "direction": -87,
-              "stage": 61302,
-              "x": 101,
-              "y": 18,
-              "z": -82
-            },
-            {
-              "direction": -1,
-              "small": true,
-              "stage": 61500,
-              "x": 83,
-              "y": 17,
-              "z": -64
-            },
-            {
-              "direction": 147,
-              "small": true,
-              "stage": 61500,
-              "x": 85,
-              "y": 17,
-              "z": -52
-            },
-            {
-              "direction": 180,
-              "small": true,
-              "stage": 61504,
-              "x": 74,
-              "y": 17,
-              "z": -71
-            },
-            {
-              "direction": 91,
-              "small": true,
-              "stage": 61851,
-              "x": 58,
-              "y": 22,
-              "z": -71
-            },
-            {
-              "direction": 91,
-              "small": true,
-              "stage": 61851,
-              "x": 66,
-              "y": 22,
-              "z": -65
-            }
-          ]
-        },
-        {
-          // After using plug to open door
-          "condition": "ff1caaea-d774-4903-9ae3-cd349ee0ff79",
-          "enemies": [
-            {
-              "direction": 6,
-              "small": true,
-              "stage": 61852,
-              "x": 53,
-              "y": 17,
-              "z": -55,
-              "findPlayer": true
-            },
-            {
-              "direction": -88,
-              "small": true,
-              "stage": 61852,
-              "x": 68,
-              "y": 17,
-              "z": -65,
-              "findPlayer": true
-            }
-          ]
-        },
-        {
-          // before cable car
-          "enemies": [
-            {
-              "direction": 3,
-              "stage": 60850,
-              "x": 87,
-              "y": 17,
-              "z": -33
-            },
-            {
-              "direction": -178,
-              "stage": 60850,
-              "x": 87,
-              "y": 17,
-              "z": -24
-            },
-            {
-              "direction": -156,
-              "stage": 60850,
-              "x": 92,
-              "y": 21,
-              "z": -13
-            },
-            {
-              "direction": -180,
-              "stage": 60850,
-              "x": 84,
-              "y": 21,
-              "z": -14
-            },
-            {
-              "direction": 180,
-              "small": true,
-              "stage": 60850,
-              "x": 92,
-              "y": 21,
-              "z": 12
-            },
-            {
-              "direction": 138,
-              "small": true,
-              "stage": 60850,
-              "x": 81,
-              "y": 21,
-              "z": -3,
-              "ranged": true
-            }
-          ]
-        },
-        {
-          // merchant after cable car
-          "condition": "cc6104eb-8d5e-44d9-ae35-fbefdf2ba771",
-          "enemies": [
-            {
-              "direction": 0,
-              "stage": 60865,
-              "x": 95,
-              "y": 4,
-              "z": 111
-            },
-            {
-              "direction": -86,
-              "stage": 60865,
-              "x": 100,
-              "y": 4,
-              "z": 114
-            },
-            {
-              "direction": -17,
-              "stage": 60865,
-              "x": 97,
-              "y": 4,
-              "z": 141
-            }
-          ]
-        },
-        {
-          // When jumping down and turrets start firing
-          "condition": "18bcf504-c8f5-46df-8b63-e2386a983166",
-          "enemies": [
-            {
-              "direction": 84,
-              "stage": 60865,
-              "x": 88,
-              "y": 1,
-              "z": 158,
-              "findPlayer": true
-            },
-            {
-              "direction": 125,
-              "stage": 60865,
-              "x": 60,
-              "y": 6,
-              "z": 192,
-              "findPlayer": true
-            },
-            {
-              "direction": 137,
-              "stage": 60865,
-              "x": 55,
-              "y": 5,
-              "z": 197,
-              "findPlayer": true
-            },
-            {
-              "direction": 132,
-              "stage": 60865,
-              "x": 55,
-              "y": 7,
-              "z": 177,
-              "findPlayer": true
-            }
-          ]
-        },
-        {
-          // Just before going down into lab hole
-          "enemies": [
-            {
-              "direction": 23,
-              "stage": 60861,
-              "x": 11,
-              "y": 10,
-              "z": 204
-            },
-            {
-              "direction": -155,
-              "stage": 60861,
-              "x": 25,
-              "y": 6,
-              "z": 235
-            }
-          ]
-        },
-        {
-          // After lifting rock out of the way
-          "condition": "cb6ef243-71b4-43e4-9cd5-30ad530037d2",
-          "enemies": [
-            {
-              "direction": -89,
-              "stage": 60871,
-              "x": 38,
-              "y": 1,
-              "z": 254
-            },
-            {
-              "direction": -179,
-              "stage": 60871,
-              "x": 38,
-              "y": 1,
-              "z": 259
-            }
-          ]
-        },
-        {
-          // On route to lasers
-          "enemies": [
-            {
-              "direction": 5,
-              "stage": 60872,
-              "x": 38,
-              "y": 1,
-              "z": 267
-            },
-            {
-              "direction": -158,
-              "stage": 60881,
-              "x": 54,
-              "y": -4,
-              "z": 250
-            },
-            {
-              "direction": 90,
-              "stage": 60880,
-              "x": 50,
-              "y": -4,
-              "z": 259
-            }
-          ]
-        },
-        {
-          // When being chased by first martinico
-          "condition": "17401901-3522-4628-b009-281939f1442d",
-          "skipCondition": "e6f43b86-950e-4230-84a7-3b4b7449a5e7",
-          "enemies": [
-            {
-              "direction": 89,
-              "stage": 60880,
-              "x": 49,
-              "y": -4,
-              "z": 255
-            }
-          ]
-        },
-        {
-          // Before first laser
-          "condition": "4047a30c-57c6-4450-9edf-b6c17586696a",
-          "enemies": [
-            {
-              "direction": -179,
-              "stage": 60871,
-              "x": 44,
-              "y": 1,
-              "z": 254
-            }
-          ]
-        },
-        {
-          // After first laser
-          "condition": "cc66bcc9-060e-45f9-af6a-f8e4630b33c9",
-          "enemies": [
-            {
-              "direction": -2,
-              "stage": 60874,
-              "x": 43,
-              "y": 1,
-              "z": 233,
-              "findPlayer": true
-            }
-          ]
-        },
-        {
-          // After lasers
-          "condition": "d7b0f4b9-c56b-43b1-b578-3a56e2aa50bb",
-          "enemies": [
-            {
-              "direction": -2,
-              "stage": 60874,
-              "x": 43,
-              "y": 1,
-              "z": 233,
-              "findPlayer": true
-            },
-            {
-              "direction": -176,
-              "small": true,
-              "stage": 60873,
-              "x": 79,
-              "y": 0,
-              "z": 260
-            }
-          ]
-        },
-        {
-          // Room where you arm bombs
-          "enemies": [
-            {
-              "direction": -51,
-              "stage": 60873,
-              "x": 85,
-              "y": 0,
-              "z": 256
-            }
-          ]
-        },
-        {
-          // On way out
-          "condition": "7b6caa97-5372-4806-adf9-f03152e11bfe",
-          "enemies": [
-            {
-              "direction": 91,
-              "stage": 60871,
-              "x": 51,
-              "y": 1,
-              "z": 254
-            },
-            {
-              "direction": 87,
-              "stage": 60871,
-              "x": 62,
-              "y": 1,
-              "z": 253
-            },
-            {
-              "direction": 91,
-              "stage": 60874,
-              "x": 35,
-              "y": 1,
-              "z": 233
-            }
-          ]
-        }
-      ]
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc64/level_loc64.scn.20",
@@ -2011,197 +98,16 @@
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc60/level_loc60_100.scn.20",
-      "chapter": 6,
-      "restrictions": [
-        {
-          "guids": [
-            "c9874217-d888-491d-a543-1ce66ac8974b", // cable car enemy
-            "03591605-c7ef-4914-b59c-7d30c02f9d3d", // cable car enemy
-            "95aeb8db-12cc-472e-b1e1-c7d61724bd53", // cable car enemy
-            "9dc131eb-fb7b-4208-bf2b-f3a15ff2bfc1", // cable car enemy
-            "de15bf2d-6db2-49ed-aca8-dbb31e322df9", // cable car enemy
-            "fb0a6d25-aa1e-47d1-a353-74c64389499e", // cable car enemy
-            "b85ca58a-7be1-419c-8b98-7f421d0695a6", // cable car enemy
-            "89c37c71-3729-4d1e-94eb-5ec538429afa", // cable car enemy
-            "4d8a0e77-2864-4f2f-89fa-858afb5597c6", // cable car enemy
-            "1c48a264-cf7f-4151-a088-4bce83e879aa", // cable car enemy
-            "5aca924b-a0ea-4f5d-adf7-c155af64e71b", // cable car enemy
-            "4b96ae6b-fa33-4ce4-b767-32cb182790d5", // cable car enemy
-            "c9af63b7-2b1a-4c48-a7d7-ff63e879d2df" // cable car enemy
-          ]
-        }
-      ]
+      "chapter": 6
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc60/level_loc60_200.scn.20",
-      "chapter": 6,
-      "restrictions": [
-        {
-          "guids": [
-            "b66cfd0f-1bab-4e98-a3cf-136073031d4d", // soldier (turret)
-            "f0ecb11b-b59c-436e-b1b4-94228a1ef6b1", // soldier (turret)
-            "437b0b13-f5b4-4484-bdc5-e1d5c005e505", // soldier (turret)
-            "17d985b7-cb12-4b7a-a65a-325bf9a2a1b8", // novistador (request)
-            "63dff196-74e2-44d5-a4a5-dc1dc00d525b", // novistador (request)
-            "3bb1155e-712a-4dfe-8f93-0445c5f7f0f2", // novistador (request)
-            "925ce2b2-810a-4626-82be-1740c41af5ff", // martinico
-            "ca8fb4b5-6416-4201-b44c-a166950aae36", // martinico
-            "7fd3a938-0824-420b-a5ad-6da669663c79", // martinico
-            "7a252fee-5b32-4f55-8732-a6066aaa95ae", // martinico
-            "1c6f36bc-b18b-4d84-9611-bc7b912b0b9c" // martinico
-          ]
-        }
-      ]
+      "chapter": 6
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp5_1/level_cp11_chp5_1.scn.20",
       "chapter": 7,
-      "chapterOnly": true,
-      "restrictions": [
-        {
-          "guids": [
-            "71c38980-cf1a-4040-aa93-708a290529ee" // sadler
-          ]
-        }
-      ],
-      "extra": [
-        {
-          // After walking up stairs at start
-          "condition": "1c275875-1b97-49f9-993e-6df401e7eed6",
-          "enemies": [
-            {
-              "direction": 171,
-              "small": true,
-              "stage": 59200,
-              "x": -309,
-              "y": 24,
-              "z": -198,
-              "findPlayer": true
-            }
-          ]
-        },
-        {
-          "skipCondition": "ea7547fd-9ede-45f9-a70d-2804c1cae4c7",
-          "enemies": [
-            {
-              "direction": 116,
-              "stage": 69900,
-              "x": -226,
-              "y": 64,
-              "z": -158
-            },
-            {
-              "direction": 3,
-              "stage": 69900,
-              "x": -204,
-              "y": 60,
-              "z": -160
-            },
-            {
-              "direction": 6,
-              "stage": 68206,
-              "x": -186,
-              "y": 66,
-              "z": -185
-            },
-            {
-              "direction": -86,
-              "stage": 68204,
-              "x": -173,
-              "y": 66,
-              "z": -186
-            },
-            {
-              "direction": 129,
-              "stage": 68204,
-              "x": -157,
-              "y": 66,
-              "z": -189
-            },
-            {
-              "direction": 99,
-              "stage": 68203,
-              "x": -136,
-              "y": 66,
-              "z": -196
-            },
-            {
-              "direction": -132,
-              "stage": 68203,
-              "x": -123,
-              "y": 66,
-              "z": -190
-            }
-          ]
-        },
-        {
-          // Salder
-          "condition": "ea7547fd-9ede-45f9-a70d-2804c1cae4c7",
-          "enemies": [
-            {
-              "direction": 114,
-              "stage": 68101,
-              "x": -132,
-              "y": 62,
-              "z": -168,
-              "findPlayer": true
-            },
-            {
-              "direction": 73,
-              "stage": 68101,
-              "x": -133,
-              "y": 62,
-              "z": -174,
-              "findPlayer": true
-            },
-            {
-              "direction": 3,
-              "stage": 68101,
-              "x": -104,
-              "y": 61,
-              "z": -176,
-              "findPlayer": true
-            },
-            {
-              "direction": -166,
-              "stage": 68101,
-              "x": -103,
-              "y": 61,
-              "z": -167,
-              "findPlayer": true
-            },
-            {
-              "direction": -89,
-              "stage": 68101,
-              "x": -100,
-              "y": 61,
-              "z": -171,
-              "findPlayer": true
-            },
-            {
-              "direction": 180,
-              "stage": 68101,
-              "x": -117,
-              "y": 61,
-              "z": -167,
-              "findPlayer": true
-            }
-          ]
-        },
-        {
-          // At Ashley
-          "condition": "6dec272e-6d20-4a06-8e5f-39f90c42f358",
-          "enemies": [
-            {
-              "direction": -60,
-              "stage": 68206,
-              "x": -180,
-              "y": 66,
-              "z": -188
-            }
-          ]
-        }
-      ]
+      "chapterOnly": true
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc59/enemy.scn.20",
@@ -2213,608 +119,1762 @@
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc69/enemy_after.scn.20",
-      "chapter": 7,
-      "restrictions": [
-        {
-          "guids": [
-            "c5f6b51b-f9d1-464b-83b1-5794a66a3c33", // novistador
-            "42c1f280-b8e1-430c-a170-d8084cb74e02", // novistador
-            "4a172f43-15c7-4fb6-8847-8c6131f0888a", // novistador
-            "7e35e421-53dd-4f72-9cd6-5de611c670eb" // novistador
-          ]
-        }
-      ]
+      "chapter": 7
     },
     {
       "path": "natives/stm/_anotherorder/leveldesign/location/loc68/level_loc68.scn.20",
-      "chapter": 7,
-      "restrictions": [
-        {
-          "guids": [
-            "02a64cfc-b818-4d02-9877-651886fe1127" // novistador ceiling
-          ]
-        }
-      ]
+      "chapter": 7
     }
   ],
   "items": [
-    { "chapter": 1, "path": "natives/stm/_anotherorder/leveldesign/location/loc50/item_loc50.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc50/item_loc50_itemdata.user.2" },
-    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_1/item_cp11_chp1_1.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_1/item_cp11_chp1_1_itemdata.user.2" },
-    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc47/item_loc47.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc47/item_loc47_itemdata.user.2" },
-    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc43/item_loc43.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc43/item_loc43_itemdata.user.2" },
-    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc45/item_loc45.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc45/item_loc45_itemdata.user.2" },
-    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc40/item_loc40.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc40/item_loc40_itemdata.user.2" },
-    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/location/loc44/item_loc44.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc44/item_loc44_itemdata.user.2" },
-    { "chapter": 2, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_2/item_cp11_chp1_2.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_2/item_cp11_chp1_2_itemdata.user.2" },
-    { "chapter": 3, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_1/item_cp11_chp2_1.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_1/item_cp11_chp2_1_itemdata.user.2" },
-    { "chapter": 3, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_2/item_cp11_chp2_2.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_2/item_cp11_chp2_2_itemdata.user.2" },
-    { "chapter": 4, "path": "natives/stm/_anotherorder/leveldesign/location/loc51/item_loc51.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc51/item_loc51_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_2/item_cp11_chp3_2.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_2/item_cp11_chp3_2_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc55/item_loc55.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc55/item_loc55_itemdata.user.2" },
-    { "chapter": 5, "path": "natives/stm/_anotherorder/leveldesign/location/loc56/item_loc56.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc56/item_loc56_itemdata.user.2" },
-    { "chapter": 6, "path": "natives/stm/_anotherorder/leveldesign/location/loc64/item_loc64.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc64/item_loc64_itemdata.user.2" },
-    { "chapter": 6, "path": "natives/stm/_anotherorder/leveldesign/location/loc62/item_loc62.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc62/item_loc62_itemdata.user.2" },
-    { "chapter": 6, "path": "natives/stm/_anotherorder/leveldesign/location/loc61/item_loc61.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc61/item_loc61_itemdata.user.2" },
-    { "chapter": 6, "path": "natives/stm/_anotherorder/leveldesign/location/loc60/item_loc60.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc60/item_loc60_itemdata.user.2" },
-    { "chapter": 7, "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp5_1/item_cp11_chp5_1.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp5_1/item_cp11_chp5_1_itemdata.user.2" },
-    { "chapter": 7, "path": "natives/stm/_anotherorder/leveldesign/location/loc59/item_loc59.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc59/item_loc59_itemdata.user.2" },
-    { "chapter": 7, "path": "natives/stm/_anotherorder/leveldesign/location/loc69/item_loc69.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc69/item_loc69_itemdata.user.2" },
-    { "chapter": 7, "path": "natives/stm/_anotherorder/leveldesign/location/loc68/item_loc68.scn.20", "dataPath": "natives/stm/_anotherorder/leveldesign/location/loc68/item_loc68_itemdata.user.2" }
+    {
+      "chapter": 1,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc50/item_loc50.scn.20"
+    },
+    {
+      "chapter": 2,
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_1/item_cp11_chp1_1.scn.20"
+    },
+    {
+      "chapter": 2,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc47/item_loc47.scn.20"
+    },
+    {
+      "chapter": 2,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc43/item_loc43.scn.20"
+    },
+    {
+      "chapter": 2,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc45/item_loc45.scn.20"
+    },
+    {
+      "chapter": 2,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc40/item_loc40.scn.20"
+    },
+    {
+      "chapter": 2,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc44/item_loc44.scn.20"
+    },
+    {
+      "chapter": 2,
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_2/item_cp11_chp1_2.scn.20"
+    },
+    {
+      "chapter": 3,
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_1/item_cp11_chp2_1.scn.20"
+    },
+    {
+      "chapter": 3,
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_2/item_cp11_chp2_2.scn.20"
+    },
+    {
+      "chapter": 4,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc51/item_loc51.scn.20"
+    },
+    {
+      "chapter": 5,
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp3_2/item_cp11_chp3_2.scn.20"
+    },
+    {
+      "chapter": 5,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc55/item_loc55.scn.20"
+    },
+    {
+      "chapter": 5,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc56/item_loc56.scn.20"
+    },
+    {
+      "chapter": 6,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc64/item_loc64.scn.20"
+    },
+    {
+      "chapter": 6,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc62/item_loc62.scn.20"
+    },
+    {
+      "chapter": 6,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc61/item_loc61.scn.20"
+    },
+    {
+      "chapter": 6,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc60/item_loc60.scn.20"
+    },
+    {
+      "chapter": 7,
+      "path": "natives/stm/_anotherorder/leveldesign/chapter/cp11_chp5_1/item_cp11_chp5_1.scn.20"
+    },
+    {
+      "chapter": 7,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc59/item_loc59.scn.20"
+    },
+    {
+      "chapter": 7,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc69/item_loc69.scn.20"
+    },
+    {
+      "chapter": 7,
+      "path": "natives/stm/_anotherorder/leveldesign/location/loc68/item_loc68.scn.20"
+    }
   ],
   "gimmicks": [
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_000_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_200_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_200_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_201_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_201.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_210_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_210_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_210_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_210.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_211_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_211_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_211_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_211.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_212_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_212_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_212.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_213_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_213_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_213_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_213.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_220.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_505_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_505_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_505.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_850.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_903_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_903_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_903_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_903.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_300_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_300_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_300_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_300_p001_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_300.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_301_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_301_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_301_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_301_p100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_301.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_302_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_302_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_302.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_310_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_310_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_310_p001_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_310.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_311_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_311_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_311_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_311_p100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_311.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_850_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_850.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_890.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_900_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_900.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_002.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_003.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_100_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_100_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_100_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_101_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_101_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_101_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_101.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_102_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_102_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_102_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_102.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_110_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_110_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_110_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_110.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_200_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_200_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_201_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_201_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_201_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_201.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_210_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_210_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_210_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_210.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_300_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_300_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_300.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_400_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_400_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_400_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_400.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_410_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_410_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_410_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_410.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_900_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_900_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_900_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_900.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_100_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_100_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_200_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_200_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_210_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_210_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_210_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_210.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_300_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_300_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_300.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_401_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_401_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_401.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_900_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_900_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_900.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_100_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_100_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_101_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_101_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_101_p001_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_101.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_102_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_102_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_102.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_200_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_201_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_201_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_201.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_210_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_210.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_890.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st49/gimmick_st49_902.scn.20",
-    // "natives/stm/_anotherorder/environment/scene/gimmick/st49/gimmick_st49_911.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_000_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_001.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_100_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_100_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_200_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_201_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_201_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_201_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_201.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_202_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_202_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_202.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_300_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_300_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_300_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_300.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_301_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_301_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_301.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_302_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_302_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_302.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_400_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_400_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_400.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_401_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_401_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_401.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_500_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_500_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_500.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_501_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_501_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_501.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_502_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_502_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_502.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_600_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_600.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_901_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_901.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_100_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_100_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_100_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_101_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_101_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_101_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_101.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_200_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_200_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_200_p001_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_201_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_201_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_201.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_202_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_202_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_202.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_300_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_300_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_300.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_301_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_301.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_400_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_400_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_400.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_500_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_500.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_501_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_501.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_502_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_502_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_502.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_503_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_503_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_503.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_504_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_504_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_504.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_600_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_600_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_600_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_600.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_610_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_610_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_610.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_611_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_611_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_611.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_612_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_612_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_612.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_850_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_850.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_851_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_851_p001_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_851.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_854_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_854.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_855_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_855.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_856_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_856.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_857_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_857_p001_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_857.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_858_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_858.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_859_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_859.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_870_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_870.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_900_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_900_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_900.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st52/gimmick_st52_902.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st52/gimmick_st52_907.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st52/gimmick_st52_908.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st52/gimmick_st52_911.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st54/gimmick_st54_200_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st54/gimmick_st54_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st54/gimmick_st54_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_200_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_201_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_201.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_300_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_300_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_300.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_301_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_301.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_302_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_302_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_302.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_850_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_850_p001_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_850.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_851_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_851.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_852_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_852.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_853_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_853.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_854_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_854.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_855_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_855.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_860_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_860.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_900_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_900.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_000_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_000_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_100_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_100_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_100_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_101_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_101.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_104_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_104_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_104.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_201_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_201.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_300_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_300_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_300_p000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_300.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_301_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_301.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_302_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_302_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_302.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_850_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_850.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_851_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_851.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_900_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_900.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_100_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_100_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_101_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_101_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_101.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_102_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_102_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_102.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_103_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_103_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_103.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_200_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_201.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_223_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_223.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_224.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_850_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_850.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_900_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_900.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_000_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_100_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_101_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_101.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_103_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_103.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_104_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_104_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_104.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_105_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_105.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_200_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_201_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_201_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_201.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_850_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_850_p001_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_850.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_851.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_852.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_860_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_860.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_861.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_862.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_863_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_863.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_864.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_865.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_866.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_870_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_870.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_871_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_871.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_872_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_872.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_873_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_873.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_874_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_874.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_875_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_875.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_880_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_880.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_881_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_881.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_000_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_101_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_101_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_101.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_105_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_105_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_105.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_107_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_107_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_107.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_200_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_201_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_201_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_201.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_202_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_202.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_203_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_203_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_203.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_204_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_204_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_204.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_300_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_300.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_301_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_301_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_301.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_302_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_302_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_302.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_303_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_303.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_304_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_304.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_305_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_305_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_305.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_400_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_400_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_400.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_401_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_401.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_402_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_402.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_500_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_500_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_500.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_501_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_501_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_501.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_502_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_502_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_502.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_503_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_503_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_503.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_504_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_504_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_504.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_505_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_505_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_505.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_850_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_850.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_851.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_852_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_852.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_853.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_900_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_900.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_000_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_100_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_200_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_201_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_201_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_201.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_900_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_900_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_900.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st63/gimmick_st62_000_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_000_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_100_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_100_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_101_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_101_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_101.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_102_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_102.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_103_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_103_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_103.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_104_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_104_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_104.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_200_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_200_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_200.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_900_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_900_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_900.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st67/gimmick_st67_000_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st67/gimmick_st67_000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st67/gimmick_st67_301_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st67/gimmick_st67_301.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_000_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_000.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_100_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_101_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_101_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_101.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_102_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_102.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_203_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_203_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_203.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_204_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_204_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_204.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_205_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_205_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_205.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_206_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_206_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_206.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_900_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_900_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_900.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_100_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_100_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_100.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_850_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_850.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_851_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_851.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_900_ao.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_900_ch.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_900.scn.20",
-    "natives/stm/_anotherorder/environment/scene/gimmick/st80/gimmick_st80_000.scn.20"
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_000_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_200_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_200_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_201_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_201.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_210_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_210_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_210_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_210.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_211_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_211_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_211_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_211.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_212_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_212_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_212.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_213_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_213_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_213_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_213.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_220.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_505_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_505_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_505.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_850.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_903_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_903_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_903_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st40/gimmick_st40_903.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_300_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_300_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_300_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_300_p001_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_300.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_301_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_301_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_301_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_301_p100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_301.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_302_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_302_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_302.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_310_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_310_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_310_p001_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_310.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_311_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_311_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_311_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_311_p100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_311.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_850_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_850.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_890.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_900_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st43/gimmick_st43_900.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_002.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_003.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_100_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_100_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_100_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_101_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_101_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_101_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_101.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_102_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_102_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_102_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_102.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_110_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_110_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_110_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_110.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_200_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_200_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_201_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_201_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_201_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_201.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_210_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_210_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_210_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_210.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_300_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_300_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_300.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_400_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_400_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_400_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_400.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_410_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_410_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_410_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_410.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_900_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_900_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_900_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st44/gimmick_st44_900.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_100_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_100_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_200_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_200_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_210_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_210_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_210_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_210.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_300_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_300_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_300.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_401_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_401_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_401.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_900_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_900_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st45/gimmick_st45_900.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_100_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_100_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_101_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_101_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_101_p001_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_101.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_102_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_102_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_102.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_200_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_201_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_201_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_201.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_210_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_210.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st47/gimmick_st47_890.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st49/gimmick_st49_902.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_000_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_001.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_100_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_100_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_200_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_201_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_201_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_201_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_201.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_202_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_202_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_202.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_300_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_300_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_300_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_300.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_301_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_301_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_301.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_302_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_302_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_302.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_400_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_400_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_400.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_401_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_401_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_401.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_500_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_500_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_500.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_501_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_501_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_501.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_502_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_502_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_502.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_600_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_600.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_901_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st50/gimmick_st50_901.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_100_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_100_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_100_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_101_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_101_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_101_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_101.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_200_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_200_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_200_p001_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_201_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_201_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_201.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_202_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_202_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_202.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_300_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_300_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_300.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_301_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_301.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_400_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_400_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_400.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_500_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_500.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_501_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_501.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_502_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_502_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_502.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_503_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_503_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_503.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_504_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_504_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_504.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_600_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_600_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_600_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_600.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_610_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_610_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_610.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_611_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_611_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_611.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_612_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_612_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_612.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_850_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_850.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_851_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_851_p001_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_851.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_854_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_854.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_855_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_855.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_856_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_856.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_857_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_857_p001_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_857.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_858_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_858.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_859_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_859.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_870_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_870.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_900_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_900_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_900.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st52/gimmick_st52_902.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st52/gimmick_st52_907.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st52/gimmick_st52_908.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st52/gimmick_st52_911.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st54/gimmick_st54_200_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st54/gimmick_st54_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st54/gimmick_st54_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_200_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_201_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_201.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_300_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_300_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_300.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_301_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_301.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_302_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_302_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_302.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_850_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_850_p001_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_850.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_851_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_851.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_852_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_852.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_853_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_853.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_854_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_854.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_855_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_855.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_860_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_860.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_900_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st55/gimmick_st55_900.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_000_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_000_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_100_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_100_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_100_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_101_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_101.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_104_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_104_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_104.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_201_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_201.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_300_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_300_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_300_p000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_300.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_301_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_301.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_302_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_302_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_302.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_850_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_850.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_851_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_851.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_900_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st56/gimmick_st56_900.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_100_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_100_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_101_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_101_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_101.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_102_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_102_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_102.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_103_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_103_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_103.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_200_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_201.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_223_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_223.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_224.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_850_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_850.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_900_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st59/gimmick_st59_900.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_000_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_100_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_101_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_101.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_103_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_103.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_104_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_104_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_104.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_105_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_105.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_200_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_201_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_201_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_201.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_850_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_850_p001_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_850.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_851.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_852.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_860_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_860.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_861.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_862.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_863_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_863.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_864.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_865.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_866.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_870_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_870.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_871_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_871.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_872_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_872.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_873_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_873.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_874_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_874.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_875_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_875.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_880_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_880.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_881_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st60/gimmick_st60_881.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_000_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_101_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_101_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_101.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_105_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_105_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_105.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_107_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_107_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_107.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_200_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_201_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_201_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_201.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_202_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_202.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_203_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_203_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_203.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_204_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_204_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_204.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_300_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_300.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_301_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_301_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_301.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_302_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_302_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_302.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_303_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_303.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_304_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_304.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_305_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_305_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_305.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_400_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_400_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_400.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_401_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_401.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_402_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_402.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_500_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_500_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_500.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_501_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_501_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_501.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_502_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_502_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_502.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_503_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_503_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_503.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_504_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_504_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_504.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_505_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_505_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_505.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_850_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_850.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_851.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_852_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_852.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_853.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_900_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st61/gimmick_st61_900.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_000_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_100_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_200_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_201_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_201_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_201.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_900_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_900_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st62/gimmick_st62_900.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st63/gimmick_st62_000_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_000_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_100_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_100_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_101_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_101_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_101.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_102_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_102.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_103_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_103_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_103.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_104_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_104_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_104.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_200_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_200_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_200.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_900_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_900_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st64/gimmick_st64_900.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st67/gimmick_st67_000_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st67/gimmick_st67_000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st67/gimmick_st67_301_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st67/gimmick_st67_301.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_000_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_000.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_100_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_101_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_101_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_101.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_102_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_102.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_203_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_203_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_203.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_204_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_204_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_204.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_205_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_205_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_205.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_206_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_206_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_206.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_900_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_900_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st68/gimmick_st68_900.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_100_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_100_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_100.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_850_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_850.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_851_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_851.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_900_ao.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_900_ch.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st69/gimmick_st69_900.scn.20"
+    },
+    {
+      "path": "natives/stm/_anotherorder/environment/scene/gimmick/st80/gimmick_st80_000.scn.20"
+    }
   ]
 }
