@@ -60,7 +60,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 factory.AddGimmick(rng, placement);
             }
-            factory.SaveAll();
         }
 
         private static ImmutableArray<GimmickPlacement> TakeRandomGimmicks(ImmutableArray<GimmickPlacement> placements, Rng rng, double amount, params string[] kinds)
@@ -84,19 +83,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (!_stageToArea.TryGetValue(stage, out var area))
                 {
                     _stageToArea[stage] = area = randomizer.AreaService.Areas
+                        .Where(x => x.Definition.Kind == AreaKind.Gimmicks)
                         .Where(x => x.Definition.Location == (stage / 1000))
                         .OrderBy(x => Math.Abs((x.Definition.Stage ?? 0) - stage))
                         .First();
                 }
                 return area;
-            }
-
-            public void SaveAll()
-            {
-                foreach (var kvp in _stageToArea)
-                {
-                    kvp.Value.Save();
-                }
             }
 
             public void AddGimmick(Rng rng, GimmickPlacement placement)

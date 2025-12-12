@@ -13,6 +13,7 @@
                 {
                     field = value;
                     Location = StageIds.GetLocationFromPath(value);
+                    Stage = StageIds.GetStageFromPath(value);
                 }
             }
         } = "";

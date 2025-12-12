@@ -7,7 +7,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public static class StageIds
     {
-        private static Regex _locationRegex = new(@"/loc(\d\d)/", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex _locationRegex = new(@"/(?:loc|st)(\d\d)/", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex _stageRegex = new(@"st(\d\d)_(\d\d\d)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static ImmutableArray<StageDefinition> _stages;
 
         public static ImmutableArray<StageDefinition> Stages
@@ -32,6 +33,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             var m = _locationRegex.Match(path);
             return m.Success ? int.Parse(m.Groups[1].Value) : null;
+        }
+
+        public static int? GetStageFromPath(string path)
+        {
+            var m = _stageRegex.Match(path);
+            return m.Success ? int.Parse(m.Groups[1].Value + m.Groups[2].Value) : null;
         }
 
         public class StagesDefinition
