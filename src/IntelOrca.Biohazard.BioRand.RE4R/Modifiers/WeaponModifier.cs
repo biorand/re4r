@@ -955,7 +955,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private readonly Dictionary<int, int> _colMap = new();
 
         public WeaponStatTable(DynamicData dynamicData)
-            : this(dynamicData.GetData(DynamicDataName.WeaponRng))
+            : this(dynamicData.GetData(DynamicDataName.WeaponRng)!)
         {
         }
 

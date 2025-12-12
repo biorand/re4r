@@ -56,7 +56,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         private void AddMedia()
         {
-            FileRepository.ApplyOverlay(FileRepository.GetSupplementFile("flamethrower.zip"));
+            FileRepository.ApplyOverlay(FileRepository.GetSupplementFile("flamethrower.zip")!);
         }
 
         private void UpdateStrings()
@@ -1159,7 +1159,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         public ImmutableArray<ImmutableDictionary<string, object>> Weapons { get; }
 
         public WeaponBaseStats(DynamicData dynamicData)
-            : this(dynamicData.GetData(DynamicDataName.WeaponBase))
+            : this(dynamicData.GetData(DynamicDataName.WeaponBase)!)
         {
         }
 

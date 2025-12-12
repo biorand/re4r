@@ -1,7 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
 using chainsaw;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -62,7 +61,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("inventory-additional-recipes"))
                 return;
 
-            var recipeData = randomizer.DynamicData.GetData(DynamicDataName.Recipe);
+            var recipeData = randomizer.DynamicData.GetData(DynamicDataName.Recipe)!;
             var recipes = Csv.Deserialize<Recipe>(recipeData);
 
             var path = GetPath(randomizer.Campaign);
