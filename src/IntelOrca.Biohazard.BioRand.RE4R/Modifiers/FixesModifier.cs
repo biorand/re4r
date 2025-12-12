@@ -136,19 +136,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private void SlowDownFactoryDoor(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             const float speed = 0.025f;
-            const string scnPath = "natives/stm/_chainsaw/environment/scene/gimmick/st44/gimmick_st44_210_p000.scn.20";
 
             logger.LogLine("Slow down factory door");
-            randomizer.FileRepository.ModifyScnFile(scnPath, scene =>
-            {
-                var wheelObject = scene.FindGameObject(new Guid("f6ab6635-ec2f-420c-8d9b-c14583ce30a4"))!;
-                return scene.UpdateGameObject(wheelObject
-                    .AddOrUpdateComponent(wheelObject
-                        .FindComponent("chainsaw.GmHoldHandle")!
-                            .Set("_ReduceProcess", speed)
-                            .Set("_ReduceProcessLv2", speed)
-                            .Set("_ReduceProcessLv3", speed)));
-            });
+            var factoryDoorGuid = new Guid("f6ab6635-ec2f-420c-8d9b-c14583ce30a4");
+            var area = randomizer.AreaService.FindAreaContainingGameObject(factoryDoorGuid);
+            if (area == null)
+                return;
+
+            var wheelObject = area.Scene.FindGameObject(factoryDoorGuid);
+            if (wheelObject == null)
+                return;
+
+            area.Scene = area.Scene.UpdateGameObject(wheelObject
+                .AddOrUpdateComponent(wheelObject
+                    .FindComponent("chainsaw.GmHoldHandle")!
+                        .Set("_ReduceProcess", speed)
+                        .Set("_ReduceProcessLv2", speed)
+                        .Set("_ReduceProcessLv3", speed)));
         }
 
         private void IncreaseJetSkiTimer(ChainsawRandomizer randomizer, RandomizerLogger logger)
@@ -213,25 +217,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void RandomizeFirstBearTrap(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            const string scnPath = "natives/stm/_chainsaw/environment/scene/gimmick/st40/gimmick_st40_505_p000.scn.20";
-
             var rng = randomizer.GetRng("modifier/fixes/beartrap");
             if (rng.NextProbability(50))
                 return;
 
-            logger.LogLine("Randomize first bear trap location");
-            randomizer.FileRepository.ModifyScnFile(scnPath, scene =>
-            {
-                var bearTrapObject = scene.FindGameObject(new Guid("601d0ce7-ca40-40d0-bba9-73918a141a96"));
-                if (bearTrapObject != null)
-                {
-                    var transform = bearTrapObject.FindComponent("via.Transform")!;
-                    scene = scene.UpdateGameObject(bearTrapObject
-                        .AddOrUpdateComponent(transform
-                            .Set("Position", new Vector3(-76.99f, 5.14f, 35.3336f))));
-                }
-                return scene;
-            });
+            logger.LogLine("Move first bear trap location");
+            var bearTrapGuid = new Guid("601d0ce7-ca40-40d0-bba9-73918a141a96");
+            var area = randomizer.AreaService.FindAreaContainingGameObject(bearTrapGuid);
+            if (area == null)
+                return;
+
+            var bearTrapObject = area.Scene.FindGameObject(bearTrapGuid);
+            if (bearTrapObject == null)
+                return;
+
+            var transform = bearTrapObject.FindComponent("via.Transform")!;
+            area.Scene = area.Scene.UpdateGameObject(bearTrapObject
+                .AddOrUpdateComponent(transform
+                    .Set("Position", new Vector3(-76.99f, 5.14f, 35.3336f))));
         }
 
         private void SetBuyHoldTime(ChainsawRandomizer randomizer, RandomizerLogger logger)
