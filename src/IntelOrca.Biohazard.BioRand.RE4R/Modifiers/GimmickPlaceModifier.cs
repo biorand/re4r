@@ -18,7 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .Where(x => x.Kind.Trim() is string s && !string.IsNullOrEmpty(s) && !s.StartsWith('#'))
                 .ToImmutableArray();
 
-            var rng = randomizer.CreateRng();
+            var rng = randomizer.GetRng("modifier/gimmickplace");
 
             var bawk = randomizer.HasSpecialTouch("bawk");
             var extraMerchants = randomizer.GetConfigOption("extra-merchants", true);

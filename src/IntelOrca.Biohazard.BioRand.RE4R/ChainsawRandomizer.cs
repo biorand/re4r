@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
+using IntelOrca.Biohazard.REE.Cryptography;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -129,12 +130,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             _rng = rng;
 
             _valuableDistributor = new ValuableDistributor(this);
-            _valuableDistributor.Setup(_itemRandomizer, CreateRng(), logger.Process);
-
-            var inventoryRng = CreateRng();
-            var merchantRng = CreateRng();
-            var enemyRng = CreateRng();
-            var itemRng = CreateRng();
+            _valuableDistributor.Setup(_itemRandomizer, GetRng("service/valuabledistributor"), logger.Process);
 
             // Patches
             if (campaign != Campaign.Ada)
@@ -220,16 +216,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }.ToImmutableArray();
         }
 
+        public Rng GetRng(params object[] key)
+        {
+            var hashInput = string.Concat([_input.Seed, .. key]);
+            var seed = MurMur3.HashData(hashInput);
+            return new Rng(seed);
+        }
+
         public T? GetConfigOption<T>(string key, T? defaultValue = default)
         {
             if (_input.Configuration == null)
                 return defaultValue;
             return _input.Configuration.GetValueOrDefault<T>(key, defaultValue);
-        }
-
-        public Rng CreateRng()
-        {
-            return _rng.NextFork();
         }
 
         public bool HasSpecialTouch(string kind)

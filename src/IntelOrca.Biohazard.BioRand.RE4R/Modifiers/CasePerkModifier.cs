@@ -64,7 +64,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var rng = randomizer.CreateRng();
+            var rng = randomizer.GetRng("modifier/caseperk");
             if (!randomizer.GetConfigOption<bool>("random-case-perks"))
                 return;
 

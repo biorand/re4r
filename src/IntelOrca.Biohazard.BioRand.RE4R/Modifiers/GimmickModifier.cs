@@ -44,7 +44,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var traps = randomizer.GetConfigOption<double>("gimmicks-traps");
             var explosionProbability = 5;
 
-            var rng = randomizer.CreateRng();
+            var rng = randomizer.GetRng("modifier/gimmick");
             var randomItemSettings = new RandomItemSettings
             {
                 ItemRatioKeyFunc = (dropKind) => randomizer.GetConfigOption<double>($"enemy-drop-ratio-{dropKind}"),

@@ -42,7 +42,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             var itemData = ChainsawItemData.FromRandomizer(randomizer);
-            var rng = randomizer.CreateRng();
+            var rng = randomizer.GetRng("modifier/inventory");
 
             inventory.PTAS = rng.Next(0, 200) * 100;
             inventory.SpinelCount = rng.Next(0, 5);

@@ -112,7 +112,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             _uniqueHp = 1;
             _allEnemyClasses = randomizer.EnemyClassFactory.GetClasses(randomizer);
 
-            var rng = randomizer.CreateRng();
+            var rng = randomizer.GetRng("modifier/enemy");
             var areaByChapter = randomizer.AreaService.Areas
                 .Where(x => x.Definition.Kind == AreaKind.General)
                 .GroupBy(x => x.Definition.Chapter);

@@ -11,13 +11,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var rng = randomizer.CreateRng();
-
             var extraEnemiesPercent = randomizer.GetConfigOption("extra-enemy-amount", 0.5);
             if (extraEnemiesPercent <= 0)
                 return;
 
-            var extraEnemiesToPlace = GetExtraEnemiesToPlace(randomizer, extraEnemiesPercent, rng)
+            var extraEnemiesToPlace = GetExtraEnemiesToPlace(randomizer, extraEnemiesPercent)
                 .GroupBy(x => FindBestAreaForEnemy(randomizer, x)!)
                 .Where(x => x.Key != null)
                 .ToDictionary(x => x.Key, x => x.ToArray());
@@ -39,7 +37,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     foreach (var enemyDef in g)
                     {
-                        spawnController = AddEnemyToSpawnController(randomizer, spawnController, enemyDef, rng, logger);
+                        spawnController = AddEnemyToSpawnController(randomizer, spawnController, enemyDef, logger);
                     }
                     logger.Pop();
 
@@ -49,12 +47,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private static ImmutableArray<EnemyPlacement> GetExtraEnemiesToPlace(ChainsawRandomizer randomizer, double amount, Rng rng)
+        private static ImmutableArray<EnemyPlacement> GetExtraEnemiesToPlace(ChainsawRandomizer randomizer, double amount)
         {
             var allExtraEnemies = randomizer.EnemyService.EnemyPlacements
                 .Where(x => x.IsExtra)
                 .Where(x => x.Campaign == randomizer.Campaign)
-                .Shuffle(rng);
+                .Shuffle(randomizer.GetRng("modifier/enemyplace"));
 
             var count = (int)Math.Round(allExtraEnemies.Length * amount);
             return allExtraEnemies.Take(count).ToImmutableArray();
@@ -100,12 +98,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private static RszGameObject AddEnemyToSpawnController(ChainsawRandomizer randomizer, RszGameObject spawnController, EnemyPlacement e, Rng rng, RandomizerLogger logger)
+        private static RszGameObject AddEnemyToSpawnController(ChainsawRandomizer randomizer, RszGameObject spawnController, EnemyPlacement e, RandomizerLogger logger)
         {
             var contextId = randomizer.EnemyService.GetNextContextId();
             logger.LogLine($"Enemy {contextId} Position = ({e.Position.X}, {e.Position.Y}, {e.Position.Z})");
 
-            var rotation = e.HasEmptyRotation ? RandomRotation(rng) : e.Rotation;
+            var rotation = e.HasEmptyRotation ? RandomRotation(randomizer.GetRng("modifier/enemyplace/rotation", e.GuidOrAuto)) : e.Rotation;
             var transform = RszFactory.CreateTransform(e.Position, rotation.ToQuaternion());
             var spawnParam = FileRepository.RszRepository.Create("chainsaw.Ch1c0SpawnParamCommon")
                 .Set("Enabled", true)

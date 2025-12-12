@@ -56,7 +56,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return;
 
             var preserveModels = randomizer.GetConfigOption<bool>("preserve-item-models");
-            var rng = randomizer.CreateRng();
 
             var areaService = randomizer.AreaService;
             var itemService = randomizer.ItemService;
@@ -81,7 +80,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .Where(x => x.Campaign == randomizer.Campaign)
                 .Where(x => CanChangeItem(randomizer, x))
                 .ToArray();
-            var result = Randomize(randomizer, itemsToChange, rng, logger);
+            var result = Randomize(randomizer, itemsToChange, logger);
             foreach (var area in areaService.Areas)
             {
                 if (!preserveModels)
@@ -113,7 +112,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             });
         }
 
-        private Dictionary<ContextId, Item> Randomize(ChainsawRandomizer randomizer, IEnumerable<ItemPlacement> placements, Rng rng, RandomizerLogger logger)
+        private Dictionary<ContextId, Item> Randomize(ChainsawRandomizer randomizer, IEnumerable<ItemPlacement> placements, RandomizerLogger logger)
         {
             var result = new Dictionary<ContextId, Item>();
             var randomItemSettings = new RandomItemSettings
@@ -138,6 +137,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Push($"Chapter {chapter}");
 
                 // Valuables
+                var rng = randomizer.GetRng("modifier/dropitem");
                 var valuableItems = chapterItems
                     .Where(x => x.Exclude.IsDefaultOrEmpty && !x.Tags.Contains(ItemTags.Dlc))
                     .Shuffle(rng)

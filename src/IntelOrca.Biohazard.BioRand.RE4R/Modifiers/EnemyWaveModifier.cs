@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -9,7 +10,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var rng = randomizer.CreateRng();
             if (!randomizer.GetConfigOption<bool>("random-enemies"))
                 return;
 
@@ -21,7 +21,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var waveProbability = Math.Clamp(randomizer.GetConfigOption<float>("enemy-waves-probability", 1), 0, 1);
             var allSpawns = randomizer.AreaService.Areas
                 .SelectMany(x => x.Enemies)
-                .Shuffle(rng)
+                .Shuffle(randomizer.GetRng("modifier/enemywave/pick"))
                 .ToArray();
 
             var maxWavedEnemies = (int)(waveProbability * allSpawns.Length);
@@ -41,10 +41,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var scn = oldSpawn.Area.ScnFile;
                 var oldSpawnController = oldSpawn.SpawnController ?? throw new Exception("No spawn controller found");
                 var lastSpawn = oldSpawn;
-                var numWaves = rng.Next(minWaves, maxWaves + 1);
+                var waveRng = randomizer.GetRng("modifier/enemywave/wave", oldSpawn.Guid);
+                var numWaves = waveRng.Next(minWaves, maxWaves + 1);
                 for (var i = 1; i < numWaves; i++)
                 {
-                    var spawnControllerGameObject = RszFactory.CreateSpawnPointController(rng.NextGuid(), $"BioRandOnDeathSpawn_{i}", waveDistance, [lastSpawn.Enemy]);
+                    var guid = $"{oldSpawn.Guid}_wave_${i}".GetGuidHash();
+                    var spawnControllerGameObject = RszFactory.CreateSpawnPointController(guid, $"BioRandOnDeathSpawn_{i}", waveDistance, [lastSpawn.Enemy]);
                     var spawnController = area.AddSpawnController(spawnControllerGameObject);
 
                     var deathFlag = flagService.Allocate();

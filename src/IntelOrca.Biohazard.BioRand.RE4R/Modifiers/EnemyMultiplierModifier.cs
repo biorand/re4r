@@ -12,7 +12,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var rng = randomizer.CreateRng();
             var areaByChapter = randomizer.AreaService.Areas.GroupBy(x => x.Definition.Chapter);
             if (randomizer.GetConfigOption<bool>("random-enemies"))
             {
@@ -23,7 +22,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     foreach (var area in chapterAreas)
                     {
                         logger.Push(area.FileName);
-                        RandomizeArea(randomizer, area, rng);
+                        RandomizeArea(randomizer, area);
                         logger.Pop();
                     }
                     _stageEnemyCount.Clear();
@@ -33,7 +32,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void RandomizeArea(ChainsawRandomizer randomizer, Area area, Rng rng)
+        private void RandomizeArea(ChainsawRandomizer randomizer, Area area)
         {
             // Duplicate enemy spawns
             var spawns = area.Enemies.ToImmutableArray();
@@ -43,10 +42,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 _stageEnemyCount.TryGetValue(stageId, out var count);
                 _stageEnemyCount[stageId] = ++count;
             }
-            DuplicateEnemies(randomizer, spawns, rng);
+            DuplicateEnemies(randomizer, spawns);
         }
 
-        private void DuplicateEnemies(ChainsawRandomizer randomizer, ImmutableArray<EnemySpawn> spawns, Rng rng)
+        private void DuplicateEnemies(ChainsawRandomizer randomizer, ImmutableArray<EnemySpawn> spawns)
         {
             var multiplier = randomizer.GetConfigOption<double>("enemy-multiplier", 1);
             var maxPerStage = randomizer.GetConfigOption("debug-stage-enemy-limit-default", 25);
@@ -64,6 +63,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var delta = (int)Math.Round(newEnemyCount - stageSpawns.Length);
                 if (delta != 0)
                 {
+                    var rng = randomizer.GetRng("modifier/enemymultiplier/pick", g.Key);
                     var bag = new EndlessBag<EnemySpawn>(rng, stageSpawns);
                     while (delta > 0)
                     {

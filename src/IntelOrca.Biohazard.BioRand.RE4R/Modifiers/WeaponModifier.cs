@@ -86,7 +86,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             _baseStats.Clear();
 
-            var rng = randomizer.CreateRng();
+            var rng = randomizer.GetRng("modifier/weapon");
             var priceRng = rng.NextFork();
             var valueRng = rng.NextFork();
 
@@ -159,7 +159,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return (cost, info);
         }
 
-    private void RandomizeStats(ChainsawRandomizer randomizer, WeaponStats wp, Rng rng, bool randomUpgrades)
+        private void RandomizeStats(ChainsawRandomizer randomizer, WeaponStats wp, Rng rng, bool randomUpgrades)
         {
             var exclusives = wp.Modifiers.OfType<IWeaponExclusive>().ToImmutableArray();
 
@@ -364,7 +364,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return true;
         }
 
-    private StatRange? RandomizeFromRanges(ChainsawRandomizer randomizer, Rng rng, WeaponStats wp, WeaponUpgradePath path, float minIncrement = 0.05f)
+        private StatRange? RandomizeFromRanges(ChainsawRandomizer randomizer, Rng rng, WeaponStats wp, WeaponUpgradePath path, float minIncrement = 0.05f)
         {
             var property = WeaponStatTable.GetPropertyName(path);
             var table = _weaponStatTable!;
@@ -372,9 +372,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var highRoller = super ? " (high roller)" : "";
             var powerScaleEnabled = randomizer.GetConfigOption<bool>("weapon-power-scale-enabled");
             var highRollerEnabled = randomizer.GetConfigOption<bool>("weapon-god-roll-enabled");
-            
-            float l1min, l1max, l5min, l5max; 
-            
+
+            float l1min, l1max, l5min, l5max;
+
             float highRollerValue = 1.0f;
             if (super == true && highRollerEnabled == true)
             {
@@ -405,8 +405,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
                 else if (highRollerEnabled == false && super == true)
                 {
-                l5min = l5max;
-                l5max = l5max * 1.3f;
+                    l5min = l5max;
+                    l5max = l5max * 1.3f;
                 }
             }
             else
@@ -425,36 +425,36 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     l5max = l5max * highRollerValue;
                 }
             }
-            
-                var l1 = r(l1min, l1max);
-                var l5 = minIncrement >= 0
-                    ? Math.Max(l1 + (4 * minIncrement), r(l5min, l5max))
-                    : Math.Min(l1 + (4 * minIncrement), r(l5min, l5max));
-                var values = Enumerable.Range(1, 5).Select(x => lerp(l1, l5, x)).ToArray();
-                var cost = Enumerable.Range(1, 5).Select(getCost).ToArray();
-                return new StatRange(cost, values);
 
-                float r(float a, float b) => MathF.Round(b < a ? rng.NextFloat(b, a) : rng.NextFloat(a, b), 2);
-                float lerp(float a, float b, int level)
-                {
-                    var t = (level - 1) / 4.0f;
-                    return MathF.Round(a + ((b - a) * t), 2);
-                }
-                int getCost(int level)
-                {
-                    var value = table.GetValue(wp.Id, $"{property} cost/level {level}");
-                    if (value != 0)
-                        return (int)value;
+            var l1 = r(l1min, l1max);
+            var l5 = minIncrement >= 0
+                ? Math.Max(l1 + (4 * minIncrement), r(l5min, l5max))
+                : Math.Min(l1 + (4 * minIncrement), r(l5min, l5max));
+            var values = Enumerable.Range(1, 5).Select(x => lerp(l1, l5, x)).ToArray();
+            var cost = Enumerable.Range(1, 5).Select(getCost).ToArray();
+            return new StatRange(cost, values);
 
-                    var upgrade = wp.Modifiers
-                        .OfType<IWeaponUpgrade>()
-                        .FirstOrDefault(x => x.Kind == GetUpgradeKind(path));
-                    if (upgrade != null)
-                        return Math.Max(0, upgrade.Cost[level - 1]);
-                    return 0;
-                }
+            float r(float a, float b) => MathF.Round(b < a ? rng.NextFloat(b, a) : rng.NextFloat(a, b), 2);
+            float lerp(float a, float b, int level)
+            {
+                var t = (level - 1) / 4.0f;
+                return MathF.Round(a + ((b - a) * t), 2);
+            }
+            int getCost(int level)
+            {
+                var value = table.GetValue(wp.Id, $"{property} cost/level {level}");
+                if (value != 0)
+                    return (int)value;
+
+                var upgrade = wp.Modifiers
+                    .OfType<IWeaponUpgrade>()
+                    .FirstOrDefault(x => x.Kind == GetUpgradeKind(path));
+                if (upgrade != null)
+                    return Math.Max(0, upgrade.Cost[level - 1]);
+                return 0;
+            }
         }
-        
+
 
         private static WeaponUpgradeKind GetUpgradeKind(WeaponUpgradePath path)
         {

@@ -128,7 +128,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             _shop = ChainsawMerchantShop.FromData(randomizer.FileRepository, randomizer.Campaign);
 
-            var rng = randomizer.CreateRng();
+            var rng = randomizer.GetRng("modifier/merchantshop");
             var internalRandomizer = new ShopRandomizer(rng, randomizer, _shop, logger);
             internalRandomizer.Go();
         }

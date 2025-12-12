@@ -12,8 +12,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var rng = randomizer.CreateRng();
-
             // Once
             SetBuyHoldTime(randomizer, logger);
 
@@ -21,7 +19,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 DisableFirstAreaInhibitor(randomizer, logger);
                 ForceNgPlusMerchantLeon(randomizer, logger);
-                RandomizeFirstBearTrap(randomizer, logger, rng);
+                RandomizeFirstBearTrap(randomizer, logger);
                 SlowDownFactoryDoor(randomizer, logger);
                 if (randomizer.GetConfigOption<bool>("random-enemies"))
                 {
@@ -37,7 +35,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     ImproveBellTriggeredEnemies(randomizer, logger);
                     ImproveAdaKnightRoom(randomizer, logger);
-                    ImproveAdaMaze(randomizer, rng, logger);
+                    ImproveAdaMaze(randomizer, logger);
                     ImproveAdaGarradorRoom(randomizer, logger);
                 }
             }
@@ -55,7 +53,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             ChangeMessages(randomizer, logger);
             FixAddedWeaponNames(randomizer, logger);
-            FixEnemyHp(randomizer, rng, logger);
+            FixEnemyHp(randomizer, logger);
             FixEnemyWeaponDamage(randomizer, logger);
             // FixSmallKeySellable(randomizer, logger);
             FixSentinelNineIssue(randomizer, logger);
@@ -262,10 +260,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void RandomizeFirstBearTrap(ChainsawRandomizer randomizer, RandomizerLogger logger, Rng rng)
+        private void RandomizeFirstBearTrap(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             const string scnPath = "natives/stm/_chainsaw/environment/scene/gimmick/st40/gimmick_st40_505_p000.scn.20";
 
+            var rng = randomizer.GetRng("modifier/fixes/beartrap");
             if (rng.NextProbability(50))
                 return;
 
@@ -469,7 +468,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 #endif
         }
 
-        private void ImproveAdaMaze(ChainsawRandomizer randomizer, Rng rng, RandomizerLogger logger)
+        private void ImproveAdaMaze(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             if (!randomizer.GetConfigOption<bool>("random-enemies"))
                 return;
@@ -507,6 +506,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     positions = positions.Where(x => x.Item1 != KindSmall).ToArray();
                 }
+
+                var rng = randomizer.GetRng("modifier/fixes/adamaze");
                 var (kind, x, y, z, d) = rng.NextOf(positions);
                 if (kind != KindNone)
                 {
@@ -642,7 +643,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             fileRepository.SetMsgFile(itemNamePath, itemName.Build());
         }
 
-        private void FixEnemyHp(ChainsawRandomizer randomizer, Rng rng, RandomizerLogger logger)
+        private void FixEnemyHp(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var bruteHpPaths = randomizer.Campaign == Campaign.Leon
                 ? ["natives/stm/_chainsaw/appsystem/character/ch1c0z0/userdata/ch1c0z0enhancedhp.user.2"]
@@ -678,6 +679,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             // Fix Pesanta
             if (randomizer.Campaign == Campaign.Ada && randomizer.GetConfigOption<bool>("boss-random-health"))
             {
+                var rng = randomizer.GetRng("modifier/fixes/pesantahp");
                 SetChapterHp2(randomizer, pesantaPath, 30100, rng.Next(
                     randomizer.GetConfigOption<int>("boss-health-min-pesanta-1"),
                     randomizer.GetConfigOption<int>("boss-health-max-pesanta-1") + 1));
