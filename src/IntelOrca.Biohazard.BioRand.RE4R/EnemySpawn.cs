@@ -103,6 +103,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 IncludeExclude();
             }
 
+            // Mini bosses should not be invincible
+            if (!string.IsNullOrEmpty(spawn.EnemyPlacement.MiniBoss))
+            {
+                enemyClasses = enemyClasses
+                    .Where(x => !x.Groups.Contains("invincible"))
+                    .ToImmutableArray();
+            }
+
             // Pigs crash the game if a conditional spawn
             if (!spawn.HasStaticSpawn)
             {
