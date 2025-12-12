@@ -25,7 +25,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (area == null)
                     continue;
 
-                placement.ContextId = itemService.GetNextContextId();
+                placement.ContextId = randomizer.FlagService.AllocateContextId(2, 3);
                 var transform = new Transform
                 {
                     Position = new Vector3(placement.X, placement.Y, placement.Z),
@@ -40,11 +40,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 gameObject = gameObject.AddOrUpdateComponent(
                     gameObject
                         .FindComponent("chainsaw.DropItem")!
-                        .Set("_ID", placement.ContextId.ToRszValue())
+                        .Set("_ID", placement.ContextId)
                         .Set("_ItemData.StageID", placement.Stage));
 
                 var userdata = new chainsaw.DropItemSaveDataTable.Data();
-                userdata.ID = placement.ContextId.ToRszValue();
+                userdata.ID = placement.ContextId;
                 userdata.ItemData.StageID = placement.Stage;
 
                 area.Scene = area.Scene.Add(gameObject);

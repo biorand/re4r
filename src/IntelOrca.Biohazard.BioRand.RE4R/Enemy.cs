@@ -32,17 +32,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             set => GameObject = value.UpdateGameObject(GameObject);
         }
 
-        public ContextId ContextId
+        public chainsaw.ContextID ContextId
         {
-            get
-            {
-                var contextId = (RszObjectNode)GetFieldValue("_ContextID")!;
-                return ContextId.FromRsz(contextId);
-            }
-            set
-            {
-                MainComponent = MainComponent.SetField("_ContextID", value.ToRsz(Area.Randomizer.FileRepository.TypeRepository));
-            }
+            get => GetFieldValue<chainsaw.ContextID>("_ContextID")!;
+            set => MainComponent = MainComponent.Set("_ContextID", value);
         }
 
         public int StageID => GetFieldValue<int>("_StageID");

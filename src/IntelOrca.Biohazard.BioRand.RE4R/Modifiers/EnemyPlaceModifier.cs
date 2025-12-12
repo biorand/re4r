@@ -100,7 +100,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private static RszGameObject AddEnemyToSpawnController(ChainsawRandomizer randomizer, RszGameObject spawnController, EnemyPlacement e, RandomizerLogger logger)
         {
-            var contextId = randomizer.EnemyService.GetNextContextId();
+            var contextId = randomizer.FlagService.AllocateContextId(0, 0);
             logger.LogLine($"Enemy {contextId} Position = ({e.Position.X}, {e.Position.Y}, {e.Position.Z})");
 
             var rotation = e.HasEmptyRotation ? RandomRotation(randomizer.GetRng("modifier/enemyplace/rotation", e.GuidOrAuto)) : e.Rotation;
@@ -110,8 +110,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .Set("_StageID", e.Stage)
                 .Set("_SpawmRadius", 20.0f)
                 .Set("_DeathNotifyFlag", e.DeathFlag)
-                .Set("_ContextID._Group", contextId.Group)
-                .Set("_ContextID._Index", contextId.Index)
+                .Set("_ContextID", contextId)
                 .Set("_RoleType", 3)
                 .Set("_IsEnableUnreachable", true)
                 .Set("_RolePatternHash", 3152132219U)

@@ -10,8 +10,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
     internal class BattleModifier : Modifier
     {
-        private int _contextId;
-
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             if (!randomizer.GetConfigOption<bool>("battle-arenas"))
@@ -42,7 +40,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (area == null)
                     continue;
 
-                var lockFlag = randomizer.FlagService.Allocate();
+                var lockFlag = randomizer.FlagService.AllocateFlag();
                 AddAreaHit(area, new Vector3(trigger.X, trigger.Y, trigger.Z), trigger.Radius, lockFlag);
 
                 var enemies = randomizer.EnemyService.EnemyPlacements
@@ -56,7 +54,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     e.Condition = lockFlag.ToString();
                     if (e.HasTag(EnemyTags.Guardian))
                     {
-                        e.DeathFlag = randomizer.FlagService.Allocate();
+                        e.DeathFlag = randomizer.FlagService.AllocateFlag();
                         unlockFlags.Add(e.DeathFlag);
                     }
                 }
@@ -71,7 +69,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void AddAreaHit(Area area, Vector3 position, float radius, Guid flag)
         {
-            var contextId = AllocateContextId();
+            var contextId = area.Randomizer.FlagService.AllocateContextId(1, 1);
 
             var gimmick = GimmickTemplate
                 .Get("Biorand_AreaHit")
@@ -191,17 +189,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             gmOptionDoorLock = gmOptionDoorLock.Set("LockRule", lockRule);
             paramObject = paramObject.AddOrUpdateComponent(gmOptionDoorLock);
             area.Scene = area.Scene.UpdateGameObject(paramObject);
-        }
-
-        private ContextID AllocateContextId()
-        {
-            return new ContextID
-            {
-                _Category = 5,
-                _Kind = 0,
-                _Group = 2,
-                _Index = _contextId++
-            };
         }
 
         internal class BattleParameter

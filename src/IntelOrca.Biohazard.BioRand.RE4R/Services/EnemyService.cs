@@ -12,8 +12,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 {
     internal class EnemyService
     {
-        private int _contextIdGroup;
-        private int _contextIdIndex;
         private Dictionary<Guid, EnemyPlacement> _guidToEnemyPlacements;
 
         public List<EnemyPlacement> EnemyPlacements { get; private set; }
@@ -32,11 +30,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         {
             EnemyPlacements = EnemyPlacements.Except(placements).ToList();
             _guidToEnemyPlacements = EnemyPlacements.ToDictionary(x => x.GuidOrAuto);
-        }
-
-        public ContextId GetNextContextId()
-        {
-            return new ContextId(0, 0, _contextIdGroup, _contextIdIndex++);
         }
 
         public EnemyPlacement? Find(Guid guid)

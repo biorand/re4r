@@ -41,11 +41,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             _dirty = true;
         }
 
-        public void Update(Dictionary<ContextId, Item> placements)
+        public void Update(Dictionary<chainsaw.ContextID, Item> placements)
         {
             foreach (var data in _table.Datas)
             {
-                if (placements.TryGetValue(ContextId.FromRszValue(data.ID), out var item))
+                if (placements.TryGetValue(data.ID, out var item))
                 {
                     UpdateItem(data, item);
                     _dirty = true;

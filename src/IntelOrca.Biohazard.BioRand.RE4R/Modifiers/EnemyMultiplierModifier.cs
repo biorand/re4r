@@ -74,7 +74,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                         if (currentStageIdCount < maxPerStage)
                         {
-                            var newEnemy = enemyToDuplicate.Duplicate(randomizer.GetNextEnemyContextId());
+                            var newEnemy = enemyToDuplicate.Duplicate(randomizer.FlagService.AllocateContextId(0, 0));
                             var spawnController = enemyToDuplicate.SpawnController ?? throw new Exception("No spawn controller found");
                             spawnController.AddEnemy(newEnemy);
                             newList.Add(newEnemy);

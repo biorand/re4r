@@ -34,7 +34,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     // dropItem.Get<int>("_ItemData.AmmoItemID");
                     // dropItem.Get<int>("_ItemData.AmmoCount");
 
-                    var contextId = ContextId.FromRsz(dropItem.Get<RszObjectNode>("_ID"));
+                    var contextId = dropItem.Get<chainsaw.ContextID>("_ID");
                     var position = new Transform(go).Position;
                     var item = new Item(itemId, itemCount);
                     logger.LogLine(
@@ -71,7 +71,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         var itemDrop = gameObject.FindComponent("chainsaw.DropItem")!;
                         var itemData = itemDrop.Get<chainsaw.DropItemContext.SaveData>("_ItemData");
                         placement.OldItem = new Item(itemData.ItemID, itemData.Count);
-                        placement.ContextId = ContextId.FromRsz(itemDrop.Get<RszObjectNode>("_ID"));
+                        placement.ContextId = itemDrop.Get<chainsaw.ContextID>("_ID");
                     }
                 }
             }
@@ -91,14 +91,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void UpdateModels(Area area, Dictionary<ContextId, Item> placements)
+        private void UpdateModels(Area area, Dictionary<chainsaw.ContextID, Item> placements)
         {
             area.Scene = area.Scene.VisitGameObjects(go =>
             {
                 var itemDrop = go.FindComponent("chainsaw.DropItem");
                 if (itemDrop != null)
                 {
-                    var contextId = ContextId.FromRsz(itemDrop["_ID"]);
+                    var contextId = itemDrop.Get<chainsaw.ContextID>("_ID");
                     if (placements.TryGetValue(contextId, out var item))
                     {
                         go = go.AddOrUpdateComponent(itemDrop
@@ -112,9 +112,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             });
         }
 
-        private Dictionary<ContextId, Item> Randomize(ChainsawRandomizer randomizer, IEnumerable<ItemPlacement> placements, RandomizerLogger logger)
+        private Dictionary<chainsaw.ContextID, Item> Randomize(ChainsawRandomizer randomizer, IEnumerable<ItemPlacement> placements, RandomizerLogger logger)
         {
-            var result = new Dictionary<ContextId, Item>();
+            var result = new Dictionary<chainsaw.ContextID, Item>();
             var randomItemSettings = new RandomItemSettings
             {
                 ItemRatioKeyFunc = (dropKind) => randomizer.GetConfigOption<double>($"item-drop-ratio-{dropKind}"),
@@ -275,7 +275,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public ImmutableArray<string> Exclude { get; set; } = [];
 
         public Item OldItem { get; set; }
-        public ContextId ContextId { get; set; }
+        public chainsaw.ContextID ContextId { get; set; } = new();
 
         public Guid GuidOrAuto => Guid == default ? $"item_{Row}".GetGuidHash() : Guid;
         public bool IsExtra => Guid == default || Description.StartsWith("[EXTRA]");

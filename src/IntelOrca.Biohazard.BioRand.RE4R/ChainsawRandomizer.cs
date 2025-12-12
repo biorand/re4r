@@ -16,8 +16,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private ValuableDistributor? _valuableDistributor;
         private ItemRandomizer? _itemRandomizer;
         private ImmutableArray<Modifier> _modifiers = GetModifiers();
-        private Rng _rng = new Rng();
-        private int _contextId = 5000;
 
         public EnemyClassFactory EnemyClassFactory { get; }
         public IProgressReporter Reporter { get; }
@@ -125,9 +123,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             ApplySupplement();
 
             _itemRandomizer = new ItemRandomizer(this, logger.Process);
-
-            var rng = new Rng(input.Seed);
-            _rng = rng;
 
             _valuableDistributor = new ValuableDistributor(this);
             _valuableDistributor.Setup(_itemRandomizer, GetRng("service/valuabledistributor"), logger.Process);
@@ -238,11 +233,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var special = GetConfigOption<string>("special");
             var present = special?.Split(',').Contains(kind) == true;
             return present;
-        }
-
-        public int GetNextEnemyContextId()
-        {
-            return _contextId++;
         }
     }
 }

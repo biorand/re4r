@@ -8,8 +8,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
     internal class ItemService
     {
         private readonly Dictionary<Guid, ItemPlacement> _guidToItemPlacement;
-        private int _contextIdGroup;
-        private int _contextIdIndex;
 
         public List<ItemPlacement> ItemPlacements { get; private set; }
 
@@ -26,11 +24,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public ItemPlacement? FromGuid(Guid guid)
         {
             return _guidToItemPlacement.GetValueOrDefault(guid);
-        }
-
-        public ContextId GetNextContextId()
-        {
-            return new ContextId(2, 0, _contextIdGroup, _contextIdIndex++);
         }
     }
 }

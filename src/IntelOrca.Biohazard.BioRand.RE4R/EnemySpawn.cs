@@ -52,7 +52,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return PreferredClassPool.Contains(ecd);
         }
 
-        public EnemySpawn Duplicate(int contextId)
+        public EnemySpawn Duplicate(chainsaw.ContextID contextId)
         {
             var result = Area.Duplicate(this, contextId);
             result.ClassPool = ClassPool;

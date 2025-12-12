@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Cryptography;
 using IntelOrca.Biohazard.REE.Variables;
@@ -8,14 +9,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 {
     internal class FlagService(ChainsawRandomizer randomizer)
     {
+        private SortedDictionary<(int, int), int> _contextIdNum = new();
         private List<Guid> _flagGuids = [];
 
-        public Guid Allocate()
+        public Guid AllocateFlag()
         {
             var biorandFlagIndex = _flagGuids.Count;
             var guid = $"BioRand_{biorandFlagIndex:00000}".GetGuidHash();
             _flagGuids.Add(guid);
             return guid;
+        }
+
+        public chainsaw.ContextID AllocateContextId(int category, int group)
+        {
+            _contextIdNum.TryGetValue((category, group), out var num);
+            var result = new ContextID()
+            {
+                _Category = (sbyte)category,
+                _Kind = 0,
+                _Group = group,
+                _Index = num
+            };
+            _contextIdNum[(category, group)] = num + 1;
+            return result;
         }
 
         public void Save(RandomizerLogger logger)

@@ -74,7 +74,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private class GimmickFactory(ChainsawRandomizer randomizer)
         {
             private readonly Dictionary<int, Area> _stageToArea = new();
-            private int _contextId = 50_000;
 
             public FileRepository FileRepository => randomizer.FileRepository;
 
@@ -93,7 +92,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             public void AddGimmick(Rng rng, GimmickPlacement placement)
             {
-                var contextId = GetNewContextId();
+                var contextId = randomizer.FlagService.AllocateContextId(1, 2);
                 var area = GetScnForStage(placement.Stage);
 
                 var kind = placement.Kind;
@@ -214,17 +213,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                     return node;
                 });
-            }
-
-            private chainsaw.ContextID GetNewContextId()
-            {
-                return new chainsaw.ContextID()
-                {
-                    _Category = 5,
-                    _Kind = 0,
-                    _Group = 1,
-                    _Index = _contextId++
-                };
             }
         }
 

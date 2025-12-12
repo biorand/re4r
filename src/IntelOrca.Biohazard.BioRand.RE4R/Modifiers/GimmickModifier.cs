@@ -84,8 +84,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         if (enableGimmickModification)
                         {
                             // Exclude wooden box and barrel in factory (no gun)
-                            if (g.ContextId == new ContextId(1, 0, 12, 1750) ||
-                                g.ContextId == new ContextId(1, 0, 12, 1053))
+                            if (g.Guid == new Guid("510ff2ca-9c59-445d-bdd1-aa7e9196fb54") ||
+                                g.Guid == new Guid("c333c9be-4eae-4f1f-8bc1-bcfc0a9c2bbf"))
                                 continue;
 
                             if (rng.NextProbability(explosionProbability))
@@ -205,7 +205,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public string Name => GameObject.Name;
             public Guid Guid => GameObject.Guid;
             public string Kind => DetectKind();
-            public ContextId ContextId => GetContextId(GameObject);
+            public chainsaw.ContextID ContextId => GetContextId(GameObject);
             public Transform Transform => new(GameObject);
             public ImmutableDictionary<string, object> Properties => GetProperties();
 
@@ -231,8 +231,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                     if (paramObject.FindComponent("chainsaw.GmOptionSmoothWoodBox") is RszObjectNode gmOptionSmoothWoodBox)
                     {
-                        var enemyContextId = ContextId.FromRsz(gmOptionSmoothWoodBox["_EnemyContextID"]);
-                        if (enemyContextId.Category != -1)
+                        var enemyContextId = gmOptionSmoothWoodBox.Get<chainsaw.ContextID>("_EnemyContextID");
+                        if (enemyContextId._Category != -1)
                         {
                             properties["EnemyContextId"] = enemyContextId;
                         }
@@ -244,13 +244,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             public RszGameObject? ParamObject => GameObject.FindGameObject("ParamObject");
 
-            private static ContextId GetContextId(RszGameObject gameObject)
+            private static chainsaw.ContextID GetContextId(RszGameObject gameObject)
             {
                 var coreComponent = gameObject.FindComponent("chainsaw.GimmickCore");
                 if (coreComponent == null)
-                    return default;
+                    return new chainsaw.ContextID();
 
-                return ContextId.FromRsz(coreComponent["_ID"]);
+                return coreComponent.Get<chainsaw.ContextID>("_ID");
             }
 
             private string DetectKind()

@@ -1,6 +1,5 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-using System.Collections.Generic;
 using IntelOrca.Biohazard.REE.Rsz.Native;
 
 namespace chainsaw
@@ -1045,12 +1044,27 @@ namespace chainsaw
         }
     }
 
-    internal class ContextID
+    internal class ContextID : System.IEquatable<chainsaw.ContextID>
     {
         public System.SByte _Category { get; set; }
         public System.Byte _Kind { get; set; }
         public System.Int32 _Group { get; set; }
         public System.Int32 _Index { get; set; }
+
+        public override string ToString() => $"CTXID({_Category},{_Kind},{_Group},{_Index})";
+
+        public override bool Equals(object? obj) => obj is chainsaw.ContextID id && Equals(id);
+
+        public bool Equals(chainsaw.ContextID? other) =>
+            other is chainsaw.ContextID b &&
+            _Category == b._Category &&
+            _Kind == b._Kind &&
+            _Group == b._Group &&
+            _Index == b._Index;
+
+        public override int GetHashCode() => System.HashCode.Combine(_Category, _Kind, _Group, _Index);
+        public static bool operator ==(chainsaw.ContextID left, chainsaw.ContextID right) => left.Equals(right);
+        public static bool operator !=(chainsaw.ContextID left, chainsaw.ContextID right) => !(left == right);
     }
 
     internal class GimmickSaveDataTable
@@ -1129,7 +1143,7 @@ namespace chainsaw
 
     internal class FlagCondition
     {
-        public List<CheckFlagInfo> _CheckFlags { get; set; } = [];
+        public System.Collections.Generic.List<CheckFlagInfo> _CheckFlags { get; set; } = [];
         public int _Logic { get; set; }
     }
 

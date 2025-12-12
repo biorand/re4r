@@ -49,7 +49,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var spawnControllerGameObject = RszFactory.CreateSpawnPointController(guid, $"BioRandOnDeathSpawn_{i}", waveDistance, [lastSpawn.Enemy]);
                     var spawnController = area.AddSpawnController(spawnControllerGameObject);
 
-                    var deathFlag = flagService.Allocate();
+                    var deathFlag = flagService.AllocateFlag();
                     lastSpawn.Enemy.SetFieldValue("_DeathNotifyFlag", deathFlag);
                     spawnController.SpawnCondition = new chainsaw.FlagCondition()
                     {
@@ -64,7 +64,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     };
                     spawnController.SpawnSkipCondition = oldSpawnController.SpawnSkipCondition;
 
-                    var newSpawn = lastSpawn.Duplicate(randomizer.GetNextEnemyContextId());
+                    var newSpawn = lastSpawn.Duplicate(randomizer.FlagService.AllocateContextId(0, 0));
                     spawnController.AddEnemy(newSpawn);
                     newSpawn.Enemy.SetFieldValue("_ForceFind", true);
                     lastSpawn = newSpawn;

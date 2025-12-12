@@ -175,12 +175,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return enemySpawn;
         }
 
-        public EnemySpawn Duplicate(EnemySpawn enemy, int contextId)
+        public EnemySpawn Duplicate(EnemySpawn enemy, chainsaw.ContextID contextId)
         {
             var newGameObject = enemy.Enemy.GameObject.Clone();
             var newComponent = GetMainEnemyComponent(newGameObject) ?? throw new Exception("Unable to find new enemy component for duplicated enemy.");
             var newEnemy = new Enemy(this, newGameObject, newComponent);
-            newEnemy.ContextId = newEnemy.ContextId.WithIndex(contextId);
+            newEnemy.ContextId = contextId;
             var newEnemyPlacement = Randomizer.EnemyService.Duplicate(enemy.EnemyPlacement, newEnemy.Guid);
             var newEnemySpawn = new EnemySpawn(enemy.Area, enemy.SpawnController, enemy.Enemy, newEnemy, newEnemyPlacement);
             return newEnemySpawn;

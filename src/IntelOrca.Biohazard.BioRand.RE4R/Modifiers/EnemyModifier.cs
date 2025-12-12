@@ -720,14 +720,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var latchProbability = area.Randomizer.GetConfigOption<double>("arana-latch-probability");
             var shouldLatch = rng.NextDouble() <= latchProbability;
 
-            var contextId = area.Randomizer.EnemyService.GetNextContextId();
+            var contextId = area.Randomizer.FlagService.AllocateContextId(0, 0);
             var transform = RszFactory.CreateTransform();
             var spawnParam = FileRepository.RszRepository.Create("chainsaw.Ch1e0z0SpawnParam")
                 .Set("Enabled", true)
                 .Set("_StageID", stageId)
                 .Set("_SpawmRadius", 20.0f)
-                .Set("_ContextID._Group", contextId.Group)
-                .Set("_ContextID._Index", contextId.Index)
+                .Set("_ContextID", contextId)
                 .Set("_RoleType", 3)
                 .Set("_IsEnableUnreachable", true)
                 .Set("_RolePatternHash", 3152132219U)
