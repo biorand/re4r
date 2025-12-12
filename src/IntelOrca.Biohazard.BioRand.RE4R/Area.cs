@@ -18,7 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public ScnFile.Builder ScnFile { get; }
 
         public DropItemSaveDataFile ItemSaveData { get; }
-        public GimmickSaveDataTable GimmickSaveData { get; }
+        public GimmickSaveDataFile GimmickSaveData { get; }
 
         public RszScene Scene
         {
@@ -61,7 +61,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             EnemyClassFactory = enemyClassFactory;
             ScnFile = randomizer.FileRepository.GetScnFile(definition.Path).ToBuilder(randomizer.FileRepository.TypeRepository);
             ItemSaveData = new DropItemSaveDataFile(randomizer.FileRepository, definition.DropItemSaveDataPath);
-            GimmickSaveData = new GimmickSaveDataTable(randomizer.FileRepository, definition.GimmickSaveDataPath);
+            GimmickSaveData = new GimmickSaveDataFile(randomizer.FileRepository, definition.GimmickSaveDataPath);
             Scan();
         }
 

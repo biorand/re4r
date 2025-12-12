@@ -41,7 +41,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var enableGimmickModification = randomizer.GetConfigOption<bool>("ea-extra-gimmicks");
             var hidingLockers = randomizer.GetConfigOption<double>("gimmicks-hiding-lockers");
-            var hidingTraps = randomizer.GetConfigOption<double>("gimmicks-traps");
+            var traps = randomizer.GetConfigOption<double>("gimmicks-traps");
             var explosionProbability = 5;
 
             var rng = randomizer.CreateRng();
@@ -63,7 +63,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (enableGimmickModification)
             {
                 gimmicks = RemoveSomeGimmicks(gimmicks, rng, hidingLockers, GimmickKinds.HidingLocker);
-                gimmicks = RemoveSomeGimmicks(gimmicks, rng, hidingTraps, GimmickKinds.BearTrap, GimmickKinds.TripWire);
+                gimmicks = RemoveSomeGimmicks(gimmicks, rng, traps, GimmickKinds.BearTrap, GimmickKinds.TripWire);
             }
 
             // Modification
@@ -255,6 +255,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             private string DetectKind()
             {
+                if (GetKindFromPrefab(GameObject.Prefab) is string kind)
+                    return kind;
+
                 foreach (var component in GameObject.Components)
                 {
                     if (GetKindFromComponent(component.Type.Name) is string componentKind)
@@ -262,7 +265,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         return componentKind;
                     }
                 }
-                return GetKindFromPrefab(GameObject.Prefab);
+
+                return Path.GetFileNameWithoutExtension(GameObject.Prefab ?? Name);
             }
 
             private static string? GetKindFromComponent(string componentType)
@@ -274,30 +278,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return null;
             }
 
-            private static string GetKindFromPrefab(string? prefab)
+            private static string? GetKindFromPrefab(string? prefab)
             {
                 var shorten = Path.GetFileNameWithoutExtension(prefab ?? "");
                 return shorten switch
                 {
-                    "gm03_002_00_0" => GimmickKinds.Crow,
-                    "gm03_002_00_1" => GimmickKinds.Crow,
-                    "gm03_000_02_0" => GimmickKinds.Chicken,
                     "gm84_500_00_0" => GimmickKinds.WoodenBarrel,
-                    "gm84_502_00_0" => GimmickKinds.Typewriter,
-                    "gm84_504_00_0" => GimmickKinds.TripWire,
                     "gm84_505_00_0" => GimmickKinds.WoodenBox,
                     "gm84_506_00_0" => GimmickKinds.SmallWoodenBox,
-                    "gm84_515_00_0" => GimmickKinds.BearTrap,
                     "gm84_520_00_0" => GimmickKinds.Vase,
                     "gm84_521_00_0" => GimmickKinds.TableDrawer,
-                    "gm84_567_00_0" => GimmickKinds.OilDrum,
                     "gm84_598_00_0" => GimmickKinds.MerchantTorch,
-                    "gm84_623_00_0" => GimmickKinds.Merchant,
                     "gm84_855_00_0" => GimmickKinds.WoodenBarrel,
-                    "gm84_859_00_0" => GimmickKinds.HidingLocker,
                     "gm84_899_00_0" => GimmickKinds.Ladder,
                     "gm91_300_00_0" => GimmickKinds.HookShot,
-                    _ => shorten
+                    _ => null
                 };
             }
         }

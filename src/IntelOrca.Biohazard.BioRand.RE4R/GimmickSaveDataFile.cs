@@ -3,7 +3,7 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal class GimmickSaveDataTable
+    internal class GimmickSaveDataFile
     {
         public IPatchContext Context { get; }
         public string Path { get; }
@@ -17,7 +17,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             set => _userFileBuilder.Objects = [value];
         }
 
-        public GimmickSaveDataTable(IPatchContext context, string path)
+        public GimmickSaveDataFile(IPatchContext context, string path)
         {
             Context = context;
             Path = path;

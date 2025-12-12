@@ -22,6 +22,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             Areas = areaRepo.All
                 .AsParallel()
                 .Select(d => new Area(randomizer, d, EnemyClassFactory.Default))
+                .OrderBy(x => x.Path)
                 .ToImmutableArray();
 
             // Map initial guids

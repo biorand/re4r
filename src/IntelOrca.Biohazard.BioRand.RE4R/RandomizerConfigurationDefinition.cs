@@ -831,6 +831,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.01,
                 Default = 0.5
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"battle-arenas",
+                Label = "Battle Areans",
+                Description = "Enables events that trigger a battle arena. You must defeat the guardians to progress.",
+                Type = "switch",
+                Default = true
+            });
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {

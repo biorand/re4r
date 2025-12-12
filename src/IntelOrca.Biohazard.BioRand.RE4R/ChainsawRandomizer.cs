@@ -15,7 +15,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private ValuableDistributor? _valuableDistributor;
         private ItemRandomizer? _itemRandomizer;
         private ImmutableArray<Modifier> _modifiers = GetModifiers();
-        private ImmutableArray<Area> _areas;
         private Rng _rng = new Rng();
         private int _contextId = 5000;
 
