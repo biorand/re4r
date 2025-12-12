@@ -1,0 +1,9 @@
+Name,Operation,Guid,Chapter,X,Y,Z,Radius
+cabin,trigger,,1,60.8,9.5,-161.2,1.5
+cabin,lockdoor,dcd9e0cb-0fab-46e0-bdb3-48ee695d62fb,,,,,
+mendezconnector,trigger,,3,-23,4,54.7,2
+mendezconnector,lockdoor,d27b5d03-bb9a-4560-9dae-ca396b16925b,,,,,
+mendezconnector,lockdoor,5d40ae94-fa29-4d60-b915-62b6e905c31e,,,,,
+townhall,trigger,,3,32.5,1,15.7,3
+townhall,lockdoor,af4abbe8-64b2-48f1-bb87-97dc8b0993bf,,,,,
+townhall,lockdoor,6055227d-6381-4190-a3cd-c48e2b68bf6a,,,,,
