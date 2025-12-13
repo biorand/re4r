@@ -22,6 +22,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 return root
                     .Set("_ActionPropertys[7]._Priority", 9999);
             });
+
+            // Allow Mendez to cross bridges
+            context.ModifyUserFile("natives\\stm\\_chainsaw\\appsystem\\character\\ch1b5z1\\userdata\\ch1b5z1configuration.user.2", root =>
+            {
+                return root
+                    .Set("_SuspensionBridgeDetectorConfiguration.isEnable", true);
+            });
+
+            // natives\stm\_chainsaw\appsystem\character\ch1d6z0\userdata\ch1d6z0configuration.user.2
+            // 
         }
     }
 }
