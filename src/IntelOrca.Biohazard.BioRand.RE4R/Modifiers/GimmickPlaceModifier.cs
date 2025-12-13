@@ -58,7 +58,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             foreach (var placement in placements)
             {
-                factory.AddGimmick(rng, placement);
+                factory.AddGimmick(rng, placement, logger);
             }
         }
 
@@ -90,7 +90,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return area;
             }
 
-            public void AddGimmick(Rng rng, GimmickPlacement placement)
+            public void AddGimmick(Rng rng, GimmickPlacement placement, RandomizerLogger logger)
             {
                 var contextId = randomizer.FlagService.AllocateContextId(1, 2);
                 var area = GetScnForStage(placement.Stage);
@@ -114,7 +114,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 gimmick = AddCondition(gimmick, placement);
 
                 area.Scene = area.Scene.Add(gimmick);
-                area.GimmickSaveData.AddBasic(contextId);
+                if (kind == "Biorand_BearTrap")
+                {
+                    area.GimmickSaveData.AddExtended("chainsaw.GmContextLegHoldTrap", contextId, "LegHoldTrap", 43300, placement.Position);
+                }
+                else
+                {
+                    var contextType = kind == "Biorand_AshleyLocker" ? "chainsaw.GmContextHidingLocker" : "";
+                    area.GimmickSaveData.AddBasic(contextType, contextId);
+                }
+                logger.LogLine(area.Path, gimmick.Guid, gimmick.Name, placement.Stage, placement.X, placement.Y, placement.Z);
             }
 
             private RszGameObject AddCondition(RszGameObject gimmick, GimmickPlacement placement)

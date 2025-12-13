@@ -1,4 +1,5 @@
-﻿using chainsaw;
+﻿using System.Numerics;
+using chainsaw;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -45,18 +46,46 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             Context.SetUserFile(Path, userFile);
         }
 
-        public void AddBasic(ContextID contextId)
+        public void AddBasic(string contextType, ContextID contextId)
         {
             var datas = Root.Get<RszArrayNode>("Datas");
             datas = datas.Add(RszSerializer.Serialize(
                 Context.TypeRepository.FromName("chainsaw.GimmickSaveDataTable.Data")!,
                 new chainsaw.GimmickSaveDataTable.Data()
                 {
+                    ContextType = contextType,
                     ID = contextId,
                     Save = new GimmickContext.SaveData()
                     {
                         Attr = [0, 0, 0, 0]
                     }
+                }));
+            Root = Root.Set("Datas", datas);
+            _dirty = true;
+        }
+
+        public void AddExtended(string contextType, ContextID contextId, string mapName, int stage, Vector3 position)
+        {
+            var datas = Root.Get<RszArrayNode>("Datas");
+            datas = datas.Add(RszSerializer.Serialize(
+                Context.TypeRepository.FromName("chainsaw.GimmickSaveDataTable.Data")!,
+                new chainsaw.GimmickSaveDataTable.Data()
+                {
+                    ContextType = contextType,
+                    ID = contextId,
+                    Save = new GimmickContext.SaveData()
+                    {
+                        Attr = [0, 0, 0, 0]
+                    },
+                    Maps =
+                    [
+                        new chainsaw.GimmickContext.MapData()
+                        {
+                            MapName = mapName,
+                            _StageID = stage,
+                            MapPosition = position
+                        }
+                    ]
                 }));
             Root = Root.Set("Datas", datas);
             _dirty = true;

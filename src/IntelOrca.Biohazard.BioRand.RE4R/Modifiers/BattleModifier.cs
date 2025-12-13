@@ -95,7 +95,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             gimmick = gimmick.AddOrUpdateComponent(setFlagComponent);
 
             area.Scene = area.Scene.Add(gimmick);
-            area.GimmickSaveData.AddBasic(contextId);
+            area.GimmickSaveData.AddBasic("", contextId);
         }
 
         private static void AddDoorLock(ChainsawRandomizer randomizer, Guid guid, Guid lockFlag, IList<Guid> unlockFlags)

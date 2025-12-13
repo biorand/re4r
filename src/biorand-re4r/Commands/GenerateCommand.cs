@@ -55,6 +55,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 var configJson = File.ReadAllText(settings.ConfigPath);
                 input.Configuration = RandomizerConfiguration.FromJson(configJson);
             }
+            AnsiConsole.MarkupLine($"Generating seed {input.Seed}...");
             var output = randomizer.Randomize(input);
 
             // Create log files
