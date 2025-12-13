@@ -12,13 +12,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var extraEnemiesPercent = randomizer.GetConfigOption("extra-enemy-amount", 0.5);
-            if (extraEnemiesPercent <= 0)
-                return;
-
             var extraEnemiesToPlace = GetExtraEnemiesToPlace(randomizer, extraEnemiesPercent)
                 .GroupBy(x => FindBestAreaForEnemy(randomizer, x)!)
                 .Where(x => x.Key != null)
                 .ToDictionary(x => x.Key, x => x.ToArray());
+
+            if (extraEnemiesToPlace.Count == 0)
+                return;
 
             foreach (var area in randomizer.AreaService.Areas)
             {
@@ -50,12 +50,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private static ImmutableArray<EnemyPlacement> GetExtraEnemiesToPlace(ChainsawRandomizer randomizer, double amount)
         {
             var allExtraEnemies = randomizer.EnemyService.EnemyPlacements
-                .Where(x => x.IsExtra)
                 .Where(x => x.Campaign == randomizer.Campaign)
-                .Shuffle(randomizer.GetRng("modifier/enemyplace"));
+                .Where(x => x.IsExtra)
+                .ToArray();
 
+            var battleEnemies = allExtraEnemies
+                .Where(x => !string.IsNullOrEmpty(x.Battle))
+                .ToArray();
+
+            var extraEnemies = allExtraEnemies
+                .Where(x => string.IsNullOrEmpty(x.Battle))
+                .ToArray();
+
+            // Randomize and pick
             var count = (int)Math.Round(allExtraEnemies.Length * amount);
-            return allExtraEnemies.Take(count).ToImmutableArray();
+            extraEnemies = extraEnemies
+                .Shuffle(randomizer.GetRng("modifier/enemyplace"))
+                .Take(count)
+                .ToArray();
+
+            return battleEnemies.Concat(extraEnemies).ToImmutableArray();
         }
 
         private static Area? FindBestAreaForEnemy(ChainsawRandomizer randomizer, EnemyPlacement placement)
