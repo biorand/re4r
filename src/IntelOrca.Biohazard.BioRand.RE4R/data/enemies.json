@@ -835,7 +835,7 @@
       "kind": "colmillos",
       "name": "Savage Mutt",
       "category": "Colmillos",
-      "groups": [ "fodder", "small", "strongminiboss", "toxic", "ashleyunsafe", "dog" ],
+      "groups": [ "small", "strongminiboss", "toxic", "ashleyunsafe", "dog" ],
       "class": 4,
       "minHealth": 5000,
       "maxHealth": 15000,
