@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using chainsaw;
@@ -24,12 +25,32 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var areaService = randomizer.AreaService;
 
             var battleCsv = randomizer.DynamicData.GetData(DynamicDataName.Battle) ?? throw new Exception("Battle data not found");
-            var battles = Csv.Deserialize<BattleParameter>(battleCsv)
+            var battleColllections = Csv.Deserialize<BattleParameter>(battleCsv)
                 .Where(x => !string.IsNullOrEmpty(x.Name))
-                .GroupBy(x => x.Name);
+                .GroupBy(x => x.Name)
+                .GroupBy(x => x.First().Collection);
+
+            var battles = new List<BattleParameter[]>();
+            foreach (var collection in battleColllections)
+            {
+                if (collection.Key == null)
+                {
+                    foreach (var b in collection)
+                    {
+                        battles.Add(b.ToArray());
+                    }
+                }
+                else
+                {
+                    var pick = randomizer.Seed % collection.Count();
+                    var b = collection.ElementAt(pick);
+                    battles.Add(b.ToArray());
+                }
+            }
 
             foreach (var battle in battles)
             {
+                var name = battle[0].Name;
                 var trigger = battle.FirstOrDefault(x => x.Operation == "trigger");
                 if (trigger == null)
                     continue;
@@ -44,7 +65,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 AddAreaHit(area, new Vector3(trigger.X, trigger.Y, trigger.Z), trigger.Radius, lockFlag);
 
                 var enemies = randomizer.EnemyService.EnemyPlacements
-                    .Where(x => x.Battle == battle.Key)
+                    .Where(x => x.Battle == name)
                     .ToArray();
 
                 var unlockFlags = new List<Guid>();
@@ -191,6 +212,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             area.Scene = area.Scene.UpdateGameObject(paramObject);
         }
 
+        [DebuggerDisplay("{Name} | {Operation}")]
         internal class BattleParameter
         {
             public string Name { get; set; } = "";
@@ -201,6 +223,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public float Y { get; set; }
             public float Z { get; set; }
             public float Radius { get; set; }
+
+            public string? Collection
+            {
+                get
+                {
+                    var index = Name.IndexOf('.');
+                    if (index == -1)
+                        return null;
+                    return Name.Substring(0, index);
+                }
+            }
         }
     }
 }

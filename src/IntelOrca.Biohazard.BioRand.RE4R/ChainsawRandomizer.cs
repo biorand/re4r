@@ -211,6 +211,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }.ToImmutableArray();
         }
 
+        public int Seed => _input.Seed;
+
         public Rng GetRng(params object[] key)
         {
             var hashInput = string.Concat([_input.Seed, .. key]);
