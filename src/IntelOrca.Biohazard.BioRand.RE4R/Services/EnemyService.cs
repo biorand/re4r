@@ -50,8 +50,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
     [DebuggerDisplay("{GuidOrAuto}")]
     internal class EnemyPlacement
     {
-        private ImmutableArray<string> _tags = [];
-
+        // Set from CSV:
         [Key]
         public int Row { get; set; }
         public Campaign Campaign { get; set; }
@@ -69,14 +68,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public string SkipCondition { get; set; } = "";
         public string MiniBoss { get; set; } = "";
         public string Battle { get; set; } = "";
-        public string Tags
-        {
-            get => string.Join(" ", _tags);
-            set => _tags = value.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToImmutableArray();
-        }
-        public string Include { get; set; } = "";
-        public string Exclude { get; set; } = "";
+        public ImmutableArray<string> Tags { get; set; } = [];
+        public ImmutableArray<string> Include { get; set; } = [];
+        public ImmutableArray<string> Exclude { get; set; } = [];
 
+        // Not set from CSV:
         public Guid DeathFlag { get; set; }
 
         public bool HasEmptyPosition => X == 0 && Y == 0 && Z == 0;
@@ -85,14 +81,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public EulerAngles Rotation => new EulerAngles(Yaw, Pitch, Roll);
         public bool IsExtra => Guid == default || Description.StartsWith("[EXTRA]");
         public Guid GuidOrAuto => Guid != default ? Guid : $"Enemy_{Row}".GetGuidHash();
-        public bool HasTag(string tag) => _tags.Contains(tag);
-        public ImmutableArray<string> TagsAsArray
-        {
-            get => _tags;
-            set => _tags = value;
-        }
-        public ImmutableArray<string> IncludeAsArray => Include.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToImmutableArray();
-        public ImmutableArray<string> ExcludeAsArray => Exclude.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToImmutableArray();
+        public bool HasTag(string tag) => Tags.Contains(tag);
 
         public int Location => Stage / 1000;
 
@@ -177,11 +166,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         /// Try to make enemy one that is unlikely to easily kill Ashley.
         /// </summary>
         public const string AshleySafe = "ashleysafe";
-
-        /// <summary>
-        /// The include/exclude list of the enemy is essential for preventing game crash or glitch.
-        /// </summary>
-        public const string Essential = "essential";
 
         /// <summary>
         /// Killing the enemy is required to progress.

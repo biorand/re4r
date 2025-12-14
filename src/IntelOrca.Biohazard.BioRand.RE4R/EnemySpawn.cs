@@ -41,7 +41,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             var newEnemy = Area.ConvertTo(Enemy, kind);
             if (newEnemy != Enemy)
-                EnemyPlacement.TagsAsArray = EnemyPlacement.TagsAsArray.Remove(EnemyTags.LockWeapon);
+                EnemyPlacement.Tags = EnemyPlacement.Tags.Remove(EnemyTags.LockWeapon);
             Enemy = newEnemy;
         }
 
@@ -98,10 +98,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var enemyClasses = allEnemyClasses;
             var keyToEnemyClass = enemyClasses.ToDictionary(x => x.Key);
 
-            if (spawn.EnemyPlacement.HasTag(EnemyTags.Essential))
-            {
-                IncludeExclude();
-            }
+            IncludeExclude(essential: true);
 
             // Mini bosses should not be invincible
             if (!string.IsNullOrEmpty(spawn.EnemyPlacement.MiniBoss))
@@ -121,12 +118,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             spawn.ClassPool = enemyClasses;
 
             // Now set preferred classes
-            if (!spawn.EnemyPlacement.HasTag(EnemyTags.Essential))
+            if (randomizer.GetConfigOption<bool>("balanced-enemies"))
             {
-                if (randomizer.GetConfigOption<bool>("balanced-enemies"))
-                {
-                    IncludeExclude();
-                }
+                IncludeExclude(essential: false);
             }
             if (spawn.EnemyPlacement.HasTag(EnemyTags.NoToxic))
             {
@@ -162,27 +156,45 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
             spawn.PreferredClassPool = enemyClasses;
 
-            EnemyClassDefinition[] MapClasses(string className)
+            void IncludeExclude(bool essential)
             {
-                var result = allEnemyClasses
-                    .Where(x => x.Groups.Contains(className))
-                    .Select(x => x.Key)
-                    .Append(className)
-                    .Select(x => keyToEnemyClass.GetValueOrDefault(x)!)
-                    .Where(x => x != null)
-                    .ToArray();
-                return result;
-            }
-
-            void IncludeExclude()
-            {
-                if (!spawn.EnemyPlacement.IncludeAsArray.IsDefaultOrEmpty)
+                if (!spawn.EnemyPlacement.Include.IsDefaultOrEmpty)
                 {
-                    enemyClasses = enemyClasses.Intersect(spawn.EnemyPlacement.IncludeAsArray.SelectMany(MapClasses)).ToImmutableArray();
+                    enemyClasses = enemyClasses
+                        .Intersect(MapClasses1(spawn.EnemyPlacement.Include))
+                        .ToImmutableArray();
                 }
-                else if (!spawn.EnemyPlacement.ExcludeAsArray.IsDefaultOrEmpty)
+                else if (!spawn.EnemyPlacement.Exclude.IsDefaultOrEmpty)
                 {
-                    enemyClasses = enemyClasses.Except(spawn.EnemyPlacement.ExcludeAsArray.SelectMany(MapClasses)).ToImmutableArray();
+                    enemyClasses = enemyClasses
+                        .Except(MapClasses1(spawn.EnemyPlacement.Exclude))
+                        .ToImmutableArray();
+                }
+
+                ImmutableArray<EnemyClassDefinition> MapClasses1(ImmutableArray<string> list)
+                {
+                    return essential
+                        ? list
+                            .Where(x => x.EndsWith('*'))
+                            .Select(x => x[..^1])
+                            .SelectMany(MapClasses2)
+                            .ToImmutableArray()
+                        : list
+                            .Where(x => !x.EndsWith('*'))
+                            .SelectMany(MapClasses2)
+                            .ToImmutableArray();
+                }
+
+                EnemyClassDefinition[] MapClasses2(string className)
+                {
+                    var result = allEnemyClasses
+                        .Where(x => x.Groups.Contains(className))
+                        .Select(x => x.Key)
+                        .Append(className)
+                        .Select(x => keyToEnemyClass.GetValueOrDefault(x)!)
+                        .Where(x => x != null)
+                        .ToArray();
+                    return result;
                 }
             }
         }
