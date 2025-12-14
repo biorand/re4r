@@ -1,6 +1,6 @@
 Name,Id,Category,InputItemId0,InputItemCount0,InputItemId1,InputItemCount1,InputItemId2,InputItemCount2,OutputItemId,OutputItemCount
 10 gunpowder + 1 resource (s) = 7 shotgun shells,2,1,117600000,10,117606400,1,,,112803200,7
-5 gunpowder + 25 handgun = 20 smg,21,1,117600000,5,112800000,20,,,112806400,20
+5 gunpowder + 20 handgun = 20 smg,21,1,117600000,5,112800000,20,,,112806400,20
 5 gunpowder + 40 smg = 15 handgun,22,1,117600000,5,112806400,40,,,112800000,15
 7 gunpowder + 8 shotgun = 5 rifle,23,1,117600000,7,112803200,8,,,112804800,5
 7 gunpowder + 8 rifle = 5 shotgun,24,1,117600000,7,112804800,8,,,112803200,5

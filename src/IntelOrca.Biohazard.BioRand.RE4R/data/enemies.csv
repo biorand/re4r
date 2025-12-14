@@ -1,15 +1,15 @@
 Campaign,Guid,Chapter,Description,Stage,X,Y,Z,Yaw,Pitch,Roll,Condition,SkipCondition,MiniBoss,Battle,Tags,Include,Exclude
-Leon,36e28438-0a9c-475c-8a31-c8c4d905e925,1,police   * // Forget your makeup?,40500,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,36e28438-0a9c-475c-8a31-c8c4d905e925,1,police   * // Forget your makeup?,40500,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,ccd9520b-2fd0-44e7-9b14-24491bce2367,1,villager   *,40510,0,0,0,0,0,0,,,,,,,boss colmillos
-Leon,52061032-d686-401c-b1b7-ebdcd629e8ea,1,villager   * // First Desnucado,40510,0,0,0,0,0,0,,,,,essential,,boss colmillos
+Leon,52061032-d686-401c-b1b7-ebdcd629e8ea,1,villager   * // First Desnucado,40510,0,0,0,0,0,0,,,,,,,boss* colmillos*
 Leon,bacf6775-91ec-4932-85ed-db488c2a35ee,1,villager   *,40510,0,0,0,0,0,0,,,,,,,boss colmillos
-Leon,afc35303-7d98-4615-ad30-ac0c99e2e709,1,villager  hatchet * // Patrol Ganados after Basement,40510,0,0,0,0,0,0,,,,,essential,,boss colmillos
+Leon,afc35303-7d98-4615-ad30-ac0c99e2e709,1,villager  hatchet * // Patrol Ganados after Basement,40510,0,0,0,0,0,0,,,,,,,boss* colmillos*
 Leon,7627dd62-89c8-4964-ac6e-0df675e2ad10,1,villager  hatchet *,40504,0,0,0,0,0,0,,,,,,,boss colmillos
-Leon,ed0cf043-e107-480c-a3c1-58877a84f22f,1,villager  hoe * // LEDGE REINFORCEMENT,40504,0,0,0,0,0,0,,,,,essential,climber,
+Leon,ed0cf043-e107-480c-a3c1-58877a84f22f,1,villager  hoe * // LEDGE REINFORCEMENT,40504,0,0,0,0,0,0,,,,,,climber*,
 Leon,444f5d9b-4b54-4c44-8d66-2557f501407a,1,villager  pitchfork *,40504,0,0,0,0,0,0,,,,,,,boss
 Leon,4ab9f0a3-891e-441e-a1d6-3de1028fda1a,1,villager  hatchet *,40505,0,0,0,0,0,0,,,,,,,boss
-Leon,07d41ff3-1ec6-d325-466c-6fd249922e51,1,[EXTRA] OPENER // Flank Right of Sign,40501,-255,6,50,0,0,0,,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,,,essential,,boss
-Leon,caa655c1-7de3-82e4-45cc-94769362c824,1,[EXTRA] OPENER // Behind Wire Fence,40501,-240,6,54,0,0,0,,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,,,essential,,boss
+Leon,07d41ff3-1ec6-d325-466c-6fd249922e51,1,[EXTRA] OPENER // Flank Right of Sign,40501,-255,6,50,0,0,0,,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,,,,,boss*
+Leon,caa655c1-7de3-82e4-45cc-94769362c824,1,[EXTRA] OPENER // Behind Wire Fence,40501,-240,6,54,0,0,0,,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,,,,,boss*
 Leon,,1,[EXTRA],40502,-192,10,91,-90,0,0,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,b3bee246-d762-4244-bdb8-c7db24764ae8,,,aggroed,,boss
 Leon,,1,[EXTRA],40502,-209,9,79,-60,0,0,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,b3bee246-d762-4244-bdb8-c7db24764ae8,,,aggroed,,boss
 Leon,f2802869-58b2-4e5c-9b11-a72604ff5be3,1,[EXTRA] HUNTERS CABIN // Ambusher Before First cutscene,40501,-176,10,75,48,0,0,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,b3bee246-d762-4244-bdb8-c7db24764ae8,,,,,boss
@@ -95,7 +95,7 @@ Leon,59d8ad78-468b-44e9-a8ca-a47098af76e4,1,villager  knife * [REINFORCEMENTS],4
 Leon,e6a9afd7-fef2-44bf-b9ca-42190fd0257a,1,villager  hoe * [REINFORCEMENTS],40200,0,0,0,0,0,0,,,,,,climber,
 Leon,c067196b-e909-415e-8232-56599cd50ed5,1,villager   * [REINFORCEMENTS],40200,0,0,0,0,0,0,,,,,,climber,
 Leon,306e643a-5ce2-4474-9ff5-caf19f4bc330,1,villager  hatchet * [REINFORCEMENTS],40200,0,0,0,0,0,0,,,,,,climber,
-Leon,875b72c1-3cab-4914-b77a-ae309ed8f459,1,police   . // Bonfire Cop,40200,0,0,0,0,0,0,,,,,preserve noduplicate essential,,
+Leon,875b72c1-3cab-4914-b77a-ae309ed8f459,1,police   . // Bonfire Cop,40200,0,0,0,0,0,0,,,,,preserve noduplicate,,
 Leon,9509b307-7a47-47c9-86e7-a2bd5eb4121f,1,villager  machete * // Haybale Camper,43300,0,0,0,0,0,0,,,,,,elite boss,
 Leon,ee20a0a5-eb61-497a-b373-a72cf53f47f0,1,villager  pitchfork * //Haybale Tosser 2F,43310,0,0,0,0,0,0,,,,,lockweapon,small,
 Leon,2cac2691-aed5-4a73-b646-6a882ee1b697,1,villager  pitchfork * // Haybale Tosser 1F,43300,0,0,0,0,0,0,,,,,lockweapon,fodder elite boss,
@@ -122,21 +122,21 @@ Leon,58367a3d-d456-44ef-8aab-e481393ec3fb,1,villager  hatchet * // Trapdoor guy,
 Leon,8a7b4245-b96a-bf68-4c75-778aea239fb3,1,[EXTRA] FARM // Left of Ch5 Cabin Far,43301,47,5,-171,0,0,0,dd9080b0-2a6e-4051-ab11-240d6add1c7d,235d453d-6e24-41d4-be5f-a929971e439e,,,,fodder elite boss,
 Leon,9b2496c5-7ef9-8dfd-4b98-f739ba539166,1,[EXTRA] FARM // Left of Ch5 Cabin Near,43301,39,4,-164,0,0,0,dd9080b0-2a6e-4051-ab11-240d6add1c7d,235d453d-6e24-41d4-be5f-a929971e439e,,,,fodder elite boss,
 Leon,22dac8b8-9255-6015-4d4d-d2cadfe81a4d,1,[EXTRA] FARM // Left of Ch5 Cabin Close,43301,39,4,-155,0,0,0,dd9080b0-2a6e-4051-ab11-240d6add1c7d,235d453d-6e24-41d4-be5f-a929971e439e,,,,fodder elite boss,
-Leon,6e1e06c9-453a-9fff-47ca-91d127d10b1a,1,[EXTRA] LAKE SETTLEMENT // First Bodyblocker in tunnel,43303,146,-6,-119,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,essential,small,
-Leon,bd9831e1-2dfe-ec59-4632-3c5d18cc0c59,1,[EXTRA] LAKE SETTLEMENT // Second Bodyblocker in tunnel,43303,157,-6,-114,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,essential,small,
+Leon,6e1e06c9-453a-9fff-47ca-91d127d10b1a,1,[EXTRA] LAKE SETTLEMENT // First Bodyblocker in tunnel,43303,146,-6,-119,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,,small*,
+Leon,bd9831e1-2dfe-ec59-4632-3c5d18cc0c59,1,[EXTRA] LAKE SETTLEMENT // Second Bodyblocker in tunnel,43303,157,-6,-114,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,,small*,
 Leon,a26ebf20-34a2-e931-4cc9-f4cfe7ebe4b1,1,[EXTRA] LAKE SETTLEMENT HOUSE // Guarding ammo Cupboard,43410,230,-4,-128,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,,,boss colmillos arana
 Leon,f0f8e593-e48d-b346-4c27-d5d1f47163fd,1,[EXTRA] LAKE SETTLEMENT HOUSE // Guarding small key drawer,43410,228,-4,-131,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,,,boss colmillos arana
-Leon,9dbdd9c2-85eb-18bb-47b5-a0887f15e59e,1,[EXTRA] LAKE SETTLEMENT HOUSE // Guarding ammo Cupboard 2,43410,238,-4,-125,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,essential,,boss colmillos arana
-Leon,86175bf5-e8c7-3aad-495f-64f374d4cf2f,1,[EXTRA] LAKE SETTLEMENT HOUSE // Guarding Luis,43410,255,-7,-143,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,essential,,boss colmillos arana
+Leon,9dbdd9c2-85eb-18bb-47b5-a0887f15e59e,1,[EXTRA] LAKE SETTLEMENT HOUSE // Guarding ammo Cupboard 2,43410,238,-4,-125,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,,,boss* colmillos* arana*
+Leon,86175bf5-e8c7-3aad-495f-64f374d4cf2f,1,[EXTRA] LAKE SETTLEMENT HOUSE // Guarding Luis,43410,255,-7,-143,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,,,boss* colmillos* arana*
 Leon,09ea044f-52d4-4d8b-818c-c8c833743221,1,cow   . // Inside Small Barn,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,d6435c61-016a-4642-b9ef-ba77cd846689,1,cow   . // Inside Small Barn,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,7636e2b3-5651-4b92-b785-dc694be139c0,1,pig   .,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,83af39cb-c79f-47ce-93db-90bf861e0305,1,pig   .,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,d041f1e4-a079-4877-9fe5-f8fd40e0d848,1,pig   .,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,57a10b46-e53a-460a-9927-eac41a0bdeb7,2,villager  knife * // Entrance To Dynamite Valley,44300,0,0,0,0,0,0,,,,,essential,small,
+Leon,57a10b46-e53a-460a-9927-eac41a0bdeb7,2,villager  knife * // Entrance To Dynamite Valley,44300,0,0,0,0,0,0,,,,,,small*,
 Leon,f00699a5-ef50-47f3-b5ec-a9570fdce2c0,2,chainsaw   Emerald x1 // Chainsaw Before Tripwire,44101,0,0,0,0,0,0,,,,,,elite boss,
-Leon,284ded3c-7439-40a4-be87-13defa465fb8,2,villager   *,44110,0,0,0,0,0,0,,,,,,,boss
-Leon,205c1b72-188a-499a-a008-fc53246158bc,2,villager   *,44110,0,0,0,0,0,0,,,,,,,boss
+Leon,284ded3c-7439-40a4-be87-13defa465fb8,2,villager   *,44110,0,0,0,0,0,0,,,,,,,boss colmillos
+Leon,205c1b72-188a-499a-a008-fc53246158bc,2,villager   *,44110,0,0,0,0,0,0,,,,,,,boss colmillos
 Leon,2863e7f0-7742-42a1-a5e4-1e3cd4b07f0f,2,villager  hatchet *,44201,0,0,0,0,0,0,,,,,,,boss garrador invincible
 Leon,86343faa-9b94-4a53-b9e2-989b45bd8ca1,2,villager   *,44201,0,0,0,0,0,0,,,,,,,boss garrador invincible
 Leon,486bb31a-1880-42a3-ae23-f5c19c0c1d69,2,villager  hatchet *,44201,0,0,0,0,0,0,,,,,,,boss garrador invincible
@@ -149,7 +149,7 @@ Leon,,2,[EXTRA] MENDEZ HOUSE // Guarding Bird nest,44101,-4,9,102,0,0,0,75c22cee
 Leon,,2,[EXTRA] MENDEZ HOUSE // Left of House Close,44101,-9,8,94,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
 Leon,,2,[EXTRA] MENDEZ HOUSE // Left of House Far,44101,4,9,89,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
 Leon,,2,[EXTRA] MENDEZ HOUSE // Fly My Pretty,44110,3,9,97,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
-Leon,,2,[EXTRA] MENDEZ HOUSE // Key Item Wardrobe Guardian,44110,11,9,108,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,essential,small,
+Leon,,2,[EXTRA] MENDEZ HOUSE // Key Item Wardrobe Guardian,44110,11,9,108,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small*,
 Leon,,2,[EXTRA] MENDEZ HOUSE // Dining Room,44110,6,9,102,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
 Leon,,2,[EXTRA] MENDEZ HOUSE // Mendez Room,44110,5,13,106,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
 Leon,85850656-bb05-4152-ac1d-cc069d4995fb,2,villager  hatchet Kitchen Knife x1 // First Enemy Factory,44210,0,0,0,0,0,0,,,,,,,big colmillos super-colmillos
@@ -208,8 +208,8 @@ Leon,06d97d51-f920-4484-8dd5-9e48a1e7b7ce,3,colmillos   * // Colmillos from towe
 Leon,12271c66-cd5c-439a-926a-77303eb8bb50,3,villager  shovel *,45200,0,0,0,0,0,0,,,,,,fodder elite,
 Leon,7e314456-fef4-4217-bc0f-e1edcd3535c9,3,villager   *,45200,0,0,0,0,0,0,,,,,,fodder elite,
 Leon,de16a018-3edb-42e5-8d9b-941026792a47,3,villager  molotov *,45300,0,0,0,0,0,0,,,,,,small,
-Leon,0840df7f-f33f-4ad1-8368-ff0a972f1bdc,3,villager  machete * // Bridge Guard,45300,0,0,0,0,0,0,,,,,essential,small,
-Leon,01edcd69-616a-4fee-9629-8c1bef716f4b,3,villager  molotov * // Bridge Molotov Thrower,45300,0,0,0,0,0,0,,,,,essential,small,
+Leon,0840df7f-f33f-4ad1-8368-ff0a972f1bdc,3,villager  machete * // Bridge Guard,45300,0,0,0,0,0,0,,,,,,small*,
+Leon,01edcd69-616a-4fee-9629-8c1bef716f4b,3,villager  molotov * // Bridge Molotov Thrower,45300,0,0,0,0,0,0,,,,,,small*,
 Leon,acf12c78-f142-4f95-bbef-b33c6773cd7b,3,villager  hatchet *,45300,0,0,0,0,0,0,,,,,,small,
 Leon,7d099d29-4740-466e-ae74-b6380c7abc6c,3,villager  hoe *,45301,0,0,0,0,0,0,,,,,,small,
 Leon,58cb1388-a5ab-4ecb-944e-d9c6ec8cd99d,3,villager  pitchfork *,45300,0,0,0,0,0,0,,,,,,small,
@@ -285,7 +285,7 @@ Leon,82398bff-bf93-47c7-bbb5-9ce600f10dab,3,ch8g1z0   .,40101,0,0,0,0,0,0,,,,,,,
 Leon,c63e08fa-c17d-438d-afa1-ff0f21520625,3,ch8g1z0   .,40101,0,0,0,0,0,0,,,,,,,
 Leon,6bb9c8ac-85e7-4a68-9cdf-058cfea367f2,3,ch8g1z0   .,40101,0,0,0,0,0,0,,,,,,,
 Leon,90fa123c-1281-4bc6-8055-bf7c718709b9,3,villager  hatchet * // Corner in Head Cave,40102,0,0,0,0,0,0,,,,,,,
-Leon,19b7057c-2463-4c8b-adf2-ef4ee3bca075,3,police   .,40100,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,19b7057c-2463-4c8b-adf2-ef4ee3bca075,3,police   .,40100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,cf55be15-d8e5-4e84-b854-e8c296f5f26c,3,ch2b1z0   .,40100,0,0,0,0,0,0,,,,,preserve noduplicate,,
 Leon,0b08a2d7-1755-467f-b8e5-2b0f2ec047b7,3,cow   .,40200,0,0,0,0,0,0,,,,,preserve noduplicate,,
 Leon,d46eaaf0-dd11-4462-bbc6-19fe54082f08,3,viper   Viper x1,40212,0,0,0,0,0,0,,,,,preserve noduplicate,,
@@ -296,7 +296,7 @@ Leon,2abd079a-7e11-4ac5-bb07-c3f54754b23c,3,viper   Viper x1,45400,0,0,0,0,0,0,,
 Leon,baf97a3d-4d25-44cb-bef0-f9529c03d6af,3,viper   Viper x1,45400,0,0,0,0,0,0,,,,,preserve noduplicate,,
 Leon,0d960ac3-6fee-4f3e-8d0c-0b44abc97ffe,3,viper   Viper x1,45400,0,0,0,0,0,0,,,,,preserve noduplicate,,
 Leon,c9139867-8bf2-4b04-af97-3db38b04b0e5,3,viper   Viper x1,45300,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,ae0f964e-c6c1-456c-8eaa-a2e3ee6dac42,3,dellago   .,46100,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,ae0f964e-c6c1-456c-8eaa-a2e3ee6dac42,3,Del Lago,46100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,3ddb219b-a293-4acf-b1f4-03fd7983fdb5,4,villager pA(25%) hatchet *,46200,0,0,0,0,0,0,,,,,,,mendez_2 krauser_1
 Leon,ab2eba46-0fbb-4c24-82da-365a8157354d,4,villager pA(25%) torch *,46200,0,0,0,0,0,0,,,,,,,
 Leon,0979dbaf-fc50-4886-a225-56a053704f60,4,villager pA(25%) molotov *,46200,0,0,0,0,0,0,,,,,,,
@@ -337,7 +337,7 @@ Leon,,4,[EXTRA] DOCK HOUSE // Path Ahead of Dockhouse Outside,46100,349,-7,116,0
 Leon,,4,[EXTRA] DOCK HOUSE // Path ahead of Dockhouse outside 3,46100,350,-7,125,0,0,0,,,,,,small,
 Leon,,4,[EXTRA] RITUAL SITE // Guarding top of stairs,46100,310,-4,109,0,0,0,,,,,,small,
 Leon,,4,[EXTRA] RITUAL SITE // Guarding Cave,46201,308,-4,129,0,0,0,,,,,,small,
-Leon,,4,[EXTRA] INSIGNIA CAVE // Guarding Insignia,46201,309,-4,158,0,0,0,,,,,essential,,chainsaw_mad garrador chainsaw mendez_chase krauser_1
+Leon,,4,[EXTRA] INSIGNIA CAVE // Guarding Insignia,46201,309,-4,158,0,0,0,,,,,,,chainsaw_mad* garrador* chainsaw* mendez_chase* krauser_1*
 Leon,,4,[EXTRA] INSIGNIA CAVE // Guarding Boat Right,46201,290,-7,142,0,0,0,,,,,,,chainsaw_mad garrador chainsaw mendez_chase krauser_1
 Leon,,4,[EXTRA] INSIGNIA CAVE // Guarding Boat Left,46201,283,-7,143,0,0,0,,,,,,,chainsaw_mad garrador chainsaw mendez_chase krauser_1
 Leon,,4,[EXTRA] BAWK ISLAND // ,46100,413,-7,-25,0,0,0,13a4bbb1-b04c-414b-a940-22ace28a7f25,,,,,,
@@ -364,13 +364,13 @@ Leon,,4,[EXTRA],45401,108,11,95,0,0,0,13a4bbb1-b04c-414b-a940-22ace28a7f25,,,,,s
 Leon,,4,[EXTRA],45401,104,16,105,0,0,0,13a4bbb1-b04c-414b-a940-22ace28a7f25,,,,,small,
 Leon,,4,[EXTRA],45401,97,16,99,0,0,0,13a4bbb1-b04c-414b-a940-22ace28a7f25,,,,,small,
 Leon,,4,[EXTRA],45401,103,16,91,0,0,0,13a4bbb1-b04c-414b-a940-22ace28a7f25,,,,,small,
-Leon,484ec7c2-ded4-49d7-819b-23f6e23a208a,4,el_gigante   .,45302,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,0ac27748-d843-4759-ad87-d79f68b93fc3,4,wolf   *,45302,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,484ec7c2-ded4-49d7-819b-23f6e23a208a,4,el_gigante   .,45302,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,0ac27748-d843-4759-ad87-d79f68b93fc3,4,wolf   *,45302,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,,4,[EXTRA],45302,170,8,141,0,0,0,452c74e5-f786-428a-b538-9f58d0fd51dd,,,,,fodder elite chainsaw_mad,
 Leon,,4,[EXTRA],45302,179,8,132,0,0,0,452c74e5-f786-428a-b538-9f58d0fd51dd,,,,,fodder elite chainsaw_mad,
 Leon,,4,[EXTRA],45302,187,8,130,0,0,0,452c74e5-f786-428a-b538-9f58d0fd51dd,,,,,fodder elite chainsaw_mad,
 Leon,,4,[EXTRA],45302,195,8,139,0,0,0,452c74e5-f786-428a-b538-9f58d0fd51dd,,,,,fodder elite chainsaw_mad,
-Leon,2526d07e-ca07-4676-8512-119ece440fa3,5,ashley_1   .,45210,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,2526d07e-ca07-4676-8512-119ece440fa3,5,ashley_1   .,45210,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,45a30278-212c-4ceb-b8b1-403ee9494747,5,villager_2 pA(50%) hatchet *,45401,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,e8eb5d2a-ba66-408a-b186-1592f8c04191,5,villager_2 pA(25%) torch *,45401,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,26f0c018-b535-4a11-a1db-6bf28fc848cf,5,villager_2 pA(50%) torch *,45401,0,0,0,0,0,0,,,,,,,ashleyunsafe
@@ -406,8 +406,8 @@ Leon,8c7ed602-fd7b-4a44-9dea-034b49879754,5,villager_2  hoe *,43300,0,0,0,0,0,0,
 Leon,8838795c-b27f-4d3f-a6dc-8b4a65364eed,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,3e34749c-d2b8-433d-93ea-17c876a86b2f,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,626b3e69-b510-4657-b513-0d6ad030bfe1,5,colmillos   Alexandrite x1,44101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,95c8581e-0ce3-4722-a83e-3a6dc2815174,5,colmillos   Alexandrite x1,40200,0,0,0,0,0,0,,,leon-savage-mutt,,noduplicate ,,fodder elite invincible krauser_1
-Leon,2b3bc7f9-1164-42ec-a6ce-d13bf401fc11,5,ashley_2   .,43301,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,95c8581e-0ce3-4722-a83e-3a6dc2815174,5,colmillos   Alexandrite x1,40200,0,0,0,0,0,0,,,leon-savage-mutt,,noduplicate nowave,,fodder elite invincible krauser_1
+Leon,2b3bc7f9-1164-42ec-a6ce-d13bf401fc11,5,ashley_2   .,43301,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,2bf139b2-e92a-43a3-be51-96dcf51c04f0,5,villager_2  hatchet Handgun Ammo x10,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
 Leon,8cd9592e-45ed-4e26-a5bb-f6806394e4ae,5,villager_2  machete it_sm71_500_10_0 x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
 Leon,44b15c6a-c6cf-4bdf-bd05-c7c914b7b387,5,villager_2  pitchfork Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
@@ -492,8 +492,8 @@ Leon,2ecfbffb-95f1-4688-959d-f8a68501dc39,6,villager_2  torch *,47200,0,0,0,0,0,
 Leon,6bbcca53-46c9-4082-9b30-2957aad7218c,6,villager_2   *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,96c26401-9ddb-43b3-9bd6-ba14a33eb454,6,villager_2  molotov *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,146a54dd-3f7c-4c12-89b5-f06c1a7b543d,6,villager_2  pitchfork *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,0556d8e2-950e-4a90-a1b6-6745f27d7179,6,chainsaw   Checkpoint Crank x1,47201,0,0,0,0,0,0,,,leon-bella-sisters,,noduplicate,,krauser_1 krauser_2 mendez_2 mendez_chase pesanta u3 verdugo
-Leon,f93c4e62-0d9e-425e-894d-313fc73c92af,6,chainsaw   Sapphire x1,47201,0,0,0,0,0,0,,,leon-bella-sisters,,noduplicate,,krauser_1 krauser_2 mendez_2 mendez_chase pesanta u3 verdugo
+Leon,0556d8e2-950e-4a90-a1b6-6745f27d7179,6,chainsaw   Checkpoint Crank x1,47201,0,0,0,0,0,0,,,leon-bella-sisters,,noduplicate nowave,,krauser_1 krauser_2 mendez_2 mendez_chase pesanta u3 verdugo
+Leon,f93c4e62-0d9e-425e-894d-313fc73c92af,6,chainsaw   Sapphire x1,47201,0,0,0,0,0,0,,,leon-bella-sisters,,noduplicate nowave,,krauser_1 krauser_2 mendez_2 mendez_chase pesanta u3 verdugo
 Leon,1b7d10b9-4d58-43ce-b2b1-64f4ef4d0ef6,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,69c59902-3357-41b5-8cbf-89e6e8fd983e,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,37731e6d-01ba-425a-922f-639a80a93ed8,6,villager_2 pA(100%)  *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
@@ -507,10 +507,10 @@ Leon,65b9b6c2-8611-4b21-a5fd-13925c2e2e12,6,villager_2 pA(10%)  *,47200,0,0,0,0,
 Leon,473ede8f-7e93-4819-9af3-94fe51261da5,6,villager_2 pA(20%) hatchet *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,10be6260-5a87-4047-8c81-0dbcb6db4847,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,d8f16106-2d1f-43cb-b59a-3da9431536a5,6,villager_2   *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,e4b4f8cf-c516-4ac2-85f5-073b17e01c76,6,mendez_chase   .,47300,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,a61c62f3-52e7-4d78-a167-c99b84fcada9,6,mendez_2   .,47401,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,aa862ced-d677-42bd-8542-fbbbe038a16f,6,mendez_3   .,47410,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,751b4a9f-909c-4a31-a57b-e72c1936d615,6,mendez_chase   .,47900,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,e4b4f8cf-c516-4ac2-85f5-073b17e01c76,6,mendez_chase   .,47300,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,a61c62f3-52e7-4d78-a167-c99b84fcada9,6,mendez_2   .,47401,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,aa862ced-d677-42bd-8542-fbbbe038a16f,6,mendez_3   .,47410,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,751b4a9f-909c-4a31-a57b-e72c1936d615,6,mendez_chase   .,47900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,c7ea923d-bc4a-442f-a4b9-ab13c0ed9e2d,6,villager_2  torch *,47301,0,0,0,0,0,0,,,,,notoxic,,
 Leon,14ed47b4-727c-4500-b3db-fffa39485a14,6,villager_2  torch *,47301,0,0,0,0,0,0,,,,,notoxic,,
 Leon,0ff6872f-96e1-4ad2-82be-73767d3f2128,6,villager_2  pitchfork *,47301,0,0,0,0,0,0,,,,,notoxic,,
@@ -557,7 +557,7 @@ Leon,,6,[EXTRA],47410,283,13,-215,0,0,0,f61225f0-a6b7-4eb1-abea-c7358db3a9e5,,,,
 Leon,,6,[EXTRA],47410,289,13,-212,0,0,0,f61225f0-a6b7-4eb1-abea-c7358db3a9e5,,,,,fodder elite chainsaw_mad,
 Leon,,6,[EXTRA],47410,288,10,-222,0,0,0,f61225f0-a6b7-4eb1-abea-c7358db3a9e5,,,,,fodder elite chainsaw_mad,
 Leon,,6,[EXTRA],47410,284,10,-222,0,0,0,f61225f0-a6b7-4eb1-abea-c7358db3a9e5,,,,,fodder elite chainsaw_mad,
-Leon,e584ce9e-b722-4618-a0ec-7680f30e0c0e,7,ashley_1   .,50100,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,e584ce9e-b722-4618-a0ec-7680f30e0c0e,7,ashley_1   .,50100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,,7,[EXTRA],50200,-306,-4,50,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe
 Leon,,7,[EXTRA],50200,-300,-1,66,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe
 Leon,,7,[EXTRA],50201,-280,-5,69,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe
@@ -623,7 +623,7 @@ Leon,ef2fec64-8e2d-4e2f-b85e-3b486dbe02eb,7,zealot  scythe *,50401,0,0,0,0,0,0,,
 Leon,a9ba3bc1-8b79-434c-9c92-8214c8b641be,7,zealot  morning_star | wooden_shield *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,86dad996-a9fe-4425-bba5-72fbae50fcfe,7,zealot  scythe *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,17d48b81-166f-4396-b95d-9610f7346ee7,7,zealot  morning_star * // NEWWWW BOSS,50400,-177.3,10,52.3,91.4,0,0,,,,,,boss,
-Leon,1b9bc5ff-09be-4d1d-a143-38495e3d1830,7,garrador   Red Beryl x1,50503,0,0,0,0,0,0,,,leon-prison-garrador,,noduplicate,,fodder mendez_chase super-colmillos chainsaw chainsaw_mad
+Leon,1b9bc5ff-09be-4d1d-a143-38495e3d1830,7,garrador   Red Beryl x1,50503,0,0,0,0,0,0,,,leon-prison-garrador,,noduplicate nowave,,fodder mendez_chase super-colmillos chainsaw chainsaw_mad
 Leon,0222c3d4-54d3-4a94-a94a-7055372d6ce3,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,66d38cec-3c77-45ac-949c-9b6e42ce48cf,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,8c675595-6fa7-4db0-9572-7953bb9451ca,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
@@ -657,28 +657,28 @@ Leon,a85a3325-54d9-4151-8ccd-67040b144b66,7,zealot pA(100%)  *,50601,0,0,0,0,0,0
 Leon,b0905760-397f-4ba2-9e98-66a81d3df981,7,zealot pA(100%) torch *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,14c8b64f-a4e3-4ebf-a406-7b691346d79a,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,climber,
 Leon,8d7a4afd-c753-4a94-b6fe-20ca7ebb75a8,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,climber,
-Leon,69982bac-2a25-465e-8d17-3c574c6d7cf6,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,d0b4f426-af63-4f0c-8940-aaa5e4008142,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,31a9370c-c696-423d-8efd-78f46f539ccb,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,174e2dad-03b4-4b72-83b2-829dfc8ab3e8,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,01227435-cb43-4157-bb5e-b3d2bd7288f5,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,a4f6586c-2d8a-465e-be79-6a68df991900,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,a341fadc-41f7-4533-859a-7bcc2a9f92d4,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,69982bac-2a25-465e-8d17-3c574c6d7cf6,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,d0b4f426-af63-4f0c-8940-aaa5e4008142,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,31a9370c-c696-423d-8efd-78f46f539ccb,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,174e2dad-03b4-4b72-83b2-829dfc8ab3e8,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,01227435-cb43-4157-bb5e-b3d2bd7288f5,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,a4f6586c-2d8a-465e-be79-6a68df991900,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,a341fadc-41f7-4533-859a-7bcc2a9f92d4,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,e9a4f361-cf53-45dc-8b9c-57bf4d35f9aa,7,zealot  morning_star *,50601,0,0,0,0,0,0,,,,,,climber,
 Leon,de41d7f1-ec17-4560-9324-0561a66257a3,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,climber,
 Leon,b4613cd5-cab7-45ab-a8e9-6f244af517a7,7,zealot  hatchet *,50601,0,0,0,0,0,0,,,,,,climber,
-Leon,265cdbe1-e8be-428a-9fb3-3be29c6a5340,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,1a384e5f-a660-4447-b7c7-8801897e23f8,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,438eab7c-cabd-4122-b13b-4cd3afd81730,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,6e9c144f-54b6-46f3-a30b-6f8d7d143599,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,7709a438-92d0-49c9-bc99-d14edb211f46,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,9c46d00a-3643-4fc7-8446-f3a6df844725,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,470d9b44-a47e-4c40-96d4-e7f6eb6fafee,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,265cdbe1-e8be-428a-9fb3-3be29c6a5340,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,1a384e5f-a660-4447-b7c7-8801897e23f8,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,438eab7c-cabd-4122-b13b-4cd3afd81730,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,6e9c144f-54b6-46f3-a30b-6f8d7d143599,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,7709a438-92d0-49c9-bc99-d14edb211f46,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,9c46d00a-3643-4fc7-8446-f3a6df844725,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,470d9b44-a47e-4c40-96d4-e7f6eb6fafee,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,558fb789-24f9-4363-ad1c-87182db08514,7,zealot  hatchet *,50601,0,0,0,0,0,0,,,,,,climber,
 Leon,c9393781-d730-4e5f-b193-3da9cb94226b,7,zealot  morning_star | wooden_shield *,50601,0,0,0,0,0,0,,,,,,climber,
 Leon,8f84d26c-dedf-4447-8c03-afacb64c699f,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,climber,
-Leon,8f329f90-3776-4519-a3d0-6cd9ca7f0d64,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,0003ddf2-1d36-40c6-ba37-ffe598772afe,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,8f329f90-3776-4519-a3d0-6cd9ca7f0d64,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,0003ddf2-1d36-40c6-ba37-ffe598772afe,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,7a0912fc-fb63-46aa-b46b-39fa7fed8930,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,5197f7d0-630a-430e-aee0-6d4b2d5524d6,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,103eb9de-0f8a-4f69-bbd2-4b3bd6eb4061,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
@@ -726,7 +726,7 @@ Leon,,8,[EXTRA],51600,-23,25,-97,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,
 Leon,,8,[EXTRA],51600,-5,23,-104,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,,
 Leon,,8,[EXTRA],51600,-7,23,-101,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,,
 Leon,,8,[EXTRA],51600,-11,23,-99,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,,
-Leon,2076e20c-1813-4f01-bd45-4b191506016a,8,zealot pB(0%) staff Crimson Lantern x1,51404,0,0,0,0,0,0,,,leon-red-zealot-lantern,,noduplicate,,krauser_1 krauser_2 mendez_chase pesanta u3 fodder
+Leon,2076e20c-1813-4f01-bd45-4b191506016a,8,zealot pB(0%) staff Crimson Lantern x1,51404,0,0,0,0,0,0,,,leon-red-zealot-lantern,,noduplicate nowave,,krauser_1 krauser_2 mendez_chase pesanta u3 fodder
 Leon,29cab82c-9681-4d3c-97f5-f90f7eecabe8,8,zealot pB(0%)  *,51404,0,0,0,0,0,0,,,,,,,
 Leon,52676b5d-d269-4017-bcbe-1011c9dd5ae0,8,zealot pB(0%)  Crimson Lantern x1,51404,0,0,0,0,0,0,,,,,,,
 Leon,77e20ba7-e457-4e11-95b9-8dc8d74df659,8,zealot pB(0%)  *,51404,0,0,0,0,0,0,,,,,,,mendez_2 mendez_chase
@@ -748,7 +748,7 @@ Leon,dcbdccd8-3687-4fb6-bef9-7f5c33043597,8,zealot pA(0%)  *,51404,0,0,0,0,0,0,,
 Leon,0ef7a058-9cdc-45d8-8461-d783da3d6ad5,8,zealot pB(0%) torch *,51404,0,0,0,0,0,0,,,,,,,
 Leon,15c9e5b1-5a15-4374-ab3a-60ea02b29742,8,zealot pA(0%) morning_star *,51404,0,0,0,0,0,0,,,,,,,
 Leon,2df47e4f-30a7-4cea-bffc-88a7383790de,8,zealot pB(0%) hatchet *,51404,0,0,0,0,0,0,,,,,,,
-Leon,092b7776-bb3b-4d67-b9f0-9320d713b755,8,arana   *,51503,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,092b7776-bb3b-4d67-b9f0-9320d713b755,8,arana   *,51503,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,68ad3dbb-aefc-48ec-a4af-72a5523f091c,8,arana   *,51504,0,0,0,0,0,0,,,,,,,
 Leon,da9b15b8-f256-4891-a585-5a6f2e2d9332,8,zealot  hatchet *,51504,0,0,0,0,0,0,,,,,,,
 Leon,fb5b1932-0e13-4014-9dc5-a751f81daadb,8,zealot  scythe *,51600,0,0,0,0,0,0,,,,,,,
@@ -773,19 +773,19 @@ Leon,92501d30-c2d1-4aba-ba87-e0c395794c4f,8,zealot  scythe *,51600,0,0,0,0,0,0,,
 Leon,c52049c7-2bd2-442c-9587-ab7da1dd0414,8,zealot  crossbow *,51611,0,0,0,0,0,0,,,,,,,
 Leon,daee74e3-064f-457f-9c22-84631913b0b8,8,zealot  hatchet | wooden_shield *,51611,0,0,0,0,0,0,,,,,,,
 Leon,c47abeec-6a38-4b22-ac41-eeeb4d72262f,8,zealot  morning_star *,51611,0,0,0,0,0,0,,,,,,,
-Leon,92fe9037-bef7-4f30-bdeb-a28ae8c9847e,8,zealot  morning_star *,51611,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,e2da8874-b400-4761-86cb-90d6e8202c61,8,zealot   *,51600,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,92fe9037-bef7-4f30-bdeb-a28ae8c9847e,8,zealot  morning_star *,51611,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,e2da8874-b400-4761-86cb-90d6e8202c61,8,zealot   *,51600,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,81506a0c-98c5-4e53-b93f-27f03aa2581d,8,zealot  hatchet | wooden_shield *,51600,0,0,0,0,0,0,,,,,,,
 Leon,1973e872-006b-415e-8ed7-15e1607c489c,8,zealot  crossbow *,51600,0,0,0,0,0,0,,,,,,,
 Leon,f7acec7b-92d7-462f-883a-d301ec74071d,8,zealot  crossbow *,51600,0,0,0,0,0,0,,,,,,,
 Leon,cdd46d83-3717-4be5-b06b-aac50294b23c,8,zealot  morning_star *,51600,0,0,0,0,0,0,,,,,,,
-Leon,5f0ddf30-20b5-47ca-9512-630291437377,8,zealot  torch *,51600,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,5f0ddf30-20b5-47ca-9512-630291437377,8,zealot  torch *,51600,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,d00786c5-58a2-449a-8d2c-6c43fcb4dda3,8,zealot  morning_star *,51600,0,0,0,0,0,0,,,,,,,
 Leon,3c8f307e-930e-45ae-bebc-de123347594e,8,zealot  morning_star | wooden_shield *,51600,0,0,0,0,0,0,,,,,,,
 Leon,d4a9fda4-9f95-4d9d-8459-5ce9242eeaa0,8,zealot  torch *,51600,0,0,0,0,0,0,,,,,,,
 Leon,4867bc0e-f840-4717-ba9a-338cdf4bfdd5,8,zealot  morning_star | wooden_shield *,51600,0,0,0,0,0,0,,,,,,,
 Leon,89afb6f3-304f-432f-a91c-11071ecd1c0f,8,zealot  hatchet *,51612,0,0,0,0,0,0,,,,,,,
-Leon,80654de9-cdd7-46ca-9ddc-920e8b37ef5b,8,el_gigante   .,51600,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,80654de9-cdd7-46ca-9ddc-920e8b37ef5b,8,el_gigante   .,51600,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,f7096df4-7181-430a-873d-be6d258a21b7,8,armadura   Emerald x1,51402,0,0,0,0,0,0,,,,,,,
 Leon,773c615c-ba4b-46bb-87cf-4f0579984af4,8,armadura   Alexandrite x1,51402,0,0,0,0,0,0,,,,,,,
 Leon,9f057c7e-9a4f-472d-8950-a016389218b7,8,armadura   *,51402,0,0,0,0,0,0,,,,,,,
@@ -811,7 +811,7 @@ Leon,3eefa9ed-7d0e-4b07-8a58-974d70f4d163,8,zealot  torch *,51200,0,0,0,0,0,0,,,
 Leon,3038fabe-eace-4340-a171-65f8d9532260,8,zealot  torch *,51200,0,0,0,0,0,0,,,,,,,
 Leon,f81acb05-b376-473a-98df-0c9659aa580e,8,zealot  torch *,51200,0,0,0,0,0,0,,,,,,,
 Leon,606f9d68-42fb-4ff1-a89c-39f374811594,8,viper   Viper x1,51200,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,325551aa-2aa2-46d7-8d75-2201c8c686f5,9,ashley_1   .,51201,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,325551aa-2aa2-46d7-8d75-2201c8c686f5,9,ashley_1   .,51201,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,,9,[EXTRA],51200,49,21,40,0,0,0,,,,,,,ashleyunsafe
 Leon,,9,[EXTRA],51200,54,21,40,0,0,0,,,,,,,ashleyunsafe
 Leon,,9,[EXTRA],51200,55,25,25,0,0,0,,,,,,,ashleyunsafe
@@ -943,11 +943,11 @@ Leon,841a9e8a-d89a-4f89-a159-913bb130086f,9,armadura   *,53302,0,0,0,0,0,0,,,,,,
 Leon,16987692-5511-4775-b69e-bbf4ab6621a6,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,913446f7-484f-4f7e-8f19-5459ee5e5802,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,d17f4325-1aed-4143-839c-51fa3ba5bc48,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,f302fd15-3c95-4bed-a792-c2cf16d9a27c,9,armadura   *,53302,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,1c4b25e0-c6b5-408a-96c6-8010fe62738d,9,armadura   *,53302,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,5315416a-8f1d-4526-aa70-4a89c6a01ff5,9,armadura   *,53303,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,bd77f244-3686-4237-8ece-83ef02ffc1b0,9,armadura   *,53303,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,28e749aa-4308-4014-ae97-a30202aff442,9,armadura   *,53303,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,f302fd15-3c95-4bed-a792-c2cf16d9a27c,9,armadura   *,53302,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,1c4b25e0-c6b5-408a-96c6-8010fe62738d,9,armadura   *,53302,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,5315416a-8f1d-4526-aa70-4a89c6a01ff5,9,armadura   *,53303,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,bd77f244-3686-4237-8ece-83ef02ffc1b0,9,armadura   *,53303,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,28e749aa-4308-4014-ae97-a30202aff442,9,armadura   *,53303,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,18d2a469-43c0-4130-857e-a5cfe0c868de,9,armadura   Emerald x1,53200,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,6f982103-3673-49bf-bb72-04504090049f,9,armadura   Sapphire x1,53200,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,38dfcf6a-6a95-4213-83cc-b65f58734676,9,armadura   Yellow Diamond x1,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe
@@ -1066,8 +1066,8 @@ Leon,7ccc8143-332a-4740-82bd-565b98192be9,10,novistador   *,54200,0,0,0,0,0,0,,,
 Leon,488080be-f324-4c45-abb0-e99735840654,10,novistador   *,54200,0,0,0,0,0,0,,,,,,,
 Leon,f2cfff51-40fe-4a34-9272-0f1410519442,10,novistador   *,54200,0,0,0,0,0,0,,,,,,,
 Leon,ff28620d-072e-491e-a3ea-6f4824e773e8,10,novistador   *,54200,0,0,0,0,0,0,,,,,,,
-Leon,3ead6e3d-e86f-4749-bebf-318c147fd5ca,10,garrador   Unicorn Horn x1,54300,0,0,0,0,0,0,,,leon-garradors-unicorn-horn,,noduplicate,,mendez_chase krauser_1 fodder
-Leon,dc7c6111-38c2-4b14-b54f-ad8ba0f42c9a,10,garrador   Unicorn Horn x1,54300,0,0,0,0,0,0,,,leon-garradors-unicorn-horn,,noduplicate,,mendez_chase krauser_1 fodder
+Leon,3ead6e3d-e86f-4749-bebf-318c147fd5ca,10,garrador   Unicorn Horn x1,54300,0,0,0,0,0,0,,,leon-garradors-unicorn-horn,,noduplicate nowave,,mendez_chase krauser_1 fodder colmillos
+Leon,dc7c6111-38c2-4b14-b54f-ad8ba0f42c9a,10,garrador   Unicorn Horn x1,54300,0,0,0,0,0,0,,,leon-garradors-unicorn-horn,,noduplicate nowave,,mendez_chase krauser_1 fodder colmillos
 Leon,3271daf2-9947-4806-897e-9c41ff446243,10,zealot  morning_star *,54300,0,0,0,0,0,0,,,,,,,
 Leon,75dcf475-6edb-4734-877b-6d889beed186,10,zealot  morning_star *,54300,0,0,0,0,0,0,,,,,,,
 Leon,97a38f1f-0703-4a7a-9a44-86d54a734a56,10,zealot  morning_star *,54300,0,0,0,0,0,0,,,,,,,
@@ -1121,7 +1121,7 @@ Leon,dd4748af-6d52-4593-be99-9afecfd4993a,10,novistador   *,54400,0,0,0,0,0,0,,,
 Leon,16497919-2ea4-4b4e-828c-bce85e724a3d,10,novistador   *,54400,0,0,0,0,0,0,,,,,,,
 Leon,afb7a698-748b-4878-93a7-23a78f9bb440,10,novistador   *,54400,0,0,0,0,0,0,,,,,,,
 Leon,b56acb03-f611-4ac2-88c2-7c24f0d59fa4,10,novistador   *,54400,0,0,0,0,0,0,,,,,,small,
-Leon,902fe2d5-0816-4d48-845b-52efd751dec1,10,verdugo   Gold Monocle x1,54404,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,902fe2d5-0816-4d48-845b-52efd751dec1,10,verdugo   Gold Monocle x1,54404,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,,10,[EXTRA],54403,204,-30,24,0,0,0,c97fda50-be56-40c2-9013-cc72c09837e7,,,,,small,
 Leon,,10,[EXTRA],54403,204,-30,13,0,0,0,c97fda50-be56-40c2-9013-cc72c09837e7,,,,,small,
 Leon,,10,[EXTRA],54403,197,-30,1,0,0,0,c97fda50-be56-40c2-9013-cc72c09837e7,,,,,small,
@@ -1173,8 +1173,8 @@ Leon,2f7ddd46-ba34-44f7-b198-3651fdc23cbc,11,villager  dynamite *,55103,0,0,0,0,
 Leon,ca49a2b5-5f87-4013-baa0-22c059ce5f5e,11,villager  molotov *,55103,0,0,0,0,0,0,,,,,,,
 Leon,65ff1927-4b44-4012-b73e-b587abfee502,11,villager  torch *,55103,0,0,0,0,0,0,,,,,,,
 Leon,06ad5feb-ae53-4d65-a130-3e6e8cedfadc,11,villager pA(50%) shovel *,55103,0,0,0,0,0,0,,,,,,,
-Leon,13828073-1008-408b-a2ed-09ddc2c78e41,11,chainsaw   Sapphire x1 // Chainsaw Guarding Bridge Lever,55103,0,0,0,0,0,0,,,,,elite,,
-Leon,aa55e6a1-26e1-4d20-829e-cff0434a3bce,11,chainsaw   Emerald x1 // Chainsaw that Alerts Horde,55103,0,0,0,0,0,0,,,,,climber,,
+Leon,13828073-1008-408b-a2ed-09ddc2c78e41,11,chainsaw   Sapphire x1 // Chainsaw Guarding Bridge Lever,55103,0,0,0,0,0,0,,,,,elite noduplicate nowave,,
+Leon,aa55e6a1-26e1-4d20-829e-cff0434a3bce,11,chainsaw   Emerald x1 // Chainsaw that Alerts Horde,55103,0,0,0,0,0,0,,,,,climber noduplicate nowave,,
 Leon,e755e462-ca17-43c7-b5c4-88843b54b208,11,villager_2  torch * [REINFORCEMENTS],55103,0,0,0,0,0,0,,,,,climber,,
 Leon,f498c259-0f83-49ee-ac39-ad0c3ba84540,11,villager_2  torch * [REINFORCEMENTS],55103,0,0,0,0,0,0,,,,,climber,,
 Leon,c8df8feb-70cd-453e-9a47-6bd351be0566,11,villager_2  dynamite * [REINFORCEMENTS],55103,0,0,0,0,0,0,,,,,climber,,
@@ -1193,8 +1193,8 @@ Leon,afe0227b-d3e7-4f60-a804-9c0d27640036,11,villager_2 pA(100%) knife *,55103,0
 Leon,ca1dbe6c-39cd-4bab-b95a-e19e8cec3ac7,11,villager_2 pA(20%) hoe *,55103,0,0,0,0,0,0,,,,,,,
 Leon,dd5e99a5-bd8f-4f5b-b7c8-5babfb55cbca,11,villager_2 pA(20%) shovel *,55103,0,0,0,0,0,0,,,,,,,
 Leon,49c6729a-6c7b-44e2-8d39-8c6d8afdbd0a,11,villager_2 pA(100%)  *,55103,0,0,0,0,0,0,,,,,,,
-Leon,222771c0-628e-4aab-b8a7-dd7d1cff9c6d,11,el_gigante   .,55200,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,55d16590-73c2-4335-8a9b-3b4970ab1103,11,el_gigante   .,55200,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,222771c0-628e-4aab-b8a7-dd7d1cff9c6d,11,el_gigante   .,55200,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,55d16590-73c2-4335-8a9b-3b4970ab1103,11,el_gigante   .,55200,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,,11,[EXTRA],55200,145,-12,50,0,0,0,b39ba3c1-6388-43cc-8771-4027233dba01,,,,,fodder elite chainsaw_mad,
 Leon,,11,[EXTRA],55200,134,-12,44,0,0,0,b39ba3c1-6388-43cc-8771-4027233dba01,,,,,fodder elite chainsaw_mad,
 Leon,,11,[EXTRA],55200,130,-12,36,0,0,0,b39ba3c1-6388-43cc-8771-4027233dba01,,,,,fodder elite chainsaw_mad,
@@ -1207,20 +1207,20 @@ Leon,14113f1f-2dc8-442b-9c7a-d3f2c85d2909,11,villager_2 pA(80%) pitchfork *,5520
 Leon,045876a5-b863-432d-bf0d-e67b677b1119,11,villager_2  pitchfork *,55202,0,0,0,0,0,0,,,,,,,
 Leon,def06b49-4717-4404-b823-42decc0a3ea6,11,villager_2  hatchet *,55202,0,0,0,0,0,0,,,,,,,
 Leon,27225330-cd64-46b4-b654-22cd04d7ddc7,11,villager_2  dynamite *,55202,0,0,0,0,0,0,,,,,,,
-Leon,6c68dd30-5387-4fba-b05e-e4846570025a,11,krauser_1   .,55302,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,,11,[EXTRA] KNIFE ARENA ,55302,178,0,48,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,,aggroed notoxic noduplicate,,super-colmillos colmillos krauser_1 krauser_2 pesanta u3 garrador armadura gold-armadura mendez_chase verdugo mendez_2 regenerador iron_maiden super_iron_maiden brute_jj
-Leon,,11,[EXTRA] KNIFE ARENA,55302,183,0,47,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,,aggroed notoxic noduplicate,,super-colmillos colmillos krauser_1 krauser_2 pesanta u3 garrador armadura gold-armadura mendez_chase verdugo mendez_2 regenerador iron_maiden super_iron_maiden brute_jj
-Leon,,11,[EXTRA] KNIFE ARENA,55302,179,0,46,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,,aggroed notoxic noduplicate,small,super-colmillos colmillos krauser_1 krauser_2 pesanta u3 garrador armadura gold-armadura mendez_chase verdugo mendez_2 regenerador iron_maiden super_iron_maiden brute_jj
-Leon,,11,[EXTRA] KNIFE ARENA,55302,185,0,50,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,,aggroed notoxic noduplicate,small,super-colmillos colmillos krauser_1 krauser_2 pesanta u3 garrador armadura gold-armadura mendez_chase verdugo mendez_2 regenerador iron_maiden super_iron_maiden brute_jj
+Leon,6c68dd30-5387-4fba-b05e-e4846570025a,11,krauser_1   .,55302,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,,11,[EXTRA] KNIFE ARENA ,55302,178,0,48,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,,aggroed notoxic noduplicate nowave,,super-colmillos colmillos krauser_1 krauser_2 pesanta u3 garrador armadura gold-armadura mendez_chase verdugo mendez_2 regenerador iron_maiden super_iron_maiden brute_jj
+Leon,,11,[EXTRA] KNIFE ARENA,55302,183,0,47,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,,aggroed notoxic noduplicate nowave,,super-colmillos colmillos krauser_1 krauser_2 pesanta u3 garrador armadura gold-armadura mendez_chase verdugo mendez_2 regenerador iron_maiden super_iron_maiden brute_jj
+Leon,,11,[EXTRA] KNIFE ARENA,55302,179,0,46,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,,aggroed notoxic noduplicate nowave,small,super-colmillos colmillos krauser_1 krauser_2 pesanta u3 garrador armadura gold-armadura mendez_chase verdugo mendez_2 regenerador iron_maiden super_iron_maiden brute_jj
+Leon,,11,[EXTRA] KNIFE ARENA,55302,185,0,50,0,0,0,073c05d6-d09a-4174-b518-2392488d3420,,,,aggroed notoxic noduplicate nowave,small,super-colmillos colmillos krauser_1 krauser_2 pesanta u3 garrador armadura gold-armadura mendez_chase verdugo mendez_2 regenerador iron_maiden super_iron_maiden brute_jj
 Leon,af0d08df-ec8c-48a4-8316-3004814e785b,11,novistador   *,55300,0,0,0,0,0,0,,,,,,,
-Leon,5ebef8cc-9e35-43c4-b846-3f73db9b0dfa,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,4410ac54-e315-4113-b4df-bb8f1da45e2f,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,5ebef8cc-9e35-43c4-b846-3f73db9b0dfa,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,4410ac54-e315-4113-b4df-bb8f1da45e2f,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,3399a7fd-ddfd-4cd4-8d7f-3a39cd427c2a,11,novistador   *,55300,0,0,0,0,0,0,,,,,,,
 Leon,0e26ea2d-8006-497d-912f-5dbb9c1edcac,11,novistador   *,55300,0,0,0,0,0,0,,,,,,,
 Leon,11b5b72c-a832-44c9-b70f-112244feb64e,11,novistador   *,55300,0,0,0,0,0,0,,,,,,,
 Leon,8c9f6875-c16a-4638-8554-6605dcf03faf,11,novistador   *,55300,0,0,0,0,0,0,,,,,,,
 Leon,fdfe1823-8522-4451-8679-0f1ff191a8d9,11,novistador   *,55300,0,0,0,0,0,0,,,,,,,
-Leon,74d3be80-d601-420f-90d5-03c6e9cd28b9,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,74d3be80-d601-420f-90d5-03c6e9cd28b9,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,5308c267-beab-4136-9027-2d072a143b9d,11,novistador   *,55301,0,0,0,0,0,0,,,,,,,
 Leon,3bdd00c4-818c-4ec5-abf5-d0c062b1517f,11,novistador   *,55301,0,0,0,0,0,0,,,,,,small,
 Leon,290ccfc1-2b06-402a-b1d5-1537f16b138d,11,novistador   *,55301,0,0,0,0,0,0,,,,,,small,
@@ -1232,15 +1232,15 @@ Leon,c49dbe7f-376a-43ee-9009-be35402f0f5d,11,novistador   *,55300,0,0,0,0,0,0,,,
 Leon,6c7d8b5b-b60a-49c1-b1ea-797f11baa437,11,novistador   *,55300,0,0,0,0,0,0,,,,,,,
 Leon,28278862-5953-4aeb-935d-9347446a75f4,11,novistador   *,55300,0,0,0,0,0,0,,,,,,,
 Leon,41e36d1d-ec5f-4f0e-94f2-9dd76b7c1c69,11,novistador   *,55300,0,0,0,0,0,0,,,,,,,
-Leon,52503a60-7ef9-4e1b-b746-7c00839e510f,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,818f4cd7-8a11-4a0e-afc5-63f40666aad6,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,52503a60-7ef9-4e1b-b746-7c00839e510f,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,818f4cd7-8a11-4a0e-afc5-63f40666aad6,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,db29b6d5-a5de-4c4e-8a2a-f05bb8b16d81,11,novistador   *,55300,0,0,0,0,0,0,,,,,,,
-Leon,a1b65d91-9a13-49c1-a017-049bc54dc140,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,40c1f4e1-6f7a-423a-8d83-da8685cf3e35,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,5a10a05d-2c57-4fe1-9b25-6b32279a6150,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,af5121a3-6dd7-4421-b5d8-f3fc7387db42,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,c7ce02e8-da55-425d-a0b0-5cb986a69ca0,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,2b02dd72-914f-4052-b0cf-935b85cc3e68,12,ch2a3z1   .,55302,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,a1b65d91-9a13-49c1-a017-049bc54dc140,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,40c1f4e1-6f7a-423a-8d83-da8685cf3e35,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,5a10a05d-2c57-4fe1-9b25-6b32279a6150,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,af5121a3-6dd7-4421-b5d8-f3fc7387db42,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,c7ce02e8-da55-425d-a0b0-5cb986a69ca0,11,novistador   *,55300,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,2b02dd72-914f-4052-b0cf-935b85cc3e68,12,ch2a3z1   .,55302,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,,12,[EXTRA],54301,289,31,50,0,0,0,,,,,,,
 Leon,,12,[EXTRA],54301,289,31,63,0,0,0,,,,,,,
 Leon,,12,[EXTRA],54301,295,31,49,0,0,0,,,,,,small,
@@ -1315,7 +1315,7 @@ Leon,1932a994-ed3d-48bb-834c-f20001929ab5,12,zealot  crossbow *,56104,0,0,0,0,0,
 Leon,c7a3765d-559d-4750-9cb9-26e3aec51b43,12,zealot  crossbow *,56104,0,0,0,0,0,0,,,,,,,
 Leon,e29f0c08-b58d-410d-9a86-c7e8a9a28db5,12,armadura   Yellow Diamond x0,56300,0,0,0,0,0,0,,,,,,,
 Leon,2792c0ef-2c6f-4efd-87e7-8b36540e2476,12,armadura   *,56301,0,0,0,0,0,0,,,,,,,
-Leon,0c88b4af-61c0-4024-a996-8d0ee41514a0,12,salazar   Lip Rouge x1,56200,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,0c88b4af-61c0-4024-a996-8d0ee41514a0,12,salazar   Lip Rouge x1,56200,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,,12,[EXTRA] SALAZAR ARENA // Egg Blocker,56200,257,51,-111,0,0,0,bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3,,,,,fodder elite chainsaw_mad,
 Leon,,12,[EXTRA] SALAZAR ARENA // Right Stairs,56200,262,51,-106,0,0,0,bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3,,,,,fodder elite chainsaw_mad,
 Leon,,12,[EXTRA] SALAZAR ARENA // Left Stairs,56200,262,51,-114,0,0,0,bdb69c5e-1e3a-40e3-9564-2bc36f0a61a3,,,,,fodder elite chainsaw_mad,
@@ -1401,7 +1401,7 @@ Leon,e06a534e-dd9b-40d6-ab47-94506a484f9b,13,soldier pA(15%) spiked_bat *,60102,
 Leon,8a2f075e-7935-42eb-9cd9-06339af322b2,13,soldier pA(20%) crossbow *,60110,0,0,0,0,0,0,,,,,,small,
 Leon,4f82b27c-dc16-433e-a9ae-f8083e531417,13,soldier pA(30%) shock_baton *,60102,0,0,0,0,0,0,,,,,,small,
 Leon,7e8239bc-e691-4de1-8e9d-7e559c453683,13,soldier  molotov *,60102,0,0,0,0,0,0,,,,,,small,
-Leon,a4837283-ec06-4a25-b6c6-6e1a5503caeb,13,brute   Alexandrite x1,60103,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,a4837283-ec06-4a25-b6c6-6e1a5503caeb,13,brute   Alexandrite x1,60103,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,0a7d73be-1b11-474c-837d-bd4fa092ad2f,13,soldier pA(40%) crossbow *,60110,0,0,0,0,0,0,,,,,,,
 Leon,4513904e-e120-4d60-941b-f4a25caa6c6f,13,soldier pA(30%) crowbar *,60110,0,0,0,0,0,0,,,,,,,
 Leon,46060b1e-708a-4a2f-9c9b-9691d03cdc59,13,soldier pA(30%) molotov *,60110,0,0,0,0,0,0,,,,,,,
@@ -1455,26 +1455,26 @@ Leon,4e556e1f-5e83-4665-972f-df6aa5d468a7,13,soldier pA(20%) spiked_bat *,61203,
 Leon,d57165b2-cddb-454b-b98c-1cee6e0789fb,13,soldier pA(10%) dynamite *,61203,0,0,0,0,0,0,,,,,,,
 Leon,1a63b79d-edb5-411b-94ae-7ab655df00b1,13,soldier  shock_baton *,61204,0,0,0,0,0,0,,,,,,,
 Leon,9bcacac7-bf88-4595-ac73-fe0f7796bc1c,13,soldier  hatchet *,61204,0,0,0,0,0,0,,,,,,,
-Leon,8f24519a-7e22-4c38-ac0b-89e058d0d714,13,regenerador   .,61302,0,0,0,0,0,0,,,,,noduplicate preserve,,
+Leon,8f24519a-7e22-4c38-ac0b-89e058d0d714,13,regenerador   .,61302,0,0,0,0,0,0,,,,,noduplicate preserve nowave,,
 Leon,26f2ba68-b6fb-4d7b-963d-4aa19a07cddd,13,regenerador   Ruby x1,61402,0,0,0,0,0,0,,,,,,regenerador iron_maiden super_iron_maiden,
 Leon,6f4a9b4a-51c5-4081-9b92-965c9dd973c5,13,regenerador   .,61402,0,0,0,0,0,0,,,,,,regenerador iron_maiden super_iron_maiden,
 Leon,4d5cac28-3b75-40d4-b0f8-98cc68277500,13,regenerador   Sapphire x1,61305,0,0,0,0,0,0,,,,,,regenerador iron_maiden super_iron_maiden,
-Leon,ec73c258-19b5-4534-9010-63b93c5dd899,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1 krauser_2 mendez_chase pesanta u3
+Leon,ec73c258-19b5-4534-9010-63b93c5dd899,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate nowave,,krauser_1 krauser_2 mendez_chase pesanta u3
 Leon,69cfa597-7291-4a75-96eb-9dd5ad7e38a8,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
 Leon,79ca4b25-ea22-4c4d-a655-c09cb9ec5958,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
 Leon,16e55d3b-6238-40b2-91f2-75bdf1c3897a,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
 Leon,55569dbd-db47-4292-8aa9-c0049159857a,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,121a6619-6891-4474-994a-a269b157216c,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1 krauser_2 mendez_chase pesanta u3
+Leon,121a6619-6891-4474-994a-a269b157216c,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate nowave,,krauser_1 krauser_2 mendez_chase pesanta u3
 Leon,2d5ee37e-c51b-4c64-8c9e-1e4fe7e53b58,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
 Leon,76bd56c7-87e5-413d-808b-d8e875ff087e,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
 Leon,8ff22883-d0d7-404f-be44-2589c91752cf,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
 Leon,f581dd02-fd89-40c6-996b-bd0f34636160,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,b99b7a23-8d20-46a5-9b8a-0bf90cca90ef,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1 krauser_2 mendez_chase pesanta u3
+Leon,b99b7a23-8d20-46a5-9b8a-0bf90cca90ef,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate nowave,,krauser_1 krauser_2 mendez_chase pesanta u3
 Leon,5983fbf6-04a0-4560-9e31-3e31628898b1,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
 Leon,8023c600-8523-4b04-90c4-61671196ca1c,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
 Leon,8c5de483-1194-4d50-9e9f-53065809d760,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
 Leon,290c3ebf-408f-4513-84dc-bcec52cdad76,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,be280715-78e6-4cd7-8f28-09ec50608c7d,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1 krauser_2 mendez_chase pesanta u3
+Leon,be280715-78e6-4cd7-8f28-09ec50608c7d,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate nowave,,krauser_1 krauser_2 mendez_chase pesanta u3
 Leon,1e97a1e6-76fd-42d7-85a4-4b405c2dfaa4,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
 Leon,f9113bbf-fee8-4854-9c1b-54afb50dde0a,13,soldier   Pesetas x500,61500,0,0,0,0,0,0,,,,,,small,
 Leon,43853325-2ccc-4964-a4d6-913accf33a4c,13,viper   Viper x1,61106,0,0,0,0,0,0,,,,,noduplicate,,
@@ -1567,28 +1567,28 @@ Leon,,14,[EXTRA],65100,172,28,-164,0,0,0,fbbe64e2-8fcd-49be-9009-b6252b57847a,,,
 Leon,,14,[EXTRA],65100,179,28,-166,0,0,0,fbbe64e2-8fcd-49be-9009-b6252b57847a,,,,,small,
 Leon,,14,[EXTRA],65100,179,28,-177,0,0,0,fbbe64e2-8fcd-49be-9009-b6252b57847a,,,,,small,
 Leon,,14,[EXTRA],65100,169,28,-174,0,0,0,fbbe64e2-8fcd-49be-9009-b6252b57847a,,,,,small,
-Leon,d26180c8-7b97-4d75-aea0-c497a60fb779,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,32f2f575-7e14-4848-b2e7-6aad84945451,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,88e6af1b-9fdc-43b2-a327-ba920a5b8cd7,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,2ba09751-a71b-4afd-ba1e-b9f620316676,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,d5c9189a-60b9-402e-8427-cc1e6b95a9d0,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,58b1261f-d00d-4d6b-9472-7f0eb92b23c2,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,28c3bc26-42aa-48fe-9b60-7e81f41ad00a,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,58c17f3e-2945-4223-9d2b-dc85536357ce,14,krauser_2   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,9a9f4c65-3a02-4d18-bd22-437d0feb207f,14,krauser_2   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,6ec02c6e-1879-455f-9a50-0a136dddd825,14,krauser_2   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,a241d88c-1eea-48c2-8261-3f31716e4dfa,14,krauser_2   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,4e6199c0-e784-4215-ac87-cdbdb0cdf98b,14,krauser_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,e510bf60-81a9-46be-b285-cc168cbb3a45,14,krauser_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,dc5b9f3b-fd2c-4cf2-9cd8-d61d3210a28b,14,krauser_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,c503183b-fb13-4b17-8834-d6f6bfa8f709,14,krauser_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,813b7486-7029-4b58-ad5d-479369af5483,14,krauser_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,e50ab1e0-f474-47c5-8a48-5d8b7fa32b19,14,krauser_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,acabd40c-97b2-45db-a53b-53c84da4dea1,14,krauser_2   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,38a34120-1655-4a5b-94d1-3f5358af2980,14,krauser_2   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,d3fd3b9f-0e76-478b-ab61-435311189e9b,14,krauser_2   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,a39401a6-6f24-41a6-a46c-c5cd462744ed,14,krauser_2   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,3c898d04-173e-44e5-9801-1996f3711c91,14,krauser_2   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,d26180c8-7b97-4d75-aea0-c497a60fb779,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,32f2f575-7e14-4848-b2e7-6aad84945451,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,88e6af1b-9fdc-43b2-a327-ba920a5b8cd7,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,2ba09751-a71b-4afd-ba1e-b9f620316676,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,d5c9189a-60b9-402e-8427-cc1e6b95a9d0,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,58b1261f-d00d-4d6b-9472-7f0eb92b23c2,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,28c3bc26-42aa-48fe-9b60-7e81f41ad00a,14,krauser_1   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,58c17f3e-2945-4223-9d2b-dc85536357ce,14,krauser_2   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,9a9f4c65-3a02-4d18-bd22-437d0feb207f,14,krauser_2   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,6ec02c6e-1879-455f-9a50-0a136dddd825,14,krauser_2   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,a241d88c-1eea-48c2-8261-3f31716e4dfa,14,krauser_2   .,65100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,4e6199c0-e784-4215-ac87-cdbdb0cdf98b,14,krauser_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,e510bf60-81a9-46be-b285-cc168cbb3a45,14,krauser_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,dc5b9f3b-fd2c-4cf2-9cd8-d61d3210a28b,14,krauser_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,c503183b-fb13-4b17-8834-d6f6bfa8f709,14,krauser_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,813b7486-7029-4b58-ad5d-479369af5483,14,krauser_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,e50ab1e0-f474-47c5-8a48-5d8b7fa32b19,14,krauser_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,acabd40c-97b2-45db-a53b-53c84da4dea1,14,krauser_2   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,38a34120-1655-4a5b-94d1-3f5358af2980,14,krauser_2   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,d3fd3b9f-0e76-478b-ab61-435311189e9b,14,krauser_2   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,a39401a6-6f24-41a6-a46c-c5cd462744ed,14,krauser_2   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,3c898d04-173e-44e5-9801-1996f3711c91,14,krauser_2   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,7ad1bf36-5681-4d31-9fc5-3cb093103c39,14,soldier  hatchet *,62200,0,0,0,0,0,0,,,,,,,
 Leon,62cff488-b6ee-4b7f-9a96-ad0b6dd5ee66,14,soldier  crowbar *,62200,0,0,0,0,0,0,,,,,,,
 Leon,fc883a5c-fc47-4009-814c-6d2132c1de6a,14,soldier   *,62100,0,0,0,0,0,0,,,,,,climber,
@@ -1857,40 +1857,40 @@ Leon,,16,[EXTRA],68204,-165,66,-186,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,
 Leon,,16,[EXTRA],68206,-182,66,-187,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
 Leon,,16,[EXTRA],68204,-173,66,-185,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
 Leon,,16,[EXTRA],68206,-185,66,-179,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,6b0d630d-93ec-4bc7-9690-f0f36c8d8045,16,sadler_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,8f9465b0-c28d-4a34-b004-b63c155d70fd,16,sadler_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,cacdb0fa-b472-4567-9dbd-8cb1cafa9c57,16,sadler_1   .,69900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,aaeee137-ceb9-4a49-a9af-590b8a809509,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,39dea5cd-c167-4541-889b-1a1aba393e54,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,109fc37b-4f6c-488e-9e85-81fbb81e6e0e,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,699d9dd3-0212-4d05-9f49-ed85d88ebb15,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,328d36d4-300d-4098-915a-566a878302b0,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,09186f55-3add-4c8e-952c-55e624b28191,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,35a9baaa-e347-4959-a3b3-afad5c621a3b,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,f130e44f-bf75-4a0a-9056-acacad838541,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,a2a5a2ac-d3d6-45d8-a44d-e3033fd4c635,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,11314255-d6a4-4bf7-bf1f-e8a6153c0d30,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,287ab003-671d-4cfa-991a-d6265186ae94,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,25c6e2db-7df4-4151-a7fd-2c38dd338b9a,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,e805ff53-66fb-482a-8825-d7423d7ee178,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,e9685463-98fa-4bfa-ab79-4e80537bbe7b,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,9e0f23fa-98d5-4d69-8d15-8f9eeae725a5,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,1c020a4e-6743-4a81-8e4d-1a666f711817,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,c9734608-38e7-4979-8188-386605abbadc,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,c8e80dd3-7d91-4a46-aa67-97a39364787f,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,1b20ca38-b99a-4751-b749-67d94d2b3714,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,f9e7dba9-9da4-4229-b402-ef4641ecaf1e,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,bd5a348e-da37-40ca-9bb6-1e31f11a007e,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,8d713b1c-3e51-47b3-9005-431507b149ad,16,sadler_2   .,68206,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,93c11349-7eef-4794-9e59-f751398b820f,16,sadler_2   .,69900,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,26a4117e-810e-4052-89c7-409cdfb0976c,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,7511d30a-6775-4f75-ab2b-9164e36ca16c,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,1e8ee560-c3ea-4026-bc3c-396b78e3d0a0,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,270c3a76-29c6-455f-9897-b967c3c6cd85,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,12addfca-a7ff-4679-84be-2afe6dd3bcd2,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,18483b92-b870-4533-ac97-20894536f1cc,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,0e354b84-ddc1-4d76-b1c5-525a93ab068a,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,90711861-a789-4f0f-b289-0be6aeda32e7,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate,,
+Leon,6b0d630d-93ec-4bc7-9690-f0f36c8d8045,16,sadler_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,8f9465b0-c28d-4a34-b004-b63c155d70fd,16,sadler_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,cacdb0fa-b472-4567-9dbd-8cb1cafa9c57,16,sadler_1   .,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,aaeee137-ceb9-4a49-a9af-590b8a809509,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,39dea5cd-c167-4541-889b-1a1aba393e54,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,109fc37b-4f6c-488e-9e85-81fbb81e6e0e,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,699d9dd3-0212-4d05-9f49-ed85d88ebb15,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,328d36d4-300d-4098-915a-566a878302b0,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,09186f55-3add-4c8e-952c-55e624b28191,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,35a9baaa-e347-4959-a3b3-afad5c621a3b,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,f130e44f-bf75-4a0a-9056-acacad838541,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,a2a5a2ac-d3d6-45d8-a44d-e3033fd4c635,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,11314255-d6a4-4bf7-bf1f-e8a6153c0d30,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,287ab003-671d-4cfa-991a-d6265186ae94,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,25c6e2db-7df4-4151-a7fd-2c38dd338b9a,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,e805ff53-66fb-482a-8825-d7423d7ee178,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,e9685463-98fa-4bfa-ab79-4e80537bbe7b,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,9e0f23fa-98d5-4d69-8d15-8f9eeae725a5,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,1c020a4e-6743-4a81-8e4d-1a666f711817,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,c9734608-38e7-4979-8188-386605abbadc,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,c8e80dd3-7d91-4a46-aa67-97a39364787f,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,1b20ca38-b99a-4751-b749-67d94d2b3714,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,f9e7dba9-9da4-4229-b402-ef4641ecaf1e,16,novistador   *,68000,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,bd5a348e-da37-40ca-9bb6-1e31f11a007e,16,novistador   *,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,8d713b1c-3e51-47b3-9005-431507b149ad,16,sadler_2   .,68206,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,93c11349-7eef-4794-9e59-f751398b820f,16,sadler_2   .,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,26a4117e-810e-4052-89c7-409cdfb0976c,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,7511d30a-6775-4f75-ab2b-9164e36ca16c,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,1e8ee560-c3ea-4026-bc3c-396b78e3d0a0,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,270c3a76-29c6-455f-9897-b967c3c6cd85,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,12addfca-a7ff-4679-84be-2afe6dd3bcd2,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,18483b92-b870-4533-ac97-20894536f1cc,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,0e354b84-ddc1-4d76-b1c5-525a93ab068a,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
+Leon,90711861-a789-4f0f-b289-0be6aeda32e7,16,sadler_3   .,69100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,,16,[EXTRA] SADDLER ARENA,69900,-224,52,-195,0,0,0,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,fodder elite boss,
 Leon,,16,[EXTRA],69900,-219,52,-196,0,0,0,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,fodder elite boss,
 Leon,,16,[EXTRA],69900,-218,52,-209,0,0,0,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,fodder elite boss,
@@ -1960,13 +1960,14 @@ Leon,c6a3eac1-6f94-4eed-b02d-1b1e4efbc2c6,16,soldier   *,59200,0,0,0,0,0,0,,,,,,
 Leon,af6f1c17-64de-4145-8bad-fac5dcf42094,16,soldier   *,59103,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
 Leon,1c07eb0a-7f8d-4978-84f0-02a2e8705d56,16,soldier   *,59103,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
 ,,,,,,,,,,,,,,,,,
-Leon,,-1,[EXTRA] Mini boss that spawns in cabin battle arena,43311,54.5,5.5,-159,0,0,0,,,battle.cabin.1F,cabin,aggroed noduplicate nowave guardian,,
-Leon,,-1,[EXTRA] Mini boss that spawns in cabin battle arena,43311,54.5,5.5,-159,0,0,0,,,battle.cabin.1F,cabin,aggroed noduplicate nowave guardian,,
-Leon,,-1,[EXTRA] Mini boss that spawns in town hall,40212,25.7,1,2.6,70.8,0,0,,,battle.townhall,townhall,aggroed noduplicate nowave guardian,,
-Leon,,-1,[EXTRA] Mini boss that spawns in town hall,40212,25.7,1,2.6,70.8,0,0,,,battle.townhall,townhall,aggroed noduplicate nowave guardian,,
+Leon,,-1,[EXTRA] Extra Spawn locking down basement battle arena,40510,-175,10,71.6,0,0,0,,,,hunting.basement,aggroed noduplicate nowave guardian,,boss dog*
+Leon,,-1,[EXTRA] Mini boss that spawns in cabin battle arena,43311,54.5,5.5,-159,0,0,0,,,battle.cabin.1F,cabin,aggroed noduplicate nowave guardian,,dog*
+Leon,,-1,[EXTRA] Mini boss that spawns in cabin battle arena,43311,54.5,5.5,-159,0,0,0,,,battle.cabin.1F,cabin,aggroed noduplicate nowave guardian,,dog*
+Leon,,-1,[EXTRA] Mini boss that spawns in town hall,40212,25.7,1,2.6,70.8,0,0,,,battle.townhall,townhall,aggroed noduplicate nowave guardian,,dog*
+Leon,,-1,[EXTRA] Mini boss that spawns in town hall,40212,25.7,1,2.6,70.8,0,0,,,battle.townhall,townhall,aggroed noduplicate nowave guardian,,dog*
 Leon,,-1,[EXTRA] Mendez connector (behind),44101,-15.5,7.9,91.1,-137,0,0,,,,mendezconnector,aggroed,,boss
 Leon,,-1,[EXTRA] Mendez connector (behind),44101,-15.5,7.9,91.1,-137,0,0,,,,mendezconnector,aggroed,,boss
-Leon,,-1,[EXTRA] Mendez connector (boss),44100,-10.8,2.8,36.7,0,0,0,,,battle.mendezconnector,mendezconnector,noduplicate nowave guardian,,
+Leon,,-1,[EXTRA] Mendez connector (boss),44100,-10.8,2.8,36.7,0,0,0,,,battle.mendezconnector,mendezconnector,noduplicate nowave guardian,,dog*
 Leon,,-1,[EXTRA] Mendez connector (ahead),44100,-11.4,2.8,40.6,-23.3,0,0,,,,mendezconnector,aggroed,,boss
 Leon,,-1,[EXTRA] Mendez connector (ahead),44100,-11.4,2.8,40.6,-23.3,0,0,,,,mendezconnector,aggroed,,boss
 Leon,,-1,[EXTRA] Mendez connector (ahead),44100,-11.4,2.8,40.6,-23.3,0,0,,,,mendezconnector,aggroed,,boss
