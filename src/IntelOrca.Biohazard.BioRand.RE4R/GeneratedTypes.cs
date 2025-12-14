@@ -1156,8 +1156,31 @@ namespace chainsaw
         public System.Guid _CheckFlag { get; set; }
         public bool _CompareValue { get; set; }
     }
+    internal class OptionSettings<T>
+    {
+        public System.Collections.Generic.List<T> _Params { get; set; } = [];
+    }
+    internal class CheckFlagSettings
+    {
+        public bool Enabled { get; set; }
+        public OptionSettings<chainsaw.CheckFlagSettings.Param> _Params { get; set; } = new();
+        internal class Param
+        {
+            public uint _KeyHash { get; set; }
+            public uint _BindTriggerNameHash { get; set; }
+            public FlagCondition _FlagCondition { get; set; } = new();
+        }
+    }
     internal class SetFlagSettings
     {
+        public bool Enabled { get; set; }
+        public OptionSettings<chainsaw.SetFlagSettings.Param> _Params { get; set; } = new();
+        internal class Param
+        {
+            public uint _KeyHash { get; set; }
+            public uint _BindTriggerNameHash { get; set; }
+            public System.Collections.Generic.List<SetFlagData> _SetFlags { get; set; } = new();
+        }
         internal class SetFlagData
         {
             public System.Guid _Flag { get; set; }

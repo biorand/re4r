@@ -7,6 +7,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
 {
     public static class CollectionExtensions
     {
+        public static int FindIndex<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
+
+            int index = 0;
+            foreach (var item in source)
+            {
+                if (predicate(item))
+                {
+                    return index;
+                }
+                index++;
+            }
+            return -1;
+        }
+
         public static T? GetItem<T>(this List<T> list, int index)
         {
             return list.Count <= index ? default : list[index];

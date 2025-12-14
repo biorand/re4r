@@ -1,9 +1,10 @@
 ﻿using System;
+using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
 {
-    public static class RszExtensions
+    internal static class RszExtensions
     {
         public static RszObjectNode? FindComponent(this IRszSceneNode sceneNode, Guid gameObjectGuid, string componentName)
         {
@@ -53,5 +54,56 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
             });
         }
 #endif
+
+        public static RszObjectNode Serialize<T>(this RszTypeRepository repo, T obj)
+        {
+            return (RszObjectNode)RszSerializer.Serialize(
+                repo.FromName(obj!.GetType().FullName!)!,
+                obj);
+        }
+
+        public static RszScene Add(
+            this RszScene scene,
+            RszTypeRepository repo,
+            SceneHierachyPath hier,
+            RszGameObject gameObject)
+        {
+            var folders = hier.Folders;
+            var updatedRoot = AddToNode(scene, 0);
+            return (RszScene)updatedRoot;
+
+            IRszSceneNode AddToNode(
+                IRszSceneNode node,
+                int index)
+            {
+                if (index >= folders.Count)
+                {
+                    // No more folders, add the game object here
+                    return node.WithChildren(node.Children.Add(gameObject));
+                }
+
+                // Find or add folder
+                var folderName = folders[index];
+                var childIndex = node.Children
+                    .FindIndex(x => x is RszFolder f && f.Name == folderName);
+                var child = childIndex != -1
+                    ? node.Children[childIndex]
+                    : new RszFolder(
+                        repo.Create("via.Folder")
+                            .Set("Name", folderName)
+                            .Set("Update", true)
+                            .Set("Draw", true)
+                            .Set("Startup", true),
+                        []);
+
+                // Add sub folders/game object
+                child = AddToNode(child, index + 1);
+
+                // Rebuild root
+                return childIndex != -1
+                    ? node.WithChildren(node.Children.SetItem(childIndex, child))
+                    : node.WithChildren(node.Children.Add(child));
+            }
+        }
     }
 }

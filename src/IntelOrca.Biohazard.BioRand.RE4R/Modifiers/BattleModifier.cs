@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using chainsaw;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Rsz;
 
@@ -51,18 +52,37 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             foreach (var battle in battles)
             {
                 var name = battle[0].Name;
-                var trigger = battle.FirstOrDefault(x => x.Operation == "trigger");
-                if (trigger == null)
+                var triggers = battle.Where(x => x.Operation == "trigger").ToArray();
+                if (triggers.Length == 0)
                     continue;
+
+                var chapter = triggers.Select(x => x.Chapter).FirstOrDefault(x => x != 0);
+                var flagTriggers = triggers.Select(x => x.Guid).Where(x => x != default).ToArray();
+                var areaTrigger = triggers.FirstOrDefault(x => x.Radius != 0);
 
                 var area = areaService.Areas
                     .Where(x => x.Definition.Kind == AreaKind.General)
-                    .FirstOrDefault(x => x.Definition.ChapterOnly && x.Definition.Chapter == trigger.Chapter);
+                    .FirstOrDefault(x => x.Definition.ChapterOnly && x.Definition.Chapter == chapter);
                 if (area == null)
                     continue;
 
                 var lockFlag = randomizer.FlagService.AllocateFlag();
-                AddAreaHit(area, new Vector3(trigger.X, trigger.Y, trigger.Z), trigger.Radius, lockFlag);
+                if (areaTrigger == null)
+                {
+                    AddFlagTrigger(area,
+                        $"BioRand/Events/{name}/BioRand_Trigger_{name}",
+                        flagTriggers,
+                        lockFlag);
+                }
+                else
+                {
+                    AddAreaTrigger(area,
+                        $"BioRand/Events/{name}/BioRand_Trigger_{name}",
+                        flagTriggers,
+                        new Vector3(areaTrigger.X, areaTrigger.Y, areaTrigger.Z),
+                        areaTrigger.Radius,
+                        lockFlag);
+                }
 
                 var enemies = randomizer.EnemyService.EnemyPlacements
                     .Where(x => x.Battle == name)
@@ -71,7 +91,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var unlockFlags = new List<Guid>();
                 foreach (var e in enemies)
                 {
-                    e.Chapter = trigger.Chapter;
+                    e.Chapter = chapter;
                     e.Condition = lockFlag.ToString();
                     if (e.HasTag(EnemyTags.Guardian))
                     {
@@ -88,14 +108,33 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        private void AddAreaHit(Area area, Vector3 position, float radius, Guid flag)
+        private void AddFlagTrigger(Area area, SceneHierachyPath hier, Guid[] requiredFlags, Guid flagSet)
         {
+            var repo = area.Randomizer.FileRepository.TypeRepository;
+            var contextId = area.Randomizer.FlagService.AllocateContextId(1, 1);
+
+            var gimmick = GimmickTemplate
+                .Get("Biorand_FlagCheckSet")
+                .Clone()
+                .WithName(hier.Name);
+
+            gimmick = UpdateGimmickContextId(gimmick, contextId);
+            gimmick = AddCheckFlagsComponent(repo, gimmick, requiredFlags);
+            gimmick = AddSetFlagsComponent(repo, gimmick, flagSet);
+
+            area.Scene = area.Scene.Add(repo, hier, gimmick);
+            area.GimmickSaveData.AddBasic("", contextId);
+        }
+
+        private void AddAreaTrigger(Area area, SceneHierachyPath hier, Guid[] requiredFlags, Vector3 position, float radius, Guid flagSet)
+        {
+            var repo = area.Randomizer.FileRepository.TypeRepository;
             var contextId = area.Randomizer.FlagService.AllocateContextId(1, 1);
 
             var gimmick = GimmickTemplate
                 .Get("Biorand_AreaHit")
                 .Clone()
-                .WithName("BioRand_AreaHit_1");
+                .WithName(hier.Name);
 
             var transform = new Transform(gimmick)
             {
@@ -103,20 +142,89 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             };
             gimmick = gimmick.AddOrUpdateComponent(transform.ToComponent());
 
-            var gimmickCore = gimmick.FindComponent("chainsaw.GimmickCore")!;
-            gimmickCore = gimmickCore.Set("_ID", contextId);
-            gimmick = gimmick.AddOrUpdateComponent(gimmickCore);
+            gimmick = UpdateGimmickContextId(gimmick, contextId);
 
             var colliders = gimmick.FindComponent("via.physics.Colliders")!;
             colliders = colliders.Set("Colliders[0].Shape.Radius", radius);
             gimmick = gimmick.AddOrUpdateComponent(colliders);
 
-            var setFlagComponent = gimmick.FindComponent("chainsaw.SetFlagSettings")!;
-            setFlagComponent = setFlagComponent.Set("_Params._Params[0]._SetFlags[0]._Flag", flag);
-            gimmick = gimmick.AddOrUpdateComponent(setFlagComponent);
+            if (requiredFlags.Length != 0)
+            {
+                var interactHolder = gimmick.FindComponent("chainsaw.InteractHolder")!;
+                interactHolder = interactHolder.Set("_Triggers[0]._Trigger.EnableCheckFlag", "CF");
+                gimmick = gimmick.AddOrUpdateComponent(interactHolder);
 
-            area.Scene = area.Scene.Add(gimmick);
+                gimmick = AddCheckFlagsComponent(repo, gimmick, requiredFlags);
+            }
+
+            gimmick = AddSetFlagsComponent(repo, gimmick, flagSet);
+
+            area.Scene = area.Scene.Add(repo, hier, gimmick);
             area.GimmickSaveData.AddBasic("", contextId);
+        }
+
+        private RszGameObject UpdateGimmickContextId(RszGameObject gameObject, chainsaw.ContextID contextId)
+        {
+            var gimmickCore = gameObject.FindComponent("chainsaw.GimmickCore")!;
+            gimmickCore = gimmickCore.Set("_ID", contextId);
+            gameObject = gameObject.AddOrUpdateComponent(gimmickCore);
+            return gameObject;
+        }
+
+        private RszGameObject AddCheckFlagsComponent(RszTypeRepository repo, RszGameObject gameObject, params Guid[] flags)
+        {
+            return gameObject.AddOrUpdateComponent(repo.Serialize(new chainsaw.CheckFlagSettings()
+            {
+                Enabled = true,
+                _Params = new OptionSettings<CheckFlagSettings.Param>()
+                {
+                    _Params =
+                        [
+                            new chainsaw.CheckFlagSettings.Param()
+                            {
+                                _KeyHash = 3090179045,
+                                _BindTriggerNameHash = 2180083513,
+                                _FlagCondition = new FlagCondition()
+                                {
+                                    _CheckFlags =
+                                    [
+                                        ..flags.Select(x => new CheckFlagInfo()
+                                        {
+                                            _CheckFlag = x,
+                                            _CompareValue = true
+                                        })
+                                    ]
+                                }
+                            }
+                        ]
+                }
+            }));
+        }
+
+        private RszGameObject AddSetFlagsComponent(RszTypeRepository repo, RszGameObject gameObject, params Guid[] flags)
+        {
+            return gameObject.AddOrUpdateComponent(repo.Serialize(new chainsaw.SetFlagSettings()
+            {
+                Enabled = true,
+                _Params = new OptionSettings<SetFlagSettings.Param>()
+                {
+                    _Params =
+                    [
+                        new chainsaw.SetFlagSettings.Param()
+                        {
+                            _KeyHash = 2180083513,
+                            _BindTriggerNameHash = 923965768,
+                            _SetFlags =
+                            [
+                                ..flags.Select(x => new chainsaw.SetFlagSettings.SetFlagData()
+                                {
+                                    _Flag = x
+                                })
+                            ]
+                        }
+                    ]
+                }
+            }));
         }
 
         private static void AddDoorLock(ChainsawRandomizer randomizer, Guid guid, Guid lockFlag, IList<Guid> unlockFlags)
