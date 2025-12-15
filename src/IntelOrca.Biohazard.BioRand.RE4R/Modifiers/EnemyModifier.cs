@@ -154,6 +154,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var chapter = group.Key;
                     var enemies = group
                         .SelectMany(x => x.Enemies)
+                        .Where(x => x.EnemyPlacement.ItemId == 0)
                         .Where(x => !x.Enemy.Kind.NoItemDrop)
                         .Where(x => !x.HasKeyItem)
                         .Where(x => x.OriginalEnemy.Kind.Key != "mendez_2") // Mendez (phase 1)

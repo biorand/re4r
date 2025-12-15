@@ -76,11 +76,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
+            var itemsToRemove = itemService.ItemPlacements
+                .Where(x => x.Campaign == randomizer.Campaign)
+                .Where(x => x.Tags.Contains(ItemTags.Remove))
+                .ToArray();
+
             var itemsToChange = itemService.ItemPlacements
                 .Where(x => x.Campaign == randomizer.Campaign)
+                .Where(x => !x.Tags.Contains(ItemTags.Remove))
                 .Where(x => CanChangeItem(randomizer, x))
                 .ToArray();
+
             var result = Randomize(randomizer, itemsToChange, logger);
+
             foreach (var area in areaService.Areas)
             {
                 if (!preserveModels)
@@ -88,6 +96,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     UpdateModels(area, result);
                 }
                 area.ItemSaveData.Update(result);
+            }
+
+            foreach (var item in itemsToRemove)
+            {
+                var area = areaService.FindAreaContainingGameObject(item.Guid);
+                if (area == null)
+                    continue;
+
+                area.Scene = area.Scene.RemoveGameObject(item.Guid);
+                area.ItemSaveData.Remove(item.ContextId);
             }
         }
 
@@ -212,7 +230,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var oldItemDefinition = ItemDefinitionRepository.Default.Find(placement.OldItem.Id);
             if (oldItemDefinition != null && oldItemDefinition.Kind == ItemKinds.Key)
-                return false;
+            {
+                if (!placement.Tags.Contains(ItemTags.ChangeKey))
+                {
+                    return false;
+                }
+            }
 
             if (placement.Tags.Contains(ItemTags.Preserve))
                 return false;
@@ -286,5 +309,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public const string Preserve = "preserve";
         public const string Dlc = "dlc";
         public const string ChapterOnly = "chapteronly";
+        public const string ChangeKey = "disablekey";
+        public const string Remove = "removekey";
     }
 }

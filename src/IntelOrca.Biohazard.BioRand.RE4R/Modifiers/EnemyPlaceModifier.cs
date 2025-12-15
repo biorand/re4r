@@ -136,6 +136,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .Set("_CriticalResistRate", 0.25f)
                 .Set("_MontageID", 1017464743U)
                 .Set("_ForceFind", e.HasTag(EnemyTags.Aggroed));
+
+            if (e.ItemId != 0)
+            {
+                spawnParam = spawnParam
+                    .Set("_ShouldDropItem", true)
+                    .Set("_DropItemID", e.ItemId)
+                    .Set("_DropItemCount", 1);
+            }
+
             var enemy = RszFactory.CreateGameObject("BioRandEnemy", "_Chainsaw/AppSystem/Prefab/ch1c0SpawnParam.pfb", [transform, spawnParam])
                 .WithGuid(e.GuidOrAuto);
             return spawnController.AddOrUpdateChild(enemy);

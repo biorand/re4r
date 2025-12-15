@@ -53,6 +53,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
+        public void Remove(chainsaw.ContextID contextId)
+        {
+            _table.Datas.RemoveAll(x => x.ID == contextId);
+        }
+
         private static void UpdateItem(chainsaw.DropItemSaveDataTable.Data data, Item newItem)
         {
             var itemRepo = ItemDefinitionRepository.Default;

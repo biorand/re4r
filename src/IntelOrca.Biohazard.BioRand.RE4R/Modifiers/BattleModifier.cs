@@ -26,13 +26,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var areaService = randomizer.AreaService;
 
             var battleCsv = randomizer.DynamicData.GetData(DynamicDataName.Battle) ?? throw new Exception("Battle data not found");
-            var battleColllections = Csv.Deserialize<BattleParameter>(battleCsv)
+            var battleCollections = Csv.Deserialize<BattleParameter>(battleCsv)
                 .Where(x => !string.IsNullOrEmpty(x.Name))
                 .GroupBy(x => x.Name)
                 .GroupBy(x => x.First().Collection);
 
             var battles = new List<BattleParameter[]>();
-            foreach (var collection in battleColllections)
+            foreach (var collection in battleCollections)
             {
                 if (collection.Key == null)
                 {
@@ -49,62 +49,94 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
-            foreach (var battle in battles)
+            foreach (var parameters in battles)
             {
-                var name = battle[0].Name;
-                var triggers = battle.Where(x => x.Operation == "trigger").ToArray();
-                if (triggers.Length == 0)
-                    continue;
+                var name = parameters[0].Name;
+                var chapter = parameters.Select(x => x.Chapter).FirstOrDefault(x => x != 0);
+                var beginFlag = default(Guid);
+                var endFlags = new List<Guid>();
 
-                var chapter = triggers.Select(x => x.Chapter).FirstOrDefault(x => x != 0);
-                var flagTriggers = triggers.Select(x => x.Guid).Where(x => x != default).ToArray();
-                var areaTrigger = triggers.FirstOrDefault(x => x.Radius != 0);
-
-                var area = areaService.Areas
-                    .Where(x => x.Definition.Kind == AreaKind.General)
-                    .FirstOrDefault(x => x.Definition.ChapterOnly && x.Definition.Chapter == chapter);
-                if (area == null)
-                    continue;
-
-                var lockFlag = randomizer.FlagService.AllocateFlag();
-                if (areaTrigger == null)
-                {
-                    AddFlagTrigger(area,
-                        $"BioRand/Events/{name}/BioRand_Trigger_{name}",
-                        flagTriggers,
-                        lockFlag);
-                }
-                else
-                {
-                    AddAreaTrigger(area,
-                        $"BioRand/Events/{name}/BioRand_Trigger_{name}",
-                        flagTriggers,
-                        new Vector3(areaTrigger.X, areaTrigger.Y, areaTrigger.Z),
-                        areaTrigger.Radius,
-                        lockFlag);
-                }
-
+                // Collect enemies
                 var enemies = randomizer.EnemyService.EnemyPlacements
                     .Where(x => x.Battle == name)
                     .ToArray();
-
-                var unlockFlags = new List<Guid>();
                 foreach (var e in enemies)
                 {
                     e.Chapter = chapter;
-                    e.Condition = lockFlag.ToString();
-                    if (e.HasTag(EnemyTags.Guardian))
+                }
+
+                // Process triggers
+                var triggers = parameters.Where(x => x.Operation == BattleOperation.Trigger).ToArray();
+                if (triggers.Length != 0)
+                {
+                    var flagTriggers = triggers.Select(x => x.Guid).Where(x => x != default).ToArray();
+                    var areaTrigger = triggers.FirstOrDefault(x => x.Radius != 0);
+
+                    var area = areaService.Areas
+                        .Where(x => x.Definition.Kind == AreaKind.General)
+                        .FirstOrDefault(x => x.Definition.ChapterOnly && x.Definition.Chapter == chapter);
+                    if (area == null)
+                        continue;
+
+                    beginFlag = randomizer.FlagService.AllocateFlag();
+                    if (areaTrigger == null)
                     {
-                        e.DeathFlag = randomizer.FlagService.AllocateFlag();
-                        unlockFlags.Add(e.DeathFlag);
+                        AddFlagTrigger(area,
+                            $"BioRand/Events/{name}/BioRand_Trigger_{name}",
+                            flagTriggers,
+                            beginFlag);
+                    }
+                    else
+                    {
+                        AddAreaTrigger(area,
+                            $"BioRand/Events/{name}/BioRand_Trigger_{name}",
+                            flagTriggers,
+                            new Vector3(areaTrigger.X, areaTrigger.Y, areaTrigger.Z),
+                            areaTrigger.Radius,
+                            beginFlag);
+                    }
+
+                    // Give guardian enemies their death flag to complete event
+                    foreach (var e in enemies)
+                    {
+                        e.Condition = beginFlag.ToString();
+                        if (e.HasTag(EnemyTags.Guardian))
+                        {
+                            e.DeathFlag = randomizer.FlagService.AllocateFlag();
+                            endFlags.Add(e.DeathFlag);
+                        }
                     }
                 }
 
-                var doors = battle.Where(x => x.Operation == "lockdoor").ToArray();
-                foreach (var d in doors)
+                // Other parameters for the event
+                foreach (var param in parameters)
                 {
-                    AddDoorLock(randomizer, d.Guid, lockFlag, unlockFlags);
+                    switch (param.Operation)
+                    {
+                        case BattleOperation.LockDoor:
+                            AddDoorLock(randomizer, param.Guid, beginFlag, endFlags);
+                            break;
+                        case BattleOperation.RemoveKey:
+                            AddKeyTag(param.Guid, ItemTags.Remove);
+                            break;
+                        case BattleOperation.ChangeKey:
+                            AddKeyTag(param.Guid, ItemTags.ChangeKey);
+                            break;
+                        case BattleOperation.GiveKey:
+                            var firstEnemy = enemies.FirstOrDefault(x => x.Tags.Contains(EnemyTags.Guardian));
+                            firstEnemy?.ItemId = param.ItemId;
+                            break;
+                    }
                 }
+            }
+
+            void AddKeyTag(Guid guid, string tag)
+            {
+                var itemPlacement = randomizer.ItemService.FromGuid(guid);
+                if (itemPlacement == null)
+                    return;
+
+                itemPlacement.Tags = itemPlacement.Tags.Add(tag);
             }
         }
 
@@ -324,13 +356,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         internal class BattleParameter
         {
             public string Name { get; set; } = "";
-            public string Operation { get; set; } = "";
+            public BattleOperation Operation { get; set; }
             public Guid Guid { get; set; }
             public int Chapter { get; set; }
             public float X { get; set; }
             public float Y { get; set; }
             public float Z { get; set; }
             public float Radius { get; set; }
+            public int ItemId { get; set; }
 
             public string? Collection
             {
@@ -342,6 +375,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     return Name.Substring(0, index);
                 }
             }
+        }
+
+        internal enum BattleOperation
+        {
+            None,
+            Trigger,
+            LockDoor,
+            RemoveKey,
+            ChangeKey,
+            GiveKey
         }
     }
 }

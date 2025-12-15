@@ -70,7 +70,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             else if (targetType.IsEnum)
             {
-                return Enum.Parse(targetType, input);
+                return Enum.Parse(targetType, input, ignoreCase: true);
             }
             else
             {

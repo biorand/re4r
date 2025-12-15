@@ -74,6 +74,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         // Not set from CSV:
         public Guid DeathFlag { get; set; }
+        public int ItemId { get; set; }
 
         public bool HasEmptyPosition => X == 0 && Y == 0 && Z == 0;
         public bool HasEmptyRotation => Yaw == 0 && Pitch == 0 && Roll == 0;
