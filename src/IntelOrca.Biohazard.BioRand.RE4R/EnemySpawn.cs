@@ -158,32 +158,34 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             void IncludeExclude(bool essential)
             {
-                if (!spawn.EnemyPlacement.Include.IsDefaultOrEmpty)
+                var include = MapClasses1(spawn.EnemyPlacement.Include, essential);
+                var exclude = MapClasses1(spawn.EnemyPlacement.Exclude, essential);
+                if (!include.IsDefaultOrEmpty)
                 {
                     enemyClasses = enemyClasses
-                        .Intersect(MapClasses1(spawn.EnemyPlacement.Include))
+                        .Intersect(include)
                         .ToImmutableArray();
                 }
-                else if (!spawn.EnemyPlacement.Exclude.IsDefaultOrEmpty)
+                else if (!exclude.IsDefaultOrEmpty)
                 {
                     enemyClasses = enemyClasses
-                        .Except(MapClasses1(spawn.EnemyPlacement.Exclude))
+                        .Except(exclude)
                         .ToImmutableArray();
                 }
+            }
 
-                ImmutableArray<EnemyClassDefinition> MapClasses1(ImmutableArray<string> list)
-                {
-                    return essential
-                        ? list
-                            .Where(x => x.EndsWith('*'))
-                            .Select(x => x[..^1])
-                            .SelectMany(MapClasses2)
-                            .ToImmutableArray()
-                        : list
-                            .Where(x => !x.EndsWith('*'))
-                            .SelectMany(MapClasses2)
-                            .ToImmutableArray();
-                }
+            ImmutableArray<EnemyClassDefinition> MapClasses1(ImmutableArray<string> list, bool essential)
+            {
+                return essential
+                    ? list
+                        .Where(x => x.EndsWith('*'))
+                        .Select(x => x[..^1])
+                        .SelectMany(MapClasses2)
+                        .ToImmutableArray()
+                    : list
+                        .Where(x => !x.EndsWith('*'))
+                        .SelectMany(MapClasses2)
+                        .ToImmutableArray();
 
                 EnemyClassDefinition[] MapClasses2(string className)
                 {
