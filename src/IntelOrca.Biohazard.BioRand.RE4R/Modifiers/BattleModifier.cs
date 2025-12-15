@@ -43,9 +43,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
                 else
                 {
-                    var pick = randomizer.Seed % collection.Count();
-                    var b = collection.ElementAt(pick);
-                    battles.Add(b.ToArray());
+                    var groups = collection.GroupBy(x => x.First().Group);
+                    var pick = randomizer.Seed % groups.Count();
+                    var g = groups.ElementAt(pick);
+                    foreach (var b in g)
+                    {
+                        battles.Add(b.ToArray());
+                    }
                 }
             }
 
@@ -370,9 +374,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 get
                 {
                     var index = Name.IndexOf('.');
-                    if (index == -1)
-                        return null;
-                    return Name.Substring(0, index);
+                    return index == -1 ? null : Name[..index];
+                }
+            }
+
+            public string Group
+            {
+                get
+                {
+                    var fullStopIndex = Name.IndexOf('.');
+                    if (fullStopIndex == -1)
+                    {
+                        var index = Name.IndexOf('|');
+                        return Name;
+                    }
+                    else
+                    {
+                        var nameIndex = Name.IndexOf('|');
+                        return nameIndex == -1
+                            ? Name[(fullStopIndex + 1)..]
+                            : Name.Substring(fullStopIndex + 1, nameIndex - fullStopIndex - 1);
+                    }
                 }
             }
         }
