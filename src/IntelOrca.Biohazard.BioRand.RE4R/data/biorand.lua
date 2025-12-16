@@ -4,7 +4,8 @@ function loadConfig()
         showPlayer = true,
         showFlags = true,
         showSpawnControllers = true,
-        showMarkers = true
+        showMarkers = true,
+        showObjects = true
     }
 end
 
@@ -30,6 +31,7 @@ function getExtraEnemyPositions()
     local file = json.load_file(path) or {}
     return file.enemies or {}
 end
+
 function dumpEnemyPosition(enemy)
     local path = "biorand/enemy.json"
     local file = json.load_file(path) or {}
@@ -46,6 +48,7 @@ function getExtraGimmickPositions()
     local file = json.load_file(path) or {}
     return file.gimmicks or {}
 end
+
 function dumpGimmickPosition(gimmick)
     local path = "biorand/gimmick.json"
     local file = json.load_file(path) or {}
@@ -176,7 +179,11 @@ function SpawnControllerDisplayer:begin()
                     local text_pos = top + Vector3f.new(0, 0.5, 0)
                     draw.capsule(pos, top, 0.05, 0xFFFFFFFF, 0xFF0000FF)
                     if distance < 10 then
-                        draw.world_text(spawnName .. "\n" .. "Controller: " .. spawnControllerGuid .. "\nCondition:\n  " .. spawnCondition, text_pos, 0xFFFFFFFF)
+                        draw.world_text(
+                            spawnName ..
+                            "\n" .. "Controller: " .. spawnControllerGuid .. "\nCondition:\n  " .. spawnCondition,
+                            text_pos,
+                            0xFFFFFFFF)
                     end
                 end
             end
@@ -324,7 +331,8 @@ re.on_frame(function()
     if playerInfo and cfg.showPlayer then
         displayer:write_indent("Player:")
         displayer:write(string.format("stage: %d", playerInfo.stage))
-        displayer:write(string.format("pos: %.1f, %.1f, %.1f", playerInfo.position.x, playerInfo.position.y, playerInfo.position.z))
+        displayer:write(string.format("pos: %.1f, %.1f, %.1f", playerInfo.position.x, playerInfo.position.y,
+            playerInfo.position.z))
         displayer:write(string.format("rot: %.1f", playerInfo.direction))
         displayer:unindent()
     end
@@ -337,6 +345,10 @@ re.on_frame(function()
         displayer:unindent()
     end
     displayer:unindent()
+
+    if cfg.showObjects then
+        do_object_table()
+    end
 end)
 
 re.on_draw_ui(function()
@@ -356,6 +368,7 @@ re.on_draw_ui(function()
     cfg.showFlags = checkbox("Show flags", cfg.showFlags)
     cfg.showSpawnControllers = checkbox("Show spawn controllers", cfg.showSpawnControllers)
     cfg.showMarkers = checkbox("Show markers", cfg.showMarkers)
+    cfg.showObjects = checkbox("Show objects", cfg.showObjects)
 
     if anyChanged then
         saveConfig(cfg)
@@ -438,6 +451,176 @@ re.on_application_entry("UpdateHID", function()
     end
 end)
 
+local objectTable_filter = ""
+local objectTable_selectedObject = nil
+function do_object_table()
+    local playerInfo = getPlayerInfo()
+    if playerInfo == nil then
+        return
+    end
+
+    local monospaceFont = imgui.load_font('DroidSansMono.ttf', 30)
+
+    imgui.begin_window("Objects", true, 0)
+
+    _, objectTable_filter = imgui.input_text("Filter", objectTable_filter, 0)
+
+    imgui.begin_table("strid", 7, 0, Vector2f.new(0, 0), 0)
+    imgui.table_setup_column("X", 16, 64, 0)
+    imgui.table_setup_column("Kind", 16, 256, 0)
+    imgui.table_setup_column("Guid", 16, 512, 0)
+    imgui.table_setup_column("Name", 0, 1, 0)
+    imgui.table_setup_column("X", 16, 142, 0)
+    imgui.table_setup_column("Y", 16, 142, 0)
+    imgui.table_setup_column("Z", 16, 142, 0)
+    -- imgui.table_setup_column("Yaw", 16, 142, 0)
+    -- imgui.table_setup_column("Pitch", 16, 142, 0)
+    -- imgui.table_setup_column("Roll", 16, 142, 0)
+    imgui.table_headers_row()
+
+    local maximum = 10
+    local playerPosition = playerInfo.position
+    local components = getComponents("chainsaw.GimmickCore")
+    local items = {}
+    for index, component in ipairs(components) do
+        local gameObject = component:get_GameObject()
+        local transform = gameObject:get_Transform()
+        local pos = transform:get_Position()
+        local distance = (pos - playerPosition):length()
+        local guid = getGameObjectGuid(gameObject)
+        local name = gameObject:get_Name()
+        local kind = "Unknown"
+
+        local allComponents = gameObject:call("get_Components"):get_elements()
+        for i, component in ipairs(allComponents or {}) do
+            local type_definition = component:get_type_definition()
+            local component_name = type_definition:get_full_name()
+            if startsWith(component_name, "chainsaw.Gm") then
+                kind = component_name:sub(10)
+            end
+        end
+
+        if objectTable_filter == "" or string.find(string.lower(guid), string.lower(objectTable_filter)) or string.find(string.lower(name), string.lower(objectTable_filter))
+            or string.find(string.lower(kind), string.lower(objectTable_filter)) then
+            table.insert(items, { gameObject = gameObject, guid = guid, name = name, distance = distance, kind = kind })
+        end
+    end
+    table.sort(items, function(a, b) return a.distance < b.distance end)
+    for index, item in ipairs(items) do
+        if index > maximum then
+            break
+        end
+
+        local transform = item.gameObject:get_Transform()
+        local pos = transform:get_Position()
+        local rot = quaternionToEulerDegrees(transform:get_Rotation())
+
+        imgui.table_next_column()
+        imgui.push_id(string.format("object_table_checkbox_%s", item.guid))
+        local changed, result = imgui.checkbox("", item.gameObject == objectTable_selectedObject)
+        imgui.pop_id()
+        if changed then
+            if result then
+                objectTable_selectedObject = item.gameObject
+            else
+                objectTable_selectedObject = nil
+            end
+        end
+        if result then
+            local address = item.gameObject:get_address()
+            local mat = transform:call("get_WorldMatrix()")
+            local changed, newMat = draw.gizmo(address, mat)
+            if changed then
+                transform:set_Position(newMat[3])
+                transform:set_Rotation(newMat:to_quat())
+            end
+        end
+
+        imgui.table_next_column()
+        imgui.text(item.kind)
+
+        imgui.table_next_column()
+        imgui.push_font(monospaceFont)
+        if imgui.button(item.guid) then
+            -- no released API yet for copy
+        end
+        imgui.pop_font()
+        imgui.table_next_column()
+        imgui.text(item.name)
+
+        imgui.table_next_column()
+        imgui.push_id(string.format("object_table_x_%s", item.guid))
+        imgui.text(string.format("%.1f", pos.x))
+        imgui.table_next_column()
+        imgui.text(string.format("%.1f", pos.y))
+        imgui.table_next_column()
+        imgui.text(string.format("%.1f", pos.z))
+        -- imgui.table_next_column()
+        -- imgui.text(string.format("%.1f", rot.yaw))
+        -- imgui.table_next_column()
+        -- imgui.text(string.format("%.1f", rot.pitch))
+        -- imgui.table_next_column()
+        -- imgui.text(string.format("%.1f", rot.roll))
+        imgui.table_next_row(0, 0)
+    end
+    imgui.end_table()
+
+    if objectTable_selectedObject ~= nil then
+        local gameObject = objectTable_selectedObject
+        local transform = gameObject:get_Transform()
+        local pos = transform:get_Position()
+        local rot = quaternionToEulerDegrees(transform:get_Rotation())
+
+        local slider = function(label, precision, value, callback)
+            imgui.set_next_item_width(300)
+            local changed, value = imgui.drag_float(label, value, precision, -9999, 9999, "%.3f")
+            if changed then
+                callback(value)
+            end
+        end
+
+        imgui.begin_rect()
+        slider("X", 0.001, pos.x, function(v)
+            pos.x = v
+            transform:set_Position(pos)
+        end)
+        imgui.same_line();
+        slider("Y", 0.001, pos.y, function(v)
+            pos.y = v
+            transform:set_Position(pos)
+        end)
+        imgui.same_line();
+        slider("Z", 0.001, pos.z, function(v)
+            pos.z = v
+            transform:set_Position(pos)
+        end)
+        slider("Yaw", 1, rot.yaw, function(v)
+            transform:set_Rotation(eulerDegreesToQuaternion(v, math.floor(rot.pitch + 0.5),
+                math.floor(rot.roll + 0.5)))
+        end)
+        imgui.same_line();
+        slider("Pitch", 1, rot.pitch, function(v)
+            transform:set_Rotation(eulerDegreesToQuaternion(math.floor(rot.yaw + 0.5), v,
+                math.floor(rot.roll + 0.5)))
+        end)
+        imgui.same_line();
+        slider("Roll", 1, rot.roll, function(v)
+            transform:set_Rotation(eulerDegreesToQuaternion(math.floor(rot.yaw + 0.5), math.floor(rot.pitch + 0.5),
+                v))
+        end)
+        if imgui.button("Reset rotation") then
+            transform:set_Rotation(Quaternion.new(1, 0, 0, 0))
+        end
+
+        local fullText = string.format("%s,%s,%.3f,%.3f,%.3f,%.1f,%.1f,%.1f", getGameObjectGuid(gameObject),
+            gameObject:get_Name(),
+            pos.x, pos.y, pos.z, rot.yaw, rot.pitch, rot.roll)
+        imgui.input_text("csv", fullText, 0)
+        imgui.end_rect(4, 0)
+    end
+    imgui.end_window()
+end
+
 function writeClassDef(def)
     log.debug(def:get_name())
     local fields = def:get_fields()
@@ -492,8 +675,9 @@ end
 function startsWith(str, start)
     return str:sub(1, #start) == start
 end
+
 function endsWith(str, ending)
-    return str:sub(-#ending) == ending
+    return str:sub(- #ending) == ending
 end
 
 function getGameObjectGuid(gameObject)
@@ -508,9 +692,9 @@ function quaternionToEulerDegrees(rotation)
     local w = rotation.w
 
     -- Calculate yaw, pitch, and roll in radians
-    local yaw = math.atan(2 * (y * w + x * z), 1 - 2 * (y^2 + z^2))
+    local yaw = math.atan(2 * (y * w + x * z), 1 - 2 * (y ^ 2 + z ^ 2))
     local pitch = math.asin(2 * (y * z - x * w))
-    local roll = math.atan(2 * (x * y + z * w), 1 - 2 * (x^2 + y^2))
+    local roll = math.atan(2 * (x * y + z * w), 1 - 2 * (x ^ 2 + y ^ 2))
 
     -- Convert radians to degrees
     local function radToDeg(radians)
@@ -526,4 +710,22 @@ function quaternionToEulerDegrees(rotation)
         pitch = pitchDegrees,
         roll = rollDegrees
     }
+end
+
+function eulerDegreesToQuaternion(yaw, pitch, roll)
+    -- Assuming YXZ order: yaw around Y, pitch around X, roll around Z
+    local pitchRad = pitch * math.pi / 180 * 0.5
+    local yawRad = yaw * math.pi / 180 * 0.5
+    local rollRad = roll * math.pi / 180 * 0.5
+
+    local sp, cp = math.sin(pitchRad), math.cos(pitchRad)
+    local sy, cy = math.sin(yawRad), math.cos(yawRad)
+    local sr, cr = math.sin(rollRad), math.cos(rollRad)
+
+    local w = cp * cy * cr - sp * sy * sr
+    local x = sp * cy * cr + cp * sy * sr
+    local y = cp * sy * cr - sp * cy * sr
+    local z = cp * cy * sr + sp * sy * cr
+
+    return Quaternion.new(w, x, y, z)
 end
