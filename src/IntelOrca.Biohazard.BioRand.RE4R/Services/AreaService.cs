@@ -41,6 +41,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return area;
         }
 
+        public Area FindBestArea(AreaKind kind, int stage)
+        {
+            return Areas
+                .Where(x => x.Definition.Kind == kind)
+                .Where(x => x.Definition.Location == (stage / 1000))
+                .OrderBy(x => Math.Abs((x.Definition.Stage ?? 0) - stage))
+                .First();
+        }
+
         public void Save(RandomizerLogger process)
         {
             Parallel.ForEach(Areas, area => area.Save());

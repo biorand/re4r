@@ -105,5 +105,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
                     : node.WithChildren(node.Children.Add(child));
             }
         }
+
+        public static RszGameObject WithGimmickContextId(this RszGameObject gameObject, chainsaw.ContextID contextId)
+        {
+            var gimmickCore = gameObject.FindComponent("chainsaw.GimmickCore")!;
+            gimmickCore = gimmickCore.Set("_ID", contextId);
+            gameObject = gameObject.AddOrUpdateComponent(gimmickCore);
+            return gameObject;
+        }
     }
 }

@@ -154,7 +154,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .Clone()
                 .WithName(hier.Name);
 
-            gimmick = UpdateGimmickContextId(gimmick, contextId);
+            gimmick = gimmick.WithGimmickContextId(contextId);
             gimmick = AddCheckFlagsComponent(repo, gimmick, requiredFlags);
             gimmick = AddSetFlagsComponent(repo, gimmick, flagSet);
 
@@ -178,7 +178,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             };
             gimmick = gimmick.AddOrUpdateComponent(transform.ToComponent());
 
-            gimmick = UpdateGimmickContextId(gimmick, contextId);
+            gimmick = gimmick.WithGimmickContextId(contextId);
 
             var colliders = gimmick.FindComponent("via.physics.Colliders")!;
             colliders = colliders.Set("Colliders[0].Shape.Radius", radius);
@@ -197,14 +197,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             area.Scene = area.Scene.Add(repo, hier, gimmick);
             area.GimmickSaveData.AddBasic("", contextId);
-        }
-
-        private RszGameObject UpdateGimmickContextId(RszGameObject gameObject, chainsaw.ContextID contextId)
-        {
-            var gimmickCore = gameObject.FindComponent("chainsaw.GimmickCore")!;
-            gimmickCore = gimmickCore.Set("_ID", contextId);
-            gameObject = gameObject.AddOrUpdateComponent(gimmickCore);
-            return gameObject;
         }
 
         private RszGameObject AddCheckFlagsComponent(RszTypeRepository repo, RszGameObject gameObject, params Guid[] flags)

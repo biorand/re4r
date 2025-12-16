@@ -28,6 +28,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public EnemyService EnemyService { get; private set; }
         public ItemService ItemService { get; private set; }
         public FlagService FlagService { get; private set; }
+        public FileService FileService { get; private set; }
         public Campaign Campaign { get; private set; }
 
         public ChainsawRandomizer(EnemyClassFactory enemyClassFactory, RandomizerInput input, IProgressReporter reporter)
@@ -41,6 +42,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             EnemyService = new EnemyService(DynamicData);
             ItemService = new ItemService(DynamicData);
             FlagService = new FlagService(this);
+            FileService = new FileService();
         }
 
         public void Dispose()
@@ -199,6 +201,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 new WeaponModifier(),
                 new ItemModifier(),
                 new BattleModifier(),
+                new FileModifier(),
                 new GimmickPlaceModifier(),
                 new GimmickModifier(),
                 new DropItemPlaceModifier(),

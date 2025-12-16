@@ -90,6 +90,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             context.SetUserFile(path, builder.Build());
         }
 
+        public static void ModifyUserFile<T>(this IPatchContext context, string path, Func<T, T> callback)
+        {
+            SerializeUserFile(context, path, callback(DeserializeUserFile<T>(context, path)));
+        }
+
         public static MsgFile GetMsgFile(this IPatchContext context, string path)
         {
             return new MsgFile(context.GetFile(path));

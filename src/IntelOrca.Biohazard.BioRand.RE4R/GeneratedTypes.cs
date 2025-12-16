@@ -1,5 +1,6 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
+using System.Numerics;
 using IntelOrca.Biohazard.REE.Rsz.Native;
 
 namespace chainsaw
@@ -1389,6 +1390,42 @@ namespace chainsaw
         internal class ParticleFlag : Particle
         {
             public chainsaw.FlagCondition Flags { get; set; }
+        }
+    }
+    internal class DetailSearchFileUserdata
+    {
+        public int _ID { get; set; }
+        public int _BrowseType { get; set; }
+        public chainsaw.BrowsingSimpleSetting _BrowseSetting { get; set; } = new();
+    }
+    internal class BrowsingSimpleSetting
+    {
+        public bool _DisplayOffAfterAccess { get; set; }
+    }
+    internal class FileSettingUserdata
+    {
+        public System.Collections.Generic.List<chainsaw.FileSettingUserdata.Data> _Datas { get; set; } = [];
+
+        internal class Data
+        {
+            public bool _Enable { get; set; }
+            public int _FileID { get; set; }
+            public int _LocationType { get; set; }
+            public System.Guid _MsgID { get; set; }
+            public System.Collections.Generic.List<chainsaw.FileSettingUserdata.EachPage> _EachPage { get; set; } = [];
+        }
+        internal class EachPage
+        {
+            public int _BackTextureID { get; set; }
+        }
+    }
+    internal class GmContextReadFile
+    {
+        internal class StaticDataReadFile : chainsaw.GimmickContext.StaticData
+        {
+            public Vector3 Position { get; set; }
+            public int DocID { get; set; }
+            public int Stage { get; set; }
         }
     }
 }

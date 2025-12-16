@@ -48,45 +48,45 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public void AddBasic(string contextType, ContextID contextId)
         {
-            var datas = Root.Get<RszArrayNode>("Datas");
-            datas = datas.Add(RszSerializer.Serialize(
-                Context.TypeRepository.FromName("chainsaw.GimmickSaveDataTable.Data")!,
-                new chainsaw.GimmickSaveDataTable.Data()
+            Add(new chainsaw.GimmickSaveDataTable.Data()
+            {
+                ContextType = contextType,
+                ID = contextId,
+                Save = new GimmickContext.SaveData()
                 {
-                    ContextType = contextType,
-                    ID = contextId,
-                    Save = new GimmickContext.SaveData()
-                    {
-                        Attr = [0, 0, 0, 0]
-                    }
-                }));
-            Root = Root.Set("Datas", datas);
-            _dirty = true;
+                    Attr = [0, 0, 0, 0]
+                }
+            });
         }
 
         public void AddExtended(string contextType, ContextID contextId, string mapName, int stage, Vector3 position)
         {
+            Add(new chainsaw.GimmickSaveDataTable.Data()
+            {
+                ContextType = contextType,
+                ID = contextId,
+                Save = new GimmickContext.SaveData()
+                {
+                    Attr = [0, 0, 0, 0]
+                },
+                Maps =
+                [
+                    new chainsaw.GimmickContext.MapData()
+                    {
+                        MapName = mapName,
+                        _StageID = stage,
+                        MapPosition = position
+                    }
+                ]
+            });
+        }
+
+        public void Add(chainsaw.GimmickSaveDataTable.Data data)
+        {
             var datas = Root.Get<RszArrayNode>("Datas");
             datas = datas.Add(RszSerializer.Serialize(
                 Context.TypeRepository.FromName("chainsaw.GimmickSaveDataTable.Data")!,
-                new chainsaw.GimmickSaveDataTable.Data()
-                {
-                    ContextType = contextType,
-                    ID = contextId,
-                    Save = new GimmickContext.SaveData()
-                    {
-                        Attr = [0, 0, 0, 0]
-                    },
-                    Maps =
-                    [
-                        new chainsaw.GimmickContext.MapData()
-                        {
-                            MapName = mapName,
-                            _StageID = stage,
-                            MapPosition = position
-                        }
-                    ]
-                }));
+                data));
             Root = Root.Set("Datas", datas);
             _dirty = true;
         }
