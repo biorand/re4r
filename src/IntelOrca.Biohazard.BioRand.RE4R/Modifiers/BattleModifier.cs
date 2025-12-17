@@ -398,7 +398,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             LockDoor,
             RemoveKey,
             ChangeKey,
-            GiveKey
+            GiveKey,
+            PlaceDocument
         }
     }
 }
