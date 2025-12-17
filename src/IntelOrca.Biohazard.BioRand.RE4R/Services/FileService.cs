@@ -4,7 +4,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 {
     internal class FileService
     {
+        private int _id = 2;
+
         public List<FilePlacement> FilePlacements { get; private set; } = [];
+
+        internal int GetNextId()
+        {
+            return _id++;
+        }
     }
 
     internal class FilePlacement

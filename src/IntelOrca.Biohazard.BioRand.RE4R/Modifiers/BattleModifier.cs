@@ -130,6 +130,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             var firstEnemy = enemies.FirstOrDefault(x => x.Tags.Contains(EnemyTags.Guardian));
                             firstEnemy?.ItemId = param.ItemId;
                             break;
+                        case BattleOperation.PlaceFile:
+                            randomizer.FileService.FilePlacements.Add(new FilePlacement()
+                            {
+                                TemplateId = 32,
+                                Id = randomizer.FileService.GetNextId(),
+                                Stage = param.Stage,
+                                X = param.X,
+                                Y = param.Y,
+                                Z = param.Z,
+                                Yaw = param.Yaw,
+                                Pitch = param.Pitch,
+                                Roll = param.Roll,
+                                Content = param.Notes
+                            });
+                            break;
                     }
                 }
             }
@@ -155,8 +170,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .WithName(hier.Name);
 
             gimmick = gimmick.WithGimmickContextId(contextId);
-            gimmick = AddCheckFlagsComponent(repo, gimmick, requiredFlags);
-            gimmick = AddSetFlagsComponent(repo, gimmick, flagSet);
+            gimmick = AddCheckFlagsComponent(repo, gimmick, 1383070635, 2180083513, requiredFlags);
+            gimmick = AddSetFlagsComponent(repo, gimmick, 2180083513, 2092886954, flagSet);
 
             area.Scene = area.Scene.Add(repo, hier, gimmick);
             area.GimmickSaveData.AddBasic("", contextId);
@@ -190,16 +205,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 interactHolder = interactHolder.Set("_Triggers[0]._Trigger.EnableCheckFlag", "CF");
                 gimmick = gimmick.AddOrUpdateComponent(interactHolder);
 
-                gimmick = AddCheckFlagsComponent(repo, gimmick, requiredFlags);
+                gimmick = AddCheckFlagsComponent(repo, gimmick, 3090179045, 2180083513, requiredFlags);
             }
 
-            gimmick = AddSetFlagsComponent(repo, gimmick, flagSet);
+            gimmick = AddSetFlagsComponent(repo, gimmick, 2180083513, 923965768, flagSet);
 
             area.Scene = area.Scene.Add(repo, hier, gimmick);
             area.GimmickSaveData.AddBasic("", contextId);
         }
 
-        private RszGameObject AddCheckFlagsComponent(RszTypeRepository repo, RszGameObject gameObject, params Guid[] flags)
+        private RszGameObject AddCheckFlagsComponent(RszTypeRepository repo, RszGameObject gameObject, uint key, uint bind, params Guid[] flags)
         {
             return gameObject.AddOrUpdateComponent(repo.Serialize(new chainsaw.CheckFlagSettings()
             {
@@ -210,8 +225,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         [
                             new chainsaw.CheckFlagSettings.Param()
                             {
-                                _KeyHash = 3090179045,
-                                _BindTriggerNameHash = 2180083513,
+                                _KeyHash = key,
+                                _BindTriggerNameHash = bind,
                                 _FlagCondition = new FlagCondition()
                                 {
                                     _CheckFlags =
@@ -229,7 +244,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }));
         }
 
-        private RszGameObject AddSetFlagsComponent(RszTypeRepository repo, RszGameObject gameObject, params Guid[] flags)
+        private RszGameObject AddSetFlagsComponent(RszTypeRepository repo, RszGameObject gameObject, uint key, uint bind, params Guid[] flags)
         {
             return gameObject.AddOrUpdateComponent(repo.Serialize(new chainsaw.SetFlagSettings()
             {
@@ -240,8 +255,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     [
                         new chainsaw.SetFlagSettings.Param()
                         {
-                            _KeyHash = 2180083513,
-                            _BindTriggerNameHash = 923965768,
+                            _KeyHash = key,
+                            _BindTriggerNameHash = bind,
                             _SetFlags =
                             [
                                 ..flags.Select(x => new chainsaw.SetFlagSettings.SetFlagData()
@@ -355,11 +370,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public BattleOperation Operation { get; set; }
             public Guid Guid { get; set; }
             public int Chapter { get; set; }
+            public int Stage { get; set; }
             public float X { get; set; }
             public float Y { get; set; }
             public float Z { get; set; }
+            public float Yaw { get; set; }
+            public float Pitch { get; set; }
+            public float Roll { get; set; }
             public float Radius { get; set; }
             public int ItemId { get; set; }
+            public string Notes { get; set; } = "";
 
             public string? Collection
             {
@@ -399,7 +419,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             RemoveKey,
             ChangeKey,
             GiveKey,
-            PlaceDocument
+            PlaceFile
         }
     }
 }
