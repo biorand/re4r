@@ -63,7 +63,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         var prop = propertyMap[x];
                         if (prop != null)
                         {
-                            if (!string.IsNullOrEmpty(t.Text))
+                            if (!string.IsNullOrWhiteSpace(t.Text))
                             {
                                 prop.SetValue(element, ParseValue(t.Text, prop.PropertyType));
                             }
