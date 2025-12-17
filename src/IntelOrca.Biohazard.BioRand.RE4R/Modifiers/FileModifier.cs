@@ -33,10 +33,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     Z = 58.31f,
                     Yaw = 45,
                     Content =
-                        """
+                        $"""
                         <COLOR FFFF00>Welcome to BioRand 2.0</COLOR>
                         <PAGE>
-                        Dear <COL FILE>player</COL>,
+                        Dear <COL FILE>{randomizer.User}</COL>,
 
                         Welcome to the 2.0 version of the Resident Evil 4 remake Randomizer. I’m thrilled to see how popular this randomizer has become, and I’m deeply grateful for the incredible support I have received for it.
 

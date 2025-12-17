@@ -90,6 +90,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 // {
                 //     specials.Add("goldbar");
                 // }
+                config["username"] = userName;
                 config["special"] = string.Join(",", specials);
 
                 return Task.FromResult(Randomizer.Randomize(input));

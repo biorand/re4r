@@ -214,6 +214,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }.ToImmutableArray();
         }
 
+        public string User => GetConfigOption<string>("username") ?? "player";
         public int Seed => _input.Seed;
 
         public Rng GetRng(params object[] key)
