@@ -41,6 +41,17 @@ function dumpEnemyPosition(enemy)
 
     table.insert(file.enemies, enemy)
     json.dump_file(path, file)
+
+    local csv =
+    "Campaign,Guid,Chapter,Description,Stage,X,Y,Z,Yaw,Pitch,Roll,Condition,SkipCondition,MiniBoss,Battle,Tags,Include,Exclude\n"
+    for _, g in ipairs(file.enemies) do
+        csv = csv .. string.format(
+            ",,,[EXTRA],%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,,,,,,,\n",
+            g.stage,
+            g.x, g.y, g.z,
+            g.direction, 0, 0)
+    end
+    fs.write("biorand/enemies.csv", csv)
 end
 
 function getExtraGimmickPositions()
@@ -451,6 +462,14 @@ re.on_application_entry("UpdateHID", function()
     end
 end)
 
+local defered = {}
+re.on_application_entry("UpdateMotion", function()
+    for i, func in ipairs(defered) do
+        func()
+    end
+    defered = {}
+end)
+
 local objectTable_filter = ""
 local objectTable_selectedObject = nil
 function do_object_table()
@@ -531,8 +550,10 @@ function do_object_table()
             local mat = transform:call("get_WorldMatrix()")
             local changed, newMat = draw.gizmo(address, mat)
             if changed then
-                transform:set_Position(newMat[3])
-                transform:set_Rotation(newMat:to_quat())
+                table.insert(defered, function()
+                    transform:set_Position(newMat[3])
+                    transform:set_Rotation(newMat:to_quat())
+                end)
             end
         end
 
@@ -569,13 +590,16 @@ function do_object_table()
         local gameObject = objectTable_selectedObject
         local transform = gameObject:get_Transform()
         local pos = transform:get_Position()
+        local euler = transform:get_EulerAngle()
         local rot = quaternionToEulerDegrees(transform:get_Rotation())
 
         local slider = function(label, precision, value, callback)
             imgui.set_next_item_width(300)
             local changed, value = imgui.drag_float(label, value, precision, -9999, 9999, "%.3f")
             if changed then
-                callback(value)
+                table.insert(defered, function()
+                    callback(value)
+                end)
             end
         end
 
@@ -594,19 +618,16 @@ function do_object_table()
             pos.z = v
             transform:set_Position(pos)
         end)
-        slider("Yaw", 1, rot.yaw, function(v)
-            transform:set_Rotation(eulerDegreesToQuaternion(v, math.floor(rot.pitch + 0.5),
-                math.floor(rot.roll + 0.5)))
+        slider("Yaw", 1, math.deg(euler.x), function(v)
+            transform:set_EulerAngle(Vector3f.new(math.rad(v), euler.y, euler.z))
         end)
         imgui.same_line();
-        slider("Pitch", 1, rot.pitch, function(v)
-            transform:set_Rotation(eulerDegreesToQuaternion(math.floor(rot.yaw + 0.5), v,
-                math.floor(rot.roll + 0.5)))
+        slider("Pitch", 1, math.deg(euler.y), function(v)
+            transform:set_EulerAngle(Vector3f.new(euler.x, math.rad(v), euler.z))
         end)
         imgui.same_line();
-        slider("Roll", 1, rot.roll, function(v)
-            transform:set_Rotation(eulerDegreesToQuaternion(math.floor(rot.yaw + 0.5), math.floor(rot.pitch + 0.5),
-                v))
+        slider("Roll", 1, math.deg(euler.z), function(v)
+            transform:set_EulerAngle(Vector3f.new(euler.x, euler.y, math.rad(v)))
         end)
         if imgui.button("Reset rotation") then
             transform:set_Rotation(Quaternion.new(1, 0, 0, 0))
