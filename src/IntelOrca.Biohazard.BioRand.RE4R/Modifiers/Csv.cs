@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -12,51 +13,68 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public static T[] Deserialize<T>(byte[] utf8Data)
         {
-            return Deserialize<T>(Encoding.UTF8.GetString(utf8Data));
-        }
-
-        internal static readonly string[] g_separator = ["\r\n", "\n"];
-
-        public static T[] Deserialize<T>(string data)
-        {
-            var lines = data.Split(g_separator, System.StringSplitOptions.RemoveEmptyEntries);
-            if (lines.Length <= 1)
-                return [];
+            var tokens = ReadTokens(utf8Data);
 
             var typ = typeof(T);
-            var result = new List<T>();
-            var sb = new StringBuilder();
-            var columns = new List<string>();
-            SplitLine(columns, sb, lines[0]);
-            var mapping = GetPropertyMapping(typ, columns, out var keyProperty);
-            for (var i = 1; i < lines.Length; i++)
-            {
-                SplitLine(columns, sb, lines[i]);
+            var propertyMap = new List<PropertyInfo?>();
+            var keyProperty = typ.GetProperties().FirstOrDefault(static x => x.GetCustomAttribute<KeyAttribute>() != null);
+            var x = 0;
+            var y = 0;
 
-                var element = Activator.CreateInstance<T>();
-                keyProperty?.SetValue(element, i + 1);
-                for (var j = 0; j < columns.Count; j++)
+            var results = new List<T>();
+            T? element = default;
+            foreach (var t in tokens)
+            {
+                if (t.Kind == TokenKind.EOF)
                 {
-                    var prop = mapping[j];
-                    if (prop != null)
+                    if (element != null)
                     {
-                        var text = columns[j];
-                        if (!string.IsNullOrEmpty(text))
+                        results.Add(element);
+                    }
+                    break;
+                }
+                else if (t.Kind == TokenKind.Comma)
+                {
+                    x++;
+                }
+                else if (t.Kind == TokenKind.NewLine)
+                {
+                    if (element != null)
+                    {
+                        results.Add(element);
+                    }
+                    y++;
+                    x = 0;
+                    element = Activator.CreateInstance<T>();
+                    keyProperty?.SetValue(element, y);
+                }
+                else if (t.Kind == TokenKind.Text)
+                {
+                    if (y == 0)
+                    {
+                        while (propertyMap.Count <= x)
                         {
-                            prop.SetValue(element, ParseValue(columns[j], prop.PropertyType));
+                            propertyMap.Add(null);
+                        }
+                        propertyMap[x] = typ.GetProperty(t.Text, BindingFlags.Public | BindingFlags.Instance);
+                    }
+                    else
+                    {
+                        var prop = propertyMap[x];
+                        if (prop != null)
+                        {
+                            if (!string.IsNullOrEmpty(t.Text))
+                            {
+                                prop.SetValue(element, ParseValue(t.Text, prop.PropertyType));
+                            }
                         }
                     }
                 }
-                result.Add(element);
             }
-            return result.ToArray();
+            return results.ToArray();
         }
 
-        private static PropertyInfo?[] GetPropertyMapping(Type typ, IEnumerable<string> columns, out PropertyInfo? keyProperty)
-        {
-            keyProperty = typ.GetProperties().FirstOrDefault(static x => x.GetCustomAttribute<KeyAttribute>() != null);
-            return columns.Select(typ.GetProperty).ToArray();
-        }
+        internal static readonly string[] g_separator = ["\r\n", "\n"];
 
         private static object ParseValue(string input, Type targetType)
         {
@@ -154,6 +172,104 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     sb.Append(c);
                 }
             }
+        }
+
+        private static ImmutableArray<Token> ReadTokens(byte[] buffer)
+        {
+            var tokens = ImmutableArray.CreateBuilder<Token>();
+            var inQuotes = false;
+            var textStart = -1;
+            for (var i = 0; i < buffer.Length; i++)
+            {
+                var b = buffer[i];
+                if (!inQuotes)
+                {
+                    if (b == ',')
+                    {
+                        Finish(i);
+                        tokens.Add(new Token(TokenKind.Comma, ","));
+                    }
+                    else if (b == '\n')
+                    {
+                        Finish(i);
+                        tokens.Add(new Token(TokenKind.NewLine, "\n"));
+                    }
+                    else if (b == '\r')
+                    {
+                        Finish(i);
+                        if (i + 1 < buffer.Length)
+                        {
+                            if (buffer[i + 1] == '\n')
+                            {
+                                tokens.Add(new Token(TokenKind.NewLine, "\r\n"));
+                                i++;
+                            }
+                        }
+                    }
+                    else if (b == '"')
+                    {
+                        inQuotes = true;
+                    }
+                    else if (textStart == -1)
+                    {
+                        textStart = i;
+                    }
+                }
+                else
+                {
+                    if (b == '"')
+                    {
+                        if (i + 1 < buffer.Length)
+                        {
+                            if (buffer[i + 1] == '"')
+                            {
+                                i++;
+                                continue;
+                            }
+                        }
+                        Finish(i);
+                        inQuotes = false;
+                    }
+                    else if (textStart == -1)
+                    {
+                        textStart = i;
+                    }
+                }
+            }
+            tokens.Add(new Token(TokenKind.EOF, "\0"));
+            return tokens.ToImmutable();
+
+            void Finish(int position)
+            {
+                if (textStart == -1)
+                {
+                    tokens.Add(new Token(TokenKind.Text, ""));
+                }
+                else
+                {
+                    var length = position - textStart;
+                    var text = Encoding.UTF8.GetString(buffer, textStart, length)
+                        .Replace("\"\"", "\"");
+                    tokens.Add(new Token(TokenKind.Text, text));
+                    textStart = -1;
+                }
+            }
+        }
+
+        [DebuggerDisplay("{Kind} | {Text}")]
+        private readonly struct Token(TokenKind kind, string text)
+        {
+            public TokenKind Kind { get; } = kind;
+            public string Text { get; } = text;
+        }
+
+        private enum TokenKind
+        {
+            Unknown,
+            Text,
+            Comma,
+            NewLine,
+            EOF
         }
     }
 }
