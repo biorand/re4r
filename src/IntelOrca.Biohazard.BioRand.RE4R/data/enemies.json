@@ -88,8 +88,7 @@
       "key": "krauser_1",
       "componentName": "chainsaw.Ch1b7z0SpawnParam",
       "prefab": "_Chainsaw/AppSystem/Character/Prefab/ch1b7z0SpawnParam.pfb",
-      "closed": true,
-      "noItemDrop": true
+      "closed": true
     },
     {
       "key": "el_gigante",

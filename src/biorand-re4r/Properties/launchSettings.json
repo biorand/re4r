@@ -21,11 +21,12 @@
     },
     "setup-pak": {
       "commandName": "Project",
-      "commandLineArgs": "setup -o C:\\Users\\Ted\\.biorand\\biorand-re4r.pak -i G:\\biorand\\re4r\\vanilla"
+      "commandLineArgs": "setup -o C:\\Users\\Ted\\.biorand\\biorand-re4r.pak -i G:\\biorand\\re4r\\vanilla --full"
     },
     "agent": {
       "commandName": "Project",
-      "commandLineArgs": "agent https://beta-api.biorand.net -k 2wbhTK38nQxp2HTU5AAoaaho8YNobErH -i M:\\apps\\re4rr\\custom.pak"
+      "commandLineArgs": "agent https://beta-api.biorand.net -k 2wbhTK38nQxp2HTU5AAoaaho8YNobErH -i ..\\biorand-re4r.pak",
+      "workingDirectory": "C:\\Users\\Ted\\.biorand\\logs"
     },
     "mod": {
       "commandName": "Project",
