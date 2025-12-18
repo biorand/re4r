@@ -34,7 +34,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public chainsaw.ContextID ContextId
         {
-            get => GetFieldValue<chainsaw.ContextID>("_ContextID")!;
+            get => MainComponent.Get<chainsaw.ContextID>("_ContextID");
             set => MainComponent = MainComponent.Set("_ContextID", value);
         }
 

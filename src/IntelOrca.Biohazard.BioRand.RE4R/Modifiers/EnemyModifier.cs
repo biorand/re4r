@@ -85,6 +85,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             logger.LogLine(
                 enemy.Guid,
+                enemy.ContextId,
+                enemy.GameObject.Name,
                 enemy.StageID,
                 enemy.Transform.Position.X.ToString("0.0"),
                 enemy.Transform.Position.Y.ToString("0.0"),
