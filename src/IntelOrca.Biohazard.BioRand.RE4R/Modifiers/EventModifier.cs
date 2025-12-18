@@ -10,35 +10,29 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
-    internal class BattleModifier : Modifier
+    internal class EventModifier : Modifier
     {
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             if (!randomizer.GetConfigOption<bool>("battle-arenas"))
-            {
-                var battleEnemies = randomizer.EnemyService.EnemyPlacements
-                    .Where(x => !string.IsNullOrEmpty(x.Battle))
-                    .ToArray();
-                randomizer.EnemyService.Remove(battleEnemies);
                 return;
-            }
 
             var areaService = randomizer.AreaService;
 
-            var battleCsv = randomizer.DynamicData.GetData(DynamicDataName.Battle) ?? throw new Exception("Battle data not found");
-            var battleCollections = Csv.Deserialize<BattleParameter>(battleCsv)
+            var eventCsv = randomizer.DynamicData.GetData(DynamicDataName.Events) ?? throw new Exception("Event data not found");
+            var eventCollections = Csv.Deserialize<EventParameter>(eventCsv)
                 .Where(x => !string.IsNullOrEmpty(x.Name))
                 .GroupBy(x => x.Name)
                 .GroupBy(x => x.First().Collection);
 
-            var battles = new List<BattleParameter[]>();
-            foreach (var collection in battleCollections)
+            var events = new List<EventParameter[]>();
+            foreach (var collection in eventCollections)
             {
                 if (collection.Key == null)
                 {
                     foreach (var b in collection)
                     {
-                        battles.Add(b.ToArray());
+                        events.Add(b.ToArray());
                     }
                 }
                 else
@@ -48,12 +42,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var g = groups.ElementAt(pick);
                     foreach (var b in g)
                     {
-                        battles.Add(b.ToArray());
+                        events.Add(b.ToArray());
                     }
                 }
             }
 
-            foreach (var parameters in battles)
+            foreach (var parameters in events)
             {
                 var name = parameters[0].Name;
                 var chapter = parameters.Select(x => x.Chapter).FirstOrDefault(x => x != 0);
@@ -62,15 +56,36 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 // Collect enemies
                 var enemies = randomizer.EnemyService.EnemyPlacements
-                    .Where(x => x.Battle == name)
+                    .Where(x => x.Events.Contains(name))
                     .ToArray();
                 foreach (var e in enemies)
                 {
                     e.Chapter = chapter;
+                    e.Tags = e.Tags.Add(EnemyTags.Always);
+                }
+
+                // Items
+                foreach (var item in randomizer.ItemService.ItemPlacements)
+                {
+                    if (item.Events.Contains(name))
+                    {
+                        item.Chapter = chapter;
+                        item.Tags = item.Tags.Add(ItemTags.Always);
+                    }
+                }
+
+                // Gimmicks
+                foreach (var gimmick in randomizer.GimmickService.GimmickPlacements)
+                {
+                    if (gimmick.Events.Contains(name))
+                    {
+                        gimmick.Chapter = 0;
+                        gimmick.Tags = gimmick.Tags.Add(GimmickTags.Always);
+                    }
                 }
 
                 // Process triggers
-                var triggers = parameters.Where(x => x.Operation == BattleOperation.Trigger).ToArray();
+                var triggers = parameters.Where(x => x.Operation == EventOperation.Trigger).ToArray();
                 if (triggers.Length != 0)
                 {
                     var flagTriggers = triggers.Select(x => x.Guid).Where(x => x != default).ToArray();
@@ -117,20 +132,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     switch (param.Operation)
                     {
-                        case BattleOperation.LockDoor:
+                        case EventOperation.LockDoor:
                             AddDoorLock(randomizer, param.Guid, beginFlag, endFlags);
                             break;
-                        case BattleOperation.RemoveKey:
+                        case EventOperation.RemoveKey:
                             AddKeyTag(param.Guid, ItemTags.Remove);
                             break;
-                        case BattleOperation.ChangeKey:
+                        case EventOperation.ChangeKey:
                             AddKeyTag(param.Guid, ItemTags.ChangeKey);
                             break;
-                        case BattleOperation.GiveKey:
+                        case EventOperation.GiveKey:
                             var firstEnemy = enemies.FirstOrDefault(x => x.Tags.Contains(EnemyTags.Guardian));
                             firstEnemy?.ItemId = param.ItemId;
                             break;
-                        case BattleOperation.PlaceFile:
+                        case EventOperation.PlaceFile:
                             randomizer.FileService.FilePlacements.Add(new FilePlacement()
                             {
                                 TemplateId = 32,
@@ -364,10 +379,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         }
 
         [DebuggerDisplay("{Name} | {Operation}")]
-        internal class BattleParameter
+        internal class EventParameter
         {
             public string Name { get; set; } = "";
-            public BattleOperation Operation { get; set; }
+            public EventOperation Operation { get; set; }
             public Guid Guid { get; set; }
             public int Chapter { get; set; }
             public int Stage { get; set; }
@@ -411,7 +426,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        internal enum BattleOperation
+        internal enum EventOperation
         {
             None,
             Trigger,

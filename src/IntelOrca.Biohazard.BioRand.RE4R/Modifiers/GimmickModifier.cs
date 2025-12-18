@@ -22,7 +22,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Push(area.FileName);
                 foreach (var gameObject in gimmicks)
                 {
-                    var gimmick = new Gimmick(area, gameObject);
+                    var gimmick = new Gimmick(area, gameObject, null);
                     var position = gimmick.Transform.Position;
                     logger.LogLine(
                         gimmick.Guid,
@@ -55,8 +55,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             };
 
             // Get all gimmicks and modify
+            var gimmickService = randomizer.GimmickService;
             var gimmicks = randomizer.AreaService.Areas
-                .SelectMany(area => area.Gimmicks.Select(gameObject => new Gimmick(area, gameObject)))
+                .SelectMany(area => area.Gimmicks.Select(gameObject => new Gimmick(area, gameObject, gimmickService.FromGuid(gameObject.Guid))))
                 .ToImmutableArray();
 
             // Removal
@@ -101,7 +102,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private static ImmutableArray<Gimmick> RemoveSomeGimmicks(ImmutableArray<Gimmick> gimmicks, Rng rng, double amount, params string[] kinds)
         {
             var shuffledGimmicks = gimmicks
-                .Where(x => kinds.Contains(x.Kind))
+                .Where(x => kinds.Contains(x.Kind) && x.Placement?.Tags.Contains(GimmickTags.Always) != true)
                 .Shuffle(rng)
                 .ToArray();
             var count = shuffledGimmicks.Length;
@@ -197,10 +198,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         }
 
         [DebuggerDisplay("{Name}")]
-        private class Gimmick(Area area, RszGameObject gameObject)
+        private class Gimmick(Area area, RszGameObject gameObject, GimmickPlacement? placement)
         {
             public Area Area => area;
             public RszGameObject GameObject => gameObject;
+            public GimmickPlacement? Placement => placement;
 
             public string Name => GameObject.Name;
             public Guid Guid => GameObject.Guid;

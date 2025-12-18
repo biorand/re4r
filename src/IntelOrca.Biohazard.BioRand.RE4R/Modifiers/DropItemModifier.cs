@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
@@ -274,42 +271,5 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public required ImmutableArray<RszGameObject> GameObjects { get; init; }
             public required ImmutableArray<chainsaw.DropItemSaveDataTable.Data> Data { get; init; }
         }
-    }
-
-    [DebuggerDisplay("{GuidOrAuto}")]
-    internal class ItemPlacement
-    {
-        [Key]
-        public int Row { get; set; }
-        public Campaign Campaign { get; set; }
-        public int Chapter { get; set; }
-        public Guid Guid { get; set; }
-        public string Description { get; set; } = "";
-        public int Stage { get; set; }
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Z { get; set; }
-        public float Yaw { get; set; }
-        public float Pitch { get; set; }
-        public float Roll { get; set; }
-        public string Container { get; set; } = "";
-        public ImmutableArray<string> Tags { get; set; } = [];
-        public ImmutableArray<string> Include { get; set; } = [];
-        public ImmutableArray<string> Exclude { get; set; } = [];
-
-        public Item OldItem { get; set; }
-        public chainsaw.ContextID ContextId { get; set; } = new();
-
-        public Guid GuidOrAuto => Guid == default ? $"item_{Row}".GetGuidHash() : Guid;
-        public bool IsExtra => Guid == default || Description.StartsWith("[EXTRA]");
-    }
-
-    public static class ItemTags
-    {
-        public const string Preserve = "preserve";
-        public const string Dlc = "dlc";
-        public const string ChapterOnly = "chapteronly";
-        public const string ChangeKey = "disablekey";
-        public const string Remove = "removekey";
     }
 }

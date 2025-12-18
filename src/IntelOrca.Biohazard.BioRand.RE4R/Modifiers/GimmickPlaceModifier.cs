@@ -12,10 +12,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
             var gimmicks = randomizer.DynamicData.GetData(DynamicDataName.Gimmicks) ?? throw new Exception("Failed to get gimmick data");
-            var placements = Csv.Deserialize<GimmickPlacement>(gimmicks)
-                .Select((x, i) => { x.Id = i + 2; return x; })
-                .Where(x => x.Campaign == randomizer.Campaign)
-                .Where(x => x.Kind.Trim() is string s && !string.IsNullOrEmpty(s) && !s.StartsWith('#'))
+            var placements = randomizer.GimmickService.GimmickPlacements
+                .Where(x => x.Campaign == randomizer.Campaign && x.Chapter != -1)
                 .ToImmutableArray();
 
             var rng = randomizer.GetRng("modifier/gimmickplace");
@@ -99,7 +97,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (kind == "bawk") kind = "Biorand_Chicken";
 
                 var gimmick = CloneGimmickFromTemplate(kind, rng);
-                gimmick = gimmick.WithName($"{gimmick.Name}_{placement.Id}");
+                gimmick = gimmick.WithName($"{gimmick.Name}_{placement.Row}");
 
                 gimmick = gimmick.AddOrUpdateComponent(gimmick
                     .FindComponent("chainsaw.GimmickCore")!
@@ -222,30 +220,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                     return node;
                 });
-            }
-        }
-
-        private sealed class GimmickPlacement
-        {
-            public int Id { get; set; }
-            public string Kind { get; set; } = "";
-            public int Stage { get; set; }
-            public float X { get; set; }
-            public float Y { get; set; }
-            public float Z { get; set; }
-            public float Yaw { get; set; }
-            public float Pitch { get; set; }
-            public float Roll { get; set; }
-            public string Condition { get; set; } = "";
-            public int Chapter { get; set; }
-            public Campaign Campaign { get; set; }
-
-            public Vector3 Position => new(X, Y, Z);
-            public EulerAngles Eular => new(Yaw, Pitch, Roll);
-
-            public override string ToString()
-            {
-                return $"{Id}_{Kind}";
             }
         }
     }

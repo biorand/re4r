@@ -26,6 +26,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public ValuableDistributor ValuableDistributor => _valuableDistributor!;
         public ItemRandomizer ItemRandomizer => _itemRandomizer!;
         public EnemyService EnemyService { get; private set; }
+        public GimmickService GimmickService { get; private set; }
         public ItemService ItemService { get; private set; }
         public FlagService FlagService { get; private set; }
         public FileService FileService { get; private set; }
@@ -40,6 +41,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             DynamicData = new DynamicData(_input.Configuration.GetValueOrDefault<bool>("debug-download-data"));
             AreaService = new AreaService(this);
             EnemyService = new EnemyService(DynamicData);
+            GimmickService = new GimmickService(DynamicData);
             ItemService = new ItemService(DynamicData);
             FlagService = new FlagService(this);
             FileService = new FileService();
@@ -200,7 +202,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 new MerchantShopModifier(),
                 new WeaponModifier(),
                 new ItemModifier(),
-                new BattleModifier(),
+                new EventModifier(),
                 new FileModifier(),
                 new GimmickPlaceModifier(),
                 new GimmickModifier(),

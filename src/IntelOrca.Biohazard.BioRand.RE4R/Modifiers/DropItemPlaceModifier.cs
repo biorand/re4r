@@ -18,7 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var dropItemTemplate = GimmickTemplate.Get("Biorand_DropItem");
             foreach (var placement in itemService.ItemPlacements)
             {
-                if (placement.Campaign != randomizer.Campaign || !placement.IsExtra)
+                if (placement.Campaign != randomizer.Campaign || !placement.IsExtra || placement.Chapter == -1)
                     continue;
 
                 var area = FindBestArea(areaService.Areas, placement.Stage, placement.Tags.Contains(ItemTags.ChapterOnly));

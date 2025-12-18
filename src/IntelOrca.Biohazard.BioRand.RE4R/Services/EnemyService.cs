@@ -67,7 +67,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public string Condition { get; set; } = "";
         public string SkipCondition { get; set; } = "";
         public string MiniBoss { get; set; } = "";
-        public string Battle { get; set; } = "";
+        public ImmutableArray<string> Events { get; set; } = [];
         public ImmutableArray<string> Tags { get; set; } = [];
         public ImmutableArray<string> Include { get; set; } = [];
         public ImmutableArray<string> Exclude { get; set; } = [];
@@ -172,5 +172,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         /// Killing the enemy is required to progress.
         /// </summary>
         public const string Guardian = "guardian";
+
+        /// <summary>
+        /// Always place this enemy.
+        /// </summary>
+        public const string Always = "always";
     }
 }

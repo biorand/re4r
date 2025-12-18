@@ -54,22 +54,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .Where(x => x.IsExtra)
                 .ToArray();
 
-            var battleEnemies = allExtraEnemies
-                .Where(x => !string.IsNullOrEmpty(x.Battle))
+            var mustPlace = allExtraEnemies
+                .Where(x => x.HasTag(EnemyTags.Always))
                 .ToArray();
 
-            var extraEnemies = allExtraEnemies
-                .Where(x => string.IsNullOrEmpty(x.Battle))
+            var mightPlace = allExtraEnemies
+                .Where(x => !x.HasTag(EnemyTags.Always))
                 .ToArray();
 
             // Randomize and pick
             var count = (int)Math.Round(allExtraEnemies.Length * amount);
-            extraEnemies = extraEnemies
+            mightPlace = mightPlace
                 .Shuffle(randomizer.GetRng("modifier/enemyplace"))
                 .Take(count)
                 .ToArray();
 
-            return battleEnemies.Concat(extraEnemies).ToImmutableArray();
+            return mustPlace.Concat(mightPlace).ToImmutableArray();
         }
 
         private static Area? FindBestAreaForEnemy(ChainsawRandomizer randomizer, EnemyPlacement placement)
