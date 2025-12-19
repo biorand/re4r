@@ -41,6 +41,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return area;
         }
 
+        public void AddGuidToArea(Guid guid, Area area)
+        {
+            _guidToArea[guid] = area;
+        }
+
         public Area FindBestArea(AreaKind kind, int stage)
         {
             return Areas

@@ -147,7 +147,47 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var enemy = RszFactory.CreateGameObject("BioRandEnemy", "_Chainsaw/AppSystem/Prefab/ch1c0SpawnParam.pfb", [transform, spawnParam])
                 .WithGuid(e.GuidOrAuto);
+
+            UpdateConnectedGimmicks(randomizer, enemy.Guid, contextId);
+
             return spawnController.AddOrUpdateChild(enemy);
+        }
+
+        private static void UpdateConnectedGimmicks(ChainsawRandomizer randomizer, Guid enemyGuid, chainsaw.ContextID enemyContextId)
+        {
+            // Update any gimmick that connects this enemy
+            var gimmick = randomizer.GimmickService.GimmickPlacements
+                .Where(x => x.Kind == "Biorand_MysteryEnemyBag" || x.Kind == "Biorand_MachineGun")
+                .FirstOrDefault(x => x.Param1 == enemyGuid.ToString());
+            if (gimmick != null)
+            {
+                var area = randomizer.AreaService.FindAreaContainingGameObject(gimmick.GuidOrAuto);
+                if (area != null)
+                {
+                    var gimmickGameObject = area.Scene.FindGameObject(gimmick.GuidOrAuto);
+                    if (gimmickGameObject != null)
+                    {
+                        area.Scene = area.Scene.UpdateGameObject(gimmickGameObject.VisitComponents(component =>
+                        {
+                            if (component.Type.Name == "chainsaw.GmOptionMysteryBagEnemy")
+                            {
+                                component = component
+                                    .Set("Rank_10_EnemyContextID", enemyContextId)
+                                    .Set("Rank_20_EnemyContextID", enemyContextId)
+                                    .Set("Rank_30_EnemyContextID", enemyContextId)
+                                    .Set("Rank_40_EnemyContextID", enemyContextId);
+                            }
+                            else if (component.Type.Name == "chainsaw.GmOptionGmInstalledMachineGun")
+                            {
+                                component = component
+                                    .Set("User", enemyContextId);
+                            }
+                            return component;
+                        }));
+                    }
+                }
+            }
+
         }
 
         private static EulerAngles RandomRotation(Rng rng)

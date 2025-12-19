@@ -24,6 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public Campaign Campaign { get; set; }
         public ImmutableArray<string> Tags { get; set; } = [];
         public ImmutableArray<string> Events { get; set; } = [];
+        public string Param1 { get; set; } = "";
 
         public Guid GuidOrAuto => Guid == default ? $"item_{Row}".GetGuidHash() : Guid;
         public Vector3 Position => new(X, Y, Z);

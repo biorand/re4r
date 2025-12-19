@@ -97,7 +97,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (kind == "bawk") kind = "Biorand_Chicken";
 
                 var gimmick = CloneGimmickFromTemplate(kind, rng);
-                gimmick = gimmick.WithName($"{gimmick.Name}_{placement.Row}");
+                gimmick = gimmick
+                    .WithName($"{gimmick.Name}_{placement.Row}")
+                    .WithGuid(placement.GuidOrAuto);
 
                 gimmick = gimmick.AddOrUpdateComponent(gimmick
                     .FindComponent("chainsaw.GimmickCore")!
@@ -112,6 +114,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 gimmick = AddCondition(gimmick, placement);
 
                 area.Scene = area.Scene.Add(gimmick);
+                randomizer.AreaService.AddGuidToArea(gimmick.Guid, area);
                 if (kind == "Biorand_BearTrap")
                 {
                     area.GimmickSaveData.AddExtended("chainsaw.GmContextLegHoldTrap", contextId, "LegHoldTrap", 43300, placement.Position);
