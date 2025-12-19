@@ -62,7 +62,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private static ImmutableArray<GimmickPlacement> TakeRandomGimmicks(ImmutableArray<GimmickPlacement> placements, Rng rng, double amount, params string[] kinds)
         {
-            var breakables = placements.Where(x => kinds.Contains(x.Kind)).Shuffle(rng).ToArray();
+            var maybe = placements.Where(x => !x.Tags.Contains(GimmickTags.Always)).ToArray();
+            var breakables = maybe.Where(x => kinds.Contains(x.Kind)).Shuffle(rng).ToArray();
             var remove = breakables.Take((int)(Math.Clamp(1 - amount, 0, 1) * breakables.Length)).ToArray();
             if (remove.Length == 0)
                 return placements;
