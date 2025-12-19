@@ -42,7 +42,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var enableGimmickModification = randomizer.GetConfigOption<bool>("ea-extra-gimmicks");
             var hidingLockers = randomizer.GetConfigOption<double>("gimmicks-hiding-lockers");
             var traps = randomizer.GetConfigOption<double>("gimmicks-traps");
-            var explosionProbability = 5;
+            var explodingContainers = randomizer.GetConfigOption<double>("gimmicks-exploding-containers");
 
             var rng = randomizer.GetRng("modifier/gimmick");
             var randomItemSettings = new RandomItemSettings
@@ -89,7 +89,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                 g.Guid == new Guid("c333c9be-4eae-4f1f-8bc1-bcfc0a9c2bbf"))
                                 continue;
 
-                            if (rng.NextProbability(explosionProbability))
+                            if (rng.NextProbability((int)Math.Round(Math.Clamp(explodingContainers, 0, 1) * 100)))
                             {
                                 AddExplosion(g);
                             }

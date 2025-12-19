@@ -1122,35 +1122,46 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group = page.CreateGroup("Gimmicks");
             group.Items.Add(new GroupItem()
             {
-                Id = $"gimmicks-breakable-containers",
+                Id = "gimmicks-breakable-containers",
                 Label = "Breakable Containers",
                 Description = "The amount of extra wooden boxes, barrels, vases to place.",
                 Type = "percent",
                 Min = 0,
                 Max = 1,
-                Step = 0.1,
+                Step = 0.01,
                 Default = 1
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"gimmicks-hiding-lockers",
+                Id = "gimmicks-hiding-lockers",
                 Label = "Hiding Lockers",
                 Description = "The amount of lockers that Ashley can hide in.",
                 Type = "percent",
                 Min = 0,
                 Max = 1,
-                Step = 0.1,
+                Step = 0.01,
                 Default = 0.5
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"gimmicks-traps",
+                Id = "gimmicks-traps",
                 Label = "Traps",
                 Description = "The amount of bear traps, and trip wires to place.",
                 Type = "percent",
                 Min = 0,
                 Max = 1,
-                Step = 0.1,
+                Step = 0.01,
+                Default = 1
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = "gimmicks-exploding-containers",
+                Label = "Exploding Containers",
+                Description = "The amount of breakable containers which explode.",
+                Type = "percent",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
                 Default = 1
             });
 
