@@ -1,3 +1,10 @@
+local paths = {
+    enemies_json = "biorand/enemies.json",
+    enemies_csv = "biorand/enemies.csv",
+    gimmicks_json = "biorand/gimmicks.json",
+    gimmicks_csv = "biorand/gimmicks.csv"
+}
+
 function loadConfig()
     local configPath = "biorand/config.json"
     return json.load_file(configPath) or {
@@ -26,59 +33,105 @@ function logToFile(text)
     json.dump_file(logPath, logFile)
 end
 
-function getExtraEnemyPositions()
-    local path = "biorand/enemy.json"
-    local file = json.load_file(path) or {}
+---@param entries table[]
+---@param definition [string, string][]
+local function getCsv(entries, definition)
+    local csv = ""
+    for _, entry in ipairs(entries) do
+        for _, col in ipairs(definition) do
+            local entryKey = string.lower(string.sub(col[1], 1, 1)) .. string.sub(col[1], 2)
+            local entryValue = entry[entryKey] or ""
+            local fmt = col[2]
+            csv = csv .. string.format(fmt, entryValue)
+            csv = csv .. ","
+        end
+        csv = csv:sub(1, -2) .. "\n"
+    end
+    return csv
+end
+
+---@param path string
+---@param entries table[]
+---@param definition [string, string][]
+local function dumpCsv(path, entries, definition)
+    fs.write(path, getCsv(entries, definition))
+end
+
+local function getExtraEnemyPositions()
+    local file = json.load_file(paths.enemies_json) or {}
     return file.enemies or {}
 end
 
-function dumpEnemyPosition(enemy)
-    local path = "biorand/enemy.json"
-    local file = json.load_file(path) or {}
+local function dumpEnemyPosition(enemy)
+    local file = json.load_file(paths.enemies_json) or {}
     if file.enemies == nil then
         file.enemies = {}
     end
 
     table.insert(file.enemies, enemy)
-    json.dump_file(path, file)
+    json.dump_file(paths.enemies_json, file)
 
-    local csv =
-    "Campaign,Guid,Chapter,Description,Stage,X,Y,Z,Yaw,Pitch,Roll,Condition,SkipCondition,MiniBoss,Battle,Tags,Include,Exclude\n"
-    for _, g in ipairs(file.enemies) do
-        csv = csv .. string.format(
-            ",,,[EXTRA],%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,,,,,,,\n",
-            g.stage,
-            g.x, g.y, g.z,
-            g.direction, 0, 0)
-    end
-    fs.write("biorand/enemies.csv", csv)
+    dumpCsv(paths.enemies_csv,
+        file.enemies,
+        {
+            { "Campaign",      "%s" },
+            { "Guid",          "%s" },
+            { "Chapter",       "%d" },
+            { "Description",   "%s" },
+            { "Stage",         "%d" },
+            { "X",             "%.2f" },
+            { "Y",             "%.2f" },
+            { "Z",             "%.2f" },
+            { "Yaw",           "%.2f" },
+            { "Pitch",         "%.2f" },
+            { "Roll",          "%.2f" },
+            { "Condition",     "%s" },
+            { "SkipCondition", "%s" },
+            { "MiniBoss",      "%s" },
+            { "Battle",        "%s" },
+            { "Tags",          "%s" },
+            { "Include",       "%s" },
+            { "Exclude",       "%s" }
+        }
+    )
 end
 
-function getExtraGimmickPositions()
-    local path = "biorand/gimmick.json"
-    local file = json.load_file(path) or {}
+local function getExtraGimmickPositions()
+    local file = json.load_file(paths.gimmicks_json) or {}
     return file.gimmicks or {}
 end
 
-function dumpGimmickPosition(gimmick)
-    local path = "biorand/gimmick.json"
-    local file = json.load_file(path) or {}
+local gimmickCsvDefinition = {
+    { "Campaign",  "%s" },
+    { "Chapter",   "%d" },
+    { "Kind",      "%s" },
+    { "Stage",     "%d" },
+    { "X",         "%.2f" },
+    { "Y",         "%.2f" },
+    { "Z",         "%.2f" },
+    { "Yaw",       "%.2f" },
+    { "Pitch",     "%.2f" },
+    { "Roll",      "%.2f" },
+    { "Condition", "%s" },
+    { "Events",    "%s" },
+    { "Param1",    "%s" }
+}
+
+local function dumpGimmickPosition(gimmick)
+    local file = json.load_file(paths.gimmicks_json) or {}
     if file.gimmicks == nil then
         file.gimmicks = {}
     end
 
     table.insert(file.gimmicks, gimmick)
-    json.dump_file(path, file)
+    json.dump_file(paths.gimmicks_json, file)
 
-    local csv = "kind,stage,x,y,z,yaw,pitch,roll,condition,chapter\n"
-    for _, g in ipairs(file.gimmicks) do
-        csv = csv .. string.format(
-            "gimmick,%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,,\n",
-            g.stage,
-            g.x, g.y, g.z,
-            g.direction, 0, 0)
-    end
-    fs.write("biorand/gimmick.csv", csv)
+    dumpCsv(paths.gimmicks_csv, file.gimmicks, gimmickCsvDefinition)
+end
+
+local function getSingleGimmickCsv(gimmick)
+    local csv = getCsv({ gimmick }, gimmickCsvDefinition)
+    return csv:match("([^\n]*)")
 end
 
 function getResolution()
@@ -439,24 +492,33 @@ re.on_application_entry("UpdateHID", function()
     if bDown or nDown then
         local playerInfo = getPlayerInfo()
         local enemy = {
+            campaign = "Leon",
+            chapter = -1,
+            description = "[EXTRA]",
             stage = playerInfo.stage,
             x = math.floor(playerInfo.position.x + 0.5),
             y = math.floor(playerInfo.position.y + 0.5),
             z = math.floor(playerInfo.position.z + 0.5),
-            direction = math.floor(playerInfo.direction + 0.5)
+            yaw = math.floor(playerInfo.direction + 0.5),
+            pitch = 0,
+            roll = 0
         }
         if nDown then
-            enemy.small = true
+            enemy.include = "small"
         end
         dumpEnemyPosition(enemy)
     elseif gDown then
         local playerInfo = getPlayerInfo()
         local gimmick = {
+            campaign = "Leon",
+            chapter = -1,
             stage = playerInfo.stage,
             x = math.floor(playerInfo.position.x * 100 + 0.5) / 100,
             y = math.floor(playerInfo.position.y * 100 + 0.5) / 100,
             z = math.floor(playerInfo.position.z * 100 + 0.5) / 100,
-            direction = math.floor(playerInfo.direction + 0.5)
+            yaw = math.floor(playerInfo.direction + 0.5),
+            pitch = 0,
+            roll = 0
         }
         dumpGimmickPosition(gimmick)
     end
@@ -480,6 +542,17 @@ function do_object_table()
 
     local monospaceFont = imgui.load_font('DroidSansMono.ttf', 30)
 
+    local CHINESE_GLYPH_RANGES = {
+        0x0020, 0x00FF, -- Basic Latin + Latin Supplement
+        0x2000, 0x206F, -- General Punctuation
+        0x3000, 0x30FF, -- CJK Symbols and Punctuations, Hiragana, Katakana
+        0x31F0, 0x31FF, -- Katakana Phonetic Extensions
+        0xFF00, 0xFFEF, -- Half-width characters
+        0x4e00, 0x9FAF, -- CJK Ideograms
+        0,
+    }
+    local jpFont = imgui.load_font('NotoSansJP-Regular.otf', 30, CHINESE_GLYPH_RANGES)
+
     imgui.begin_window("Objects", true, 0)
 
     _, objectTable_filter = imgui.input_text("Filter", objectTable_filter, 0)
@@ -489,12 +562,12 @@ function do_object_table()
     imgui.table_setup_column("Kind", 16, 256, 0)
     imgui.table_setup_column("Guid", 16, 512, 0)
     imgui.table_setup_column("Name", 0, 1, 0)
-    imgui.table_setup_column("X", 16, 142, 0)
-    imgui.table_setup_column("Y", 16, 142, 0)
-    imgui.table_setup_column("Z", 16, 142, 0)
-    -- imgui.table_setup_column("Yaw", 16, 142, 0)
-    -- imgui.table_setup_column("Pitch", 16, 142, 0)
-    -- imgui.table_setup_column("Roll", 16, 142, 0)
+    imgui.table_setup_column("X", 16, 100, 0)
+    imgui.table_setup_column("Y", 16, 100, 0)
+    imgui.table_setup_column("Z", 16, 100, 0)
+    -- imgui.table_setup_column("Yaw", 16, 100, 0)
+    -- imgui.table_setup_column("Pitch", 16, 100, 0)
+    -- imgui.table_setup_column("Roll", 16, 100, 0)
     imgui.table_headers_row()
 
     local maximum = 10
@@ -562,12 +635,16 @@ function do_object_table()
 
         imgui.table_next_column()
         imgui.push_font(monospaceFont)
-        if imgui.button(item.guid) then
-            -- no released API yet for copy
-        end
+        imgui.push_item_width(500)
+        imgui.input_text("", item.guid, 16384)
+        -- if imgui.button(item.guid) then
+        --     -- no released API yet for copy
+        -- end
         imgui.pop_font()
         imgui.table_next_column()
+        imgui.push_font(jpFont)
         imgui.text(item.name)
+        imgui.pop_font()
 
         imgui.table_next_column()
         imgui.push_id(string.format("object_table_x_%s", item.guid))
@@ -591,11 +668,11 @@ function do_object_table()
         local transform = gameObject:get_Transform()
         local pos = transform:get_Position()
         local euler = transform:get_EulerAngle()
-        local rot = quaternionToEulerDegrees(transform:get_Rotation())
 
-        local slider = function(label, precision, value, callback)
+        local slider = function(id, precision, value, callback)
             imgui.set_next_item_width(300)
-            local changed, value = imgui.drag_float(label, value, precision, -9999, 9999, "%.3f")
+            imgui.push_id(id)
+            local changed, value = imgui.drag_float("", value, precision, -9999, 9999, "%.3f")
             if changed then
                 table.insert(defered, function()
                     callback(value)
@@ -604,6 +681,7 @@ function do_object_table()
         end
 
         imgui.begin_rect()
+        -- Row 1
         slider("X", 0.001, pos.x, function(v)
             pos.x = v
             transform:set_Position(pos)
@@ -618,6 +696,10 @@ function do_object_table()
             pos.z = v
             transform:set_Position(pos)
         end)
+        imgui.same_line();
+        imgui.text("Position")
+
+        -- Row 2
         slider("Yaw", 1, math.deg(euler.x), function(v)
             transform:set_EulerAngle(Vector3f.new(math.rad(v), euler.y, euler.z))
         end)
@@ -629,14 +711,25 @@ function do_object_table()
         slider("Roll", 1, math.deg(euler.z), function(v)
             transform:set_EulerAngle(Vector3f.new(euler.x, euler.y, math.rad(v)))
         end)
-        if imgui.button("Reset rotation") then
+        imgui.same_line();
+        imgui.text("Rotation")
+        imgui.same_line();
+        if imgui.button("Reset") then
             transform:set_Rotation(Quaternion.new(1, 0, 0, 0))
         end
 
-        local fullText = string.format("%s,%s,%.3f,%.3f,%.3f,%.1f,%.1f,%.1f", getGameObjectGuid(gameObject),
-            gameObject:get_Name(),
-            pos.x, pos.y, pos.z, rot.yaw, rot.pitch, rot.roll)
-        imgui.input_text("csv", fullText, 0)
+        local gimmick = {
+            campaign = "Leon",
+            chapter = -1,
+            stage = playerInfo.stage,
+            x = pos.x,
+            y = pos.y,
+            z = pos.z,
+            yaw = euler.y,
+            pitch = euler.x,
+            roll = euler.z
+        }
+        imgui.input_text("csv", getSingleGimmickCsv(gimmick), 0)
         imgui.end_rect(4, 0)
     end
     imgui.end_window()
