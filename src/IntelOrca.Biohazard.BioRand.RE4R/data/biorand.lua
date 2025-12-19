@@ -162,7 +162,24 @@ function getPlayerInfo()
     return nil
 end
 
-function getComponents(typeName)
+-- function getComponents(typeName)
+--     local sceneManager = sdk.get_native_singleton("via.SceneManager")
+--     local sceneManagerType = sdk.find_type_definition("via.SceneManager")
+--     local scene = sdk.call_native_func(sceneManager, sceneManagerType, "get_CurrentScene")
+--     if scene == nil then
+--         return {}
+--     end
+--
+--     local componentType = sdk.typeof(typeName)
+--     if componentType == nil then
+--         return {}
+--     end
+--
+--     local components = scene:call("findComponents", componentType)
+--     return components
+-- end
+
+function getComponents(types)
     local sceneManager = sdk.get_native_singleton("via.SceneManager")
     local sceneManagerType = sdk.find_type_definition("via.SceneManager")
     local scene = sdk.call_native_func(sceneManager, sceneManagerType, "get_CurrentScene")
@@ -170,13 +187,44 @@ function getComponents(typeName)
         return {}
     end
 
-    local componentType = sdk.typeof(typeName)
-    if componentType == nil then
+    -- accept a single type name string
+    if type(types) == "string" then
+        local componentType = sdk.typeof(types)
+        if componentType == nil then
+            return {}
+        end
+        return scene:call("findComponents", componentType) or {}
+    end
+
+    -- accept an array of type name strings
+    if type(types) ~= "table" then
         return {}
     end
 
-    local components = scene:call("findComponents", componentType)
-    return components
+    local results = {}
+    local seen = {}
+
+    for _, typeName in ipairs(types) do
+        local componentType = sdk.typeof(typeName)
+        if componentType ~= nil then
+            local comps = scene:call("findComponents", componentType) or {}
+            for _, c in ipairs(comps) do
+                local addr = nil
+                local ok, res = pcall(function() return c:get_address() end)
+                if ok and res ~= nil then
+                    addr = tostring(res)
+                else
+                    addr = tostring(c)
+                end
+                if not seen[addr] then
+                    table.insert(results, c)
+                    seen[addr] = true
+                end
+            end
+        end
+    end
+
+    return results
 end
 
 function getComponent(gameObject, componentName)
@@ -339,48 +387,6 @@ function InfoDisplayer:unindent()
     self.drawX = self.drawX - 30
 end
 
--- Class: Gimmick Mover
-GimmickMover = {}
-GimmickMover.__index = GimmickMover
-function GimmickMover:new()
-    local instance = setmetatable({}, GimmickMover)
-    return instance
-end
-
-function GimmickMover:begin()
-    re.on_frame(function()
-        local playerInfo = getPlayerInfo()
-        if playerInfo == nil then
-            return
-        end
-
-        local playerPosition = playerInfo.position
-        local components = getComponents("chainsaw.GimmickCore")
-        for index, component in ipairs(components) do
-            local gameObject = component:get_GameObject()
-            local gameObjectName = gameObject:get_Name()
-            if startsWith(gameObjectName, "Biorand_W") then
-                local transform = gameObject:get_Transform()
-                local address = gameObject:get_address()
-                -- writeObjDef(gameObject)
-                local pos = transform:get_Position()
-                log.debug(string.format("pos: %.1f, %.1f, %.1f", pos.x, pos.y, pos.z))
-                -- transform:set_Position(Vector4f.new(-200, 20, 50, 1))
-                local mat = transform:call("get_WorldMatrix()")
-                log.debug(string.format("pos: %.1f, %.1f, %.1f", mat[3].x, mat[3].y, mat[3].z))
-                was_changed, newMat = draw.gizmo(address, mat)
-                if was_changed then
-                    transform:set_Position(newMat[3])
-                    transform:set_Rotation(newMat:to_quat())
-                end
-            end
-        end
-    end)
-end
-
--- local gimmickMover = GimmickMover:new()
--- GimmickMover:begin()
-
 re.on_frame(function()
     if not cfg.showPlayer and not cfg.showFlags then
         return
@@ -409,10 +415,6 @@ re.on_frame(function()
         displayer:unindent()
     end
     displayer:unindent()
-
-    if cfg.showObjects then
-        do_object_table()
-    end
 end)
 
 re.on_draw_ui(function()
@@ -524,17 +526,98 @@ re.on_application_entry("UpdateHID", function()
     end
 end)
 
-local defered = {}
-re.on_application_entry("UpdateMotion", function()
-    for i, func in ipairs(defered) do
-        func()
-    end
-    defered = {}
-end)
+-- Class: ObjectTable
+ObjectTable = {}
+ObjectTable.__index = ObjectTable
+function ObjectTable:new()
+    local instance = setmetatable({}, ObjectTable)
+    instance.defered = {}
+    instance.items = {}
+    instance.filter = ""
+    instance.selectedObject = nil
+    instance.cycles = 0
+    instance.updates = 0
+    instance.enableRefresh = true
+    instance.forceRefresh = false
+    return instance
+end
 
-local objectTable_filter = ""
-local objectTable_selectedObject = nil
-function do_object_table()
+function ObjectTable:begin()
+    re.on_application_entry("UpdateScene", function()
+        if cfg.showObjects then
+            self.cycles = self.cycles + 1
+            if self.forceRefresh or (self.enableRefresh and self.cycles % 25 == 0) then
+                self.forceRefresh = false
+                self.updates = self.updates + 1
+                self:updateObjectSearch()
+            end
+        end
+    end)
+    re.on_application_entry("UpdateMotion", function()
+        for _, func in ipairs(self.defered) do
+            func()
+        end
+        self.defered = {}
+    end)
+    re.on_frame(function()
+        if cfg.showObjects then
+            self:renderTable()
+        end
+    end)
+end
+
+---@param callback function
+function ObjectTable:defer(callback)
+    table.insert(self.defered, callback)
+end
+
+function ObjectTable:updateObjectSearch()
+    local playerInfo = getPlayerInfo()
+    if playerInfo == nil then
+        return
+    end
+
+    local maximum = 10
+    local playerPosition = playerInfo.position
+    local components = getComponents({
+        "chainsaw.DropItem",
+        "chainsaw.GimmickCore"
+    })
+    local items = {}
+    for _, component in ipairs(components) do
+        local gameObject = component:get_GameObject()
+        local transform = gameObject:get_Transform()
+        local pos = transform:get_Position()
+        local distance = (pos - playerPosition):length()
+        local guid = getGameObjectGuid(gameObject)
+        local name = gameObject:get_Name()
+        local kind = "Unknown"
+
+        local allComponents = gameObject:call("get_Components"):get_elements()
+        for _, component in ipairs(allComponents or {}) do
+            local type_definition = component:get_type_definition()
+            local component_name = type_definition:get_full_name()
+            if component_name == "chainsaw.DropItem" then
+                kind = "DropItem"
+            elseif startsWith(component_name, "chainsaw.Gm") then
+                kind = component_name:sub(10)
+            end
+        end
+
+        if self.filter == "" or string.find(string.lower(guid), string.lower(self.filter)) or string.find(string.lower(name), string.lower(self.filter))
+            or string.find(string.lower(kind), string.lower(self.filter)) then
+            table.insert(items,
+                { gameObject = gameObject, guid = guid, name = name, distance = distance, kind = kind })
+        end
+    end
+    table.sort(items, function(a, b) return a.distance < b.distance end)
+    if #items > maximum then
+        items = { table.unpack(items, 1, maximum) }
+    end
+    self.items = items
+end
+
+function ObjectTable:renderTable()
     local playerInfo = getPlayerInfo()
     if playerInfo == nil then
         return
@@ -555,7 +638,17 @@ function do_object_table()
 
     imgui.begin_window("Objects", true, 0)
 
-    _, objectTable_filter = imgui.input_text("Filter", objectTable_filter, 0)
+    -- imgui.text(string.format("Cycles: %d", self.cycles))
+    -- imgui.text(string.format("Updates: %d", self.updates))
+    local changed, result = imgui.checkbox("Refresh", self.enableRefresh)
+    if changed then
+        self.enableRefresh = result
+    end
+    local changed, newFilter = imgui.input_text("Filter", self.filter, 0)
+    if changed then
+        self.filter = newFilter
+        self.forceRefresh = true
+    end
 
     imgui.begin_table("strid", 7, 0, Vector2f.new(0, 0), 0)
     imgui.table_setup_column("X", 16, 64, 0)
@@ -570,52 +663,21 @@ function do_object_table()
     -- imgui.table_setup_column("Roll", 16, 100, 0)
     imgui.table_headers_row()
 
-    local maximum = 10
-    local playerPosition = playerInfo.position
-    local components = getComponents("chainsaw.GimmickCore")
-    local items = {}
-    for index, component in ipairs(components) do
-        local gameObject = component:get_GameObject()
-        local transform = gameObject:get_Transform()
-        local pos = transform:get_Position()
-        local distance = (pos - playerPosition):length()
-        local guid = getGameObjectGuid(gameObject)
-        local name = gameObject:get_Name()
-        local kind = "Unknown"
 
-        local allComponents = gameObject:call("get_Components"):get_elements()
-        for i, component in ipairs(allComponents or {}) do
-            local type_definition = component:get_type_definition()
-            local component_name = type_definition:get_full_name()
-            if startsWith(component_name, "chainsaw.Gm") then
-                kind = component_name:sub(10)
-            end
-        end
-
-        if objectTable_filter == "" or string.find(string.lower(guid), string.lower(objectTable_filter)) or string.find(string.lower(name), string.lower(objectTable_filter))
-            or string.find(string.lower(kind), string.lower(objectTable_filter)) then
-            table.insert(items, { gameObject = gameObject, guid = guid, name = name, distance = distance, kind = kind })
-        end
-    end
-    table.sort(items, function(a, b) return a.distance < b.distance end)
-    for index, item in ipairs(items) do
-        if index > maximum then
-            break
-        end
-
+    for _, item in ipairs(self.items) do
         local transform = item.gameObject:get_Transform()
         local pos = transform:get_Position()
         local rot = quaternionToEulerDegrees(transform:get_Rotation())
 
         imgui.table_next_column()
         imgui.push_id(string.format("object_table_checkbox_%s", item.guid))
-        local changed, result = imgui.checkbox("", item.gameObject == objectTable_selectedObject)
+        local changed, result = imgui.checkbox("", item.gameObject == self.selectedObject)
         imgui.pop_id()
         if changed then
             if result then
-                objectTable_selectedObject = item.gameObject
+                self.selectedObject = item.gameObject
             else
-                objectTable_selectedObject = nil
+                self.selectedObject = nil
             end
         end
         if result then
@@ -623,7 +685,7 @@ function do_object_table()
             local mat = transform:call("get_WorldMatrix()")
             local changed, newMat = draw.gizmo(address, mat)
             if changed then
-                table.insert(defered, function()
+                self:defer(function()
                     transform:set_Position(newMat[3])
                     transform:set_Rotation(newMat:to_quat())
                 end)
@@ -663,8 +725,8 @@ function do_object_table()
     end
     imgui.end_table()
 
-    if objectTable_selectedObject ~= nil then
-        local gameObject = objectTable_selectedObject
+    if self.selectedObject ~= nil then
+        local gameObject = self.selectedObject
         local transform = gameObject:get_Transform()
         local pos = transform:get_Position()
         local euler = transform:get_EulerAngle()
@@ -674,7 +736,7 @@ function do_object_table()
             imgui.push_id(id)
             local changed, value = imgui.drag_float("", value, precision, -9999, 9999, "%.3f")
             if changed then
-                table.insert(defered, function()
+                self:defer(function()
                     callback(value)
                 end)
             end
@@ -715,7 +777,9 @@ function do_object_table()
         imgui.text("Rotation")
         imgui.same_line();
         if imgui.button("Reset") then
-            transform:set_Rotation(Quaternion.new(1, 0, 0, 0))
+            self:defer(function()
+                transform:set_Rotation(Quaternion.new(1, 0, 0, 0))
+            end)
         end
 
         local gimmick = {
@@ -734,6 +798,9 @@ function do_object_table()
     end
     imgui.end_window()
 end
+
+local objectTable = ObjectTable:new()
+objectTable:begin()
 
 function writeClassDef(def)
     log.debug(def:get_name())
