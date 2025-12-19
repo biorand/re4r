@@ -1,12 +1,61 @@
-Name,Operation,Guid,Chapter,X,Y,Z,Radius,Notes
-hunting.basement,trigger,e41e673a-5a00-44dc-9442-412b52582682,1,,,,,After find dead policeman cutscene in basement
-hunting.basement,trigger,,1,-187,6.6,87.3,2,
-hunting.basement,lockdoor,12d2cba7-98ba-41fd-b30f-5afc88415e9a,,,,,,
-cabin,trigger,,1,60.8,9.5,-161.2,1.5,Upstairs in cabin
-cabin,lockdoor,dcd9e0cb-0fab-46e0-bdb3-48ee695d62fb,,,,,,
-mendezconnector,trigger,,3,-23,4,54.7,2,"Mid way, after the little hut"
-mendezconnector,lockdoor,d27b5d03-bb9a-4560-9dae-ca396b16925b,,,,,,
-mendezconnector,lockdoor,5d40ae94-fa29-4d60-b915-62b6e905c31e,,,,,,
-townhall,trigger,,3,32.5,1,15.7,3,Just before the door to merchant
-townhall,lockdoor,af4abbe8-64b2-48f1-bb87-97dc8b0993bf,,,,,,
-townhall,lockdoor,6055227d-6381-4190-a3cd-c48e2b68bf6a,,,,,,
+Name,Operation,Guid,Chapter,Stage,X,Y,Z,Yaw,Pitch,Roll,Radius,ItemId,Notes
+hunting.kitchen,trigger,,1,,-180.6,10,80.2,,,,2,,
+hunting.basement,trigger,e41e673a-5a00-44dc-9442-412b52582682,1,,,,,,,,,,After find dead policeman cutscene in basement
+hunting.basement,trigger,,1,,-174.1,8.1,80.5,,,,2,,
+hunting.basement,lockdoor,12d2cba7-98ba-41fd-b30f-5afc88415e9a,,,,,,,,,,,
+hunting.stairs,trigger,acb7cffc-9bca-4275-96a7-21655497d44e,1,,,,,,,,,,
+hunting.stairs,trigger,,1,,-193.3,10,70.2,,,,1,,Going through the opened wall towards the exit stairs
+hunting.porchkey|start,trigger,,1,,-193.3,10,81.7,,,,1.5,,
+hunting.porchkey|start,lockdoor,51fa2073-9353-4025-81f4-c1a2fff8bd23,,,,,,,,,,,
+hunting.porchkey|start,removekey,d6876afa-1b5b-4444-a674-c4fa3b420db4,1,,,,,,,,,,
+hunting.porchkey|start,givekey,,1,,,,,,,,,119281600,Give the key to guardian enemy
+hunting.porchkey|start2,trigger,,1,,-193.3,10,81.7,,,,1.5,,
+hunting.porchkey|start2,lockdoor,7d9da1e7-91d5-409d-8086-ff23375c1b87,,,,,,,,,,,
+hunting.porchkey|bait,trigger,,1,,-180.4,10,84,,,,1,,
+hunting.multi|porch,trigger,,1,,-209.2,8.9,79.6,,,,3,,After Crawlspace
+hunting.multi|porch,lockdoor,7d9da1e7-91d5-409d-8086-ff23375c1b87,,,,,,,,,,,
+hunting.multi|keyguard,trigger,,1,,-180.4,10,84,,,,1,,After first enemy cutscene
+hunting.multi|keyguard,lockdoor,52a06f96-fac4-450f-a915-aa99bc282a39,1,,,,,,,,,,
+hunting.multi|keyguard,removekey,d6876afa-1b5b-4444-a674-c4fa3b420db4,1,,,,,,,,,,Remove hunter's lodge key
+hunting.multi|keyguard,givekey,,1,,,,,,,,,119281600,Give the key to guardian enemy
+pathtovillage.windowclimbers,trigger,,1,,-176.9,9.7,63.4,,,,4,,
+pathtovillage.ambush,trigger,,1,,-160.9,7.9,51.2,,,,2,,
+pathtovillage.bridge,trigger,,1,,-152.8,7.2,55.3,,,,2,,
+pathtovillage.door,trigger,,1,,-117.6,7.3,49.7,,,,1.5,,
+pathtovillage.door,lockdoor,a69d2d6c-f817-4dbb-9b50-6a7ac89d31b5,,,,,,,,,,,
+pathtovillage.doortwo,trigger,,1,,-115.2,7.3,54.6,,,,1.5,,
+pathtovillage.doortwo,lockdoor,4e5d45bd-c524-4642-a0ce-62ce29d4b775,,,,,,,,,,,
+aftersiege.merchant,trigger,ea47b9d8-e6ef-48e6-a56b-e6d0c891edfb,1,,,,,,,,,,
+aftersiege.merchant,trigger,,1,,26,2.1,-27.9,,,,1.5,,
+aftersiege.merchant,lockdoor,d5cebe63-d4e1-43af-aee5-c82c978e60ad,,,,,,,,,,,
+aftersiege.merchant2,trigger,ea47b9d8-e6ef-48e6-a56b-e6d0c891edfb,1,,,,,,,,,,
+aftersiege.merchant2,trigger,,1,,19.9,1.1,-18.9,,,,3,,
+aftersiege.merchant3,trigger,ea47b9d8-e6ef-48e6-a56b-e6d0c891edfb,1,,,,,,,,,,
+aftersiege.merchant3,trigger,,1,,42.2,3.3,-29.4,,,,3,,
+aftersiege.merchant3,lockdoor,e654b8f2-dfee-42b1-a1ae-6737a585aa23,,,,,,,,,,,
+cabin,trigger,,1,,60.8,9.5,-161.2,,,,1.5,,Upstairs in cabin
+cabin,lockdoor,dcd9e0cb-0fab-46e0-bdb3-48ee695d62fb,,,,,,,,,,,
+factory.hex,trigger,23b8a6d7-8c8e-4060-b819-1383371f1bdc,2,,,,,,,,,,
+factory.hex,placefile,,2,44400,72.2,-2.54,227,180,0,0,,,"Order
+<PAGE>
+We have had word that the prisoners have escaped the factory.
+
+Take the <COL FILE>emblem</COL> back to where we held the prisoners. It will be the last place they expect. Take extra guards with you.
+
+Alejandro"
+factory.hex,removekey,8195486a-1cbb-4799-9a24-33c6397b90dc,2,,,,,,,,,,
+factory.hex,givekey,,2,,,,,,,,,119203200,Give the key to guardian enemy
+mendezhouse.ambush,trigger,,3,,7.3,9.8,98.8,,,,2,,
+mendezhouse.guard,trigger,,3,,12.8,12.9,102.8,,,,2,,
+mendezhouse.dogstare,trigger,,3,,12.8,12.9,102.8,,,,2,,
+mendezhouse.outside,trigger,,3,,12.8,12.9,102.8,,,,2,,
+mendezconnector.ambush,trigger,,3,,-23,4,54.7,,,,2,,"Mid way, after the little hut"
+mendezconnector.ambush,lockdoor,d27b5d03-bb9a-4560-9dae-ca396b16925b,,,,,,,,,,,
+mendezconnector.ambush,lockdoor,5d40ae94-fa29-4d60-b915-62b6e905c31e,,,,,,,,,,,
+mendezconnector.mendez,trigger,,3,,-20.2,5.2,76.5,,,,2.5,,Next to Hut
+mendezconnector.bugs,trigger,,3,,-14.1,8.1,92,,,,2,,Doorway
+mendezconnector.garrador|ambush,trigger,,3,,-18.2,7.1,85.9,,,,2,,
+mendezconnector.garrador|secondspawn,trigger,,3,,-20.1,5.2,76.6,,,,2,,
+townhall,trigger,,3,,32.5,1,15.7,,,,3,,Just before the door to merchant
+townhall,lockdoor,af4abbe8-64b2-48f1-bb87-97dc8b0993bf,,,,,,,,,,,
+townhall,lockdoor,6055227d-6381-4190-a3cd-c48e2b68bf6a,,,,,,,,,,,
