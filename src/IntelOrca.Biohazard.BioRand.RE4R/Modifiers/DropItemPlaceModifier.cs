@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
+﻿using System.Numerics;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -21,7 +18,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (placement.Campaign != randomizer.Campaign || !placement.IsExtra || placement.Chapter == -1)
                     continue;
 
-                var area = FindBestArea(areaService.Areas, placement.Stage, placement.Tags.Contains(ItemTags.ChapterOnly));
+                int? chapterFile = placement.Tags.Contains(ItemTags.ChapterOnly) ? placement.Chapter : null;
+                var area = areaService.FindBestArea(AreaKind.Items, placement.Stage, chapterFile);
                 if (area == null)
                     continue;
 
@@ -49,39 +47,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 area.Scene = area.Scene.Add(gameObject);
                 area.ItemSaveData.Add(userdata);
+                areaService.AddGuidToArea(gameObject.Guid, area);
             }
-        }
-
-        private Area? FindBestArea(IEnumerable<Area> areas, int stage, bool chapterOnly)
-        {
-            Area? best = null;
-            var bestDiff = int.MaxValue;
-            foreach (var area in areas)
-            {
-                if (area.Definition.Kind != AreaKind.Items)
-                    continue;
-
-                if (area.Definition.ChapterOnly != chapterOnly)
-                    continue;
-
-                if (!chapterOnly)
-                {
-                    var location = stage / 1000;
-                    if (location != area.Definition.Location)
-                        continue;
-                }
-
-                var items = area.ItemSaveData.Items;
-                var stageDiff = items.Any()
-                    ? items.Min(x => Math.Abs(x.ItemData.StageID - stage))
-                    : int.MaxValue;
-                if (best == null || bestDiff > stageDiff)
-                {
-                    best = area;
-                    bestDiff = stageDiff;
-                }
-            }
-            return best;
         }
     }
 }

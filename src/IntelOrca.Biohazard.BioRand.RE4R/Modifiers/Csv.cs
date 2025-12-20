@@ -46,7 +46,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     y++;
                     x = 0;
                     element = Activator.CreateInstance<T>();
-                    keyProperty?.SetValue(element, y);
+                    keyProperty?.SetValue(element, y + 1);
                 }
                 else if (t.Kind == TokenKind.Text)
                 {

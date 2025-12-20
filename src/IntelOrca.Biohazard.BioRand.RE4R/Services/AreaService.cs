@@ -46,13 +46,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             _guidToArea[guid] = area;
         }
 
-        public Area FindBestArea(AreaKind kind, int stage)
+        public Area FindBestArea(AreaKind kind, int stage, int? chapter = null)
         {
-            return Areas
-                .Where(x => x.Definition.Kind == kind)
-                .Where(x => x.Definition.Location == (stage / 1000))
-                .OrderBy(x => Math.Abs((x.Definition.Stage ?? 0) - stage))
-                .First();
+            if (chapter != null)
+            {
+                return Areas
+                    .Where(x => x.Definition.Chapter == chapter)
+                    .First();
+            }
+            else
+            {
+                return Areas
+                    .Where(x => x.Definition.Kind == kind)
+                    .Where(x => x.Definition.Location == (stage / 1000))
+                    .OrderBy(x => Math.Abs((x.Definition.Stage ?? 0) - stage))
+                    .First();
+            }
         }
 
         public void Save(RandomizerLogger process)

@@ -19,7 +19,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public float Yaw { get; set; }
         public float Pitch { get; set; }
         public float Roll { get; set; }
-        public string Condition { get; set; } = "";
+        public Guid Condition { get; set; }
         public int Chapter { get; set; }
         public Campaign Campaign { get; set; }
         public ImmutableArray<string> Tags { get; set; } = [];

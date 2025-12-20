@@ -104,9 +104,62 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 area.Scene = area.Scene.RemoveGameObject(item.Guid);
                 area.ItemSaveData.Remove(item.ContextId);
             }
+
+            foreach (var item in itemService.ItemPlacements)
+            {
+                if (item.Campaign != randomizer.Campaign)
+                    continue;
+
+                if (item.Condition == default)
+                    continue;
+
+                var area = areaService.FindAreaContainingGameObject(item.GuidOrAuto);
+                if (area == null)
+                    continue;
+
+                var gameObject = area.Scene.FindGameObject(item.GuidOrAuto);
+                if (gameObject == null)
+                    continue;
+
+                area.Scene = area.Scene.UpdateGameObject(gameObject.AddOrUpdateComponent(
+                    randomizer.FileRepository.TypeRepository.Create("chainsaw.ObjectHide")
+                        .Set("Enabled", true)
+                        .Set("Settings", new[]
+                        {
+                            new chainsaw.RuleStratum.StratumBool()
+                            {
+                                _Enable = new chainsaw.RuleStratum.Rule()
+                                {
+                                    Logic = 0,
+                                    Matters =
+                                    [
+                                        new()
+                                        {
+                                            _Data = new chainsaw.RuleStratum.ParticleFlag()
+                                            {
+                                                Flags = new chainsaw.FlagCondition()
+                                                {
+                                                    _Logic = 0,
+                                                    _CheckFlags =
+                                                    [
+                                                        new chainsaw.CheckFlagInfo()
+                                                        {
+                                                            _CheckFlag = item.Condition,
+                                                            _CompareValue = false
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                Value = true
+                            }
+                        })));
+            }
         }
 
-        private void UpdateModels(Area area, Dictionary<chainsaw.ContextID, Item> placements)
+        private static void UpdateModels(Area area, Dictionary<chainsaw.ContextID, Item> placements)
         {
             area.Scene = area.Scene.VisitGameObjects(go =>
             {
@@ -127,7 +180,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             });
         }
 
-        private Dictionary<chainsaw.ContextID, Item> Randomize(ChainsawRandomizer randomizer, IEnumerable<ItemPlacement> placements, RandomizerLogger logger)
+        private static Dictionary<chainsaw.ContextID, Item> Randomize(ChainsawRandomizer randomizer, IEnumerable<ItemPlacement> placements, RandomizerLogger logger)
         {
             var result = new Dictionary<chainsaw.ContextID, Item>();
             var randomItemSettings = new RandomItemSettings

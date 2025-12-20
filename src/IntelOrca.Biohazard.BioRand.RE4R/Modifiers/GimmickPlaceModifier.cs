@@ -130,7 +130,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             private RszGameObject AddCondition(RszGameObject gimmick, GimmickPlacement placement)
             {
-                if (string.IsNullOrEmpty(placement.Condition) && placement.Chapter == 0)
+                if (placement.Condition == default && placement.Chapter == 0)
                     return gimmick;
 
                 var repo = FileRepository.TypeRepository;
@@ -148,7 +148,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .Set("Value", true)
                     .Set("_Enable.Logic", 1);
 
-                if (!string.IsNullOrEmpty(placement.Condition))
+                if (placement.Condition != default)
                 {
                     stratumBool = stratumBool.Set("_Enable.Matters", stratumBool
                         .Get<RszArrayNode>("_Enable.Matters")
@@ -162,7 +162,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                     {
                                         new chainsaw.CheckFlagInfo()
                                         {
-                                            _CheckFlag = Guid.Parse(placement.Condition),
+                                            _CheckFlag = placement.Condition,
                                             _CompareValue = false
                                         }
                                     }

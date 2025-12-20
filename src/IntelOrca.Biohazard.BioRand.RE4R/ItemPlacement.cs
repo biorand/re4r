@@ -23,6 +23,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public float Pitch { get; set; }
         public float Roll { get; set; }
         public string Container { get; set; } = "";
+        public Guid Condition { get; set; }
         public ImmutableArray<string> Tags { get; set; } = [];
         public ImmutableArray<string> Include { get; set; } = [];
         public ImmutableArray<string> Exclude { get; set; } = [];

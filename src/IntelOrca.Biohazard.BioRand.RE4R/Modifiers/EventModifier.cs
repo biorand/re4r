@@ -54,36 +54,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var beginFlag = default(Guid);
                 var endFlags = new List<Guid>();
 
-                // Collect enemies
-                var enemies = randomizer.EnemyService.EnemyPlacements
-                    .Where(x => x.Events.Contains(name))
-                    .ToArray();
-                foreach (var e in enemies)
-                {
-                    e.Chapter = chapter;
-                    e.Tags = e.Tags.Add(EnemyTags.Always);
-                }
-
-                // Items
-                foreach (var item in randomizer.ItemService.ItemPlacements)
-                {
-                    if (item.Events.Contains(name))
-                    {
-                        item.Chapter = chapter;
-                        item.Tags = item.Tags.Add(ItemTags.Always);
-                    }
-                }
-
-                // Gimmicks
-                foreach (var gimmick in randomizer.GimmickService.GimmickPlacements)
-                {
-                    if (gimmick.Events.Contains(name))
-                    {
-                        gimmick.Chapter = 0;
-                        gimmick.Tags = gimmick.Tags.Add(GimmickTags.Always);
-                    }
-                }
-
                 // Process triggers
                 var triggers = parameters.Where(x => x.Operation == EventOperation.Trigger).ToArray();
                 if (triggers.Length != 0)
@@ -114,15 +84,49 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             areaTrigger.Radius,
                             beginFlag);
                     }
+                }
 
-                    // Give guardian enemies their death flag to complete event
-                    foreach (var e in enemies)
+                // Items
+                foreach (var item in randomizer.ItemService.ItemPlacements)
+                {
+                    if (item.Events.Contains(name))
                     {
-                        e.Condition = beginFlag.ToString();
-                        if (e.HasTag(EnemyTags.Guardian))
+                        item.Chapter = chapter;
+                        item.Tags = item.Tags.Add(ItemTags.Always);
+                        item.Condition = beginFlag;
+                    }
+                }
+
+                // Gimmicks
+                foreach (var gimmick in randomizer.GimmickService.GimmickPlacements)
+                {
+                    if (gimmick.Events.Contains(name))
+                    {
+                        gimmick.Chapter = 0;
+                        gimmick.Tags = gimmick.Tags.Add(GimmickTags.Always);
+                        gimmick.Condition = beginFlag;
+                    }
+                }
+
+                EnemyPlacement? keyHolder = null;
+                foreach (var e in randomizer.EnemyService.EnemyPlacements)
+                {
+                    if (e.Events.Contains(name))
+                    {
+                        e.Chapter = chapter;
+                        e.Tags = e.Tags.Add(EnemyTags.Always);
+
+                        // If there is a trigger, give enemy trigger condition
+                        if (beginFlag != default)
                         {
-                            e.DeathFlag = randomizer.FlagService.AllocateFlag();
-                            endFlags.Add(e.DeathFlag);
+                            e.Condition = beginFlag.ToString();
+                            if (e.HasTag(EnemyTags.Guardian))
+                            {
+                                // Give guardian enemies their death flag to complete event
+                                e.DeathFlag = randomizer.FlagService.AllocateFlag();
+                                endFlags.Add(e.DeathFlag);
+                                keyHolder ??= e;
+                            }
                         }
                     }
                 }
@@ -142,8 +146,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             AddKeyTag(param.Guid, ItemTags.ChangeKey);
                             break;
                         case EventOperation.GiveKey:
-                            var firstEnemy = enemies.FirstOrDefault(x => x.Tags.Contains(EnemyTags.Guardian));
-                            firstEnemy?.ItemId = param.ItemId;
+                            keyHolder?.ItemId = param.ItemId;
                             break;
                         case EventOperation.PlaceFile:
                             randomizer.FileService.FilePlacements.Add(new FilePlacement()
