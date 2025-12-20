@@ -1,3 +1,8 @@
+---Plugin for RE4 to aid in mod making and BioRand development
+---Copyright (C) IntelOrca 2024-2025
+
+---@diagnostic disable: lowercase-global
+
 local paths = {
     enemies_json = "biorand/enemies.json",
     enemies_csv = "biorand/enemies.csv",
@@ -162,23 +167,8 @@ function getPlayerInfo()
     return nil
 end
 
--- function getComponents(typeName)
---     local sceneManager = sdk.get_native_singleton("via.SceneManager")
---     local sceneManagerType = sdk.find_type_definition("via.SceneManager")
---     local scene = sdk.call_native_func(sceneManager, sceneManagerType, "get_CurrentScene")
---     if scene == nil then
---         return {}
---     end
---
---     local componentType = sdk.typeof(typeName)
---     if componentType == nil then
---         return {}
---     end
---
---     local components = scene:call("findComponents", componentType)
---     return components
--- end
-
+---@param types string|string[]
+---@return REComponent[]
 function getComponents(types)
     local sceneManager = sdk.get_native_singleton("via.SceneManager")
     local sceneManagerType = sdk.find_type_definition("via.SceneManager")
@@ -476,6 +466,11 @@ re.on_frame(function()
 end)
 
 re.on_application_entry("UpdateHID", function()
+    local playerInfo = getPlayerInfo()
+    if playerInfo == nil then
+        return
+    end
+
     local keyboard = sdk.get_native_singleton("via.hid.Keyboard")
     local keyboardDefinition = sdk.find_type_definition("via.hid.Keyboard")
     local kb = sdk.call_native_func(keyboard, keyboardDefinition, "get_Device")
@@ -492,7 +487,6 @@ re.on_application_entry("UpdateHID", function()
     local nDown = kb:isRelease(nKeyCode)
     local gDown = kb:isRelease(gKeyCode)
     if bDown or nDown then
-        local playerInfo = getPlayerInfo()
         local enemy = {
             campaign = "Leon",
             chapter = -1,
@@ -510,7 +504,6 @@ re.on_application_entry("UpdateHID", function()
         end
         dumpEnemyPosition(enemy)
     elseif gDown then
-        local playerInfo = getPlayerInfo()
         local gimmick = {
             campaign = "Leon",
             chapter = -1,
@@ -526,7 +519,15 @@ re.on_application_entry("UpdateHID", function()
     end
 end)
 
--- Class: ObjectTable
+---@class ObjectTable
+---@field private defered function[]
+---@field private items {gameObject: REGameObject, guid: string, name: string, distance: number, kind: string}[]
+---@field private filter string
+---@field private selectedObject REGameObject?
+---@field private cycles number
+---@field private updates number
+---@field private enableRefresh boolean
+---@field private forceRefresh boolean
 ObjectTable = {}
 ObjectTable.__index = ObjectTable
 function ObjectTable:new()
@@ -725,8 +726,8 @@ function ObjectTable:renderTable()
     end
     imgui.end_table()
 
-    if self.selectedObject ~= nil then
-        local gameObject = self.selectedObject
+    local gameObject = self.selectedObject
+    if gameObject ~= nil then
         local transform = gameObject:get_Transform()
         local pos = transform:get_Position()
         local euler = transform:get_EulerAngle()
@@ -806,11 +807,11 @@ function writeClassDef(def)
     log.debug(def:get_name())
     local fields = def:get_fields()
     local methods = def:get_methods()
-    for index, value in ipairs(fields) do
+    for _, value in ipairs(fields) do
         local name = value:get_name()
         log.debug("field: " .. name)
     end
-    for index, value in ipairs(methods) do
+    for _, value in ipairs(methods) do
         local returnType = value:get_return_type():get_name()
         local name = value:get_name()
         log.debug("method: " .. returnType .. " " .. name)
