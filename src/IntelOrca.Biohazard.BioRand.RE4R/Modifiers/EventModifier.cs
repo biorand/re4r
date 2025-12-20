@@ -290,6 +290,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private static void AddDoorLock(ChainsawRandomizer randomizer, Guid guid, Guid lockFlag, IList<Guid> unlockFlags)
         {
+            var gimmickService = randomizer.GimmickService;
+            var placement = gimmickService.FromGuid(guid);
+            if (placement != null)
+            {
+                placement.Param1 = lockFlag.ToString();
+                placement.Param2 = string.Join(" ", unlockFlags);
+                return;
+            }
+
+            var repo = randomizer.FileRepository.TypeRepository;
             var areaService = randomizer.AreaService;
             var area = areaService.FindAreaContainingGameObject(guid);
             if (area == null)
@@ -299,45 +309,49 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (gameObject == null)
                 return;
 
-            var isDoor = gameObject.FindComponent("chainsaw.GmDoor") != null;
-            var isBigDoor = gameObject.FindComponent("chainsaw.GmBigDoor") != null;
-            if (!isDoor && !isBigDoor)
-                return;
-
-            var lockComponentName = isBigDoor ? "chainsaw.GmOptionBigDoorLock" : "chainsaw.GmOptionDoorLock";
             var paramObject = gameObject.FindGameObject("ParamObject");
             if (paramObject == null)
                 return;
 
-            var gmOptionDoorLock = paramObject.FindComponent(lockComponentName);
-            if (gmOptionDoorLock == null)
+            var kind = GetGimmickKind(gameObject);
+            switch (kind)
             {
-                gmOptionDoorLock = randomizer.FileRepository.TypeRepository.Create(lockComponentName);
-            }
-            gmOptionDoorLock = gmOptionDoorLock.Set("Enabled", true);
-
-            var lockRule = gmOptionDoorLock.Get<RszArrayNode>("LockRule");
-
-            for (var i = 0; i < lockRule.Length; i++)
-            {
-                if (!lockRule[i].Get<bool>("Value"))
-                {
-                    lockRule = lockRule.RemoveAt(i);
-                    i--;
-                }
+                case "chainsaw.GmDoor":
+                case "chainsaw.GmBigDoor":
+                    LockStandard();
+                    break;
             }
 
-            lockRule = lockRule.Add(RszSerializer.Serialize(
-                randomizer.FileRepository.TypeRepository.FromName("chainsaw.RuleStratum.StratumBool")!,
-                new chainsaw.RuleStratum.StratumBool()
+            void LockStandard()
+            {
+                var isBigDoor = kind == "chainsaw.GmBigDoor";
+                var lockComponentName = isBigDoor ? "chainsaw.GmOptionBigDoorLock" : "chainsaw.GmOptionDoorLock";
+                var gmOptionDoorLock = paramObject.FindComponent(lockComponentName);
+                gmOptionDoorLock ??= repo.Create(lockComponentName);
+                gmOptionDoorLock = gmOptionDoorLock.Set("Enabled", true);
+
+                var lockRule = gmOptionDoorLock.Get<RszArrayNode>("LockRule");
+
+                for (var i = 0; i < lockRule.Length; i++)
                 {
-                    Value = true,
-                    _Enable = new chainsaw.RuleStratum.Rule()
+                    if (!lockRule[i].Get<bool>("Value"))
                     {
-                        Logic = 0,
-                        Matters =
-                        [
-                            new chainsaw.RuleStratum.Container()
+                        lockRule = lockRule.RemoveAt(i);
+                        i--;
+                    }
+                }
+
+                lockRule = lockRule.Add(RszSerializer.Serialize(
+                    repo.FromName("chainsaw.RuleStratum.StratumBool")!,
+                    new chainsaw.RuleStratum.StratumBool()
+                    {
+                        Value = true,
+                        _Enable = new chainsaw.RuleStratum.Rule()
+                        {
+                            Logic = 0,
+                            Matters =
+                            [
+                                new chainsaw.RuleStratum.Container()
                             {
                                 _Data = new chainsaw.RuleStratum.ParticleFlag()
                                 {
@@ -373,12 +387,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                     }
                                 }
                             }
-                        ]
-                    }
-                }));
-            gmOptionDoorLock = gmOptionDoorLock.Set("LockRule", lockRule);
-            paramObject = paramObject.AddOrUpdateComponent(gmOptionDoorLock);
-            area.Scene = area.Scene.UpdateGameObject(paramObject);
+                            ]
+                        }
+                    }));
+                gmOptionDoorLock = gmOptionDoorLock.Set("LockRule", lockRule);
+                paramObject = paramObject.AddOrUpdateComponent(gmOptionDoorLock);
+                area.Scene = area.Scene.UpdateGameObject(paramObject);
+            }
+        }
+
+        private static string GetGimmickKind(RszGameObject gameObject)
+        {
+            var component = gameObject.Components.FirstOrDefault(x => x.Type.Name.StartsWith("chainsaw.Gm"));
+            return component?.Type.Name ?? "";
         }
 
         [DebuggerDisplay("{Name} | {Operation}")]

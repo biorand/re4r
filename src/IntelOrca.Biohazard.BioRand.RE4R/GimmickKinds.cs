@@ -18,5 +18,9 @@
         public const string HidingLocker = "GmHidingLocker";
         public const string Ladder = "Ladder";
         public const string HookShot = "HookShot";
+
+        public const string Door = "GmDoor";
+        public const string BigDoor = "GmBigDoor";
+        public const string FallShutter = "GmFallShutter";
     }
 }

@@ -4,7 +4,10 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using chainsaw;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
+using IntelOrca.Biohazard.REE.Cryptography;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -94,6 +97,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                 AddExplosion(g);
                             }
                         }
+                        break;
+
+                    case GimmickKinds.Door:
+                    case GimmickKinds.BigDoor:
+                        break;
+                    case GimmickKinds.FallShutter:
+                        LockShutter(g);
                         break;
                 }
             }
@@ -195,6 +205,63 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }
             }
+        }
+
+        private static void LockShutter(Gimmick g)
+        {
+            if (g.Placement == null)
+                return;
+
+            var paramObject = g.ParamObject;
+            if (paramObject == null)
+                return;
+
+            Guid.TryParse(g.Placement.Param1, out var closeFlag);
+            var openFlags = g.Placement.Param2.Split(" ").Select(Guid.Parse).ToArray();
+
+            g.Area.Scene = g.Area.Scene.UpdateGameObject(
+                paramObject.AddOrUpdateComponent(g.Area.Randomizer.FileRepository.TypeRepository.Serialize(new chainsaw.CheckFlagSettings()
+                {
+                    Enabled = true,
+                    _Params = new OptionSettings<CheckFlagSettings.Param>()
+                    {
+                        _Params =
+                            [
+                                new chainsaw.CheckFlagSettings.Param()
+                                    {
+                                        _KeyHash = (uint)MurMur3.HashData("Fall"),
+                                        _BindTriggerNameHash = (uint)MurMur3.HashData(""),
+                                        _FlagCondition = new FlagCondition()
+                                        {
+                                            _CheckFlags =
+                                            [
+                                                new()
+                                                {
+                                                    _CheckFlag = closeFlag,
+                                                    _CompareValue = true
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    new chainsaw.CheckFlagSettings.Param()
+                                    {
+                                        _KeyHash = (uint)MurMur3.HashData("Open"),
+                                        _BindTriggerNameHash = (uint)MurMur3.HashData(""),
+                                        _FlagCondition = new FlagCondition()
+                                        {
+                                            _CheckFlags =
+                                            [
+                                                .. openFlags.Select(x => new CheckFlagInfo()
+                                                {
+                                                    _CheckFlag = x,
+                                                    _CompareValue = true
+                                                })
+                                            ]
+                                        }
+                                    }
+                            ]
+                    }
+                })));
         }
 
         [DebuggerDisplay("{Name}")]
