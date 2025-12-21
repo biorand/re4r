@@ -27,6 +27,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public string Param1 { get; set; } = "";
         public string Param2 { get; set; } = "";
 
+        public bool Vanilla { get; set; }
+
         public Guid GuidOrAuto => Guid == default ? $"item_{Row}".GetGuidHash() : Guid;
         public Vector3 Position => new(X, Y, Z);
         public EulerAngles Eular => new(Yaw, Pitch, Roll);

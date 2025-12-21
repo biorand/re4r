@@ -101,6 +101,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     case GimmickKinds.Door:
                     case GimmickKinds.BigDoor:
+                        LockDoor(g);
                         break;
                     case GimmickKinds.FallShutter:
                         LockShutter(g);
@@ -216,8 +217,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (paramObject == null)
                 return;
 
-            Guid.TryParse(g.Placement.Param1, out var closeFlag);
-            var openFlags = g.Placement.Param2.Split(" ").Select(Guid.Parse).ToArray();
+            var lockFlags = g.Placement.Param1.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToArray();
+            var unlockFlags = g.Placement.Param2.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToArray();
 
             g.Area.Scene = g.Area.Scene.UpdateGameObject(
                 paramObject.AddOrUpdateComponent(g.Area.Randomizer.FileRepository.TypeRepository.Serialize(new chainsaw.CheckFlagSettings()
@@ -235,11 +236,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                         {
                                             _CheckFlags =
                                             [
-                                                new()
+                                                .. lockFlags.Select(x => new CheckFlagInfo()
                                                 {
-                                                    _CheckFlag = closeFlag,
+                                                    _CheckFlag = x,
                                                     _CompareValue = true
-                                                }
+                                                })
                                             ]
                                         }
                                     },
@@ -251,7 +252,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                         {
                                             _CheckFlags =
                                             [
-                                                .. openFlags.Select(x => new CheckFlagInfo()
+                                                .. unlockFlags.Select(x => new CheckFlagInfo()
                                                 {
                                                     _CheckFlag = x,
                                                     _CompareValue = true
@@ -262,6 +263,90 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             ]
                     }
                 })));
+        }
+
+        private static void LockDoor(Gimmick g)
+        {
+            if (g.Placement == null)
+                return;
+
+            var paramObject = g.ParamObject;
+            if (paramObject == null)
+                return;
+
+            var lockFlags = g.Placement.Param1.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToArray();
+            var unlockFlags = g.Placement.Param2.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToArray();
+
+            var repo = g.Area.Randomizer.FileRepository.TypeRepository;
+            var isBigDoor = g.Kind == "GmBigDoor";
+            var lockComponentName = isBigDoor ? "chainsaw.GmOptionBigDoorLock" : "chainsaw.GmOptionDoorLock";
+            var gmOptionDoorLock = paramObject.FindComponent(lockComponentName);
+            gmOptionDoorLock ??= repo.Create(lockComponentName);
+            gmOptionDoorLock = gmOptionDoorLock.Set("Enabled", true);
+
+            var lockRule = gmOptionDoorLock.Get<RszArrayNode>("LockRule");
+
+            for (var i = 0; i < lockRule.Length; i++)
+            {
+                if (!lockRule[i].Get<bool>("Value"))
+                {
+                    lockRule = lockRule.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            lockRule = lockRule.Add(RszSerializer.Serialize(
+                repo.FromName("chainsaw.RuleStratum.StratumBool")!,
+                new chainsaw.RuleStratum.StratumBool()
+                {
+                    Value = true,
+                    _Enable = new chainsaw.RuleStratum.Rule()
+                    {
+                        Logic = 0,
+                        Matters =
+                        [
+                            new chainsaw.RuleStratum.Container()
+                            {
+                                _Data = new chainsaw.RuleStratum.ParticleFlag()
+                                {
+                                    Flags = new FlagCondition()
+                                    {
+                                        _Logic = 0,
+                                        _CheckFlags =
+                                        [
+                                            .. lockFlags.Select(x => new CheckFlagInfo()
+                                            {
+                                                _CheckFlag = x,
+                                                _CompareValue = true
+                                            })
+                                        ]
+                                    }
+                                }
+                            },
+                            new chainsaw.RuleStratum.Container()
+                            {
+                                _Data = new chainsaw.RuleStratum.ParticleFlag()
+                                {
+                                    Flags = new FlagCondition()
+                                    {
+                                        _Logic = 1,
+                                        _CheckFlags =
+                                        [
+                                            .. unlockFlags.Select(x => new CheckFlagInfo()
+                                            {
+                                                _CheckFlag = x,
+                                                _CompareValue = false
+                                            })
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }));
+            gmOptionDoorLock = gmOptionDoorLock.Set("LockRule", lockRule);
+            paramObject = paramObject.AddOrUpdateComponent(gmOptionDoorLock);
+            g.Area.Scene = g.Area.Scene.UpdateGameObject(paramObject);
         }
 
         [DebuggerDisplay("{Name}")]

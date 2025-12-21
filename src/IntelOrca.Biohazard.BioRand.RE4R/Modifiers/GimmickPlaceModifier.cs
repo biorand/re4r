@@ -56,6 +56,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             foreach (var placement in placements)
             {
+                if (placement.Vanilla)
+                    continue;
+
                 factory.AddGimmick(rng, placement, logger);
             }
         }

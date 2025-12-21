@@ -292,108 +292,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var gimmickService = randomizer.GimmickService;
             var placement = gimmickService.FromGuid(guid);
-            if (placement != null)
+            if (placement == null)
             {
-                placement.Param1 = lockFlag.ToString();
-                placement.Param2 = string.Join(" ", unlockFlags);
-                return;
-            }
-
-            var repo = randomizer.FileRepository.TypeRepository;
-            var areaService = randomizer.AreaService;
-            var area = areaService.FindAreaContainingGameObject(guid);
-            if (area == null)
-                return;
-
-            var gameObject = area.Scene.FindGameObject(guid);
-            if (gameObject == null)
-                return;
-
-            var paramObject = gameObject.FindGameObject("ParamObject");
-            if (paramObject == null)
-                return;
-
-            var kind = GetGimmickKind(gameObject);
-            switch (kind)
-            {
-                case "chainsaw.GmDoor":
-                case "chainsaw.GmBigDoor":
-                    LockStandard();
-                    break;
-            }
-
-            void LockStandard()
-            {
-                var isBigDoor = kind == "chainsaw.GmBigDoor";
-                var lockComponentName = isBigDoor ? "chainsaw.GmOptionBigDoorLock" : "chainsaw.GmOptionDoorLock";
-                var gmOptionDoorLock = paramObject.FindComponent(lockComponentName);
-                gmOptionDoorLock ??= repo.Create(lockComponentName);
-                gmOptionDoorLock = gmOptionDoorLock.Set("Enabled", true);
-
-                var lockRule = gmOptionDoorLock.Get<RszArrayNode>("LockRule");
-
-                for (var i = 0; i < lockRule.Length; i++)
+                placement = new GimmickPlacement()
                 {
-                    if (!lockRule[i].Get<bool>("Value"))
-                    {
-                        lockRule = lockRule.RemoveAt(i);
-                        i--;
-                    }
-                }
-
-                lockRule = lockRule.Add(RszSerializer.Serialize(
-                    repo.FromName("chainsaw.RuleStratum.StratumBool")!,
-                    new chainsaw.RuleStratum.StratumBool()
-                    {
-                        Value = true,
-                        _Enable = new chainsaw.RuleStratum.Rule()
-                        {
-                            Logic = 0,
-                            Matters =
-                            [
-                                new chainsaw.RuleStratum.Container()
-                            {
-                                _Data = new chainsaw.RuleStratum.ParticleFlag()
-                                {
-                                    Flags = new FlagCondition()
-                                    {
-                                        _Logic = 0,
-                                        _CheckFlags =
-                                        [
-                                            new CheckFlagInfo()
-                                            {
-                                                _CheckFlag = lockFlag,
-                                                _CompareValue = true
-                                            }
-                                        ]
-                                    }
-                                }
-                            },
-                            new chainsaw.RuleStratum.Container()
-                            {
-                                _Data = new chainsaw.RuleStratum.ParticleFlag()
-                                {
-                                    Flags = new FlagCondition()
-                                    {
-                                        _Logic = 1,
-                                        _CheckFlags =
-                                        [
-                                            .. unlockFlags.Select(x => new CheckFlagInfo()
-                                            {
-                                                _CheckFlag = x,
-                                                _CompareValue = false
-                                            })
-                                        ]
-                                    }
-                                }
-                            }
-                            ]
-                        }
-                    }));
-                gmOptionDoorLock = gmOptionDoorLock.Set("LockRule", lockRule);
-                paramObject = paramObject.AddOrUpdateComponent(gmOptionDoorLock);
-                area.Scene = area.Scene.UpdateGameObject(paramObject);
+                    Campaign = randomizer.Campaign,
+                    Guid = guid,
+                    Vanilla = true
+                };
+                gimmickService.AddPlacement(placement);
             }
+            placement.Param1 = lockFlag.ToString();
+            placement.Param2 = string.Join(" ", unlockFlags);
         }
 
         private static string GetGimmickKind(RszGameObject gameObject)

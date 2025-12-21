@@ -22,6 +22,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             _guidToGimmickPlacement = GimmickPlacements.ToDictionary(x => x.GuidOrAuto);
         }
 
+        public void AddPlacement(GimmickPlacement placement)
+        {
+            GimmickPlacements.Add(placement);
+            _guidToGimmickPlacement[placement.Guid] = placement;
+        }
+
         public GimmickPlacement? FromGuid(Guid guid)
         {
             return _guidToGimmickPlacement.GetValueOrDefault(guid);
