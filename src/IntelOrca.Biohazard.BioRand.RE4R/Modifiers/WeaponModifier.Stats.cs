@@ -763,12 +763,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         internal class FireRateUpgrade(CustomRapid main, Rapid detail) : IWeaponUpgrade
         {
-            private const int RapidSpeed = 0;
-            private const int RapidPumpActionSpeed = 1;
-
             public FireRateUpgrade() : this(new CustomRapid(), new Rapid()) { }
             public WeaponUpgradeKind Kind => WeaponUpgradeKind.FireRate;
-            public int SubType => main._RapidCustomStages.GetItem(1)?._RapidParams.GetItem(0)?._Rapid ?? 0;
             public object Main => new Individual()
             {
                 _IndividualCustomCategory = Categories.FireRate,
@@ -803,39 +799,36 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
                 set
                 {
-                    var type = value.Any(x => x.Speed != 0) ? RapidSpeed : RapidPumpActionSpeed;
-
                     main._RapidCustomStages.Resize(value.Length);
-                    if (SubType == RapidSpeed)
-                    {
-                        detail._RapidSpeed.Resize(value.Length);
-                        detail._PumpActionRapidSpeed.Resize(0);
-                    }
-                    else
-                    {
-                        detail._RapidSpeed.Resize(0);
-                        detail._PumpActionRapidSpeed.Resize(value.Length);
-                    }
+                    detail._RapidSpeed.Resize(value.Length);
+                    detail._PumpActionRapidSpeed.Resize(value.Length);
                     for (var i = 0; i < main._RapidCustomStages.Count; i++)
                     {
                         var l = main._RapidCustomStages[i] ??= new RapidCustomStage();
                         l._Cost = value[i].Cost;
                         l._Info = value[i].Info;
+                        l._RapidParams.Clear();
                         if (i != 0)
                         {
-                            l._RapidParams =
-                            [
-                                new RapidParam()
+                            if (value[i].Speed != 0)
+                            {
+                                l._RapidParams.Add(new RapidParam()
                                 {
                                     _Level = i,
-                                    _Rapid = SubType
-                                }
-                            ];
+                                    _Rapid = 0
+                                });
+                            }
+                            if (value[0].PumpSpeed != 0)
+                            {
+                                l._RapidParams.Add(new RapidParam()
+                                {
+                                    _Level = i,
+                                    _Rapid = 1
+                                });
+                            }
                         }
-                        if (SubType == RapidSpeed)
-                            detail._RapidSpeed[i] = value[i].Speed;
-                        else
-                            detail._PumpActionRapidSpeed[i] = value[i].PumpSpeed;
+                        detail._RapidSpeed[i] = value[i].Speed;
+                        detail._PumpActionRapidSpeed[i] = value[i].PumpSpeed;
                     }
                 }
             }

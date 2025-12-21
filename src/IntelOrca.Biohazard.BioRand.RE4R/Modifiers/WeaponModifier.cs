@@ -632,17 +632,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void RandomizeFireRate(WeaponStats stat, StatRange sr)
         {
+            var pumpIds = new[] { 4100, 4400, 4600, 6001, 6100, 6114 };
+            var isPump = pumpIds.Contains(stat.Id);
+
             var fireRate = stat.Modifiers.OfType<FireRateUpgrade>().First();
             var levels = fireRate.Levels.ToArray();
             var infoMultiplier = float.Parse(levels[0].Info) / levels[0].Speed;
             for (var i = 0; i < 5; i++)
             {
                 var value = MathF.Round(levels[0].Speed * sr.Values[i], 2);
+                var pumpValue = MathF.Round(levels[0].Speed * sr.Values[4 - i], 2);
                 var info = (levels[0].Speed + levels[0].Speed - levels[i].Speed) * infoMultiplier;
                 levels[i] = fireRate.Levels[i] with
                 {
                     Cost = sr.Cost[i],
                     Speed = value,
+                    PumpSpeed = isPump ? pumpValue : 0,
                     Info = info.ToString("0.00")
                 };
             }
