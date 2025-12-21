@@ -123,6 +123,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     area.GimmickSaveData.AddExtended("chainsaw.GmContextLegHoldTrap", contextId, "LegHoldTrap", 43300, placement.Position);
                 }
+                else if (kind == "Biorand_FallenShelves")
+                {
+                    area.GimmickSaveData.Add(new chainsaw.GimmickSaveDataTable.Data()
+                    {
+                        ID = contextId,
+                        Save = new chainsaw.GimmickContext.SaveData()
+                        {
+                            Attr = [0, 0, 0, 0]
+                        },
+                        AIMapData =
+                        [
+                            new chainsaw.GmContextAIMapEff.ShapeData()
+                            {
+                                Position = placement.Position,
+                                RotationY = placement.Yaw,
+                                ShapeName = "FallenShelf",
+                                Stage = [placement.Stage]
+                            }
+                        ],
+                        ContextType = "chainsaw.GmContextAIMapEff"
+                    });
+                }
                 else
                 {
                     var contextType = kind == "Biorand_AshleyLocker" ? "chainsaw.GmContextHidingLocker" : "";
