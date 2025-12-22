@@ -117,8 +117,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 gimmick = AddCondition(gimmick, placement);
 
-                area.Scene = area.Scene.Add(gimmick);
-                randomizer.AreaService.AddGuidToArea(gimmick.Guid, area);
                 if (kind == "Biorand_BearTrap")
                 {
                     area.GimmickSaveData.AddExtended("chainsaw.GmContextLegHoldTrap", contextId, "LegHoldTrap", 43300, placement.Position);
@@ -145,11 +143,58 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         ContextType = "chainsaw.GmContextAIMapEff"
                     });
                 }
+                else if (kind == "Biorand_Ladder1" || kind == "Biorand_Ladder2")
+                {
+                    var leaningLadder = gimmick.FindComponent("chainsaw.GmLeaningLadder")!;
+                    leaningLadder = leaningLadder
+                        .Set("_StageBottom", placement.Stage)
+                        .Set("_StageTop", placement.Stage);
+                    gimmick = gimmick.AddOrUpdateComponent(leaningLadder);
+                    area.GimmickSaveData.Add(new chainsaw.GimmickSaveDataTable.Data()
+                    {
+                        ID = contextId,
+                        Save = new chainsaw.GimmickContext.SaveData()
+                        {
+                            Attr = [0, 0, 0, 0]
+                        },
+                        Static = new chainsaw.GmContextLadder.StaticDataLadder()
+                        {
+                            PointTop = new chainsaw.GmContextLadder.StaticDataLadder.Point()
+                            {
+                                Position = placement.Position + new Vector3(0, 4.228616319f, 0),
+                                Rotation = placement.Yaw,
+                                Stage = placement.Stage
+                            },
+                            PointBottom = new chainsaw.GmContextLadder.StaticDataLadder.Point()
+                            {
+                                Position = placement.Position,
+                                Rotation = placement.Yaw,
+                                Stage = placement.Stage
+                            }
+                        },
+                        AccessPoints =
+                        [
+                            new chainsaw.GimmickManager.AccessPoint()
+                            {
+                                Position = placement.Position,
+                                Access = 1
+                            },
+                            new chainsaw.GimmickManager.AccessPoint()
+                            {
+                                Position = placement.Position + new Vector3(0, 4.228616319f, 0),
+                                Access = 1
+                            }
+                        ],
+                        ContextType = "chainsaw.GmContextLadder"
+                    });
+                }
                 else
                 {
                     var contextType = kind == "Biorand_AshleyLocker" ? "chainsaw.GmContextHidingLocker" : "";
                     area.GimmickSaveData.AddBasic(contextType, contextId);
                 }
+                area.Scene = area.Scene.Add(gimmick);
+                randomizer.AreaService.AddGuidToArea(gimmick.Guid, area);
                 logger.LogLine(area.Path, gimmick.Guid, gimmick.Name, placement.Stage, placement.X, placement.Y, placement.Z);
             }
 

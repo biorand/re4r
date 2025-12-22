@@ -1128,7 +1128,23 @@ namespace chainsaw
             public System.Int32 Access { get; set; }
         }
     }
-
+    internal class GmContextLadder
+    {
+        public class StaticDataLadder : chainsaw.GimmickContext.StaticData
+        {
+            public Point PointTop { get; set; } = new();
+            public Point PointBottom { get; set; } = new();
+            public bool IsEnemyOnly { get; set; }
+            public System.Collections.Generic.List<chainsaw.RuleStratum.StratumBool> HideRule { get; set; } = [];
+            public System.Collections.Generic.List<chainsaw.RuleStratum.StratumBool> SleepRule { get; set; } = [];
+            public class Point
+            {
+                public Vector3 Position { get; set; }
+                public float Rotation { get; set; }
+                public int Stage { get; set; }
+            }
+        }
+    }
     internal class GmContextAIMapEff
     {
         public chainsaw.ContextID ID { get; set; } = new();
