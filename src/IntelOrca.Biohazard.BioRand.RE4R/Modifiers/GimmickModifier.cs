@@ -69,10 +69,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 gimmicks = RemoveSomeGimmicks(gimmicks, rng, hidingLockers, GimmickKinds.HidingLocker);
                 gimmicks = RemoveSomeGimmicks(gimmicks, rng, traps, GimmickKinds.BearTrap, GimmickKinds.TripWire);
             }
+            gimmicks = RemoveCertainGimmicks(gimmicks);
 
             // Modification
             foreach (var g in gimmicks)
             {
+                if (g.Placement is GimmickPlacement placement && placement.Vanilla)
+                {
+                    if (placement.X != 0 || placement.Y != 0 || placement.Z != 0)
+                    {
+                        var transform = g.Transform;
+                        transform.Position = placement.Position;
+                        transform.Eular = placement.Eular;
+                    }
+                }
+
                 switch (g.Kind)
                 {
                     case GimmickKinds.Crow:
@@ -122,6 +133,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return gimmicks;
 
             var remove = shuffledGimmicks.Take(removeCount).ToArray();
+            foreach (var g in remove)
+            {
+                g.Remove();
+            }
+            return gimmicks.RemoveRange(remove);
+        }
+
+        private static ImmutableArray<Gimmick> RemoveCertainGimmicks(ImmutableArray<Gimmick> gimmicks)
+        {
+            var remove = gimmicks
+                .Where(x => x.Placement?.Tags.Contains(GimmickTags.Never) == true)
+                .ToArray();
             foreach (var g in remove)
             {
                 g.Remove();

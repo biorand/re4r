@@ -2,6 +2,7 @@
 {
     internal static class GimmickTags
     {
+        public const string Never = "never";
         public const string Always = "always";
     }
 }

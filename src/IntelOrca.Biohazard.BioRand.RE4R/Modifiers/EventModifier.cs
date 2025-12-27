@@ -163,6 +163,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                 Content = param.Notes
                             });
                             break;
+                        case EventOperation.Remove:
+                            RemoveGimmick(randomizer, param);
+                            break;
+                        case EventOperation.Move:
+                            MoveGimmick(randomizer, param);
+                            break;
                     }
                 }
             }
@@ -306,10 +312,43 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             placement.Param2 = string.Join(" ", unlockFlags);
         }
 
-        private static string GetGimmickKind(RszGameObject gameObject)
+        private static void MoveGimmick(ChainsawRandomizer randomizer, EventParameter param)
         {
-            var component = gameObject.Components.FirstOrDefault(x => x.Type.Name.StartsWith("chainsaw.Gm"));
-            return component?.Type.Name ?? "";
+            var gimmickService = randomizer.GimmickService;
+            var placement = gimmickService.FromGuid(param.Guid);
+            if (placement == null)
+            {
+                placement = new GimmickPlacement()
+                {
+                    Campaign = randomizer.Campaign,
+                    Guid = param.Guid,
+                    Vanilla = true,
+                    X = param.X,
+                    Y = param.Y,
+                    Z = param.Z,
+                    Yaw = param.Yaw,
+                    Pitch = param.Pitch,
+                    Roll = param.Roll,
+                };
+                gimmickService.AddPlacement(placement);
+            }
+        }
+
+        private static void RemoveGimmick(ChainsawRandomizer randomizer, EventParameter param)
+        {
+            var gimmickService = randomizer.GimmickService;
+            var placement = gimmickService.FromGuid(param.Guid);
+            if (placement == null)
+            {
+                placement = new GimmickPlacement()
+                {
+                    Campaign = randomizer.Campaign,
+                    Guid = param.Guid,
+                    Vanilla = true,
+                    Tags = [GimmickTags.Never]
+                };
+                gimmickService.AddPlacement(placement);
+            }
         }
 
         [DebuggerDisplay("{Name} | {Operation}")]
@@ -368,7 +407,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             RemoveKey,
             ChangeKey,
             GiveKey,
-            PlaceFile
+            PlaceFile,
+            Remove,
+            Move,
         }
     }
 }
