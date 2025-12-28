@@ -81,6 +81,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         var transform = g.Transform;
                         transform.Position = placement.Position;
                         transform.Eular = placement.Eular;
+                        g.Transform = transform;
                     }
                 }
 
@@ -383,7 +384,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public Guid Guid => GameObject.Guid;
             public string Kind => DetectKind();
             public chainsaw.ContextID ContextId => GetContextId(GameObject);
-            public Transform Transform => new(GameObject);
+            public Transform Transform
+            {
+                get => new(GameObject);
+                set => Area.Scene = Area.Scene.UpdateGameObject(GameObject.AddOrUpdateComponent(value.ToComponent()));
+            }
             public ImmutableDictionary<string, object> Properties => GetProperties();
 
             public void Remove()
