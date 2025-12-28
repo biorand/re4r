@@ -367,6 +367,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         internal class AmmoCapacityUpgrade(CustomAmmoMaxUp main, AmmoMaxUp detail) : IWeaponUpgrade
         {
+            public AmmoCapacityUpgrade() : this(new(), new()) { }
             public WeaponUpgradeKind Kind => WeaponUpgradeKind.AmmoCapacity;
             public object Main => new chainsaw.WeaponCustomUserdata.Common()
             {
@@ -378,7 +379,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 _CommonCustomCategory = Categories.AmmoCapacity,
                 _AmmoMaxUp = detail
             };
-            public Guid MessageId => main._MessageId;
+            public Guid MessageId
+            {
+                get => main._MessageId;
+                set => main._MessageId = value;
+            }
             public ImmutableArray<AmmoUpgradeLevel> Levels
             {
                 get
@@ -403,7 +408,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     detail._AmmoMaxs.Resize(value.Length);
                     for (var i = 0; i < main._AmmoMaxUpCustomStages.Count; i++)
                     {
-                        var l = main._AmmoMaxUpCustomStages[i];
+                        var l = main._AmmoMaxUpCustomStages[i] ??= new();
                         l._Cost = value[i].Cost;
                         l._Info = value[i].Info;
                         detail._AmmoMaxs[i] = value[i].Value;

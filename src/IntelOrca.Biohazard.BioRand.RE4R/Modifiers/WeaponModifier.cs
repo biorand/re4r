@@ -532,7 +532,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void RandomizeAmmoCapacity(WeaponStats stat, StatRange sr)
         {
-            var ammoCapacity = stat.Modifiers.OfType<AmmoCapacityUpgrade>().First();
+            var ammoCapacity = stat.Modifiers.OfType<AmmoCapacityUpgrade>().FirstOrDefault();
+            if (ammoCapacity == null)
+            {
+                ammoCapacity = new AmmoCapacityUpgrade
+                {
+                    MessageId = new Guid("66757d70-f8da-4585-92de-8df01ea601d3"),
+                    Levels = Enumerable.Range(0, 5)
+                        .Select(i => new AmmoUpgradeLevel(0, "0", 0))
+                        .ToImmutableArray()
+                };
+                stat.Modifiers = stat.Modifiers.Add(ammoCapacity);
+            }
+
             var levels = ammoCapacity.Levels.ToArray();
             for (var i = 0; i < 5; i++)
             {
@@ -596,8 +608,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void RandomizeReloadSpeed(WeaponStats stat, StatRange sr)
         {
-            var reloadSpeed = stat.Modifiers.OfType<ReloadSpeedUpgrade>().First();
+            var reloadSpeed = stat.Modifiers.OfType<ReloadSpeedUpgrade>().FirstOrDefault();
+            if (reloadSpeed == null)
+            {
+                reloadSpeed = new()
+                {
+                    MessageId = new Guid("a3e8cc54-b462-4be3-9e77-e6660ecf0e17"),
+                    Levels = Enumerable.Range(0, 5)
+                        .Select(i => new ReloadSpeedUpgradeLevel(0, "0.0", 0, 0))
+                        .ToImmutableArray()
+                };
+                stat.Modifiers = stat.Modifiers.Add(reloadSpeed);
+            }
             reloadSpeed.MessageId = new Guid("a3e8cc54-b462-4be3-9e77-e6660ecf0e17");
+
             var levels = reloadSpeed.Levels.ToArray();
             for (var i = 0; i < 5; i++)
             {
@@ -635,7 +659,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var pumpIds = new[] { 4100, 4400, 4600, 6001, 6100, 6114 };
             var isPump = pumpIds.Contains(stat.Id);
 
-            var fireRate = stat.Modifiers.OfType<FireRateUpgrade>().First();
+            var fireRate = stat.Modifiers.OfType<FireRateUpgrade>().FirstOrDefault();
+            if (fireRate == null)
+            {
+                fireRate = new FireRateUpgrade
+                {
+                    MessageId = new Guid("99bfca71-e54c-497d-82e2-8df885ef54fb"),
+                    Levels = Enumerable.Range(0, 5)
+                        .Select(i => new FireRateUpgradeLevel(0, "0.0", 0, 0))
+                        .ToImmutableArray()
+                };
+                stat.Modifiers = stat.Modifiers.Add(fireRate);
+            }
+
             var levels = fireRate.Levels.ToArray();
             var infoMultiplier = float.Parse(levels[0].Info) / levels[0].Speed;
             for (var i = 0; i < 5; i++)
