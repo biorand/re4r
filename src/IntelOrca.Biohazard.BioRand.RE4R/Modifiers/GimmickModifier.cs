@@ -25,7 +25,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Push(area.FileName);
                 foreach (var gameObject in gimmicks)
                 {
-                    var gimmick = new Gimmick(area, gameObject, null);
+                    var gimmick = new Gimmick(area, gameObject.Guid, null);
                     var position = gimmick.Transform.Position;
                     logger.LogLine(
                         gimmick.Guid,
@@ -60,7 +60,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             // Get all gimmicks and modify
             var gimmickService = randomizer.GimmickService;
             var gimmicks = randomizer.AreaService.Areas
-                .SelectMany(area => area.Gimmicks.Select(gameObject => new Gimmick(area, gameObject, gimmickService.FromGuid(gameObject.Guid))))
+                .SelectMany(area => area.Gimmicks.Select(gameObject => new Gimmick(area, gameObject.Guid, gimmickService.FromGuid(gameObject.Guid))))
                 .ToImmutableArray();
 
             // Removal
@@ -160,7 +160,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 paramObject = paramObject.WithComponents(
                     paramObject.Components
                         .RemoveAll(x => x.Type.Name == "chainsaw.CheckFlagSettings"));
-                g.Area.Scene = g.Area.Scene.UpdateGameObject(paramObject);
+                g.ParamObject = paramObject;
             }
         }
 
@@ -186,9 +186,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private static void ReplaceGimmick(Gimmick original, string kind)
         {
             original.Area.Scene = original.Area.Scene
-                .RemoveGameObject(original.GameObject.Guid)
+                .RemoveGameObject(original.Guid)
                 .Add(GimmickTemplate
                     .Get(kind)
+                    .Clone()
+                    .WithGuid(original.Guid)
                     .AddOrUpdateComponent(original.GameObject.FindComponent("via.Transform")!)
                     .AddOrUpdateComponent(original.GameObject.FindComponent("chainsaw.GimmickCore")!));
         }
@@ -204,10 +206,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     if (itemRandomizer.GetNextGeneralDrop(rng, randomItemSettings) is Item drop)
                     {
-                        g.Area.Scene = g.Area.Scene.UpdateGameObject(
-                            paramObject.AddOrUpdateComponent(gmOptionDropItem
-                                .Set("ID", drop.Id)
-                                .Set("Count", drop.Count)));
+                        g.ParamObject = paramObject.AddOrUpdateComponent(gmOptionDropItem
+                            .Set("ID", drop.Id)
+                            .Set("Count", drop.Count));
                     }
                 }
             }
@@ -244,49 +245,48 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var lockFlags = g.Placement.Param1.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToArray();
             var unlockFlags = g.Placement.Param2.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToArray();
 
-            g.Area.Scene = g.Area.Scene.UpdateGameObject(
-                paramObject.AddOrUpdateComponent(g.Area.Randomizer.FileRepository.TypeRepository.Serialize(new chainsaw.CheckFlagSettings()
+            g.ParamObject = paramObject.AddOrUpdateComponent(g.Area.Randomizer.FileRepository.TypeRepository.Serialize(new chainsaw.CheckFlagSettings()
+            {
+                Enabled = true,
+                _Params = new OptionSettings<CheckFlagSettings.Param>()
                 {
-                    Enabled = true,
-                    _Params = new OptionSettings<CheckFlagSettings.Param>()
-                    {
-                        _Params =
-                            [
-                                new chainsaw.CheckFlagSettings.Param()
+                    _Params =
+                        [
+                            new chainsaw.CheckFlagSettings.Param()
+                                {
+                                    _KeyHash = (uint)MurMur3.HashData("Fall"),
+                                    _BindTriggerNameHash = (uint)MurMur3.HashData(""),
+                                    _FlagCondition = new FlagCondition()
                                     {
-                                        _KeyHash = (uint)MurMur3.HashData("Fall"),
-                                        _BindTriggerNameHash = (uint)MurMur3.HashData(""),
-                                        _FlagCondition = new FlagCondition()
-                                        {
-                                            _CheckFlags =
-                                            [
-                                                .. lockFlags.Select(x => new CheckFlagInfo()
-                                                {
-                                                    _CheckFlag = x,
-                                                    _CompareValue = true
-                                                })
-                                            ]
-                                        }
-                                    },
-                                    new chainsaw.CheckFlagSettings.Param()
-                                    {
-                                        _KeyHash = (uint)MurMur3.HashData("Open"),
-                                        _BindTriggerNameHash = (uint)MurMur3.HashData(""),
-                                        _FlagCondition = new FlagCondition()
-                                        {
-                                            _CheckFlags =
-                                            [
-                                                .. unlockFlags.Select(x => new CheckFlagInfo()
-                                                {
-                                                    _CheckFlag = x,
-                                                    _CompareValue = true
-                                                })
-                                            ]
-                                        }
+                                        _CheckFlags =
+                                        [
+                                            .. lockFlags.Select(x => new CheckFlagInfo()
+                                            {
+                                                _CheckFlag = x,
+                                                _CompareValue = true
+                                            })
+                                        ]
                                     }
-                            ]
-                    }
-                })));
+                                },
+                                new chainsaw.CheckFlagSettings.Param()
+                                {
+                                    _KeyHash = (uint)MurMur3.HashData("Open"),
+                                    _BindTriggerNameHash = (uint)MurMur3.HashData(""),
+                                    _FlagCondition = new FlagCondition()
+                                    {
+                                        _CheckFlags =
+                                        [
+                                            .. unlockFlags.Select(x => new CheckFlagInfo()
+                                            {
+                                                _CheckFlag = x,
+                                                _CompareValue = true
+                                            })
+                                        ]
+                                    }
+                                }
+                        ]
+                }
+            }));
         }
 
         private static void LockDoor(Gimmick g)
@@ -369,25 +369,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }));
             gmOptionDoorLock = gmOptionDoorLock.Set("LockRule", lockRule);
-            paramObject = paramObject.AddOrUpdateComponent(gmOptionDoorLock);
-            g.Area.Scene = g.Area.Scene.UpdateGameObject(paramObject);
+            g.ParamObject = paramObject.AddOrUpdateComponent(gmOptionDoorLock);
         }
 
         [DebuggerDisplay("{Name}")]
-        private class Gimmick(Area area, RszGameObject gameObject, GimmickPlacement? placement)
+        private class Gimmick(Area area, Guid guid, GimmickPlacement? placement)
         {
             public Area Area => area;
-            public RszGameObject GameObject => gameObject;
+            public RszGameObject GameObject
+            {
+                get => area.Scene.FindGameObject(guid) ?? throw new Exception("Game object not found");
+                set => Area.Scene = Area.Scene.UpdateGameObject(value);
+            }
             public GimmickPlacement? Placement => placement;
 
             public string Name => GameObject.Name;
-            public Guid Guid => GameObject.Guid;
+            public Guid Guid => guid;
             public string Kind => DetectKind();
             public chainsaw.ContextID ContextId => GetContextId(GameObject);
             public Transform Transform
             {
                 get => new(GameObject);
-                set => Area.Scene = Area.Scene.UpdateGameObject(GameObject.AddOrUpdateComponent(value.ToComponent()));
+                set => GameObject = GameObject.AddOrUpdateComponent(value.ToComponent());
             }
             public ImmutableDictionary<string, object> Properties => GetProperties();
 
@@ -424,7 +427,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return properties.ToImmutableDictionary();
             }
 
-            public RszGameObject? ParamObject => GameObject.FindGameObject("ParamObject");
+            public RszGameObject? ParamObject
+            {
+                get => GameObject.FindGameObject("ParamObject");
+                set
+                {
+                    if (value != null)
+                    {
+                        Area.Scene = Area.Scene.UpdateGameObject(value);
+                    }
+                    else if (ParamObject is RszGameObject currentParamObject)
+                    {
+                        Area.Scene = Area.Scene.RemoveGameObject(currentParamObject.Guid);
+                    }
+                }
+            }
 
             private static chainsaw.ContextID GetContextId(RszGameObject gameObject)
             {
