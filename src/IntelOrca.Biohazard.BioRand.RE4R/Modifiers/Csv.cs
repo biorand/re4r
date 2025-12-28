@@ -236,6 +236,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }
             }
+            Finish(buffer.Length);
             tokens.Add(new Token(TokenKind.EOF, "\0"));
             return tokens.ToImmutable();
 
