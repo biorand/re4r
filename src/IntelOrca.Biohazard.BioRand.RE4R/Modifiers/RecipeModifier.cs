@@ -71,6 +71,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var craft = RszSerializer.Deserialize<ItemCraftSettingUserdata>(root)!;
                 foreach (var recipe in recipes)
                 {
+                    var outputCount = recipe.Output.Count == 0 ? 1 : recipe.Output.Count;
                     var newCraft = new ItemCraftRecipe()
                     {
                         _RecipeID = recipe.Id,
