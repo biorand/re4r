@@ -643,8 +643,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void RandomizeReloadRounds(WeaponStats stat, StatRange sr)
         {
-            var reloadSpeed = stat.Modifiers.OfType<ReloadSpeedUpgrade>().First();
+            var reloadSpeed = stat.Modifiers.OfType<ReloadSpeedUpgrade>().FirstOrDefault();
+            if (reloadSpeed == null)
+            {
+                reloadSpeed = new()
+                {
+                    MessageId = new Guid("173bfc85-dbf2-4d39-8ba9-6e5284990c63"),
+                    Levels = Enumerable.Range(0, 5)
+                        .Select(i => new ReloadSpeedUpgradeLevel(0, "0.0", 0, 0))
+                        .ToImmutableArray()
+                };
+                stat.Modifiers = stat.Modifiers.Add(reloadSpeed);
+            }
             reloadSpeed.MessageId = new Guid("173bfc85-dbf2-4d39-8ba9-6e5284990c63");
+
             var levels = reloadSpeed.Levels.ToArray();
             for (var i = 0; i < 5; i++)
             {
