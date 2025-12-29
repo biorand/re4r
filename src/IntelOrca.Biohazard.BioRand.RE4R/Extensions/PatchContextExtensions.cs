@@ -105,6 +105,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             context.SetFile(path, msg.Data.ToArray());
         }
 
+        public static void ModifyMsgFile(this IPatchContext context, string path, Action<MsgFile.Builder> callback)
+        {
+            var msgFile = context.GetMsgFile(path);
+            var builder = msgFile.ToBuilder();
+            callback(builder);
+            context.SetMsgFile(path, builder.Build());
+        }
+
         public static void ApplyOverlay(this IPatchContext context, byte[] zipData)
         {
             var supplementZip = new ZipArchive(new MemoryStream(zipData));

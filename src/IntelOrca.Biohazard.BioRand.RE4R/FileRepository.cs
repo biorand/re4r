@@ -31,6 +31,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly string? _inputGamePath;
         private ConcurrentDictionary<string, byte[]> _outputFiles = new(StringComparer.OrdinalIgnoreCase);
 
+        public ChainsawRandomizer? Randomizer => _randomizer;
         public DynamicData DynamicData { get; } = new DynamicData(download: false);
 
         public FileRepository()
