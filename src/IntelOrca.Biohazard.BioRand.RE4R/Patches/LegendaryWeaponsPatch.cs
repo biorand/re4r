@@ -66,7 +66,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 }
             }
 
-            return results.ToImmutableArray();
+            return results
+                .OrderBy(x => x["id"])
+                .ToImmutableArray();
         }
 
         private void ApplyWeapon(string name)
@@ -922,7 +924,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
                         //EDITING EXCLUSIVE VALUES
                         var exclusiveKeys = limitDataMap.Keys
-                            .Where(k => info[$"{k} exclusive"] is int)
+                            .Where(k => info[$"{k} exclusive"] is not "")
                             .ToList();
 
                         // check LimitBreakCustoms count matches exclusiveKeys count

@@ -118,7 +118,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     if (randomExclusives)
                     {
-                        RandomizeExclusives(randomizer, wp, valueRng);
+                        RandomizeExclusives(randomizer, wp, valueRng, !restricted);
                     }
                     RandomizeStats(randomizer, wp, valueRng, randomUpgrades && !restricted);
                     if (randomPrices)
@@ -273,7 +273,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             return rng.NextOf(WeaponUpgradePath.ReloadSpeed, WeaponUpgradePath.ReloadRounds);
         }
 
-        private void RandomizeExclusives(ChainsawRandomizer randomizer, WeaponStats wp, Rng rng)
+        private void RandomizeExclusives(ChainsawRandomizer randomizer, WeaponStats wp, Rng rng, bool randomSelection)
         {
             var itemRepo = ItemDefinitionRepository.Default;
             var paths = new[]
@@ -333,14 +333,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 exclusiveCount = 1;
             }
 
-            var newExclusives = exclusives
-                .Shuffle(rng)
-                .DistinctBy(x => x.Kind)
-                .Take(exclusiveCount)
-                .ToImmutableArray();
-            wp.Modifiers = wp.Modifiers
-                .RemoveAll(x => x is IWeaponExclusive)
-                .AddRange(newExclusives);
+            if (randomSelection)
+            {
+                var newExclusives = exclusives
+                    .Shuffle(rng)
+                    .DistinctBy(x => x.Kind)
+                    .Take(exclusiveCount)
+                    .ToImmutableArray();
+                wp.Modifiers = wp.Modifiers
+                    .RemoveAll(x => x is IWeaponExclusive)
+                    .AddRange(newExclusives);
+            }
+            else
+            {
+                var kinds = wp.Modifiers.OfType<IWeaponExclusive>().Select(x => x.Kind).ToArray();
+                var chosenExclusives = exclusives
+                    .DistinctBy(x => x.Kind)
+                    .Where(x => kinds.Contains(x.Kind))
+                    .ToArray();
+                wp.Modifiers = wp.Modifiers
+                    .RemoveAll(x => x is IWeaponExclusive)
+                    .AddRange(chosenExclusives);
+            }
         }
 
         private float? GetBaseStat(int wp, WeaponUpgradePath path)
