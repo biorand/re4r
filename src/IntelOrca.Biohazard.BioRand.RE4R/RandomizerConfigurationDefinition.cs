@@ -273,6 +273,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             //Weapon Page
             page = configDefinition.CreatePage("Weapon");
+            group = page.CreateGroup("Legendary Weapons");
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-legendary-quantity-min",
+                Label = $"Min. Quantity of Legendary Weapons",
+                Description = "Minimum number of legendary weapons available to find.",
+                Type = "range",
+                Min = 0,
+                Max = 32,
+                Default = 0
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"weapon-legendary-quantity-max",
+                Label = $"Max. Quantity of Legendary Weapons",
+                Description = "Maximum number of legendary weapons available to find.",
+                Type = "range",
+                Min = 0,
+                Max = 32,
+                Default = 2
+            });
+
             group = page.CreateGroup("");
             group.Warning = "WIP Page. This page requires all Random Weapon options to be enabled in the Merchant page to function.";
             group.Items.Add(new GroupItem()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -22,14 +23,50 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         public void Apply()
         {
-            var weapons = _baseStats.Weapons
-                .Where(x => x["weight"] is int w && w > 0)
-                .ToArray();
+            var weapons = GetSelection();
             var weaponNames = weapons.Select(x => (string)x["name"]).ToArray();
             foreach (var wpName in weaponNames)
             {
                 ApplyWeapon(wpName);
             }
+        }
+
+        private ImmutableArray<ImmutableDictionary<string, object>> GetSelection()
+        {
+            var randomizer = (context as FileRepository)?.Randomizer;
+            if (randomizer == null)
+                return [];
+
+            var results = new List<ImmutableDictionary<string, object>>();
+            var rng = randomizer.GetRng("weapons/legendary");
+
+            var min = context.GetConfigOption("weapon-legendary-quantity-min", 0);
+            var max = context.GetConfigOption("weapon-legendary-quantity-max", 0);
+            var count = rng.Next(min, max + 1);
+
+            var weapons = _baseStats.Weapons
+                .Select(x => (Data: x, Weight: x["weight"] as int? ?? 0))
+                .Where(x => x.Weight > 0)
+                .ToList();
+
+            while (weapons.Count > 0 && results.Count < count)
+            {
+                var total = weapons.Sum(x => x.Weight);
+                var value = rng.Next(0, total);
+                var q = 0;
+                for (var i = 0; i < weapons.Count; i++)
+                {
+                    q += weapons[i].Weight;
+                    if (value < q)
+                    {
+                        results.Add(weapons[i].Data);
+                        weapons.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+
+            return results.ToImmutableArray();
         }
 
         private void ApplyWeapon(string name)
