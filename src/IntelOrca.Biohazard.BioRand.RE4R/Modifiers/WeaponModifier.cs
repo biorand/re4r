@@ -112,15 +112,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (wp.ItemDefinition?.SupportsCampaign(randomizer.Campaign) != true)
                     continue;
 
+                var restricted = randomizer.WeaponService.IsRestricted(wp.Id);
+                if (restricted)
+                    continue;
+
                 LogWeaponChanges(wp, logger, () =>
                 {
-                    var restricted = randomizer.WeaponService.IsRestricted(wp.Id);
-
                     if (randomExclusives)
                     {
-                        RandomizeExclusives(randomizer, wp, valueRng, !restricted);
+                        RandomizeExclusives(randomizer, wp, valueRng, randomUpgrades);
                     }
-                    RandomizeStats(randomizer, wp, valueRng, randomUpgrades && !restricted);
+                    RandomizeStats(randomizer, wp, valueRng, randomUpgrades);
                     if (randomPrices)
                     {
                         RandomizePrices(rng, wp, randomPrices);
