@@ -100,6 +100,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             IncludeExclude(essential: true);
 
+            if (spawn.EnemyPlacement.HasTag(EnemyTags.Guardian))
+            {
+                enemyClasses = enemyClasses
+                    .Where(x => !x.Groups.Contains("noguardian"))
+                    .ToImmutableArray();
+            }
+
             // Mini bosses should not be invincible
             if (!string.IsNullOrEmpty(spawn.EnemyPlacement.MiniBoss))
             {
