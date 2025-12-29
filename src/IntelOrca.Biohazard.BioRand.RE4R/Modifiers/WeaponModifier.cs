@@ -114,11 +114,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 LogWeaponChanges(wp, logger, () =>
                 {
+                    var restricted = randomizer.WeaponService.IsRestricted(wp.Id);
+
                     if (randomExclusives)
                     {
                         RandomizeExclusives(randomizer, wp, valueRng);
                     }
-                    RandomizeStats(randomizer, wp, valueRng, randomUpgrades);
+                    RandomizeStats(randomizer, wp, valueRng, randomUpgrades && !restricted);
                     if (randomPrices)
                     {
                         RandomizePrices(rng, wp, randomPrices);

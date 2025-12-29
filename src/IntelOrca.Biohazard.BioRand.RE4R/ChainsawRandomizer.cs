@@ -30,6 +30,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public ItemService ItemService { get; private set; }
         public FlagService FlagService { get; private set; }
         public FileService FileService { get; private set; }
+        public WeaponService WeaponService { get; private set; }
         public Campaign Campaign { get; private set; }
 
         public ChainsawRandomizer(EnemyClassFactory enemyClassFactory, RandomizerInput input, IProgressReporter reporter)
@@ -45,6 +46,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             ItemService = new ItemService(DynamicData);
             FlagService = new FlagService(this);
             FileService = new FileService();
+            WeaponService = new WeaponService();
         }
 
         public void Dispose()

@@ -37,6 +37,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             var info = _baseStats.Weapons.First(x => (string)x["name"] == name);
             var id = (int)info["id"];
 
+            var weaponService = (context as FileRepository)?.Randomizer?.WeaponService;
+            weaponService?.RestrictUpgrades(id);
+
             UpdateMessages();
             UpdateShellInfo();
             UpdateBulletAttackHit();
