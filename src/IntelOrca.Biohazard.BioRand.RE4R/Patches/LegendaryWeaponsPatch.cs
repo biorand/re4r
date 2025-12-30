@@ -194,10 +194,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         critAttachHash = (uint)MurMur3.HashData($"wp{id:0000}_f_c"); // Crit Hash that has an attachment
                     }
 
-                    var baseAroundHash = (uint)MurMur3.HashData($"wp{id:0000}"); // Base Hash
-                    var critAroundHash = (uint)MurMur3.HashData($"wp{id:0000}_c"); // Crit Hash
-                    var baseAroundAttachHash = (uint)MurMur3.HashData($"wp{id:0000}_f"); // Base Hash that has an attachment
-                    var critAroundAttachHash = (uint)MurMur3.HashData($"wp{id:0000}_f_c"); // Crit Hash that has an attachment
+                    var baseAroundHash = (uint)MurMur3.HashData($"wp{id:0000}Around"); // Base Hash
+                    var critAroundHash = (uint)MurMur3.HashData($"wp{id:0000}Around_c"); // Crit Hash
+                    var baseAroundAttachHash = (uint)MurMur3.HashData($"wp{id:0000}Around_f"); // Base Hash that has an attachment
+                    var critAroundAttachHash = (uint)MurMur3.HashData($"wp{id:0000}Around_f_c"); // Crit Hash that has an attachment
 
                     var attackDataList = (RszArrayNode)root["_AttackDataList"];
                     for (var i = 0; i < attackDataList.Length; i++)
@@ -380,13 +380,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
                 var limitDataMap = new Dictionary<string, int>
                 {
-                    ["critical rate"] = 0,
+                    ["criticalrate"] = 0,
                     ["damage"] = 1,
                     ["break"] = 1,
                     ["stopping"] = 1,
                     ["penetration"] = 3,
-                    ["ammo capacity"] = 4,
-                    ["fire rate"] = 5
+                    ["ammocapacity"] = 4,
+                    ["firerate"] = 5
                 };
 
                 var individualMessageIdMap = new Dictionary<int, Guid>
