@@ -370,9 +370,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     var minStock = randomizer.GetConfigOption($"merchant-stock-min-{kind}", 0);
                     var maxStock = randomizer.GetConfigOption($"merchant-stock-max-{kind}", 0);
-                    if (maxStock == 0)
-                        continue;
-
                     var drop = itemRandomizer.GetRandomDrop(_distRng, kind, settings);
                     if (!drop.HasValue)
                         continue;
