@@ -7,7 +7,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
     internal class ItemRandomizer
     {
         private readonly ChainsawRandomizer _randomizer;
-        private readonly RandomizerLogger _logger;
         private readonly HashSet<int> _placedItemIds = new HashSet<int>();
         private readonly bool _allowBonusItems;
         private readonly bool _allowDlcItems;
@@ -22,10 +21,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             .Select(x => ItemDefinitionRepository.Default.Find(x)!)
             .ToArray();
 
-        public ItemRandomizer(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public ItemRandomizer(ChainsawRandomizer randomizer)
         {
             _randomizer = randomizer;
-            _logger = logger;
             _allowBonusItems = randomizer.GetConfigOption<bool>("allow-bonus-items");
             _allowDlcItems = randomizer.GetConfigOption<bool>("allow-dlc-items");
             _allowMercenariesItems = randomizer.GetConfigOption<bool>("allow-mercenaries-items");
@@ -324,7 +322,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var def = rng.Next(itemRepo.KindToItemMap[ItemKinds.Treasure]
                 .Where(x => x.SupportsCampaign(_randomizer.Campaign))
                 .Where(x => x.Class == teasureClass));
-            _logger.LogLine($"Random treasure: {def.Name} [{def.Class}] ({def.Value})");
             return new Item(def.Id, 1);
         }
 
@@ -380,7 +377,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             }
 
             var def = rng.Next(treasureItems);
-            _logger.LogLine($"Random treasure: Class {classNumber}, {def.Name} [{def.Class}] ({def.Value})");
             return new Item(def.Id, 1);
         }
 

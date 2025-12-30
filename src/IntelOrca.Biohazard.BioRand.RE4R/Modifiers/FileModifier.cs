@@ -13,7 +13,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var fileService = randomizer.FileService;
+            var fileService = randomizer.GetService<FileService>();
             PlaceWelcomeDocument();
             foreach (var placement in fileService.FilePlacements)
             {

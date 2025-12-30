@@ -87,7 +87,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
 
                 // Items
-                foreach (var item in randomizer.ItemService.ItemPlacements)
+                foreach (var item in randomizer.GetService<ItemService>().ItemPlacements)
                 {
                     if (item.Events.Contains(name))
                     {
@@ -149,10 +149,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             keyHolder?.ItemId = param.ItemId;
                             break;
                         case EventOperation.PlaceFile:
-                            randomizer.FileService.FilePlacements.Add(new FilePlacement()
+                            var fileService = randomizer.GetService<FileService>();
+                            fileService.FilePlacements.Add(new FilePlacement()
                             {
                                 TemplateId = 32,
-                                Id = randomizer.FileService.GetNextId(),
+                                Id = fileService.GetNextId(),
                                 Stage = param.Stage,
                                 X = param.X,
                                 Y = param.Y,
@@ -175,7 +176,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             void AddKeyTag(Guid guid, string tag)
             {
-                var itemPlacement = randomizer.ItemService.FromGuid(guid);
+                var itemPlacement = randomizer.GetService<ItemService>().FromGuid(guid);
                 if (itemPlacement == null)
                     return;
 

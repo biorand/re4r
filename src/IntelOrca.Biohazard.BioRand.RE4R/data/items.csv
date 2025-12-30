@@ -1,4 +1,4 @@
-Campaign,Chapter,Guid,Description,Container,Stage,X,Y,Z,Yaw,Pitch,Roll,Tags,Include,Exclude,Events
+Campaign,Chapter,Guid,Description,Container,Stage,X,Y,Z,Pitch,Yaw,Roll,Tags,Include,Exclude,Events
 Leon,-1,,[EXTRA] First cabin / barrel outside porch,,40502,-199.4,10.2,79.5,0,0,0,chapteronly,,,hunting.multi|porch
 Leon,1,,[EXTRA] First cabin / porch,,40502,-197.3,10.1,81,0,0,0,chapteronly,,,
 Leon,1,,[EXTRA] First cabin / first room / bed,,40510,-185.2,10.7,74,0,0,0,chapteronly,,,

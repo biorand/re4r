@@ -13,40 +13,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private FileRepository _fileRepository = new FileRepository();
         private RandomizerInput _input = new RandomizerInput();
         private bool _supplementApplied;
-        private ValuableDistributor? _valuableDistributor;
         private ItemRandomizer? _itemRandomizer;
         private ImmutableArray<Modifier> _modifiers = GetModifiers();
+        private readonly Dictionary<Type, object> _services = [];
 
         public EnemyClassFactory EnemyClassFactory { get; }
         public IProgressReporter Reporter { get; }
         public FileRepository FileRepository => _fileRepository;
         public DynamicData DynamicData { get; }
-
-        public AreaService AreaService { get; private set; }
-        public ValuableDistributor ValuableDistributor => _valuableDistributor!;
-        public ItemRandomizer ItemRandomizer => _itemRandomizer!;
-        public EnemyService EnemyService { get; private set; }
-        public GimmickService GimmickService { get; private set; }
-        public ItemService ItemService { get; private set; }
-        public FlagService FlagService { get; private set; }
-        public FileService FileService { get; private set; }
-        public WeaponService WeaponService { get; private set; }
         public Campaign Campaign { get; private set; }
+
+        public AreaService AreaService => GetService<AreaService>();
+        public ValuableDistributor ValuableDistributor => GetService<ValuableDistributor>();
+        public ItemRandomizer ItemRandomizer => GetService<ItemRandomizer>();
+        public EnemyService EnemyService => GetService<EnemyService>();
+        public GimmickService GimmickService => GetService<GimmickService>();
+        public FlagService FlagService => GetService<FlagService>();
 
         public ChainsawRandomizer(EnemyClassFactory enemyClassFactory, RandomizerInput input, IProgressReporter reporter)
         {
             EnemyClassFactory = enemyClassFactory;
             _input = input;
             Reporter = reporter;
-
             DynamicData = new DynamicData(_input.Configuration.GetValueOrDefault<bool>("debug-download-data"));
-            AreaService = new AreaService(this);
-            EnemyService = new EnemyService(DynamicData);
-            GimmickService = new GimmickService(DynamicData);
-            ItemService = new ItemService(DynamicData);
-            FlagService = new FlagService(this);
-            FileService = new FileService();
-            WeaponService = new WeaponService();
         }
 
         public void Dispose()
@@ -128,10 +117,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             ApplySupplement();
 
-            _itemRandomizer = new ItemRandomizer(this, logger.Process);
-
-            _valuableDistributor = new ValuableDistributor(this);
-            _valuableDistributor.Setup(_itemRandomizer, GetRng("service/valuabledistributor"), logger.Process);
+            ValuableDistributor.Setup(ItemRandomizer, GetRng("service/valuabledistributor"), logger.Process);
 
             // Patches
             if (campaign != Campaign.Ada)
@@ -243,6 +229,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var special = GetConfigOption<string>("special");
             var present = special?.Split(',').Contains(kind) == true;
             return present;
+        }
+
+        public T GetService<T>()
+        {
+            var type = typeof(T);
+            _services.TryGetValue(type, out var service);
+            if (service == null)
+            {
+                service = Activator.CreateInstance(type, [this])!;
+                _services[type] = service;
+            }
+            return (T)service;
         }
     }
 }

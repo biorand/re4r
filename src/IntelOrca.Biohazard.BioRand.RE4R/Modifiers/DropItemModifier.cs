@@ -55,7 +55,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var preserveModels = randomizer.GetConfigOption<bool>("preserve-item-models");
 
             var areaService = randomizer.AreaService;
-            var itemService = randomizer.ItemService;
+            var itemService = randomizer.GetService<ItemService>();
 
             // Get context IDs for each item
             foreach (var item in areaService.Areas)

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Messages;
 using IntelOrca.Biohazard.REE.Rsz;
 using static IntelOrca.Biohazard.BioRand.RE4R.Modifiers.WeaponModifier;
@@ -112,7 +113,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (wp.ItemDefinition?.SupportsCampaign(randomizer.Campaign) != true)
                     continue;
 
-                var restricted = randomizer.WeaponService.IsRestricted(wp.Id);
+                var restricted = randomizer.GetService<WeaponService>().IsRestricted(wp.Id);
                 if (restricted)
                     continue;
 

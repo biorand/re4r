@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Cryptography;
 using IntelOrca.Biohazard.REE.Rsz;
 using Range = IntelOrca.Biohazard.REE.Rsz.Native.Range;
@@ -76,7 +77,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             var info = _baseStats.Weapons.First(x => (string)x["name"] == name);
             var id = (int)info["id"];
 
-            var weaponService = (context as FileRepository)?.Randomizer?.WeaponService;
+            var weaponService = (context as FileRepository)?.Randomizer?.GetService<WeaponService>();
             weaponService?.RestrictUpgrades(id);
 
             UpdateMessages();

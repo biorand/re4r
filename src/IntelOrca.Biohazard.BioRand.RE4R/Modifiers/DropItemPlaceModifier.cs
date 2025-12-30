@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -11,7 +12,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return;
 
             var areaService = randomizer.AreaService;
-            var itemService = randomizer.ItemService;
+            var itemService = randomizer.GetService<ItemService>();
             var dropItemTemplate = GimmickTemplate.Get("Biorand_DropItem");
             foreach (var placement in itemService.ItemPlacements)
             {

@@ -12,9 +12,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         public List<GimmickPlacement> GimmickPlacements { get; private set; }
 
-        public GimmickService(DynamicData dynamicData)
+        public GimmickService(ChainsawRandomizer randomizer)
         {
-            var gimmicksCsv = dynamicData.GetData(DynamicDataName.Gimmicks) ?? throw new Exception("Unable to get item data");
+            var gimmicksCsv = randomizer.DynamicData.GetData(DynamicDataName.Gimmicks) ?? throw new Exception("Unable to get item data");
             GimmickPlacements = Csv.Deserialize<GimmickPlacement>(gimmicksCsv)
                 .Where(x => x.Kind.Trim() is string s && !string.IsNullOrEmpty(s) && !s.StartsWith('#'))
                 .ToList();

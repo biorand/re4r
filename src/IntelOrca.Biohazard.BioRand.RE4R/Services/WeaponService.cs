@@ -2,7 +2,9 @@
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 {
-    internal class WeaponService
+#pragma warning disable CS9113 // Parameter is unread.
+    internal class WeaponService(ChainsawRandomizer randomizer)
+#pragma warning restore CS9113 // Parameter is unread.
     {
         private readonly List<int> _restrictedUpgrades = [];
 

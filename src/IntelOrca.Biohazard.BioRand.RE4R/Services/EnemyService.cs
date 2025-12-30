@@ -16,9 +16,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         public List<EnemyPlacement> EnemyPlacements { get; private set; }
 
-        public EnemyService(DynamicData dynamicData)
+        public EnemyService(ChainsawRandomizer randomizer)
         {
-            var data = dynamicData.GetData(DynamicDataName.Enemies) ?? throw new Exception("Unable to get enemy data");
+            var data = randomizer.DynamicData.GetData(DynamicDataName.Enemies) ?? throw new Exception("Unable to get enemy data");
             EnemyPlacements = Csv.Deserialize<EnemyPlacement>(data)
                 .Where(x => x.Chapter != 0)
                 .ToList();

@@ -2,7 +2,9 @@
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 {
-    internal class FileService
+#pragma warning disable CS9113 // Parameter is unread.
+    internal class FileService(ChainsawRandomizer chainsaw)
+#pragma warning restore CS9113 // Parameter is unread.
     {
         private int _id = 2;
 

@@ -11,9 +11,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         public List<ItemPlacement> ItemPlacements { get; private set; }
 
-        public ItemService(DynamicData dynamicData)
+        public ItemService(ChainsawRandomizer randomizer)
         {
-            var itemsCsv = dynamicData.GetData(DynamicDataName.Items) ?? throw new Exception("Unable to get item data");
+            var itemsCsv = randomizer.DynamicData.GetData(DynamicDataName.Items) ?? throw new Exception("Unable to get item data");
             ItemPlacements = Csv.Deserialize<ItemPlacement>(itemsCsv)
                 .Where(x => x.Chapter != 0)
                 .ToList();

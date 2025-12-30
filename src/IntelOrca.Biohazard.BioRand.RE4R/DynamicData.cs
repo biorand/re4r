@@ -20,6 +20,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         }.ToImmutableDictionary();
 
         private readonly Dictionary<DynamicDataName, byte[]> _map = [];
+        private object _sync = new();
 
         public string? GetFileName(DynamicDataName name)
         {
@@ -33,21 +34,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public byte[]? GetData(DynamicDataName name)
         {
-            if (!_map.TryGetValue(name, out var data))
+            lock (_sync)
             {
-                var (fileName, gid) = g_map[name];
-                if (download)
+                if (!_map.TryGetValue(name, out var data))
                 {
-                    var downloadUrl = string.Format(GoogleSheetUrl, gid);
-                    data = Download(downloadUrl);
+                    var (fileName, gid) = g_map[name];
+                    if (download)
+                    {
+                        var downloadUrl = string.Format(GoogleSheetUrl, gid);
+                        data = Download(downloadUrl);
+                    }
+                    else
+                    {
+                        data = EmbeddedData.GetFile(fileName);
+                    }
+                    _map[name] = data;
                 }
-                else
-                {
-                    data = EmbeddedData.GetFile(fileName);
-                }
-                _map[name] = data;
+                return data;
             }
-            return data;
         }
 
         private static byte[] Download(string url)
