@@ -961,7 +961,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                                 case "stopping":
                                     custom._LimitBreakAttackUp._StoppingRateScale = Convert.ToSingle(value);
                                     break;
-                                case "criticalrate":
+                                case "critical rate":
                                     custom._LimitBreakCriticalRate._CriticalRateNormalScale = Convert.ToSingle(value);
                                     custom._LimitBreakCriticalRate._CriticalRateFitScale = Convert.ToSingle(value);
                                     break;
@@ -969,10 +969,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                                     custom._LimitBreakThroughNum._ThroughNumNormal = Convert.ToInt32(value);
                                     custom._LimitBreakThroughNum._ThroughNumFit = Convert.ToInt32(value);
                                     break;
-                                case "ammocapacity":
+                                case "ammo capacity":
                                     custom._LimitBreakAmmoMaxUp._AmmoMaxScale = Convert.ToSingle(value);
                                     break;
-                                case "firerate":
+                                case "fire rate":
                                     custom._LimitBreakRapid._RapidSpeedScale = Convert.ToSingle(value);
                                     break;
                             }
