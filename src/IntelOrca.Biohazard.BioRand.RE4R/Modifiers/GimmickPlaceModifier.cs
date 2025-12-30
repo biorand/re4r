@@ -105,9 +105,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .WithName($"{gimmick.Name}_{placement.Row}")
                     .WithGuid(placement.GuidOrAuto);
 
-                gimmick = gimmick.AddOrUpdateComponent(gimmick
-                    .FindComponent("chainsaw.GimmickCore")!
-                    .Set("_ID", contextId));
+                var gimmickComponent = gimmick.FindComponent("chainsaw.GimmickCore");
+                if (gimmickComponent != null)
+                {
+                    gimmick = gimmick.AddOrUpdateComponent(gimmickComponent
+                        .Set("_ID", contextId));
+                }
 
                 gimmick = gimmick.AddOrUpdateComponent(gimmick
                     .FindComponent("via.Transform")!
