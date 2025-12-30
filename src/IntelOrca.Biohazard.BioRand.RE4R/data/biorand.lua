@@ -147,6 +147,12 @@ function getResolution()
     return { width = size.w, height = size.h }
 end
 
+---@class PlayerInfo
+---@field stage integer
+---@field position Vector3f
+---@field rotation Vector3f
+
+---@return PlayerInfo | nil
 function getPlayerInfo()
     local characterManager = sdk.get_managed_singleton("chainsaw.CharacterManager")
     local player = characterManager:getPlayerContextRef()
@@ -154,13 +160,10 @@ function getPlayerInfo()
         local body = player:get_BodyGameObject()
         if body ~= nil then
             local transform = player:get_BodyGameObject():get_Transform()
-            local pos = transform:get_Position()
-            local rot = transform:get_Rotation()
             return {
                 stage = player:get_CurrentStageID(),
-                position = pos,
-                rotation = rot,
-                direction = quaternionToEulerDegrees(rot).yaw
+                position = transform:get_Position(),
+                rotation = transform:get_EulerAngle()
             }
         end
     end
@@ -393,7 +396,9 @@ re.on_frame(function()
         displayer:write(string.format("stage: %d", playerInfo.stage))
         displayer:write(string.format("pos: %.1f, %.1f, %.1f", playerInfo.position.x, playerInfo.position.y,
             playerInfo.position.z))
-        displayer:write(string.format("rot: %.1f", playerInfo.direction))
+        displayer:write(string.format("euler: %.1f, %.1f, %.1f", math.deg(playerInfo.rotation.x),
+            math.deg(playerInfo.rotation.y),
+            math.deg(playerInfo.rotation.z)))
         displayer:unindent()
     end
     if cfg.showFlags then
@@ -527,6 +532,7 @@ end)
 ---@field private cycles number
 ---@field private updates number
 ---@field private enableRefresh boolean
+---@field private enableIncludeAll boolean
 ---@field private forceRefresh boolean
 ObjectTable = {}
 ObjectTable.__index = ObjectTable
@@ -539,6 +545,7 @@ function ObjectTable:new()
     instance.cycles = 0
     instance.updates = 0
     instance.enableRefresh = true
+    instance.enableIncludeAll = false
     instance.forceRefresh = false
     return instance
 end
@@ -580,10 +587,14 @@ function ObjectTable:updateObjectSearch()
 
     local maximum = 10
     local playerPosition = playerInfo.position
-    local components = getComponents({
+    local componentFilter = {
         "chainsaw.DropItem",
-        "chainsaw.GimmickCore"
-    })
+        "chainsaw.GimmickCore",
+    }
+    if self.enableIncludeAll then
+        table.insert(componentFilter, "via.render.Mesh")
+    end
+    local components = getComponents(componentFilter)
     local items = {}
     for _, component in ipairs(components) do
         local gameObject = component:get_GameObject()
@@ -644,6 +655,11 @@ function ObjectTable:renderTable()
     local changed, result = imgui.checkbox("Refresh", self.enableRefresh)
     if changed then
         self.enableRefresh = result
+    end
+    local changed, result = imgui.checkbox("Include All", self.enableIncludeAll)
+    if changed then
+        self.enableIncludeAll = result
+        self.forceRefresh = true
     end
     local changed, newFilter = imgui.input_text("Filter", self.filter, 0)
     if changed then
@@ -790,9 +806,9 @@ function ObjectTable:renderTable()
             x = pos.x,
             y = pos.y,
             z = pos.z,
-            yaw = euler.y,
-            pitch = euler.x,
-            roll = euler.z
+            yaw = math.deg(euler.y),
+            pitch = math.deg(euler.x),
+            roll = math.deg(euler.z)
         }
         imgui.input_text("csv", getSingleGimmickCsv(gimmick), 0)
         imgui.end_rect(4, 0)
