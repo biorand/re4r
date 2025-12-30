@@ -87,8 +87,8 @@ local function dumpEnemyPosition(enemy)
             { "X",             "%.2f" },
             { "Y",             "%.2f" },
             { "Z",             "%.2f" },
-            { "Yaw",           "%.2f" },
             { "Pitch",         "%.2f" },
+            { "Yaw",           "%.2f" },
             { "Roll",          "%.2f" },
             { "Condition",     "%s" },
             { "SkipCondition", "%s" },
@@ -114,8 +114,8 @@ local gimmickCsvDefinition = {
     { "X",         "%.2f" },
     { "Y",         "%.2f" },
     { "Z",         "%.2f" },
-    { "Yaw",       "%.2f" },
     { "Pitch",     "%.2f" },
+    { "Yaw",       "%.2f" },
     { "Roll",      "%.2f" },
     { "Condition", "%s" },
     { "Events",    "%s" },
@@ -500,8 +500,8 @@ re.on_application_entry("UpdateHID", function()
             x = math.floor(playerInfo.position.x + 0.5),
             y = math.floor(playerInfo.position.y + 0.5),
             z = math.floor(playerInfo.position.z + 0.5),
-            yaw = math.floor(playerInfo.direction + 0.5),
             pitch = 0,
+            yaw = math.floor(math.deg(playerInfo.rotation.y) + 0.5),
             roll = 0
         }
         if nDown then
@@ -516,8 +516,8 @@ re.on_application_entry("UpdateHID", function()
             x = math.floor(playerInfo.position.x * 100 + 0.5) / 100,
             y = math.floor(playerInfo.position.y * 100 + 0.5) / 100,
             z = math.floor(playerInfo.position.z * 100 + 0.5) / 100,
-            yaw = math.floor(playerInfo.direction + 0.5),
             pitch = 0,
+            yaw = math.floor(math.deg(playerInfo.rotation.y) + 0.5),
             roll = 0
         }
         dumpGimmickPosition(gimmick)
@@ -779,11 +779,11 @@ function ObjectTable:renderTable()
         imgui.text("Position")
 
         -- Row 2
-        slider("Yaw", 1, math.deg(euler.x), function(v)
+        slider("Pitch", 1, math.deg(euler.x), function(v)
             transform:set_EulerAngle(Vector3f.new(math.rad(v), euler.y, euler.z))
         end)
         imgui.same_line();
-        slider("Pitch", 1, math.deg(euler.y), function(v)
+        slider("Yaw", 1, math.deg(euler.y), function(v)
             transform:set_EulerAngle(Vector3f.new(euler.x, math.rad(v), euler.z))
         end)
         imgui.same_line();
@@ -806,8 +806,8 @@ function ObjectTable:renderTable()
             x = pos.x,
             y = pos.y,
             z = pos.z,
-            yaw = math.deg(euler.y),
             pitch = math.deg(euler.x),
+            yaw = math.deg(euler.y),
             roll = math.deg(euler.z)
         }
         imgui.input_text("csv", getSingleGimmickCsv(gimmick), 0)
