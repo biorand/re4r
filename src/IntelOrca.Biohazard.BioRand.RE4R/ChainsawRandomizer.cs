@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Threading;
 using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Cryptography;
@@ -15,6 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private bool _supplementApplied;
         private ImmutableArray<Modifier> _modifiers = GetModifiers();
         private readonly Dictionary<Type, object> _services = [];
+        private readonly Lock _servicesLock = new();
 
         public EnemyClassFactory EnemyClassFactory { get; }
         public IProgressReporter Reporter { get; }
@@ -225,6 +227,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public T GetService<T>()
         {
+            using var scope = _servicesLock.EnterScope();
             var type = typeof(T);
             _services.TryGetValue(type, out var service);
             if (service == null)
