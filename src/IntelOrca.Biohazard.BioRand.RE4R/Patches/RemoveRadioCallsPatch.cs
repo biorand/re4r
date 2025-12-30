@@ -86,12 +86,40 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             ("natives/stm/_chainsaw/leveldesign/chapter/cp10_chp5_2/level_cp10_chp5_2.scn.20", new Guid("1c9b3bda-4029-4af3-abca-c0bb85f7f249"), new Guid("afba3822-37c8-4688-ba54-82717f4c17bd"))
         ];
 
+        private static readonly ImmutableArray<(string, Guid, Guid)> _swEntries = [
+            //Radiomsg 2
+            ("natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_1/level_cp11_chp1_1.scn.20", new Guid("e9527445-1a28-4feb-9e69-6a2ff464f908"), new Guid("90d9a767-7fa8-4445-8830-e766a5e4aced")),
+            //Radiomsg 3
+            ("natives/stm/_anotherorder/leveldesign/chapter/cp11_chp1_2/level_cp11_chp1_2.scn.20", new Guid("bdeda832-3341-48be-b89a-f477628adfcc"), new Guid("221226c4-3e00-445d-9e4b-a3ff9d135b03")),
+            //Radiomsg 6
+            ("natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_1/level_cp11_chp2_1.scn.20", new Guid("fb9c97f9-37cf-4b28-9233-c401d8a04ee4"), new Guid("4db1e529-89af-4888-b169-811f13c1c00f")),
+            //Radiomsg 7 
+            ("natives/stm/_anotherorder/leveldesign/chapter/cp11_chp2_2/level_cp11_chp2_2.scn.20", new Guid("9d2048c7-c8c4-4d3b-be5f-8f1eeb384e0b"), new Guid("3b2455f5-5b63-4ad6-96a2-42155f0bf191")),
+            //Radiomsg 10 
+            ("natives/stm/_anotherorder/leveldesign/location/loc51/level_loc51_chp3_1.scn.20", new Guid("d30153b1-6752-4089-b748-6d0d2df07990"), new Guid("3ca9a255-00d3-44cc-ba9a-835b47192b0e")),
+            ("natives/stm/_anotherorder/sound/scene/chapter/cp11_chp3_1/sound_cp11_chp3_1_level.scn.20", new Guid("d30153b1-6752-4089-b748-6d0d2df07990"), new Guid("3ca9a255-00d3-44cc-ba9a-835b47192b0e")),
+            ("natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_300_ao.scn.20", new Guid("d30153b1-6752-4089-b748-6d0d2df07990"), new Guid("3ca9a255-00d3-44cc-ba9a-835b47192b0e")),
+            //Radiomsg 12
+            ("natives/stm/_anotherorder/leveldesign/location/loc56/level_loc56.scn.20", new Guid("0ad6f369-04a9-4d58-bd95-15b71db2366a"), new Guid("c12da548-f050-49db-8c61-cbd15ee77f7f")),
+            //Radiomsg 13
+            ("natives/stm/_anotherorder/leveldesign/location/loc55/level_loc55.scn.20", new Guid("10b4126f-38bb-43d5-b919-33ce75b7f9c2"), new Guid("49c18da1-9ce5-4766-8368-f3bd217c0b51")),
+            ("natives/stm/_anotherorder/sound/scene/chapter/cp11_chp3_2/sound_cp11_chp3_2_level.scn.20", new Guid("10b4126f-38bb-43d5-b919-33ce75b7f9c2"), new Guid("49c18da1-9ce5-4766-8368-f3bd217c0b51")),
+            //Radiomsg 16
+            ("natives/stm/_anotherorder/leveldesign/chapter/cp11_chp4_1/level_cp11_chp4_1.scn.20", new Guid("76edc9e4-5df7-4388-abfb-d300d9c9708d"), new Guid("aa1bc9fd-bf6a-44a7-8620-b4bb34872917"))
+        ];
+
         public void Apply()
         {
             if (!context.ExportingMod && !context.GetConfigOption<bool>("disable-radio-calls"))
                 return;
 
-            foreach (var entry in _mainEntries.GroupBy(x => x.Item1))
+            Apply(_mainEntries);
+            Apply(_swEntries);
+        }
+
+        private void Apply(ImmutableArray<(string, Guid, Guid)> entries)
+        {
+            foreach (var entry in entries.GroupBy(x => x.Item1))
             {
                 var path = entry.Key;
                 if (path.EndsWith(".user.2"))
