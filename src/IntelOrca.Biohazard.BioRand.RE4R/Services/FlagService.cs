@@ -20,7 +20,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return guid;
         }
 
-        public chainsaw.ContextID AllocateContextId(int category, int group)
+        public chainsaw.ContextID AllocateContextId(int category, int group, int offset = 0)
         {
             _contextIdNum.TryGetValue((category, group), out var num);
             var result = new ContextID()
@@ -28,7 +28,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 _Category = (sbyte)category,
                 _Kind = 0,
                 _Group = group,
-                _Index = num
+                _Index = num + offset
             };
             _contextIdNum[(category, group)] = num + 1;
             return result;

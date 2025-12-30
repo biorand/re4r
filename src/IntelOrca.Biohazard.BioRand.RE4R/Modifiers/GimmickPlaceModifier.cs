@@ -94,7 +94,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             public void AddGimmick(Rng rng, GimmickPlacement placement, RandomizerLogger logger)
             {
-                var contextId = randomizer.FlagService.AllocateContextId(1, 3);
+                var contextId = randomizer.FlagService.AllocateContextId(1, 2, 50_000);
                 var area = GetScnForStage(placement.Stage);
 
                 var kind = placement.Kind;
