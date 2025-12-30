@@ -15,10 +15,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         public void LoadAreas(Campaign campaign)
         {
-            var areaRepo = campaign == Campaign.Leon
-                ? AreaDefinitionRepository.Leon
-                : AreaDefinitionRepository.Ada;
-
+            var areaRepo = AreaDefinitionRepository.GetRepository(campaign);
             Areas = areaRepo.All
                 .AsParallel()
                 .Select(d => new Area(randomizer, d, EnemyClassFactory.Default))

@@ -13,7 +13,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private FileRepository _fileRepository = new FileRepository();
         private RandomizerInput _input = new RandomizerInput();
         private bool _supplementApplied;
-        private ItemRandomizer? _itemRandomizer;
         private ImmutableArray<Modifier> _modifiers = GetModifiers();
         private readonly Dictionary<Type, object> _services = [];
 
@@ -53,21 +52,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var logFiles = new Dictionary<string, string>();
 
-            var campaigns = new[] { Campaign.Leon };
-            if (input.Configuration.GetValueOrDefault("separate-ways", false))
+            var campaign = Campaign.Leon;
+            if (input.Configuration.GetValueOrDefault("campaign", "") == "Separate Ways")
             {
-                campaigns = [Campaign.Leon, Campaign.Ada];
+                campaign = Campaign.Ada;
             }
 
-            foreach (var campaign in campaigns)
-            {
-                var log = Randomize(input, campaign);
-
-                var name = campaign.ToString().ToLowerInvariant();
-                logFiles[$"input_{name}.log"] = log.Input.Output;
-                logFiles[$"process_{name}.log"] = log.Process.Output;
-                logFiles[$"output_{name}.log"] = log.Output.Output;
-            }
+            var log = Randomize(input, campaign);
+            var name = campaign.ToString().ToLowerInvariant();
+            logFiles[$"input_{name}.log"] = log.Input.Output;
+            logFiles[$"process_{name}.log"] = log.Process.Output;
+            logFiles[$"output_{name}.log"] = log.Output.Output;
 
             RandomizerOutput? result = null;
             Reporter.RunTask("Building mod", () =>
@@ -120,10 +115,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             ValuableDistributor.Setup(ItemRandomizer, GetRng("service/valuabledistributor"), logger.Process);
 
             // Patches
-            if (campaign != Campaign.Ada)
-            {
-                Reporter.RunTask("Applying patches", () => ExportedMods.ApplyAll(this, FileRepository));
-            }
+            Reporter.RunTask("Applying patches", () => ExportedMods.ApplyAll(this, FileRepository));
 
             // Create areas after patches
             Reporter.RunTask("Loading scenes", () => AreaService.LoadAreas(campaign));

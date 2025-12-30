@@ -32,7 +32,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return campaign == Campaign.Leon ? Leon : Ada;
         }
 
-        public static AreaDefinitionRepository Leon
+        private static AreaDefinitionRepository Leon
         {
             get
             {
@@ -41,7 +41,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        public static AreaDefinitionRepository Ada
+        private static AreaDefinitionRepository Ada
         {
             get
             {

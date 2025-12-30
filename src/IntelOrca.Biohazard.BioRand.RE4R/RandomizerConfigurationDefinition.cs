@@ -14,11 +14,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
-                Id = $"separate-ways",
-                Label = "Randomize Separate Ways",
-                Description = "Randomize Separate Ways (Ada) scenario as well as the main game (Leon).",
-                Type = "switch",
-                Default = false
+                Id = $"campaign",
+                Label = "Campaign",
+                Description = "Which scenario to randomize, main game (Leon) or Separate Ways (Ada).",
+                Type = "dropdown",
+                Options = ["Main Story", "Separate Ways"],
+                Default = "Main Story"
             });
             group.Items.Add(new GroupItem()
             {
