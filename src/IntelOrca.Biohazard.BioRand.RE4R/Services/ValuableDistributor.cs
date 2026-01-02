@@ -31,8 +31,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         {
             var primaryWeaponKind = GetWeaponKind("inventory-weapon-primary", rng);
             var secondaryWeaponKind = GetWeaponKind("inventory-weapon-secondary", rng, primaryWeaponKind);
-            var primaryWeaponDefinition = itemRandomizer.GetRandomWeapon(rng, primaryWeaponKind, allowReoccurance: false);
-            var secondaryWeaponDefinition = itemRandomizer.GetRandomWeapon(rng, secondaryWeaponKind, allowReoccurance: false);
+            var primaryWeaponDefinition = itemRandomizer.GetRandomWeapon(rng, primaryWeaponKind, allowReoccurance: false, excludeLegendary: true);
+            var secondaryWeaponDefinition = itemRandomizer.GetRandomWeapon(rng, secondaryWeaponKind, allowReoccurance: false, excludeLegendary: true);
             AddItem(0, primaryWeaponDefinition);
             AddItem(0, secondaryWeaponDefinition);
             AddItem(0, itemRandomizer.GetRandomWeapon(rng, ItemClasses.Knife, allowReoccurance: false));
