@@ -120,6 +120,7 @@ local gimmickCsvDefinition = {
     { "Roll",      "%.2f" },
     { "Condition", "%s" },
     { "Events",    "%s" },
+    { "Tags",      "%s" },
     { "Param1",    "%s" }
 }
 
