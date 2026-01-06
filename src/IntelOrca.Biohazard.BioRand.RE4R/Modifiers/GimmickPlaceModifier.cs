@@ -13,7 +13,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             var gimmicks = randomizer.DynamicData.GetData(DynamicDataName.Gimmicks) ?? throw new Exception("Failed to get gimmick data");
             var placements = randomizer.GimmickService.GimmickPlacements
-                .Where(x => x.Campaign == randomizer.Campaign && x.Events.IsDefaultOrEmpty)
+                .Where(x => x.Campaign == randomizer.Campaign && x.Chapter != -1)
                 .ToImmutableArray();
 
             var rng = randomizer.GetRng("modifier/gimmickplace");
