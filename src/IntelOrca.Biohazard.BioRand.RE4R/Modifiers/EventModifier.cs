@@ -102,7 +102,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     if (gimmick.Events.Contains(name))
                     {
-                        gimmick.Chapter = 0;
+                        if (gimmick.Chapter == -1)
+                        {
+                            gimmick.Chapter = 0;
+                        }
                         gimmick.Tags = gimmick.Tags.Add(GimmickTags.Always);
                         gimmick.Condition = beginFlag;
                     }
