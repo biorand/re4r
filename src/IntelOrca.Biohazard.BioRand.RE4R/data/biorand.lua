@@ -93,7 +93,7 @@ local function dumpEnemyPosition(enemy)
             { "Condition",     "%s" },
             { "SkipCondition", "%s" },
             { "MiniBoss",      "%s" },
-            { "Battle",        "%s" },
+            { "Events",        "%s" },
             { "Tags",          "%s" },
             { "Include",       "%s" },
             { "Exclude",       "%s" }
@@ -109,6 +109,7 @@ end
 local gimmickCsvDefinition = {
     { "Campaign",  "%s" },
     { "Chapter",   "%d" },
+    { "Guid",      "%s" },
     { "Kind",      "%s" },
     { "Stage",     "%d" },
     { "X",         "%.2f" },
@@ -494,6 +495,7 @@ re.on_application_entry("UpdateHID", function()
     if bDown or nDown then
         local enemy = {
             campaign = "Leon",
+            guid = "",
             chapter = -1,
             description = "[EXTRA]",
             stage = playerInfo.stage,
@@ -512,6 +514,7 @@ re.on_application_entry("UpdateHID", function()
         local gimmick = {
             campaign = "Leon",
             chapter = -1,
+            guid = "",
             stage = playerInfo.stage,
             x = math.floor(playerInfo.position.x * 100 + 0.5) / 100,
             y = math.floor(playerInfo.position.y * 100 + 0.5) / 100,
@@ -683,62 +686,63 @@ function ObjectTable:renderTable()
 
     for _, item in ipairs(self.items) do
         local transform = item.gameObject:get_Transform()
-        local pos = transform:get_Position()
-        local rot = quaternionToEulerDegrees(transform:get_Rotation())
+        if item.gameObject ~= nil then
+            local pos = transform:get_Position()
 
-        imgui.table_next_column()
-        imgui.push_id(string.format("object_table_checkbox_%s", item.guid))
-        local changed, result = imgui.checkbox("", item.gameObject == self.selectedObject)
-        imgui.pop_id()
-        if changed then
-            if result then
-                self.selectedObject = item.gameObject
-            else
-                self.selectedObject = nil
-            end
-        end
-        if result then
-            local address = item.gameObject:get_address()
-            local mat = transform:call("get_WorldMatrix()")
-            local changed, newMat = draw.gizmo(address, mat)
+            imgui.table_next_column()
+            imgui.push_id(string.format("object_table_checkbox_%s", item.guid))
+            local changed, result = imgui.checkbox("", item.gameObject == self.selectedObject)
+            imgui.pop_id()
             if changed then
-                self:defer(function()
-                    transform:set_Position(newMat[3])
-                    transform:set_Rotation(newMat:to_quat())
-                end)
+                if result then
+                    self.selectedObject = item.gameObject
+                else
+                    self.selectedObject = nil
+                end
             end
+            if result then
+                local address = item.gameObject:get_address()
+                local mat = transform:call("get_WorldMatrix()")
+                local changed, newMat = draw.gizmo(address, mat)
+                if changed then
+                    self:defer(function()
+                        transform:set_Position(newMat[3])
+                        transform:set_Rotation(newMat:to_quat())
+                    end)
+                end
+            end
+
+            imgui.table_next_column()
+            imgui.text(item.kind)
+
+            imgui.table_next_column()
+            imgui.push_font(monospaceFont)
+            imgui.push_item_width(500)
+            imgui.input_text("", item.guid, 16384)
+            -- if imgui.button(item.guid) then
+            --     -- no released API yet for copy
+            -- end
+            imgui.pop_font()
+            imgui.table_next_column()
+            imgui.push_font(jpFont)
+            imgui.text(item.name)
+            imgui.pop_font()
+
+            imgui.table_next_column()
+            imgui.push_id(string.format("object_table_x_%s", item.guid))
+            imgui.text(string.format("%.1f", pos.x))
+            imgui.table_next_column()
+            imgui.text(string.format("%.1f", pos.y))
+            imgui.table_next_column()
+            imgui.text(string.format("%.1f", pos.z))
+            -- imgui.table_next_column()
+            -- imgui.text(string.format("%.1f", rot.yaw))
+            -- imgui.table_next_column()
+            -- imgui.text(string.format("%.1f", rot.pitch))
+            -- imgui.table_next_column()
+            -- imgui.text(string.format("%.1f", rot.roll))
+            imgui.table_next_row(0, 0)
         end
-
-        imgui.table_next_column()
-        imgui.text(item.kind)
-
-        imgui.table_next_column()
-        imgui.push_font(monospaceFont)
-        imgui.push_item_width(500)
-        imgui.input_text("", item.guid, 16384)
-        -- if imgui.button(item.guid) then
-        --     -- no released API yet for copy
-        -- end
-        imgui.pop_font()
-        imgui.table_next_column()
-        imgui.push_font(jpFont)
-        imgui.text(item.name)
-        imgui.pop_font()
-
-        imgui.table_next_column()
-        imgui.push_id(string.format("object_table_x_%s", item.guid))
-        imgui.text(string.format("%.1f", pos.x))
-        imgui.table_next_column()
-        imgui.text(string.format("%.1f", pos.y))
-        imgui.table_next_column()
-        imgui.text(string.format("%.1f", pos.z))
-        -- imgui.table_next_column()
-        -- imgui.text(string.format("%.1f", rot.yaw))
-        -- imgui.table_next_column()
-        -- imgui.text(string.format("%.1f", rot.pitch))
-        -- imgui.table_next_column()
-        -- imgui.text(string.format("%.1f", rot.roll))
-        imgui.table_next_row(0, 0)
     end
     imgui.end_table()
 
@@ -802,6 +806,7 @@ function ObjectTable:renderTable()
         local gimmick = {
             campaign = "Leon",
             chapter = -1,
+            guid = "",
             stage = playerInfo.stage,
             x = pos.x,
             y = pos.y,
@@ -881,49 +886,4 @@ end
 function getGameObjectGuid(gameObject)
     local toString = gameObject:call("ToString()")
     return toString:match("@(.-)%]")
-end
-
-function quaternionToEulerDegrees(rotation)
-    local x = rotation.x
-    local y = rotation.y
-    local z = rotation.z
-    local w = rotation.w
-
-    -- Calculate yaw, pitch, and roll in radians
-    local yaw = math.atan(2 * (y * w + x * z), 1 - 2 * (y ^ 2 + z ^ 2))
-    local pitch = math.asin(2 * (y * z - x * w))
-    local roll = math.atan(2 * (x * y + z * w), 1 - 2 * (x ^ 2 + y ^ 2))
-
-    -- Convert radians to degrees
-    local function radToDeg(radians)
-        return radians * (180 / math.pi)
-    end
-
-    local yawDegrees = radToDeg(yaw)
-    local pitchDegrees = radToDeg(pitch)
-    local rollDegrees = radToDeg(roll)
-
-    return {
-        yaw = yawDegrees,
-        pitch = pitchDegrees,
-        roll = rollDegrees
-    }
-end
-
-function eulerDegreesToQuaternion(yaw, pitch, roll)
-    -- Assuming YXZ order: yaw around Y, pitch around X, roll around Z
-    local pitchRad = pitch * math.pi / 180 * 0.5
-    local yawRad = yaw * math.pi / 180 * 0.5
-    local rollRad = roll * math.pi / 180 * 0.5
-
-    local sp, cp = math.sin(pitchRad), math.cos(pitchRad)
-    local sy, cy = math.sin(yawRad), math.cos(yawRad)
-    local sr, cr = math.sin(rollRad), math.cos(rollRad)
-
-    local w = cp * cy * cr - sp * sy * sr
-    local x = sp * cy * cr + cp * sy * sr
-    local y = cp * sy * cr - sp * cy * sr
-    local z = cp * cy * sr + sp * sy * cr
-
-    return Quaternion.new(w, x, y, z)
 end
