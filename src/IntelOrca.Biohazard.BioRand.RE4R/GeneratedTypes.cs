@@ -1,6 +1,7 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
 using System.Numerics;
+using IntelOrca.Biohazard.REE.Rsz;
 using IntelOrca.Biohazard.REE.Rsz.Native;
 
 namespace chainsaw
@@ -1443,6 +1444,51 @@ namespace chainsaw
             public int DocID { get; set; }
             public int Stage { get; set; }
         }
+    }
+    internal class CampaignInitialSettingUserData
+    {
+        public System.Collections.Generic.List<chainsaw.CampaignInitialSetting> _CampaignInitialSettingList { get; set; } = [];
+    }
+    internal class CampaignInitialSetting
+    {
+        public int _Campaign { get; set; }
+        public int _Chapter { get; set; }
+        public int _SpecialJumpSequence { get; set; }
+        public System.Collections.Generic.List<chainsaw.CampaignInitialSetting.CharacterProperty> _CharacterList { get; set; } = [];
+        public RszUserDataNode _InventoryCatalogUserData { get; set; }
+        public RszUserDataNode _FileCatalogUserdata { get; set; }
+        public System.Collections.Generic.List<System.Guid> _FlagList { get; set; } = [];
+        public int _SaveCount { get; set; }
+        public chainsaw.MainCampaignGameClearData _MainCampaignGameClearInfo { get; set; }
+        public chainsaw.JustClearFlag _JustClear { get; set; }
+        internal class CharacterProperty
+        {
+            public int _Character { get; set; }
+            public chainsaw.PlayerCostumeSelector _Costume { get; set; }
+            public System.Collections.Generic.List<int> _AccessoryIds { get; set; } = [];
+            public int _NetworkPlayerID { get; set; }
+            public int _DefaultRole { get; set; }
+            public chainsaw.GameLocator _Locator { get; set; }
+        }
+    }
+    internal class PlayerCostumeSelector
+    {
+        public uint _ID { get; set; }
+    }
+    internal class GameLocator
+    {
+        public int _Stage { get; set; }
+        public System.Numerics.Vector3 _Position { get; set; }
+        public System.Numerics.Quaternion _Rotation { get; set; }
+    }
+    internal class MainCampaignGameClearData
+    {
+        public System.Collections.Generic.List<System.Guid> _ClearedCampaignGuids { get; set; } = [];
+    }
+    internal class JustClearFlag
+    {
+        public int _NextChapterKey { get; set; }
+        public bool _MainCampaign { get; set; }
     }
 }
 
