@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
+namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal static class Csv
     {

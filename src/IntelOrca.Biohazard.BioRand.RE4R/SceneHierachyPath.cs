@@ -2,7 +2,7 @@
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
+namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal readonly struct SceneHierachyPath
     {

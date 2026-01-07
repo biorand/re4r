@@ -1,5 +1,4 @@
 ﻿using System;
-using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
