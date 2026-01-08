@@ -315,23 +315,37 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private static void MoveGimmick(ChainsawRandomizer randomizer, EventParameter param)
         {
-            var gimmickService = randomizer.GimmickService;
-            var placement = gimmickService.FromGuid(param.Guid);
-            if (placement == null)
+            var itemService = randomizer.GetService<ItemService>();
+            var itemPlacement = itemService.FromGuid(param.Guid);
+            if (itemPlacement != null)
             {
-                placement = new GimmickPlacement()
+                itemPlacement.X = param.X;
+                itemPlacement.Y = param.Y;
+                itemPlacement.Z = param.Z;
+                itemPlacement.Yaw = param.Yaw;
+                itemPlacement.Pitch = param.Pitch;
+                itemPlacement.Roll = param.Roll;
+            }
+            else
+            {
+                var gimmickService = randomizer.GimmickService;
+                var placement = gimmickService.FromGuid(param.Guid);
+                if (placement == null)
                 {
-                    Campaign = randomizer.Campaign,
-                    Guid = param.Guid,
-                    Vanilla = true,
-                    X = param.X,
-                    Y = param.Y,
-                    Z = param.Z,
-                    Yaw = param.Yaw,
-                    Pitch = param.Pitch,
-                    Roll = param.Roll,
-                };
-                gimmickService.AddPlacement(placement);
+                    placement = new GimmickPlacement()
+                    {
+                        Campaign = randomizer.Campaign,
+                        Guid = param.Guid,
+                        Vanilla = true,
+                        X = param.X,
+                        Y = param.Y,
+                        Z = param.Z,
+                        Yaw = param.Yaw,
+                        Pitch = param.Pitch,
+                        Roll = param.Roll,
+                    };
+                    gimmickService.AddPlacement(placement);
+                }
             }
         }
 
