@@ -9,14 +9,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
     {
         public void Apply()
         {
-            CopyLighting(44100, "1_2", "1_1");
-            CopyLighting(44101, "1_2", "1_1");
-            CopyLighting(44110, "1_2", "1_1");
-            CopyLighting(44200, "1_2", "1_1");
-            CopyLighting(44201, "1_2", "1_1");
-            CopyLighting(44210, "1_2", "1_1");
-            CopyLighting(44400, "1_2", "1_1");
-            CopyLighting(44410, "1_2", "1_1");
+            CopyLighting(44_100, "1_2", "1_1");
+            CopyLighting(44_101, "1_2", "1_1");
+            CopyLighting(44_110, "1_2", "1_1");
+            CopyLighting(44_200, "1_2", "1_1");
+            CopyLighting(44_201, "1_2", "1_1");
+            CopyLighting(44_210, "1_2", "1_1");
+            CopyLighting(44_400, "1_2", "1_1");
+            CopyLighting(44_410, "1_2", "1_1");
+            CopyLighting(45_100, "1_3", "1_1");
+            CopyLighting(45_200, "1_3", "1_1");
+            CopyLighting(45_210, "1_3", "1_1");
+            CopyLighting(45_300, "1_3", "1_1");
+            CopyLighting(45_301, "1_3", "1_1");
+            CopyLighting(45_302, "1_3", "1_1");
+            CopyLighting(45_303, "1_3", "1_1");
+            CopyLighting(45_400, "1_3", "1_1");
+            CopyLighting(45_401, "1_3", "1_1");
+            CopyLighting(46_111, "1_3", "1_1");
+            CopyLighting(46_210, "1_3", "1_1");
         }
 
         private void CopyLighting(int stage, string sourceChapter, string targetChapter)
