@@ -23,6 +23,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
+                Id = $"start-chapter",
+                Label = "Start Chapter",
+                Description = "Which chapter to start on.",
+                Type = "range",
+                Min = 1,
+                Max = 16,
+                Default = 1
+            });
+            group.Items.Add(new GroupItem()
+            {
                 Id = $"enable-autosave-pro",
                 Label = "Professional Autosaves",
                 Description = "Enable autosaves on professional difficulty",

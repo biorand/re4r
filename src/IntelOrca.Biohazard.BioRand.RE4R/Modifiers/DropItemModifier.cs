@@ -110,7 +110,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (item.Campaign != randomizer.Campaign)
                     continue;
 
-                if (item.Condition == default)
+                var positionChange = !item.IsExtra && (item.X != 0 || item.Y != 0 || item.Z != 0);
+                var conditionChange = item.Condition != default;
+                if (!positionChange && !conditionChange)
                     continue;
 
                 var area = areaService.FindAreaContainingGameObject(item.GuidOrAuto);
@@ -121,41 +123,56 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (gameObject == null)
                     continue;
 
-                area.Scene = area.Scene.UpdateGameObject(gameObject.AddOrUpdateComponent(
-                    randomizer.FileRepository.TypeRepository.Create("chainsaw.ObjectHide")
-                        .Set("Enabled", true)
-                        .Set("Settings", new[]
-                        {
-                            new chainsaw.RuleStratum.StratumBool()
+                if (positionChange)
+                {
+                    var transform = new Transform(gameObject)
+                    {
+                        Position = item.Position,
+                        Eular = item.Eular
+                    };
+                    gameObject = gameObject.AddOrUpdateComponent(transform.ToComponent());
+                }
+
+                if (conditionChange)
+                {
+                    gameObject = gameObject.AddOrUpdateComponent(
+                        randomizer.FileRepository.TypeRepository.Create("chainsaw.ObjectHide")
+                            .Set("Enabled", true)
+                            .Set("Settings", new[]
                             {
-                                _Enable = new chainsaw.RuleStratum.Rule()
+                                new chainsaw.RuleStratum.StratumBool()
                                 {
-                                    Logic = 0,
-                                    Matters =
-                                    [
-                                        new()
-                                        {
-                                            _Data = new chainsaw.RuleStratum.ParticleFlag()
+                                    _Enable = new chainsaw.RuleStratum.Rule()
+                                    {
+                                        Logic = 0,
+                                        Matters =
+                                        [
+                                            new()
                                             {
-                                                Flags = new chainsaw.FlagCondition()
+                                                _Data = new chainsaw.RuleStratum.ParticleFlag()
                                                 {
-                                                    _Logic = 0,
-                                                    _CheckFlags =
-                                                    [
-                                                        new chainsaw.CheckFlagInfo()
-                                                        {
-                                                            _CheckFlag = item.Condition,
-                                                            _CompareValue = false
-                                                        }
-                                                    ]
+                                                    Flags = new chainsaw.FlagCondition()
+                                                    {
+                                                        _Logic = 0,
+                                                        _CheckFlags =
+                                                        [
+                                                            new chainsaw.CheckFlagInfo()
+                                                            {
+                                                                _CheckFlag = item.Condition,
+                                                                _CompareValue = false
+                                                            }
+                                                        ]
+                                                    }
                                                 }
                                             }
-                                        }
-                                    ]
-                                },
-                                Value = true
-                            }
-                        })));
+                                        ]
+                                    },
+                                    Value = true
+                                }
+                            }));
+                }
+
+                area.Scene = area.Scene.UpdateGameObject(gameObject);
             }
         }
 

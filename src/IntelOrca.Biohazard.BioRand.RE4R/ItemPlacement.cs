@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Numerics;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -34,5 +35,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public Guid GuidOrAuto => Guid == default ? $"item_{Row}".GetGuidHash() : Guid;
         public bool IsExtra => Guid == default || Description.StartsWith("[EXTRA]");
+
+        public Vector3 Position => new(X, Y, Z);
+        public EulerAngles Eular => new(Yaw, Pitch, Roll);
     }
 }

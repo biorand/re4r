@@ -4,5 +4,6 @@
     {
         public const string Never = "never";
         public const string Always = "always";
+        public const string ChapterOnly = "chapteronly";
     }
 }

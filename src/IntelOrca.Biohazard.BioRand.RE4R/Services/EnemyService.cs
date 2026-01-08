@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
-using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 {

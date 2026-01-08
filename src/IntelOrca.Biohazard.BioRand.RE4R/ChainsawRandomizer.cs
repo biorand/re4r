@@ -114,10 +114,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             ApplySupplement();
 
-            ValuableDistributor.Setup(ItemRandomizer, GetRng("service/valuabledistributor"), logger.Process);
-
             // Patches
             Reporter.RunTask("Applying patches", () => ExportedMods.ApplyAll(this, FileRepository));
+
+            ValuableDistributor.Setup(ItemRandomizer, GetRng("service/valuabledistributor"), logger.Process);
 
             // Create areas after patches
             Reporter.RunTask("Loading scenes", () => AreaService.LoadAreas(campaign));
@@ -178,6 +178,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             return new Modifier[]
             {
+                new CampaignModifier(),
                 new CasePerkModifier(),
                 new InventoryModifier(),
                 new RecipeModifier(),

@@ -65,12 +65,27 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             }
         }
 
-        public ItemDefinition? GetRandomWeapon(Rng rng, string? classification = null, bool allowReoccurance = true)
+        public ItemDefinition? GetRandomWeapon(Rng rng, string? classification = null, bool allowReoccurance = true, bool excludeLegendary = false)
         {
             if (classification == ItemClasses.None)
                 return null;
 
-            return GetRandomItemDefinition(rng, ItemKinds.Weapon, classification, allowReoccurance);
+            return GetRandomItemDefinition(rng, ItemKinds.Weapon, classification, allowReoccurance, restrictedCheck);
+
+            bool restrictedCheck(ItemDefinition item)
+            {
+                if (excludeLegendary)
+                {
+                    if (item.WeaponId is int wp)
+                    {
+                        if (_randomizer.GetService<WeaponService>().IsRestricted(wp))
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
         }
 
         public ItemDefinition? GetRandomAttachment(Rng rng, string? classification = null, bool allowReoccurance = true)
@@ -102,7 +117,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return chosen;
         }
 
-        public ItemDefinition? GetRandomItemDefinition(Rng rng, string kind, string? classification = null, bool allowReoccurance = true)
+        public ItemDefinition? GetRandomItemDefinition(Rng rng, string kind, string? classification = null, bool allowReoccurance = true, Func<ItemDefinition, bool>? extraCheck = null)
         {
             ExcludeSomeWeapons(rng);
 
@@ -110,6 +125,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var poolEnumerable = itemRepo
                 .GetAll(kind, classification)
                 .Where(IsItemSupported);
+            if (extraCheck != null)
+            {
+                poolEnumerable = poolEnumerable.Where(extraCheck);
+            }
             if (!allowReoccurance)
             {
                 poolEnumerable = poolEnumerable
