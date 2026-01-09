@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Immutable;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
@@ -12,25 +13,53 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return;
 
             var startChapter = Math.Clamp(randomizer.GetConfigOption("start-chapter", 1), 1, _chapterFileNames.Length);
-            if (startChapter <= 1)
-                return;
-
-            var ch1Path = GetChapterPath(1);
-            var startChPath = GetChapterPath(startChapter);
-
-            var fileRepository = randomizer.FileRepository;
-            var templateData = fileRepository.DeserializeUserFile<chainsaw.CampaignInitialSettingUserData>(startChPath)!
-                ._CampaignInitialSettingList[0];
-            fileRepository.ModifyUserFile<chainsaw.CampaignInitialSettingUserData>(ch1Path, userData =>
+            if (startChapter > 1)
             {
-                var entry = userData._CampaignInitialSettingList[0];
-                entry._Campaign = templateData._Campaign;
-                entry._Chapter = templateData._Chapter;
-                entry._SpecialJumpSequence = templateData._SpecialJumpSequence;
-                entry._CharacterList = templateData._CharacterList;
-                entry._FlagList = templateData._FlagList;
-                return userData;
-            });
+                OverrideStartChapter(startChapter);
+            }
+
+            var campaignService = randomizer.GetService<CampaignService>();
+            foreach (var chapter in campaignService.Chapters)
+            {
+                ModifyChapterStartPosition(chapter);
+            }
+
+            void OverrideStartChapter(int startChapter)
+            {
+                var ch1Path = GetChapterPath(1);
+                var startChPath = GetChapterPath(startChapter);
+
+                var fileRepository = randomizer.FileRepository;
+                var templateData = fileRepository.DeserializeUserFile<chainsaw.CampaignInitialSettingUserData>(startChPath)!
+                    ._CampaignInitialSettingList[0];
+                fileRepository.ModifyUserFile<chainsaw.CampaignInitialSettingUserData>(ch1Path, userData =>
+                {
+                    var entry = userData._CampaignInitialSettingList[0];
+                    entry._Campaign = templateData._Campaign;
+                    entry._Chapter = templateData._Chapter;
+                    entry._SpecialJumpSequence = templateData._SpecialJumpSequence;
+                    entry._CharacterList = templateData._CharacterList;
+                    entry._FlagList = templateData._FlagList;
+                    return userData;
+                });
+            }
+
+            void ModifyChapterStartPosition(CampaignService.Chapter chapter)
+            {
+                var chPath = GetChapterPath(chapter.Number);
+
+                var fileRepository = randomizer.FileRepository;
+                fileRepository.ModifyUserFile<chainsaw.CampaignInitialSettingUserData>(chPath, userData =>
+                {
+                    var entry = userData._CampaignInitialSettingList[0];
+                    var character = entry._CharacterList[0];
+                    var locator = character._Locator;
+                    locator._Stage = chapter.StartStage;
+                    locator._Position = chapter.StartPosition;
+                    locator._Rotation = chapter.StartEuler.ToQuaternion();
+                    return userData;
+                });
+            }
         }
 
         private static string GetChapterPath(int num)

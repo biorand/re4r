@@ -170,6 +170,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         case EventOperation.Move:
                             MoveGimmick(randomizer, param);
                             break;
+                        case EventOperation.Start:
+                            var campaignService = randomizer.GetService<CampaignService>();
+                            var campaignChapter = campaignService.GetChapter(param.Chapter);
+                            campaignChapter.StartStage = param.Stage;
+                            campaignChapter.StartPosition = param.Position;
+                            campaignChapter.StartEuler = param.Euler;
+                            break;
                     }
                 }
             }
@@ -412,6 +419,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                 }
             }
+
+            public Vector3 Position => new(X, Y, Z);
+            public EulerAngles Euler => new(Yaw, Pitch, Roll);
         }
 
         internal enum EventOperation
@@ -425,6 +435,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             PlaceFile,
             Remove,
             Move,
+            Start,
         }
     }
 }

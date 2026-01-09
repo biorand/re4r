@@ -7,6 +7,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Extensions
 {
     public static class CollectionExtensions
     {
+        public static IEnumerable<T> Choose<T>(this IEnumerable<T?> source)
+        {
+#pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
+            return source.Where(x => x is not null);
+#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
+        }
+
+        public static IEnumerable<TResult> Choose<T, TResult>(this IEnumerable<T> source, Func<T, TResult?> selector)
+        {
+            return source.Select(selector).Choose();
+        }
+
         public static int FindIndex<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
             ArgumentNullException.ThrowIfNull(source);
