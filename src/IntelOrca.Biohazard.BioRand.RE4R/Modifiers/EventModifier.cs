@@ -136,6 +136,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     switch (param.Operation)
                     {
+                        case EventOperation.EndTrigger:
+                            {
+                                var area = areaService.Areas
+                                    .Where(x => x.Definition.Kind == AreaKind.General)
+                                    .First(x => x.Definition.ChapterOnly && x.Definition.Chapter == chapter);
+
+                                var newFlag = randomizer.FlagService.AllocateFlag();
+                                AddAreaTrigger(area,
+                                    $"BioRand/Events/{name}/BioRand_EndTrigger_{name}",
+                                    beginFlag == default ? [] : [beginFlag],
+                                    param.Position,
+                                    param.Radius,
+                                    newFlag);
+                                endFlags.Add(newFlag);
+                                break;
+                            }
                         case EventOperation.LockDoor:
                             AddDoorLock(randomizer, param.Guid, beginFlag, endFlags);
                             break;
@@ -428,6 +444,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             None,
             Trigger,
+            EndTrigger,
             LockDoor,
             RemoveKey,
             ChangeKey,
