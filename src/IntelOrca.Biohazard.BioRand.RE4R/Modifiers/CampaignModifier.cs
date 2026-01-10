@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Immutable;
+using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -47,16 +48,34 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             void ModifyChapterStartPosition(CampaignService.Chapter chapter)
             {
                 var chPath = GetChapterPath(chapter.Number);
+                var chId = 0;
 
                 var fileRepository = randomizer.FileRepository;
                 fileRepository.ModifyUserFile<chainsaw.CampaignInitialSettingUserData>(chPath, userData =>
                 {
                     var entry = userData._CampaignInitialSettingList[0];
+                    chId = entry._Chapter;
+
+                    entry._SpecialJumpSequence = 0;
+
                     var character = entry._CharacterList[0];
                     var locator = character._Locator;
                     locator._Stage = chapter.StartStage;
                     locator._Position = chapter.StartPosition;
                     locator._Rotation = chapter.StartEuler.ToQuaternion();
+                    return userData;
+                });
+
+                const string eventChapterChangePath = "natives/stm/_chainsaw/event/resource/chapterchange/eventchapterchangeuserdata.user.2";
+                fileRepository.ModifyUserFile<chainsaw.EventChapterChangeUserData>(eventChapterChangePath, userData =>
+                {
+                    var entry = userData._ItemList.FirstOrDefault(x => x.ChapterID == chId);
+                    if (entry != null)
+                    {
+                        entry.NextMovieID = -1;
+                        entry.NextTimelineID = -1;
+                        // entry.NextReserveEventList.Clear();
+                    }
                     return userData;
                 });
             }

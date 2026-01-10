@@ -1490,6 +1490,25 @@ namespace chainsaw
         public int _NextChapterKey { get; set; }
         public bool _MainCampaign { get; set; }
     }
+    internal class EventChapterChangeUserData
+    {
+        public System.Collections.Generic.List<chainsaw.EventChapterChangeUserData.Item> _ItemList { get; set; } = [];
+        internal class Item
+        {
+            public int NextCampaign { get; set; }
+            public int ChapterID { get; set; }
+            public int PrevMovieID { get; set; }
+            public int PrevTimelineID { get; set; }
+            public int NextMovieID { get; set; }
+            public int NextTimelineID { get; set; }
+            public System.Collections.Generic.List<chainsaw.EventChapterChangeUserData.Item.NextReserveEvent> NextReserveEventList { get; set; } = [];
+            internal class NextReserveEvent
+            {
+                public int MovieID { get; set; }
+                public int TimelineID { get; set; }
+            }
+        }
+    }
 }
 
 namespace chainsaw.gui.shop
