@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
@@ -20,16 +21,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 if (_patches.IsDefault)
                 {
-                    var patches = ImmutableArray.CreateBuilder<Type>();
+                    var patches = new List<(Type, int)>();
                     var assembly = Assembly.GetExecutingAssembly();
                     foreach (var t in assembly.GetTypes())
                     {
                         if (t.GetInterfaces().Any(x => x == typeof(IPatch)))
                         {
-                            patches.Add(t);
+                            var order = 0;
+                            var orderAttribute = t.GetCustomAttribute<OrderAttribute>();
+                            if (orderAttribute != null)
+                            {
+                                order = orderAttribute.Order;
+                            }
+                            patches.Add((t, order));
                         }
                     }
-                    _patches = patches.ToImmutable();
+                    _patches = patches
+                        .OrderBy(x => x.Item2)
+                        .Select(x => x.Item1)
+                        .ToImmutableArray();
                 }
                 return _patches;
             }

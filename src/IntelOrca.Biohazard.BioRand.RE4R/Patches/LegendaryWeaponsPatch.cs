@@ -18,6 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         Description = "Modifies weapons in the game to legendary weapons.",
         Version = "1.0",
         Author = "MightKusKus, 7rayD")]
+    [Order(10)]
     internal class LegendaryWeaponsPatch(IPatchContext context) : IPatch
     {
         private readonly WeaponBaseStats _baseStats = new(context.DynamicData);
@@ -114,13 +115,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     var exPerk1 = (string)info["exclusive perk 1"];
                     var exDesc2 = (string)info["exclusive description 2"];
                     var exPerk2 = (string)info["exclusive perk 2"];
-                    
+
                     // Generate new message entries for exclusive 1
                     if (!string.IsNullOrEmpty(exDesc1))
                     {
                         var exc1DescName = $"CH_Mes_Main_WpCustom_{id:0000}_Legendary_00";
                         var exc1PerkName = $"CH_Mes_Main_WpCustom_{id:0000}_Legendary_01";
-                        
+
                         var descMsg = msg.FindMessage(exc1DescName);
                         if (descMsg == null)
                         {
@@ -132,7 +133,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             excDescGuid1 = descMsg.Guid;
                             msg.SetStringAll(exc1DescName, exDesc1);
                         }
-                        
+
                         var perkMsg = msg.FindMessage(exc1PerkName);
                         if (perkMsg == null)
                         {
@@ -145,13 +146,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             msg.SetStringAll(exc1PerkName, exPerk1);
                         }
                     }
-                    
+
                     // Generate new message entries for exclusive 2
                     if (!string.IsNullOrEmpty(exDesc2))
                     {
                         var exc2DescName = $"CH_Mes_Main_WpCustom_{id:0000}_Legendary_02";
                         var exc2PerkName = $"CH_Mes_Main_WpCustom_{id:0000}_Legendary_03";
-                        
+
                         var descMsg = msg.FindMessage(exc2DescName);
                         if (descMsg == null)
                         {
@@ -163,7 +164,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             excDescGuid2 = descMsg.Guid;
                             msg.SetStringAll(exc2DescName, exDesc2);
                         }
-                        
+
                         var perkMsg = msg.FindMessage(exc2PerkName);
                         if (perkMsg == null)
                         {
@@ -477,7 +478,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     {
                         var userdata = RszSerializer.Deserialize<chainsaw.WeaponCustomUserdata>(root)!;
                         var stage = userdata._WeaponStages.First(x => x._WeaponID == id);
-                        
+
                         //adding all info and cost values for damage
                         for (var i = 0; i < 5; i++)
                         {
@@ -702,7 +703,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                                 limitBreak._CustomLimitBreak._MessageId = excDescGuid2;
                                 limitBreak._CustomLimitBreak._PerksMessageId = excPerkGuid2;
                             }
-                            
+
                             limitBreak._CustomLimitBreak._RateValue = Convert.ToSingle(info[$"{key} exclusive"]);
 
                             var costKey = $"{key} cost exclusive";
