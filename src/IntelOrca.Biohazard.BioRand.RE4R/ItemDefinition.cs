@@ -1,4 +1,6 @@
-﻿namespace IntelOrca.Biohazard.BioRand.RE4R
+﻿using System.Collections.Immutable;
+
+namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public class ItemDefinition
     {
@@ -17,6 +19,7 @@
         public int[]? Weapons { get; set; }
         public int? WeaponId { get; set; }
         public string? DropKind { get; set; }
+        public ImmutableArray<string> Slots { get; set; } = [];
 
         public bool IsAutomatic => Id == -1;
         public int Width => int.Parse((Size ?? "2x2").Split('x')[0]);

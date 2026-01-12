@@ -16,6 +16,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public const string Knife = "knife";
         public const string Special = "special";
 
+        public const string Container = "container";
+        public const string Rectangle = "rectangle";
+        public const string Round = "round";
+
         public static ImmutableArray<string> StartingWeapons { get; } =
             [
                 None, Handgun, Shotgun, Smg, Magnum, Rifle, Bolt, Arrow,
