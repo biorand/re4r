@@ -243,23 +243,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
                 logger.Pop();
 
-                // Treasure
-                var treasureRatio = randomizer.GetConfigOption("item-treasure-drop-ratio", 0.1);
-                var treasureCount = (int)(chapterItems.Count * treasureRatio);
-                logger.Push("Treasure");
-                for (var i = 0; i < treasureCount; i++)
-                {
-                    var placement = TakeRandomHighValueItem(valuableItems, rng);
-                    if (placement == null)
-                        break;
-
-                    chapterItems.Remove(placement);
-                    var newItem = randomizer.ItemRandomizer.GetRandomTreasure(rng);
-                    result[placement.ContextId] = newItem;
-                    LogItemChange(placement, newItem);
-                }
-                logger.Pop();
-
                 // General items
                 logger.Push("General");
                 var generalItems = chapterItems.Shuffle(rng).ToQueue();

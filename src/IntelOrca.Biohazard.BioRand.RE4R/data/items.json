@@ -960,42 +960,72 @@
       "kind": "treasure",
       "class": "container",
       "id": 122400000,
-      "value": 5000
+      "value": 5000,
+      "slots": [
+        "round",
+        "round",
+        "round"
+      ]
     },
     {
       "name": "Flagon",
       "kind": "treasure",
       "class": "container",
       "id": 122401600,
-      "value": 4000
+      "value": 4000,
+      "slots": [
+        "round",
+        "round"
+      ]
     },
     {
       "name": "Butterfly Lamp",
       "kind": "treasure",
       "class": "container",
       "id": 122403200,
-      "value": 6000
+      "value": 6000,
+      "slots": [
+        "round",
+        "round",
+        "round"
+      ]
     },
     {
       "name": "Elegant Crown",
       "kind": "treasure",
       "class": "container",
       "id": 122404800,
-      "value": 19000
+      "value": 19000,
+      "slots": [
+        "rectangle",
+        "round",
+        "rectangle",
+        "round",
+        "rectangle"
+      ]
     },
     {
       "name": "Golden Lynx",
       "kind": "treasure",
       "class": "container",
       "id": 122406400,
-      "value": 15000
+      "value": 15000,
+      "slots": [
+        "round",
+        "rectangle",
+        "round"
+      ]
     },
     {
       "name": "Extravagant Clock",
       "kind": "treasure",
       "class": "container",
       "id": 122408000,
-      "value": 9000
+      "value": 9000,
+      "slots": [
+        "rectangle",
+        "round"
+      ]
     },
     {
       "name": "Splendid Bangle",
@@ -1008,7 +1038,12 @@
       "kind": "treasure",
       "class": "container",
       "id": 122411200,
-      "value": 7000
+      "value": 7000,
+      "slots": [
+        "rectangle",
+        "rectangle",
+        "rectangle"
+      ]
     },
     {
       "name": "Ornate Necklace",

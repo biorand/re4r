@@ -10,6 +10,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             var configDefinition = new RandomizerConfigurationDefinition();
 
+            #region General
+
             var page = configDefinition.CreatePage("General");
             var group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
@@ -138,6 +140,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 8,
                 Default = 8
             });
+
+            #endregion
+
+            #region Merchant
 
             page = configDefinition.CreatePage("Merchant");
             group = page.CreateGroup("");
@@ -295,6 +301,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Default = 0
                 });
             }
+
+            #endregion
+
+            #region Weapon
 
             //Weapon Page
             page = configDefinition.CreatePage("Weapon");
@@ -577,6 +587,159 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 });
             }
 
+            #endregion
+
+            #region Valuables
+
+            page = configDefinition.CreatePage("Valuables");
+            group = page.CreateGroup("");
+            group.Items.Add(new GroupItem()
+            {
+                Id = "treasure-per-chapter-min",
+                Label = "Min. Treasure per Chapter",
+                Description = "The minimum total value of all treasure to include per chapter.",
+                Type = "scale",
+                Min = 0,
+                Max = 1_000_000,
+                Default = 50_000
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = "treasure-per-chapter-max",
+                Label = "Max. Treasure per Chapter",
+                Description = "The maximum total value of all treasure to include per chapter.",
+                Type = "scale",
+                Min = 0,
+                Max = 1_000_000,
+                Default = 200_000
+            });
+            group = page.CreateGroup("Treasure Classes");
+            group.Items.Add(new GroupItem()
+            {
+                Id = "treasure-ratio-low",
+                Label = "Low",
+                Description = "Higher ratio will result in many smaller treasures.",
+                Category = new GroupItemCategory()
+                {
+                    Label = "Low",
+                    BackgroundColor = "#696",
+                    TextColor = "#fff"
+                },
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 0.8
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = "treasure-ratio-container",
+                Label = "Container",
+                Description = "Ratio of number of treasures that contain slots for other treasures. " +
+                    "Compatible treasures will be also placed to fit inside the treasure.",
+                Category = new GroupItemCategory()
+                {
+                    Label = "Container",
+                    BackgroundColor = "#66f",
+                    TextColor = "#fff"
+                },
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 0.1
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = "treasure-ratio-high",
+                Label = "High",
+                Description = "Higher ratio will result in fewer large treasures.",
+                Category = new GroupItemCategory()
+                {
+                    Label = "High",
+                    BackgroundColor = "#ff0",
+                    TextColor = "#000"
+                },
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 0.1
+            });
+            group = page.CreateGroup("Per-treasure Options");
+            group.Items.Add(new GroupItem()
+            {
+                Id = "treasure-slot-multiplier",
+                Label = "Slotted Treasure Multiplier",
+                Description = "The number of compatible treasures to place per slot. " +
+                    "E.g. 2 will place twice as many compatible treasures per container slot.",
+                Type = "range",
+                Min = 0,
+                Max = 5,
+                Step = 0.1,
+                Default = 1
+            });
+            group = page.CreateGroup("Treasure Distribution");
+            group.Items.Add(new GroupItem()
+            {
+                Id = "treasure-distribution-enemies",
+                Label = "Enemies",
+                Description = "Ratio of treasure found as enemy drops.",
+                Category = new GroupItemCategory()
+                {
+                    Label = "Enemy",
+                    BackgroundColor = "#f00",
+                    TextColor = "#fff"
+                },
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 0.75
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = "treasure-distribution-items",
+                Label = "Items",
+                Description = "Ratio of treasure found as static items.",
+                Category = new GroupItemCategory()
+                {
+                    Label = "Item",
+                    BackgroundColor = "#ff0",
+                    TextColor = "#000"
+                },
+                Type = "range",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 0.25
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = "treasure-reward-min",
+                Label = "Min. Treasure Merchant Rewards",
+                Description = "The minimum number of treasures to include as a merchant reward.",
+                Type = "range",
+                Min = 0,
+                Max = 5,
+                Step = 1,
+                Default = 0
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = "treasure-reward-max",
+                Label = "Max. Treasure Merchant Rewards",
+                Description = "The maximum number of treasures to include as a merchant reward.",
+                Type = "range",
+                Min = 0,
+                Max = 5,
+                Step = 1,
+                Default = 5
+            });
+
+            #endregion
+
+            #region Items
 
             page = configDefinition.CreatePage("Items");
             group = page.CreateGroup("");
@@ -640,17 +803,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"item-treasure-drop-ratio",
-                Label = "Treasure Ratio",
-                Description = "The percentage of items that should be a treasure.",
-                Type = "percent",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.1
-            });
-            group.Items.Add(new GroupItem()
-            {
                 Id = $"item-drop-ammo-only-available-weapons",
                 Label = "Ammo for available weapons only",
                 Description = "Only drop ammo for weapons that are available before or in the chapter with the drop.",
@@ -696,6 +848,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Default = true
                 });
             }
+
+            #endregion
+
+            #region Enemies
 
             page = configDefinition.CreatePage("Enemies");
             group = page.CreateGroup("");
@@ -954,17 +1110,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 100,
                 Default = 1000
             });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"enemy-treasure-drop-ratio",
-                Label = "Treasure Drop Ratio",
-                Description = "The percentage of enemies that should drop a treasure. Tougher enemies are more likely to drop treasure. The value of the treasure is based on the toughness of the enemy.",
-                Type = "percent",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.25
-            });
 
             group = page.CreateGroup("General Drops");
             foreach (var dropKind in DropKinds.GenericAll)
@@ -1078,6 +1223,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.01,
                 Default = 0.05
             });
+
+            #endregion
+
+            #region Health
 
             page = configDefinition.CreatePage("Health");
             group = page.CreateGroup("");
@@ -1220,6 +1369,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Default = 1
             });
 
+            #endregion
+
+            #region Debug
+
             page = configDefinition.CreatePage("Debug");
             page.Advanced = true;
             group = page.CreateGroup("");
@@ -1277,6 +1430,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     Default = 0
                 });
             }
+
+            #endregion
 
             var defaultProfileBytes = ChainsawRandomizerFactory.GetDefaultProfile();
             var defaultProfileJson = Encoding.UTF8.GetString(defaultProfileBytes);

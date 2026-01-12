@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
@@ -12,6 +13,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public void Setup(ItemRandomizer itemRandomizer, Rng rng, RandomizerLogger logger)
         {
             AssumeStartingItems(itemRandomizer);
+            RandomizeTreasures(itemRandomizer, rng);
             RandomizeStartLoadout(itemRandomizer, rng);
             RandomizeChapters(itemRandomizer, rng);
             foreach (var kind in _kinds)
@@ -24,6 +26,124 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             foreach (var id in _startingItems)
             {
                 itemRandomizer.MarkItemPlaced(id);
+            }
+        }
+
+        private void RandomizeTreasures(ItemRandomizer itemRandomizer, Rng rng)
+        {
+            const int TreasureLow = 0;
+            const int TreasureContainer = 1;
+            const int TreasureHigh = 2;
+
+            var ratioTable = rng.CreateProbabilityTable<int>();
+            ratioTable.Add(TreasureLow, randomizer.GetConfigOption<double>("treasure-ratio-low"));
+            ratioTable.Add(TreasureContainer, randomizer.GetConfigOption<double>("treasure-ratio-container"));
+            ratioTable.Add(TreasureHigh, randomizer.GetConfigOption<double>("treasure-ratio-high"));
+            if (ratioTable.IsEmpty)
+                return;
+
+            var minValuePerChapter = randomizer.GetConfigOption<int>("treasure-per-chapter-min");
+            var maxValuePerChapter = randomizer.GetConfigOption<int>("treasure-per-chapter-max");
+
+            var slotMultiplier = randomizer.GetConfigOption<double>("treasure-slot-multiplier", 1);
+
+            var numRewards = Math.Clamp(rng.Next(
+                randomizer.GetConfigOption<int>("treasure-reward-min"),
+                randomizer.GetConfigOption<int>("treasure-reward-max") + 1),
+                0, 5);
+            var rewardBag = new EndlessBag<int>(rng, Enumerable.Range(1, 16));
+            var chapterRewards = rewardBag.Next(numRewards).Order().ToQueue();
+
+            var distributionEnemies = randomizer.GetConfigOption<double>("treasure-distribution-enemies", 0.75);
+            var distributionItems = randomizer.GetConfigOption<double>("treasure-distribution-items", 0.25);
+            var distributionTable = rng.CreateProbabilityTable<ItemDiscovery>();
+            distributionTable.Add(ItemDiscovery.Enemy, distributionEnemies);
+            distributionTable.Add(ItemDiscovery.Item, distributionItems);
+            if (distributionTable.IsEmpty)
+                throw new RandomizerUserException("No treasure distribution set");
+
+            var itemRepo = ItemDefinitionRepository.Default;
+            var allTreasureItems = itemRepo.KindToItemMap[ItemKinds.Treasure];
+            var simpleTreasures = allTreasureItems
+                .Where(x => string.IsNullOrEmpty(x.Class))
+                .Where(x => x.Value < 10_000)
+                .ToImmutableArray();
+            var expensiveTreasures = allTreasureItems
+                .Where(x => string.IsNullOrEmpty(x.Class))
+                .Where(x => x.Value >= 10_000)
+                .ToImmutableArray();
+            var containerTreasures = allTreasureItems.Where(x => x.Class == ItemClasses.Container).ToImmutableArray();
+            var rectangleTreasures = allTreasureItems.Where(x => x.Class == ItemClasses.Rectangle).ToImmutableArray();
+            var roundTreasures = allTreasureItems.Where(x => x.Class == ItemClasses.Round).ToImmutableArray();
+
+            var chapterItems = new List<ItemDefinition>();
+
+            for (var chapter = 1; chapter <= 16; chapter++)
+            {
+                chapterItems.Clear();
+
+                var maxTreasureValue = rng.Next(minValuePerChapter, maxValuePerChapter + 1);
+                var treasureValue = 0;
+                while (true)
+                {
+                    var remainingValue = maxTreasureValue - treasureValue;
+                    var bag = ratioTable.Next() switch
+                    {
+                        TreasureHigh => expensiveTreasures,
+                        TreasureContainer => containerTreasures,
+                        _ => simpleTreasures,
+                    };
+                    var treasure = bag
+                        .Shuffle(rng)
+                        .FirstOrDefault(x => x.Value <= remainingValue);
+                    if (treasure != null)
+                    {
+                        treasureValue += treasure.Value;
+                        AddTreasure(treasure, chapter);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                foreach (var item in chapterItems.Shuffle(rng))
+                {
+                    var discovery = ItemDiscovery.None;
+                    if (chapterRewards.TryPeek(out var nextRewardChapter) && nextRewardChapter == chapter)
+                    {
+                        chapterRewards.Dequeue();
+                        discovery = ItemDiscovery.Reward;
+                    }
+                    else
+                    {
+                        discovery = distributionTable.Next();
+                    }
+                    _distributedItems.Add(new DistributedItem(item, discovery, chapter));
+                }
+            }
+
+            void AddTreasure(ItemDefinition itemDefinition, int chapter)
+            {
+                chapterItems.Add(itemDefinition);
+
+                if (itemDefinition.Slots.Length > 0)
+                {
+                    var slotBag = new EndlessBag<string>(rng, itemDefinition.Slots);
+                    var slotCount = (int)Math.Ceiling(slotMultiplier * itemDefinition.Slots.Length);
+                    for (var i = 0; i < slotCount; i++)
+                    {
+                        AddSlotTreasure(chapter, slotBag.Next());
+                    }
+                }
+            }
+
+            void AddSlotTreasure(int midChapter, string slot)
+            {
+                var bag = slot == ItemClasses.Rectangle ? rectangleTreasures : roundTreasures;
+                var treasure = rng.Next(bag);
+                var chapter = rng.Next(Math.Max(1, midChapter - 2), Math.Min(16, midChapter + 3));
+                AddTreasure(treasure, chapter);
             }
         }
 
@@ -338,9 +458,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             foreach (var chapterItems in chapters)
             {
                 logger.Push($"Chapter {chapterItems.Key}");
-                foreach (var dItem in chapterItems)
+                foreach (var dItem in chapterItems
+                    .Where(x => x.Definition.Kind != ItemKinds.Treasure)
+                    .OrderBy(x => x.Definition.Id))
                 {
                     logger.LogLine($"{dItem.Definition} ({dItem.Discovery})");
+                }
+                foreach (var dItem in chapterItems
+                    .Where(x => x.Definition.Kind == ItemKinds.Treasure)
+                    .OrderBy(x => x.Definition.Class)
+                    .ThenBy(x => x.Definition.Id))
+                {
+                    logger.LogLine($"$ {dItem.Definition} ({dItem.Discovery})");
                 }
                 logger.Pop();
             }

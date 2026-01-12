@@ -12,7 +12,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         private readonly bool _allowDlcItems;
         private readonly bool _allowMercenariesItems;
         private readonly Dictionary<RandomItemSettings, EndlessBag<string>> _generalDrops = new();
-        private Rng.Table<string?>? _treasureProbabilityTable;
         private readonly HashSet<int> _throwAway = new HashSet<int>();
         private bool _excludeWeapons;
 
@@ -328,82 +327,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var max = Math.Min(settings.MaxMoneyQuantity, 1000000);
             var value = rng.Next(min, max + 1);
             return new Item(ItemIds.Money, value);
-        }
-
-        public Item GetRandomTreasure(Rng rng)
-        {
-            var table = _treasureProbabilityTable;
-            if (table == null)
-            {
-                table = rng.CreateProbabilityTable<string?>();
-                table.Add("container", 0.05);
-                table.Add("rectangle", 0.95 / 2);
-                table.Add("round", 0.95 / 2);
-                table.Add(null, 1);
-                _treasureProbabilityTable = table;
-            }
-
-            var teasureClass = table.Next();
-            var itemRepo = ItemDefinitionRepository.Default;
-            var def = rng.Next(itemRepo.KindToItemMap[ItemKinds.Treasure]
-                .Where(x => x.SupportsCampaign(_randomizer.Campaign))
-                .Where(x => x.Class == teasureClass));
-            return new Item(def.Id, 1);
-        }
-
-        public Item? GetRandomTreasure(Rng rng, int classNumber)
-        {
-            var itemRepo = ItemDefinitionRepository.Default;
-            var treasureItems = itemRepo.KindToItemMap[ItemKinds.Treasure]
-                .Where(x => x.SupportsCampaign(_randomizer.Campaign))
-                .Shuffle(rng) as IEnumerable<ItemDefinition>;
-
-            if (classNumber <= 1)
-            {
-                treasureItems = treasureItems.Where(x => x.Value >= 15000);
-            }
-            else if (classNumber <= 2)
-            {
-                treasureItems = treasureItems.Where(x => x.Value > 10000 && x.Value < 15000);
-            }
-            else if (classNumber <= 4)
-            {
-                if (rng.NextProbability(25))
-                {
-                    treasureItems = treasureItems
-                        .Where(x => x.Class == "container")
-                        .Where(x => x.Value <= 10000);
-                }
-                else
-                {
-                    treasureItems = treasureItems
-                        .Where(x => string.IsNullOrEmpty(x.Class))
-                        .Where(x => x.Value > 6000 && x.Value <= 10000);
-                }
-            }
-            else if (classNumber <= 5)
-            {
-                if (rng.NextProbability(50))
-                {
-                    treasureItems = treasureItems
-                        .Where(x => x.Class == "round" || x.Class == "rectangle");
-                }
-                else
-                {
-                    treasureItems = treasureItems
-                        .Where(x => string.IsNullOrEmpty(x.Class))
-                        .Where(x => x.Value <= 6000);
-                }
-            }
-            else
-            {
-                treasureItems = treasureItems
-                    .Where(x => x.Value <= 2500)
-                    .Where(x => string.IsNullOrEmpty(x.Class));
-            }
-
-            var def = rng.Next(treasureItems);
-            return new Item(def.Id, 1);
         }
 
         public static Item GetRandomGunpowder(Rng rng)
