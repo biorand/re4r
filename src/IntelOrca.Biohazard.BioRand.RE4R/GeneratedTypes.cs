@@ -1509,6 +1509,36 @@ namespace chainsaw
             }
         }
     }
+    internal class PierData
+    {
+        public float ApproachDegree { get; set; }
+        public System.Collections.Generic.List<chainsaw.PierData.PierGroup> PierGroupList { get; set; } = [];
+        public bool IsInteractMerge { get; set; }
+        public chainsaw.PierData.KeyInteractAngle InteractMerge { get; set; }
+        internal class KeyInteractAngle
+        {
+            public float _Yaw { get; set; }
+            public float _Range { get; set; }
+        }
+        internal class Pier
+        {
+            public bool Enable { get; set; }
+            public System.Numerics.Vector3 Position { get; set; }
+            public float DegreeY { get; set; }
+            public int StopDir { get; set; }
+            public float Width_L { get; set; }
+            public float Width_R { get; set; }
+            public bool IsPlayerWerp { get; set; }
+            public System.Numerics.Vector3 PlayerWerpPos { get; set; }
+        }
+        internal class PierGroup
+        {
+            public bool Enable { get; set; }
+            public System.Collections.Generic.List<chainsaw.PierData.Pier> Piers { get; set; } = [];
+            public System.Numerics.Vector3 InputKeyCenterPos { get; set; }
+            public float InputKeyRadius { get; set; }
+        }
+    }
 }
 
 namespace chainsaw.gui.shop

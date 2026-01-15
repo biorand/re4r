@@ -17,193 +17,207 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("battle-arenas"))
                 return;
 
-            var areaService = randomizer.AreaService;
+            var piers = new List<PierPosition>();
 
-            var eventCsv = randomizer.DynamicData.GetData(DynamicDataName.Events) ?? throw new Exception("Event data not found");
-            var eventCollections = Csv.Deserialize<EventParameter>(eventCsv)
-                .Where(x => !string.IsNullOrEmpty(x.Name))
-                .GroupBy(x => x.Name)
-                .GroupBy(x => x.First().Collection);
+            ProcessEvents();
+            UpdatePierData(randomizer, piers);
 
-            var events = new List<EventParameter[]>();
-            foreach (var collection in eventCollections)
+            void ProcessEvents()
             {
-                if (collection.Key == null)
+                var areaService = randomizer.AreaService;
+                var eventCsv = randomizer.DynamicData.GetData(DynamicDataName.Events) ?? throw new Exception("Event data not found");
+                var eventCollections = Csv.Deserialize<EventParameter>(eventCsv)
+                    .Where(x => !string.IsNullOrEmpty(x.Name))
+                    .GroupBy(x => x.Name)
+                    .GroupBy(x => x.First().Collection);
+
+                var events = new List<EventParameter[]>();
+                foreach (var collection in eventCollections)
                 {
-                    foreach (var b in collection)
+                    if (collection.Key == null)
                     {
-                        events.Add(b.ToArray());
-                    }
-                }
-                else
-                {
-                    var groups = collection.GroupBy(x => x.First().Group);
-                    var pick = randomizer.Seed % groups.Count();
-                    var g = groups.ElementAt(pick);
-                    foreach (var b in g)
-                    {
-                        events.Add(b.ToArray());
-                    }
-                }
-            }
-
-            foreach (var parameters in events)
-            {
-                var name = parameters[0].Name;
-                var chapter = parameters.Select(x => x.Chapter).FirstOrDefault(x => x != 0);
-                var beginFlag = default(Guid);
-                var endFlags = new List<Guid>();
-
-                // Process triggers
-                var triggers = parameters.Where(x => x.Operation == EventOperation.Trigger).ToArray();
-                if (triggers.Length != 0)
-                {
-                    var flagTriggers = triggers.Select(x => x.Guid).Where(x => x != default).ToArray();
-                    var areaTrigger = triggers.FirstOrDefault(x => x.Radius != 0);
-
-                    var area = areaService.Areas
-                        .Where(x => x.Definition.Kind == AreaKind.General)
-                        .FirstOrDefault(x => x.Definition.ChapterOnly && x.Definition.Chapter == chapter);
-                    if (area == null)
-                        continue;
-
-                    beginFlag = randomizer.FlagService.AllocateFlag();
-                    if (areaTrigger == null)
-                    {
-                        AddFlagTrigger(area,
-                            $"BioRand/Events/{name}/BioRand_Trigger_{name}",
-                            flagTriggers,
-                            beginFlag);
+                        foreach (var b in collection)
+                        {
+                            events.Add(b.ToArray());
+                        }
                     }
                     else
                     {
-                        AddAreaTrigger(area,
-                            $"BioRand/Events/{name}/BioRand_Trigger_{name}",
-                            flagTriggers,
-                            new Vector3(areaTrigger.X, areaTrigger.Y, areaTrigger.Z),
-                            areaTrigger.Radius,
-                            beginFlag);
-                    }
-                }
-
-                // Items
-                foreach (var item in randomizer.GetService<ItemService>().ItemPlacements)
-                {
-                    if (item.Events.Contains(name))
-                    {
-                        item.Chapter = chapter;
-                        item.Tags = item.Tags.Add(ItemTags.Always);
-                        item.Condition = beginFlag;
-                    }
-                }
-
-                // Gimmicks
-                foreach (var gimmick in randomizer.GimmickService.GimmickPlacements)
-                {
-                    if (gimmick.Events.Contains(name))
-                    {
-                        gimmick.Chapter = gimmick.Tags.Contains(GimmickTags.ChapterOnly) ? chapter : 0;
-                        gimmick.Tags = gimmick.Tags.Add(GimmickTags.Always);
-                        gimmick.Condition = beginFlag;
-                    }
-                }
-
-                EnemyPlacement? keyHolder = null;
-                foreach (var e in randomizer.EnemyService.EnemyPlacements)
-                {
-                    if (e.Events.Contains(name))
-                    {
-                        e.Chapter = chapter;
-                        e.Tags = e.Tags.Add(EnemyTags.Always);
-
-                        // If there is a trigger, give enemy trigger condition
-                        if (beginFlag != default)
+                        var groups = collection.GroupBy(x => x.First().Group);
+                        var pick = randomizer.Seed % groups.Count();
+                        var g = groups.ElementAt(pick);
+                        foreach (var b in g)
                         {
-                            e.Condition = beginFlag.ToString();
-                            if (e.HasTag(EnemyTags.Guardian))
-                            {
-                                // Give guardian enemies their death flag to complete event
-                                e.DeathFlag = randomizer.FlagService.AllocateFlag();
-                                endFlags.Add(e.DeathFlag);
-                                keyHolder ??= e;
-                            }
+                            events.Add(b.ToArray());
                         }
                     }
                 }
 
-                // Other parameters for the event
-                foreach (var param in parameters)
+                foreach (var parameters in events)
                 {
-                    switch (param.Operation)
-                    {
-                        case EventOperation.EndTrigger:
-                            {
-                                var area = areaService.Areas
-                                    .Where(x => x.Definition.Kind == AreaKind.General)
-                                    .First(x => x.Definition.ChapterOnly && x.Definition.Chapter == chapter);
+                    var name = parameters[0].Name;
+                    var chapter = parameters.Select(x => x.Chapter).FirstOrDefault(x => x != 0);
+                    var beginFlag = default(Guid);
+                    var endFlags = new List<Guid>();
 
-                                var newFlag = randomizer.FlagService.AllocateFlag();
-                                AddAreaTrigger(area,
-                                    $"BioRand/Events/{name}/BioRand_EndTrigger_{name}",
-                                    beginFlag == default ? [] : [beginFlag],
-                                    param.Position,
-                                    param.Radius,
-                                    newFlag);
-                                endFlags.Add(newFlag);
-                                break;
-                            }
-                        case EventOperation.LockDoor:
-                            AddDoorLock(randomizer, param.Guid, beginFlag, endFlags);
-                            break;
-                        case EventOperation.RemoveKey:
-                            AddKeyTag(param.Guid, ItemTags.Remove);
-                            break;
-                        case EventOperation.ChangeKey:
-                            AddKeyTag(param.Guid, ItemTags.ChangeKey);
-                            break;
-                        case EventOperation.GiveKey:
-                            keyHolder?.ItemId = param.ItemId;
-                            break;
-                        case EventOperation.PlaceFile:
-                            var fileService = randomizer.GetService<FileService>();
-                            fileService.FilePlacements.Add(new FilePlacement()
+                    // Process triggers
+                    var triggers = parameters.Where(x => x.Operation == EventOperation.Trigger).ToArray();
+                    if (triggers.Length != 0)
+                    {
+                        var flagTriggers = triggers.Select(x => x.Guid).Where(x => x != default).ToArray();
+                        var areaTrigger = triggers.FirstOrDefault(x => x.Radius != 0);
+
+                        var area = areaService.Areas
+                            .Where(x => x.Definition.Kind == AreaKind.General)
+                            .FirstOrDefault(x => x.Definition.ChapterOnly && x.Definition.Chapter == chapter);
+                        if (area == null)
+                            continue;
+
+                        beginFlag = randomizer.FlagService.AllocateFlag();
+                        if (areaTrigger == null)
+                        {
+                            AddFlagTrigger(area,
+                                $"BioRand/Events/{name}/BioRand_Trigger_{name}",
+                                flagTriggers,
+                                beginFlag);
+                        }
+                        else
+                        {
+                            AddAreaTrigger(area,
+                                $"BioRand/Events/{name}/BioRand_Trigger_{name}",
+                                flagTriggers,
+                                new Vector3(areaTrigger.X, areaTrigger.Y, areaTrigger.Z),
+                                areaTrigger.Radius,
+                                beginFlag);
+                        }
+                    }
+
+                    // Items
+                    foreach (var item in randomizer.GetService<ItemService>().ItemPlacements)
+                    {
+                        if (item.Events.Contains(name))
+                        {
+                            item.Chapter = chapter;
+                            item.Tags = item.Tags.Add(ItemTags.Always);
+                            item.Condition = beginFlag;
+                        }
+                    }
+
+                    // Gimmicks
+                    foreach (var gimmick in randomizer.GimmickService.GimmickPlacements)
+                    {
+                        if (gimmick.Events.Contains(name))
+                        {
+                            gimmick.Chapter = gimmick.Tags.Contains(GimmickTags.ChapterOnly) ? chapter : 0;
+                            gimmick.Tags = gimmick.Tags.Add(GimmickTags.Always);
+                            gimmick.Condition = beginFlag;
+                        }
+                    }
+
+                    EnemyPlacement? keyHolder = null;
+                    foreach (var e in randomizer.EnemyService.EnemyPlacements)
+                    {
+                        if (e.Events.Contains(name))
+                        {
+                            e.Chapter = chapter;
+                            e.Tags = e.Tags.Add(EnemyTags.Always);
+
+                            // If there is a trigger, give enemy trigger condition
+                            if (beginFlag != default)
                             {
-                                TemplateId = 32,
-                                Id = fileService.GetNextId(),
-                                Stage = param.Stage,
-                                X = param.X,
-                                Y = param.Y,
-                                Z = param.Z,
-                                Yaw = param.Yaw,
-                                Pitch = param.Pitch,
-                                Roll = param.Roll,
-                                Content = param.Notes
-                            });
-                            break;
-                        case EventOperation.Remove:
-                            RemoveGimmick(randomizer, param);
-                            break;
-                        case EventOperation.Move:
-                            MoveGimmick(randomizer, param);
-                            break;
-                        case EventOperation.Start:
-                            var campaignService = randomizer.GetService<CampaignService>();
-                            var campaignChapter = campaignService.GetChapter(param.Chapter);
-                            campaignChapter.StartStage = param.Stage;
-                            campaignChapter.StartPosition = param.Position;
-                            campaignChapter.StartEuler = param.Euler;
-                            break;
+                                e.Condition = beginFlag.ToString();
+                                if (e.HasTag(EnemyTags.Guardian))
+                                {
+                                    // Give guardian enemies their death flag to complete event
+                                    e.DeathFlag = randomizer.FlagService.AllocateFlag();
+                                    endFlags.Add(e.DeathFlag);
+                                    keyHolder ??= e;
+                                }
+                            }
+                        }
+                    }
+
+                    // Other parameters for the event
+                    foreach (var param in parameters)
+                    {
+                        switch (param.Operation)
+                        {
+                            case EventOperation.EndTrigger:
+                                {
+                                    var area = areaService.Areas
+                                        .Where(x => x.Definition.Kind == AreaKind.General)
+                                        .First(x => x.Definition.ChapterOnly && x.Definition.Chapter == chapter);
+
+                                    var newFlag = randomizer.FlagService.AllocateFlag();
+                                    AddAreaTrigger(area,
+                                        $"BioRand/Events/{name}/BioRand_EndTrigger_{name}",
+                                        beginFlag == default ? [] : [beginFlag],
+                                        param.Position,
+                                        param.Radius,
+                                        newFlag);
+                                    endFlags.Add(newFlag);
+                                    break;
+                                }
+                            case EventOperation.LockDoor:
+                                AddDoorLock(randomizer, param.Guid, beginFlag, endFlags);
+                                break;
+                            case EventOperation.RemoveKey:
+                                AddKeyTag(param.Guid, ItemTags.Remove);
+                                break;
+                            case EventOperation.ChangeKey:
+                                AddKeyTag(param.Guid, ItemTags.ChangeKey);
+                                break;
+                            case EventOperation.GiveKey:
+                                keyHolder?.ItemId = param.ItemId;
+                                break;
+                            case EventOperation.PlaceFile:
+                                var fileService = randomizer.GetService<FileService>();
+                                fileService.FilePlacements.Add(new FilePlacement()
+                                {
+                                    TemplateId = 32,
+                                    Id = fileService.GetNextId(),
+                                    Stage = param.Stage,
+                                    X = param.X,
+                                    Y = param.Y,
+                                    Z = param.Z,
+                                    Yaw = param.Yaw,
+                                    Pitch = param.Pitch,
+                                    Roll = param.Roll,
+                                    Content = param.Notes
+                                });
+                                break;
+                            case EventOperation.Remove:
+                                RemoveGimmick(randomizer, param);
+                                break;
+                            case EventOperation.Move:
+                                MoveGimmick(randomizer, param);
+                                break;
+                            case EventOperation.Start:
+                                var campaignService = randomizer.GetService<CampaignService>();
+                                var campaignChapter = campaignService.GetChapter(param.Chapter);
+                                campaignChapter.StartStage = param.Stage;
+                                campaignChapter.StartPosition = param.Position;
+                                campaignChapter.StartEuler = param.Euler;
+                                break;
+                            case EventOperation.AddPier:
+                                piers.Add(new PierPosition()
+                                {
+                                    Position = param.Position,
+                                    Euler = param.Euler
+                                });
+                                break;
+                        }
                     }
                 }
-            }
 
-            void AddKeyTag(Guid guid, string tag)
-            {
-                var itemPlacement = randomizer.GetService<ItemService>().FromGuid(guid);
-                if (itemPlacement == null)
-                    return;
+                void AddKeyTag(Guid guid, string tag)
+                {
+                    var itemPlacement = randomizer.GetService<ItemService>().FromGuid(guid);
+                    if (itemPlacement == null)
+                        return;
 
-                itemPlacement.Tags = itemPlacement.Tags.Add(tag);
+                    itemPlacement.Tags = itemPlacement.Tags.Add(tag);
+                }
             }
         }
 
@@ -389,6 +403,37 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
+        private static void UpdatePierData(ChainsawRandomizer randomizer, IEnumerable<PierPosition> piers)
+        {
+            const string path = "natives/stm/_chainsaw/appsystem/gimmick/details/boat/userdata/pierdata.user.2";
+            randomizer.FileRepository.ModifyUserFile<chainsaw.PierData>(path, root =>
+            {
+                foreach (var p in piers)
+                {
+                    root.PierGroupList.Add(new PierData.PierGroup()
+                    {
+                        Enable = true,
+                        InputKeyCenterPos = p.Position,
+                        InputKeyRadius = 7,
+                        Piers =
+                        {
+                            new PierData.Pier()
+                            {
+                                Enable = true,
+                                Position = p.Position,
+                                DegreeY = p.Euler.Yaw,
+                                StopDir = 1,
+                                Width_L = 1,
+                                Width_R = 1,
+                                PlayerWerpPos = p.Position
+                            }
+                        }
+                    });
+                }
+                return root;
+            });
+        }
+
         [DebuggerDisplay("{Name} | {Operation}")]
         internal class EventParameter
         {
@@ -440,6 +485,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public EulerAngles Euler => new(Yaw, Pitch, Roll);
         }
 
+        private readonly struct PierPosition
+        {
+            public Vector3 Position { get; init; }
+            public EulerAngles Euler { get; init; }
+        }
+
         internal enum EventOperation
         {
             None,
@@ -453,6 +504,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             Remove,
             Move,
             Start,
+            AddPier,
         }
     }
 }
