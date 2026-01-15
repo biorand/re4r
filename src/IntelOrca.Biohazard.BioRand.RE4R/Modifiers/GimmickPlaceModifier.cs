@@ -118,6 +118,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .Set("Rotation", placement.Eular.ToQuaternion())
                     .Set("Scale", Vector3.One));
 
+                if (kind == "Biorand_SW_StoneCrusher")
+                {
+                    var component = gimmick.FindComponent("chainsaw.GmStonePestle");
+                    if (component != null)
+                    {
+                        var capsule = via.Capsule.FromNode(component["_SensorForCamera"]);
+                        capsule.Start += placement.Position;
+                        capsule.End += placement.Position;
+                        gimmick = gimmick.AddOrUpdateComponent(
+                            component.SetField("_SensorForCamera", capsule.ToNode()));
+                    }
+                }
+
                 gimmick = AddCondition(gimmick, placement);
 
                 if (kind == "Biorand_BearTrap")
