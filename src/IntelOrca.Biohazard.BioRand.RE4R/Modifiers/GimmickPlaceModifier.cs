@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
+using chainsaw;
+using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -128,6 +130,37 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         capsule.End += placement.Position;
                         gimmick = gimmick.AddOrUpdateComponent(
                             component.SetField("_SensorForCamera", capsule.ToNode()));
+                    }
+
+                    var triggerFlags = placement.Param1.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToArray();
+                    if (triggerFlags.Length > 0)
+                    {
+                        gimmick = gimmick.AddOrUpdateComponent(randomizer.FileRepository.TypeRepository.Serialize(new chainsaw.CheckFlagSettings()
+                        {
+                            Enabled = true,
+                            _Params = new OptionSettings<CheckFlagSettings.Param>()
+                            {
+                                _Params =
+                                [
+                                    new chainsaw.CheckFlagSettings.Param()
+                                {
+                                    _KeyHash = 236162618,
+                                    _BindTriggerNameHash = 2180083513,
+                                    _FlagCondition = new FlagCondition()
+                                    {
+                                        _CheckFlags =
+                                        [
+                                            ..triggerFlags.Select(x => new CheckFlagInfo()
+                                            {
+                                                _CheckFlag = x,
+                                                _CompareValue = true
+                                            })
+                                        ]
+                                    }
+                                }
+                                ]
+                            }
+                        }));
                     }
                 }
 
