@@ -47,7 +47,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     {
                         foreach (var child in group)
                         {
-                            var rng = randomizer.GetRng($"modifier/event/{child.Name}");
+                            var rng = randomizer.GetRng($"modifier/event/{child.FullName}");
                             var result = Choose([child], rng);
                             if (result != null)
                             {
@@ -57,7 +57,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     }
                     else
                     {
-                        var rng = randomizer.GetRng($"modifier/event/{group.Key}");
+                        var rng = randomizer.GetRng($"modifier/event/{group.Key.FullName}");
                         var result = Choose(group.ToArray(), rng);
                         if (result != null)
                         {
