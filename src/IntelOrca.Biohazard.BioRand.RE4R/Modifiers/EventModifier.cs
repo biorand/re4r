@@ -103,7 +103,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             void ProcessSingleEventNode(EventNode node)
             {
                 var areaService = randomizer.AreaService;
-                var name = node.Name;
+                var name = node.FullName;
                 var parameters = node.Parameters;
                 var chapter = parameters.Select(x => x.Chapter).FirstOrDefault(x => x != 0);
                 var beginFlag = default(Guid);
@@ -583,19 +583,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 get
                 {
-                    var nodes = new List<EventNode> { this };
-                    var node = Parent;
-                    while (node != null)
-                    {
-                        nodes.Add(node);
-                        node = node.Parent;
-                    }
-                    if (nodes[^1].Name == "")
-                    {
-                        nodes.RemoveAt(nodes.Count - 1);
-                    }
-                    nodes.Reverse();
-                    return string.Join(".", nodes.Select(x => x.Name));
+                    if (string.IsNullOrEmpty(Parent?.FullName))
+                        return Name;
+
+                    var sep = Parent.IsEvent ? '|' : '.';
+                    return Parent.FullName + sep + Name;
                 }
             }
 
