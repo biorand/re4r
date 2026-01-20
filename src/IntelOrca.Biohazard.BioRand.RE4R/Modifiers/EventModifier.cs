@@ -4,8 +4,8 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
-using System.Text;
 using chainsaw;
+using IntelOrca.Biohazard.BioRand.Graphing;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Rsz;
@@ -22,80 +22,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var piers = new List<PierPosition>();
 
             var eventTree = GetEventTree(randomizer);
-            DumpTree(eventTree);
-            ProcessRandomEvents(eventTree);
+            AddNoEvents(eventTree);
+            // var mermaidContentAll = DumpTree(eventTree);
+            eventTree.Choose(randomizer);
+            // var mermaidContentChosen = DumpTree(eventTree);
+            ProcessEventNode(eventTree);
             UpdatePierData(randomizer, piers);
 
-            void ProcessRandomEvents(EventNode tree)
+            void ProcessEventNode(EventNode node)
             {
-                var allEvents = eventTree
-                    .GetAllLeaves()
-                    .Where(x => !x.Tags.Contains(EventTags.Never))
-                    .ToArray();
-                var pickedEvents = ChoosePerGroup(allEvents)
-                    .OrderBy(x => x.FullName)
-                    .ToArray();
-                ProcessEvents(pickedEvents);
-            }
-
-            IEnumerable<EventNode> ChoosePerGroup(EventNode[] events)
-            {
-                var groups = events.GroupBy(x => x.Parent);
-                foreach (var group in groups)
+                foreach (var child in node.Children)
                 {
-                    if (string.IsNullOrEmpty(group.Key?.Name))
-                    {
-                        foreach (var child in group)
-                        {
-                            var rng = randomizer.GetRng($"modifier/event/{child.FullName}");
-                            var result = Choose([child], rng);
-                            if (result != null)
-                            {
-                                yield return result;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        var rng = randomizer.GetRng($"modifier/event/{group.Key.FullName}");
-                        var result = Choose(group.ToArray(), rng);
-                        if (result != null)
-                        {
-                            yield return result;
-                        }
-                    }
-                }
-            }
-
-            static EventNode? Choose(EventNode[] events, Rng rng)
-            {
-                var alwaysEvent = events.FirstOrDefault(x => x.Tags.Contains(EventTags.Always));
-                if (alwaysEvent != null)
-                    return alwaysEvent;
-
-                // +1 for no event
-                var totalWeight = events.Sum(x => x.Weight) + 1;
-                var number = rng.NextDouble(0, totalWeight);
-                var current = 0.0;
-                for (var i = 0; i < events.Length; i++)
-                {
-                    var next = current + events[i].Weight;
-                    if (number < next)
-                    {
-                        return events[i];
-                    }
-                    current = next;
-                }
-                return null;
-            }
-
-            void ProcessEvents(IEnumerable<EventNode> events)
-            {
-                foreach (var eventNode in events)
-                {
-                    logger.Push(eventNode.FullName);
-                    ProcessSingleEventNode(eventNode);
-                    ProcessEvents(eventNode.Children);
+                    logger.Push(child.FullName);
+                    ProcessSingleEventNode(child);
+                    ProcessEventNode(child);
                     logger.Pop();
                 }
             }
@@ -510,12 +450,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     node = node.GetOrCreateChild(dotSplit[i]);
                 }
 
-                node.IsEvent = true;
+                node.Parent?.Kind = NodeKind.Choose;
+                node.Kind = NodeKind.Event;
 
                 for (var i = 0; i < sub.Length; i++)
                 {
                     node = node.GetOrCreateChild(sub[i]);
-                    node.IsEvent = true;
+                    node.Kind = NodeKind.Part;
                 }
 
                 node.Chapter = chapter;
@@ -525,45 +466,100 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (node.Weight <= 0)
                     node.Weight = 1;
             }
+
+            root.Kind = NodeKind.Group;
             return root;
         }
 
-        private string DumpTree(EventNode tree)
+        private static void AddNoEvents(EventNode tree)
         {
-            var sb = new StringBuilder();
-            Print(tree, 0);
-            var s = sb.ToString();
-            return s;
+            Visit(tree);
 
-            void Print(EventNode node, int level)
+            static void Visit(EventNode node)
             {
-                sb.Append('-', level);
-                sb.Append(' ');
-                if (node.IsEvent)
+                if (node.Kind == NodeKind.Choose)
                 {
-                    sb.Append('*');
-                    sb.Append(' ');
+                    var emptyNode = node.GetOrCreateChild("EMPTY");
+                    emptyNode.Kind = NodeKind.Empty;
                 }
-                sb.Append(node.Name);
-                sb.AppendLine();
-                foreach (var child in node.Children)
+                else
                 {
-                    Print(child, level + 1);
+                    foreach (var child in node.Children)
+                    {
+                        Visit(child);
+                    }
                 }
             }
         }
 
-        [DebuggerDisplay("{FullName}")]
+        private string DumpTree(EventNode tree)
+        {
+            var mb = new MermaidBuilder();
+            Visit(tree);
+            return mb.ToString();
+
+            void Visit(EventNode node)
+            {
+                var shape = node.Kind switch
+                {
+                    NodeKind.Group => MermaidShape.Circle,
+                    NodeKind.Choose => MermaidShape.Hexagon,
+                    NodeKind.Event or NodeKind.Empty => MermaidShape.Rounded,
+                    NodeKind.Part => MermaidShape.Square,
+                    _ => throw new NotImplementedException(),
+                };
+                mb.Node(node.Guid.ToString(), node.Name == "" ? " " : node.Name, shape);
+                foreach (var child in node.Children)
+                {
+                    Visit(child);
+                }
+                foreach (var child in node.Children)
+                {
+                    var label = node.Kind == NodeKind.Choose ? $"{child.Ratio * 100:0.00}%" : null;
+                    var kind = child.Kind == NodeKind.Part ? MermaidEdgeType.Dotted : MermaidEdgeType.Solid;
+                    mb.Edge(node.Guid.ToString(), child.Guid.ToString(), label, kind);
+                }
+            }
+
+
+            // var sb = new StringBuilder();
+            // Print(tree, 0);
+            // var s = sb.ToString();
+            // return s;
+            // 
+            // void Print(EventNode node, int level)
+            // {
+            //     sb.Append('-', level);
+            //     sb.Append(' ');
+            //     if (node.Kind == NodeKind.Event)
+            //     {
+            //         sb.Append('*');
+            //         sb.Append(' ');
+            //     }
+            //     sb.Append(node.Name);
+            //     sb.AppendLine();
+            //     foreach (var child in node.Children)
+            //     {
+            //         Print(child, level + 1);
+            //     }
+            // }
+        }
+
+        [DebuggerDisplay("[{Kind}] {FullName} <{Weight}>")]
         private class EventNode(EventNode? parent, string name)
         {
+            public Guid Guid { get; } = Guid.NewGuid();
             public EventNode? Parent => parent;
             public string Name => name;
             public ImmutableArray<EventNode> Children { get; private set; } = [];
-            public bool IsEvent { get; set; }
+            public NodeKind Kind { get; set; }
             public int Chapter { get; set; }
             public ImmutableArray<EventParameter> Parameters { get; set; } = [];
             public ImmutableArray<string> Tags { get; set; } = [];
             public double Weight { get; set; } = 1;
+
+            public double Ratio => Parent == null ? double.NaN : Weight / Parent.TotalChildWeight;
+            private double TotalChildWeight => Children.Length == 0 ? 0 : Children.Sum(x => x.Weight);
 
             public EventNode GetOrCreateChild(string name)
             {
@@ -579,6 +575,42 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return result;
             }
 
+            public void Choose(ChainsawRandomizer randomizer)
+            {
+                if (Kind == NodeKind.Choose && Children.Length >= 2)
+                {
+                    var index = Children.FindIndex(x => x.Tags.Contains(EventTags.Always));
+                    if (index != -1)
+                    {
+                        Children = [Children[index]];
+                    }
+                    else
+                    {
+                        index = Children.Length - 1;
+                        var rng = randomizer.GetRng($"modifier/event/{FullName}");
+                        var totalWeight = TotalChildWeight;
+                        var number = rng.NextDouble(0, totalWeight);
+                        var current = 0.0;
+                        for (var i = 0; i < Children.Length; i++)
+                        {
+                            var next = current + Children[i].Weight;
+                            if (number < next)
+                            {
+                                index = i;
+                                break;
+                            }
+                            current = next;
+                        }
+                        Children = [Children[index]];
+                    }
+                }
+                Children = Children.RemoveAll(x => x.Kind == NodeKind.Empty);
+                foreach (var child in Children)
+                {
+                    child.Choose(randomizer);
+                }
+            }
+
             public string FullName
             {
                 get
@@ -586,14 +618,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (string.IsNullOrEmpty(Parent?.FullName))
                         return Name;
 
-                    var sep = Parent.IsEvent ? '|' : '.';
+                    var sep = Parent.Kind == NodeKind.Event ? '|' : '.';
                     return Parent.FullName + sep + Name;
                 }
             }
 
-            public IEnumerable<EventNode> GetAllLeaves()
+            public IEnumerable<EventNode> GetAllEvents()
             {
-                if (IsEvent)
+                if (Kind == NodeKind.Event)
                 {
                     yield return this;
                 }
@@ -601,7 +633,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     foreach (var child in Children)
                     {
-                        foreach (var node in child.GetAllLeaves())
+                        foreach (var node in child.GetAllEvents())
                         {
                             yield return node;
                         }
@@ -683,6 +715,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             Move,
             Start,
             AddPier,
+        }
+
+        private enum NodeKind
+        {
+            Group,
+            Choose,
+            Event,
+            Part,
+            Empty
         }
 
         private static class EventTags
