@@ -17,6 +17,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private ImmutableArray<Modifier> _modifiers = GetModifiers();
         private readonly Dictionary<Type, object> _services = [];
         private readonly Lock _servicesLock = new();
+        private readonly Dictionary<string, string> _logFiles = [];
 
         public EnemyClassFactory EnemyClassFactory { get; }
         public IProgressReporter Reporter { get; }
@@ -52,8 +53,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 _fileRepository = new FileRepository(this, input.GamePath, DynamicData);
             }
 
-            var logFiles = new Dictionary<string, string>();
-
             var campaign = Campaign.Leon;
             if (input.Configuration.GetValueOrDefault("campaign", "") == "Separate Ways")
             {
@@ -62,14 +61,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var log = Randomize(input, campaign);
             var name = campaign.ToString().ToLowerInvariant();
-            logFiles[$"input_{name}.log"] = log.Input.Output;
-            logFiles[$"process_{name}.log"] = log.Process.Output;
-            logFiles[$"output_{name}.log"] = log.Output.Output;
+            AddLogFile($"input_{name}.log", log.Input.Output);
+            AddLogFile($"process_{name}.log", log.Process.Output);
+            AddLogFile($"output_{name}.log", log.Output.Output);
 
             RandomizerOutput? result = null;
             Reporter.RunTask("Building mod", () =>
             {
-                var output = new ChainsawRandomizerOutput(input, _fileRepository.GetOutputPakFile(), logFiles);
+                var output = new ChainsawRandomizerOutput(input, _fileRepository.GetOutputPakFile(), _logFiles);
                 result = new RandomizerOutput(
                     [
                         new RandomizerOutputAsset(
@@ -92,7 +91,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                       <li>Alter the enemy sliders slightly or reduce the number temporarily. This will reshuffle the enemies. Reload from last checkpoint and try again.</li> <li>As a last resort, change your seed, and reload from last checkpoint.</li>
                     </ol>
                     """,
-                    logFiles);
+                    _logFiles);
             });
             return result!;
         }
@@ -237,6 +236,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 _services[type] = service;
             }
             return (T)service;
+        }
+
+        public void AddLogFile(string name, string content)
+        {
+            _logFiles[name] = content;
         }
     }
 }

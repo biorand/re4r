@@ -23,13 +23,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var eventTree = GetEventTree(randomizer);
             AddNoEvents(eventTree);
-#if DEBUG
-            var mermaidContentAll = DumpTree(eventTree);
-#endif
+            randomizer.AddLogFile("events_all.mmd", DumpTree(eventTree));
             eventTree.Choose(randomizer);
-#if DEBUG
-            var mermaidContentChosen = DumpTree(eventTree);
-#endif
+            randomizer.AddLogFile("events_chosen.mmd", DumpTree(eventTree));
             ProcessEventNode(eventTree);
             UpdatePierData(randomizer, piers);
 
