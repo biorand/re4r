@@ -23,9 +23,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var eventTree = GetEventTree(randomizer);
             AddNoEvents(eventTree);
-            // var mermaidContentAll = DumpTree(eventTree);
+#if DEBUG
+            var mermaidContentAll = DumpTree(eventTree);
+#endif
             eventTree.Choose(randomizer);
-            // var mermaidContentChosen = DumpTree(eventTree);
+#if DEBUG
+            var mermaidContentChosen = DumpTree(eventTree);
+#endif
             ProcessEventNode(eventTree);
             UpdatePierData(randomizer, piers);
 
@@ -344,6 +348,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var itemPlacement = itemService.FromGuid(param.Guid);
             if (itemPlacement != null)
             {
+                itemPlacement.Stage = param.Stage;
                 itemPlacement.X = param.X;
                 itemPlacement.Y = param.Y;
                 itemPlacement.Z = param.Z;
@@ -362,6 +367,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Campaign = randomizer.Campaign,
                         Guid = param.Guid,
                         Vanilla = true,
+                        Stage = param.Stage,
                         X = param.X,
                         Y = param.Y,
                         Z = param.Z,

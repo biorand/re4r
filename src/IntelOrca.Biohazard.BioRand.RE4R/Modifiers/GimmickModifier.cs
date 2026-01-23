@@ -74,17 +74,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             // Modification
             foreach (var g in gimmicks)
             {
-                if (g.Placement is GimmickPlacement placement && placement.Vanilla)
-                {
-                    if (placement.X != 0 || placement.Y != 0 || placement.Z != 0)
-                    {
-                        var transform = g.Transform;
-                        transform.Position = placement.Position;
-                        transform.Eular = placement.Eular;
-                        g.Transform = transform;
-                    }
-                }
-
                 switch (g.Kind)
                 {
                     case GimmickKinds.Crow:
@@ -118,6 +107,39 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     case GimmickKinds.FallShutter:
                         LockShutter(g);
                         break;
+                }
+            }
+
+            // Movement
+            foreach (var g in gimmicks)
+            {
+                if (g.Placement is GimmickPlacement placement && placement.Vanilla)
+                {
+                    if (placement.X != 0 || placement.Y != 0 || placement.Z != 0)
+                    {
+                        var transform = g.Transform;
+                        transform.Position = placement.Position;
+                        transform.Eular = placement.Eular;
+                        g.Transform = transform;
+                    }
+                    if (placement.Stage != 0 && placement.Stage != g.Stage)
+                    {
+                        var oldArea = g.Area;
+                        var gameObject = g.GameObject;
+                        var guid = g.Guid;
+                        var contextId = g.ContextId;
+
+                        // Remove gimmick from old area
+                        oldArea.Scene = oldArea.Scene.RemoveGameObject(guid);
+                        var saveData = oldArea.GimmickSaveData.Remove(contextId) ?? throw new RandomizerUserException($"Unable to find save data for {guid}");
+                        randomizer.AreaService.RemoveGuid(guid);
+
+                        // Add gimmick to new area
+                        var newArea = randomizer.AreaService.FindBestArea(AreaKind.Gimmicks, placement.Stage);
+                        newArea.Scene = newArea.Scene.Add(gameObject);
+                        newArea.GimmickSaveData.Add(saveData);
+                        randomizer.AreaService.AddGuidToArea(guid, newArea);
+                    }
                 }
             }
         }
@@ -387,6 +409,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public Guid Guid => guid;
             public string Kind => DetectKind();
             public chainsaw.ContextID ContextId => GetContextId(GameObject);
+            public int? Stage => Area.Definition.Stage;
             public Transform Transform
             {
                 get => new(GameObject);

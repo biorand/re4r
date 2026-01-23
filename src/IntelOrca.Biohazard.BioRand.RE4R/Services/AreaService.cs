@@ -38,6 +38,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return area;
         }
 
+        public void RemoveGuid(Guid guid)
+        {
+            _guidToArea.Remove(guid);
+        }
+
         public void AddGuidToArea(Guid guid, Area area)
         {
             _guidToArea[guid] = area;

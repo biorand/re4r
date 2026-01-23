@@ -83,12 +83,35 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public void Add(chainsaw.GimmickSaveDataTable.Data data)
         {
-            var datas = Root.Get<RszArrayNode>("Datas");
-            datas = datas.Add(RszSerializer.Serialize(
+            Add((RszObjectNode)RszSerializer.Serialize(
                 Context.TypeRepository.FromName("chainsaw.GimmickSaveDataTable.Data")!,
                 data));
-            Root = Root.Set("Datas", datas);
+        }
+
+        public void Add(RszObjectNode data)
+        {
+            var datas = Root.Get<RszArrayNode>("Datas");
+            Root = Root.Set("Datas", datas.Add(data));
             _dirty = true;
+        }
+
+        public RszObjectNode? Remove(ContextID contextId)
+        {
+            var datas = Root.Get<RszArrayNode>("Datas");
+            var children = datas.Children;
+            for (var i = 0; i < children.Length; i++)
+            {
+                var c = children[i];
+                if (c.Get<chainsaw.ContextID>("ID") == contextId)
+                {
+                    Root = Root.Set("Datas", datas
+                        .WithChildren(
+                            children.RemoveAt(i)));
+                    _dirty = true;
+                    return (RszObjectNode)c;
+                }
+            }
+            return null;
         }
     }
 }
