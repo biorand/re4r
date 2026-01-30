@@ -391,27 +391,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             logger.Pop();
 
-            // Treasure
-            var treasureRatio = randomizer.GetConfigOption<double>("enemy-treasure-drop-ratio");
-            var treasureCount = (int)(spawnsLeft.Count * treasureRatio);
-            logger.Push("Treasure");
-            for (var i = 0; i < treasureCount; i++)
-            {
-                if (spawnsLeft.Count == 0)
-                    break;
-
-                var j = GetRandomHighClassEnemy(spawnsLeft, rng);
-                var spawn = spawnsLeft[j];
-                spawnsLeft.RemoveAt(j);
-
-                var classNumber = spawn.ChosenClass?.Class ?? 1;
-                spawn.Enemy.ItemDrop = goldBarOnly
-                    ? new Item(120840000, 1)
-                    : randomizer.ItemRandomizer.GetRandomTreasure(rng, classNumber);
-                logger.LogLine(spawn.Guid, spawn.Enemy.Kind, spawn.Enemy.ItemDrop!);
-            }
-            logger.Pop();
-
             logger.Push("General");
             var itemRandomizer = randomizer.ItemRandomizer;
             foreach (var spawn in spawnsLeft)
