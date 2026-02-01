@@ -4,5 +4,6 @@
     {
         Leon,
         Ada,
+        Mercenaries,
     }
 }
