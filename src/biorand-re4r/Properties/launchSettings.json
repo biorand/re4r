@@ -7,7 +7,7 @@
     },
     "generate-pak": {
       "commandName": "Project",
-      "commandLineArgs": "generate -s 357436 -c ..\\re4r.json -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\\re_chunk_000.pak.patch_005.pak\" -i ..\\biorand-re4r.pak -k",
+      "commandLineArgs": "generate -s 357436 -c ..\\re4r.json -o \"F:\\games\\steamapps\\common\\RESIDENT EVIL 4  BIOHAZARD RE4\\re_chunk_000.pak.patch_006.pak\" -i ..\\biorand-re4r.pak -k",
       "workingDirectory": "C:\\Users\\Ted\\.biorand\\logs"
     },
     "generate-fluffy": {
