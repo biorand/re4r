@@ -8,7 +8,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         {
 #if ENABLE_BETA_FEATURES
             // Allow Mendez to be downed
-            var downResistance = 100 - (int)(Math.Clamp(context.GetConfigOption("mendez-down-resistance", 0.2f), 0, 1) * 100);
+            var downResistance = 100 - (int)(System.Math.Clamp(context.GetConfigOption("mendez-down-resistance", 0.2f), 0, 1) * 100);
             context.ModifyUserFile("natives/stm/_chainsaw/appsystem/character/ch1b5z1/userdata/ch1b5z1damagereactionuserdata.user.2", root =>
             {
                 return root
