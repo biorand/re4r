@@ -1,6 +1,4 @@
-﻿using System;
-using IntelOrca.Biohazard.REE.Rsz;
-
+﻿#if ENABLE_BETA_FEATURES
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
     internal class EnableEarlyCabinPatch(IPatchContext context) : IPatch
@@ -67,3 +65,4 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         }
     }
 }
+#endif

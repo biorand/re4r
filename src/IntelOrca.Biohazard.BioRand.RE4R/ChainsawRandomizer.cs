@@ -37,7 +37,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             EnemyClassFactory = enemyClassFactory;
             _input = input;
             Reporter = reporter;
-            DynamicData = new DynamicData(_input.Configuration.GetValueOrDefault<bool>("debug-download-data"));
+            DynamicData = new DynamicData(
+#if ENABLE_BETA_FEATURES
+                _input.Configuration.GetValueOrDefault<bool>("debug-download-data")
+#else
+                false
+#endif
+            );
         }
 
         public void Dispose()
@@ -183,16 +189,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 new MerchantShopModifier(),
                 new WeaponModifier(),
                 new ItemModifier(),
+#if ENABLE_BETA_FEATURES
                 new EventModifier(),
                 new CampaignModifier(),
                 new FileModifier(),
+#endif
                 new GimmickPlaceModifier(),
                 new GimmickModifier(),
                 new DropItemPlaceModifier(),
                 new DropItemModifier(),
                 new EnemyPlaceModifier(),
                 new EnemyMultiplierModifier(),
+#if ENABLE_BETA_FEATURES
                 new EnemyWaveModifier(),
+
+#endif
                 new EnemyModifier(),
                 new FixesModifier(),
             }.ToImmutableArray();

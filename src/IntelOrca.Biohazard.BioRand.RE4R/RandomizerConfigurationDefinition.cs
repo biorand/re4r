@@ -21,6 +21,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Options = ["Main Story", "Separate Ways"],
                 Default = "Main Story"
             });
+#if ENABLE_BETA_FEATURES
             group.Items.Add(new GroupItem()
             {
                 Id = $"start-chapter",
@@ -31,6 +32,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 16,
                 Default = 1
             });
+#endif
             group.Items.Add(new GroupItem()
             {
                 Id = $"enable-autosave-pro",
@@ -39,6 +41,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
+#if ENABLE_BETA_FEATURES
             group.Items.Add(new GroupItem()
             {
                 Id = $"disable-radio-calls",
@@ -55,6 +58,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
+#endif
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
@@ -284,6 +288,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             //Weapon Page
             page = configDefinition.CreatePage("Weapon");
+#if ENABLE_BETA_FEATURES
             group = page.CreateGroup("Legendary Weapons");
             group.Items.Add(new GroupItem()
             {
@@ -305,6 +310,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 32,
                 Default = 2
             });
+#endif
 
             group = page.CreateGroup("");
             group.Warning = "WIP Page. This page requires all Random Weapon options to be enabled in the Merchant page to function.";
@@ -721,6 +727,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 1,
                 Default = 50
             });
+#if ENABLE_BETA_FEATURES
             group.Items.Add(new GroupItem()
             {
                 Id = "enemy-waves-min",
@@ -765,6 +772,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 1,
                 Default = 5
             });
+#endif
             group.Items.Add(new GroupItem()
             {
                 Id = $"enemy-pack-max",
@@ -842,6 +850,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
+#if ENABLE_BETA_FEATURES
             group.Items.Add(new GroupItem()
             {
                 Id = $"mendez-down-resistance",
@@ -872,6 +881,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
+#endif
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
@@ -983,7 +993,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
 
             group = page.CreateGroup("Classes");
-            group.Warning = "It is recommended to leave pesanta, u3, and krauser (mutated) at 0 as it currently causes some crashes.";
             foreach (var enemyClass in enemyClassFactory.Classes)
             {
                 var defaultValue = 0.5;
@@ -1201,6 +1210,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             page = configDefinition.CreatePage("Debug");
             group = page.CreateGroup("");
             group.Warning = "These options are only for testing / debugging the randomizer.";
+#if ENABLE_BETA_FEATURES
             group.Items.Add(new GroupItem()
             {
                 Id = "debug-download-data",
@@ -1209,6 +1219,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
+#endif
             group.Items.Add(new GroupItem()
             {
                 Id = $"enable-special",

@@ -17,6 +17,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public const string Special = "special";
 
         public static ImmutableArray<string> StartingWeapons { get; } =
-            [None, Handgun, Shotgun, Smg, Magnum, Rifle, Bolt, Arrow, Flame];
+            [
+                None, Handgun, Shotgun, Smg, Magnum, Rifle, Bolt, Arrow,
+#if ENABLE_BETA_FEATURES
+                Flame
+#endif
+            ];
     }
 }

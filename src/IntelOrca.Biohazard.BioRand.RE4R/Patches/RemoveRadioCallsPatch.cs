@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLE_BETA_FEATURES
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.REE.Rsz;
@@ -201,3 +202,4 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         }
     }
 }
+#endif
