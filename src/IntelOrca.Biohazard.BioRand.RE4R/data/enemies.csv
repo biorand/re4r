@@ -1703,28 +1703,28 @@ Leon,,15,[EXTRA],67104,-71,58,-177,0,0,0,,,,,ranged,small,
 Leon,,15,[EXTRA],68101,-102,61,-171,0,0,0,,,,,,,
 Leon,,15,[EXTRA],68101,-111,61,-171,0,0,0,,,,,,,
 Leon,,15,[EXTRA],68101,-120,61,-171,0,0,0,,,,,,,
-Leon,f0669fad-0877-4e5f-b1a5-a1aa40e3eb1c,15,soldier   *,66101,0,0,0,0,0,0,,,,,,,
-Leon,45c740df-4438-490a-b868-e27d0020ba60,15,soldier  hatchet *,66101,0,0,0,0,0,0,,,,,,,
-Leon,2a9bfc0d-ebfa-4eda-abc1-ae2125e52189,15,soldier  crossbow *,66101,0,0,0,0,0,0,,,,,,,
-Leon,9193f763-0e88-40e9-87b1-7b0c7fea3cf8,15,soldier  crossbow *,66101,0,0,0,0,0,0,,,,,,,
-Leon,7faced90-6d9d-438c-be76-9ca931e9d24a,15,soldier  hatchet | iron_shield *,66101,0,0,0,0,0,0,,,,,,,
-Leon,40346c6b-4aab-425b-9904-fb98bc1cea52,15,soldier  crowbar *,66101,0,0,0,0,0,0,,,,,,,
-Leon,eac61d27-74a7-4507-aa51-26ae6c4f85f3,15,soldier  rpg *,66101,0,0,0,0,0,0,,,,,,,
-Leon,068b4905-3182-4963-9692-0c5e46a8d719,15,soldier  molotov *,66101,0,0,0,0,0,0,,,,,,,
-Leon,6cc99a8e-7b39-4d7a-a5cc-4b8e8034dc43,15,soldier  shock_baton *,66101,0,0,0,0,0,0,,,,,,,
-Leon,f56ae9a6-6cca-4a28-9e76-556cabd28a72,15,soldier pA(50%) hatchet *,66101,0,0,0,0,0,0,,,,,,,
-Leon,e4fc210b-961b-4019-b2d7-8ce25eb6a800,15,soldier  crowbar *,66101,0,0,0,0,0,0,,,,,,,
-Leon,814199be-adb5-49cc-b214-c64c1cc165a2,15,soldier pA(20%)  *,66101,0,0,0,0,0,0,,,,,,,
-Leon,54fe2ff2-b510-4960-9ac4-9d18c8aae40c,15,soldier  shock_baton *,66101,0,0,0,0,0,0,,,,,,,
-Leon,032d101b-e336-42cb-b249-c46ed6560b69,15,soldier pA(20%) crossbow *,66101,0,0,0,0,0,0,,,,,,,
-Leon,26626087-80ed-409f-b398-4d9e55c89b75,15,soldier  crowbar *,66101,0,0,0,0,0,0,,,,,,,
-Leon,dc887dde-a089-4040-827e-6cf1d9a262a5,15,soldier  spiked_bat *,66101,0,0,0,0,0,0,,,,,,,
-Leon,ad82492d-5310-4a66-a166-5002fba0c1b2,15,soldier   *,66101,0,0,0,0,0,0,,,,,,,
-Leon,db71da2d-8b1c-4b6d-b53b-0f8eebf357ae,15,soldier  crowbar *,66101,0,0,0,0,0,0,,,,,,,
-Leon,6551bb15-fdce-4d7c-98b0-71af668f2028,15,soldier  spiked_bat *,66101,0,0,0,0,0,0,,,,,,,
-Leon,f5e12aed-a125-4728-9a52-de5eef0256e7,15,soldier  molotov *,66101,0,0,0,0,0,0,,,,,,,
-Leon,6074a973-daf5-4438-b71c-4b198fbb4578,15,soldier  molotov *,66101,0,0,0,0,0,0,,,,,,,
-Leon,cffa8f59-b8ec-458a-a0b0-3677679c4638,15,soldier  crowbar *,66101,0,0,0,0,0,0,,,,,,,
+Leon,f0669fad-0877-4e5f-b1a5-a1aa40e3eb1c,15,soldier   *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,45c740df-4438-490a-b868-e27d0020ba60,15,soldier  hatchet *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,2a9bfc0d-ebfa-4eda-abc1-ae2125e52189,15,soldier  crossbow *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,9193f763-0e88-40e9-87b1-7b0c7fea3cf8,15,soldier  crossbow *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,7faced90-6d9d-438c-be76-9ca931e9d24a,15,soldier  hatchet | iron_shield *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,40346c6b-4aab-425b-9904-fb98bc1cea52,15,soldier  crowbar *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,eac61d27-74a7-4507-aa51-26ae6c4f85f3,15,soldier  rpg *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,068b4905-3182-4963-9692-0c5e46a8d719,15,soldier  molotov *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,6cc99a8e-7b39-4d7a-a5cc-4b8e8034dc43,15,soldier  shock_baton *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,f56ae9a6-6cca-4a28-9e76-556cabd28a72,15,soldier pA(50%) hatchet *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,e4fc210b-961b-4019-b2d7-8ce25eb6a800,15,soldier  crowbar *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,814199be-adb5-49cc-b214-c64c1cc165a2,15,soldier pA(20%)  *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,54fe2ff2-b510-4960-9ac4-9d18c8aae40c,15,soldier  shock_baton *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,032d101b-e336-42cb-b249-c46ed6560b69,15,soldier pA(20%) crossbow *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,26626087-80ed-409f-b398-4d9e55c89b75,15,soldier  crowbar *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,dc887dde-a089-4040-827e-6cf1d9a262a5,15,soldier  spiked_bat *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,ad82492d-5310-4a66-a166-5002fba0c1b2,15,soldier   *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,db71da2d-8b1c-4b6d-b53b-0f8eebf357ae,15,soldier  crowbar *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,6551bb15-fdce-4d7c-98b0-71af668f2028,15,soldier  spiked_bat *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,f5e12aed-a125-4728-9a52-de5eef0256e7,15,soldier  molotov *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,6074a973-daf5-4438-b71c-4b198fbb4578,15,soldier  molotov *,66101,0,0,0,0,0,0,,,,,,,invincible
+Leon,cffa8f59-b8ec-458a-a0b0-3677679c4638,15,soldier  crowbar *,66101,0,0,0,0,0,0,,,,,,,invincible
 Leon,f9db6ec4-cd36-455d-aa23-cc8ab0e692f2,15,soldier   .,66102,0,0,0,0,0,0,,,,,,,
 Leon,88ef7143-d9fd-42ba-90f8-eb71c8ce5552,15,soldier   .,66102,0,0,0,0,0,0,,,,,,,
 Leon,42aa0899-e265-434a-a020-976049743292,15,soldier   .,66102,0,0,0,0,0,0,,,,,,,

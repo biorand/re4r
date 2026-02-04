@@ -1,6 +1,6 @@
-name,,Lucky Number 7,M6C magnum,Dragonstail (SW),Gold 007,Dragonstail,Auto-9,Golden Gun(SW),Punisher,Punisher MC (SW),XM96E1,Line Gun,Dragonsbreath,Elephantgun,Super Shotgun,Sawed-off W870 (SW),Spitfire,Spitfire (SW),Le Cinq,The Merchant Special,Chicago Sweeper (SW),Dragonlore,SR M1093 (SW),S7ingRayD,Stingray (SW),What Could Have Been...,Quickdraw Army,Dirty Harry,The .45 longslide with laser sighting,Flamethrower
-type,,legendary,legendary,legendary,legendary,legendary,legendary,legendary,,,base,legendary,legendary,legendary,legendary,base,legendary,,legendary,,,,,,,,,,,base
-game mode,,,,,,,,,,,mercenary,chainsaw,,,,mercenary,,,,,,,,,,,,,,
+name,,Lucky Number 7,M6C magnum,Dragonstail (SW),Gold 007,Dragonstail,Auto-9,Golden Gun(SW),Punisher,Punisher MC (SW),XM96E1,Line Gun,Dragonsbreath,Elephantgun,Super Shotgun,Sawed-off W870,Spitfire,Spitfire (SW),Le Cinq,The Merchant Special,Chicago Sweeper (SW),Dragonlore,SR M1093 (SW),S7ingRayD,Stingray (SW),What Could Have Been...,Quickdraw Army,Dirty Harry,The .45 longslide with laser sighting,Flamethrower
+type,,legendary,legendary,legendary,legendary,legendary,legendary,legendary,,,additional,legendary,legendary,legendary,legendary,additional,legendary,,legendary,,,,,,,,,,,base
+gamemode,,,,,,,,,,,leon,chainsaw,,,,leon,,,,,,,,,,,,,,
 weight,,1,,,1,1,1,,,,,1,1,1,1,,1,,,,,,,,,,,,,
 description,,"Feeling Lucky? Do you love to Gamble? 
 This is your moment to Shine.",,,"Deadly signature weapon of the notorious assassin.
@@ -31,8 +31,8 @@ exclusive description,1,Gamble Your Shots 7 Times Faster,,Increased chance to ig
 exclusive perk,1,Rate Of Fire 7x,,Critical Hit Rate 2x,Ammo Capacity 5x,Critical Hit Rate 2x,Stopping Power 3x,Ammo Capacity 5x,,,,Damage 1.5X,,,,,,,,,,,,,,,,,,
 exclusive description,2,,,,,,Find Weakpoints of targets Easier,,,,,Infinite penetration.,,,,,,,,,,,,,,,,,,
 exclusive perk,2,,,,,,Critical Hit Rate 3x,,,,,,,,,,,,,,,,,,,,,,,
-id,,4000,,6103,4002,4003,4004,6113,,,6300,4101,4102,4100,6001,,4200,6104,4202,4201,,4400,,4401,,4402,4500,4502,4501,4701
-itemid,,274835456,,278200256,274838656,274840256,274841856,278216256,,,278515456,274997056,274998656,274995456,278037056,,275155456,278201856,,,,275475456,,,,,,,,275957056
+id,,4000,,6103,4002,4003,4004,6113,,,6300,4101,4102,4100,6001,6100,4200,6104,4202,4201,,4400,,4401,,4402,4500,4502,4501,4701
+itemid,,274835456,,278200256,274838656,274840256,274841856,278216256,,,278515456,274997056,274998656,274995456,278037056,278195456,275155456,278201856,,,,275475456,,,,,,,,275957056
 price,,15000,,15000,15000,15000,15000,15000,,,15000,30000,30000,30000,30000,,20000,20000,,,,30000,,,,,,,,30000
 damage,level 1,3.33,,1.40,5.00,1.40,0.77,2.00,,,1.10,7.40,8.40,6.40,10.00,,0.55,0.55,33,0.2,,2.50,,,,,,,,0.70
 damage,level 2,4.44,,1.75,6.25,1.75,0.88,2.50,,,1.40,10.15,10.40,9.15,12.00,,0.70,0.70,,,,3.50,,,,,,,,0.80
