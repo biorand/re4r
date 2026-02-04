@@ -850,6 +850,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"ashley-no-invincible",
+                Label = "No Invincible Ashley Escorting",
+                Description = "Disable invincible enemies during chapters where you are escorting Ashley.",
+                Type = "switch",
+                Default = false
+            });
 #if ENABLE_BETA_FEATURES
             group.Items.Add(new GroupItem()
             {

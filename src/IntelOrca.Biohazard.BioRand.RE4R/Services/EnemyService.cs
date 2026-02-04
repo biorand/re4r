@@ -168,6 +168,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public const string AshleySafe = "ashleysafe";
 
         /// <summary>
+        /// Invincible Enemy
+        /// </summary>
+        public const string Invincible = "invincible";
+
+        /// <summary>
         /// Killing the enemy is required to progress.
         /// </summary>
         public const string Guardian = "guardian";

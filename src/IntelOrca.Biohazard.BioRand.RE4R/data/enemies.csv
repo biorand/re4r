@@ -129,11 +129,11 @@ Leon,a26ebf20-34a2-e931-4cc9-f4cfe7ebe4b1,1,[EXTRA] LAKE SETTLEMENT HOUSE // Gua
 Leon,f0f8e593-e48d-b346-4c27-d5d1f47163fd,1,[EXTRA] LAKE SETTLEMENT HOUSE // Guarding small key drawer,43410,228,-4,-131,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,,,boss colmillos arana
 Leon,9dbdd9c2-85eb-18bb-47b5-a0887f15e59e,1,[EXTRA] LAKE SETTLEMENT HOUSE // Guarding ammo Cupboard 2,43410,238,-4,-125,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,,,boss* colmillos* arana*
 Leon,86175bf5-e8c7-3aad-495f-64f374d4cf2f,1,[EXTRA] LAKE SETTLEMENT HOUSE // Guarding Luis,43410,255,-7,-143,0,0,0,235d453d-6e24-41d4-be5f-a929971e439e,,,,,,boss* colmillos* arana*
-Leon,09ea044f-52d4-4d8b-818c-c8c833743221,1,cow   . // Inside Small Barn,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d6435c61-016a-4642-b9ef-ba77cd846689,1,cow   . // Inside Small Barn,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,7636e2b3-5651-4b92-b785-dc694be139c0,1,pig   .,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,83af39cb-c79f-47ce-93db-90bf861e0305,1,pig   .,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d041f1e4-a079-4877-9fe5-f8fd40e0d848,1,pig   .,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,09ea044f-52d4-4d8b-818c-c8c833743221,1,cow   . // Inside Small Barn,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d6435c61-016a-4642-b9ef-ba77cd846689,1,cow   . // Inside Small Barn,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,7636e2b3-5651-4b92-b785-dc694be139c0,1,pig   .,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,83af39cb-c79f-47ce-93db-90bf861e0305,1,pig   .,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d041f1e4-a079-4877-9fe5-f8fd40e0d848,1,pig   .,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,57a10b46-e53a-460a-9927-eac41a0bdeb7,2,villager  knife * // Entrance To Dynamite Valley,44300,0,0,0,0,0,0,,,,,,small*,
 Leon,f00699a5-ef50-47f3-b5ec-a9570fdce2c0,2,chainsaw   Emerald x1 // Chainsaw Before Tripwire,44101,0,0,0,0,0,0,,,,,,elite boss,
 Leon,284ded3c-7439-40a4-be87-13defa465fb8,2,villager   *,44110,0,0,0,0,0,0,,,,,,,boss colmillos
@@ -372,41 +372,41 @@ Leon,,4,[EXTRA],45302,179,8,132,0,0,0,452c74e5-f786-428a-b538-9f58d0fd51dd,,,,,f
 Leon,,4,[EXTRA],45302,187,8,130,0,0,0,452c74e5-f786-428a-b538-9f58d0fd51dd,,,,,fodder elite chainsaw_mad,
 Leon,,4,[EXTRA],45302,195,8,139,0,0,0,452c74e5-f786-428a-b538-9f58d0fd51dd,,,,,fodder elite chainsaw_mad,
 Leon,2526d07e-ca07-4676-8512-119ece440fa3,5,ashley_1   .,45210,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
-Leon,45a30278-212c-4ceb-b8b1-403ee9494747,5,villager_2 pA(50%) hatchet *,45401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,e8eb5d2a-ba66-408a-b186-1592f8c04191,5,villager_2 pA(25%) torch *,45401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,26f0c018-b535-4a11-a1db-6bf28fc848cf,5,villager_2 pA(50%) torch *,45401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,7cb46c28-1577-4616-b8e9-ccc17848449f,5,villager_2 pA(50%) hatchet *,45401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,c6b59d63-e24e-471f-b001-15efdb161002,5,villager_2 pA(50%) torch *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,3b66428c-055e-4826-a4d6-6db61391f138,5,villager_2 pA(50%) torch *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,3ce0d457-8bf8-4b61-933a-dfb1c61a9de6,5,villager_2 pA(100%) hatchet *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,b6bc9f87-a0fc-463d-a35c-673aa88a42a0,5,villager_2 pA(50%) hoe *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,e2d7c4e6-5d03-4f24-85ee-db541faeee4a,5,villager_2 pA(50%) torch *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,f8d33d7d-d412-4dbc-92d1-c03265e5014a,5,villager_2 pA(30%) molotov *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,2ff99fc0-c11f-4752-9da1-ae30fef17e26,5,villager_2 pA(100%) torch *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,fda43ccc-36c5-43b9-bde5-2188a08f08c8,5,villager_2  torch *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,7c90bf5d-56dd-4d4f-89b1-42b9ad36dd89,5,villager_2 pA(30%) torch *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d7d53ea5-58dd-4db8-a9cd-8451b2c2770f,5,villager_2 pA(100%) pitchfork *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,68a5a93a-660f-40b8-9390-66af1d865a08,5,villager_2 pA(30%) torch *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d4f9e170-876c-46f5-add6-565a83a69525,5,villager_2 pA(25%) hoe *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,8e9782c5-3de1-490d-abce-24498a4cea1e,5,villager_2 pA(25%) torch *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,1da8386a-9144-4950-9a91-ebaded80c533,5,villager_2 pA(25%) torch *,40210,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,f5e19380-486a-4c4d-9227-6936a110fd45,5,villager_2 pA(25%)  *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,a3261cb0-ddcc-4be3-a9ae-92381c8101ae,5,villager_2 pA(100%) torch *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,56463088-741b-4ae2-a4f2-e4691f787db2,5,villager_2  molotov *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,eb0115ec-6a86-4fcc-9438-4e85f4eed890,5,villager_2  hammer Sapphire x1,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,cd43b230-e27f-450c-9f50-1629cd11f8c6,5,villager_2 pA(100%) torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,320ce183-402f-4e54-98ea-216fc4b98cfa,5,villager_2 pA(30%) torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,14f66159-a9cf-4bca-9a48-1149d6827a97,5,villager_2 pA(25%)  *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,22ce72e5-1122-4fe5-8585-02b1ba6feccc,5,villager_2 pA(30%) pitchfork *,43310,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,6f275fa4-3534-4ddf-85d1-11f7ed82f246,5,villager_2 pA(30%) torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,8cf43fa7-91f1-4924-a9a2-889ead8a0be4,5,villager_2 pA(30%) torch *,43310,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,467d8ce2-db14-495b-b37e-9c3c094a48fb,5,brute   Emerald x1,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,66ae425a-9c7e-4660-ba50-1ff65c0c8c77,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,5bb5c451-e1b6-491e-9187-780752795d8c,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,8c7ed602-fd7b-4a44-9dea-034b49879754,5,villager_2  hoe *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,8838795c-b27f-4d3f-a6dc-8b4a65364eed,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,3e34749c-d2b8-433d-93ea-17c876a86b2f,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,626b3e69-b510-4657-b513-0d6ad030bfe1,5,colmillos   Alexandrite x1,44101,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,45a30278-212c-4ceb-b8b1-403ee9494747,5,villager_2 pA(50%) hatchet *,45401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,e8eb5d2a-ba66-408a-b186-1592f8c04191,5,villager_2 pA(25%) torch *,45401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,26f0c018-b535-4a11-a1db-6bf28fc848cf,5,villager_2 pA(50%) torch *,45401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,7cb46c28-1577-4616-b8e9-ccc17848449f,5,villager_2 pA(50%) hatchet *,45401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,c6b59d63-e24e-471f-b001-15efdb161002,5,villager_2 pA(50%) torch *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,3b66428c-055e-4826-a4d6-6db61391f138,5,villager_2 pA(50%) torch *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,3ce0d457-8bf8-4b61-933a-dfb1c61a9de6,5,villager_2 pA(100%) hatchet *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,b6bc9f87-a0fc-463d-a35c-673aa88a42a0,5,villager_2 pA(50%) hoe *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,e2d7c4e6-5d03-4f24-85ee-db541faeee4a,5,villager_2 pA(50%) torch *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,f8d33d7d-d412-4dbc-92d1-c03265e5014a,5,villager_2 pA(30%) molotov *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,2ff99fc0-c11f-4752-9da1-ae30fef17e26,5,villager_2 pA(100%) torch *,45200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,fda43ccc-36c5-43b9-bde5-2188a08f08c8,5,villager_2  torch *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,7c90bf5d-56dd-4d4f-89b1-42b9ad36dd89,5,villager_2 pA(30%) torch *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d7d53ea5-58dd-4db8-a9cd-8451b2c2770f,5,villager_2 pA(100%) pitchfork *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,68a5a93a-660f-40b8-9390-66af1d865a08,5,villager_2 pA(30%) torch *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d4f9e170-876c-46f5-add6-565a83a69525,5,villager_2 pA(25%) hoe *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,8e9782c5-3de1-490d-abce-24498a4cea1e,5,villager_2 pA(25%) torch *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,1da8386a-9144-4950-9a91-ebaded80c533,5,villager_2 pA(25%) torch *,40210,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,f5e19380-486a-4c4d-9227-6936a110fd45,5,villager_2 pA(25%)  *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,a3261cb0-ddcc-4be3-a9ae-92381c8101ae,5,villager_2 pA(100%) torch *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,56463088-741b-4ae2-a4f2-e4691f787db2,5,villager_2  molotov *,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,eb0115ec-6a86-4fcc-9438-4e85f4eed890,5,villager_2  hammer Sapphire x1,40200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,cd43b230-e27f-450c-9f50-1629cd11f8c6,5,villager_2 pA(100%) torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,320ce183-402f-4e54-98ea-216fc4b98cfa,5,villager_2 pA(30%) torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,14f66159-a9cf-4bca-9a48-1149d6827a97,5,villager_2 pA(25%)  *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,22ce72e5-1122-4fe5-8585-02b1ba6feccc,5,villager_2 pA(30%) pitchfork *,43310,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,6f275fa4-3534-4ddf-85d1-11f7ed82f246,5,villager_2 pA(30%) torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,8cf43fa7-91f1-4924-a9a2-889ead8a0be4,5,villager_2 pA(30%) torch *,43310,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,467d8ce2-db14-495b-b37e-9c3c094a48fb,5,brute   Emerald x1,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,66ae425a-9c7e-4660-ba50-1ff65c0c8c77,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,5bb5c451-e1b6-491e-9187-780752795d8c,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,8c7ed602-fd7b-4a44-9dea-034b49879754,5,villager_2  hoe *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,8838795c-b27f-4d3f-a6dc-8b4a65364eed,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,3e34749c-d2b8-433d-93ea-17c876a86b2f,5,villager_2  torch *,43300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,626b3e69-b510-4657-b513-0d6ad030bfe1,5,colmillos   Alexandrite x1,44101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,95c8581e-0ce3-4722-a83e-3a6dc2815174,5,colmillos   Alexandrite x1,40200,0,0,0,0,0,0,,,leon-savage-mutt,,noduplicate nowave,,fodder elite invincible krauser_1
 Leon,2b3bc7f9-1164-42ec-a6ce-d13bf401fc11,5,ashley_2   .,43301,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,2bf139b2-e92a-43a3-be51-96dcf51c04f0,5,villager_2  hatchet Handgun Ammo x10,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
@@ -449,65 +449,65 @@ Leon,d360484b-2f96-4e9b-a6ef-f394b6fe7cbe,5,villager_2  machete it_sm71_500_10_0
 Leon,06787d2f-38b5-40e8-930f-89e008f1cf28,5,villager_2  hoe *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
 Leon,79598a05-3c11-4262-89f6-a73864c96a03,5,villager_2 pA(100%) torch Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
 Leon,ef8032dc-3ad1-45d5-9e7f-f7890e211cd5,5,villager_2 pA(0%) machete *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,,6,[EXTRA],47200,168,3,-207,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe
-Leon,,6,[EXTRA],47200,176,7,-226,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe
-Leon,,6,[EXTRA],47200,177,7,-217,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe
-Leon,,6,[EXTRA],47200,165,7,-211,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe
-Leon,,6,[EXTRA],47200,149,7,-222,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe
-Leon,,6,[EXTRA],47200,135,7,-201,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe
-Leon,,6,[EXTRA],47200,153,3,-215,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe
-Leon,,6,[EXTRA],47201,186,3,-186,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe
-Leon,,6,[EXTRA],47201,192,3,-179,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe
-Leon,,6,[EXTRA],47201,199,3,-183,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe
-Leon,,6,[EXTRA],47201,192,3,-189,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe
-Leon,,6,[EXTRA] PRE-MENDEZ HILL // Guarding Merchant,47201,198,3,-194,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe
-Leon,,6,[EXTRA] POST-MENDEZ HILL // Ambush Left,47400,283,9,-248,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe
-Leon,,6,[EXTRA] POST-MENDEZ HILL // Ambush Right,47400,287,9,-244,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe
-Leon,,6,[EXTRA] POST-MENDEZ HILL // Ambush Behind,47400,266,8,-254,0,0,0,2028f283-c0b9-4173-8a6e-a0c63292e6f5,,,,,,ashleyunsafe
-Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 1,47401,275,12,-203,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,,ashleyunsafe
-Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 2,47401,274,15,-190,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,,ashleyunsafe
-Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 3,47401,284,18,-183,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,,ashleyunsafe
-Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 4,47401,299,18,-182,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,,ashleyunsafe
-Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 5,47401,311,18,-181,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,,ashleyunsafe
-Leon,7356b16d-7c57-4fc9-a8b6-c0e008d2e11d,6,villager_2 pA(100%)  *,47102,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,0657cd56-9f0c-4c28-9519-60ed978d4d21,6,villager_2  torch *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,17544312-16a5-4feb-a8d9-32dd4e519f8e,6,villager_2 pA(30%) torch *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,97db26f8-0290-4431-9b41-2877242324a9,6,villager_2  crossbow *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,22dbb00f-5d4d-4715-be18-63db35d7c762,6,villager_2 pA(30%)  *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,65ac5a6a-d470-441e-a59d-01b0587763c4,6,villager_2  crossbow *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,a07fbc09-ca3b-43bb-a68a-fba7b25eb6d4,6,villager_2 pA(30%)  *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,e39e4d2e-d75f-45bd-b15f-d6152d531079,6,villager_2  molotov *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,db0e653b-d6a2-4feb-a1ed-6950cbef43f0,6,villager_2  molotov *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,2a99545d-1185-494d-ae92-34492d1964ff,6,villager_2 pA(50%)  *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,c5330ba9-4102-4ee1-aa15-4b38ce38388e,6,villager_2 pA(50%) knife *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,fc80aec1-f3ba-49fd-ad11-748c9b7f9a38,6,villager_2 pA(50%) hoe *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,a0e3c531-842a-42fd-865e-c0fa995cfb24,6,villager_2 pA(50%)  *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,a9e5cf15-965e-4497-854c-0fdf481e6ca4,6,villager_2  hammer *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,1f068249-841d-4f56-91c7-0991aafaff7f,6,villager_2  hammer Emerald x1,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,9d6cb998-f2bb-430f-88df-7afaae9d11be,6,brute   Emerald x1,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,cbeb157f-30cd-4dff-83cf-aa9398bcaf0f,6,villager_2  molotov *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,4f4f4306-5a80-4674-a00b-ceaa99a73af4,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,154a5320-165b-4091-ad4a-05b23a00b04a,6,villager_2   *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,8e132bdc-97a8-4bd6-ad79-9bab0beb7575,6,villager_2  pitchfork *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,2ecfbffb-95f1-4688-959d-f8a68501dc39,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,6bbcca53-46c9-4082-9b30-2957aad7218c,6,villager_2   *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,96c26401-9ddb-43b3-9bd6-ba14a33eb454,6,villager_2  molotov *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,146a54dd-3f7c-4c12-89b5-f06c1a7b543d,6,villager_2  pitchfork *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,,6,[EXTRA],47200,168,3,-207,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA],47200,176,7,-226,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA],47200,177,7,-217,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA],47200,165,7,-211,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA],47200,149,7,-222,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA],47200,135,7,-201,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA],47200,153,3,-215,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA],47201,186,3,-186,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA],47201,192,3,-179,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA],47201,199,3,-183,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA],47201,192,3,-189,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA] PRE-MENDEZ HILL // Guarding Merchant,47201,198,3,-194,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA] POST-MENDEZ HILL // Ambush Left,47400,283,9,-248,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA] POST-MENDEZ HILL // Ambush Right,47400,287,9,-244,0,0,0,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA] POST-MENDEZ HILL // Ambush Behind,47400,266,8,-254,0,0,0,2028f283-c0b9-4173-8a6e-a0c63292e6f5,,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 1,47401,275,12,-203,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 2,47401,274,15,-190,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 3,47401,284,18,-183,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 4,47401,299,18,-182,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,,ashleyunsafe invincible
+Leon,,6,[EXTRA] POST-MENDEZ // Hill Ambush 5,47401,311,18,-181,0,0,0,c573be1f-8529-4795-84ce-bd98137e0b50,,,,,,ashleyunsafe invincible
+Leon,7356b16d-7c57-4fc9-a8b6-c0e008d2e11d,6,villager_2 pA(100%)  *,47102,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,0657cd56-9f0c-4c28-9519-60ed978d4d21,6,villager_2  torch *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,17544312-16a5-4feb-a8d9-32dd4e519f8e,6,villager_2 pA(30%) torch *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,97db26f8-0290-4431-9b41-2877242324a9,6,villager_2  crossbow *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,22dbb00f-5d4d-4715-be18-63db35d7c762,6,villager_2 pA(30%)  *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,65ac5a6a-d470-441e-a59d-01b0587763c4,6,villager_2  crossbow *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,a07fbc09-ca3b-43bb-a68a-fba7b25eb6d4,6,villager_2 pA(30%)  *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,e39e4d2e-d75f-45bd-b15f-d6152d531079,6,villager_2  molotov *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,db0e653b-d6a2-4feb-a1ed-6950cbef43f0,6,villager_2  molotov *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,2a99545d-1185-494d-ae92-34492d1964ff,6,villager_2 pA(50%)  *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,c5330ba9-4102-4ee1-aa15-4b38ce38388e,6,villager_2 pA(50%) knife *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,fc80aec1-f3ba-49fd-ad11-748c9b7f9a38,6,villager_2 pA(50%) hoe *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,a0e3c531-842a-42fd-865e-c0fa995cfb24,6,villager_2 pA(50%)  *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,a9e5cf15-965e-4497-854c-0fdf481e6ca4,6,villager_2  hammer *,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,1f068249-841d-4f56-91c7-0991aafaff7f,6,villager_2  hammer Emerald x1,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,9d6cb998-f2bb-430f-88df-7afaae9d11be,6,brute   Emerald x1,47101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,cbeb157f-30cd-4dff-83cf-aa9398bcaf0f,6,villager_2  molotov *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,4f4f4306-5a80-4674-a00b-ceaa99a73af4,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,154a5320-165b-4091-ad4a-05b23a00b04a,6,villager_2   *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,8e132bdc-97a8-4bd6-ad79-9bab0beb7575,6,villager_2  pitchfork *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,2ecfbffb-95f1-4688-959d-f8a68501dc39,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,6bbcca53-46c9-4082-9b30-2957aad7218c,6,villager_2   *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,96c26401-9ddb-43b3-9bd6-ba14a33eb454,6,villager_2  molotov *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,146a54dd-3f7c-4c12-89b5-f06c1a7b543d,6,villager_2  pitchfork *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,0556d8e2-950e-4a90-a1b6-6745f27d7179,6,chainsaw   Checkpoint Crank x1,47201,0,0,0,0,0,0,,,leon-bella-sisters,,noduplicate nowave,,krauser_1 krauser_2 mendez_2 mendez_chase pesanta u3 verdugo
 Leon,f93c4e62-0d9e-425e-894d-313fc73c92af,6,chainsaw   Sapphire x1,47201,0,0,0,0,0,0,,,leon-bella-sisters,,noduplicate nowave,,krauser_1 krauser_2 mendez_2 mendez_chase pesanta u3 verdugo
-Leon,1b7d10b9-4d58-43ce-b2b1-64f4ef4d0ef6,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,69c59902-3357-41b5-8cbf-89e6e8fd983e,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,37731e6d-01ba-425a-922f-639a80a93ed8,6,villager_2 pA(100%)  *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,86332ed4-9cf7-4488-b884-aab170d030b7,6,villager_2 pA(15%) pitchfork *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,acafe7ed-bc05-4ae4-9577-62dca9921d7b,6,villager_2  molotov *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,9394b51c-46f7-42c7-948e-cd682b2f3b8d,6,villager_2 pA(15%) torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,f3cce07f-2760-4d24-b769-1e7d0e44e916,6,villager_2 pA(100%) hoe *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,6290b8c4-6336-472c-8772-19c37c4a1239,6,villager_2 pA(20%) hatchet *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d62e7522-f7de-4af2-8d62-b585ac68a2ac,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,65b9b6c2-8611-4b21-a5fd-13925c2e2e12,6,villager_2 pA(10%)  *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,473ede8f-7e93-4819-9af3-94fe51261da5,6,villager_2 pA(20%) hatchet *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,10be6260-5a87-4047-8c81-0dbcb6db4847,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d8f16106-2d1f-43cb-b59a-3da9431536a5,6,villager_2   *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,1b7d10b9-4d58-43ce-b2b1-64f4ef4d0ef6,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,69c59902-3357-41b5-8cbf-89e6e8fd983e,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,37731e6d-01ba-425a-922f-639a80a93ed8,6,villager_2 pA(100%)  *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,86332ed4-9cf7-4488-b884-aab170d030b7,6,villager_2 pA(15%) pitchfork *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,acafe7ed-bc05-4ae4-9577-62dca9921d7b,6,villager_2  molotov *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,9394b51c-46f7-42c7-948e-cd682b2f3b8d,6,villager_2 pA(15%) torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,f3cce07f-2760-4d24-b769-1e7d0e44e916,6,villager_2 pA(100%) hoe *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,6290b8c4-6336-472c-8772-19c37c4a1239,6,villager_2 pA(20%) hatchet *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d62e7522-f7de-4af2-8d62-b585ac68a2ac,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,65b9b6c2-8611-4b21-a5fd-13925c2e2e12,6,villager_2 pA(10%)  *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,473ede8f-7e93-4819-9af3-94fe51261da5,6,villager_2 pA(20%) hatchet *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,10be6260-5a87-4047-8c81-0dbcb6db4847,6,villager_2  torch *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d8f16106-2d1f-43cb-b59a-3da9431536a5,6,villager_2   *,47200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,e4b4f8cf-c516-4ac2-85f5-073b17e01c76,6,mendez_chase   .,47300,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,a61c62f3-52e7-4d78-a167-c99b84fcada9,6,mendez_2   .,47401,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,aa862ced-d677-42bd-8542-fbbbe038a16f,6,mendez_3   .,47410,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
@@ -559,103 +559,103 @@ Leon,,6,[EXTRA],47410,289,13,-212,0,0,0,f61225f0-a6b7-4eb1-abea-c7358db3a9e5,,,,
 Leon,,6,[EXTRA],47410,288,10,-222,0,0,0,f61225f0-a6b7-4eb1-abea-c7358db3a9e5,,,,,fodder elite chainsaw_mad,
 Leon,,6,[EXTRA],47410,284,10,-222,0,0,0,f61225f0-a6b7-4eb1-abea-c7358db3a9e5,,,,,fodder elite chainsaw_mad,
 Leon,e584ce9e-b722-4618-a0ec-7680f30e0c0e,7,ashley_1   .,50100,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
-Leon,,7,[EXTRA],50200,-306,-4,50,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50200,-300,-1,66,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50201,-280,-5,69,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50201,-283,-5,65,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50201,-288,-5,63,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50201,-286,-5,81,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50202,-272,-6,52,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50302,-190,10,53,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50302,-191,10,50,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50302,-196,10,52,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50302,-200,10,55,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50302,-198,10,49,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50302,-203,10,52,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50503,-125,4,0,0,0,0,c3e6f853-cc4d-4301-bdac-ac9bca8d6ac4,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50503,-116,5,-2,0,0,0,c3e6f853-cc4d-4301-bdac-ac9bca8d6ac4,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50503,-120,5,10,0,0,0,c3e6f853-cc4d-4301-bdac-ac9bca8d6ac4,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50503,-126,5,9,0,0,0,c3e6f853-cc4d-4301-bdac-ac9bca8d6ac4,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50503,-111,4,14,0,0,0,c3e6f853-cc4d-4301-bdac-ac9bca8d6ac4,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50501,-115,9,22,0,0,0,c3e6f853-cc4d-4301-bdac-ac9bca8d6ac4,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50504,-121,18,23,0,0,0,e6771b5b-3287-44a3-a342-10e0a0e057d1,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50504,-115,18,25,0,0,0,e6771b5b-3287-44a3-a342-10e0a0e057d1,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50504,-115,18,20,0,0,0,e6771b5b-3287-44a3-a342-10e0a0e057d1,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50504,-105,18,23,0,0,0,e6771b5b-3287-44a3-a342-10e0a0e057d1,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50504,-110,18,22,0,0,0,e6771b5b-3287-44a3-a342-10e0a0e057d1,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50504,-110,18,24,0,0,0,e6771b5b-3287-44a3-a342-10e0a0e057d1,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50505,-132,18,37,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50505,-127,18,37,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50505,-121,18,36,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50505,-121,18,31,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50401,-127,18,43,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50401,-141,18,44,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50401,-150,18,43,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50401,-140,18,60,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50401,-132,18,61,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50401,-128,18,61,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50401,-123,20,52,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50600,-118,20,55,0,0,0,5ef2ed78-685d-4321-a133-b29a5c148513,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50600,-114,15,52,0,0,0,5ef2ed78-685d-4321-a133-b29a5c148513,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50600,-108,15,46,0,0,0,5ef2ed78-685d-4321-a133-b29a5c148513,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50600,-103,15,49,0,0,0,5ef2ed78-685d-4321-a133-b29a5c148513,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50600,-103,15,63,0,0,0,5ef2ed78-685d-4321-a133-b29a5c148513,,,,,,ashleyunsafe
-Leon,,7,[EXTRA],50601,-54,17,58,0,0,0,367b3222-0586-444f-b8f5-94737b036da7,,,,aggroed,,ashleyunsafe
-Leon,,7,[EXTRA],50601,-54,17,68,0,0,0,367b3222-0586-444f-b8f5-94737b036da7,,,,aggroed,,ashleyunsafe
-Leon,,7,[EXTRA],50601,-54,17,58,0,0,0,83f2e576-6a23-4afe-8ede-1e838ea73b35,,,,aggroed,,ashleyunsafe
-Leon,,7,[EXTRA],50601,-54,17,68,0,0,0,83f2e576-6a23-4afe-8ede-1e838ea73b35,,,,aggroed,,ashleyunsafe
-Leon,c24eb3f0-c94d-4c8f-83b2-df1f0fbf825b,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,afef1e99-9b1e-4cac-a933-ad86ba19753e,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,6421365e-9bd8-46f1-9c37-a0eb19b36f65,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,886d2c15-9dd0-44fe-b68c-40da397788d0,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d6af5290-587b-4b31-a39a-130094728f2e,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,c3198616-4642-4e3d-b708-8c8deab31ae6,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,400c9678-0aad-4643-af17-00c006822d20,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,48dbcae6-260c-41f4-9836-9bcd03acc180,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,9c42c672-e6fd-4b5d-86d9-c717b41f7b64,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,0211463a-28d9-47cb-9196-5d03409bd7d1,7,zealot   *,50202,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,19574260-1b58-468b-9d8a-430dfe7eef6c,7,zealot   *,50202,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,8846259f-199e-46ad-a4a5-9ac20df5a248,7,zealot   *,50202,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,54a066b3-d6d3-47d1-a6d3-ca4dc99000c5,7,zealot   *,50202,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,edc2922d-4479-4880-bbcd-464145524754,7,zealot pB(100%)  Boot Knife x1,50201,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,c6cfea14-1758-49e4-829a-b315d74373e1,7,zealot   *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,6f400c47-1ae0-4e3e-b721-a5ac15b44ea3,7,zealot  morning_star | wooden_shield *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,ef2fec64-8e2d-4e2f-b85e-3b486dbe02eb,7,zealot  scythe *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,a9ba3bc1-8b79-434c-9c92-8214c8b641be,7,zealot  morning_star | wooden_shield *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,86dad996-a9fe-4425-bba5-72fbae50fcfe,7,zealot  scythe *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,,7,[EXTRA],50200,-306,-4,50,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50200,-300,-1,66,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50201,-280,-5,69,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50201,-283,-5,65,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50201,-288,-5,63,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50201,-286,-5,81,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50202,-272,-6,52,0,0,0,,a3415aae-e1af-4096-8282-a1c73d57488e,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50302,-190,10,53,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50302,-191,10,50,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50302,-196,10,52,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50302,-200,10,55,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50302,-198,10,49,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50302,-203,10,52,0,0,0,73eb6db0-74fa-4580-9e44-99c9577e0e20,b0828105-2845-4d22-9b95-37231fc888b3,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50503,-125,4,0,0,0,0,c3e6f853-cc4d-4301-bdac-ac9bca8d6ac4,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50503,-116,5,-2,0,0,0,c3e6f853-cc4d-4301-bdac-ac9bca8d6ac4,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50503,-120,5,10,0,0,0,c3e6f853-cc4d-4301-bdac-ac9bca8d6ac4,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50503,-126,5,9,0,0,0,c3e6f853-cc4d-4301-bdac-ac9bca8d6ac4,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50503,-111,4,14,0,0,0,c3e6f853-cc4d-4301-bdac-ac9bca8d6ac4,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50501,-115,9,22,0,0,0,c3e6f853-cc4d-4301-bdac-ac9bca8d6ac4,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50504,-121,18,23,0,0,0,e6771b5b-3287-44a3-a342-10e0a0e057d1,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50504,-115,18,25,0,0,0,e6771b5b-3287-44a3-a342-10e0a0e057d1,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50504,-115,18,20,0,0,0,e6771b5b-3287-44a3-a342-10e0a0e057d1,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50504,-105,18,23,0,0,0,e6771b5b-3287-44a3-a342-10e0a0e057d1,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50504,-110,18,22,0,0,0,e6771b5b-3287-44a3-a342-10e0a0e057d1,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50504,-110,18,24,0,0,0,e6771b5b-3287-44a3-a342-10e0a0e057d1,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50505,-132,18,37,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50505,-127,18,37,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50505,-121,18,36,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50505,-121,18,31,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50401,-127,18,43,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50401,-141,18,44,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50401,-150,18,43,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50401,-140,18,60,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50401,-132,18,61,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50401,-128,18,61,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50401,-123,20,52,0,0,0,395e7509-b2cb-461d-95b7-6d23df6bad25,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50600,-118,20,55,0,0,0,5ef2ed78-685d-4321-a133-b29a5c148513,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50600,-114,15,52,0,0,0,5ef2ed78-685d-4321-a133-b29a5c148513,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50600,-108,15,46,0,0,0,5ef2ed78-685d-4321-a133-b29a5c148513,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50600,-103,15,49,0,0,0,5ef2ed78-685d-4321-a133-b29a5c148513,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50600,-103,15,63,0,0,0,5ef2ed78-685d-4321-a133-b29a5c148513,,,,,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50601,-54,17,58,0,0,0,367b3222-0586-444f-b8f5-94737b036da7,,,,aggroed,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50601,-54,17,68,0,0,0,367b3222-0586-444f-b8f5-94737b036da7,,,,aggroed,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50601,-54,17,58,0,0,0,83f2e576-6a23-4afe-8ede-1e838ea73b35,,,,aggroed,,ashleyunsafe invincible
+Leon,,7,[EXTRA],50601,-54,17,68,0,0,0,83f2e576-6a23-4afe-8ede-1e838ea73b35,,,,aggroed,,ashleyunsafe invincible
+Leon,c24eb3f0-c94d-4c8f-83b2-df1f0fbf825b,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,afef1e99-9b1e-4cac-a933-ad86ba19753e,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,6421365e-9bd8-46f1-9c37-a0eb19b36f65,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,886d2c15-9dd0-44fe-b68c-40da397788d0,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d6af5290-587b-4b31-a39a-130094728f2e,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,c3198616-4642-4e3d-b708-8c8deab31ae6,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,400c9678-0aad-4643-af17-00c006822d20,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,48dbcae6-260c-41f4-9836-9bcd03acc180,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,9c42c672-e6fd-4b5d-86d9-c717b41f7b64,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,0211463a-28d9-47cb-9196-5d03409bd7d1,7,zealot   *,50202,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,19574260-1b58-468b-9d8a-430dfe7eef6c,7,zealot   *,50202,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,8846259f-199e-46ad-a4a5-9ac20df5a248,7,zealot   *,50202,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,54a066b3-d6d3-47d1-a6d3-ca4dc99000c5,7,zealot   *,50202,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,edc2922d-4479-4880-bbcd-464145524754,7,zealot pB(100%)  Boot Knife x1,50201,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,c6cfea14-1758-49e4-829a-b315d74373e1,7,zealot   *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,6f400c47-1ae0-4e3e-b721-a5ac15b44ea3,7,zealot  morning_star | wooden_shield *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,ef2fec64-8e2d-4e2f-b85e-3b486dbe02eb,7,zealot  scythe *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,a9ba3bc1-8b79-434c-9c92-8214c8b641be,7,zealot  morning_star | wooden_shield *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,86dad996-a9fe-4425-bba5-72fbae50fcfe,7,zealot  scythe *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,17d48b81-166f-4396-b95d-9610f7346ee7,7,zealot  morning_star * // NEWWWW BOSS,50400,-177.3,10,52.3,0,91.4,0,,,,,,boss,
 Leon,1b9bc5ff-09be-4d1d-a143-38495e3d1830,7,garrador   Red Beryl x1,50503,0,0,0,0,0,0,,,leon-prison-garrador,,noduplicate nowave,,fodder mendez_chase super-colmillos chainsaw chainsaw_mad
-Leon,0222c3d4-54d3-4a94-a94a-7055372d6ce3,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,66d38cec-3c77-45ac-949c-9b6e42ce48cf,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,8c675595-6fa7-4db0-9572-7953bb9451ca,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,0643ef93-49c1-452f-84b5-8c6131c6647b,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,351d72e3-338a-47ff-aed3-f26709b4c3f6,7,zealot  morning_star *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,13c20e93-7127-4473-aab5-a1db5a71ec4b,7,zealot  morning_star *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,bf2bb3d0-3c9b-4941-b9a5-1115203d2c84,7,zealot  scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,3a209b12-fb23-404e-8582-90e6489be0a0,7,zealot   *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,87ba3c4a-7354-4610-b4a6-52730f2928a8,7,zealot   *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,88861291-d47f-4cdc-a721-12c936e47cd9,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,badf2592-10ea-4de9-835e-ccf634887ccb,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,bc25cb50-b76c-4bd1-b447-02746cd969ac,7,zealot   *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,872eddec-306f-453e-8474-a6547624c722,7,zealot pA(100%) morning_star | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,7324c438-f788-4161-856e-e82479c66905,7,zealot  torch *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,49096597-2003-4ff4-84e9-b715b658e651,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,a8df4b8e-7539-45e5-82e1-48b9715550f2,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,faa70916-4c26-4bb6-8e3e-19a03f4d806e,7,zealot pB(100%) torch *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,5eb59703-8a25-47d5-8dcb-11e4a173af0e,7,zealot pB(60%) torch *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d56d8269-15c9-4998-9bf7-825cd145ad76,7,zealot pB(60%) torch *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,9339dcc0-6ca1-4526-8b39-a9f0aec93b87,7,zealot pB(100%)  *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,db439fa7-1d16-49b0-9ee0-5a0b5de104a3,7,zealot pB(100%) morning_star *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,c202888c-313c-4533-9fbd-055073dfe455,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,f08726a4-ca1d-447a-9053-00a931ceffef,7,zealot pB(40%) morning_star | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,64c2af45-a991-410c-b544-4604e24931f0,7,zealot pB(40%) scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,14713927-1548-4f51-98e8-67d5b548e3f1,7,zealot pA(30%) scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,c500d06f-9323-44d0-9336-c27eaa318a4f,7,zealot pA(30%) scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,03e0fdb3-bcdc-4f73-866a-b2ebd06f4e99,7,zealot pA(100%) morning_star | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,693569b4-0fa2-4a95-82fd-b308eb6c2ae1,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,495c615c-7422-4a87-9601-7fac5b312de8,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,a85a3325-54d9-4151-8ccd-67040b144b66,7,zealot pA(100%)  *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,b0905760-397f-4ba2-9e98-66a81d3df981,7,zealot pA(100%) torch *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,0222c3d4-54d3-4a94-a94a-7055372d6ce3,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,66d38cec-3c77-45ac-949c-9b6e42ce48cf,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,8c675595-6fa7-4db0-9572-7953bb9451ca,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,0643ef93-49c1-452f-84b5-8c6131c6647b,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,351d72e3-338a-47ff-aed3-f26709b4c3f6,7,zealot  morning_star *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,13c20e93-7127-4473-aab5-a1db5a71ec4b,7,zealot  morning_star *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,bf2bb3d0-3c9b-4941-b9a5-1115203d2c84,7,zealot  scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,3a209b12-fb23-404e-8582-90e6489be0a0,7,zealot   *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,87ba3c4a-7354-4610-b4a6-52730f2928a8,7,zealot   *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,88861291-d47f-4cdc-a721-12c936e47cd9,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,badf2592-10ea-4de9-835e-ccf634887ccb,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,bc25cb50-b76c-4bd1-b447-02746cd969ac,7,zealot   *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,872eddec-306f-453e-8474-a6547624c722,7,zealot pA(100%) morning_star | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,7324c438-f788-4161-856e-e82479c66905,7,zealot  torch *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,49096597-2003-4ff4-84e9-b715b658e651,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,a8df4b8e-7539-45e5-82e1-48b9715550f2,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,faa70916-4c26-4bb6-8e3e-19a03f4d806e,7,zealot pB(100%) torch *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,5eb59703-8a25-47d5-8dcb-11e4a173af0e,7,zealot pB(60%) torch *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d56d8269-15c9-4998-9bf7-825cd145ad76,7,zealot pB(60%) torch *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,9339dcc0-6ca1-4526-8b39-a9f0aec93b87,7,zealot pB(100%)  *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,db439fa7-1d16-49b0-9ee0-5a0b5de104a3,7,zealot pB(100%) morning_star *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,c202888c-313c-4533-9fbd-055073dfe455,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,f08726a4-ca1d-447a-9053-00a931ceffef,7,zealot pB(40%) morning_star | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,64c2af45-a991-410c-b544-4604e24931f0,7,zealot pB(40%) scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,14713927-1548-4f51-98e8-67d5b548e3f1,7,zealot pA(30%) scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,c500d06f-9323-44d0-9336-c27eaa318a4f,7,zealot pA(30%) scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,03e0fdb3-bcdc-4f73-866a-b2ebd06f4e99,7,zealot pA(100%) morning_star | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,693569b4-0fa2-4a95-82fd-b308eb6c2ae1,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,495c615c-7422-4a87-9601-7fac5b312de8,7,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,a85a3325-54d9-4151-8ccd-67040b144b66,7,zealot pA(100%)  *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,b0905760-397f-4ba2-9e98-66a81d3df981,7,zealot pA(100%) torch *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,14c8b64f-a4e3-4ebf-a406-7b691346d79a,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,climber,
 Leon,8d7a4afd-c753-4a94-b6fe-20ca7ebb75a8,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,climber,
 Leon,69982bac-2a25-465e-8d17-3c574c6d7cf6,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
@@ -680,27 +680,27 @@ Leon,c9393781-d730-4e5f-b193-3da9cb94226b,7,zealot  morning_star | wooden_shield
 Leon,8f84d26c-dedf-4447-8c03-afacb64c699f,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,climber,
 Leon,8f329f90-3776-4519-a3d0-6cd9ca7f0d64,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,0003ddf2-1d36-40c6-ba37-ffe598772afe,7,zealot   *,50601,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
-Leon,7a0912fc-fb63-46aa-b46b-39fa7fed8930,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,5197f7d0-630a-430e-aee0-6d4b2d5524d6,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,103eb9de-0f8a-4f69-bbd2-4b3bd6eb4061,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,8f1a2845-4e08-421d-b796-ef6b73b643c5,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,442b7646-9ff2-41bc-b880-fbd4c04558a3,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,8f4b2d33-ee62-46a0-a240-c84aad72ffae,7,zealot   *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,b2b746b0-2480-4597-9bcd-5f0b43eba110,7,zealot pA(10%) torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,5c241eb2-12df-4e3c-846b-3472e74ceec6,7,zealot pB(0%) torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,b8e9133b-8b74-454d-ab3d-f4bfa38278bb,7,zealot   *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,771885a4-f01e-4213-99e9-fa193aff6417,7,zealot pA(10%) torch *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,a92db3ac-7ab1-4fa4-a963-5b46dc5b1164,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,5ad85f90-e959-45ff-b570-9901177ca34a,7,zealot  torch *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,320e0e16-e63d-4e5b-9e3d-41d8ba10cba9,7,zealot   *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,3a5e8d37-de96-4a80-bda5-5bb0c81f7084,7,zealot pB(80%) morning_star *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,c7f9115f-e46f-4ff4-999f-8aa06e79ac03,7,zealot  torch *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,83c64219-302c-4afb-85fc-8659524e7e8c,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,648f1baf-8f46-468b-92a0-261791c944b2,7,zealot pA(10%) torch *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,0a4abd13-78c6-4eed-99b9-52c807420f6a,7,zealot   *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,4e25c42b-d3cd-47bc-bcaf-28bd16cb36ab,7,zealot   *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,1a8ecedb-cbe5-470a-b9e1-30459ea80287,7,zealot   *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,931075a4-562f-4b4a-9558-f3c7cd34fcdf,7,zealot   *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,7a0912fc-fb63-46aa-b46b-39fa7fed8930,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,5197f7d0-630a-430e-aee0-6d4b2d5524d6,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,103eb9de-0f8a-4f69-bbd2-4b3bd6eb4061,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,8f1a2845-4e08-421d-b796-ef6b73b643c5,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,442b7646-9ff2-41bc-b880-fbd4c04558a3,7,zealot  crossbow *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,8f4b2d33-ee62-46a0-a240-c84aad72ffae,7,zealot   *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,b2b746b0-2480-4597-9bcd-5f0b43eba110,7,zealot pA(10%) torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,5c241eb2-12df-4e3c-846b-3472e74ceec6,7,zealot pB(0%) torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,b8e9133b-8b74-454d-ab3d-f4bfa38278bb,7,zealot   *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,771885a4-f01e-4213-99e9-fa193aff6417,7,zealot pA(10%) torch *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,a92db3ac-7ab1-4fa4-a963-5b46dc5b1164,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,5ad85f90-e959-45ff-b570-9901177ca34a,7,zealot  torch *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,320e0e16-e63d-4e5b-9e3d-41d8ba10cba9,7,zealot   *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,3a5e8d37-de96-4a80-bda5-5bb0c81f7084,7,zealot pB(80%) morning_star *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,c7f9115f-e46f-4ff4-999f-8aa06e79ac03,7,zealot  torch *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,83c64219-302c-4afb-85fc-8659524e7e8c,7,zealot  torch *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,648f1baf-8f46-468b-92a0-261791c944b2,7,zealot pA(10%) torch *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,0a4abd13-78c6-4eed-99b9-52c807420f6a,7,zealot   *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,4e25c42b-d3cd-47bc-bcaf-28bd16cb36ab,7,zealot   *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,1a8ecedb-cbe5-470a-b9e1-30459ea80287,7,zealot   *,50301,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,931075a4-562f-4b4a-9558-f3c7cd34fcdf,7,zealot   *,50300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,,8,[EXTRA],51100,19,21,39,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,,
 Leon,,8,[EXTRA],51100,19,21,43,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,,
 Leon,,8,[EXTRA],51100,18,21,45,0,0,0,f3aee77d-c551-49e7-9359-a5830a0bc1f6,,,,,,
@@ -813,65 +813,65 @@ Leon,3038fabe-eace-4340-a171-65f8d9532260,8,zealot  torch *,51200,0,0,0,0,0,0,,,
 Leon,f81acb05-b376-473a-98df-0c9659aa580e,8,zealot  torch *,51200,0,0,0,0,0,0,,,,,,,
 Leon,606f9d68-42fb-4ff1-a89c-39f374811594,8,viper   Viper x1,51200,0,0,0,0,0,0,,,,,noduplicate,,
 Leon,325551aa-2aa2-46d7-8d75-2201c8c686f5,9,ashley_1   .,51201,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
-Leon,,9,[EXTRA],51200,49,21,40,0,0,0,,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],51200,54,21,40,0,0,0,,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],51200,55,25,25,0,0,0,,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],51200,46,25,26,0,0,0,,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],52101,106,30,62,0,0,0,ad205d79-b8d8-4f6b-8f7a-f0fb8a64479c,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],52101,96,30,63,0,0,0,ad205d79-b8d8-4f6b-8f7a-f0fb8a64479c,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],52101,132,27,46,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],52101,132,27,35,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],52101,126,28,35,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],52101,126,28,45,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],52101,115,30,35,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],52101,114,30,46,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
+Leon,,9,[EXTRA],51200,49,21,40,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],51200,54,21,40,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],51200,55,25,25,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],51200,46,25,26,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],52101,106,30,62,0,0,0,ad205d79-b8d8-4f6b-8f7a-f0fb8a64479c,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],52101,96,30,63,0,0,0,ad205d79-b8d8-4f6b-8f7a-f0fb8a64479c,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],52101,132,27,46,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],52101,132,27,35,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],52101,126,28,35,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],52101,126,28,45,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],52101,115,30,35,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],52101,114,30,46,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
 Leon,,9,[EXTRA] MAIN HALL // Knights Room Ambush 1,52204,116,28,6,0,0,0,71469674-9532-40f7-8464-37eca3eeaa64,,,,noduplicate,villager_range zealot_range soldier_range brute_range,
 Leon,,9,[EXTRA] MAIN HALL // Knights Room Ambush 2,52204,116,28,11,0,0,0,71469674-9532-40f7-8464-37eca3eeaa64,,,,noduplicate,villager_range zealot_range soldier_range brute_range,
-Leon,,9,[EXTRA],52500,100,22,62,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],52500,106,22,65,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],50700,-100,13,74,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],50700,-110,13,78,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],50700,-108,13,74,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],50600,-111,15,62,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],50600,-114,15,52,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],50600,-107,15,46,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],50600,-108,15,55,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
+Leon,,9,[EXTRA],52500,100,22,62,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],52500,106,22,65,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],50700,-100,13,74,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],50700,-110,13,78,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],50700,-108,13,74,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],50600,-111,15,62,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],50600,-114,15,52,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],50600,-107,15,46,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],50600,-108,15,55,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
 Leon,,9,[EXTRA],50600,-117,18,45,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,small,
 Leon,,9,[EXTRA],50600,-118,20,52,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,small,
 Leon,,9,[EXTRA],50600,-121,14,52,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,small,
-Leon,,9,[EXTRA],52401,141,27,6,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],52401,141,27,26,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],51200,66,21,37,0,0,0,44da6bd3-0a56-43c9-9172-55a612454523,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],51200,54,21,22,0,0,0,44da6bd3-0a56-43c9-9172-55a612454523,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],51200,68,21,31,0,0,0,fbbe131b-3e66-4764-a22c-3d4a459cb26d,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],51200,78,21,23,0,0,0,4fad65ac-6612-46ae-b954-618d6b2d4fff,,,,,,ashleyunsafe
-Leon,,9,[EXTRA],51200,57,21,50,0,0,0,4a5d1752-48d0-4d68-b01b-e5abb419fb26,,,,,,ashleyunsafe
-Leon,aab3e717-0a46-4337-be85-ff470b17bb72,9,armadura   *,52200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,8a6f6212-91ac-4e3f-b86f-b5458fba4333,9,armadura   *,52200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,2d8e3493-0596-48a5-ae3a-12d5d7c9c080,9,armadura   *,52200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,386b0f7d-cfa7-4f27-8b75-4c3eb251c3be,9,armadura   *,52200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,21ca4def-e4ac-4aa9-ade5-73e9c95697cc,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,c6f2ea56-4d34-431e-a91d-e9727cedd345,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,b5e886ff-2c5e-496b-982f-9c68e1107808,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,f4bb5e8a-ca05-4e9b-80b6-decd5eaff409,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,12599b24-2380-4f2b-89e3-0e65ae59dfc1,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,09d4dd08-17c4-4525-a416-9bd21ed5d217,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,de197399-472b-459d-bc48-10227c0fbac0,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,26e738b5-ffbc-4c5a-8bf1-e7cd190522e2,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,9e3b1367-8147-4421-bdd5-3bf826d89977,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,6a717f5b-7b2a-4b9f-adb9-ae49b1155f4f,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,b38e100d-b62a-4a98-a697-aed59cfc963a,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,8a282540-45a6-4573-8f95-062d7821e9cb,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,24786241-ccd1-45aa-91e9-a955f84f2d07,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,c09dc793-3bfa-470b-8f65-cf78124ef49e,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d6a865ea-02bf-490d-afd7-7014b5cfd7ea,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,fe52cfbc-3670-4ab4-bf49-5a48eee778c9,9,zealot  torch *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,927d615c-a059-45b6-b403-19a7e2e69ec3,9,zealot   *,51101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,13f1fdbe-c493-478b-a1c2-a987108355fa,9,zealot   *,51101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,13eca9f9-addd-4296-bd0f-523a89bd5d21,9,zealot   *,51101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,4f7097cb-f80b-416a-aa01-d63cd0ddc998,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,2d0b669e-326a-451e-9536-c26fd84d560b,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,12ba6351-0254-41b4-8f52-bbb938545ed1,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,,9,[EXTRA],52401,141,27,6,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],52401,141,27,26,0,0,0,947e33a8-c840-4d86-a6eb-38e107698469,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],51200,66,21,37,0,0,0,44da6bd3-0a56-43c9-9172-55a612454523,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],51200,54,21,22,0,0,0,44da6bd3-0a56-43c9-9172-55a612454523,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],51200,68,21,31,0,0,0,fbbe131b-3e66-4764-a22c-3d4a459cb26d,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],51200,78,21,23,0,0,0,4fad65ac-6612-46ae-b954-618d6b2d4fff,,,,,,ashleyunsafe invincible
+Leon,,9,[EXTRA],51200,57,21,50,0,0,0,4a5d1752-48d0-4d68-b01b-e5abb419fb26,,,,,,ashleyunsafe invincible
+Leon,aab3e717-0a46-4337-be85-ff470b17bb72,9,armadura   *,52200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,8a6f6212-91ac-4e3f-b86f-b5458fba4333,9,armadura   *,52200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,2d8e3493-0596-48a5-ae3a-12d5d7c9c080,9,armadura   *,52200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,386b0f7d-cfa7-4f27-8b75-4c3eb251c3be,9,armadura   *,52200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,21ca4def-e4ac-4aa9-ade5-73e9c95697cc,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,c6f2ea56-4d34-431e-a91d-e9727cedd345,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,b5e886ff-2c5e-496b-982f-9c68e1107808,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,f4bb5e8a-ca05-4e9b-80b6-decd5eaff409,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,12599b24-2380-4f2b-89e3-0e65ae59dfc1,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,09d4dd08-17c4-4525-a416-9bd21ed5d217,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,de197399-472b-459d-bc48-10227c0fbac0,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,26e738b5-ffbc-4c5a-8bf1-e7cd190522e2,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,9e3b1367-8147-4421-bdd5-3bf826d89977,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,6a717f5b-7b2a-4b9f-adb9-ae49b1155f4f,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,b38e100d-b62a-4a98-a697-aed59cfc963a,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,8a282540-45a6-4573-8f95-062d7821e9cb,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,24786241-ccd1-45aa-91e9-a955f84f2d07,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,c09dc793-3bfa-470b-8f65-cf78124ef49e,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d6a865ea-02bf-490d-afd7-7014b5cfd7ea,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,fe52cfbc-3670-4ab4-bf49-5a48eee778c9,9,zealot  torch *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,927d615c-a059-45b6-b403-19a7e2e69ec3,9,zealot   *,51101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,13f1fdbe-c493-478b-a1c2-a987108355fa,9,zealot   *,51101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,13eca9f9-addd-4296-bd0f-523a89bd5d21,9,zealot   *,51101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,4f7097cb-f80b-416a-aa01-d63cd0ddc998,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,2d0b669e-326a-451e-9536-c26fd84d560b,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,12ba6351-0254-41b4-8f52-bbb938545ed1,9,colmillos   *,51200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,e1bc29d8-7148-41c7-82f1-97f16df9a3f2,9,viper   Viper x1,52101,0,0,0,0,0,0,,,,,,,colmillos super-colmillos invincible
 Leon,8d24c259-5fbd-4632-b87d-a86e6fd6a87b,9,armadura   *,52202,0,0,0,0,0,0,,,,,,,colmillos super-colmillos invincible
 Leon,b4374c74-f9f5-4786-8ea9-ff94024cdedb,9,armadura   *,52202,0,0,0,0,0,0,,,,,,,colmillos super-colmillos invincible
@@ -887,73 +887,73 @@ Leon,8933afe7-7bcf-4052-9c09-9ca2be004ecc,9,armadura   *,52202,0,0,0,0,0,0,,,,,,
 Leon,5cb0ab35-1d18-4928-8407-20bb3df7db89,9,armadura   *,52202,0,0,0,0,0,0,,,,,,,colmillos super-colmillos invincible
 Leon,6a67f8dd-7fb0-4928-a475-bc9ea1774385,9,armadura   *,52202,0,0,0,0,0,0,,,,,,,colmillos super-colmillos invincible
 Leon,7fd85876-8cd0-4fbb-bf97-5b9502d9becf,9,armadura   *,52202,0,0,0,0,0,0,,,,,,,colmillos super-colmillos invincible
-Leon,3be5af00-b684-49c7-979d-39aca52dd04f,9,zealot pA(0%) wooden_shield *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,da4ec6cf-7544-46be-a875-ad79063ef5c0,9,zealot pB(0%) morning_star *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,461e5f41-5ae5-43a5-b9b7-bfb0f6e37561,9,zealot pA(0%) scythe *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,26bd3046-e404-405d-aa71-727c5dc36c42,9,zealot pB(0%) staff Red Beryl x1,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d23c6205-9ca5-4ad9-b213-08083d0a6e3e,9,zealot pA(0%)  *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,cc6c21f1-6ec0-4d7b-a9f3-0ca75313b941,9,zealot pB(0%)  *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,9cc880d1-e491-4470-8746-c06d6483cff3,9,zealot pA(0%) morning_star *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,f58511a5-103a-4b28-9766-a5a13d9c8862,9,zealot pB(0%)  *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,327c1763-959d-4082-b99e-607debebb307,9,zealot pB(0%)  *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,f14e7dc5-c3c4-4853-bc80-d149ed9813df,9,zealot pA(0%) morning_star *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,3be5af00-b684-49c7-979d-39aca52dd04f,9,zealot pA(0%) wooden_shield *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,da4ec6cf-7544-46be-a875-ad79063ef5c0,9,zealot pB(0%) morning_star *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,461e5f41-5ae5-43a5-b9b7-bfb0f6e37561,9,zealot pA(0%) scythe *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,26bd3046-e404-405d-aa71-727c5dc36c42,9,zealot pB(0%) staff Red Beryl x1,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d23c6205-9ca5-4ad9-b213-08083d0a6e3e,9,zealot pA(0%)  *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,cc6c21f1-6ec0-4d7b-a9f3-0ca75313b941,9,zealot pB(0%)  *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,9cc880d1-e491-4470-8746-c06d6483cff3,9,zealot pA(0%) morning_star *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,f58511a5-103a-4b28-9766-a5a13d9c8862,9,zealot pB(0%)  *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,327c1763-959d-4082-b99e-607debebb307,9,zealot pB(0%)  *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,f14e7dc5-c3c4-4853-bc80-d149ed9813df,9,zealot pA(0%) morning_star *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,938b4038-d426-4046-8cfb-1cad0d1192f6,9,zealot pA(0%) morning_star * [REINFORCEMENTS],52303,0,0,0,0,0,0,,,,,,climber,
 Leon,9e06886e-a126-4ba5-b950-d34f1cb5a97a,9,zealot pB(0%) morning_star * [REINFORCEMENTS],52303,0,0,0,0,0,0,,,,,,climber,
 Leon,d4e9b920-e037-4d7d-8a3f-a5499b879612,9,zealot pB(0%) morning_star * [REINFORCEMENTS],52303,0,0,0,0,0,0,,,,,,climber,
 Leon,a82a477a-c47a-4106-a97a-0823f29b821c,9,zealot pA(0%) morning_star | wooden_shield * [REINFORCEMENTS],52303,0,0,0,0,0,0,,,,,,climber,
-Leon,31b683ea-e382-49d3-8449-52336c55b61b,9,zealot pA(0%) hatchet *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,608aa637-d26e-4276-a7b7-a330e68cdcd2,9,zealot pB(0%) hatchet *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,a9592380-3f49-4ca0-9c6a-336aa12c7388,9,zealot pB(0%) hatchet *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,6b461978-6ea4-4b29-aff1-6d4838b6c629,9,zealot pA(0%) morning_star | wooden_shield *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d5700b25-c99d-4040-9826-6ef5b28d4f2d,9,zealot pB(0%) morning_star | wooden_shield *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,59540fe1-d31c-451b-b831-37aa1815c2cd,9,zealot pA(0%) morning_star *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,e3e04fff-ae49-4c74-8f54-6fcf394339d2,9,zealot pB(0%) morning_star *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,f0339e7b-24ac-40ab-914b-57c2b835e750,9,zealot pB(0%) morning_star *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,847b3b82-8170-4872-bd00-350dff8596be,9,zealot pA(0%) hatchet | wooden_shield *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,1cc8e0cb-fd2a-40b4-8bd7-2e12d6799c5b,9,zealot pB(0%) hatchet | wooden_shield *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,2552b095-5e86-43fa-83d5-419c3b362ab3,9,zealot pB(0%) hatchet | wooden_shield *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,31b683ea-e382-49d3-8449-52336c55b61b,9,zealot pA(0%) hatchet *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,608aa637-d26e-4276-a7b7-a330e68cdcd2,9,zealot pB(0%) hatchet *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,a9592380-3f49-4ca0-9c6a-336aa12c7388,9,zealot pB(0%) hatchet *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,6b461978-6ea4-4b29-aff1-6d4838b6c629,9,zealot pA(0%) morning_star | wooden_shield *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d5700b25-c99d-4040-9826-6ef5b28d4f2d,9,zealot pB(0%) morning_star | wooden_shield *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,59540fe1-d31c-451b-b831-37aa1815c2cd,9,zealot pA(0%) morning_star *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,e3e04fff-ae49-4c74-8f54-6fcf394339d2,9,zealot pB(0%) morning_star *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,f0339e7b-24ac-40ab-914b-57c2b835e750,9,zealot pB(0%) morning_star *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,847b3b82-8170-4872-bd00-350dff8596be,9,zealot pA(0%) hatchet | wooden_shield *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,1cc8e0cb-fd2a-40b4-8bd7-2e12d6799c5b,9,zealot pB(0%) hatchet | wooden_shield *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,2552b095-5e86-43fa-83d5-419c3b362ab3,9,zealot pB(0%) hatchet | wooden_shield *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,266c5c02-5c1e-4b82-8a35-e93b003265f4,9,zealot pB(50%) staff Red Beryl x1 // Red Zealot // NEWWWWW BOSS,50401,0,0,0,0,0,0,,,leon-red-zealot-mainhall,,,,fodder elite invincible krauser_1
-Leon,d8b139d0-af0e-48c1-9415-a9c756a37a9b,9,zealot  hatchet *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,67291da2-4b42-4bb4-8602-057283ccf719,9,zealot pA(30%) morning_star *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,c483f279-a5ce-46cb-a0d5-e63991ea36b3,9,zealot pB(50%)  *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,c3783019-3139-4018-b64d-d60eb40969a0,9,zealot pA(30%)  *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,7063abf3-d93a-4f0e-8aa0-dd338abd9a6f,9,zealot pB(50%) hatchet *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,8b36e52a-2713-4136-8ac2-133a38df8c88,9,zealot pA(30%) scythe *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,1065711c-6df3-4635-8b2f-7c30eacc791d,9,zealot  scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,af6b9fff-192f-4203-8f7f-f169c3913c8a,9,zealot  morning_star *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,e5c0f71f-ef14-4ba6-962f-49730490991e,9,zealot  scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,2084687a-a4af-46ec-bc89-4f1ca6dd7560,9,zealot  morning_star *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,0bfa5eca-bed7-4371-afc3-bed1e1bfe36a,9,zealot  scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,22f63fd0-cd08-40b4-8cf0-cc79ad2876a6,9,zealot  scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,9cc82a4a-a2ef-4788-95d8-52d580d6ebba,9,zealot  scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,45c6ac31-fe3b-4c70-9682-542c108acb29,9,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,56f0f723-048e-410c-b600-ec4ecff06dd9,9,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d701e3e4-1c4a-48a3-b779-d893f8f30a9c,9,viper   Viper x1,50505,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,a05d0a08-676b-4728-a16f-9bab2ea137e1,9,zealot   *,52101,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,173e4306-ca17-46dd-ba1d-450d36fa8510,9,zealot pB(100%) morning_star | wooden_shield *,52202,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,4d63e275-366a-4d88-8897-c1c53664ea21,9,zealot pA(100%) scythe *,52202,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,7ebdef8b-5a7c-4b3f-8d55-0ff4fde34bd6,9,zealot   *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,4d930a9f-a7e9-4810-a616-c3fed0037d69,9,zealot   *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,41789604-0849-4e1f-bdb3-2fc99fd6029d,9,armadura   *,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,e40f96d3-5cee-46c8-bd26-c4211a8650b3,9,armadura   *,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,a6ce1149-eb5f-4814-8ebc-89d02c260165,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,ec2d2143-4d49-47dd-aba6-7f962d6de697,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,13ba3db3-af96-448b-872e-8e676699626f,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d00bd76c-640f-4e88-8126-6eb18aabb97e,9,armadura   *,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,841a9e8a-d89a-4f89-a159-913bb130086f,9,armadura   *,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,16987692-5511-4775-b69e-bbf4ab6621a6,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,913446f7-484f-4f7e-8f19-5459ee5e5802,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d17f4325-1aed-4143-839c-51fa3ba5bc48,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,d8b139d0-af0e-48c1-9415-a9c756a37a9b,9,zealot  hatchet *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,67291da2-4b42-4bb4-8602-057283ccf719,9,zealot pA(30%) morning_star *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,c483f279-a5ce-46cb-a0d5-e63991ea36b3,9,zealot pB(50%)  *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,c3783019-3139-4018-b64d-d60eb40969a0,9,zealot pA(30%)  *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,7063abf3-d93a-4f0e-8aa0-dd338abd9a6f,9,zealot pB(50%) hatchet *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,8b36e52a-2713-4136-8ac2-133a38df8c88,9,zealot pA(30%) scythe *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,1065711c-6df3-4635-8b2f-7c30eacc791d,9,zealot  scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,af6b9fff-192f-4203-8f7f-f169c3913c8a,9,zealot  morning_star *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,e5c0f71f-ef14-4ba6-962f-49730490991e,9,zealot  scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,2084687a-a4af-46ec-bc89-4f1ca6dd7560,9,zealot  morning_star *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,0bfa5eca-bed7-4371-afc3-bed1e1bfe36a,9,zealot  scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,22f63fd0-cd08-40b4-8cf0-cc79ad2876a6,9,zealot  scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,9cc82a4a-a2ef-4788-95d8-52d580d6ebba,9,zealot  scythe *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,45c6ac31-fe3b-4c70-9682-542c108acb29,9,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,56f0f723-048e-410c-b600-ec4ecff06dd9,9,zealot  crossbow *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d701e3e4-1c4a-48a3-b779-d893f8f30a9c,9,viper   Viper x1,50505,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,a05d0a08-676b-4728-a16f-9bab2ea137e1,9,zealot   *,52101,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,173e4306-ca17-46dd-ba1d-450d36fa8510,9,zealot pB(100%) morning_star | wooden_shield *,52202,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,4d63e275-366a-4d88-8897-c1c53664ea21,9,zealot pA(100%) scythe *,52202,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,7ebdef8b-5a7c-4b3f-8d55-0ff4fde34bd6,9,zealot   *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,4d930a9f-a7e9-4810-a616-c3fed0037d69,9,zealot   *,52303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,41789604-0849-4e1f-bdb3-2fc99fd6029d,9,armadura   *,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,e40f96d3-5cee-46c8-bd26-c4211a8650b3,9,armadura   *,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,a6ce1149-eb5f-4814-8ebc-89d02c260165,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,ec2d2143-4d49-47dd-aba6-7f962d6de697,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,13ba3db3-af96-448b-872e-8e676699626f,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d00bd76c-640f-4e88-8126-6eb18aabb97e,9,armadura   *,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,841a9e8a-d89a-4f89-a159-913bb130086f,9,armadura   *,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,16987692-5511-4775-b69e-bbf4ab6621a6,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,913446f7-484f-4f7e-8f19-5459ee5e5802,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d17f4325-1aed-4143-839c-51fa3ba5bc48,9,armadura   *,53303,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,f302fd15-3c95-4bed-a792-c2cf16d9a27c,9,armadura   *,53302,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,1c4b25e0-c6b5-408a-96c6-8010fe62738d,9,armadura   *,53302,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,5315416a-8f1d-4526-aa70-4a89c6a01ff5,9,armadura   *,53303,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,bd77f244-3686-4237-8ece-83ef02ffc1b0,9,armadura   *,53303,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,28e749aa-4308-4014-ae97-a30202aff442,9,armadura   *,53303,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
-Leon,18d2a469-43c0-4130-857e-a5cfe0c868de,9,armadura   Emerald x1,53200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,6f982103-3673-49bf-bb72-04504090049f,9,armadura   Sapphire x1,53200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,38dfcf6a-6a95-4213-83cc-b65f58734676,9,armadura   Yellow Diamond x1,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,acdc9e9c-ff3a-45cd-9d7c-9de7de250647,9,armadura   Sapphire x1,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,1e05ca71-7549-4179-9720-2e9908ec2cf4,9,armadura   Ruby x1,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,18d2a469-43c0-4130-857e-a5cfe0c868de,9,armadura   Emerald x1,53200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,6f982103-3673-49bf-bb72-04504090049f,9,armadura   Sapphire x1,53200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,38dfcf6a-6a95-4213-83cc-b65f58734676,9,armadura   Yellow Diamond x1,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,acdc9e9c-ff3a-45cd-9d7c-9de7de250647,9,armadura   Sapphire x1,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,1e05ca71-7549-4179-9720-2e9908ec2cf4,9,armadura   Ruby x1,53302,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,,10,[EXTRA],52101,130,32,34,0,0,0,,,,,ranged,small,
 Leon,,10,[EXTRA],52101,130,32,47,0,0,0,,,,,ranged,small,
 Leon,,10,[EXTRA],52101,138,32,43,0,0,0,,,,,ranged,small,
@@ -1479,35 +1479,35 @@ Leon,be280715-78e6-4cd7-8f28-09ec50608c7d,13,regenerador   Wrench x1,61201,0,0,0
 Leon,1e97a1e6-76fd-42d7-85a4-4b405c2dfaa4,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
 Leon,f9113bbf-fee8-4854-9c1b-54afb50dde0a,13,soldier   Pesetas x500,61500,0,0,0,0,0,0,,,,,,small,
 Leon,43853325-2ccc-4964-a4d6-913accf33a4c,13,viper   Viper x1,61106,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,,14,[EXTRA],62100,59,12,-103,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],62100,72,12,-113,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],62100,65,16,-121,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],62100,59,12,-116,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],62100,50,12,-99,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],62100,43,12,-98,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],62100,20,17,-111,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],62100,20,17,-105,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],63100,4,19,-106,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],63101,17,17,-96,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA] SEWAGE DISPOSAL // Guarding First Team Door,63103,-13,22,-87,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA] SEWAGE DISPOSAL // Other side of First Team Door,63106,-14,22,-93,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],63106,-22,22,-94,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],63108,-11,22,-123,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],63108,-7,22,-126,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],63108,10,22,-128,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA] SEWAGE DISPOSAL // Across Bridge,63108,3,22,-126,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],63108,5,22,-138,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],63108,8,22,-142,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],63108,-8,23,-151,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],63108,-8,22,-137,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],63108,-8,22,-144,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA],63108,-13,22,-128,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
-Leon,,14,[EXTRA] SEWAGE DISPOSAL // After Keypad Door,63109,-12,22,-118,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
+Leon,,14,[EXTRA],62100,59,12,-103,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],62100,72,12,-113,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],62100,65,16,-121,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],62100,59,12,-116,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],62100,50,12,-99,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],62100,43,12,-98,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],62100,20,17,-111,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],62100,20,17,-105,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],63100,4,19,-106,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],63101,17,17,-96,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA] SEWAGE DISPOSAL // Guarding First Team Door,63103,-13,22,-87,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA] SEWAGE DISPOSAL // Other side of First Team Door,63106,-14,22,-93,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],63106,-22,22,-94,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],63108,-11,22,-123,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],63108,-7,22,-126,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],63108,10,22,-128,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA] SEWAGE DISPOSAL // Across Bridge,63108,3,22,-126,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],63108,5,22,-138,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],63108,8,22,-142,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],63108,-8,23,-151,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],63108,-8,22,-137,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],63108,-8,22,-144,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA],63108,-13,22,-128,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA] SEWAGE DISPOSAL // After Keypad Door,63109,-12,22,-118,0,0,0,faedabc3-b546-422e-bc94-bb0d92f7699f,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe invincible
 Leon,,14,[EXTRA] WRECKING BALL // WRECKING BOSS,62200,32,16.4,-112.3,0,87,0,4bb2c758-193c-4cfe-b9b3-1fbf4103a2f4,,leon-wrecking-ball-boss,,,,fodder elite invincible krauser_1
-Leon,,14,[EXTRA] WRECKING BALL // Elevator Courtyard Far Left,62201,49,16,-130,0,0,0,80f4d85a-bc81-45a3-adf0-bbaf955306e7,,,,,,ashleyunsafe
-Leon,,14,[EXTRA] WRECKING BALL // Elevator Courtyard Left,62201,54,16,-130,0,0,0,80f4d85a-bc81-45a3-adf0-bbaf955306e7,,,,,,ashleyunsafe
-Leon,,14,[EXTRA] WRECKING BALL // Elevator Courtyard Right,62201,58,16.4,-129.9,0,0,0,80f4d85a-bc81-45a3-adf0-bbaf955306e7,,,,,,ashleyunsafe
-Leon,,14,[EXTRA] WRECKING BALL // Elevator Courtyard Far Right,62201,57,16,-133,0,0,0,80f4d85a-bc81-45a3-adf0-bbaf955306e7,,,,,,ashleyunsafe
+Leon,,14,[EXTRA] WRECKING BALL // Elevator Courtyard Far Left,62201,49,16,-130,0,0,0,80f4d85a-bc81-45a3-adf0-bbaf955306e7,,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA] WRECKING BALL // Elevator Courtyard Left,62201,54,16,-130,0,0,0,80f4d85a-bc81-45a3-adf0-bbaf955306e7,,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA] WRECKING BALL // Elevator Courtyard Right,62201,58,16.4,-129.9,0,0,0,80f4d85a-bc81-45a3-adf0-bbaf955306e7,,,,,,ashleyunsafe invincible
+Leon,,14,[EXTRA] WRECKING BALL // Elevator Courtyard Far Right,62201,57,16,-133,0,0,0,80f4d85a-bc81-45a3-adf0-bbaf955306e7,,,,,,ashleyunsafe invincible
 Leon,,14,[EXTRA],64100,52,26,-157,0,0,0,80f4d85a-bc81-45a3-adf0-bbaf955306e7,,,,,small,
 Leon,,14,[EXTRA],64100,46,26,-157,0,0,0,80f4d85a-bc81-45a3-adf0-bbaf955306e7,,,,,small,
 Leon,,14,[EXTRA] PRE-KRAUSER // Guarding Amber Right,64101,61,26,-166,0,0,0,b553de38-9be0-4364-8fbd-89ca53713c66,,,,,small,
@@ -1646,44 +1646,44 @@ Leon,86506fa2-fed4-4644-b04c-b0659c78a5c8,14,arana   *,62200,0,0,0,0,0,0,,,,,,cl
 Leon,a91930e8-e341-4d5e-9747-1def4af41e1b,14,arana   *,62200,0,0,0,0,0,0,,,,,,climber,
 Leon,5e063717-4c6e-4506-89e1-c22c28c82463,14,arana   *,62200,0,0,0,0,0,0,,,,,,climber,
 Leon,a9549446-f4f7-4210-8114-30b64ebd5bb7,14,arana   *,62200,0,0,0,0,0,0,,,,,,climber,
-Leon,46b0865e-fb75-4374-bad6-6a30d2274ffe,14,soldier pA(20%) shock_baton *,63100,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,16db0cda-c237-47cf-9271-d7c5b611026e,14,soldier pA(20%) hatchet *,63100,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,bbf07641-1c47-47b8-b40e-e18a75aaf0f4,14,soldier pA(50%) hatchet | iron_shield *,63100,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,26a5edf1-185e-45c8-ba42-c5a6ea895816,14,soldier pA(20%) crowbar *,63100,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,928fbc31-07b4-4e10-b0ce-ff35ccd42373,14,soldier pA(100%) hatchet *,63102,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,46b0865e-fb75-4374-bad6-6a30d2274ffe,14,soldier pA(20%) shock_baton *,63100,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,16db0cda-c237-47cf-9271-d7c5b611026e,14,soldier pA(20%) hatchet *,63100,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,bbf07641-1c47-47b8-b40e-e18a75aaf0f4,14,soldier pA(50%) hatchet | iron_shield *,63100,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,26a5edf1-185e-45c8-ba42-c5a6ea895816,14,soldier pA(20%) crowbar *,63100,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,928fbc31-07b4-4e10-b0ce-ff35ccd42373,14,soldier pA(100%) hatchet *,63102,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,a086a2f1-625d-44d7-8d76-12ad34432272,14,soldier   * // Scripted Ashley Grabber,63100,0,0,0,0,0,0,,,,,preserve noduplicate,,
-Leon,e2a795b8-ef10-40bd-aec9-1768406a3cd2,14,soldier  crowbar *,63100,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,ed0fa554-6709-4f25-a3ec-af7826c92baa,14,soldier  shock_baton *,63100,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,40aedc82-a2cc-49b4-b93c-31740e2d1406,14,soldier pC(100%) spiked_bat *,63102,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,93618195-327c-45fa-8eda-6564a8062ee8,14,soldier pA(20%) hatchet | iron_shield *,63102,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,b532f72e-7b11-472c-816b-20b809617aee,14,soldier pA(10%) shock_baton *,63103,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,487d51c1-1f8c-463c-b771-81b8dfcc03ed,14,soldier   *,63107,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,3602843d-7f35-4d29-baf1-2279f784d760,14,soldier   *,63107,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,d38fa6e6-1471-4591-a8c9-3e75c81b3629,14,soldier   *,63108,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,e9a8e76f-40ec-405a-a07b-f54bdaa90646,14,soldier   *,63107,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,ff57518a-44aa-4450-aa44-538ca05e2865,14,soldier   *,63106,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,982c4db0-7c14-4afc-ac96-8079f55e2241,14,soldier   *,63106,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,0bd5169d-efb2-4a6b-bfb4-597161a7b069,14,arana   *,63109,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,ec50b7e7-da15-4584-8ad1-67adbbfead3c,14,arana   *,63109,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,fe4b8781-c355-4b0c-9a7e-993ffe018d44,14,soldier pC(100%)  .,63109,0,0,0,0,0,0,,,,,,,ashleyunsafe
+Leon,e2a795b8-ef10-40bd-aec9-1768406a3cd2,14,soldier  crowbar *,63100,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,ed0fa554-6709-4f25-a3ec-af7826c92baa,14,soldier  shock_baton *,63100,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,40aedc82-a2cc-49b4-b93c-31740e2d1406,14,soldier pC(100%) spiked_bat *,63102,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,93618195-327c-45fa-8eda-6564a8062ee8,14,soldier pA(20%) hatchet | iron_shield *,63102,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,b532f72e-7b11-472c-816b-20b809617aee,14,soldier pA(10%) shock_baton *,63103,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,487d51c1-1f8c-463c-b771-81b8dfcc03ed,14,soldier   *,63107,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,3602843d-7f35-4d29-baf1-2279f784d760,14,soldier   *,63107,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,d38fa6e6-1471-4591-a8c9-3e75c81b3629,14,soldier   *,63108,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,e9a8e76f-40ec-405a-a07b-f54bdaa90646,14,soldier   *,63107,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,ff57518a-44aa-4450-aa44-538ca05e2865,14,soldier   *,63106,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,982c4db0-7c14-4afc-ac96-8079f55e2241,14,soldier   *,63106,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,0bd5169d-efb2-4a6b-bfb4-597161a7b069,14,arana   *,63109,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,ec50b7e7-da15-4584-8ad1-67adbbfead3c,14,arana   *,63109,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,fe4b8781-c355-4b0c-9a7e-993ffe018d44,14,soldier pC(100%)  .,63109,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,f8eadaf1-4075-4893-bf31-114e57b3d9f6,14,regenerador   Red Beryl x1,63107,0,0,0,0,0,0,,,,,noduplicate,regenerador iron_maiden super_iron_maiden,
-Leon,133982c6-8107-485b-8cb3-2f1c16f3b8a0,14,regenerador   Red Beryl x1,63108,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,87d9516b-70d2-4b88-82af-ea8e734fbeb0,14,arana   *,63102,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,11aa48ab-89fe-4e14-9d2d-d4343bd60ad7,14,arana   *,63102,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,f1727ab6-cf72-4d67-a43c-bfd445818163,14,arana   *,63109,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,043307a2-cd3e-4d53-a514-38d27b4d3a25,14,soldier  spiked_bat *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,acf7bb2a-2c22-4118-8349-5170b40e687c,14,soldier  molotov *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,8f15e3cd-1d04-47d5-b62d-2e036c37e8db,14,soldier  crowbar *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,fa54f019-49cf-48cb-93a1-da4bb7c0f1cd,14,soldier  crossbow *,64200,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,54849a7e-bf07-4807-84f8-ffecff408801,14,colmillos   *,64104,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,04de1c39-6303-422e-85dc-4695ff06afa6,14,colmillos   *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,509f479b-ef7e-4d54-b274-56d6ed060b59,14,arana   *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,b69cd1fa-f258-4ac5-9125-643e38c68ee0,14,arana   *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,eb67bd7a-657c-474b-b9e9-17855fe6d0ee,14,soldier  crowbar *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,81e815de-d516-427a-8b77-1378ec084e36,14,soldier pB(50%) spiked_bat *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,,15,[EXTRA],65200,188,37,-196,0,0,0,,,,,,,ashleyunsafe
-Leon,,15,[EXTRA],65200,182,37,-193,0,0,0,,,,,,,ashleyunsafe
-Leon,,15,[EXTRA],65200,182,37,-198,0,0,0,,,,,,,ashleyunsafe
+Leon,133982c6-8107-485b-8cb3-2f1c16f3b8a0,14,regenerador   Red Beryl x1,63108,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,87d9516b-70d2-4b88-82af-ea8e734fbeb0,14,arana   *,63102,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,11aa48ab-89fe-4e14-9d2d-d4343bd60ad7,14,arana   *,63102,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,f1727ab6-cf72-4d67-a43c-bfd445818163,14,arana   *,63109,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,043307a2-cd3e-4d53-a514-38d27b4d3a25,14,soldier  spiked_bat *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,acf7bb2a-2c22-4118-8349-5170b40e687c,14,soldier  molotov *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,8f15e3cd-1d04-47d5-b62d-2e036c37e8db,14,soldier  crowbar *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,fa54f019-49cf-48cb-93a1-da4bb7c0f1cd,14,soldier  crossbow *,64200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,54849a7e-bf07-4807-84f8-ffecff408801,14,colmillos   *,64104,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,04de1c39-6303-422e-85dc-4695ff06afa6,14,colmillos   *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,509f479b-ef7e-4d54-b274-56d6ed060b59,14,arana   *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,b69cd1fa-f258-4ac5-9125-643e38c68ee0,14,arana   *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,eb67bd7a-657c-474b-b9e9-17855fe6d0ee,14,soldier  crowbar *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,81e815de-d516-427a-8b77-1378ec084e36,14,soldier pB(50%) spiked_bat *,64103,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,,15,[EXTRA],65200,188,37,-196,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,,15,[EXTRA],65200,182,37,-193,0,0,0,,,,,,,ashleyunsafe invincible
+Leon,,15,[EXTRA],65200,182,37,-198,0,0,0,,,,,,,ashleyunsafe invincible
 Leon,,15,[EXTRA],66104,71,35,-219,0,0,0,,,,,,small,
 Leon,,15,[EXTRA],66104,83,32,-215,0,0,0,,,,,,small,
 Leon,,15,[EXTRA],66104,89,32,-217,0,0,0,,,,,,small,
@@ -1844,20 +1844,20 @@ Leon,ea315549-73ae-4128-9775-81353f8e65c4,15,regenerador   Emerald x1,67101,0,0,
 Leon,dcd1d0e4-c90a-4887-b774-7c29c07f4615,15,regenerador   Emerald x1,67101,0,0,0,0,0,0,,,,,,regenerador iron_maiden super_iron_maiden,
 Leon,fc84fb86-d102-4fdd-aefc-bd26d9a0f8e2,15,regenerador   Ruby x1,67102,0,0,0,0,0,0,,,,,,regenerador iron_maiden super_iron_maiden,
 Leon,cacb6015-b267-4fef-b6cb-d593600c704c,15,regenerador   Yellow Diamond x1,67102,0,0,0,0,0,0,,,,,,regenerador iron_maiden super_iron_maiden,
-Leon,,16,[EXTRA],68103,-108,62,-134,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,,16,[EXTRA],68103,-114,62,-136,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,,16,[EXTRA],68103,-109,62,-140,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,,16,[EXTRA],68103,-103,66,-134,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,,16,[EXTRA],68103,-103,66,-138,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,,16,[EXTRA],68103,-107,66,-144,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,,16,[EXTRA],68103,-115,66,-144,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,,16,[EXTRA],68201,-121,66,-147,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,,16,[EXTRA],68300,-133,62,-171,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,,16,[EXTRA],68204,-155,66,-190,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,,16,[EXTRA],68204,-165,66,-186,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,,16,[EXTRA],68206,-182,66,-187,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,,16,[EXTRA],68204,-173,66,-185,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
-Leon,,16,[EXTRA],68206,-185,66,-179,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe
+Leon,,16,[EXTRA],68103,-108,62,-134,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
+Leon,,16,[EXTRA],68103,-114,62,-136,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
+Leon,,16,[EXTRA],68103,-109,62,-140,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
+Leon,,16,[EXTRA],68103,-103,66,-134,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
+Leon,,16,[EXTRA],68103,-103,66,-138,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
+Leon,,16,[EXTRA],68103,-107,66,-144,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
+Leon,,16,[EXTRA],68103,-115,66,-144,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
+Leon,,16,[EXTRA],68201,-121,66,-147,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
+Leon,,16,[EXTRA],68300,-133,62,-171,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
+Leon,,16,[EXTRA],68204,-155,66,-190,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
+Leon,,16,[EXTRA],68204,-165,66,-186,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
+Leon,,16,[EXTRA],68206,-182,66,-187,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
+Leon,,16,[EXTRA],68204,-173,66,-185,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
+Leon,,16,[EXTRA],68206,-185,66,-179,0,0,0,,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,ashleyunsafe invincible
 Leon,6b0d630d-93ec-4bc7-9690-f0f36c8d8045,16,sadler_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,8f9465b0-c28d-4a34-b004-b63c155d70fd,16,sadler_1   .,78900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
 Leon,cacdb0fa-b472-4567-9dbd-8cb1cafa9c57,16,sadler_1   .,69900,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
@@ -1907,59 +1907,59 @@ Leon,,16,[EXTRA],69900,-234,54,-215,0,0,0,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,
 Leon,,16,[EXTRA],69900,-233,54,-207,0,0,0,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,,climber fodder
 Leon,,16,[EXTRA],69900,-233,54,-195,0,0,0,0c9f2efc-b089-4b97-9d0b-ec09d81b7c3b,,,,,,climber fodder
 Leon,4a1692cd-ebe4-4cdb-8257-381a263c8e6b,16,viper   Viper x1,67102,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,3560fb87-cb28-4ac9-ada7-bc40c7df1f17,16,soldier  crossbow *,67301,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,745fcd3c-5617-4f82-981c-940583962e66,16,soldier  crossbow *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,8ef2a59c-6f28-4a46-abaa-b60120e49a78,16,soldier  crossbow *,67200,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,215fac59-d907-45af-a30f-f10daec76070,16,soldier  crossbow *,67200,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,ea34d9d5-9ace-4504-8a33-06870876a6e8,16,soldier pA(20%) crossbow *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,b1493634-f5e1-4572-b06a-721bef7ce32c,16,soldier  rpg *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,f4d4ffba-dc60-433b-89b5-3055f953f11c,16,soldier  rpg *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,7b5af154-af61-4018-8762-f76ad13682cf,16,soldier  rpg *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,651ede73-5e3d-49b5-828e-402a9aeeaf13,16,soldier  crossbow *,67301,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,f687a9c9-b223-428a-8310-ee5f69c001c8,16,soldier pB(100%) spiked_bat *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,2bb1caf0-3bf2-4693-a521-4571a3cb7ec2,16,soldier  hatchet | iron_shield *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,1c340e97-1354-4b43-9b1b-5ea04ece9543,16,soldier  hatchet | iron_shield *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,30236c87-2da4-4740-af8c-1960c36e2539,16,soldier pA(40%) crossbow *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,18d05c99-bc67-498e-9358-cb5321f5c341,16,soldier pA(40%) dynamite *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,e05ac731-793c-4c30-981a-f9dd5d5904e8,16,soldier pA(40%) crowbar *,67501,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,cd4d470d-3d09-4963-8ab5-b2074493684d,16,soldier pA(80%) shock_baton *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,4680cade-76b6-48ed-a1b7-1d2d0cf8706c,16,soldier pA(80%) shock_baton *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,c6887845-e6eb-4697-a744-488c6525b00e,16,soldier pA(80%) hatchet | iron_shield *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,da0e8f62-d399-4852-9af7-425a6ad173d7,16,soldier  crowbar *,67501,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,94b8da68-9711-4d92-a957-fc8ccb027777,16,novistador   *,67301,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,dcfb1c00-edcb-4021-ac30-34f5bfec6ab3,16,novistador   *,67200,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,68ce18ea-27db-4ce0-98d7-315a60fb8a63,16,novistador   *,67200,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,5b76d39c-6685-4996-85e1-e67cd6de5b93,16,novistador   *,67200,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,a84230b8-58b0-4cae-b322-4104a5021dad,16,novistador   *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,d349172f-b111-4274-b0e3-332901c8c6cb,16,novistador   *,67200,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,bdf1211a-242e-4520-bd8a-a523d601188f,16,novistador   *,67500,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,e31d7afd-b35a-45e5-90bc-ea03de5fb8cf,16,novistador   *,67500,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,b6910804-d481-4b01-ba1b-c064ed7ba225,16,novistador   *,67500,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,89603213-8655-4f7a-ace6-c16c8394256e,16,brute   Emerald x1,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,723a0c13-f272-4be1-9a0e-acb9a152a597,16,brute   Alexandrite x1,67500,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,08a3217d-bc31-44f6-b359-fad635ed88b5,16,soldier  crowbar *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,eb435fd3-dee9-4da4-a957-8bd5bb43a36e,16,soldier  crowbar *,67301,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,8032629e-accb-45a1-845b-df495704b7ad,16,soldier pC(100%) hatchet | iron_shield *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,71833591-ac73-40fa-9193-dea81e6e481c,16,soldier pC(100%) shock_baton *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,73728a7b-ee5f-489b-8670-514865323a65,16,soldier pC(100%)  *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,c67d8856-b3e4-46a9-bc75-07150282c757,16,soldier pB(100%)  *,67500,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,61cfe6c8-73a2-4ec9-9920-25cdc2b01023,16,arana   *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,cdfee9e6-851e-4400-bd99-b72d860980e7,16,arana   *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,a6f9a27f-f4da-4b37-a3b1-2097505cfa33,16,arana   *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,dc487513-8b40-49e5-b9c0-3d220567f87c,16,novistador   *,68300,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,ed898753-fc0a-488a-9a76-ebed8b036e70,16,novistador   *,68300,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,12e8fe39-e938-4b31-9010-889a1bb7af46,16,novistador   *,68300,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,70966d22-e5b4-48b7-820a-79d4e36a24ab,16,novistador   *,68203,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,761d0853-7f99-4dca-b5c3-b74e5b54f515,16,novistador   *,68203,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,6d942f32-e2d3-4f0d-ae2e-1a5a446b8904,16,soldier   *,59102,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,b746d1f8-5b14-4523-8f06-25dff8203f73,16,soldier   *,59102,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,8945bb73-3865-4550-992b-0747a5e8dcc8,16,soldier   *,59102,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,0d5b9e8d-8a47-48ec-a069-53850a2e4f92,16,soldier   *,59102,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,160cdf27-df6a-4bed-bb81-5c8bf433a983,16,soldier   *,59102,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,a7314bb0-95e5-4d0c-ae4c-1b43e55bad6c,16,soldier   *,59200,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,c6a3eac1-6f94-4eed-b02d-1b1e4efbc2c6,16,soldier   *,59200,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,af6f1c17-64de-4145-8bad-fac5dcf42094,16,soldier   *,59103,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
-Leon,1c07eb0a-7f8d-4978-84f0-02a2e8705d56,16,soldier   *,59103,0,0,0,0,0,0,,,,,,,ashleyunsafe krauser_1
+Leon,3560fb87-cb28-4ac9-ada7-bc40c7df1f17,16,soldier  crossbow *,67301,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,745fcd3c-5617-4f82-981c-940583962e66,16,soldier  crossbow *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,8ef2a59c-6f28-4a46-abaa-b60120e49a78,16,soldier  crossbow *,67200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,215fac59-d907-45af-a30f-f10daec76070,16,soldier  crossbow *,67200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,ea34d9d5-9ace-4504-8a33-06870876a6e8,16,soldier pA(20%) crossbow *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,b1493634-f5e1-4572-b06a-721bef7ce32c,16,soldier  rpg *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,f4d4ffba-dc60-433b-89b5-3055f953f11c,16,soldier  rpg *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,7b5af154-af61-4018-8762-f76ad13682cf,16,soldier  rpg *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,651ede73-5e3d-49b5-828e-402a9aeeaf13,16,soldier  crossbow *,67301,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,f687a9c9-b223-428a-8310-ee5f69c001c8,16,soldier pB(100%) spiked_bat *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,2bb1caf0-3bf2-4693-a521-4571a3cb7ec2,16,soldier  hatchet | iron_shield *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,1c340e97-1354-4b43-9b1b-5ea04ece9543,16,soldier  hatchet | iron_shield *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,30236c87-2da4-4740-af8c-1960c36e2539,16,soldier pA(40%) crossbow *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,18d05c99-bc67-498e-9358-cb5321f5c341,16,soldier pA(40%) dynamite *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,e05ac731-793c-4c30-981a-f9dd5d5904e8,16,soldier pA(40%) crowbar *,67501,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,cd4d470d-3d09-4963-8ab5-b2074493684d,16,soldier pA(80%) shock_baton *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,4680cade-76b6-48ed-a1b7-1d2d0cf8706c,16,soldier pA(80%) shock_baton *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,c6887845-e6eb-4697-a744-488c6525b00e,16,soldier pA(80%) hatchet | iron_shield *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,da0e8f62-d399-4852-9af7-425a6ad173d7,16,soldier  crowbar *,67501,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,94b8da68-9711-4d92-a957-fc8ccb027777,16,novistador   *,67301,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,dcfb1c00-edcb-4021-ac30-34f5bfec6ab3,16,novistador   *,67200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,68ce18ea-27db-4ce0-98d7-315a60fb8a63,16,novistador   *,67200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,5b76d39c-6685-4996-85e1-e67cd6de5b93,16,novistador   *,67200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,a84230b8-58b0-4cae-b322-4104a5021dad,16,novistador   *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,d349172f-b111-4274-b0e3-332901c8c6cb,16,novistador   *,67200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,bdf1211a-242e-4520-bd8a-a523d601188f,16,novistador   *,67500,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,e31d7afd-b35a-45e5-90bc-ea03de5fb8cf,16,novistador   *,67500,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,b6910804-d481-4b01-ba1b-c064ed7ba225,16,novistador   *,67500,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,89603213-8655-4f7a-ace6-c16c8394256e,16,brute   Emerald x1,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,723a0c13-f272-4be1-9a0e-acb9a152a597,16,brute   Alexandrite x1,67500,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,08a3217d-bc31-44f6-b359-fad635ed88b5,16,soldier  crowbar *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,eb435fd3-dee9-4da4-a957-8bd5bb43a36e,16,soldier  crowbar *,67301,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,8032629e-accb-45a1-845b-df495704b7ad,16,soldier pC(100%) hatchet | iron_shield *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,71833591-ac73-40fa-9193-dea81e6e481c,16,soldier pC(100%) shock_baton *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,73728a7b-ee5f-489b-8670-514865323a65,16,soldier pC(100%)  *,67104,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,c67d8856-b3e4-46a9-bc75-07150282c757,16,soldier pB(100%)  *,67500,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,61cfe6c8-73a2-4ec9-9920-25cdc2b01023,16,arana   *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,cdfee9e6-851e-4400-bd99-b72d860980e7,16,arana   *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,a6f9a27f-f4da-4b37-a3b1-2097505cfa33,16,arana   *,67400,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,dc487513-8b40-49e5-b9c0-3d220567f87c,16,novistador   *,68300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,ed898753-fc0a-488a-9a76-ebed8b036e70,16,novistador   *,68300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,12e8fe39-e938-4b31-9010-889a1bb7af46,16,novistador   *,68300,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,70966d22-e5b4-48b7-820a-79d4e36a24ab,16,novistador   *,68203,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,761d0853-7f99-4dca-b5c3-b74e5b54f515,16,novistador   *,68203,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,6d942f32-e2d3-4f0d-ae2e-1a5a446b8904,16,soldier   *,59102,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,b746d1f8-5b14-4523-8f06-25dff8203f73,16,soldier   *,59102,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,8945bb73-3865-4550-992b-0747a5e8dcc8,16,soldier   *,59102,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,0d5b9e8d-8a47-48ec-a069-53850a2e4f92,16,soldier   *,59102,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,160cdf27-df6a-4bed-bb81-5c8bf433a983,16,soldier   *,59102,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,a7314bb0-95e5-4d0c-ae4c-1b43e55bad6c,16,soldier   *,59200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,c6a3eac1-6f94-4eed-b02d-1b1e4efbc2c6,16,soldier   *,59200,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,af6f1c17-64de-4145-8bad-fac5dcf42094,16,soldier   *,59103,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
+Leon,1c07eb0a-7f8d-4978-84f0-02a2e8705d56,16,soldier   *,59103,0,0,0,0,0,0,,,,,,,ashleyunsafe invincible krauser_1
 ,,,,,,,,,,,,,,,,,
 Leon,,-1,[EXTRA] Extra Spawn After Barbedwire Crawl,40510,-176.6,10.1,77.3,0,-85.2,0,,,,01_Village.CP1.StartVanilla.CP102_HuntingCabin.Event.EasyEvent.KitchenGuardian,noduplicate nowave,small,
 Leon,,-1,[EXTRA] Extra Spawn After Barbedwire Crawl,40510,-185.5,10,71.2,0,77.2,0,,,,01_Village.CP1.StartVanilla.CP102_HuntingCabin.Event.EasyEvent.KitchenGuardian,aggroed nowave,fodder,

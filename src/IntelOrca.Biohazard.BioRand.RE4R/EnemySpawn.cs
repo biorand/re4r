@@ -147,6 +147,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                         .ToImmutableArray();
                 }
             }
+            if (spawn.EnemyPlacement.HasTag(EnemyTags.Invincible))
+            {
+                if (randomizer.GetConfigOption<bool>("ashley-no-invincible"))
+                {
+                    enemyClasses = enemyClasses
+                        .Where(x => !x.Groups.Contains("invincible"))
+                        .ToImmutableArray();
+                }
+            }
             if (randomizer.GetConfigOption<bool>("enemy-strong-mini-boss") && !string.IsNullOrEmpty(spawn.EnemyPlacement.MiniBoss))
             {
                 // Mini boss should be an elite enemy
