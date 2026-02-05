@@ -7,7 +7,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         public void Apply()
         {
             // Allows Krauser to drop items
-            var path = @"natives\stm\_chainsaw\appsystem\character\ch1b7z0\motionfsm\ch1b7z0.motfsm2.43";
+            var path = "natives/stm/_chainsaw/appsystem/character/ch1b7z0/motionfsm/ch1b7z0.motfsm2.43";
             var data = context.GetFile(path)!;
             data[0x35120] = 1;
             data[0x59323] = 0x4E;
