@@ -92,7 +92,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     ],
                     """
                     <p class="mt-3">What should I do if my game crashes?</p>
-                    <ol class="ml-8 list-decimal text-gray-300">
+                    <ol class="list-decimal text-gray-300" style="margin-left: 3rem;">
                       <li>Reload from last checkpoint and try again.</li>
                       <li>Alter the enemy sliders slightly or reduce the number temporarily. This will reshuffle the enemies. Reload from last checkpoint and try again.</li> <li>As a last resort, change your seed, and reload from last checkpoint.</li>
                     </ol>
