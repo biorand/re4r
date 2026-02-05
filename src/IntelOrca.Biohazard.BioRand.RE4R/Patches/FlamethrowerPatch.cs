@@ -952,6 +952,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             {
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 1.0f);
+                                weaponDamageData = weaponDamageData.Set("_Probability", 0f);
 
                                 weaponDamageList = weaponDamageList.SetItem(i, weaponDamageData);
                             }
@@ -979,6 +980,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             {
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 1.0f);
+                                weaponDamageData = weaponDamageData.Set("_Probability", 0f);
 
                                 weaponDamageList = weaponDamageList.SetItem(i, weaponDamageData);
                             }
@@ -1006,7 +1008,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             if (weaponDamageData.Get<int>("_WeaponID") == FlamethrowerWeaponId)
                             {
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
-                                weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 0.75f);
+                                weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 1.0f);
+                                weaponDamageData = weaponDamageData.Set("_Probability", 0f);
 
                                 weaponDamageList = weaponDamageList.SetItem(i, weaponDamageData);
                             }
@@ -1033,7 +1036,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             if (weaponDamageData.Get<int>("_WeaponID") == FlamethrowerWeaponId)
                             {
                                 weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
-                                weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 0.75f);
+                                weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", 1.0f);
+                                weaponDamageData = weaponDamageData.Set("_Probability", 0f);
 
                                 weaponDamageList = weaponDamageList.SetItem(i, weaponDamageData);
                             }

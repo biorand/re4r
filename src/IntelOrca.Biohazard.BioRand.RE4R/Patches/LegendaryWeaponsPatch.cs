@@ -95,6 +95,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             UpdateWeaponEquipParam();
             UpdateShop();
             UpdateCustomFiles();
+            UpdateEnemyDamageValues();
 
             void UpdateMessages()
             {
@@ -1003,6 +1004,234 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     });
                 }
             }
+
+            void UpdateEnemyDamageValues()
+            {
+                var id = (int)info["id"];
+                // Get Characters from SpecificEnemies or use default
+                var charactersDamage = info["SpecificEnemies"] is string specificEnemies && !string.IsNullOrWhiteSpace(specificEnemies)
+                    ? specificEnemies
+                        .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(ch => ch.Trim().Trim('"', '\'', ' '))
+                        .Where(ch => !string.IsNullOrWhiteSpace(ch))
+                        .ToArray()
+                    :
+                    [
+                    "ch1b5z1", "ch1b7z0", "ch1c0z0",
+                    "ch1c0z1", "ch1c0z2", "ch1c8z0",
+                    "ch1d0z0", "ch1d1z1", "ch1d2z0", "ch1d3z0", "ch1d4z0",
+                    //"ch1d6z0",
+                    "ch1e0z0",
+                    "ch1f0z0", "ch1f1z0", "ch1f2z0", "ch1f4z1", "ch1f5z1",
+                    "ch1f6z0",
+                    "ch1f7z0", "ch1f8z0", "ch1fcz0", "ch1fdz0",
+                    "ch8g2z0", "ch8g3z0", "ch8gaz0"
+                    ];
+
+                // Modify damage multipliers for normal hits
+                if (info["StandardDamageMultiplier"] is not "")
+                {
+                    string getWeaponDamagePath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}weapondamagerateuserdata.user.2";
+                    foreach (var ch in charactersDamage)
+                    {
+                        var weaponDamagePath = getWeaponDamagePath(ch);
+                        if (context.GetFile(weaponDamagePath) != null)
+                        {
+                            context.ModifyUserFile(weaponDamagePath, root =>
+                            {
+                                var weaponDamageList = (RszArrayNode)root["_DataList"];
+                                for (int i = 0; i < weaponDamageList.Length; i++)
+                                {
+                                    var weaponDamageData = weaponDamageList[i];
+                                    if (weaponDamageData.Get<int>("_WeaponID") == id)
+                                    {
+                                        var hasValue = weaponDamageData.Get<bool>("STRUCT__DamageRate__HasValue");
+                                        var standardMultiplier = Convert.ToSingle(info["StandardDamageMultiplier"]);
+
+                                        if (hasValue)
+                                        {
+                                            var currentValue = weaponDamageData.Get<float>("STRUCT__DamageRate__Value");
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", currentValue * standardMultiplier);
+                                        }
+                                        else
+                                        {
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", standardMultiplier);
+                                        }
+
+                                        weaponDamageData = weaponDamageData.Set("_Probability", 0f);
+                                        weaponDamageList = weaponDamageList.SetItem(i, weaponDamageData);
+                                    }
+
+                                }
+                                root = root.SetField("_DataList", weaponDamageList);
+                                return root;
+                            });
+                        }
+                    }
+
+                    string getWeaponDamagedefaultPath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}weapondamagerateuserdatadefault.user.2";
+                    foreach (var ch in charactersDamage)
+                    {
+                        var weaponDamagePath = getWeaponDamagedefaultPath(ch);
+                        if (context.GetFile(weaponDamagePath) != null)
+                        {
+                            context.ModifyUserFile(weaponDamagePath, root =>
+                            {
+                                var weaponDamageList = (RszArrayNode)root["_DataList"];
+                                for (int i = 0; i < weaponDamageList.Length; i++)
+                                {
+                                    var weaponDamageData = weaponDamageList[i];
+                                    if (weaponDamageData.Get<int>("_WeaponID") == id)
+                                    {
+                                        var hasValue = weaponDamageData.Get<bool>("STRUCT__DamageRate__HasValue");
+                                        var standardMultiplier = Convert.ToSingle(info["StandardDamageMultiplier"]);
+
+                                        if (hasValue)
+                                        {
+                                            var currentValue = weaponDamageData.Get<float>("STRUCT__DamageRate__Value");
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", currentValue * standardMultiplier);
+                                        }
+                                        else
+                                        {
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", standardMultiplier);
+                                        }
+
+                                        weaponDamageData = weaponDamageData.Set("_Probability", 0f);
+                                        weaponDamageList = weaponDamageList.SetItem(i, weaponDamageData);
+                                    }
+
+                                }
+                                root = root.SetField("_DataList", weaponDamageList);
+                                return root;
+                            });
+                        }
+                    }
+
+                    string getEnhancedWeaponDamagePath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}enhancedweapondamagerateuserdatadefault.user.2";
+                    foreach (var ch in charactersDamage)
+                    {
+                        var weaponDamagePath = getEnhancedWeaponDamagePath(ch);
+                        if (context.GetFile(weaponDamagePath) != null)
+                        {
+                            context.ModifyUserFile(weaponDamagePath, root =>
+                            {
+                                var weaponDamageList = (RszArrayNode)root["_DataList"];
+                                for (int i = 0; i < weaponDamageList.Length; i++)
+                                {
+                                    var weaponDamageData = weaponDamageList[i];
+                                    if (weaponDamageData.Get<int>("_WeaponID") == id)
+                                    {
+                                        var hasValue = weaponDamageData.Get<bool>("STRUCT__DamageRate__HasValue");
+                                        var standardMultiplier = Convert.ToSingle(info["StandardDamageMultiplier"]);
+
+                                        if (hasValue)
+                                        {
+                                            var currentValue = weaponDamageData.Get<float>("STRUCT__DamageRate__Value");
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", currentValue * standardMultiplier);
+                                        }
+                                        else
+                                        {
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", standardMultiplier);
+                                        }
+
+                                        weaponDamageData = weaponDamageData.Set("_Probability", 0f);
+                                        weaponDamageList = weaponDamageList.SetItem(i, weaponDamageData);
+                                    }
+                                }
+                                root = root.SetField("_DataList", weaponDamageList);
+                                return root;
+                            });
+                        }
+                    }
+                }
+
+                // Modify damage multipliers for Weakpoint
+                if (info["WeakpointDamageMultiplier"] is not "")
+                {
+
+                    string getWeaponHeadDamagePath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}weapondamagerateuserdatahead.user.2";
+
+                    foreach (var ch in charactersDamage)
+                    {
+                        var weaponDamagePath = getWeaponHeadDamagePath(ch);
+                        if (context.GetFile(weaponDamagePath) != null)
+                        {
+                            context.ModifyUserFile(weaponDamagePath, root =>
+                            {
+                                var weaponDamageList = (RszArrayNode)root["_DataList"];
+                                for (int i = 0; i < weaponDamageList.Length; i++)
+                                {
+                                    var weaponDamageData = weaponDamageList[i];
+                                    if (weaponDamageData.Get<int>("_WeaponID") == id)
+                                    {
+                                        var hasValue = weaponDamageData.Get<bool>("STRUCT__DamageRate__HasValue");
+                                        var weakpointMultiplier = Convert.ToSingle(info["WeakpointDamageMultiplier"]);
+
+                                        if (hasValue)
+                                        {
+                                            var currentValue = weaponDamageData.Get<float>("STRUCT__DamageRate__Value");
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", currentValue * weakpointMultiplier);
+                                        }
+                                        else
+                                        {
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", weakpointMultiplier);
+                                        }
+
+                                        weaponDamageData = weaponDamageData.Set("_Probability", 0f);
+                                        weaponDamageList = weaponDamageList.SetItem(i, weaponDamageData);
+                                    }
+                                }
+                                root = root.SetField("_DataList", weaponDamageList);
+                                return root;
+                            });
+                        }
+                    }
+
+                    string getEnhancedWeaponHeadDamagePath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}enhancedweapondamagerateuserdatahead.user.2";
+
+                    foreach (var ch in charactersDamage)
+                    {
+                        var weaponDamagePath = getEnhancedWeaponHeadDamagePath(ch);
+                        if (context.GetFile(weaponDamagePath) != null)
+                        {
+                            context.ModifyUserFile(weaponDamagePath, root =>
+                            {
+                                var weaponDamageList = (RszArrayNode)root["_DataList"];
+                                for (int i = 0; i < weaponDamageList.Length; i++)
+                                {
+                                    var weaponDamageData = weaponDamageList[i];
+                                    if (weaponDamageData.Get<int>("_WeaponID") == id)
+                                    {
+                                        var hasValue = weaponDamageData.Get<bool>("STRUCT__DamageRate__HasValue");
+                                        var weakpointMultiplier = Convert.ToSingle(info["WeakpointDamageMultiplier"]);
+
+                                        if (hasValue)
+                                        {
+                                            var currentValue = weaponDamageData.Get<float>("STRUCT__DamageRate__Value");
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", currentValue * weakpointMultiplier);
+                                        }
+                                        else
+                                        {
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__HasValue", true);
+                                            weaponDamageData = weaponDamageData.Set("STRUCT__DamageRate__Value", weakpointMultiplier);
+                                        }
+
+                                        weaponDamageData = weaponDamageData.Set("_Probability", 0f);
+                                        weaponDamageList = weaponDamageList.SetItem(i, weaponDamageData);
+                                    }
+                                }
+                                root = root.SetField("_DataList", weaponDamageList);
+                                return root;
+                            });
+                        }
+                    }
+                }
+            }
+
         }
 
         private static bool IsShotgunWeapon(int weaponId) => weaponId is 4100 or 4101 or 4102 or 6001;
