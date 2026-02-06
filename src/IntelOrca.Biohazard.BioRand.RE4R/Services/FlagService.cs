@@ -11,6 +11,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
     {
         private SortedDictionary<(int, int), int> _contextIdNum = new();
         private List<Guid> _flagGuids = [];
+        private Dictionary<Guid, bool> _flagSets = [];
+
+        private const float FalseValue = 0;
+        private const float TrueValue = 1.401298E-45f;
 
         public Guid AllocateFlag()
         {
@@ -32,6 +36,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             };
             _contextIdNum[(category, group)] = num + 1;
             return result;
+        }
+
+        public void SetFlag(Guid guid, bool value)
+        {
+            _flagSets[guid] = value;
         }
 
         public void Save(RandomizerLogger logger)
@@ -67,6 +76,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
             var uvarBuilder = uvar.ToBuilder();
             uvarBuilder.Children.Add(biorandGroup);
+            VisitUvar(uvarBuilder);
             fileRepository.SetFile(globalVariablesPath, uvarBuilder.Build().Data);
 
             // tabledefine
@@ -88,6 +98,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 }
             });
             fileRepository.SerializeUserFile(variableTablePath, tableDefine);
+        }
+
+        private void VisitUvar(UvarFile.Builder builder)
+        {
+            foreach (var v in builder.Variables)
+            {
+                if (_flagSets.TryGetValue(v.Guid, out var value))
+                {
+                    v.Value = value ? TrueValue : FalseValue;
+                }
+            }
+
+            foreach (var child in builder.Children)
+            {
+                VisitUvar(child);
+            }
         }
     }
 }
