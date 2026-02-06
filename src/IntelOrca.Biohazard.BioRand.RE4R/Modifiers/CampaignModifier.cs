@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
@@ -13,13 +12,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (randomizer.Campaign != Campaign.Leon)
                 return;
 
-            var startChapter = Math.Clamp(randomizer.GetConfigOption("start-chapter", 1), 1, _chapterFileNames.Length);
+            var campaignService = randomizer.GetService<CampaignService>();
+            var startChapter = campaignService.StartChapter;
             if (startChapter > 1)
             {
                 OverrideStartChapter(startChapter);
             }
 
-            var campaignService = randomizer.GetService<CampaignService>();
             foreach (var chapter in campaignService.Chapters)
             {
                 ModifyChapterStartPosition(chapter);

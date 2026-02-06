@@ -553,8 +553,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (randomizer.Campaign != Campaign.Leon)
                 return;
 
+            var boatEnableFlag = new Guid("89323c20-14fb-49ce-a1c4-f0447714d4d2");
+
             // Set Del Lago event flag to true at game start, so boat works
-            randomizer.FlagService.SetFlag(new Guid("89323c20-14fb-49ce-a1c4-f0447714d4d2"), true);
+            // DIDN'T WORK:
+            //     randomizer.FlagService.SetFlag(boatEnableFlag, true);
+            var areaService = randomizer.GetService<AreaService>();
+            var campaignService = randomizer.GetService<CampaignService>();
+            var firstChapterArea = areaService.FindBestArea(AreaKind.General, 0, campaignService.StartChapter);
+            AddFlagTrigger(firstChapterArea, "BioRand/Boat/Enable", [], boatEnableFlag);
 
             // Fix Del Lago event, trigger via a different flag
             var gameObjectsGuids = new[]
@@ -566,7 +573,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             foreach (var gameObjectGuid in gameObjectsGuids)
             {
-                var area = randomizer.AreaService.FindAreaContainingGameObject(gameObjectGuid)!;
+                var area = areaService.FindAreaContainingGameObject(gameObjectGuid)!;
                 var gameObject = area.Scene.FindGameObject(gameObjectGuid)!;
                 var component = gameObject.FindComponent("chainsaw.CheckFlagSettings")!;
                 component = component.Set("_Params._Params[0]._FlagCondition._CheckFlags[0]._CheckFlag", delLagoTriggerFlag);
@@ -575,8 +582,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             // Add an area hit for new flag
-            var delLagoArea = randomizer.AreaService.FindBestArea(AreaKind.General, 0, 3);
-            var delLagoPosition = new Vector3(233.76f, -7.5f, -58.67f);
+            var delLagoArea = areaService.FindBestArea(AreaKind.General, 0, 3);
+            var delLagoPosition = new Vector3(233.76f, -7.5f, 58.67f);
             var delLagoRadius = 1.0f;
             AddAreaTrigger(delLagoArea, "BioRand/DelLago/Trigger", [], delLagoPosition, delLagoRadius, delLagoTriggerFlag);
         }

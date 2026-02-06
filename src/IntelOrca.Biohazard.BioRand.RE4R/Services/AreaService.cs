@@ -53,6 +53,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             if (chapter != null)
             {
                 return Areas
+                    .Where(x => x.Definition.Kind == kind)
                     .Where(x => x.Definition.Chapter == chapter)
                     .First();
             }

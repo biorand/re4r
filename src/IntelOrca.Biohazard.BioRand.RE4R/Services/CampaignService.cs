@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Numerics;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
@@ -14,6 +15,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public ImmutableArray<Chapter> Chapters => _chapters
             .Choose()
             .ToImmutableArray();
+
+        public int StartChapter
+        {
+            get
+            {
+                if (randomizer.Campaign != Campaign.Leon)
+                    return 1;
+
+                return Math.Clamp(randomizer.GetConfigOption("start-chapter", 1), 1, 16);
+            }
+        }
 
         public Chapter GetChapter(int num)
         {
