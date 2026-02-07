@@ -25,7 +25,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
         public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
-            var randomizer = new Re4rRandomizer(new EmptyReporter());
             var agent = new RandomizerAgent(
                 settings.Host,
                 settings.ApiKey,
@@ -47,18 +46,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             return 0;
         }
 
-        private class RandomizerAgentHandler : IRandomizerAgentHandler
+        private class RandomizerAgentHandler(string gameInputPath, bool beta) : IRandomizerAgentHandler
         {
-            private readonly string _gamePath;
-            private readonly bool _beta;
-
-            public IRandomizer Randomizer { get; } = new Re4rRandomizer(new EmptyReporter());
-
-            public RandomizerAgentHandler(string gamePath, bool beta)
-            {
-                _gamePath = gamePath;
-                _beta = beta;
-            }
+            public string BuildVersion => Re4rRandomizer.BuildVersion;
+            public RandomizerConfigurationDefinition ConfigurationDefinition => Re4rRandomizer.ConfigurationDefinition;
+            public RandomizerConfiguration DefaultConfiguration => Re4rRandomizer.DefaultConfiguration;
 
             public Task<bool> CanGenerateAsync(RandomizerAgent.QueueResponseItem queueItem)
             {
@@ -67,12 +59,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
 
             public Task<RandomizerOutput> GenerateAsync(RandomizerAgent.QueueResponseItem queueItem, RandomizerInput input)
             {
-                input.GamePath = _gamePath;
-
                 var config = input.Configuration;
 
                 // Special things for specific users
-                if (_beta)
+                if (beta)
                 {
                     if (!queueItem.UserTags.Contains("re4r:tester"))
                     {
@@ -93,7 +83,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 config["username"] = userName;
                 config["special"] = string.Join(",", specials);
 
-                return Task.FromResult(Randomizer.Randomize(input));
+                var randomizer = new Re4rRandomizer(gameInputPath, new EmptyReporter());
+                return Task.FromResult(randomizer.Randomize(input));
             }
 
             public void LogInfo(string message) => AnsiConsole.MarkupLine($"[gray]{Timestamp} {message}[/]");

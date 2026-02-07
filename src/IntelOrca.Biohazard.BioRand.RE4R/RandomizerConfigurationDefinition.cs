@@ -211,6 +211,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Default = true
             });
             group = page.CreateGroup("Stock Increase per Chapter");
+            group.Advanced = true;
             foreach (var kind in DropKinds.ShopCompatible)
             {
                 group.Items.Add(new GroupItem()
@@ -280,6 +281,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
 
             group = page.CreateGroup("Stack Limits");
+            group.Advanced = true;
             foreach (var dropKind in DropKinds.Stackable)
             {
                 group.Items.Add(new GroupItem()
@@ -296,6 +298,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             //Weapon Page
             page = configDefinition.CreatePage("Weapon");
+            page.Advanced = true;
 #if ENABLE_BETA_FEATURES
             group = page.CreateGroup("Legendary Weapons");
             group.Items.Add(new GroupItem()
@@ -1216,6 +1219,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
 
             page = configDefinition.CreatePage("Debug");
+            page.Advanced = true;
             group = page.CreateGroup("");
             group.Warning = "These options are only for testing / debugging the randomizer.";
 #if ENABLE_BETA_FEATURES

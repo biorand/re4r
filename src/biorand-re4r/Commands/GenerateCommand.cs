@@ -46,10 +46,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 reporter.RunTask("Killing re4.exe", () => KillRe4());
             }
 
-            var randomizer = new Re4rRandomizer(reporter);
+            var randomizer = new Re4rRandomizer(settings.InputPath ?? "", reporter);
             var input = new RandomizerInput();
             input.Seed = settings.Seed;
-            input.GamePath = settings.InputPath;
             if (!string.IsNullOrEmpty(settings.ConfigPath))
             {
                 var configJson = File.ReadAllText(settings.ConfigPath);
@@ -57,12 +56,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             }
             AnsiConsole.MarkupLine($"Generating seed {input.Seed}...");
             var output = randomizer.Randomize(input);
-
-            // Create log files
-            foreach (var log in output.Logs)
-            {
-                log.Value.WriteToFile(log.Key);
-            }
 
             foreach (var asset in output.Assets)
             {

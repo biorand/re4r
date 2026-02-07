@@ -11,6 +11,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class ChainsawRandomizer : IDisposable
     {
+        private string _inputGamePath;
         private FileRepository _fileRepository = new FileRepository();
         private bool _supplementApplied;
         private ImmutableArray<Modifier> _modifiers = GetModifiers();
@@ -32,10 +33,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public GimmickService GimmickService => GetService<GimmickService>();
         public FlagService FlagService => GetService<FlagService>();
 
-        public ChainsawRandomizer(EnemyClassFactory enemyClassFactory, RandomizerInput input, IProgressReporter reporter)
+        public ChainsawRandomizer(EnemyClassFactory enemyClassFactory, RandomizerInput input, string inputGamePath, IProgressReporter reporter)
         {
             EnemyClassFactory = enemyClassFactory;
             Input = input;
+            _inputGamePath = inputGamePath;
             Reporter = reporter;
             DynamicData = new DynamicData(
 #if ENABLE_BETA_FEATURES
@@ -54,10 +56,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public RandomizerOutput Randomize()
         {
             var input = Input;
-            if (input.GamePath != null)
-            {
-                _fileRepository = new FileRepository(this, input.GamePath, DynamicData);
-            }
+            _fileRepository = new FileRepository(this, _inputGamePath, DynamicData);
 
             var campaign = Campaign.Leon;
             if (input.Configuration.GetValueOrDefault("campaign", "") == "Separate Ways")
@@ -96,8 +95,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                       <li>Reload from last checkpoint and try again.</li>
                       <li>Alter the enemy sliders slightly or reduce the number temporarily. This will reshuffle the enemies. Reload from last checkpoint and try again.</li> <li>As a last resort, change your seed, and reload from last checkpoint.</li>
                     </ol>
-                    """,
-                    _logFiles);
+                    """);
             });
             return result!;
         }
