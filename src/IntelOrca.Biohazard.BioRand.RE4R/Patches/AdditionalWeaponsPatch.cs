@@ -1,10 +1,12 @@
-﻿using IntelOrca.Biohazard.REE.Cryptography;
-using IntelOrca.Biohazard.REE.Rsz;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
+using System.Text;
+using IntelOrca.Biohazard.REE.Cryptography;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
@@ -166,7 +168,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     {
                         var attackData = attackDataList[i];
                         var keyNameHash = attackData.Get<uint>("_KeyNameHash");
-                        
+
                         if (keyNameHash == baseHash || keyNameHash == baseAttachHash)
                         {
                             if (info["damage"] is int damage)
@@ -201,7 +203,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                                 attackDataList = attackDataList.SetItem(i, attackData);
                             }
                         }
-                        
+
                         if (IsShotgunWeapon(wpid))
                         {
                             if (keyNameHash == baseAroundHash || keyNameHash == baseAroundAttachHash)
@@ -543,7 +545,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             {
                 CreateShellGeneratorData();
                 CreateShellInfoData();
-                UpdateWeaponPfbShellGenerator();               
+                UpdateWeaponPfbShellGenerator();
 
                 void CreateShellGeneratorData()
                 {
@@ -686,5 +688,49 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         };
 
         private static bool IsShotgunWeapon(int weaponId) => weaponId is 4100 or 4101 or 4102 or 6001 or 6100;
+    }
+
+    internal sealed class WeaponBaseStats
+    {
+        public ImmutableArray<ImmutableDictionary<string, object>> Weapons { get; }
+
+        public WeaponBaseStats(DynamicData dynamicData)
+            : this(dynamicData.GetData(DynamicDataName.WeaponBase)!)
+        {
+        }
+
+        private WeaponBaseStats(byte[] wpbase)
+        {
+            var content = Encoding.UTF8.GetString(wpbase);
+            var cells = Csv.Read(content);
+            var weapons = ImmutableArray.CreateBuilder<ImmutableDictionary<string, object>>();
+            for (var x = 2; x < cells.GetLength(0); x++)
+            {
+                var dict = ImmutableDictionary.CreateBuilder<string, object>();
+                for (var y = 0; y < cells.GetLength(1); y++)
+                {
+                    var key0 = cells[0, y];
+                    var key1 = cells[1, y];
+                    var key = string.IsNullOrEmpty(key1) ? key0 : $"{key0} {key1}";
+                    var value = DeserializeValue(cells[x, y]);
+                    dict[key] = value;
+                }
+                weapons.Add(dict.ToImmutable());
+            }
+            Weapons = weapons.ToImmutable();
+        }
+
+        private static object DeserializeValue(string value)
+        {
+            if (int.TryParse(value, NumberStyles.AllowThousands, null, out var i))
+            {
+                return i;
+            }
+            else if (float.TryParse(value, NumberStyles.AllowDecimalPoint, null, out var f))
+            {
+                return f;
+            }
+            return value;
+        }
     }
 }

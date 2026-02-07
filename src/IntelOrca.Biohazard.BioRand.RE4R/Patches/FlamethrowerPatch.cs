@@ -1157,49 +1157,5 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             return result!;
         }
     }
-
-    internal sealed class WeaponBaseStats
-    {
-        public ImmutableArray<ImmutableDictionary<string, object>> Weapons { get; }
-
-        public WeaponBaseStats(DynamicData dynamicData)
-            : this(dynamicData.GetData(DynamicDataName.WeaponBase)!)
-        {
-        }
-
-        private WeaponBaseStats(byte[] wpbase)
-        {
-            var content = Encoding.UTF8.GetString(wpbase);
-            var cells = Csv.Read(content);
-            var weapons = ImmutableArray.CreateBuilder<ImmutableDictionary<string, object>>();
-            for (var x = 2; x < cells.GetLength(0); x++)
-            {
-                var dict = ImmutableDictionary.CreateBuilder<string, object>();
-                for (var y = 0; y < cells.GetLength(1); y++)
-                {
-                    var key0 = cells[0, y];
-                    var key1 = cells[1, y];
-                    var key = string.IsNullOrEmpty(key1) ? key0 : $"{key0} {key1}";
-                    var value = DeserializeValue(cells[x, y]);
-                    dict[key] = value;
-                }
-                weapons.Add(dict.ToImmutable());
-            }
-            Weapons = weapons.ToImmutable();
-        }
-
-        private static object DeserializeValue(string value)
-        {
-            if (int.TryParse(value, NumberStyles.AllowThousands, null, out var i))
-            {
-                return i;
-            }
-            else if (float.TryParse(value, NumberStyles.AllowDecimalPoint, null, out var f))
-            {
-                return f;
-            }
-            return value;
-        }
-    }
 }
 #endif
