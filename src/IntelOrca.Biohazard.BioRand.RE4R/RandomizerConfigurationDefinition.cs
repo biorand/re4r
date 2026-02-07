@@ -58,6 +58,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = "randomized-messages",
+                Label = "Randomize Text",
+                Description = "Randomize various text in the game to a meme.",
+                Type = "switch",
+                Default = true
+            });
 #endif
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()

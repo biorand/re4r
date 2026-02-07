@@ -12,13 +12,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     internal class ChainsawRandomizer : IDisposable
     {
         private FileRepository _fileRepository = new FileRepository();
-        private RandomizerInput _input = new RandomizerInput();
         private bool _supplementApplied;
         private ImmutableArray<Modifier> _modifiers = GetModifiers();
         private readonly Dictionary<Type, object> _services = [];
         private readonly Lock _servicesLock = new();
         private readonly Dictionary<string, string> _logFiles = [];
 
+        public RandomizerInput Input { get; }
         public EnemyClassFactory EnemyClassFactory { get; }
         public IProgressReporter Reporter { get; }
         public FileRepository FileRepository => _fileRepository;
@@ -35,11 +35,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public ChainsawRandomizer(EnemyClassFactory enemyClassFactory, RandomizerInput input, IProgressReporter reporter)
         {
             EnemyClassFactory = enemyClassFactory;
-            _input = input;
+            Input = input;
             Reporter = reporter;
             DynamicData = new DynamicData(
 #if ENABLE_BETA_FEATURES
-                _input.Configuration.GetValueOrDefault<bool>("debug-download-data")
+                Input.Configuration.GetValueOrDefault<bool>("debug-download-data")
 #else
                 false
 #endif
@@ -53,7 +53,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public RandomizerOutput Randomize()
         {
-            var input = _input;
+            var input = Input;
             if (input.GamePath != null)
             {
                 _fileRepository = new FileRepository(this, input.GamePath, DynamicData);
@@ -202,28 +202,30 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 new EnemyMultiplierModifier(),
 #if ENABLE_BETA_FEATURES
                 new EnemyWaveModifier(),
-
 #endif
                 new EnemyModifier(),
                 new FixesModifier(),
+#if ENABLE_BETA_FEATURES
+                new MessageModifier(),
+#endif
             }.ToImmutableArray();
         }
 
         public string User => GetConfigOption<string>("username") ?? "player";
-        public int Seed => _input.Seed;
+        public int Seed => Input.Seed;
 
         public Rng GetRng(params object[] key)
         {
-            var hashInput = string.Concat([_input.Seed, .. key]);
+            var hashInput = string.Concat([Input.Seed, .. key]);
             var seed = MurMur3.HashData(hashInput);
             return new Rng(seed);
         }
 
         public T? GetConfigOption<T>(string key, T? defaultValue = default)
         {
-            if (_input.Configuration == null)
+            if (Input.Configuration == null)
                 return defaultValue;
-            return _input.Configuration.GetValueOrDefault<T>(key, defaultValue);
+            return Input.Configuration.GetValueOrDefault<T>(key, defaultValue);
         }
 
         public bool HasSpecialTouch(string kind)
