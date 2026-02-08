@@ -36,10 +36,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
-            if (randomizer.GetConfigOption<bool>("automatic-bolt-thrower", true))
-            {
-                ImproveBoltThrower(randomizer, logger);
-            }
             FixDeadEnemyCounters(randomizer, logger);
             FixSpawnControllers(randomizer, logger);
             if (randomizer.GetConfigOption<bool>("enable-autosave-pro"))
@@ -251,24 +247,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     return root.Set("_InGameShopGuiParamHolder._HoldTime_Purchase", (float)time);
                 });
             }
-        }
-
-        private void ImproveBoltThrower(ChainsawRandomizer randomizer, RandomizerLogger logger)
-        {
-            var userFilePath = randomizer.Campaign == Campaign.Leon
-                ? "natives/stm/_chainsaw/appsystem/weapon/weaponequipparamcataloguserdata.user.2"
-                : "natives/stm/_anotherorder/appsystem/weapon/weaponequipparamcataloguserdata_ao.user.2";
-            var index = randomizer.Campaign == Campaign.Leon ? 18 : 19;
-
-            logger.LogLine($"Make bolt thrower fully automatic");
-
-            var fileRepository = randomizer.FileRepository;
-            fileRepository.ModifyUserFile(userFilePath, root =>
-            {
-                root = root.Set($"_DataTable[{index}]._WeaponStructureParam.TypeOfReload", 0);
-                root = root.Set($"_DataTable[{index}]._WeaponStructureParam.TypeOfShoot", 1);
-                return root;
-            });
         }
 
         private void ImproveBellTriggeredEnemies(ChainsawRandomizer randomizer, RandomizerLogger logger)
