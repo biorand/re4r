@@ -43,21 +43,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         {
             var spawnControllerGameObject = scene.FindGameObject(new Guid("d82d24e0-cac6-471e-9b2e-808f84053fb9"))!;
             var spawnController = spawnControllerGameObject.FindComponent<chainsaw.CharacterSpawnController>()!;
-
-            spawnController.SpawnCondition._CheckFlags.Add(
+            spawnController._SpawnCondition._CheckFlags = [
                 new CheckFlagInfo()
                 {
                     _CheckFlag = new Guid("b9a3aaa9-700c-4e5c-a31f-df66bfbda362"),
                     _CompareValue = true
-                });
-            spawnController.SpawnSkipCondition._CheckFlags.Clear();
-            spawnController.SpawnSkipCondition._CheckFlags.Add(
+                }
+            ];
+            spawnController._SpawnSkipCondition._CheckFlags = [
                 new CheckFlagInfo()
                 {
                     _CheckFlag = new Guid("84b73ea9-8de6-492d-a479-45f988e06492"),
                     _CompareValue = true
-                });
-
+                }
+            ];
             return scene.UpdateGameObject(
                 spawnControllerGameObject.AddOrUpdateComponent(spawnController));
         }
@@ -90,7 +89,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             {
                 var newGameObject = RszFactory.CreateSpawnController($"Biorand_1F_{i}");
                 var spawnController = newGameObject.FindComponent<chainsaw.CharacterSpawnController>()!;
-                spawnController.SpawnCondition._CheckFlags.Add(new CheckFlagInfo()
+                spawnController._SpawnCondition._CheckFlags.Add(new CheckFlagInfo()
                 {
                     _CheckFlag = waveFlags[i],
                     _CompareValue = true
@@ -111,8 +110,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
                         // Enable force find, but without any conditions
                         spawnComponent = spawnComponent.Set("_ForceFind", true);
-                        spawnComponent = spawnComponent.Set("_ForceFindCondition._ForceFindCondition",
-                            context.TypeRepository.Serialize(new chainsaw.FlagCondition()));
+                        spawnComponent = spawnComponent.Set("_ForceFindCondition._ForceFindCondition", new chainsaw.FlagCondition());
                     }
                     newGameObject = newGameObject.AddOrUpdateChild(e);
                 }
@@ -131,12 +129,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             deadEnemyCounter._CountTargetIDs = [];
             deadEnemyCounter._HasCountTargetSpawnControllers = true;
             deadEnemyCounter._CountTargetSpawnControllers = controllerObjects.Select(x => x.Guid).ToList();
-            // deadEnemyCounter._DataList
+
             var tally = 0;
             for (var i = 0; i < controllerObjects.Count; i++)
             {
                 tally += controllerObjects[i].Children.Length;
-                deadEnemyCounter._DataList[i].Set("_Num", tally - 1);
+                deadEnemyCounter._DataList[i]._Num = tally - 1;
             }
 
             scene = scene.UpdateGameObject(deadEnemyCounterGameObject.AddOrUpdateComponent(deadEnemyCounter));

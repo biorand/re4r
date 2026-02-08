@@ -1,6 +1,5 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-using System.Numerics;
 using IntelOrca.Biohazard.REE.Rsz;
 using IntelOrca.Biohazard.REE.Rsz.Native;
 
@@ -1140,7 +1139,7 @@ namespace chainsaw
             public System.Collections.Generic.List<chainsaw.RuleStratum.StratumBool> SleepRule { get; set; } = [];
             public class Point
             {
-                public Vector3 Position { get; set; }
+                public System.Numerics.Vector3 Position { get; set; }
                 public float Rotation { get; set; }
                 public int Stage { get; set; }
             }
@@ -1161,20 +1160,33 @@ namespace chainsaw
 
     internal class DeadEnemyCounter
     {
+        public bool Enabled { get; set; }
+        public System.Guid _GUID { get; set; }
+        public uint _DifficutyParam { get; set; }
         public bool _HasStartFlag { get; set; }
         public System.Guid _StartFlag { get; set; }
+        public bool _HasFinishFlag { get; set; }
+        public System.Guid _FinishFlag { get; set; }
         public bool _HasCountTargetIDs { get; set; }
         public System.Collections.Generic.List<int> _CountTargetIDs { get; set; }
         public bool _HasCountTargetSpawnControllers { get; set; }
         public System.Collections.Generic.List<System.Guid> _CountTargetSpawnControllers { get; set; }
-        public System.Collections.Generic.List<RszGameObject> _DataList { get; set; }
+        public System.Collections.Generic.List<Data> _DataList { get; set; }
+
+        public class Data
+        {
+            public int _Num { get; set; }
+            public System.Guid _Flag { get; set; }
+        }
     }
 
     internal class CharacterSpawnController
     {
-        public System.Guid Guid { get; set; }
-        public FlagCondition SpawnCondition { get; set; } = new();
-        public FlagCondition SpawnSkipCondition { get; set; } = new();
+        public bool Enabled { get; set; }
+        public uint _DifficutyParam { get; set; }
+        public System.Guid _GUID { get; set; }
+        public FlagCondition _SpawnCondition { get; set; } = new();
+        public FlagConditionStrict _SpawnSkipCondition { get; set; } = new();
     }
 
     internal class FlagCondition
@@ -1458,7 +1470,7 @@ namespace chainsaw
     {
         internal class StaticDataReadFile : chainsaw.GimmickContext.StaticData
         {
-            public Vector3 Position { get; set; }
+            public System.Numerics.Vector3 Position { get; set; }
             public int DocID { get; set; }
             public int Stage { get; set; }
         }
