@@ -31,7 +31,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (randomizer.GetConfigOption<bool>("random-enemies"))
                 {
                     ImproveBellTriggeredEnemies(randomizer, logger);
-                    ImproveAdaKnightRoom(randomizer, logger);
                     ImproveAdaMaze(randomizer, logger);
                     ImproveAdaGarradorRoom(randomizer, logger);
                 }
@@ -303,123 +302,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             .Set("_NoDamageCtrlFlag._CheckFlags", new object[0])));
                 }
             }
-        }
-
-        private void ImproveAdaKnightRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)
-        {
-#if false
-            if (!randomizer.GetConfigOption<bool>("random-enemies"))
-                return;
-
-            var area = randomizer.Areas.FirstOrDefault(x => x.FileName == "level_loc51_chp3_1.scn.20");
-            if (area == null)
-                return;
-
-            var scn = area.ScnFile;
-
-            // Top floor (triggered by silver bottle)
-            var spawnControllerComponent = scn.FindComponent(new Guid("d82d24e0-cac6-471e-9b2e-808f84053fb9"), "chainsaw.CharacterSpawnController");
-            if (spawnControllerComponent != null)
-            {
-                var controller = new CharacterSpawnController(spawnControllerComponent);
-                controller.SpawnCondition.Add(scn, new Guid("b9a3aaa9-700c-4e5c-a31f-df66bfbda362"));
-                controller.SpawnSkipCondition.Clear();
-                controller.SpawnSkipCondition.Add(scn, new Guid("84b73ea9-8de6-492d-a479-45f988e06492"));
-            }
-
-            // Bottom floor (triggered by gold bottle)
-            // Transform wave controller to normal controller
-            {
-                // Remove old wave spawn controller
-                var gameObject = scn.FindGameObject(new Guid("0d4eea6c-2722-43fd-b887-830fd4c915dd"))!;
-                var normalTransform = gameObject.FindComponent("via.Transform")!;
-                gameObject.Components.RemoveAt(1);
-                scn.RemoveGameObject(gameObject);
-
-                // Remove all the enemies
-                var enemies = gameObject.Children.SelectMany(x => x.Children).ToArray();
-
-                // Create 3 new controllers
-                var waveFlags = new[]
-                {
-                    new Guid("84b73ea9-8de6-492d-a479-45f988e06492"),
-                    new Guid("d2366665-7671-4ac1-8d94-d4cbc4e2b06e"),
-                    new Guid("1f733c2d-fafd-4eaa-9ef9-e6ea313dff6d"),
-                };
-                var controllerObjects = new List<ScnFile.GameObjectData>();
-                for (var i = 0; i < 3; i++)
-                {
-                    var newGameObject = scn.CreateGameObject($"Biorand_1F_{i}");
-                    controllerObjects.Add(newGameObject);
-
-                    newGameObject.Components.Add((RszInstance)normalTransform.Clone()!);
-
-                    var controllerComponent = scn.RSZ!.CreateInstance("chainsaw.CharacterSpawnController");
-                    scn.AddComponent(newGameObject, controllerComponent);
-
-                    var controller = new CharacterSpawnController(controllerComponent);
-                    controller.Enabled = true;
-                    controller.Difficulty = 63;
-                    controller.Guid = Guid.NewGuid();
-                    controller.SpawnCondition.Add(scn, waveFlags[i]);
-
-                    for (var j = 0; j < enemies.Length; j++)
-                    {
-                        if ((j % 3) != i)
-                            continue;
-
-                        var e = enemies[j];
-                        newGameObject.Children.Add(e);
-                        e.Parent = newGameObject;
-
-                        var spawn = e.Components.FirstOrDefault(x => x.Name.Contains("SpawnParam"));
-                        if (spawn != null)
-                        {
-                            // Make sure no damage flag is removed
-                            var checkFlags = spawn.GetList("_NoDamageCtrlFlag._CheckFlags");
-                            checkFlags.Clear();
-
-                            // Enable force find, but without any conditions
-                            spawn.Set("_ForceFind", true);
-                            var flagCondition = new FlagCondition(spawn.Get<RszInstance>("_ForceFindCondition._ForceFindCondition")!);
-                            flagCondition.Or = false;
-                            flagCondition.Flags = [];
-                        }
-                    }
-                }
-
-                // Change dead enemy counter to check controllers instead of enemy types
-                var deadEnemyCounter = scn.FindComponent(new Guid("0546811f-8274-4dd3-8655-e9bbee0a23d8"), "chainsaw.DeadEnemyCounter")!;
-                deadEnemyCounter.Set("_HasStartFlag", false);
-                deadEnemyCounter.Set("_StartFlag", Guid.Empty);
-                deadEnemyCounter.Set("_HasCountTargetIDs", false);
-                deadEnemyCounter.GetList("_CountTargetIDs").Clear();
-                deadEnemyCounter.Set("_HasCountTargetSpawnControllers", true);
-                var lst = deadEnemyCounter.GetList("_CountTargetSpawnControllers");
-                var dataList = deadEnemyCounter.GetArray<RszInstance>("_DataList");
-                var tally = 0;
-                for (var i = 0; i < controllerObjects.Count; i++)
-                {
-                    lst.Add(controllerObjects[i].Guid);
-                    tally += controllerObjects[i].Children.Count;
-                    dataList[i].Set("_Num", tally - 1);
-                }
-            }
-
-            // Remove the tsuitates (since they don't break if we switch out the armaduras)
-            var gimmickPath = "natives/stm/_anotherorder/environment/scene/gimmick/st51/gimmick_st51_857_ao.scn.20";
-            randomizer.FileRepository.ModifyScnFile(gimmickPath, scn2 =>
-            {
-                scn2.RemoveGameObject(new Guid("1f1c503b-b032-43da-9e3a-792960586343"));
-                scn2.RemoveGameObject(new Guid("4b30301b-aca4-4199-9745-91acad51ece3"));
-                scn2.RemoveGameObject(new Guid("b76e9b43-a4b7-4d8e-871a-30a67d34b544"));
-                scn2.RemoveGameObject(new Guid("9502ec07-cdb8-4107-a4bc-9e76cc029ec0"));
-                scn2.RemoveGameObject(new Guid("581cace6-a401-42e0-9dd7-383aafbdd551"));
-                scn2.RemoveGameObject(new Guid("06815784-ae02-49b4-b3d6-c7528fcf3d54"));
-                scn2.RemoveGameObject(new Guid("ace7c27b-1cf1-4bb7-bb68-798101d596ef"));
-                scn2.RemoveGameObject(new Guid("9c389ab6-c2b3-488e-b9a9-304ef4831d59"));
-            });
-#endif
         }
 
         private void ImproveAdaMaze(ChainsawRandomizer randomizer, RandomizerLogger logger)

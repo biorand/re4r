@@ -1159,6 +1159,24 @@ namespace chainsaw
         }
     }
 
+    internal class DeadEnemyCounter
+    {
+        public bool _HasStartFlag { get; set; }
+        public System.Guid _StartFlag { get; set; }
+        public bool _HasCountTargetIDs { get; set; }
+        public System.Collections.Generic.List<int> _CountTargetIDs { get; set; }
+        public bool _HasCountTargetSpawnControllers { get; set; }
+        public System.Collections.Generic.List<System.Guid> _CountTargetSpawnControllers { get; set; }
+        public System.Collections.Generic.List<RszGameObject> _DataList { get; set; }
+    }
+
+    internal class CharacterSpawnController
+    {
+        public System.Guid Guid { get; set; }
+        public FlagCondition SpawnCondition { get; set; } = new();
+        public FlagCondition SpawnSkipCondition { get; set; } = new();
+    }
+
     internal class FlagCondition
     {
         public System.Collections.Generic.List<CheckFlagInfo> _CheckFlags { get; set; } = [];
