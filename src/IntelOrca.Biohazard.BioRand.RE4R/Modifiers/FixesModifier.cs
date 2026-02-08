@@ -31,7 +31,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (randomizer.GetConfigOption<bool>("random-enemies"))
                 {
                     ImproveAdaMaze(randomizer, logger);
-                    ImproveAdaGarradorRoom(randomizer, logger);
                 }
             }
 
@@ -295,40 +294,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     transform.Position = new Vector3(x, y, z);
                     transform.Eular = new EulerAngles(d, 0, 0);
                     keyHolder.Enemy.Transform = transform;
-                }
-            }
-        }
-
-        private void ImproveAdaGarradorRoom(ChainsawRandomizer randomizer, RandomizerLogger logger)
-        {
-            var area = randomizer.AreaService.Areas.FirstOrDefault(x => x.FileName == "level_loc55.scn.20");
-            if (area == null)
-                return;
-
-            // Spawn enemies when doors shut, otherwise enemies (originally garradors)
-            // can't be hurt and they leave the area and attack you prematurely.
-            var controllerGuids = new[] {
-                new Guid("f5402bf4-4c55-4332-86c0-53851701e532"), // standard
-                new Guid("4924d5ff-3905-421f-b6b3-1d30d900be95") // pro
-            };
-
-            foreach (var controllerGuid in controllerGuids)
-            {
-                var spawnControllerComponent = area.FindSpawnController(controllerGuid);
-                if (spawnControllerComponent != null)
-                {
-                    var spawnCondition = spawnControllerComponent.SpawnCondition;
-                    spawnCondition._CheckFlags.Add(new CheckFlagInfo()
-                    {
-                        _CheckFlag = new Guid("40807771-38e9-4ec8-a240-d75f4fdff461"),
-                        _CompareValue = true
-                    });
-                    foreach (var enemy in spawnControllerComponent.Enemies)
-                    {
-                        var transform = enemy.Enemy.Transform;
-                        transform.Position = new Vector3(152, transform.Position.Y, transform.Position.Z);
-                        enemy.Enemy.Transform = transform;
-                    }
                 }
             }
         }
