@@ -30,7 +30,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 if (randomizer.GetConfigOption<bool>("random-enemies"))
                 {
-                    ImproveBellTriggeredEnemies(randomizer, logger);
                     ImproveAdaMaze(randomizer, logger);
                     ImproveAdaGarradorRoom(randomizer, logger);
                 }
@@ -246,39 +245,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     return root.Set("_InGameShopGuiParamHolder._HoldTime_Purchase", (float)time);
                 });
-            }
-        }
-
-        private void ImproveBellTriggeredEnemies(ChainsawRandomizer randomizer, RandomizerLogger logger)
-        {
-            var area = randomizer.AreaService.Areas.FirstOrDefault(x => x.FileName == "level_loc45.scn.20");
-            if (area == null)
-                return;
-
-            // Non-ganado enemies just spawn next to the church and can't be damaged.
-            // So remove the no-damage control flags from them.
-            var controllerGuids = new Guid[]
-            {
-                new Guid("56426f4d-01e8-4079-a8b8-3d4ee343b224"),
-                new Guid("8d84b8ba-babc-4a73-8f02-3d4bd3974b9b")
-            };
-
-            foreach (var guid in controllerGuids)
-            {
-                var go = area.Scene.FindGameObject(guid);
-                if (go == null)
-                    continue;
-
-                foreach (var child in go.Children)
-                {
-                    var spawn = child.Components.FirstOrDefault(x => x.Type.Name.Contains("SpawnParam"));
-                    if (spawn == null)
-                        continue;
-
-                    area.Scene = area.Scene.UpdateGameObject(child
-                        .AddOrUpdateComponent(spawn
-                            .Set("_NoDamageCtrlFlag._CheckFlags", new object[0])));
-                }
             }
         }
 

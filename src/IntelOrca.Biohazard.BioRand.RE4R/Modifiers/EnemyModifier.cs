@@ -247,6 +247,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     e.SetFieldValue("_RandomMontageID", 0);
                     e.SetFieldValue("_MontageID", 0);
                     e.SetFieldValue("_FixedVoiceID", 0);
+                    e.SetFieldValue("_NoDamageCtrlFlag", new chainsaw.FlagCondition());
                     e.ParasiteKind = 0;
                     e.ForceParasiteAppearance = false;
                     e.ParasiteAppearanceProbability = 0;
