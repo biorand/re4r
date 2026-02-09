@@ -801,17 +801,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"item-treasure-drop-ratio",
-                Label = "Treasure Ratio",
-                Description = "The percentage of items that should be a treasure.",
-                Type = "percent",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.1
-            });
-            group.Items.Add(new GroupItem()
-            {
                 Id = $"item-drop-ammo-only-available-weapons",
                 Label = "Ammo for available weapons only",
                 Description = "Only drop ammo for weapons that are available before or in the chapter with the drop.",
@@ -1118,17 +1107,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 10000,
                 Step = 100,
                 Default = 1000
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"enemy-treasure-drop-ratio",
-                Label = "Treasure Drop Ratio",
-                Description = "The percentage of enemies that should drop a treasure. Tougher enemies are more likely to drop treasure. The value of the treasure is based on the toughness of the enemy.",
-                Type = "percent",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.25
             });
 
             group = page.CreateGroup("General Drops");
