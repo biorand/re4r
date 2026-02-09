@@ -66,6 +66,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             var pakFile = GetPakFile(output.Assets.First(x => x.Key == "1-patch").Data);
             var zipFile = output.Assets.First(x => x.Key == "2-fluffy").Data;
 
+            reporter.RunTask($"Extracting log files", () =>
+            {
+                ExtractLogFiles(zipFile, Environment.CurrentDirectory);
+            });
+
             var outputPath = settings.OutputPath!;
             if (outputPath.EndsWith(".pak"))
             {
@@ -118,6 +123,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             foreach (var entry in zip.Entries)
             {
                 if (!entry.FullName.StartsWith("natives/", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                var destinationPath = Path.Combine(outputPath, entry.FullName);
+                Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
+                entry.ExtractToFile(destinationPath, overwrite: true);
+            }
+        }
+
+        private static void ExtractLogFiles(byte[] zipFile, string outputPath)
+        {
+            using var zip = new ZipArchive(new MemoryStream(zipFile));
+            foreach (var entry in zip.Entries)
+            {
+                if (entry.FullName.StartsWith("natives/", StringComparison.OrdinalIgnoreCase))
+                    continue;
+                if (entry.FullName == "modinfo.ini")
+                    continue;
+                if (entry.FullName == "pic.jpg")
                     continue;
 
                 var destinationPath = Path.Combine(outputPath, entry.FullName);
