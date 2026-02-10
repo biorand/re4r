@@ -388,6 +388,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var builder = ImmutableArray.CreateBuilder<ItemDefinition>();
             foreach (var distributedItem in _distributedItems)
             {
+                if (distributedItem.Definition.Kind == ItemKinds.Treasure)
+                    continue;
+
                 if (distributedItem.Definition.Kind == ItemKinds.SmallKey)
                 {
                     // Don't add small keys to shop
