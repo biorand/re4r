@@ -178,55 +178,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return result;
         }
 
-        private static void SplitLine(List<string> list, StringBuilder sb, string line)
-        {
-            list.Clear();
-            var inQuote = false;
-            for (var i = 0; i <= line.Length; i++)
-            {
-                var c = i == line.Length ? '\0' : line[i];
-                if (c == '"')
-                {
-                    if (!inQuote)
-                    {
-                        inQuote = true;
-                    }
-                    else
-                    {
-                        if (i < line.Length - 1 && line[i + 1] == '"')
-                        {
-                            sb.Append('"');
-                        }
-                        else
-                        {
-                            inQuote = false;
-                        }
-                    }
-                }
-                else if (c == ',')
-                {
-                    if (inQuote)
-                    {
-                        sb.Append(c);
-                    }
-                    else
-                    {
-                        list.Add(sb.ToString());
-                        sb.Clear();
-                    }
-                }
-                else if (c == '\0')
-                {
-                    list.Add(sb.ToString());
-                    sb.Clear();
-                }
-                else
-                {
-                    sb.Append(c);
-                }
-            }
-        }
-
         private static ImmutableArray<Token> ReadTokens(byte[] buffer)
         {
             var tokens = ImmutableArray.CreateBuilder<Token>();
