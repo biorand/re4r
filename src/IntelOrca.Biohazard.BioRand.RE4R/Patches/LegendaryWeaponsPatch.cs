@@ -96,6 +96,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             UpdateShop();
             UpdateCustomFiles();
             UpdateEnemyDamageValues();
+            WeaponVfxChanges();
 
             void UpdateMessages()
             {
@@ -198,7 +199,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     {
                         return root
                             .Set("_AttackInfo._CriticalRate", baseCrit)
-                            .Set("_AttackInfo._CriticalRate_Fit", baseCrit);
+                            .Set("_AttackInfo._CriticalRate_Fit", (int)info["basecritfit"]);
                     }
                     return root;
                 });
@@ -239,34 +240,34 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 {
                     uint baseHash;
                     uint critHash;
-                    uint baseAttachHash;
-                    uint critAttachHash;
+                    uint baseFitHash;
+                    uint critFitHash;
                     if (IsShotgunWeapon(id))
                     {
                         baseHash = (uint)MurMur3.HashData($"wp{id:0000}Center"); // Base Hash
                         critHash = (uint)MurMur3.HashData($"wp{id:0000}Center_c"); // Crit Hash
-                        baseAttachHash = (uint)MurMur3.HashData($"wp{id:0000}Center_f"); // Base Hash that has an attachment
-                        critAttachHash = (uint)MurMur3.HashData($"wp{id:0000}Center_f_c"); // Crit Hash that has an attachment
+                        baseFitHash = (uint)MurMur3.HashData($"wp{id:0000}Center_f"); // Base Hash that has focused
+                        critFitHash = (uint)MurMur3.HashData($"wp{id:0000}Center_f_c"); // Crit Hash that has an focused
                     }
                     else
                     {
                         baseHash = (uint)MurMur3.HashData($"wp{id:0000}"); // Base Hash
                         critHash = (uint)MurMur3.HashData($"wp{id:0000}_c"); // Crit Hash
-                        baseAttachHash = (uint)MurMur3.HashData($"wp{id:0000}_f"); // Base Hash that has an attachment
-                        critAttachHash = (uint)MurMur3.HashData($"wp{id:0000}_f_c"); // Crit Hash that has an attachment
+                        baseFitHash = (uint)MurMur3.HashData($"wp{id:0000}_f"); // Base Hash that has an focused
+                        critFitHash = (uint)MurMur3.HashData($"wp{id:0000}_f_c"); // Crit Hash that has an focused
                     }
 
                     var baseAroundHash = (uint)MurMur3.HashData($"wp{id:0000}Around"); // Base Hash
                     var critAroundHash = (uint)MurMur3.HashData($"wp{id:0000}Around_c"); // Crit Hash
-                    var baseAroundAttachHash = (uint)MurMur3.HashData($"wp{id:0000}Around_f"); // Base Hash that has an attachment
-                    var critAroundAttachHash = (uint)MurMur3.HashData($"wp{id:0000}Around_f_c"); // Crit Hash that has an attachment
+                    var baseAroundFitHash = (uint)MurMur3.HashData($"wp{id:0000}Around_f"); // Base Hash that has an focused
+                    var critAroundFitHash = (uint)MurMur3.HashData($"wp{id:0000}Around_f_c"); // Crit Hash that has an focused
 
                     var attackDataList = (RszArrayNode)root["_AttackDataList"];
                     for (var i = 0; i < attackDataList.Length; i++)
                     {
                         var attackData = attackDataList[i];
                         var keyNameHash = attackData.Get<uint>("_KeyNameHash");
-                        if (keyNameHash == baseHash || keyNameHash == baseAttachHash)
+                        if (keyNameHash == baseHash && info["damage"] is int)
                         {
                             attackData = attackData
                                 .Set("_Damage", (int)info["damage"])
@@ -280,7 +281,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                                 .Set("_BreakLevel", (int)info["breaklevel"]);
                             attackDataList = attackDataList.SetItem(i, attackData);
                         }
-                        else if (keyNameHash == critHash || keyNameHash == critAttachHash)
+                        else if (keyNameHash == baseFitHash && info["damagefit"] is int)
+                        {
+                            attackData = attackData
+                                .Set("_Damage", (int)info["damagefit"])
+                                .Set("STRUCT__Break__Value", (int)info["breakfit"])
+                                .Set("STRUCT__Stopping__Value", (int)info["stoppingfit"])
+                                .Set("STRUCT__Wince__Value", (int)info["wincefit"])
+                                .Set("_AttackType", (int)info["attacktypefit"])
+                                .Set("_AttackPower", (int)info["attackpowerfit"])
+                                .Set("_IsThroughRestriction", true)
+                                .Set("_ThroughNum", (int)info["throughnumfit"])
+                                .Set("_BreakLevel", (int)info["breaklevelfit"]);
+                            attackDataList = attackDataList.SetItem(i, attackData);
+                        }
+                        else if (keyNameHash == critHash && info["damagecrit"] is int)
                         {
                             attackData = attackData
                                 .Set("_Damage", (int)info["damagecrit"])
@@ -294,9 +309,23 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                                 .Set("_BreakLevel", (int)info["breaklevelcrit"]);
                             attackDataList = attackDataList.SetItem(i, attackData);
                         }
+                        else if (keyNameHash == critFitHash && info["damagecritfit"] is int)
+                        {
+                            attackData = attackData
+                                .Set("_Damage", (int)info["damagecritfit"])
+                                .Set("STRUCT__Break__Value", (int)info["breakcritfit"])
+                                .Set("STRUCT__Stopping__Value", (int)info["stoppingcritfit"])
+                                .Set("STRUCT__Wince__Value", (int)info["wincecritfit"])
+                                .Set("_AttackType", (int)info["attacktypecritfit"])
+                                .Set("_AttackPower", (int)info["attackpowercritfit"])
+                                .Set("_IsThroughRestriction", true)
+                                .Set("_ThroughNum", (int)info["throughnumcritfit"])
+                                .Set("_BreakLevel", (int)info["breaklevelcritfit"]);
+                            attackDataList = attackDataList.SetItem(i, attackData);
+                        }
                         if (IsShotgunWeapon(id))
                         {
-                            if (keyNameHash == baseAroundHash || keyNameHash == baseAroundAttachHash)
+                            if (keyNameHash == baseAroundHash && info["damagearound"] is int)
                             {
                                 attackData = attackData
                                     .Set("_Damage", (int)info["damagearound"])
@@ -310,7 +339,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                                     .Set("_BreakLevel", (int)info["breaklevelaround"]);
                                 attackDataList = attackDataList.SetItem(i, attackData);
                             }
-                            else if (keyNameHash == critAroundHash || keyNameHash == critAroundAttachHash)
+                            else if (keyNameHash == baseAroundFitHash && info["damagearoundfit"] is int)
+                            {
+                                attackData = attackData
+                                    .Set("_Damage", (int)info["damagearoundfit"])
+                                    .Set("STRUCT__Break__Value", (int)info["breakaroundfit"])
+                                    .Set("STRUCT__Stopping__Value", (int)info["stoppingaroundfit"])
+                                    .Set("STRUCT__Wince__Value", (int)info["wincearoundfit"])
+                                    .Set("_AttackType", (int)info["attacktypearoundfit"])
+                                    .Set("_AttackPower", (int)info["attackpoweraroundfit"])
+                                    .Set("_IsThroughRestriction", true)
+                                    .Set("_ThroughNum", (int)info["throughnumaroundfit"])
+                                    .Set("_BreakLevel", (int)info["breaklevelaroundfit"]);
+                                attackDataList = attackDataList.SetItem(i, attackData);
+                            }
+                            else if (keyNameHash == critAroundHash && info["damagearoundcrit"] is int)
                             {
                                 attackData = attackData
                                     .Set("_Damage", (int)info["damagearoundcrit"])
@@ -322,6 +365,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                                     .Set("_IsThroughRestriction", true)
                                     .Set("_ThroughNum", (int)info["throughnumaroundcrit"])
                                     .Set("_BreakLevel", (int)info["breaklevelaroundcrit"]);
+                                attackDataList = attackDataList.SetItem(i, attackData);
+                            }
+                            else if (keyNameHash == critAroundFitHash && info["damagearoundcritfit"] is int)
+                            {
+                                attackData = attackData
+                                    .Set("_Damage", (int)info["damagearoundcritfit"])
+                                    .Set("STRUCT__Break__Value", (int)info["breakaroundcritfit"])
+                                    .Set("STRUCT__Stopping__Value", (int)info["stoppingaroundcritfit"])
+                                    .Set("STRUCT__Wince__Value", (int)info["wincearoundcritfit"])
+                                    .Set("_AttackType", (int)info["attacktypearoundcritfit"])
+                                    .Set("_AttackPower", (int)info["attackpoweraroundcritfit"])
+                                    .Set("_IsThroughRestriction", true)
+                                    .Set("_ThroughNum", (int)info["throughnumaroundcritfit"])
+                                    .Set("_BreakLevel", (int)info["breaklevelaroundcritfit"]);
                                 attackDataList = attackDataList.SetItem(i, attackData);
                             }
                         }
@@ -386,6 +443,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                                 if (info["typeofshoot"] is int typeOfShoot)
                                 {
                                     data = data.Set("_WeaponStructureParam.TypeOfShoot", new[] { typeOfShoot });
+                                }
+                                if (info["ReticleShape"] is int reticleshape)
+                                {
+                                    data = data
+                                    .Set("_ReticleFitParamTable._ReticleShape", reticleshape)
+                                    .Set("_ReticleFitParamTable._DefaultParam._HoldAddPoint", (int)info["HoldAddPoint"])
+                                    .Set("_ReticleFitParamTable._DefaultParam._MoveSubPoint", (int)info["MoveSubPoint"])
+                                    .Set("_ReticleFitParamTable._DefaultParam._CameraSubPoint", (int)info["CameraSubPoint"])
+                                    .Set("_ReticleFitParamTable._DefaultParam._KeepFitLimitPoint", (int)info["KeepFitLimitPoint"])
+                                    .Set("_ReticleFitParamTable._DefaultParam._ShootSubPoint", (int)info["ShootSubPoint"]);
                                 }
                                 root = root.SetField("_DataTable", datas.SetItem(i, data));
                                 break;
@@ -1232,7 +1299,155 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 }
             }
 
+            void WeaponVfxChanges()
+            {
+                if (info["CustomVfx"] is not string || string.IsNullOrEmpty((string)info["CustomVfx"]))
+                    return;
+
+                var customVfxName = (string)info["CustomVfx"];
+                var groupWeaponId = (id / 100) * 100;
+
+                var templateVfxPath = $"_Chainsaw/VFX/Provider/EPV_Weapon/EPV_wp{groupWeaponId:0000}/epvc_0015_wp{groupWeaponId:0000}_0000.pfb";
+                var vfxPath = $"_Chainsaw/VFX/Provider/EPV_Weapon/EPV_wp{id:0000}/epvc_0015_wp{id:0000}_0000.pfb";
+
+                var templateNativePath = $"natives/stm/{templateVfxPath}.17";
+                var vfxNativePath = $"natives/stm/{vfxPath}.17";
+
+                // Create the legendary VFX prg file from template
+                var legendaryPrgTemplatePath = "natives/stm/_chainsaw/vfx/provider/epv_weapon/epv_wp4701/epvs_0015_wp4701_fire_prg_0000.pfb.17";
+                var legendaryPrgPath = $"natives/stm/_chainsaw/vfx/provider/epv_weapon/epv_wp{id:0000}/epvs_0015_wp{id:0000}_legendary_prg_0000.pfb.17";
+                
+                // First, copy the template to the new location
+                var legendaryPrgTemplateData = context.GetFile(legendaryPrgTemplatePath);
+                if (legendaryPrgTemplateData != null)
+                {
+                    context.SetFile(legendaryPrgPath, legendaryPrgTemplateData);
+                }
+                
+                // Now modify the new file
+                context.ModifyPfbFile(legendaryPrgPath, scene =>
+                {
+                    var gameobject = scene.Children.OfType<RszGameObject>().First();
+                    var component = gameobject.FindComponent("via.effect.script.EPVStandardData");
+                    if (component != null)
+                    {
+                        var elements = (RszArrayNode)component["Elements"];
+                        
+                        // Update the Resources path in the first element
+                        if (elements.Length > 0)
+                        {
+                            var element = (RszObjectNode)elements[0];
+                            var resources = (RszArrayNode)element["Resources"];
+                            if (resources.Length > 0)
+                            {
+                                var customEffectPath = $"_Chainsaw/VFX/EffectEditor/EFD_Weapon/EFD_wp{id:0000}/efd_0015_wp{id:0000}_{customVfxName}_0000.efx";
+                                resources = resources.SetItem(0, new RszResourceNode(customEffectPath));
+                                element = element.Set("Resources", resources);
+                                elements = elements.SetItem(0, element);
+                            }
+                        }
+                        
+                        // Remove all elements except the first one
+                        while (elements.Length > 1)
+                        {
+                            elements = elements.RemoveAt(elements.Length - 1);
+                        }
+                        
+                        component = component.SetField("Elements", elements);
+                        gameobject = gameobject.AddOrUpdateComponent(component);
+                        scene = scene.UpdateGameObject(gameobject);
+                    }
+                    return scene;
+                });
+
+                // grab template and modify the template container file
+                var templateData = context.GetFile(templateNativePath);
+                if (templateData != null)
+                {
+                    context.SetFile(vfxNativePath, templateData);
+                    
+                    context.ModifyPfbFile(vfxNativePath, scene =>
+                    {
+                        var gameobject = scene.Children.OfType<RszGameObject>().First();
+                        var component = gameobject.FindComponent("via.effect.script.EPVDataContainer");
+                        if (component != null)
+                        {
+                            var standardData = (RszArrayNode)component["StandardData"];
+
+                            var legendaryEntry = standardData.FirstOrDefault(x => x.Get<uint>("ID") == 0);
+                            if (legendaryEntry == null)
+                            {
+                                var legendaryVfxPrgPath = $"_Chainsaw/VFX/Provider/EPV_Weapon/EPV_wp{id:0000}/epvs_0015_wp{id:0000}_legendary_prg_0000.pfb";
+
+                                standardData = standardData.Add(context.TypeRepository
+                                    .Create("via.effect.script.EPVDataContainer.StandardDataSetting")
+                                        .Set("Comment", "Legendary")
+                                        .Set("ID", (uint)0)
+                                        .Set("Data.Standby", true)
+                                        .Set("Data.Path", legendaryVfxPrgPath));
+
+                                component = component.SetField("StandardData", standardData);
+                                gameobject = gameobject.AddOrUpdateComponent(component);
+                                scene = scene.UpdateGameObject(gameobject);
+                            }
+                        }
+                        return scene;
+                    });
+                }
+
+                // Get the WeaponIgnitionController component from wp5811
+                RszObjectNode? ignitionControllerTemplate = null;
+                var templateWeaponPath = "natives/stm/_chainsaw/appsystem/prefab/weapon/wp5811.pfb.17";
+                context.ModifyPfbFile(templateWeaponPath, scene =>
+                {
+                    var gameobjects = scene.Children.OfType<RszGameObject>();
+                    foreach (var gameobject in gameobjects)
+                    {
+                        var component = gameobject.FindComponent("chainsaw.WeaponIgnitionController");
+                        if (component != null)
+                        {
+                            ignitionControllerTemplate = component;
+                            break;
+                        }
+                    }
+                    return scene;
+                });
+
+                // Update the weapon prefab with new VFX file and add IgnitionController
+                var weaponPfbPath = $"natives/stm/_chainsaw/appsystem/prefab/weapon/wp{id:0000}.pfb.17";
+
+                context.ModifyPfbFile(weaponPfbPath, scene =>
+                {
+                    var gameobjects = scene.Children.OfType<RszGameObject>();
+                    foreach (var gameobject in gameobjects)
+                    {
+                        var updatedGameObject = gameobject;
+
+                        var effectComponent = gameobject.FindComponent("via.effect.script.ObjectEffectManager");
+                        if (effectComponent != null)
+                        {
+                            effectComponent = effectComponent.Set("DataContainer.Path", new RszResourceNode(vfxPath));
+                            updatedGameObject = updatedGameObject.AddOrUpdateComponent(effectComponent);
+                        }
+                        
+                        if (ignitionControllerTemplate != null)
+                        {
+                            updatedGameObject = updatedGameObject.AddOrUpdateComponent(ignitionControllerTemplate);
+                        }
+                        
+                        if (updatedGameObject != gameobject)
+                        {
+                            scene = scene.UpdateGameObject(updatedGameObject);
+                        }
+                    }
+                    return scene;
+                });
+
+                context.ApplyOverlay(context.GetSupplementFile($"Legendarywp{id:0000}.zip")
+                    ?? throw new Exception($"Legendarywp{id:0000}.zip not found"));
+            }
         }
+
 
         private static bool IsShotgunWeapon(int weaponId) => weaponId is 4100 or 4101 or 4102 or 6001;
 
