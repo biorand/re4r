@@ -139,7 +139,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
                     dataTable = dataTable.Add(
                         context.TypeRepository.Create("chainsaw.GameRankCatalogUserData.Data")
-                            .Set("_EnemyID", info.AttackDataId)
+                            .Set("_EnemyID", info.Id)
                             .Set("_EnemyRankData", new RszUserDataNode(
                                 context.TypeRepository.FromName("chainsaw.EnemyRankParamDataUserData")!,
                                 $"{info.GetBasePath("UserData")}RankParamDataUserData.user")));
