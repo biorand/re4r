@@ -18,7 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = $"campaign",
                 Label = "Campaign",
-                Description = "Which scenario to randomize, main game (Leon) or Separate Ways (Ada).",
+                Description = "Which scenario to randomize, Main Story (Leon) or Separate Ways (Ada).",
                 Type = "dropdown",
                 Options = ["Main Story", "Separate Ways"],
                 Default = "Main Story"
@@ -68,6 +68,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"random-events",
+                Label = "Random Events",
+                Description = "Enables events that create new environments, battle arenas, key movement, and much more.",
+                Type = "switch",
+                Default = true
+            });
 #endif
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
@@ -102,7 +110,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
-            group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
                 Id = $"automatic-bolt-thrower",
@@ -1041,14 +1048,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 1,
                 Step = 0.01,
                 Default = 0.5
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"battle-arenas",
-                Label = "Battle Arenas",
-                Description = "Enables events that trigger a battle arena. You must defeat the guardians to progress.",
-                Type = "switch",
-                Default = true
             });
 #endif
             group = page.CreateGroup("");

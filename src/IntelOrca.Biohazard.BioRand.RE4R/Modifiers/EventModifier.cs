@@ -16,7 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            if (!randomizer.GetConfigOption<bool>("battle-arenas"))
+            if (!randomizer.GetConfigOption<bool>("random-events"))
                 return;
 
             var piers = new List<PierPosition>();
