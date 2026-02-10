@@ -1403,33 +1403,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"debug-stage-enemy-limit-default",
-                Label = "Default Enemy Max. Per Stage",
-                Description = "How many enemies can appear in each stage by default.",
-                Type = "range",
-                Min = 1,
-                Max = 500,
-                Step = 1,
-                Default = 25
-            });
-
-            group = page.CreateGroup("Enemy Limits");
-            foreach (var stage in StageIds.Stages)
-            {
-                group.Items.Add(new GroupItem()
-                {
-                    Id = $"debug-stage-enemy-limit-{stage.Stage}",
-                    Label = $"{stage.Stage}: {stage.Name}",
-                    Description = stage.Name,
-                    Type = "range",
-                    Min = 0,
-                    Max = 500,
-                    Step = 1,
-                    Default = 0
-                });
-            }
 
             #endregion
 

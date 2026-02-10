@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
@@ -8,10 +7,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
     internal class EnemyMultiplierModifier : Modifier
     {
-        private Dictionary<int, int> _stageEnemyCount = [];
-
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+            var multiplier = randomizer.GetConfigOption<double>("enemy-multiplier", 1);
+            if (multiplier == 1)
+                return;
+
             var areaByChapter = randomizer.AreaService.Areas.GroupBy(x => x.Definition.Chapter);
             if (randomizer.GetConfigOption<bool>("random-enemies"))
             {
@@ -22,44 +23,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     foreach (var area in chapterAreas)
                     {
                         logger.Push(area.FileName);
-                        RandomizeArea(randomizer, area);
+                        DuplicateEnemies(randomizer, area.Enemies.ToImmutableArray(), multiplier);
                         logger.Pop();
                     }
-                    _stageEnemyCount.Clear();
                     logger.Pop();
                 }
                 logger.Pop();
             }
         }
 
-        private void RandomizeArea(ChainsawRandomizer randomizer, Area area)
+        private static void DuplicateEnemies(ChainsawRandomizer randomizer, ImmutableArray<EnemySpawn> spawns, double multiplier)
         {
-            // Duplicate enemy spawns
-            var spawns = area.Enemies.ToImmutableArray();
-            foreach (var spawn in spawns)
-            {
-                var stageId = spawn.Enemy.StageID;
-                _stageEnemyCount.TryGetValue(stageId, out var count);
-                _stageEnemyCount[stageId] = ++count;
-            }
-            DuplicateEnemies(randomizer, spawns);
-        }
+            var flagService = randomizer.GetService<FlagService>();
 
-        private void DuplicateEnemies(ChainsawRandomizer randomizer, ImmutableArray<EnemySpawn> spawns)
-        {
-            var multiplier = randomizer.GetConfigOption<double>("enemy-multiplier", 1);
-            var maxPerStage = randomizer.GetConfigOption("debug-stage-enemy-limit-default", 25);
             var newList = spawns.ToBuilder();
             foreach (var g in spawns.GroupBy(x => x.StageID))
             {
-                var enemyLimit = randomizer.GetConfigOption($"debug-stage-enemy-limit-{g.Key}", 0);
-                if (enemyLimit == 0)
-                {
-                    enemyLimit = maxPerStage;
-                }
-
                 var stageSpawns = g.Where(x => !x.IsOrphan && !x.EnemyPlacement.HasTag(EnemyTags.NoDuplicate)).ToArray();
-                var newEnemyCount = Math.Min(enemyLimit, stageSpawns.Length * multiplier);
+                var newEnemyCount = stageSpawns.Length * multiplier;
                 var delta = (int)Math.Round(newEnemyCount - stageSpawns.Length);
                 if (delta != 0)
                 {
@@ -68,23 +49,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     while (delta > 0)
                     {
                         var enemyToDuplicate = bag.Next();
-                        var stageId = enemyToDuplicate.Enemy.StageID;
-                        if (!_stageEnemyCount.TryGetValue(stageId, out var currentStageIdCount))
-                            _stageEnemyCount[stageId] = 0;
-
-                        if (currentStageIdCount < maxPerStage)
-                        {
-                            var newEnemy = enemyToDuplicate.Duplicate(randomizer.FlagService.AllocateContextId(0, 0));
-                            var spawnController = enemyToDuplicate.SpawnController ?? throw new Exception("No spawn controller found");
-                            spawnController.AddEnemy(newEnemy);
-                            newList.Add(newEnemy);
-                            _stageEnemyCount[stageId]++;
-                            delta--;
-                        }
-                        else
-                        {
-                            break;
-                        }
+                        var newEnemy = enemyToDuplicate.Duplicate(flagService.AllocateContextId(0, 0));
+                        var spawnController = enemyToDuplicate.SpawnController ?? throw new Exception("No spawn controller found");
+                        spawnController.AddEnemy(newEnemy);
+                        newList.Add(newEnemy);
+                        delta--;
                     }
                 }
             }
