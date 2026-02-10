@@ -1313,7 +1313,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             page = configDefinition.CreatePage("Gimmicks");
             group = page.CreateGroup("");
-            group.Warning = "This feature is currently work in progress.";
             group.Items.Add(new GroupItem()
             {
                 Id = $"ea-extra-gimmicks",
