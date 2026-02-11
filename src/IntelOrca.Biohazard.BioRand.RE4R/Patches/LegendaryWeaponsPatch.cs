@@ -100,87 +100,171 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
             void UpdateMessages()
             {
-                context.ModifyMsgFile("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_name.msg.22", msg =>
+                var isDlcWeapon = id is 6000 or 6001;
+                
+                if (isDlcWeapon)
                 {
-                    msg.SetStringAll($"CH_Mes_Main_WEAPON_NAME_WP{id:0000}_00_0_000", (string)info["name"]);
-                });
-                context.ModifyMsgFile("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_caption.msg.22", msg =>
-                {
-                    msg.SetStringAll($"CH_Mes_Main_WEAPON_CAPTION_WP{id:0000}_00_0_000", (string)info["description"]);
-                });
-                context.ModifyMsgFile("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_itemperks.msg.22", msg =>
-                {
-                    msg.SetStringAll($"CH_Mes_Main_ItemPerks_WP{id:0000}_00_0_000", (string)info["perk"]);
-                });
-                context.ModifyMsgFile("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_wpcustom.msg.22", msg =>
-                {
-                    var exDesc1 = (string)info["exclusive description 1"];
-                    var exPerk1 = (string)info["exclusive perk 1"];
-                    var exDesc2 = (string)info["exclusive description 2"];
-                    var exPerk2 = (string)info["exclusive perk 2"];
-
-                    // Generate new message entries for exclusive 1
-                    if (!string.IsNullOrEmpty(exDesc1))
+                    var dlcMsgFile = id == 6000 ? "natives/stm/_chainsaw/message/dlc/ch_mes_dlc_1401.msg.22" : "natives/stm/_chainsaw/message/dlc/ch_mes_dlc_1402.msg.22";
+                    var dlcId = id == 6000 ? "1401" : "1402";
+                    
+                    context.ModifyMsgFile(dlcMsgFile, msg =>
                     {
-                        var exc1DescName = $"CH_Mes_Main_WpCustom_{id:0000}_Legendary_00";
-                        var exc1PerkName = $"CH_Mes_Main_WpCustom_{id:0000}_Legendary_01";
+                        msg.SetStringAll($"CH_Mes_DLC_{dlcId}_WEAPON_NAME_WP{id:0000}_00_0_000", (string)info["name"]);
+                        msg.SetStringAll($"CH_Mes_DLC_{dlcId}_WEAPON_CAPTION_WP{id:0000}_00_0_000", (string)info["description"]);
+                        msg.SetStringAll($"CH_Mes_DLC_{dlcId}_ItemPerks_WP{id:0000}_00_0_000", (string)info["perk"]);
+                        
+                        var exDesc1 = (string)info["exclusive description 1"];
+                        var exPerk1 = (string)info["exclusive perk 1"];
+                        var exDesc2 = (string)info["exclusive description 2"];
+                        var exPerk2 = (string)info["exclusive perk 2"];
 
-                        var descMsg = msg.FindMessage(exc1DescName);
-                        if (descMsg == null)
+                        // Generate new message entries for exclusive 1
+                        if (!string.IsNullOrEmpty(exDesc1))
                         {
-                            var newDesc = msg.Create(exc1DescName, exDesc1);
-                            excDescGuid1 = newDesc.Guid;
-                        }
-                        else
-                        {
-                            excDescGuid1 = descMsg.Guid;
-                            msg.SetStringAll(exc1DescName, exDesc1);
+                            var exc1DescName = $"CH_Mes_DLC_{dlcId}_WpCustom_{id:0000}_Legendary_00";
+                            var exc1PerkName = $"CH_Mes_DLC_{dlcId}_WpCustom_{id:0000}_Legendary_01";
+
+                            var descMsg = msg.FindMessage(exc1DescName);
+                            if (descMsg == null)
+                            {
+                                var newDesc = msg.Create(exc1DescName, exDesc1);
+                                excDescGuid1 = newDesc.Guid;
+                            }
+                            else
+                            {
+                                excDescGuid1 = descMsg.Guid;
+                                msg.SetStringAll(exc1DescName, exDesc1);
+                            }
+
+                            var perkMsg = msg.FindMessage(exc1PerkName);
+                            if (perkMsg == null)
+                            {
+                                var newPerk = msg.Create(exc1PerkName, exPerk1);
+                                excPerkGuid1 = newPerk.Guid;
+                            }
+                            else
+                            {
+                                excPerkGuid1 = perkMsg.Guid;
+                                msg.SetStringAll(exc1PerkName, exPerk1);
+                            }
                         }
 
-                        var perkMsg = msg.FindMessage(exc1PerkName);
-                        if (perkMsg == null)
+                        // Generate new message entries for exclusive 2
+                        if (!string.IsNullOrEmpty(exDesc2))
                         {
-                            var newPerk = msg.Create(exc1PerkName, exPerk1);
-                            excPerkGuid1 = newPerk.Guid;
-                        }
-                        else
-                        {
-                            excPerkGuid1 = perkMsg.Guid;
-                            msg.SetStringAll(exc1PerkName, exPerk1);
-                        }
-                    }
+                            var exc2DescName = $"CH_Mes_DLC_{dlcId}_WpCustom_{id:0000}_Legendary_02";
+                            var exc2PerkName = $"CH_Mes_DLC_{dlcId}_WpCustom_{id:0000}_Legendary_03";
 
-                    // Generate new message entries for exclusive 2
-                    if (!string.IsNullOrEmpty(exDesc2))
+                            var descMsg = msg.FindMessage(exc2DescName);
+                            if (descMsg == null)
+                            {
+                                var newDesc = msg.Create(exc2DescName, exDesc2);
+                                excDescGuid2 = newDesc.Guid;
+                            }
+                            else
+                            {
+                                excDescGuid2 = descMsg.Guid;
+                                msg.SetStringAll(exc2DescName, exDesc2);
+                            }
+
+                            var perkMsg = msg.FindMessage(exc2PerkName);
+                            if (perkMsg == null)
+                            {
+                                var newPerk = msg.Create(exc2PerkName, exPerk2);
+                                excPerkGuid2 = newPerk.Guid;
+                            }
+                            else
+                            {
+                                excPerkGuid2 = perkMsg.Guid;
+                                msg.SetStringAll(exc2PerkName, exPerk2);
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    context.ModifyMsgFile("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_name.msg.22", msg =>
                     {
-                        var exc2DescName = $"CH_Mes_Main_WpCustom_{id:0000}_Legendary_02";
-                        var exc2PerkName = $"CH_Mes_Main_WpCustom_{id:0000}_Legendary_03";
+                        msg.SetStringAll($"CH_Mes_Main_WEAPON_NAME_WP{id:0000}_00_0_000", (string)info["name"]);
+                    });
+                    context.ModifyMsgFile("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_caption.msg.22", msg =>
+                    {
+                        msg.SetStringAll($"CH_Mes_Main_WEAPON_CAPTION_WP{id:0000}_00_0_000", (string)info["description"]);
+                    });
+                    context.ModifyMsgFile("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_itemperks.msg.22", msg =>
+                    {
+                        msg.SetStringAll($"CH_Mes_Main_ItemPerks_WP{id:0000}_00_0_000", (string)info["perk"]);
+                    });
+                    context.ModifyMsgFile("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_wpcustom.msg.22", msg =>
+                    {
+                        var exDesc1 = (string)info["exclusive description 1"];
+                        var exPerk1 = (string)info["exclusive perk 1"];
+                        var exDesc2 = (string)info["exclusive description 2"];
+                        var exPerk2 = (string)info["exclusive perk 2"];
 
-                        var descMsg = msg.FindMessage(exc2DescName);
-                        if (descMsg == null)
+                        // Generate new message entries for exclusive 1
+                        if (!string.IsNullOrEmpty(exDesc1))
                         {
-                            var newDesc = msg.Create(exc2DescName, exDesc2);
-                            excDescGuid2 = newDesc.Guid;
-                        }
-                        else
-                        {
-                            excDescGuid2 = descMsg.Guid;
-                            msg.SetStringAll(exc2DescName, exDesc2);
+                            var exc1DescName = $"CH_Mes_Main_WpCustom_{id:0000}_Legendary_00";
+                            var exc1PerkName = $"CH_Mes_Main_WpCustom_{id:0000}_Legendary_01";
+
+                            var descMsg = msg.FindMessage(exc1DescName);
+                            if (descMsg == null)
+                            {
+                                var newDesc = msg.Create(exc1DescName, exDesc1);
+                                excDescGuid1 = newDesc.Guid;
+                            }
+                            else
+                            {
+                                excDescGuid1 = descMsg.Guid;
+                                msg.SetStringAll(exc1DescName, exDesc1);
+                            }
+
+                            var perkMsg = msg.FindMessage(exc1PerkName);
+                            if (perkMsg == null)
+                            {
+                                var newPerk = msg.Create(exc1PerkName, exPerk1);
+                                excPerkGuid1 = newPerk.Guid;
+                            }
+                            else
+                            {
+                                excPerkGuid1 = perkMsg.Guid;
+                                msg.SetStringAll(exc1PerkName, exPerk1);
+                            }
                         }
 
-                        var perkMsg = msg.FindMessage(exc2PerkName);
-                        if (perkMsg == null)
+                        // Generate new message entries for exclusive 2
+                        if (!string.IsNullOrEmpty(exDesc2))
                         {
-                            var newPerk = msg.Create(exc2PerkName, exPerk2);
-                            excPerkGuid2 = newPerk.Guid;
+                            var exc2DescName = $"CH_Mes_Main_WpCustom_{id:0000}_Legendary_02";
+                            var exc2PerkName = $"CH_Mes_Main_WpCustom_{id:0000}_Legendary_03";
+
+                            var descMsg = msg.FindMessage(exc2DescName);
+                            if (descMsg == null)
+                            {
+                                var newDesc = msg.Create(exc2DescName, exDesc2);
+                                excDescGuid2 = newDesc.Guid;
+                            }
+                            else
+                            {
+                                excDescGuid2 = descMsg.Guid;
+                                msg.SetStringAll(exc2DescName, exDesc2);
+                            }
+
+                            var perkMsg = msg.FindMessage(exc2PerkName);
+                            if (perkMsg == null)
+                            {
+                                var newPerk = msg.Create(exc2PerkName, exPerk2);
+                                excPerkGuid2 = newPerk.Guid;
+                            }
+                            else
+                            {
+                                excPerkGuid2 = perkMsg.Guid;
+                                msg.SetStringAll(exc2PerkName, exPerk2);
+                            }
                         }
-                        else
-                        {
-                            excPerkGuid2 = perkMsg.Guid;
-                            msg.SetStringAll(exc2PerkName, exPerk2);
-                        }
-                    }
-                });
+                    });
+                }
             }
 
             void UpdateShellInfo()
@@ -389,7 +473,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
             void UpdateItemDefinition()
             {
-                context.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2", root =>
+                var isDlcWeapon = id is 6000 or 6001;
+                var itemDefinitionPath = isDlcWeapon 
+                    ? id == 6000 
+                        ? "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1401/itemdefinitionuserdata_dlc_1401.user.2"
+                        : "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1402/itemdefinitionuserdata_dlc_1402.user.2"
+                    : "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2";
+
+                context.ModifyUserFile(itemDefinitionPath, root =>
                 {
                     var datas = (RszArrayNode)root["_Datas"];
                     for (var i = 0; i < datas.Length; i++)
