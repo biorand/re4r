@@ -1396,9 +1396,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     return;
 
                 var customVfxName = (string)info["CustomVfx"];
-                var groupWeaponId = (id / 100) * 100;
+                
+                // Map DLC weapons to their corresponding base weapon VFX templates
+                var templateWeaponId = id switch
+                {
+                    6000 => 4000,
+                    6001 => 4100,
+                    _ => (id / 100) * 100
+                };
 
-                var templateVfxPath = $"_Chainsaw/VFX/Provider/EPV_Weapon/EPV_wp{groupWeaponId:0000}/epvc_0015_wp{groupWeaponId:0000}_0000.pfb";
+                var templateVfxPath = $"_Chainsaw/VFX/Provider/EPV_Weapon/EPV_wp{templateWeaponId:0000}/epvc_0015_wp{templateWeaponId:0000}_0000.pfb";
                 var vfxPath = $"_Chainsaw/VFX/Provider/EPV_Weapon/EPV_wp{id:0000}/epvc_0015_wp{id:0000}_0000.pfb";
 
                 var templateNativePath = $"natives/stm/{templateVfxPath}.17";
