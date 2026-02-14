@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
@@ -45,6 +45,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 var areaService = randomizer.AreaService;
                 var name = node.FullName;
+                var referenceName = node.ReferenceName;
                 var parameters = node.Parameters;
                 var chapter = parameters.Select(x => x.Chapter).FirstOrDefault(x => x != 0);
                 var beginFlag = default(Guid);
@@ -85,7 +86,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 // Items
                 foreach (var item in randomizer.GetService<ItemService>().ItemPlacements)
                 {
-                    if (item.Events.Contains(name))
+                    if (item.Events.Contains(referenceName))
                     {
                         item.Chapter = chapter;
                         item.Tags = item.Tags.Add(ItemTags.Always);
@@ -96,7 +97,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 // Gimmicks
                 foreach (var gimmick in randomizer.GimmickService.GimmickPlacements)
                 {
-                    if (gimmick.Events.Contains(name))
+                    if (gimmick.Events.Contains(referenceName))
                     {
                         gimmick.Chapter = gimmick.Tags.Contains(GimmickTags.ChapterOnly) ? chapter : 0;
                         gimmick.Tags = gimmick.Tags.Add(GimmickTags.Always);
@@ -107,7 +108,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 EnemyPlacement? keyHolder = null;
                 foreach (var e in randomizer.EnemyService.EnemyPlacements)
                 {
-                    if (e.Events.Contains(name))
+                    if (e.Events.Contains(referenceName))
                     {
                         e.Chapter = chapter;
                         e.Tags = e.Tags.Add(EnemyTags.Always);
@@ -433,6 +434,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .GroupBy(x => x.Name);
 
             var root = new EventNode(null, "");
+            var namedRoots = new Dictionary<string, EventNode>();
             foreach (var g in eventParams)
             {
                 var name = g.Key;
@@ -450,24 +452,57 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var dotSplit = name.Split('.');
                 for (var i = 0; i < dotSplit.Length; i++)
                 {
-                    node = node.GetOrCreateChild(dotSplit[i]);
+                    var part = dotSplit[i];
+                    if (part.StartsWith('@'))
+                    {
+                        if (i == 0)
+                        {
+                            // Defining a new named root
+                            if (!namedRoots.TryGetValue(part, out node))
+                            {
+                                node = new EventNode(null, part);
+                                namedRoots[part] = node;
+                            }
+                        }
+                        else if (namedRoots.TryGetValue(part, out var templateNode))
+                        {
+                            // Using an instance of a named root
+                            node = templateNode.Duplicate(node);
+                            break;
+                        }
+                        else
+                        {
+                            throw new RandomizerUserException($"{part} used before definition");
+                        }
+                    }
+                    else
+                    {
+                        node = node.GetOrCreateChild(dotSplit[i]);
+                    }
                 }
 
-                node.Parent?.Kind = NodeKind.Choose;
-                node.Kind = NodeKind.Event;
-
-                for (var i = 0; i < sub.Length; i++)
+                if (!node.Name.StartsWith('@'))
                 {
-                    node = node.GetOrCreateChild(sub[i]);
-                    node.Kind = NodeKind.Part;
+                    node.Kind = NodeKind.Event;
                 }
 
-                node.Chapter = chapter;
-                node.Parameters = g.ToImmutableArray();
-                node.Tags = node.Parameters.SelectMany(x => x.Tags).Distinct().ToImmutableArray();
-                node.Weight = node.Parameters.Select(x => x.Weight).FirstOrDefault(x => x != 0);
-                if (node.Weight <= 0)
-                    node.Weight = 1;
+                if (node.Kind == NodeKind.Event)
+                {
+                    node.Parent?.Kind = NodeKind.Choose;
+
+                    for (var i = 0; i < sub.Length; i++)
+                    {
+                        node = node.GetOrCreateChild(sub[i]);
+                        node.Kind = NodeKind.Part;
+                    }
+
+                    node.Chapter = chapter;
+                    node.Parameters = g.ToImmutableArray();
+                    node.Tags = node.Parameters.SelectMany(x => x.Tags).Distinct().ToImmutableArray();
+                    node.Weight = node.Parameters.Select(x => x.Weight).FirstOrDefault(x => x != 0);
+                    if (node.Weight <= 0)
+                        node.Weight = 1;
+                }
             }
 
             root.Kind = NodeKind.Group;
@@ -686,6 +721,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
 
+            public string ReferenceName
+            {
+                get
+                {
+                    if (Name.StartsWith('@'))
+                        return Name;
+
+                    if (string.IsNullOrEmpty(Parent?.ReferenceName))
+                        return Name;
+
+                    var sep = Parent.Kind == NodeKind.Event ? '|' : '.';
+                    return Parent.ReferenceName + sep + Name;
+                }
+            }
+
             public IEnumerable<EventNode> GetAllEvents()
             {
                 if (Kind == NodeKind.Event)
@@ -702,6 +752,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         }
                     }
                 }
+            }
+
+            public EventNode Duplicate(EventNode? newParent)
+            {
+                var result = new EventNode(newParent, Name)
+                {
+                    Kind = Kind,
+                    Chapter = Chapter,
+                    Parameters = Parameters,
+                    Tags = Tags,
+                    Weight = Weight
+                };
+                foreach (var child in Children)
+                {
+                    child.Duplicate(result);
+                }
+                newParent?.Children = newParent.Children.Add(result);
+
+                return result;
             }
         }
 
