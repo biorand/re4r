@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -18,6 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly Dictionary<Type, object> _services = [];
         private readonly Lock _servicesLock = new();
         private readonly Dictionary<string, string> _logFiles = [];
+        private int _pakVersion = 6;
 
         public RandomizerInput Input { get; }
         public EnemyClassFactory EnemyClassFactory { get; }
@@ -73,7 +74,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             RandomizerOutput? result = null;
             Reporter.RunTask("Building mod", () =>
             {
-                var output = new ChainsawRandomizerOutput(input, _fileRepository.GetOutputPakFile(), _logFiles);
+                var output = new ChainsawRandomizerOutput(input, _fileRepository.GetOutputPakFile(), _logFiles, _pakVersion);
                 result = new RandomizerOutput(
                     [
                         new RandomizerOutputAsset(
@@ -155,6 +156,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 logger.Output.LogHr();
             });
 
+            ApplyOverlay();
+
             return logger;
         }
 
@@ -165,6 +168,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 _supplementApplied = true;
                 FileRepository.ApplyOverlay(EmbeddedData.GetFile("supplement.zip"));
+            }
+        }
+
+        private void ApplyOverlay()
+        {
+            var gameVersion = GetConfigOption<string>("game-version", "3 Feb 2026");
+            if (gameVersion == "3 Feb 2026")
+            {
+                _pakVersion = 6;
+            }
+            else if (gameVersion == "4 Mar 2025")
+            {
+                FileRepository.ApplyOverlay(EmbeddedData.GetFile("overlay_v4.zip"));
+                _pakVersion = 5;
+            }
+            else
+            {
+                throw new RandomizerUserException("Unsupported game version");
             }
         }
 

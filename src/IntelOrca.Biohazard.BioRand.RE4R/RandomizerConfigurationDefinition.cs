@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using static IntelOrca.Biohazard.BioRand.RandomizerConfigurationDefinition;
 
@@ -14,6 +14,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var page = configDefinition.CreatePage("General");
             var group = page.CreateGroup("");
+            group.Items.Add(new GroupItem()
+            {
+                Id = "game-version",
+                Label = "Game Version",
+                Description = "What version of the game to generate for.",
+                Type = "dropdown",
+                Options = ["4 Mar 2025", "3 Feb 2026"],
+                Default = "3 Feb 2026"
+            });
+
+            group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
                 Id = $"campaign",

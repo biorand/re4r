@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Package;
@@ -13,12 +13,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public RandomizerInput Input { get; }
         public PakFileBuilder PakFile { get; }
         public Dictionary<string, string> LogFiles { get; }
+        public int PakVersion { get; }
 
-        internal ChainsawRandomizerOutput(RandomizerInput input, PakFileBuilder pakFile, Dictionary<string, string> logFiles)
+        internal ChainsawRandomizerOutput(RandomizerInput input, PakFileBuilder pakFile, Dictionary<string, string> logFiles, int pakVersion)
         {
             Input = input;
             PakFile = pakFile;
             LogFiles = logFiles;
+            PakVersion = pakVersion;
         }
 
         public byte[] GetOutputZip()
@@ -27,7 +29,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 return _zipFile;
 
             _zipFile = BuildZipFile()
-                .AddEntry($"re_chunk_000.pak.patch_006.pak", PakFile.ToByteArray())
+                .AddEntry($"re_chunk_000.pak.patch_{PakVersion:000}.pak", PakFile.ToByteArray())
                 .Build();
             return _zipFile;
         }
