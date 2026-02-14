@@ -85,6 +85,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         }
 
         private static readonly ImmutableArray<string> FullPatterns = [
+            @"natives/stm/.*\.gui\.540034",
             @"natives/stm/.*\.motfsm2\.43",
             @"natives/stm/.*\.msg\.22",
             @"natives/stm/.*\.pfb\.17",
