@@ -18,8 +18,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly Dictionary<Type, object> _services = [];
         private readonly Lock _servicesLock = new();
         private readonly Dictionary<string, string> _logFiles = [];
-        private int _pakVersion = 6;
 
+        public int PakVersion { get; set; } = 6;
         public RandomizerInput Input { get; }
         public EnemyClassFactory EnemyClassFactory { get; }
         public IProgressReporter Reporter { get; }
@@ -74,7 +74,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             RandomizerOutput? result = null;
             Reporter.RunTask("Building mod", () =>
             {
-                var output = new ChainsawRandomizerOutput(input, _fileRepository.GetOutputPakFile(), _logFiles, _pakVersion);
+                var output = new ChainsawRandomizerOutput(input, _fileRepository.GetOutputPakFile(), _logFiles, PakVersion);
                 result = new RandomizerOutput(
                     [
                         new RandomizerOutputAsset(
@@ -173,20 +173,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private void ApplyOverlay()
         {
-            var gameVersion = GetConfigOption<string>("game-version", "3 Feb 2026");
-            if (gameVersion == "3 Feb 2026")
-            {
-                _pakVersion = 6;
-            }
-            else if (gameVersion == "4 Mar 2025")
-            {
-                FileRepository.ApplyOverlay(EmbeddedData.GetFile("overlay_v4.zip"));
-                _pakVersion = 5;
-            }
-            else
-            {
-                throw new RandomizerUserException("Unsupported game version");
-            }
+            var compatibility = new GameCompatibility(this);
+            compatibility.Apply();
         }
 
         private void IterateModifiers(Action<string, Modifier> action)
