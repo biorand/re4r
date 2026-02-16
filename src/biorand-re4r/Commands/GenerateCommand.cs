@@ -1,5 +1,10 @@
-﻿using System.ComponentModel;
+using System.Collections.Immutable;
+using System.ComponentModel;
 using System.IO.Compression;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using Spectre.Console;
 using Spectre.Console.Cli;
@@ -10,6 +15,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
     {
         public sealed class Settings : CommandSettings
         {
+            [Description("URL to generate")]
+            [CommandOption("--url")]
+            public string? Url { get; init; }
+
             [Description("Seed to generate")]
             [CommandOption("-s|--seed")]
             public int Seed { get; init; }
@@ -38,7 +47,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         }
 
 
-        public override Task<int> ExecuteAsync(CommandContext context, Settings settings)
+        public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
             var reporter = new ConsoleReporter();
             if (settings.Kill)
@@ -47,13 +56,24 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             }
 
             var randomizer = new Re4rRandomizer(settings.InputPath ?? "", reporter);
-            var input = new RandomizerInput();
-            input.Seed = settings.Seed;
-            if (!string.IsNullOrEmpty(settings.ConfigPath))
+            RandomizerInput input;
+            if (settings.Url is string url)
             {
-                var configJson = File.ReadAllText(settings.ConfigPath);
-                input.Configuration = RandomizerConfiguration.FromJson(configJson);
+                input = await FromUrl(new Uri(url));
             }
+            else
+            {
+                input = new RandomizerInput
+                {
+                    Seed = settings.Seed
+                };
+                if (!string.IsNullOrEmpty(settings.ConfigPath))
+                {
+                    var configJson = File.ReadAllText(settings.ConfigPath);
+                    input.Configuration = RandomizerConfiguration.FromJson(configJson);
+                }
+            }
+
             AnsiConsole.MarkupLine($"Generating seed {input.Seed}...");
             var output = randomizer.Randomize(input);
 
@@ -110,7 +130,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                     }
                 });
             }
-            return Task.FromResult(0);
+            return 0;
         }
 
         private static void ExtractNatives(byte[] zipFile, string outputPath)
@@ -176,6 +196,62 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             }
         }
 
+        private static async Task<RandomizerInput> FromUrl(Uri url)
+        {
+            var settings = LocalSettings.Default;
+
+            var pathMatch = Regex.Match(url.LocalPath, @".*/(\d+)/?$");
+            if (!pathMatch.Success)
+                throw new Exception("Unexpected URL format");
+
+            var hostMatch = Regex.Match(url.Host, @"(beta-)?.*\.biorand.net");
+            if (!hostMatch.Success)
+                throw new Exception("Unexpected URL format");
+
+            var isBeta = hostMatch.Groups[1].Success;
+            var apiUrl = isBeta ? "https://beta-api.biorand.net" : "https://api.biorand.net";
+            var server = settings.Servers.FirstOrDefault(x => x.ApiUrl == apiUrl);
+            if (server == null)
+                throw new Exception($"No server defined for {apiUrl}");
+
+            var seed = int.Parse(pathMatch.Groups[1].Value);
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Bearer", server.AuthToken);
+            client.BaseAddress = new Uri(apiUrl);
+            var response = await client.GetFromJsonAsync<RandoResponse>($"/rando/{seed}");
+            if (response == null)
+                throw new Exception("Invalid response from server");
+
+            var result = new RandomizerInput();
+            result.Seed = int.Parse(pathMatch.Groups[1].Value);
+            result.UserName = response.UserName ?? "USERNAME";
+            result.ProfileName = response.ProfileName;
+            result.ProfileAuthor = response.ProfileUserName;
+            result.ProfileDescription = response.ProfileDescription;
+            result.Configuration = RandomizerConfiguration.FromDictionary(response.Config);
+            return result;
+        }
+
+        private class RandoResponse
+        {
+            public int Id { get; init; }
+            public string UserName { get; init; } = "";
+            public long Created { get; init; }
+            public int GameId { get; init; }
+            public string GameMoniker { get; init; } = "";
+            public int ProfileId { get; init; }
+            public string ProfileName { get; init; } = "";
+            public string ProfileDescription { get; init; } = "";
+            public string ProfileUserName { get; init; } = "";
+            public int Seed { get; init; }
+            public string Version { get; init; } = "";
+            public int Status { get; init; }
+            public Dictionary<string, object> Config { get; init; } = new();
+            public string ShareUrl { get; init; } = "";
+            public string Instructions { get; init; } = "";
+            public string FailReason { get; init; } = "";
+        }
+
         private class ConsoleReporter() : IProgressReporter
         {
             public void RunTask(string text, Action cb)
@@ -190,6 +266,45 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                     });
                 AnsiConsole.MarkupLine($"[lime]:check_box_with_check:  {text}[/]");
             }
+        }
+
+        private class LocalSettings
+        {
+            private static LocalSettings? _default;
+
+            public ImmutableArray<Server> Servers { get; set; } = [];
+
+            public static LocalSettings Default
+            {
+                get
+                {
+                    if (_default == null)
+                    {
+                        try
+                        {
+                            var homePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                            var settingsPath = Path.Combine(homePath, ".biorand", "local.json");
+                            var settings = File.ReadAllText(settingsPath);
+                            _default = JsonSerializer.Deserialize<LocalSettings>(settings, new JsonSerializerOptions()
+                            {
+                                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                            })!;
+                        }
+                        catch
+                        {
+                            _default = new LocalSettings();
+                        }
+                    }
+                    return _default;
+                }
+            }
+        }
+
+        private class Server
+        {
+            public string Name { get; set; } = "";
+            public string ApiUrl { get; set; } = "";
+            public string AuthToken { get; set; } = "";
         }
     }
 }
