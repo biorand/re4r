@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -49,6 +49,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 {
                     UpdateItem(data, item);
                     _dirty = true;
+                }
+            }
+        }
+
+        public void UpdateStage(chainsaw.ContextID contextId, int stage)
+        {
+            foreach (var data in _table.Datas)
+            {
+                if (data.ID == contextId)
+                {
+                    data.ItemData.StageID = stage;
+                    _dirty = true;
+                    break;
                 }
             }
         }

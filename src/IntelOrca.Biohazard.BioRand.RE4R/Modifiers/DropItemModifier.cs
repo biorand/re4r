@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
@@ -131,6 +131,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Eular = item.Eular
                     };
                     gameObject = gameObject.AddOrUpdateComponent(transform.ToComponent());
+
+                    var itemDrop = gameObject.FindComponent("chainsaw.DropItem")!;
+                    itemDrop = itemDrop.Set("_ItemData.StageID", item.Stage);
+                    gameObject = gameObject.AddOrUpdateComponent(itemDrop);
+
+                    area.ItemSaveData.UpdateStage(item.ContextId, item.Stage);
                 }
 
                 if (conditionChange)
