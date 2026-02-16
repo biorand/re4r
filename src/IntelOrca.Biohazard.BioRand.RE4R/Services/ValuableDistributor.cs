@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -76,13 +76,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var rectangleTreasures = allTreasureItems.Where(x => x.Class == ItemClasses.Rectangle).ToImmutableArray();
             var roundTreasures = allTreasureItems.Where(x => x.Class == ItemClasses.Round).ToImmutableArray();
 
+            var campaignService = randomizer.GetService<CampaignService>();
             var chapterItems = new List<ItemDefinition>();
-
-            for (var chapter = 1; chapter <= 16; chapter++)
+            for (var chapter = campaignService.StartChapter; chapter <= campaignService.EndChapter; chapter++)
             {
                 chapterItems.Clear();
 
-                var maxTreasureValue = rng.Next(minValuePerChapter, maxValuePerChapter + 1);
+                var avgMaxTreasureValue = rng.Next(minValuePerChapter, maxValuePerChapter + 1);
+                var maxTreasureValue = Math.Ceiling(avgMaxTreasureValue * 1000 * campaignService.GetChapter(chapter).LengthMultiplier);
                 var treasureValue = 0;
                 while (true)
                 {

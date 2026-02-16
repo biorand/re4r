@@ -51,6 +51,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var beginFlag = default(Guid);
                 var endFlags = new List<Guid>();
 
+                var campaignService = randomizer.GetService<CampaignService>();
+                if (!campaignService.HasChapter(chapter))
+                    return;
+
                 // Process triggers
                 var triggers = parameters.Where(x => x.Operation == EventOperation.Trigger).ToArray();
                 if (triggers.Length != 0)
@@ -184,7 +188,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             MoveGimmick(randomizer, param);
                             break;
                         case EventOperation.Start:
-                            var campaignService = randomizer.GetService<CampaignService>();
                             var campaignChapter = campaignService.GetChapter(param.Chapter);
                             campaignChapter.StartStage = param.Stage;
                             campaignChapter.StartPosition = param.Position;

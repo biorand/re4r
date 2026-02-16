@@ -614,22 +614,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             group.Items.Add(new GroupItem()
             {
                 Id = "treasure-per-chapter-min",
-                Label = "Min. Treasure per Chapter",
-                Description = "The minimum total value of all treasure to include per chapter.",
-                Type = "scale",
+                Label = "Min. Average Chapter Treasure (× 1,000)",
+                Description = "The minimum total value of all treasure to include for an average length chapter.",
+                Type = "range",
                 Min = 0,
-                Max = 1_000_000,
-                Default = 50_000
+                Max = 1_000,
+                Default = 50
             });
             group.Items.Add(new GroupItem()
             {
                 Id = "treasure-per-chapter-max",
-                Label = "Max. Treasure per Chapter",
-                Description = "The maximum total value of all treasure to include per chapter.",
-                Type = "scale",
+                Label = "Max. Average Chapter Treasure (× 1,000)",
+                Description = "The maximum total value of all treasure to include for an average length chapter.",
+                Type = "range",
                 Min = 0,
-                Max = 1_000_000,
-                Default = 200_000
+                Max = 1_000,
+                Default = 200
             });
             group = page.CreateGroup("Treasure Classes");
             group.Items.Add(new GroupItem()
