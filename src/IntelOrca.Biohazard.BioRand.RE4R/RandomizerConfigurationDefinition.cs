@@ -507,7 +507,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             foreach (var sw in ItemClasses.StartingWeapons)
             {
-                if (sw == ItemClasses.None || sw == ItemClasses.Arrow)
+                if (sw == ItemClasses.None)
                     continue;
 
                 float lvl1minDefault = 1.0f;
@@ -525,6 +525,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 else if (sw == ItemClasses.Rifle)
                 { lvl1minDefault = 0.8f; lvl1maxDefault = 1.2f; lvl5mindefault = 1.5f; lvl5maxdefault = 3.0f; }
                 else if (sw == ItemClasses.Bolt)
+                { lvl1minDefault = 1.0f; lvl1maxDefault = 1.0f; lvl5mindefault = 2.0f; lvl5maxdefault = 3.0f; }
+                else if (sw == ItemClasses.Arrow)
                 { lvl1minDefault = 1.0f; lvl1maxDefault = 1.0f; lvl5mindefault = 2.0f; lvl5maxdefault = 3.0f; }
                 else if (sw == ItemClasses.Flame)
                 { lvl1minDefault = 0.9f; lvl1maxDefault = 1.2f; lvl5mindefault = 1.8f; lvl5maxdefault = 2.2f; }
