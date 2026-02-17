@@ -56,12 +56,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     chId = entry._Chapter;
 
                     entry._SpecialJumpSequence = 0;
-
-                    var character = entry._CharacterList[0];
-                    var locator = character._Locator;
-                    locator._Stage = chapter.StartStage;
-                    locator._Position = chapter.StartPosition;
-                    locator._Rotation = chapter.StartEuler.ToQuaternion();
+                    if (chapter.StartStage != 0 || chapter.StartPosition != System.Numerics.Vector3.Zero)
+                    {
+                        var character = entry._CharacterList[0];
+                        var locator = character._Locator;
+                        locator._Stage = chapter.StartStage;
+                        locator._Position = chapter.StartPosition;
+                        locator._Rotation = chapter.StartEuler.ToQuaternion();
+                    }
                     return userData;
                 });
 
