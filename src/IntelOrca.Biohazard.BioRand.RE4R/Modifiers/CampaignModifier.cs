@@ -75,7 +75,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     if (entry != null)
                     {
                         entry.NextMovieID = -1;
-                        entry.NextTimelineID = -1;
+                        if (startChapter > 1)
+                        {
+                            entry.NextTimelineID = -1;
+                        }
                         // entry.NextReserveEventList.Clear();
                     }
                     return userData;
