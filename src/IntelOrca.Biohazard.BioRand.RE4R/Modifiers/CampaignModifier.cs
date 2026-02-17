@@ -55,9 +55,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var entry = userData._CampaignInitialSettingList[0];
                     chId = entry._Chapter;
 
-                    entry._SpecialJumpSequence = 0;
+                    
                     if (chapter.StartStage != 0 || chapter.StartPosition != System.Numerics.Vector3.Zero)
                     {
+                        entry._SpecialJumpSequence = 0;
                         var character = entry._CharacterList[0];
                         var locator = character._Locator;
                         locator._Stage = chapter.StartStage;
