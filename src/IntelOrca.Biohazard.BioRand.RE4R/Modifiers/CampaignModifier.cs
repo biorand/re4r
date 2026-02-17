@@ -17,6 +17,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (startChapter > 1)
             {
                 OverrideStartChapter(startChapter);
+                var chapter1 = new CampaignService.Chapter(1, 1.0f);
+                ModifyChapterStartPosition(chapter1);
             }
 
             foreach (var chapter in campaignService.Chapters)
