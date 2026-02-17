@@ -14,7 +14,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         public CampaignService(ChainsawRandomizer randomizer)
         {
             _randomizer = randomizer;
-            var minChapter = randomizer.Campaign != Campaign.Ada ? 1 : 1;
+            var minChapter = 1;
             var maxChapter = randomizer.Campaign != Campaign.Ada ? 16 : 7;
             var startChapter = Math.Clamp(_randomizer.GetConfigOption("start-chapter", 1), minChapter, maxChapter);
 

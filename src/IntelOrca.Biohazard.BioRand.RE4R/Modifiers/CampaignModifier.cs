@@ -1,5 +1,6 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Linq;
+using System.Numerics;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -17,13 +18,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (startChapter > 1)
             {
                 OverrideStartChapter(startChapter);
-                var chapter1 = new CampaignService.Chapter(1, 1.0f);
-                ModifyChapterStartPosition(chapter1);
             }
 
             foreach (var chapter in campaignService.Chapters)
             {
-                ModifyChapterStartPosition(chapter);
+                if (chapter.StartStage != 0 || chapter.StartPosition != Vector3.Zero)
+                {
+                    ModifyChapterStartPosition(chapter);
+                }
             }
 
             void OverrideStartChapter(int startChapter)
@@ -57,19 +59,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var entry = userData._CampaignInitialSettingList[0];
                     chId = entry._Chapter;
 
-                    if (startChapter > 1)
-                    {
-                        entry._SpecialJumpSequence = 0;
-                    }
+                    // Disable pre-chapter cutscene
+                    entry._SpecialJumpSequence = 0;
 
-                    if (chapter.StartStage != 0 || chapter.StartPosition != System.Numerics.Vector3.Zero)
-                    {
-                        var character = entry._CharacterList[0];
-                        var locator = character._Locator;
-                        locator._Stage = chapter.StartStage;
-                        locator._Position = chapter.StartPosition;
-                        locator._Rotation = chapter.StartEuler.ToQuaternion();
-                    }
+                    var character = entry._CharacterList[0];
+                    var locator = character._Locator;
+                    locator._Stage = chapter.StartStage;
+                    locator._Position = chapter.StartPosition;
+                    locator._Rotation = chapter.StartEuler.ToQuaternion();
                     return userData;
                 });
 
@@ -79,11 +76,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     var entry = userData._ItemList.FirstOrDefault(x => x.ChapterID == chId);
                     if (entry != null)
                     {
+                        // Disable pre-chapter cutscene
                         entry.NextMovieID = -1;
-                        if (startChapter > 1)
-                        {
-                            entry.NextTimelineID = -1;
-                        }
+                        entry.NextTimelineID = -1;
                         // entry.NextReserveEventList.Clear();
                     }
                     return userData;
