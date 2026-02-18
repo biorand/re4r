@@ -86,6 +86,7 @@
         public const int SkullShaker = 278037056;
         public const int XM96E1 = 278515456;
         public const int SWSawedOffW870 = 278195456;
+        public const int SWBlastCrossbow = 278198656;
         public const int SWChicagoSweeper = 278197056;
         public const int RocketLauncherInfinite = 276278656;
         public const int RocketLauncher = 276275456;

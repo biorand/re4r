@@ -270,6 +270,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             }
                         ]
                     });
+                    AddItemToCategory(ItemIds.SWBlastCrossbow, 1);
+                    shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
+                    {
+                        _ItemId = ItemIds.SWBlastCrossbow,
+                        _PriceSettings = [
+                            new chainsaw.gui.shop.ItemPriceSetting()
+                            {
+                                _Difficulty = 20,
+                                _Price = new chainsaw.gui.shop.ItemPrice()
+                                {
+                                    _PurchasePrice = 40000,
+                                    _SellingPrice = 10000,
+                                }
+                            }
+                        ]
+                    });
                 }
                 else
                 {

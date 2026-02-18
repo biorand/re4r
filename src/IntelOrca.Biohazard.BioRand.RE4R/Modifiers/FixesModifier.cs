@@ -376,6 +376,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 wp6100._CaptionMsgId = itemCaption.Create("A pump-action shotgun designed for close encounters.\r\nIts sawed-off barrel makes it very versatile in combat.").Guid;
             }
 
+            var wp6102 = itemMessage._Settings.FirstOrDefault(x => x._ItemId == ItemIds.SWBlastCrossbow);
+            if (wp6102 != null)
+            {
+                wp6102._NameMsgId = itemName.Create("Blast Crossbow").Guid;
+                wp6102._CaptionMsgId = itemCaption.Create("A large crossbow. It shoots special\r\nprojectiles that explode upon impact.").Guid;
+            }
+
             var wp6300 = itemMessage._Settings.FirstOrDefault(x => x._ItemId == ItemIds.XM96E1);
             if (wp6300 != null)
             {
