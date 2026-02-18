@@ -1060,6 +1060,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.01,
                 Default = 0.5
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemies-unleashed",
+                Label = "Enemies Unleashed",
+                Description = "Reduce the colliders for Verdugo and Garrador so they can move more freely. Yes, they will run through doors.",
+                Type = "percent",
+                Min = 0,
+                Max = 1,
+                Step = 1,
+                Default = 1
+            });
 #endif
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
