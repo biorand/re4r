@@ -154,7 +154,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 return _allowDlcItems;
             if (_randomizer.Campaign != Campaign.Ada &&
                 (itemDefinition.Id == ItemIds.SWSawedOffW870 ||
-                 itemDefinition.Id == ItemIds.XM96E1))
+                 itemDefinition.Id == ItemIds.XM96E1 ||
+                 itemDefinition.Id == ItemIds.SWBlastCrossbow))
             {
                 return _allowMercenariesItems;
             }
