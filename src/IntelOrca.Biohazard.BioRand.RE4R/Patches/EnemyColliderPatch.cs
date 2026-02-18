@@ -37,12 +37,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         public void Apply()
         {
-            var enemiesUnleashed = context.GetConfigOption<int>("enemies-unleashed", 0);
+            var enemiesUnleashed = context.GetConfigOption<bool>("enemies-unleashed", false);
             
             foreach (var (characterId, settings) in _colliderSettings)
             {
-                // If enemies-unleashed is not 1, only process ch4fbz0
-                if (enemiesUnleashed != 1 && characterId != "ch4fbz0")
+                // If enemies-unleashed is not true, only process ch4fbz0
+                if (!enemiesUnleashed && characterId != "ch4fbz0")
                     continue;
 
                 var path = $"natives/stm/{settings.BasePath}/appsystem/character/{characterId}/{characterId}_body.pfb.17";
