@@ -63,7 +63,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 throw new RandomizerUserException("No treasure distribution set");
 
             var itemRepo = ItemDefinitionRepository.Default;
-            var allTreasureItems = itemRepo.KindToItemMap[ItemKinds.Treasure];
+            var allTreasureItems = itemRepo.KindToItemMap[ItemKinds.Treasure]
+                .Where(x => x.SupportsCampaign(randomizer.Campaign));
             var simpleTreasures = allTreasureItems
                 .Where(x => string.IsNullOrEmpty(x.Class))
                 .Where(x => x.Value < 10_000)

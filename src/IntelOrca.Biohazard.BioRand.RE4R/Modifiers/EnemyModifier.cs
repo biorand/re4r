@@ -368,11 +368,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             // Valuables
-            var weaponDrops = randomizer.ValuableDistributor
+            var valuableDrops = randomizer.ValuableDistributor
                 .GetItems(chapter, ItemDiscovery.Enemy)
-                .Shuffle(rng);
+                .Shuffle(rng)
+                .OrderBy(x => x.Definition.Kind == ItemKinds.Treasure) // Place treasures last
+                .ThenByDescending(x => x.Definition.Value)
+                .ToArray();
             logger.Push("Valuables");
-            foreach (var weapon in weaponDrops)
+            foreach (var weapon in valuableDrops)
             {
                 if (spawnsLeft.Count == 0)
                     break;
@@ -442,7 +445,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var classNumber = possibleClassNumbers.Last();
                 for (var i = 0; i < possibleClassNumbers.Length - 1; i++)
                 {
-                    if (rng.NextProbability(75))
+                    if (rng.NextProbability(80))
                     {
                         classNumber = possibleClassNumbers[i];
                         break;
