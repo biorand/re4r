@@ -377,6 +377,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"flamethrower-fps-balance",
+                Label = $"120 FPS Flamethrower Balance",
+                Description = "Rebalances the flamethrower fuel availability and max capacity based on FPS.",
+                Type = "switch",
+                Default = false
+            });
 
             // Exclusives
             group = page.CreateGroup("Exclusives");

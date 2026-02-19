@@ -95,6 +95,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         private void AddFlamethrower()
         {
+            var flamethrowerFpsBalance = FileRepository.GetConfigOption("flamethrower-fps-balance", false);
+            var intervalMultiplier = flamethrowerFpsBalance ? 0.80f : 1.0f;
+
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/shell/bullet/wp4701/wp4701shellinfo.user.2", root =>
             {
                 return root
@@ -113,7 +116,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             {
                 return root
                     .Set("_FolderType", 8)
-                    .Set("_FlameShellIntervalTime", (float)_wpflamethrower["flameinterval"]);
+                    .Set("_FlameShellIntervalTime", (float)_wpflamethrower["flameinterval"] * intervalMultiplier);
             });
 
             SetSoundTrgr("natives/stm/_chainsaw/sound/resource/trigger/weapon/snd_trgr_wp_gun_cm.user.2", 686504397, true, 0);
