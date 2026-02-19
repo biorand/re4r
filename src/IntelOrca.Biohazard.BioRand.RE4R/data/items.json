@@ -85,7 +85,6 @@
     {
       "name": "SW - Blast Arrows",
       "kind": "ammo",
-      "mode": "sw",
       "class": "arrow",
       "stack": 10,
       "id": 112480000,
@@ -1248,7 +1247,6 @@
     {
       "name": "SW - Recipe: Blast Arrows",
       "kind": "recipe",
-      "mode": "sw",
       "id": 123683200
     },
     {
@@ -1884,7 +1882,6 @@
     {
       "name": "SW - Blast Crossbow",
       "kind": "weapon",
-      "mode": "sw",
       "id": 278198656,
       "class": "arrow",
       "weaponId": 6102
