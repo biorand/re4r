@@ -771,11 +771,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"preserve-item-models",
-                Label = "Preserve Item Models",
-                Description = "When randomizing items, keep the original item model in the world.",
+                Id = $"item-drop-ammo-only-available-weapons",
+                Label = "Ammo for available weapons only",
+                Description = "Only drop ammo for weapons that are available before or in the chapter with the drop.",
                 Type = "switch",
-                Default = false
+                Default = true
             });
             group.Items.Add(new GroupItem()
             {
@@ -821,11 +821,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
             group.Items.Add(new GroupItem()
             {
-                Id = $"item-drop-ammo-only-available-weapons",
-                Label = "Ammo for available weapons only",
-                Description = "Only drop ammo for weapons that are available before or in the chapter with the drop.",
+                Id = $"preserve-item-models",
+                Label = "Preserve Item Models",
+                Description = "When randomizing items, keep the original item model in the world.",
                 Type = "switch",
-                Default = true
+                Default = false,
+                Advanced = true
             });
 
             group = page.CreateGroup("General Drops");
@@ -856,6 +857,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
 
             group = page.CreateGroup("Valuable Drops");
+            group.Advanced = true;
             foreach (var dropKind in DropKinds.HighValue)
             {
                 group.Items.Add(new GroupItem()
@@ -892,6 +894,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.01,
                 Default = 0.25
             });
+
+            group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
                 Id = $"enemy-multiplier",
@@ -914,29 +918,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 1,
                 Default = 50
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-pack-max",
+                Label = "Enemy Max. Pack Size",
+                Description = "Controls the maximum size of an enemy pack. " +
+                    "Enemy packs give you groups of similar enemies rather than every individual enemy being a different type.",
+                Type = "range",
+                Min = 1,
+                Max = 10,
+                Step = 1,
+                Default = 6
+            });
+
 #if ENABLE_BETA_FEATURES
-            group.Items.Add(new GroupItem()
-            {
-                Id = "enemy-waves-min",
-                Label = "Min. Enemy Waves",
-                Description = "The minimum number of waves per enemy. A value of 2 will mean a new enemy is spawned for each enemy killed.",
-                Type = "range",
-                Min = 2,
-                Max = 50,
-                Step = 1,
-                Default = 1
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = "enemy-waves-max",
-                Label = "Max. Enemy Waves",
-                Description = "The maximum number of waves per enemy. A value of 4 will mean some enemies will get another 3 extra enemies which spawn in, one after another, when the last one is killed.",
-                Type = "range",
-                Min = 2,
-                Max = 50,
-                Step = 1,
-                Default = 1
-            });
+            group = page.CreateGroup("Waves");
             group.Items.Add(new GroupItem()
             {
                 Id = "enemy-waves-probability",
@@ -959,19 +955,31 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 1,
                 Default = 5
             });
-#endif
             group.Items.Add(new GroupItem()
             {
-                Id = $"enemy-pack-max",
-                Label = "Enemy Max. Pack Size",
-                Description = "Controls the maximum size of an enemy pack. " +
-                    "Enemy packs give you groups of similar enemies rather than every individual enemy being a different type.",
+                Id = "enemy-waves-min",
+                Label = "Min. Enemy Waves",
+                Description = "The minimum number of waves per enemy. A value of 2 will mean a new enemy is spawned for each enemy killed.",
                 Type = "range",
-                Min = 1,
-                Max = 10,
+                Min = 2,
+                Max = 50,
                 Step = 1,
-                Default = 6
+                Default = 1
             });
+            group.Items.Add(new GroupItem()
+            {
+                Id = "enemy-waves-max",
+                Label = "Max. Enemy Waves",
+                Description = "The maximum number of waves per enemy. A value of 4 will mean some enemies will get another 3 extra enemies which spawn in, one after another, when the last one is killed.",
+                Type = "range",
+                Min = 2,
+                Max = 50,
+                Step = 1,
+                Default = 1
+            });
+#endif
+
+            group = page.CreateGroup("Size");
             group.Items.Add(new GroupItem()
             {
                 Id = $"enemy-scale-probability",
@@ -1005,14 +1013,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.05,
                 Default = 2
             });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"enemy-strong-mini-boss",
-                Label = "Strong Mini Bosses",
-                Description = "Randomize mini bosses to strong elite enemies. Examples of mini bosses are bella sisters, red zealot with lantern, and garradors.",
-                Type = "switch",
-                Default = false
-            });
+
+            group = page.CreateGroup("Constraints");
             group.Items.Add(new GroupItem()
             {
                 Id = $"balanced-enemies",
@@ -1034,6 +1036,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Id = $"ashley-safe-enemies",
                 Label = "Safer Ashley Escorting",
                 Description = "Disable enemies that can easily kill Ashley during chapters where you are escorting her.",
+                Type = "switch",
+                Default = false
+            });
+
+            group = page.CreateGroup("Specific");
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-strong-mini-boss",
+                Label = "Strong Mini Bosses",
+                Description = "Randomize mini bosses to strong elite enemies. Examples of mini bosses are bella sisters, red zealot with lantern, and garradors.",
                 Type = "switch",
                 Default = false
             });
@@ -1069,104 +1081,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Default = true
             });
 #endif
-            group = page.CreateGroup("");
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"random-enemy-drops",
-                Label = "Random enemy drops",
-                Description = "Let Biorand randomize the enemy drops.",
-                Type = "switch",
-                Default = true
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"enemy-drop-ammo-only-available-weapons",
-                Label = "Ammo for available weapons only",
-                Description = "Only drop ammo for weapons that are available before or in the chapter with the drop.",
-                Type = "switch",
-                Default = true
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"enemy-drop-ammo-min",
-                Label = "Min. Ammo Quantity",
-                Description = "The minimum percentage of an ammo stack to drop.",
-                Type = "percent",
-                Min = 0.1,
-                Max = 1,
-                Step = 0.1,
-                Default = 0.1
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"enemy-drop-ammo-max",
-                Label = "Max. Ammo Quantity",
-                Description = "The maximum percentage of an ammo stack to drop.",
-                Type = "percent",
-                Min = 0.1,
-                Max = 1,
-                Step = 0.1,
-                Default = 1
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"enemy-drop-money-min",
-                Label = "Min. Money Drop",
-                Type = "range",
-                Min = 100,
-                Max = 10000,
-                Step = 100,
-                Default = 100
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"enemy-drop-money-max",
-                Label = "Max. Money Drop",
-                Type = "range",
-                Min = 100,
-                Max = 10000,
-                Step = 100,
-                Default = 1000
-            });
-
-            group = page.CreateGroup("General Drops");
-            foreach (var dropKind in DropKinds.GenericAll)
-            {
-                group.Items.Add(new GroupItem()
-                {
-                    Id = $"enemy-drop-ratio-{dropKind}",
-                    Label = DropKinds.GetLabel(dropKind),
-                    Description = dropKind switch
-                    {
-                        DropKinds.None => "No item is dropped.",
-                        DropKinds.Automatic => "Let the game decide, usually based on DA.",
-                        _ => null
-                    },
-                    Category = new GroupItemCategory()
-                    {
-                        Label = DropKinds.GetCategory(dropKind),
-                        BackgroundColor = DropKinds.GetColor(dropKind).BackgroundColor,
-                        TextColor = DropKinds.GetColor(dropKind).TextColor,
-                    },
-                    Type = "range",
-                    Min = 0,
-                    Max = 1,
-                    Step = 0.01,
-                    Default = 0.5
-                });
-            }
-
-            group = page.CreateGroup("Valuable Drops");
-            foreach (var dropKind in DropKinds.HighValue)
-            {
-                group.Items.Add(new GroupItem()
-                {
-                    Id = $"enemy-drop-valuable-{dropKind}",
-                    Label = dropKind.Replace("-", " ").ToTitleCase(),
-                    Type = "switch",
-                    Default = true
-                });
-            }
 
             group = page.CreateGroup("Classes");
             foreach (var enemyClass in enemyClassFactory.Classes)
@@ -1241,6 +1155,106 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 0.01,
                 Default = 0.05
             });
+
+            group = page.CreateGroup("Drops");
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"random-enemy-drops",
+                Label = "Random enemy drops",
+                Description = "Let Biorand randomize the enemy drops.",
+                Type = "switch",
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-drop-ammo-only-available-weapons",
+                Label = "Ammo for available weapons only",
+                Description = "Only drop ammo for weapons that are available before or in the chapter with the drop.",
+                Type = "switch",
+                Default = true
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-drop-ammo-min",
+                Label = "Min. Ammo Quantity",
+                Description = "The minimum percentage of an ammo stack to drop.",
+                Type = "percent",
+                Min = 0.1,
+                Max = 1,
+                Step = 0.1,
+                Default = 0.1
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-drop-ammo-max",
+                Label = "Max. Ammo Quantity",
+                Description = "The maximum percentage of an ammo stack to drop.",
+                Type = "percent",
+                Min = 0.1,
+                Max = 1,
+                Step = 0.1,
+                Default = 1
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-drop-money-min",
+                Label = "Min. Money Drop",
+                Type = "range",
+                Min = 100,
+                Max = 10000,
+                Step = 100,
+                Default = 100
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = $"enemy-drop-money-max",
+                Label = "Max. Money Drop",
+                Type = "range",
+                Min = 100,
+                Max = 10000,
+                Step = 100,
+                Default = 1000
+            });
+
+            group = page.CreateGroup("");
+            foreach (var dropKind in DropKinds.GenericAll)
+            {
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"enemy-drop-ratio-{dropKind}",
+                    Label = DropKinds.GetLabel(dropKind),
+                    Description = dropKind switch
+                    {
+                        DropKinds.None => "No item is dropped.",
+                        DropKinds.Automatic => "Let the game decide, usually based on DA.",
+                        _ => null
+                    },
+                    Category = new GroupItemCategory()
+                    {
+                        Label = DropKinds.GetCategory(dropKind),
+                        BackgroundColor = DropKinds.GetColor(dropKind).BackgroundColor,
+                        TextColor = DropKinds.GetColor(dropKind).TextColor,
+                    },
+                    Type = "range",
+                    Min = 0,
+                    Max = 1,
+                    Step = 0.01,
+                    Default = 0.5
+                });
+            }
+
+            group = page.CreateGroup("Valuable Drops");
+            group.Advanced = true;
+            foreach (var dropKind in DropKinds.HighValue)
+            {
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"enemy-drop-valuable-{dropKind}",
+                    Label = dropKind.Replace("-", " ").ToTitleCase(),
+                    Type = "switch",
+                    Default = true
+                });
+            }
 
             #endregion
 
