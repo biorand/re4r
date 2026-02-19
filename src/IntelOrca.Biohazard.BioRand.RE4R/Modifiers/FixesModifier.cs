@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
 using chainsaw;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Messages;
 using IntelOrca.Biohazard.REE.Rsz;
 
@@ -453,18 +454,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 ecpud._ChapterParamList.RemoveAll(x => x._ChapterID < 30000);
             else
                 ecpud._ChapterParamList.RemoveAll(x => x._ChapterID >= 30000);
-            var chapters = ChapterId.GetAll(randomizer.Campaign);
-            var numChapters = ChapterId.GetCount(randomizer.Campaign);
-            for (var chapter = 1; chapter <= numChapters; chapter++)
-            {
-                var windowStart = (chapter - 1) / (double)numChapters;
-                var windowEnd = chapter / (double)numChapters;
-                if (!progressiveDifficulty)
-                {
-                    windowStart = 0;
-                    windowEnd = 1;
-                }
 
+            var campaignService = randomizer.GetService<CampaignService>();
+            foreach (var chapter in campaignService.EnabledChapters)
+            {
+                var windowStart = progressiveDifficulty ? chapter.ProgressStart : 0;
+                var windowEnd = progressiveDifficulty ? chapter.ProgressEnd : 1;
                 var windowSize = windowEnd - windowStart;
                 var numTableEntries = progressiveDifficulty ? 4 : 8;
                 var hpValueIncrement = (windowEnd - windowStart) / numTableEntries;
@@ -475,7 +470,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 ecpud._ChapterParamList.Add(new chainsaw.EnemyChapterParamUserData.ChapterParamElement()
                 {
-                    _ChapterID = ChapterId.FromNumber(randomizer.Campaign, chapter),
+                    _ChapterID = chapter.Id,
                     _RandomTable = hpValues.Select(x => new chainsaw.EnemyChapterParamUserData.RandomTableElement()
                     {
                         Weight = 100.0f / numTableEntries,

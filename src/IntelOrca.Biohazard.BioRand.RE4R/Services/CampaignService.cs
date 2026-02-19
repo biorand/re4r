@@ -10,6 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         private readonly ChainsawRandomizer _randomizer;
 
         public ImmutableArray<Chapter> Chapters { get; }
+        public ImmutableArray<Chapter> EnabledChapters { get; }
 
         public CampaignService(ChainsawRandomizer randomizer)
         {
@@ -18,14 +19,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var maxChapter = randomizer.Campaign != Campaign.Ada ? 16 : 7;
             var startChapter = Math.Clamp(_randomizer.GetConfigOption("start-chapter", 1), minChapter, maxChapter);
 
-            var multiplierTable = randomizer.Campaign != Campaign.Ada ? g_leonLengthMutiplier : g_adaLengthMutiplier;
-            Chapters = Enumerable.Range(startChapter, maxChapter - startChapter + 1)
-                .Select(num => new Chapter(num, multiplierTable[num - 1]))
+            Chapters = randomizer.Campaign != Campaign.Ada ? g_leonChapters : g_adaChapters;
+            EnabledChapters = Enumerable.Range(startChapter, maxChapter - startChapter + 1)
+                .Select(num => Chapters.First(x => x.Number == num))
                 .ToImmutableArray();
+
+            for (var i = 0; i < EnabledChapters.Length; i++)
+            {
+                EnabledChapters[i].ProgressStart = i / (double)EnabledChapters.Length;
+                EnabledChapters[i].ProgressEnd = (i + 1) / (double)EnabledChapters.Length;
+            }
         }
 
-        public int StartChapter => Chapters[0].Number;
-        public int EndChapter => Chapters[^1].Number;
+        public int StartChapter => EnabledChapters[0].Number;
+        public int EndChapter => EnabledChapters[^1].Number;
 
         public Chapter GetChapter(int chapter)
         {
@@ -37,66 +44,61 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return Chapters.Any(x => x.Number == chapter);
         }
 
-        public class Chapter(int num, float lengthMultiplier)
+        public class Chapter(int num, string internalNumber, string area, string description, float lengthMultiplier, int id)
         {
             public int Number => num;
+            public string InternalNumber => internalNumber;
+            public string Area => area;
+            public string Description => description;
+            public float LengthMultiplier => lengthMultiplier;
+            public int Id => id;
+
+            // Progress at start and end of the chapter based on start and end chapter
+            public double ProgressStart { get; set; }
+            public double ProgressEnd { get; set; }
+
             public int StartStage { get; set; }
             public Vector3 StartPosition { get; set; }
             public EulerAngles StartEuler { get; set; }
-            public float LengthMultiplier => lengthMultiplier;
         }
 
-        private readonly static ImmutableArray<float> g_leonLengthMutiplier = [
+        private readonly static ImmutableArray<Chapter> g_leonChapters = [
             // ------ village ------
-            1.0f, //  1
-            0.5f, //  2
-            1.0f, //  3
-            2.0f, //  4
-            0.5f, //  5
-            1.0f, //  6
+            new Chapter(1, "1-1", "village", "hunting lodge -> luis", 1.0f, 21000),
+            new Chapter(2, "1-2", "village", "factory -> mendez", 0.5f, 21100),
+            new Chapter(3, "1-3", "village", "mendez -> del lago", 1.0f, 21200),
+            new Chapter(4, "2-1", "village", "boat house -> church", 2.0f, 21300),
+            new Chapter(5, "2-2", "village", "church -> cabin", 0.5f, 22100),
+            new Chapter(6, "2-3", "village", "cabin -> castle", 1.0f, 22200),
             // ------ castle ------
-            2.0f, //  7
-            2.0f, //  8
-            2.0f, //  9
-            1.0f, // 10
-            2.0f, // 11
-            0.5f, // 12
+            new Chapter(7, "3-1", "castle", "castle -> courtyard", 2.0f, 23100),
+            new Chapter(8, "3-2", "castle", "courtyard -> chamber", 2.0f, 23200),
+            new Chapter(9, "3-3", "castle", "chamber -> ballroom", 2.0f, 23300),
+            // new Chapter(9a, "3-3-a", "castle", "ashley section", 0.5f),
+            new Chapter(10, "4-1", "castle", "ballroom -> mines", 0.5f, 24100),
+            new Chapter(11, "4-2", "castle", "mines -> krauser", 2.0f, 24200),
+            new Chapter(12, "4-3", "castle", "krauser -> island", 0.5f, 24300),
             // ------ island ------
-            2.0f, // 13
-            2.0f, // 14
-            2.0f, // 15
-            0.5f, // 16
+            new Chapter(13, "5-1", "island", "island -> ashley", 2.0f, 25100),
+            new Chapter(14, "5-2", "island", "ashley -> krauser", 2.0f, 25200),
+            new Chapter(15, "5-3", "island", "krauser -> ashley", 2.0f, 25300),
+            new Chapter(16, "5-4", "island", "ashley -> end", 0.5f, 25400),
         ];
 
-        private readonly static ImmutableArray<float> g_adaLengthMutiplier = [
-            1.0f,
-            1.0f,
-            1.0f,
-            1.0f,
-            1.0f,
-            1.0f,
-            1.0f,
+        private readonly static ImmutableArray<Chapter> g_adaChapters = [
+            // ------ castle ------
+            new Chapter(1, "0-1", "castle", "pesanta -> catapults", 1.0f, 30100),
+            // ------ village ------
+            new Chapter(2, "1-1", "village", "checkpoint -> church", 1.0f, 31100),
+            // new Chapter(2b, "1-2", "village", "church -> mendez", 1.0f, 31200),
+            new Chapter(3, "2-1", "village", "mendez -> factory", 1.0f, 32100),
+            // new Chapter(3b, "2-2", "village", "mendez -> el gigante", 1.0f, 32200),
+            // ------ castle ------
+            new Chapter(4, "3-1", "castle", "tower -> embattlements", 1.0f, 33100),
+            new Chapter(5, "3-2", "castle", "embattlements -> mines -> boat", 1.0f, 33200),
+            // ------ island ------
+            new Chapter(6, "4-1", "island", "camp -> laser lab", 1.0f, 34100),
+            new Chapter(7, "5-1", "island", "boat -> sadler", 1.0f, 35100),
         ];
-
-        // ------ village ------
-        //  1, 1-1,   [hunting lodge -> luis] *    [1.0]
-        //  2, 1-2,   [factory -> mendez]          [0.5]
-        //  3, 1-3,   [mendez -> del lago]         [1.0]
-        //  4, 2-1,   [boat house -> church]       [2.0]
-        //  5, 2-2,   [church -> cabin]            [0.5]
-        //  6, 2-3,   [cabin -> castle]            [1.0]
-        // ------ castle ------
-        //  7, 3-1,   [castle -> courtyard] *      [2.0]
-        //  8, 3-2,   [courtyard -> chamber]       [2.0]
-        //  9, 3-3,   [chamber -> ballroom]        [2.0]
-        //   , 3-3-a, [ashley]
-        // 10, 4-1,   [ballroom -> mines]          [0.5]
-        // 11, 4-2,   [mines -> krauser]           [2.0]
-        // 12, 4-3,   [krauser -> island]          [0.5]
-        // ------ island ------
-        // 13, 5-1,   [island -> ashley] *         [2.0]
-        // 14, 5-2,   [ashley -> krauser]          [2.0]
-        // 15, 5-3,   [krauser -> ashley]          [2.0]
-        // 16, 5-4,   [ashley -> end]              [0.5]
     }
 }

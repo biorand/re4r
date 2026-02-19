@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
 using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -289,6 +290,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
                 if (placement.Chapter != 0)
                 {
+                    var chapter = randomizer.GetService<CampaignService>().GetChapter(placement.Chapter);
                     stratumBool = stratumBool.Set("_Enable.Matters", stratumBool
                         .Get<RszArrayNode>("_Enable.Matters")
                         .Add(repo
@@ -296,7 +298,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             .Set("_Data", repo
                                 .Create("chainsaw.RuleStratum.ParticleChapter")
                                 .Set("Compare", 1)
-                                .Set("Chapter", ChapterId.FromNumber(randomizer.Campaign, placement.Chapter)))));
+                                .Set("Chapter", chapter.Id))));
                 }
 
                 paramObject = paramObject.AddOrUpdateComponent(repo

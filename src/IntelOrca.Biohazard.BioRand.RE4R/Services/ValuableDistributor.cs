@@ -78,12 +78,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
             var campaignService = randomizer.GetService<CampaignService>();
             var chapterItems = new List<ItemDefinition>();
-            for (var chapter = campaignService.StartChapter; chapter <= campaignService.EndChapter; chapter++)
+            foreach (var chapter in campaignService.EnabledChapters)
             {
                 chapterItems.Clear();
 
                 var avgMaxTreasureValue = rng.Next(minValuePerChapter, maxValuePerChapter + 1);
-                var maxTreasureValue = Math.Ceiling(avgMaxTreasureValue * 1000 * campaignService.GetChapter(chapter).LengthMultiplier);
+                var maxTreasureValue = Math.Ceiling(avgMaxTreasureValue * 1000 * chapter.LengthMultiplier);
                 var treasureValue = 0;
                 while (true)
                 {
@@ -100,7 +100,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     if (treasure != null)
                     {
                         treasureValue += treasure.Value;
-                        AddTreasure(treasure, chapter);
+                        AddTreasure(treasure, chapter.Number);
                     }
                     else
                     {
@@ -111,7 +111,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 foreach (var item in chapterItems.Shuffle(rng))
                 {
                     var discovery = ItemDiscovery.None;
-                    if (chapterRewards.TryPeek(out var nextRewardChapter) && nextRewardChapter == chapter)
+                    if (chapterRewards.TryPeek(out var nextRewardChapter) && nextRewardChapter == chapter.Number)
                     {
                         chapterRewards.Dequeue();
                         discovery = ItemDiscovery.Reward;
@@ -120,7 +120,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     {
                         discovery = distributionTable.Next();
                     }
-                    _distributedItems.Add(new DistributedItem(item, discovery, chapter));
+                    _distributedItems.Add(new DistributedItem(item, discovery, chapter.Number));
                 }
             }
 

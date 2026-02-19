@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -138,9 +138,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
 
             logger.Push("Randomizing health");
+            var campaignService = randomizer.GetService<CampaignService>();
             foreach (var group in areaByChapter)
             {
-                var chapter = group.Key;
+                var chapter = campaignService.GetChapter(group.Key);
                 var enemies = group
                     .SelectMany(x => x.Enemies)
                     .ToImmutableArray();
@@ -323,22 +324,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         private void RandomizeEnemyHealth(
             ChainsawRandomizer randomizer,
-            int chapter,
+            CampaignService.Chapter chapter,
             ImmutableArray<EnemySpawn> chapterSpawns,
             Rng rng,
             RandomizerLogger logger)
         {
             var progressiveDifficulty = randomizer.GetConfigOption("enemy-health-progressive-difficulty", false);
-            var windowStart = 0.0;
-            var windowEnd = 1.0;
-            if (progressiveDifficulty)
-            {
-                var numChapters = ChapterId.GetCount(randomizer.Campaign);
-                windowStart = (chapter - 1) / (double)numChapters;
-                windowEnd = chapter / (double)numChapters;
-            }
+            var windowStart = progressiveDifficulty ? chapter.ProgressStart : 0;
+            var windowEnd = progressiveDifficulty ? chapter.ProgressEnd : 1;
 
-            logger.Push($"Chapter {chapter}");
+            logger.Push($"Chapter {chapter.Number}");
             foreach (var spawn in chapterSpawns)
             {
                 RandomizeHealth(randomizer, spawn, windowStart, windowEnd, rng, logger);
