@@ -8,6 +8,8 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    internal record EnemyStat(int Chapter, int Stage, SpawnControllerKind Controller);
+
     internal class EnemyModifier : Modifier
     {
         private int _uniqueHp;
@@ -19,6 +21,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+            var allEnemies = new List<EnemyStat>();
+            foreach (var area in randomizer.AreaService.Areas)
+            {
+                foreach (var enemy in area.Enemies)
+                {
+                    allEnemies.Add(new EnemyStat(area.Definition.Chapter, enemy.StageID, enemy.SpawnController?.Kind ?? SpawnControllerKind.None));
+                }
+            }
+            var groupped = allEnemies
+                .GroupBy(x => (x.Chapter, x.Stage))
+                .OrderBy(x => x.Key.Chapter)
+                .ThenBy(x => x.Key.Stage)
+                .ToArray();
+            foreach (var g in groupped)
+            {
+                logger.LogLine(g.Key.Item1, g.Key.Item2,
+                    g.Count(x => x.Controller == SpawnControllerKind.None),
+                    g.Count(x => x.Controller == SpawnControllerKind.Standard),
+                    g.Count(x => x.Controller == SpawnControllerKind.Point),
+                    g.Count(x => x.Controller == SpawnControllerKind.Wave)
+                );
+            }
+
             foreach (var area in randomizer.AreaService.Areas)
             {
                 var enemies = area.Enemies.ToArray();
