@@ -15,7 +15,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 ["_chainsaw"] = new[]
                 {
                     "ch1b5z1", "ch1b7z0", "ch1c0z1", "ch1c0z2", "ch1c8z0",
-                    "ch1d0z0", "ch1d1z1", "ch1d2z0", "ch1d3z0",
+                    "ch1d2z0", "ch1d3z0",
                     "ch1d6z0", "ch1e0z0", "ch1f0z0", "ch1f1z0", "ch1f2z0",
                     "ch1f4z1", "ch1f5z1", "ch1f6z0", "ch1f7z0", "ch1f8z0",
                     "ch1fcz0", "ch1fdz0", "ch8g3z0", "ch8gaz0"
