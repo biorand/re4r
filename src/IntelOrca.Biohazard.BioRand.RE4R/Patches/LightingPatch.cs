@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.REE.Rsz;
@@ -28,6 +28,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             CopyLighting(45_401, "1_3", "1_1");
             CopyLighting(46_111, "1_3", "1_1");
             CopyLighting(46_210, "1_3", "1_1");
+            CopyLighting(43_400, "2_1", "1_3");
+            CopyLighting(43_410, "2_1", "1_3");
+            CopyLighting(43_500, "2_1", "1_3");
+            CopyLighting(46_111, "2_1", "1_3");
+            CopyLighting(46_210, "2_1", "1_3");
+            CopyLighting(47_100, "2_1", "1_3");
         }
 
         private void CopyLighting(int stage, string sourceChapter, string targetChapter)
