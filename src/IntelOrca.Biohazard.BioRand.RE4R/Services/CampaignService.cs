@@ -64,12 +64,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         private readonly static ImmutableArray<Chapter> g_leonChapters = [
             // ------ village ------
-            new Chapter(1, "1-1", "village", "hunting lodge -> luis", 1.0f, 21000),
-            new Chapter(2, "1-2", "village", "factory -> mendez", 0.5f, 21100),
-            new Chapter(3, "1-3", "village", "mendez -> del lago", 1.0f, 21200),
-            new Chapter(4, "2-1", "village", "boat house -> church", 2.0f, 21300),
-            new Chapter(5, "2-2", "village", "church -> cabin", 0.5f, 22100),
-            new Chapter(6, "2-3", "village", "cabin -> castle", 1.0f, 22200),
+            new Chapter(1, "1-1", "village", "hunting lodge -> luis", 1.0f, 21100),
+            new Chapter(2, "1-2", "village", "factory -> mendez", 0.5f, 21200),
+            new Chapter(3, "1-3", "village", "mendez -> del lago", 1.0f, 21300),
+            new Chapter(4, "2-1", "village", "boat house -> church", 2.0f, 22100),
+            new Chapter(5, "2-2", "village", "church -> cabin", 0.5f, 22200),
+            new Chapter(6, "2-3", "village", "cabin -> castle", 1.0f, 22300),
             // ------ castle ------
             new Chapter(7, "3-1", "castle", "castle -> courtyard", 2.0f, 23100),
             new Chapter(8, "3-2", "castle", "courtyard -> chamber", 2.0f, 23200),
