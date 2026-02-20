@@ -1,17 +1,25 @@
 Name1,Name2,English
 CH_Mes_Main_Sys_MainMenu_OnlineStore_Requiem_JP,CH_Mes_Main_Sys_MainMenu_OnlineStore_Requiem_NJP,REQUIEM... WILL IT BE GOOD?
 ,,BIORAND FOR REQUIEM COMMON SOON
+,,I'LL BUY IT AT A HIGH PRICE
+,,"NOT ENOUGH CASH, STRANGER"
+CH_Mes_Main_Sys_GeneralGuide_OnlineStore_Requiem_JP,CH_Mes_Main_Sys_GeneralGuide_OnlineStore_Requiem_NJP,"Not only will you need cash, you'll need guts to buy this game."
+CH_Mes_Main_Sys_MainMenu_OnlineStore,,<COLOR 00FF00>${user.name}</COLOR>
 CH_Mes_Main_Sys_PC_MainMenu_Exit,,COME BACK ANY TIME
 ,,"DON'T GET YOURSELF KILLED NOW, HAHA"
-CH_Mes_Main_Sys_MainMenu_Play,,BIORAND
-,,
+CH_Mes_Main_Sys_MainMenu_Play,,BIORAND [${seed}]
+CH_Mes_Main_Sys_GeneralGuide_Play,,${profile.name}
+CH_Mes_Main_Sys_GeneralGuide_Play,,WHAT'RE YA BUYIN?
+CH_Mes_Main_Sys_GeneralGuide_Play,,WHAT'RE YA SELLIN?
 AO_Mes_Main_Sys_Common_Title_0,,BIORAND
 AO_Mes_Main_Sys_MainMenu_GameTitle,,BIORAND
 CH_Mes_Main_Sys_Common_GameMode_01,AO_Mes_Main_Sys_Common_GameMode_01,EZ
 CH_Mes_Main_Sys_Common_GameMode_02,AO_Mes_Main_Sys_Common_GameMode_02,RE4 OG MODE
 CH_Mes_Main_Sys_Common_GameMode_03,AO_Mes_Main_Sys_Common_GameMode_03,NOT EZ
 CH_Mes_Main_Sys_Common_GameMode_04,AO_Mes_Main_Sys_Common_GameMode_04,7rayD MODE
+,,OVERTIME
 CH_Mes_Main_Sys_Common_GameMode_04,,LEON MUST DIE
+,,ASHLEY WILL DIE
 ,AO_Mes_Main_Sys_Common_GameMode_04,ADA MUST DIE
 Dev1_Term_GameOver_Title,,1998
 ,,BLAME ORCA

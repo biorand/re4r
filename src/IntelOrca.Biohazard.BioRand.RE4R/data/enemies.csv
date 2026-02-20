@@ -26,16 +26,16 @@ Leon,cd91a02f-8b2a-853d-4ecb-8d59389eb6bd,1,[EXTRA] PATH TO SIEGE // After Ruine
 Leon,75152fe5-89b9-ecce-4c4d-6eb76be6ac98,1,[EXTRA] PATH TO SIEGE // The Drawer Guardian,40504,-124,7,35,0,0,0,35882cb7-d15a-4ea9-b44b-8329e14b5309,,,,,fodder elite,
 Leon,da73460d-62b6-4dc2-9882-1183bba45389,1,chainsaw   Emerald x1,40200,0,0,0,0,0,0,,,,,noduplicate horde essential,,
 Leon,d47e2d46-cd1f-41b4-8f5e-9c58183540ee,1,chainsaw   Emerald x1,40200,0,0,0,0,0,0,,,,,noduplicate horde essential,,
-Leon,0c2ca06f-f6ac-4cc2-8405-12399fd2db4b,1,villager   * // Pail Carrier,40200,0,0,0,0,0,0,,,,,,elite boss,
-Leon,4a59a26f-da75-4f63-b2f3-e5b61f2658fa,1,villager  pitchfork * // Guarding Front of Shotgun House,40200,0,0,0,0,0,0,,,,,,elite boss,
-Leon,66c6e4ae-2c19-4552-9fe0-b89ecd0e0ea6,1,villager   * // Guarding Path to Farm,40200,0,0,0,0,0,0,,,,,,elite boss,
-Leon,87827167-575d-4f83-bba2-8c3b525332f5,1,villager  pitchfork * // Westside Hay Mover,40200,0,0,0,0,0,0,,,,,lockweapon,fodder elite ,
-Leon,f078d716-0fd8-4b3f-90d5-9ededc3ff195,1,villager   * // Granny Patrol,40200,0,0,0,0,0,0,,,,,,elite boss,
-Leon,bb879336-1b47-492b-8dd7-48c41d620453,1,villager  hatchet * // Outside Shotgun house Window,40200,0,0,0,0,0,0,,,,,,fodder elite ,
-Leon,bb1e5c3d-13d8-4a4b-b49d-cb8ba9c25012,1,villager  hatchet * // Bonfire Left,40200,0,0,0,0,0,0,,,,,,elite boss,
-Leon,75a68531-8cb0-476c-9909-5bd3cac1310c,1,villager   * // Firestarter,40200,0,0,0,0,0,0,,,,,,elite boss,
-Leon,7a5c62b8-00c8-4fb2-9a02-6e806c38f7b4,1,villager   * // Guarding Fence,40200,0,0,0,0,0,0,,,,,,elite boss,
-Leon,f4497266-8763-425c-b543-331dbdbfe44d,1,villager  hatchet * // Between Shotgun House and small Key Hut,40200,0,0,0,0,0,0,,,,,,fodder elite ,
+Leon,0c2ca06f-f6ac-4cc2-8405-12399fd2db4b,1,villager   * // Pail Carrier,40200,0,0,0,0,0,0,,,,,,,boss
+Leon,4a59a26f-da75-4f63-b2f3-e5b61f2658fa,1,villager  pitchfork * // Guarding Front of Shotgun House,40200,0,0,0,0,0,0,,,,,,,
+Leon,66c6e4ae-2c19-4552-9fe0-b89ecd0e0ea6,1,villager   * // Guarding Path to Farm,40200,0,0,0,0,0,0,,,,,,,
+Leon,87827167-575d-4f83-bba2-8c3b525332f5,1,villager  pitchfork * // Westside Hay Mover,40200,0,0,0,0,0,0,,,,,lockweapon,,
+Leon,f078d716-0fd8-4b3f-90d5-9ededc3ff195,1,villager   * // Granny Patrol,40200,0,0,0,0,0,0,,,,,,,boss
+Leon,bb879336-1b47-492b-8dd7-48c41d620453,1,villager  hatchet * // Outside Shotgun house Window,40200,0,0,0,0,0,0,,,,,,,
+Leon,bb1e5c3d-13d8-4a4b-b49d-cb8ba9c25012,1,villager  hatchet * // Bonfire Left,40200,0,0,0,0,0,0,,,,,,,boss
+Leon,75a68531-8cb0-476c-9909-5bd3cac1310c,1,villager   * // Firestarter,40200,0,0,0,0,0,0,,,,,,,
+Leon,7a5c62b8-00c8-4fb2-9a02-6e806c38f7b4,1,villager   * // Guarding Fence,40200,0,0,0,0,0,0,,,,,,,
+Leon,f4497266-8763-425c-b543-331dbdbfe44d,1,villager  hatchet * // Between Shotgun House and small Key Hut,40200,0,0,0,0,0,0,,,,,,,
 Leon,cba7d4c3-1780-4127-9d90-17645db43af2,1,villager  hatchet *,40200,0,0,0,0,0,0,,,,,,,
 Leon,cf0a04a2-e1b9-4ffc-b6dc-034192f04807,1,villager  hatchet *,40200,0,0,0,0,0,0,,,,,,,
 Leon,47a9c9e5-4f3a-4ea3-bd30-f66201b3a4ed,1,villager  shovel *,40200,0,0,0,0,0,0,,,,,,,
@@ -43,7 +43,7 @@ Leon,3c07568b-9298-4bd6-b624-5872f4e60384,1,villager  hatchet *,40200,0,0,0,0,0,
 Leon,0ed74b78-7241-42c8-84cb-cddcb0534869,1,villager  hoe *,40200,0,0,0,0,0,0,,,,,,,
 Leon,6bf678af-432d-419b-bc9f-18e09e097112,1,villager   * // Grenade House Couch,40211,0,0,0,0,0,0,,,,,,small,
 Leon,1034c33d-6f02-4679-9ab8-4a1acce410a3,1,villager  hatchet * //Grenade House Chair,40211,0,0,0,0,0,0,,,,,,small,
-Leon,beeac7f4-214f-4b31-ad01-78fd82f1f584,1,villager   *,40210,0,0,0,0,0,0,,,,,noduplicate horde ,,krauser_1 mendez_2 verdugo pesanta u3
+Leon,beeac7f4-214f-4b31-ad01-78fd82f1f584,1,villager   *,40210,0,0,0,0,0,0,,,,,noduplicate horde ,,krauser_1* mendez_2* verdugo* pesanta* u3*
 Leon,63af98e8-3120-40e3-8748-32adc26e36c5,1,villager   .,40200,0,0,0,0,0,0,,,,,,,
 Leon,9cce7c37-d655-4c86-8bd0-1023ae850ce3,1,villager   .,40200,0,0,0,0,0,0,,,,,,,
 Leon,e5ca768d-af15-4752-9868-ea4154cb7fd0,1,villager  hatchet *,40200,0,0,0,0,0,0,,,,,,,
@@ -143,9 +143,9 @@ Leon,86343faa-9b94-4a53-b9e2-989b45bd8ca1,2,villager   *,44201,0,0,0,0,0,0,,,,,,
 Leon,486bb31a-1880-42a3-ae23-f5c19c0c1d69,2,villager  hatchet *,44201,0,0,0,0,0,0,,,,,,,boss garrador invincible
 Leon,1012b7b7-e040-4e08-b7ce-8b617df378f5,2,villager   *,44201,0,0,0,0,0,0,,,,,,,boss garrador invincible
 Leon,27e34e40-4a4c-4fdb-a001-83462f938541,2,villager  hoe *,44201,0,0,0,0,0,0,,,,,,,boss invincible
-Leon,,2,[EXTRA] CLEARING // Spawn under treasure lantern,44101,-10,6,134,0,0,0,ae0a629e-f606-423b-b6a6-35ea820a31fc,62573b29-936b-444c-83d6-45f6a0983c0d,,,,elite boss,
-Leon,,2,[EXTRA] CLEARING // Next to Pendant Well,44101,-19,6,128,0,0,0,ae0a629e-f606-423b-b6a6-35ea820a31fc,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
-Leon,,2,[EXTRA] CLEARING // Hiding in Shack,44101,-20,5,140,0,0,0,ae0a629e-f606-423b-b6a6-35ea820a31fc,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
+Leon,,2,[EXTRA] CLEARING // Spawn under treasure lantern,44101,-10,6,134,0,0,0,23b8a6d7-8c8e-4060-b819-1383371f1bdc,62573b29-936b-444c-83d6-45f6a0983c0d,,,,elite boss,
+Leon,,2,[EXTRA] CLEARING // Next to Pendant Well,44101,-19,6,128,0,0,0,23b8a6d7-8c8e-4060-b819-1383371f1bdc,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
+Leon,,2,[EXTRA] CLEARING // Hiding in Shack,44101,-20,5,140,0,0,0,23b8a6d7-8c8e-4060-b819-1383371f1bdc,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
 Leon,,2,[EXTRA] MENDEZ HOUSE // Guarding Bird nest,44101,-4,9,102,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
 Leon,,2,[EXTRA] MENDEZ HOUSE // Left of House Close,44101,-9,8,94,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
 Leon,,2,[EXTRA] MENDEZ HOUSE // Left of House Far,44101,4,9,89,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
@@ -153,9 +153,9 @@ Leon,,2,[EXTRA] MENDEZ HOUSE // Fly My Pretty,44110,3,9,97,0,0,0,75c22cee-95ca-4
 Leon,,2,[EXTRA] MENDEZ HOUSE // Key Item Wardrobe Guardian,44110,11,9,108,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small*,
 Leon,,2,[EXTRA] MENDEZ HOUSE // Dining Room,44110,6,9,102,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
 Leon,,2,[EXTRA] MENDEZ HOUSE // Mendez Room,44110,5,13,106,0,0,0,75c22cee-95ca-4cc4-96e8-11d22f4870d4,62573b29-936b-444c-83d6-45f6a0983c0d,,,,small,
-Leon,85850656-bb05-4152-ac1d-cc069d4995fb,2,villager  hatchet Kitchen Knife x1 // First Enemy Factory,44210,0,0,0,0,0,0,,,,,,,big colmillos super-colmillos
-Leon,cd744af1-6b44-4f37-a88e-944d56d34ac0,2,villager  hatchet it_sm71_500_10_0 x1 // Parry Example Enemy Factory,44210,0,0,0,0,0,0,,,,,,,big colmillos super-colmillos
-Leon,cc9144a7-2c67-4ffa-9a9d-44dd47cddb94,2,villager  pitchfork Pesetas x250 // Long Hallway Enemy Factory,44210,0,0,0,0,0,0,,,,,,,big colmillos super-colmillos
+Leon,85850656-bb05-4152-ac1d-cc069d4995fb,2,villager  hatchet Kitchen Knife x1 // First Enemy Factory,44210,0,0,0,0,0,0,,,,,,,big colmillos super-colmillos mad_chainsaw boss
+Leon,cd744af1-6b44-4f37-a88e-944d56d34ac0,2,villager  hatchet it_sm71_500_10_0 x1 // Parry Example Enemy Factory,44210,0,0,0,0,0,0,,,,,,,big colmillos super-colmillos mad_chainsaw boss
+Leon,cc9144a7-2c67-4ffa-9a9d-44dd47cddb94,2,villager  pitchfork Pesetas x250 // Long Hallway Enemy Factory,44210,0,0,0,0,0,0,,,,,,,big colmillos super-colmillos mad_chainsaw boss
 Leon,4f0940a5-66cc-4866-ada8-271a7ea83f74,2,villager   *,44400,0,0,0,0,0,0,,,,,,small,
 Leon,28e02bee-815f-4c2a-959a-45bdfc9bdc6a,2,villager  dynamite *,44400,0,0,0,0,0,0,,,,,,small,
 Leon,03625e3c-16cb-4abf-b52d-6a66dec3f86b,2,villager   *,44400,0,0,0,0,0,0,,,,,,small,
@@ -409,46 +409,46 @@ Leon,3e34749c-d2b8-433d-93ea-17c876a86b2f,5,villager_2  torch *,43300,0,0,0,0,0,
 Leon,626b3e69-b510-4657-b513-0d6ad030bfe1,5,colmillos   Alexandrite x1,44101,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,95c8581e-0ce3-4722-a83e-3a6dc2815174,5,colmillos   Alexandrite x1,40200,0,0,0,0,0,0,,,leon-savage-mutt,,noduplicate nowave,,fodder elite invincible krauser_1
 Leon,2b3bc7f9-1164-42ec-a6ce-d13bf401fc11,5,ashley_2   .,43301,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
-Leon,2bf139b2-e92a-43a3-be51-96dcf51c04f0,5,villager_2  hatchet Handgun Ammo x10,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,8cd9592e-45ed-4e26-a5bb-f6806394e4ae,5,villager_2  machete it_sm71_500_10_0 x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,44b15c6a-c6cf-4bdf-bd05-c7c914b7b387,5,villager_2  pitchfork Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,44b0b56e-e031-4473-b04a-b4def0d00864,5,villager_2  torch Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,b99b5d8d-406b-4a0a-9e0b-8e931f87960e,5,villager_2 pA(50%) knife Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,4f3694d0-a6cc-41eb-baf4-c4475b542b1a,5,villager_2   Handgun Ammo x10,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,3b1ddc4c-2a8a-4fc9-950f-ebb201d780f3,5,villager_2   it_sm71_501_10_0 x1,43311,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,726001e1-253d-4a8f-b3b2-27b6c92ae242,5,villager_2   Wooden Planks x1,43311,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,6d222620-e341-453f-9a4a-3d84fc725aca,5,villager_2   it_sm71_501_10_0 x1,43311,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,4bae7e39-e7ce-45d8-a6af-ca43f98bc3f0,5,villager_2  hammer Emerald x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,3f5a6e2f-ea98-45aa-a8a6-65d314ead54a,5,villager_2  knife *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,0f2dc793-e360-4a4f-a7bd-4bff959c0e76,5,villager_2  hatchet Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,b09cc665-0449-415a-a542-42d06414b594,5,villager_2  machete Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,73bc72b7-c3bd-45a9-80fa-2f2164005c79,5,villager_2  torch it_sm71_500_10_0 x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,40894367-c268-4a84-bba5-a9c6bcb73e72,5,villager_2  pitchfork *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,b2afc4ab-a617-4e2d-81b2-1b94d66e1b60,5,villager_2  hoe Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,c4894a85-4d6e-4699-aaaf-82b97c2f36b2,5,villager_2  torch it_sm71_500_10_0 x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,e5cfb50d-f590-4f07-ae8b-1fbd13e1eea8,5,villager_2  torch *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,5e151d9a-3dde-4435-8c93-5c800ed98f71,5,villager_2  machete *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,82f2ae08-446d-4a92-a443-b475f4da3a05,5,villager_2  hatchet *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,4da6eb6a-8806-4075-a164-b62cae254a2a,5,villager_2  shovel Gunpowder x5,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,d21288e0-880e-4cdd-8deb-06a21612e049,5,villager_2  hatchet *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,ce5ca88f-531f-4fc3-bc64-1baa0ebc92bd,5,villager_2   Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,66e4acbf-9c7f-4859-a807-9fd82cff686e,5,villager_2  hoe Handgun Ammo x10,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,733c2e8b-6d50-41a4-956f-cf385051f66f,5,villager_2 pA(70%) knife *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,27865874-fee2-4d20-b9ef-99a11b7e80a0,5,villager_2 pA(100%) hatchet *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,90ac9305-8ce3-44a2-b441-5d1aa2bf7428,5,villager_2 pA(0%) torch Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,499f80cc-d7b4-48a3-ac76-f12d563fdd4b,5,villager_2 pA(0%) hoe Shotgun Shells x5,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,593a2e21-8087-4ab8-a5b9-c9931a2e8f64,5,villager_2  machete it_sm71_500_10_0 x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,f4781e5b-36f8-493f-ae88-66f2d7f7c1ff,5,villager_2 pA(10%) torch Resources (Small) x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,5ef54085-390a-4031-a0e1-aadeab58b97e,5,villager_2 pA(100%)  *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,e5391257-1d42-42ed-a54a-93f972f2ba81,5,villager_2 pA(10%) shovel *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,47abbdba-d83f-4f80-974d-2717bb9edafb,5,villager_2   Gunpowder x3,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,65542bce-0833-4d46-bbfe-03011eb0dab9,5,villager_2  knife *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,8f47ef2a-83c7-4a98-962b-2194a47d2179,5,villager_2  torch Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,5283e013-8361-4f4b-b16d-cbbf88410d60,5,villager_2  shovel *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,d360484b-2f96-4e9b-a6ef-f394b6fe7cbe,5,villager_2  machete it_sm71_500_10_0 x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,06787d2f-38b5-40e8-930f-89e008f1cf28,5,villager_2  hoe *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,79598a05-3c11-4262-89f6-a73864c96a03,5,villager_2 pA(100%) torch Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
-Leon,ef8032dc-3ad1-45d5-9e7f-f7890e211cd5,5,villager_2 pA(0%) machete *,43301,0,0,0,0,0,0,,,,,,,villager_range zealot_range soldier_range brute_range arana super-colmillos colmillos krauser_1 krauser_2 pesanta u3 novistador garrador armadura gold-armadura mendez_chase verdugo mendez_2 cow pig
+Leon,2bf139b2-e92a-43a3-be51-96dcf51c04f0,5,villager_2  hatchet Handgun Ammo x10,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,8cd9592e-45ed-4e26-a5bb-f6806394e4ae,5,villager_2  machete it_sm71_500_10_0 x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,44b15c6a-c6cf-4bdf-bd05-c7c914b7b387,5,villager_2  pitchfork Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,44b0b56e-e031-4473-b04a-b4def0d00864,5,villager_2  torch Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,b99b5d8d-406b-4a0a-9e0b-8e931f87960e,5,villager_2 pA(50%) knife Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,4f3694d0-a6cc-41eb-baf4-c4475b542b1a,5,villager_2   Handgun Ammo x10,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,3b1ddc4c-2a8a-4fc9-950f-ebb201d780f3,5,villager_2   it_sm71_501_10_0 x1,43311,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,726001e1-253d-4a8f-b3b2-27b6c92ae242,5,villager_2   Wooden Planks x1,43311,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,6d222620-e341-453f-9a4a-3d84fc725aca,5,villager_2   it_sm71_501_10_0 x1,43311,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,4bae7e39-e7ce-45d8-a6af-ca43f98bc3f0,5,villager_2  hammer Emerald x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,3f5a6e2f-ea98-45aa-a8a6-65d314ead54a,5,villager_2  knife *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,0f2dc793-e360-4a4f-a7bd-4bff959c0e76,5,villager_2  hatchet Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,b09cc665-0449-415a-a542-42d06414b594,5,villager_2  machete Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,73bc72b7-c3bd-45a9-80fa-2f2164005c79,5,villager_2  torch it_sm71_500_10_0 x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,40894367-c268-4a84-bba5-a9c6bcb73e72,5,villager_2  pitchfork *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,b2afc4ab-a617-4e2d-81b2-1b94d66e1b60,5,villager_2  hoe Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,c4894a85-4d6e-4699-aaaf-82b97c2f36b2,5,villager_2  torch it_sm71_500_10_0 x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,e5cfb50d-f590-4f07-ae8b-1fbd13e1eea8,5,villager_2  torch *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,5e151d9a-3dde-4435-8c93-5c800ed98f71,5,villager_2  machete *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,82f2ae08-446d-4a92-a443-b475f4da3a05,5,villager_2  hatchet *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,4da6eb6a-8806-4075-a164-b62cae254a2a,5,villager_2  shovel Gunpowder x5,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,d21288e0-880e-4cdd-8deb-06a21612e049,5,villager_2  hatchet *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,ce5ca88f-531f-4fc3-bc64-1baa0ebc92bd,5,villager_2   Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,66e4acbf-9c7f-4859-a807-9fd82cff686e,5,villager_2  hoe Handgun Ammo x10,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,733c2e8b-6d50-41a4-956f-cf385051f66f,5,villager_2 pA(70%) knife *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,27865874-fee2-4d20-b9ef-99a11b7e80a0,5,villager_2 pA(100%) hatchet *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,90ac9305-8ce3-44a2-b441-5d1aa2bf7428,5,villager_2 pA(0%) torch Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,499f80cc-d7b4-48a3-ac76-f12d563fdd4b,5,villager_2 pA(0%) hoe Shotgun Shells x5,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,593a2e21-8087-4ab8-a5b9-c9931a2e8f64,5,villager_2  machete it_sm71_500_10_0 x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,f4781e5b-36f8-493f-ae88-66f2d7f7c1ff,5,villager_2 pA(10%) torch Resources (Small) x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,5ef54085-390a-4031-a0e1-aadeab58b97e,5,villager_2 pA(100%)  *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,e5391257-1d42-42ed-a54a-93f972f2ba81,5,villager_2 pA(10%) shovel *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,47abbdba-d83f-4f80-974d-2717bb9edafb,5,villager_2   Gunpowder x3,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,65542bce-0833-4d46-bbfe-03011eb0dab9,5,villager_2  knife *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,8f47ef2a-83c7-4a98-962b-2194a47d2179,5,villager_2  torch Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,5283e013-8361-4f4b-b16d-cbbf88410d60,5,villager_2  shovel *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,d360484b-2f96-4e9b-a6ef-f394b6fe7cbe,5,villager_2  machete it_sm71_500_10_0 x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,06787d2f-38b5-40e8-930f-89e008f1cf28,5,villager_2  hoe *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,79598a05-3c11-4262-89f6-a73864c96a03,5,villager_2 pA(100%) torch Wooden Planks x1,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
+Leon,ef8032dc-3ad1-45d5-9e7f-f7890e211cd5,5,villager_2 pA(0%) machete *,43301,0,0,0,0,0,0,,,,,,,villager_range* zealot_range* soldier_range* brute_range* arana* super-colmillos* colmillos* krauser_1* krauser_2* pesanta* u3* novistador* garrador* armadura* gold-armadura* mendez_chase* verdugo* mendez_2* cow* pig*
 Leon,,6,[EXTRA],47200,168,3,-207,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe
 Leon,,6,[EXTRA],47200,176,7,-226,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe
 Leon,,6,[EXTRA],47200,177,7,-217,0,0,0,3dc98606-446d-4969-b953-f7addc959def,adf515c8-1bb6-4be3-b753-6bf940e8586f,,,,,ashleyunsafe
@@ -618,12 +618,12 @@ Leon,19574260-1b58-468b-9d8a-430dfe7eef6c,7,zealot   *,50202,0,0,0,0,0,0,,,,,,,a
 Leon,8846259f-199e-46ad-a4a5-9ac20df5a248,7,zealot   *,50202,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,54a066b3-d6d3-47d1-a6d3-ca4dc99000c5,7,zealot   *,50202,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,edc2922d-4479-4880-bbcd-464145524754,7,zealot pB(100%)  Boot Knife x1,50201,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,c6cfea14-1758-49e4-829a-b315d74373e1,7,zealot   *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,6f400c47-1ae0-4e3e-b721-a5ac15b44ea3,7,zealot  morning_star | wooden_shield *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,ef2fec64-8e2d-4e2f-b85e-3b486dbe02eb,7,zealot  scythe *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,a9ba3bc1-8b79-434c-9c92-8214c8b641be,7,zealot  morning_star | wooden_shield *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,86dad996-a9fe-4425-bba5-72fbae50fcfe,7,zealot  scythe *,50401,0,0,0,0,0,0,,,,,,,ashleyunsafe
-Leon,17d48b81-166f-4396-b95d-9610f7346ee7,7,zealot  morning_star * // NEWWWW BOSS,50400,-177.3,10,52.3,0,91.4,0,,,,,,boss,
+Leon,c6cfea14-1758-49e4-829a-b315d74373e1,7,zealot   *,50401,0,0,0,0,0,0,,,,,noduplicate,,ashleyunsafe
+Leon,6f400c47-1ae0-4e3e-b721-a5ac15b44ea3,7,zealot  morning_star | wooden_shield *,50401,0,0,0,0,0,0,,,,,noduplicate,,ashleyunsafe
+Leon,ef2fec64-8e2d-4e2f-b85e-3b486dbe02eb,7,zealot  scythe *,50401,0,0,0,0,0,0,,,,,noduplicate,,ashleyunsafe
+Leon,a9ba3bc1-8b79-434c-9c92-8214c8b641be,7,zealot  morning_star | wooden_shield *,50401,0,0,0,0,0,0,,,,,noduplicate,,ashleyunsafe
+Leon,86dad996-a9fe-4425-bba5-72fbae50fcfe,7,zealot  scythe *,50401,0,0,0,0,0,0,,,,,noduplicate,,ashleyunsafe
+Leon,17d48b81-166f-4396-b95d-9610f7346ee7,7,zealot  morning_star * // NEWWWW BOSS,50400,-177.3,10,52.3,0,91.4,0,,,,,noduplicate,boss,
 Leon,1b9bc5ff-09be-4d1d-a143-38495e3d1830,7,garrador   Red Beryl x1,50503,0,0,0,0,0,0,,,leon-prison-garrador,,noduplicate nowave,,fodder mendez_chase super-colmillos chainsaw chainsaw_mad
 Leon,0222c3d4-54d3-4a94-a94a-7055372d6ce3,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
 Leon,66d38cec-3c77-45ac-949c-9b6e42ce48cf,7,zealot  hatchet | wooden_shield *,50601,0,0,0,0,0,0,,,,,,,ashleyunsafe
@@ -2009,57 +2009,61 @@ Leon,,-1,[EXTRA] LakesideBattleArena Mendez,43303,142.54,-5.66,-123.86,0,40,0,,,
 Leon,,-1,[EXTRA] LakesideBattleArena Mendez,43303,143.37,-5.68,-123.02,0,41,0,,,,01_Village.CP1.StartVanilla.CP108_FarmToLakeside.Event.TunnelMendez|MendezSpawn,noduplicate,mendez_chase,
 Leon,,-1,[EXTRA] LakesideBattleArena Gate Locker,43303,142.54,-5.66,-123.86,0,40,0,,,,01_Village.CP1.StartVanilla.CP108_FarmToLakeside.Event.TunnelAmbush,nowave guardian,fodder,
 Leon,,-1,[EXTRA] LakesideBattleArena Gate Locker,43303,143.37,-5.68,-123.02,0,41,0,,,,01_Village.CP1.StartVanilla.CP108_FarmToLakeside.Event.TunnelAmbush,nowave guardian,small,
-Leon,,-1,[EXTRA] Factory entrance,44210,0.6,-0.8,182.9,0,0,0,,,,01_Village.CP2.StartVanilla.CP202_DynamiteValley.Level.FactoryReturn|HexGuardian,,small,
-Leon,,-1,[EXTRA] Factory side,44210,-8.5,-0.8,178,0,0,0,,,,01_Village.CP2.StartVanilla.CP202_DynamiteValley.Level.FactoryReturn|HexGuardian,,,
-Leon,,-1,[EXTRA] Factory after window,44210,-5.9,-0.8,185.2,0,0,0,,,,01_Village.CP2.StartVanilla.CP202_DynamiteValley.Level.FactoryReturn|HexGuardian,,,
-Leon,,-1,[EXTRA] Factory near sliding door,44210,-8.1,-0.7,194.8,0,0,0,,,,01_Village.CP2.StartVanilla.CP202_DynamiteValley.Level.FactoryReturn|HexGuardian,,,
-Leon,,-1,[EXTRA] Factory bridge,44410,19,-6,211,0,131,0,,,,01_Village.CP2.StartVanilla.CP202_DynamiteValley.Level.FactoryReturn|HexGuardian,,small,
-Leon,,-1,[EXTRA] Factory bridge,44410,13,-6,216,0,136,0,,,,01_Village.CP2.StartVanilla.CP202_DynamiteValley.Level.FactoryReturn|HexGuardian,,,
-Leon,,-1,[EXTRA] Guardian at chapter start,44410,5,-6,231,0,-141,0,,,battle.factory.key,01_Village.CP2.StartVanilla.CP202_DynamiteValley.Level.FactoryReturn|HexGuardian,noduplicate nowave guardian,,big dog* noitem*
-Leon,,-1,[EXTRA] test,44400,65.06,-7.74,225.92,0,36,0,,,battle.dynamitehex,01_Village.CP2.StartVanilla.CP202_DynamiteValley.Level.Shutter|HexGuardian,noduplicate nowave guardian,,noitem*
-Leon,,-1,[EXTRA] test,44400,65.06,-7.74,225.92,0,36,0,,,battle.dynamitehexdoor,01_Village.CP2.StartVanilla.CP202_DynamiteValley.Level.Shutter|Event,noduplicate nowave guardian,small,
-Leon,,-1,[EXTRA] MendezHouse Ambush Hex Guardian,44110,12.4,12.86,104.71,0,164,0,,,battle.hexshuffleguardian,01_Village.CP2.StartVanilla.CP202_DynamiteValley.Level.HexShuffle|WayBack,aggroed noduplicate nowave guardian,brute brute_hammer brute_jj chainsaw regenerador,noitem*
-Leon,,-1,[EXTRA] MendezHouse Ambush Fodder,44110,2.76,8.88,96.07,0,-19,0,,,,01_Village.CP2.StartVanilla.CP202_DynamiteValley.Level.HexShuffle|WayBack,aggroed nowave,fodder,
-Leon,,-1,[EXTRA] MendezHouse Ambush Fodder,44101,17.27,8.8,99.47,0,-104,0,,,,01_Village.CP2.StartVanilla.CP202_DynamiteValley.Level.HexShuffle|WayBack,aggroed nowave,small,
-Leon,,-1,[EXTRA] Valley Marble Guardian,44400,65.06,-7.74,225.92,0,36,0,,,battle.dynamitehex,01_Village.CP2.StartVanilla.CP202_DynamiteValley.Level.HexShuffle|Marble,noduplicate nowave guardian,brute brute_hammer brute_jj chainsaw regenerador chainsaw_mad gold-armadura krauser_1,noitem*
-Leon,,-1,[EXTRA] Mendez House Ambusher,44101,16,8.9,99.3,0,-106.3,0,,,,01_Village.CP3.StartVanilla.CP301_MendezHouse.Event.Ambush,,,
-Leon,,-1,[EXTRA] Mendez House Ambusher,44110,11.6,8.9,106.3,0,-180,0,,,,01_Village.CP3.StartVanilla.CP301_MendezHouse.Event.Ambush,,,
-Leon,,-1,[EXTRA] Mendez House Ambusher,44110,1.2,8.9,105.8,0,152.6,0,,,,01_Village.CP3.StartVanilla.CP301_MendezHouse.Event.Ambush,,,
-Leon,,-1,[EXTRA] Mendez House guard,44101,-11.4,8.1,91.6,0,70.6,0,,,,01_Village.CP3.StartVanilla.CP301_MendezHouse.Event.Guard,,,
-Leon,,-1,[EXTRA] Mendez House guard,44101,-12.4,8.1,94.2,0,70.6,0,,,,01_Village.CP3.StartVanilla.CP301_MendezHouse.Event.Guard,,,
-Leon,,-1,[EXTRA] Mendez House guard,44101,-6.8,8.7,105.4,0,-111.7,0,,,,01_Village.CP3.StartVanilla.CP301_MendezHouse.Event.Guard,,,
-Leon,,-1,[EXTRA] Mendez House dog stare,44101,2.2,8.8,90.3,0,106.6,0,,,,01_Village.CP3.StartVanilla.CP301_MendezHouse.Event.Dogstare,,,
-Leon,,-1,[EXTRA] Mendez House dog stare,44101,2.2,8.8,89,0,77.9,0,,,,01_Village.CP3.StartVanilla.CP301_MendezHouse.Event.Dogstare,,,
-Leon,,-1,[EXTRA] Mendez House dog stare,44101,3,8.8,88,0,106.6,0,,,,01_Village.CP3.StartVanilla.CP301_MendezHouse.Event.Dogstare,,,
-Leon,,-1,[EXTRA] Mendez House outside,44101,-11.4,8.1,92.9,0,54.6,0,,,,01_Village.CP3.StartVanilla.CP301_MendezHouse.Event.Outside,,,
-Leon,,-1,[EXTRA] Mendez House outside,44101,-12,8.4,107.4,0,121.9,0,,,,01_Village.CP3.StartVanilla.CP301_MendezHouse.Event.Outside,,,
-Leon,,-1,[EXTRA] Mendez connector (behind),44101,-15.5,7.9,91.1,0,-137,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Ambush,aggroed,,boss
-Leon,,-1,[EXTRA] Mendez connector (behind),44101,-15.5,7.9,91.1,0,-137,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Ambush,aggroed,,boss
-Leon,,-1,[EXTRA] Mendez connector (boss),44100,-10.8,2.8,36.7,0,0,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Ambush,noduplicate nowave guardian,elite,dog*
-Leon,,-1,[EXTRA] Mendez connector (ahead),44100,-11.4,2.8,40.6,0,-23.3,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Ambush,aggroed,,boss
-Leon,,-1,[EXTRA] Mendez connector (ahead),44100,-11.4,2.8,40.6,0,-23.3,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Ambush,aggroed,,boss
-Leon,,-1,[EXTRA] Mendez Behind,44100,-15.5,7.9,91.1,0,-137,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Mendez,noduplicate aggroed,mendez_chase,
-Leon,,-1,[EXTRA] Cave Bugs,44100,-18.1,4.9,74.1,0,-21.7,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Bugs,noduplicate,novistador,
-Leon,,-1,[EXTRA] Cave Bugs,44100,-17.5,4.9,66.9,0,-62.1,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Bugs,noduplicate,novistador,
-Leon,,-1,[EXTRA] Cave Bugs,44100,-23.5,8.3,60.9,0,62.7,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Bugs,noduplicate,novistador,
-Leon,,-1,[EXTRA] Cave Bugs,44100,-16,4,47,0,-53,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Bugs,aggroed noduplicate,arana,
-Leon,,-1,[EXTRA] Cave Bugs,44100,-17,4,46,0,-51,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Bugs,aggroed noduplicate,arana,
-Leon,,-1,[EXTRA] Garrador Sandwich,44100,-15.4,12,91.2,0,-145,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Garrador|Ambush,aggroed noduplicate,garrador,
-Leon,,-1,[EXTRA] Garrador knight,44100,-16.3,4.9,69.7,0,-19.1,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Garrador|Ambush,noduplicate,garrador,
-Leon,,-1,[EXTRA] Garrador Sandwich,44100,-17.6,4.9,66.2,0,-61.8,0,,,,01_Village.CP3.StartVanilla.CP302_MendezConnector.Event.Garrador|SecondSpawn,aggroed noduplicate,garrador,
-Leon,,-1,,40200,21.79,-5.55,6.54,0,-25,0,,,,01_Village.CP3.StartVanilla.CP303_VillageSquare.Event.Ambush_0,aggroed noduplicate,small,
-Leon,,-1,,40200,25.28,-5.04,2.95,0,-35,0,,,,01_Village.CP3.StartVanilla.CP303_VillageSquare.Event.Ambush_0,aggroed,fodder,
-Leon,,-1,[EXTRA] Ambush that spawns in town hall,40212,25.7,1,2.6,0,70.8,0,,,,01_Village.CP3.StartVanilla.CP303_VillageSquare.Event.Ambush_1,aggroed nowave guardian,small,big dog*
-Leon,,-1,[EXTRA] Ambush that spawns in town hall,40212,25.7,1,2.6,0,70.8,0,,,,01_Village.CP3.StartVanilla.CP303_VillageSquare.Event.Ambush_1,aggroed nowave,fodder,big dog*
-Leon,,-1,[EXTRA] Outside spawns in town hall,40213,31.67,1.01,19.54,0,178,0,,,,01_Village.CP3.StartVanilla.CP303_VillageSquare.Event.Ambush_1,aggroed nowave,small,
-Leon,,-1,[EXTRA] Outside that spawns in town hall,40200,21.3,1.03,0.82,0,75,0,,,,01_Village.CP3.StartVanilla.CP303_VillageSquare.Event.Ambush_1,aggroed nowave,small,
-Leon,,-1,[EXTRA] Church Backtrack Guardian,45200,92.8,10.03,87.96,0,-136,0,,,,01_Village.CP3.StartVanilla.CP304_GraveyardChurch.Event.Arena,guardian noduplicate nowave,,dog*
-Leon,,-1,[Guardian] Quarry Arena Guardian,45302,173.27,7.95,139.66,0,127,0,,,,01_Village.CP3.StartVanilla.CP306_Quarry.Event.Arena,aggroed noduplicate nowave guardian,mendez_2 krauser_1 krauser_2 verdugo chainsaw_mad super_iron_maiden,
-Leon,,-1,[Guardian] Quarry Arena Guardian,45302,166.77,15.54,141.4,0,102,0,,,,01_Village.CP3.StartVanilla.CP306_Quarry.Event.WallArena|Event,aggroed noduplicate nowave guardian,mendez_2 krauser_1 krauser_2 chainsaw_mad super_iron_maiden,
-Leon,,-1,[Event] Quarry Arena Extra,45302,174.47,7.95,144.28,0,164,0,,,,01_Village.CP3.StartVanilla.CP306_Quarry.Event.WallArena|Event,aggroed nowave,fodder,
-Leon,,-1,[Event] Quarry Arena Extra,45302,174.76,8,128.31,0,54,0,,,,01_Village.CP3.StartVanilla.CP306_Quarry.Event.WallArena|Event,aggroed nowave,fodder,
-Leon,,-1,[Guardian] Fish Farm Arena,45400,141.18,-5.66,48.64,0,-18,0,,,,01_Village.CP3.StartVanilla.CP307_FishFarm.Event.Arena_0|Arena,guardian noduplicate nowave,elite,
-Leon,,-1,[Guardian] Fish Farm Arena,45400,134.89,-6.07,61.79,0,144,0,,,,01_Village.CP3.StartVanilla.CP307_FishFarm.Event.Arena_1,guardian noduplicate nowave,elite,
+Leon,,-1,[EXTRA] Factory entrance,44210,0.6,-0.8,182.9,0,0,0,,,,01_Village.CP2.StartVanilla.CP203_DynamiteValley.Level.FactoryReturn|HexGuardian,,small,
+Leon,,-1,[EXTRA] Factory side,44210,-8.5,-0.8,178,0,0,0,,,,01_Village.CP2.StartVanilla.CP203_DynamiteValley.Level.FactoryReturn|HexGuardian,,,
+Leon,,-1,[EXTRA] Factory after window,44210,-5.9,-0.8,185.2,0,0,0,,,,01_Village.CP2.StartVanilla.CP203_DynamiteValley.Level.FactoryReturn|HexGuardian,,,
+Leon,,-1,[EXTRA] Factory near sliding door,44210,-8.1,-0.7,194.8,0,0,0,,,,01_Village.CP2.StartVanilla.CP203_DynamiteValley.Level.FactoryReturn|HexGuardian,,,
+Leon,,-1,[EXTRA] Factory bridge,44410,19,-6,211,0,131,0,,,,01_Village.CP2.StartVanilla.CP203_DynamiteValley.Level.FactoryReturn|HexGuardian,,small,
+Leon,,-1,[EXTRA] Factory bridge,44410,13,-6,216,0,136,0,,,,01_Village.CP2.StartVanilla.CP203_DynamiteValley.Level.FactoryReturn|HexGuardian,,,
+Leon,,-1,[EXTRA] Guardian at chapter start,44410,5,-6,231,0,-141,0,,,battle.factory.key,01_Village.CP2.StartVanilla.CP203_DynamiteValley.Level.FactoryReturn|HexGuardian,noduplicate nowave guardian,,big dog* noitem*
+Leon,,-1,[EXTRA] test,44400,65.06,-7.74,225.92,0,36,0,,,battle.dynamitehex,01_Village.CP2.StartVanilla.CP203_DynamiteValley.Level.Shutter|HexGuardian,noduplicate nowave guardian,,noitem*
+Leon,,-1,[EXTRA] test,44400,65.06,-7.74,225.92,0,36,0,,,battle.dynamitehexdoor,01_Village.CP2.StartVanilla.CP203_DynamiteValley.Level.Shutter|Event,noduplicate nowave guardian,small,
+Leon,,-1,[EXTRA] MendezHouse Ambush Hex Guardian,44110,12.4,12.86,104.71,0,164,0,,,battle.hexshuffleguardian,01_Village.CP2.StartVanilla.CP203_DynamiteValley.Level.HexShuffle|WayBack,aggroed noduplicate nowave guardian,brute brute_hammer brute_jj chainsaw regenerador,noitem*
+Leon,,-1,[EXTRA] MendezHouse Ambush Fodder,44110,2.76,8.88,96.07,0,-19,0,,,,01_Village.CP2.StartVanilla.CP203_DynamiteValley.Level.HexShuffle|WayBack,aggroed nowave,fodder,
+Leon,,-1,[EXTRA] MendezHouse Ambush Fodder,44101,17.27,8.8,99.47,0,-104,0,,,,01_Village.CP2.StartVanilla.CP203_DynamiteValley.Level.HexShuffle|WayBack,aggroed nowave,small,
+Leon,,-1,[EXTRA] Valley Marble Guardian,44400,65.06,-7.74,225.92,0,36,0,,,battle.dynamitehex,01_Village.CP2.StartVanilla.CP203_DynamiteValley.Level.HexShuffle|Marble,noduplicate nowave,brute brute_hammer brute_jj chainsaw regenerador chainsaw_mad gold-armadura krauser_1,noitem*
+Leon,,-1,[EXTRA] Mendez House Ambusher,44101,16,8.9,99.3,0,-106.3,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Ambush,,,
+Leon,,-1,[EXTRA] Mendez House Ambusher,44110,11.6,8.9,106.3,0,-180,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Ambush,,,
+Leon,,-1,[EXTRA] Mendez House Ambusher,44110,1.2,8.9,105.8,0,152.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Ambush,,,
+Leon,,-1,[EXTRA] Mendez House guard,44101,-11.4,8.1,91.6,0,70.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Guard,,,
+Leon,,-1,[EXTRA] Mendez House guard,44101,-12.4,8.1,94.2,0,70.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Guard,,,
+Leon,,-1,[EXTRA] Mendez House guard,44101,-6.8,8.7,105.4,0,-111.7,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Guard,,,
+Leon,,-1,[EXTRA] Mendez House dog stare,44101,2.2,8.8,90.3,0,106.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Dogstare,,,
+Leon,,-1,[EXTRA] Mendez House dog stare,44101,2.2,8.8,89,0,77.9,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Dogstare,,,
+Leon,,-1,[EXTRA] Mendez House dog stare,44101,3,8.8,88,0,106.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Dogstare,,,
+Leon,,-1,[EXTRA] Mendez House outside,44101,-11.4,8.1,92.9,0,54.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Dogstare,,,
+Leon,,-1,[EXTRA] Mendez House outside,44101,-12,8.4,107.4,0,121.9,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Dogstare,,,
+Leon,,-1,[EXTRA] Mendez connector (behind),44101,-15.5,7.9,91.1,0,-137,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Ambush,aggroed,,boss
+Leon,,-1,[EXTRA] Mendez connector (behind),44101,-15.5,7.9,91.1,0,-137,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Ambush,aggroed,,boss
+Leon,,-1,[EXTRA] Mendez connector (boss),44100,-10.8,2.8,36.7,0,0,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Ambush,noduplicate nowave guardian,elite,dog*
+Leon,,-1,[EXTRA] Mendez connector (ahead),44100,-11.4,2.8,40.6,0,-23.3,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Ambush,aggroed,,boss
+Leon,,-1,[EXTRA] Mendez connector (ahead),44100,-11.4,2.8,40.6,0,-23.3,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Ambush,aggroed,,boss
+Leon,,-1,[EXTRA] Mendez Behind,44100,-15.5,7.9,91.1,0,-137,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Mendez,noduplicate aggroed,mendez_chase,
+Leon,,-1,[EXTRA] Cave Bugs,44100,-18.1,4.9,74.1,0,-21.7,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Bugs,noduplicate,novistador,
+Leon,,-1,[EXTRA] Cave Bugs,44100,-17.5,4.9,66.9,0,-62.1,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Bugs,noduplicate,novistador,
+Leon,,-1,[EXTRA] Cave Bugs,44100,-23.5,8.3,60.9,0,62.7,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Bugs,noduplicate,novistador,
+Leon,,-1,[EXTRA] Cave Bugs,44100,-16,4,47,0,-53,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Bugs,aggroed noduplicate,arana,
+Leon,,-1,[EXTRA] Cave Bugs,44100,-17,4,46,0,-51,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Bugs,aggroed noduplicate,arana,
+Leon,,-1,[EXTRA] Garrador Sandwich,44100,-15.4,12,91.2,0,-145,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Garrador|Ambush,aggroed noduplicate,garrador,
+Leon,,-1,[EXTRA] Garrador knight,44100,-16.3,4.9,69.7,0,-19.1,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Garrador|Ambush,noduplicate,garrador,
+Leon,,-1,[EXTRA] Garrador Sandwich,44100,-17.6,4.9,66.2,0,-61.8,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Garrador|SecondSpawn,aggroed noduplicate,garrador,
+Leon,,-1,,40200,21.79,-5.55,6.54,0,-25,0,,,,01_Village.CP3.StartVanilla.Event.CP303_VillageSquare.Ambush_0,aggroed noduplicate,small,
+Leon,,-1,,40200,25.28,-5.04,2.95,0,-35,0,,,,01_Village.CP3.StartVanilla.Event.CP303_VillageSquare.Ambush_0,aggroed,fodder,
+Leon,,-1,[EXTRA] Ambush that spawns in town hall,40212,25.7,1,2.6,0,70.8,0,,,,01_Village.CP3.StartVanilla.Event.CP303_VillageSquare.Ambush_1,aggroed nowave guardian,small,big dog*
+Leon,,-1,[EXTRA] Ambush that spawns in town hall,40212,25.7,1,2.6,0,70.8,0,,,,01_Village.CP3.StartVanilla.Event.CP303_VillageSquare.Ambush_1,aggroed nowave,fodder,big dog*
+Leon,,-1,[EXTRA] Outside spawns in town hall,40213,31.67,1.01,19.54,0,178,0,,,,01_Village.CP3.StartVanilla.Event.CP303_VillageSquare.Ambush_1,aggroed nowave,small,
+Leon,,-1,[EXTRA] Outside that spawns in town hall,40200,21.3,1.03,0.82,0,75,0,,,,01_Village.CP3.StartVanilla.Event.CP303_VillageSquare.Ambush_1,aggroed nowave,small,
+Leon,,-1,[EXTRA] Church Backtrack Guardian,45200,92.8,10.03,87.96,0,-136,0,,,,01_Village.CP3.StartVanilla.Event.CP304_GraveyardChurch.Arena,guardian noduplicate nowave,,dog*
+Leon,,-1,[Guardian] Quarry Arena Guardian,45302,173.27,7.95,139.66,0,127,0,,,,01_Village.CP3.StartVanilla.Event.CP305_Quarry.Arena,aggroed noduplicate nowave guardian,mendez_2 krauser_1 krauser_2 verdugo chainsaw_mad super_iron_maiden,
+Leon,,-1,[Guardian] Quarry Arena Guardian,45302,166.77,15.54,141.4,0,102,0,,,,01_Village.CP3.StartVanilla.Event.CP305_Quarry.WallArena|Event,aggroed noduplicate nowave guardian,mendez_2 krauser_1 krauser_2 chainsaw_mad super_iron_maiden,
+Leon,,-1,[Event] Quarry Arena Extra,45302,174.47,7.95,144.28,0,164,0,,,,01_Village.CP3.StartVanilla.Event.CP305_Quarry.WallArena|Event,aggroed nowave,fodder,
+Leon,,-1,[Event] Quarry Arena Extra,45302,174.76,8,128.31,0,54,0,,,,01_Village.CP3.StartVanilla.Event.CP305_Quarry.WallArena|Event,aggroed nowave,fodder,
+Leon,,-1,[Guardian] Fish Farm Arena,45400,141.18,-5.66,48.64,0,-18,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerPath.FishFarmFuel.Arena_0|Arena,guardian noduplicate nowave,elite,
+Leon,,-1,[Guardian] Fish Farm Arena,45400,134.89,-6.07,61.79,0,144,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerPath.FishFarmFuel.Arena_1,guardian noduplicate nowave,elite,
+Leon,,-1,[Guardian] Fish Farm Arena,45400,141.18,-5.66,48.64,0,-18,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.NoLadder.FishFarmFuel.Arena_0|Arena,guardian noduplicate nowave,elite,
+Leon,,-1,[Guardian] Fish Farm Arena,45400,134.89,-6.07,61.79,0,144,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.NoLadder.FishFarmFuel.Arena_1,guardian noduplicate nowave,elite,
+Leon,,-1,[Guardian] Fish Farm Arena,45400,141.18,-5.66,48.64,0,-18,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.NoWall.FishFarmFuel.Arena_0|Arena,guardian noduplicate nowave,elite,
+Leon,,-1,[Guardian] Fish Farm Arena,45400,134.89,-6.07,61.79,0,144,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.NoWall.FishFarmFuel.Arena_1,guardian noduplicate nowave,elite,
 Leon,,-1,[Event] Cave Arena,46200,257.18,-2.63,164.35,0,-43,0,,,,01_Village.CP4.StartVanilla.CP401_Boat.DropdownVariation|event,aggroed,brute brute_hammer brute_jj chainsaw chainsaw_mad chainsaw_mad zealot zealot_shield soldier_shield soldier,
 Leon,,-1,[Event] Cave Arena,46200,249.12,-2.97,172.11,0,131,0,,,,01_Village.CP4.StartVanilla.CP401_Boat.DropdownVariation|event,aggroed,brute brute_hammer brute_jj chainsaw chainsaw_mad chainsaw_mad zealot zealot_shield soldier_shield soldier,
 Leon,,-1,[Guardian] Cave Arena,46200,249.12,-2.97,172.11,0,131,0,,,,01_Village.CP4.StartVanilla.CP401_Boat.DropdownVariation|event,guardian noduplicate nowave aggroed,brute brute_hammer brute_jj chainsaw chainsaw_mad chainsaw_mad zealot zealot_shield soldier_shield soldier,
@@ -2067,6 +2071,25 @@ Leon,,-1,[Guardian] BawkIsland Arena,46100,419.79,-7.43,-19.43,0,-156,0,,,,CP4_B
 Leon,,-1,[Event] BawkIsland Arena,46100,414.21,-2.58,-35.17,0,2,0,,,,CP4_BawkIsland,aggroed,novistador,
 Leon,,-1,[Event] BawkIsland Arena,46100,411.92,-4.18,-8.34,0,172,0,,,,CP4_BawkIsland,aggroed,novistador,
 Leon,,-1,[Guardian] BawkIsland Arena,46100,419.79,-7.43,-19.43,0,-156,0,,,,CP4_BawkIsland,aggroed,fodder,
+Leon,,-1,Cave Ambush Enemy Wave 1,46200,213.23,-6.95,186.99,0,20,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn1,aggroed wave2x,,
+Leon,,-1,Cave Ambush Enemy Wave 1,46200,210.33,-6.97,188.29,0,40,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn1,aggroed wave2x,,
+Leon,,-1,Cave Ambush Enemy Wave 1,46200,236.12,-7.23,169.6,0,-42,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn1,aggroed,,
+Leon,,-1,Cave Ambush Enemy Wave 2,46200,266.8,-3.18,145.75,0,-12,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn2,aggroed,,
+Leon,,-1,Cave Ambush Enemy Wave 2,46200,267.51,-3.27,155.05,0,-126,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn2,aggroed,,
+Leon,,-1,Cave Ambush Enemy Wave 2,46200,244.57,-3.31,172.39,0,99,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn2,aggroed,,
+Leon,,-1,Cave Ambush Enemy Wave 3,46200,263.61,-6.85,141.06,0,-73,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn3,aggroed,,
+Leon,,-1,Cave Ambush Enemy Wave 3,46200,260.18,-6.79,141.85,0,-69,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn3,aggroed,,
+Leon,,-1,Cave Ambush Enemy Wave 3,46200,234.59,-7.05,168.43,0,176,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn3,aggroed,,
+Leon,,-1,Cave Ambush Enemy Wave 4,46200,213.23,-6.95,186.99,0,20,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn4,aggroed wave2x,,
+Leon,,-1,Cave Ambush Enemy Wave 4,46200,210.33,-6.97,188.29,0,40,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn4,aggroed wave2x,,
+Leon,,-1,Cave Ambush Enemy Wave 4,46200,236.12,-7.23,169.6,0,-42,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn4,aggroed wave2x,,
+Leon,,-1,Cave Ambush Enemy Wave 4,46200,266.8,-3.18,145.75,0,-12,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn4,aggroed wave2x,,
+Leon,,-1,Cave Ambush Enemy Wave 4,46200,263.61,-6.85,141.06,0,-73,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn4,aggroed wave2x,,
+Leon,,-1,Cave Ambush Enemy Wave 4,46200,260.18,-6.79,141.85,0,-69,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn4,aggroed wave2x,,
+Leon,,-1,Cave Ambush Enemy Wave 4,46200,234.59,-7.05,168.43,0,176,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat|Spawn4,aggroed wave2x,,
+Leon,,-1,Chapter3BoatGateLockerGuardian,46111,345.1,-6,96.1,0,-55.1,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerBoat,guardian nowave noduplicate,fodder,
+,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,
 Ada,09daf2a1-f3ac-42fd-af68-d7f5bad710d1,1,pesanta_phantom   .,50401,0,0,0,0,0,0,,,,,preserve noduplicate,,
 Ada,33bda65f-fa3a-4385-a2c7-92786d5f0b6f,1,pesanta   .,50401,0,0,0,0,0,0,,,,,preserve noduplicate nowave,,
