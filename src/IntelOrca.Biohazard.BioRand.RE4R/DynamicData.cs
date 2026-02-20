@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Net.Http;
 
@@ -18,6 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             [DynamicDataName.Items] = ("items.csv", 827998375),
             [DynamicDataName.Events] = ("events.csv", 677674082),
             [DynamicDataName.Messages] = ("messages.csv", 257348148),
+            [DynamicDataName.StageLimits] = ("stagelimits.csv", 962898699),
         }.ToImmutableDictionary();
 
         private readonly Dictionary<DynamicDataName, byte[]> _map = [];
@@ -73,5 +74,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         Items,
         Events,
         Messages,
+        StageLimits,
     }
 }

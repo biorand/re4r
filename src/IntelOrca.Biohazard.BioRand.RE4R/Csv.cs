@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
@@ -78,9 +78,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private static object ParseValue(string input, Type targetType)
         {
-            if (targetType == typeof(ImmutableArray<string>))
+            if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(ImmutableArray<>))
             {
-                return input.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToImmutableArray();
+                var elementType = targetType.GenericTypeArguments[0];
+                var items = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                return ToImmutableArray(elementType, items
+                    .Select(x => ParseValue(x, elementType)));
             }
             else if (targetType == typeof(Guid))
             {
@@ -94,6 +97,29 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 return Convert.ChangeType(input, targetType);
             }
+        }
+
+        private static object ToImmutableArray(Type elementType, IEnumerable<object> items)
+        {
+            var castMethod = typeof(Enumerable)
+                .GetMethod(nameof(Enumerable.Cast))
+                !.MakeGenericMethod(elementType);
+
+            var typedEnumerable = castMethod.Invoke(null, [items]);
+            var toImmutable = typeof(ImmutableArray)
+                .GetMethods(BindingFlags.Public | BindingFlags.Static)
+                .Where(m => m.Name == "ToImmutableArray" && m.IsGenericMethod)
+                .First(m =>
+                {
+                    var p = m.GetParameters();
+                    return p.Length == 1 &&
+                           p[0].ParameterType.IsGenericType &&
+                           p[0].ParameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
+                })
+                .MakeGenericMethod(elementType);
+
+            var result = toImmutable.Invoke(null, [typedEnumerable])!;
+            return result;
         }
 
         public static string[,] Read(string data)
