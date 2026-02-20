@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -392,7 +392,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                     var item = CreateAvailableItem(drop.Value.Id);
                     item.InitialStock = rng.Next(minStock, maxStock + 1);
-                    item.StockPerChapter = rng.NextFloat(Math.Max(minStock, 0.1f), maxStock);
+                    item.StockPerChapter = rng.NextFloat(Math.Max(minStock, 0), maxStock);
                     item.MaxStock = 1000;
                     RandomizePrice(item, spinel: false);
                 }
