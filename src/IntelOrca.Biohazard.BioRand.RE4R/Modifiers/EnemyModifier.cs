@@ -553,6 +553,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     logger.LogLine("Boss", spawn.Guid, boss.Name, enemy.Health);
                 }
             }
+            else if (spawn.Enemy.Kind.Key == "pesanta_phantom")
+            {
+                enemy.Health = 1;
+            }
             else if (spawn.ChosenClass is EnemyClassDefinition ecd)
             {
                 var randomHealth = randomizer.GetConfigOption<bool>("enemy-random-health");
