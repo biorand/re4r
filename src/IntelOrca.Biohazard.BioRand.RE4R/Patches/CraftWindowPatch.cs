@@ -35,7 +35,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 context.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/guiresource/guiresourcesettinguserdata_craft.user.2", root =>
                 {
                     var settings = (RszArrayNode)root["_Settings"];
-                    settings = settings.Add(FileRepository.RszRepository
+                    settings = settings.Add(context.TypeRepository
                         .Create("chainsaw.GuiResourceSetting_Craft")
                             .Set("_ItemId", itemId)
                             .Set("_Prefab.Path", new RszResourceNode(getCraftItemModelPathGui(item))));

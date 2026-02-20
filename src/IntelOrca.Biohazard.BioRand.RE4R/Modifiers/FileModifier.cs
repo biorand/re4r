@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Numerics;
 using chainsaw;
@@ -79,8 +79,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     Scale = Vector3.One
                 };
 
-                var gimmick = GimmickTemplate.Get("Biorand_Document").Clone();
-                gimmick = gimmick.AddOrUpdateComponent(transform.ToComponent());
+                var gimmick = randomizer.GetService<GimmickTemplate>().Get("Biorand_Document").Clone();
+                gimmick = gimmick.AddOrUpdateComponent(transform.ToComponent(randomizer.FileRepository));
                 gimmick = gimmick.WithGimmickContextId(contextId);
 
                 var gmReadFile = gimmick.FindComponent("chainsaw.GmReadFile")!;

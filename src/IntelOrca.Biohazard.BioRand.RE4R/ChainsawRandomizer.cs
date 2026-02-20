@@ -19,7 +19,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly Lock _servicesLock = new();
         private readonly Dictionary<string, string> _logFiles = [];
 
-        public int PakVersion { get; set; } = 6;
+        public int PakVersion => Version + 1;
         public RandomizerInput Input { get; }
         public EnemyClassFactory EnemyClassFactory { get; }
         public IProgressReporter Reporter { get; }
@@ -57,7 +57,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public RandomizerOutput Randomize()
         {
             var input = Input;
-            _fileRepository = new FileRepository(this, _inputGamePath, DynamicData);
+            _fileRepository = new FileRepository(this, Version, _inputGamePath, DynamicData);
 
             var campaign = Campaign.Leon;
             if (input.Configuration.GetValueOrDefault("campaign", "") == "Separate Ways")
@@ -156,8 +156,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 logger.Output.LogHr();
             });
 
-            ApplyOverlay();
-
             return logger;
         }
 
@@ -169,12 +167,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 _supplementApplied = true;
                 FileRepository.ApplyOverlay(EmbeddedData.GetFile("supplement.zip"));
             }
-        }
-
-        private void ApplyOverlay()
-        {
-            var compatibility = new GameCompatibility(this);
-            compatibility.Apply();
         }
 
         private void IterateModifiers(Action<string, Modifier> action)
@@ -261,6 +253,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public void AddLogFile(string name, string content)
         {
             _logFiles[name] = content;
+        }
+
+        public int Version
+        {
+            get
+            {
+                var gameVersionString = GetConfigOption("game-version", "3 Feb 2026");
+                if (gameVersionString == "3 Feb 2026")
+                {
+                    return 5;
+                }
+                else if (gameVersionString == "4 Mar 2025")
+                {
+                    return 4;
+                }
+                else
+                {
+                    throw new RandomizerUserException("Game version not supported");
+                }
+            }
         }
     }
 }

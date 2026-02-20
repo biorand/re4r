@@ -1,4 +1,4 @@
-﻿#if ENABLE_BETA_FEATURES
+#if ENABLE_BETA_FEATURES
 using System;
 using System.Numerics;
 using IntelOrca.Biohazard.REE.Rsz;
@@ -27,7 +27,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 var upstairsDoor = scene.FindGameObject(new Guid("74a99e6f-a333-4542-9bac-2a4c65b158bc"))!;
                 var t = new Transform(upstairsDoor);
                 t.Eular = new EulerAngles(-90, 0, 0);
-                scene = scene.UpdateGameObject(upstairsDoor.AddOrUpdateComponent(t.ToComponent()));
+                scene = scene.UpdateGameObject(upstairsDoor.AddOrUpdateComponent(t.ToComponent(context)));
                 var paramObject = upstairsDoor.FindGameObject("ParamObject")!;
                 scene = scene.UpdateGameObject(
                     paramObject.WithComponents(paramObject.Components

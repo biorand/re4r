@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using IntelOrca.Biohazard.REE.Rsz;
 
@@ -29,7 +29,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public Transform Transform
         {
             get => new Transform(GameObject);
-            set => GameObject = value.UpdateGameObject(GameObject);
+            set => GameObject = GameObject.AddOrUpdateComponent(value.ToComponent(Area.Randomizer.FileRepository));
         }
 
         public chainsaw.ContextID ContextId

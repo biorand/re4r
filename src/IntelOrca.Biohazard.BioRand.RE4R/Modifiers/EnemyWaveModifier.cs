@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
@@ -46,7 +46,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 for (var i = 1; i < numWaves; i++)
                 {
                     var guid = $"{oldSpawn.Guid}_wave_${i}".GetGuidHash();
-                    var spawnControllerGameObject = RszFactory.CreateSpawnPointController(guid, $"BioRandOnDeathSpawn_{i}", waveDistance, [lastSpawn.Enemy]);
+                    var spawnControllerGameObject = randomizer.GetService<RszFactory>().CreateSpawnPointController(guid, $"BioRandOnDeathSpawn_{i}", waveDistance, [lastSpawn.Enemy]);
                     var spawnController = area.AddSpawnController(spawnControllerGameObject);
 
                     var deathFlag = flagService.AllocateFlag();

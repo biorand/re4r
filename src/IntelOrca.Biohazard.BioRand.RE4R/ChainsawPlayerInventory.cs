@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Rsz;
@@ -16,10 +16,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly chainsaw.InventoryCatalogUserData _root;
         private readonly int _index;
 
-        private ChainsawPlayerInventory(string path, UserFile inventoryCatalog, int index)
+        private ChainsawPlayerInventory(IPatchContext context, string path, UserFile inventoryCatalog, int index)
         {
             _path = path;
-            _inventoryCatalog = inventoryCatalog.ToBuilder(FileRepository.RszRepository);
+            _inventoryCatalog = inventoryCatalog.ToBuilder(context.TypeRepository);
             _root = RszSerializer.Deserialize<chainsaw.InventoryCatalogUserData>(_inventoryCatalog.Objects[0])!;
             _index = index;
         }
@@ -31,7 +31,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 : InventoryCatalogPathAda;
             var inventoryCatalog = fileRepository.GetUserFile(path);
             var index = campaign == Campaign.Leon ? 0 : 1;
-            return new ChainsawPlayerInventory(path, inventoryCatalog, index);
+            return new ChainsawPlayerInventory(fileRepository, path, inventoryCatalog, index);
         }
 
         public void Save(FileRepository fileRepository)
@@ -151,7 +151,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private chainsaw.InventoryItemSaveData CreateInventoryItem(Item item, int count = 1)
         {
-            var repo = FileRepository.RszRepository;
             var itemRepo = ItemDefinitionRepository.Default;
             var definition = itemRepo.Find(item.Id)!;
             var definitionAmmo = itemRepo.GetAmmo(definition);
@@ -163,13 +162,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 case ItemKinds.Grenade:
                 case ItemKinds.Knife:
                 case ItemKinds.Egg:
-                {
-                    var witem = new chainsaw.WeaponItem();
-                    witem._CurrentAmmo = definitionAmmo?.Id ?? -1;
-                    witem._CurrentAmmoCount = 4;
-                    itemStack = witem;
-                    break;
-                }
+                    {
+                        var witem = new chainsaw.WeaponItem();
+                        witem._CurrentAmmo = definitionAmmo?.Id ?? -1;
+                        witem._CurrentAmmoCount = 4;
+                        itemStack = witem;
+                        break;
+                    }
                 default:
                     itemStack = new chainsaw.Item();
                     break;

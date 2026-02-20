@@ -1,4 +1,4 @@
-﻿#if ENABLE_BETA_FEATURES
+#if ENABLE_BETA_FEATURES
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -79,7 +79,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             var info = _baseStats.Weapons.First(x => (string)x["name"] == name);
             var id = (int)info["id"];
 
-            var weaponService = (context as FileRepository)?.Randomizer?.GetService<WeaponService>();
+            var weaponService = context.GetService<WeaponService>();
             weaponService?.RestrictUpgrades(id);
 
             // Store exclusive message GUIDs
@@ -101,18 +101,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             void UpdateMessages()
             {
                 var isDlcWeapon = id is 6000 or 6001;
-                
+
                 if (isDlcWeapon)
                 {
                     var dlcMsgFile = id == 6000 ? "natives/stm/_chainsaw/message/dlc/ch_mes_dlc_1401.msg.22" : "natives/stm/_chainsaw/message/dlc/ch_mes_dlc_1402.msg.22";
                     var dlcId = id == 6000 ? "1401" : "1402";
-                    
+
                     context.ModifyMsgFile(dlcMsgFile, msg =>
                     {
                         msg.SetStringAll($"CH_Mes_DLC_{dlcId}_WEAPON_NAME_WP{id:0000}_00_0_000", (string)info["name"]);
                         msg.SetStringAll($"CH_Mes_DLC_{dlcId}_WEAPON_CAPTION_WP{id:0000}_00_0_000", (string)info["description"]);
                         msg.SetStringAll($"CH_Mes_DLC_{dlcId}_ItemPerks_WP{id:0000}_00_0_000", (string)info["perk"]);
-                        
+
                         var exDesc1 = (string)info["exclusive description 1"];
                         var exPerk1 = (string)info["exclusive perk 1"];
                         var exDesc2 = (string)info["exclusive description 2"];
@@ -474,8 +474,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             void UpdateItemDefinition()
             {
                 var isDlcWeapon = id is 6000 or 6001;
-                var itemDefinitionPath = isDlcWeapon 
-                    ? id == 6000 
+                var itemDefinitionPath = isDlcWeapon
+                    ? id == 6000
                         ? "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1401/itemdefinitionuserdata_dlc_1401.user.2"
                         : "natives/stm/_chainsaw/appsystem/catalog/dlc/dlc_1402/itemdefinitionuserdata_dlc_1402.user.2"
                     : "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2";
@@ -1396,7 +1396,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     return;
 
                 var customVfxName = (string)info["CustomVfx"];
-                
+
                 // Map DLC weapons to their corresponding base weapon VFX templates
                 var templateWeaponId = id switch
                 {
@@ -1414,14 +1414,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 // Create the legendary VFX prg file from template
                 var legendaryPrgTemplatePath = "natives/stm/_chainsaw/vfx/provider/epv_weapon/epv_wp4701/epvs_0015_wp4701_fire_prg_0000.pfb.17";
                 var legendaryPrgPath = $"natives/stm/_chainsaw/vfx/provider/epv_weapon/epv_wp{id:0000}/epvs_0015_wp{id:0000}_legendary_prg_0000.pfb.17";
-                
+
                 // First, copy the template to the new location
                 var legendaryPrgTemplateData = context.GetFile(legendaryPrgTemplatePath);
                 if (legendaryPrgTemplateData != null)
                 {
                     context.SetFile(legendaryPrgPath, legendaryPrgTemplateData);
                 }
-                
+
                 // Now modify the new file
                 context.ModifyPfbFile(legendaryPrgPath, scene =>
                 {
@@ -1430,7 +1430,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     if (component != null)
                     {
                         var elements = (RszArrayNode)component["Elements"];
-                        
+
                         // Update the Resources path in the first element
                         if (elements.Length > 0)
                         {
@@ -1444,13 +1444,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                                 elements = elements.SetItem(0, element);
                             }
                         }
-                        
+
                         // Remove all elements except the first one
                         while (elements.Length > 1)
                         {
                             elements = elements.RemoveAt(elements.Length - 1);
                         }
-                        
+
                         component = component.SetField("Elements", elements);
                         gameobject = gameobject.AddOrUpdateComponent(component);
                         scene = scene.UpdateGameObject(gameobject);
@@ -1463,7 +1463,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 if (templateData != null)
                 {
                     context.SetFile(vfxNativePath, templateData);
-                    
+
                     context.ModifyPfbFile(vfxNativePath, scene =>
                     {
                         var gameobject = scene.Children.OfType<RszGameObject>().First();
@@ -1527,12 +1527,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             effectComponent = effectComponent.Set("DataContainer.Path", new RszResourceNode(vfxPath));
                             updatedGameObject = updatedGameObject.AddOrUpdateComponent(effectComponent);
                         }
-                        
+
                         if (ignitionControllerTemplate != null)
                         {
                             updatedGameObject = updatedGameObject.AddOrUpdateComponent(ignitionControllerTemplate);
                         }
-                        
+
                         if (updatedGameObject != gameobject)
                         {
                             scene = scene.UpdateGameObject(updatedGameObject);

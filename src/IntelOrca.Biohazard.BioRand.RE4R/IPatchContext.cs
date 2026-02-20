@@ -1,4 +1,4 @@
-﻿using IntelOrca.Biohazard.REE.Rsz;
+using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -47,5 +47,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         T? GetConfigOption<T>(string key, T? defaultValue = default);
 
         bool ExportingMod { get; }
+
+        T GetService<T>();
     }
 }

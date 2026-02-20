@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 using chainsaw;
@@ -30,7 +30,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 foreach (var g in enemiesToPlace.GroupBy(x => (x.Stage, x.Condition, x.SkipCondition)))
                 {
                     var firstEnemy = g.First();
-                    var spawnController = RszFactory.CreateSpawnController("BioRandInitialSpawn");
+                    var spawnController = randomizer.GetService<RszFactory>().CreateSpawnController("BioRandInitialSpawn");
                     spawnController = AddSpawnControllerConditions(spawnController, firstEnemy.Condition, firstEnemy.SkipCondition);
 
                     logger.Push($"CharacterSpawnController Condition = {firstEnemy.Condition} SkipCondition = {firstEnemy.SkipCondition}");
@@ -118,8 +118,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             logger.LogLine($"Enemy {contextId} Position = ({e.Position.X}, {e.Position.Y}, {e.Position.Z})");
 
             var rotation = e.HasEmptyRotation ? RandomRotation(randomizer.GetRng("modifier/enemyplace/rotation", e.GuidOrAuto)) : e.Rotation;
-            var transform = RszFactory.CreateTransform(e.Position, rotation.ToQuaternion());
-            var spawnParam = FileRepository.RszRepository.Create("chainsaw.Ch1c0SpawnParamCommon")
+            var transform = randomizer.GetService<RszFactory>().CreateTransform(e.Position, rotation.ToQuaternion());
+            var spawnParam = randomizer.FileRepository.TypeRepository.Create("chainsaw.Ch1c0SpawnParamCommon")
                 .Set("Enabled", true)
                 .Set("_StageID", e.Stage)
                 .Set("_SpawmRadius", 20.0f)
@@ -145,7 +145,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .Set("_DropItemCount", 1);
             }
 
-            var enemy = RszFactory.CreateGameObject("BioRandEnemy", "_Chainsaw/AppSystem/Prefab/ch1c0SpawnParam.pfb", [transform, spawnParam])
+            var enemy = randomizer.GetService<RszFactory>().CreateGameObject("BioRandEnemy", "_Chainsaw/AppSystem/Prefab/ch1c0SpawnParam.pfb", [transform, spawnParam])
                 .WithGuid(e.GuidOrAuto);
 
             UpdateConnectedGimmicks(randomizer, enemy.Guid, contextId);

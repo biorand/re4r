@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Rsz;
 
@@ -13,7 +13,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var areaService = randomizer.AreaService;
             var itemService = randomizer.GetService<ItemService>();
-            var dropItemTemplate = GimmickTemplate.Get("Biorand_DropItem");
+            var dropItemTemplate = randomizer.GetService<GimmickTemplate>().Get("Biorand_DropItem");
             foreach (var placement in itemService.ItemPlacements)
             {
                 if (placement.Campaign != randomizer.Campaign || !placement.IsExtra || placement.Chapter == -1)
@@ -35,7 +35,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var gameObject = dropItemTemplate.Clone();
                 gameObject = gameObject.WithName($"Biorand_DropItem_{placement.Row}");
                 gameObject = gameObject.WithGuid(placement.GuidOrAuto);
-                gameObject = gameObject.AddOrUpdateComponent(transform.ToComponent());
+                gameObject = gameObject.AddOrUpdateComponent(transform.ToComponent(randomizer.FileRepository));
                 gameObject = gameObject.AddOrUpdateComponent(
                     gameObject
                         .FindComponent("chainsaw.DropItem")!

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using chainsaw;
@@ -87,7 +87,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             var controllerObjects = new List<RszGameObject>();
             for (var i = 0; i < 3; i++)
             {
-                var newGameObject = RszFactory.CreateSpawnController($"Biorand_1F_{i}");
+                var newGameObject = context.GetService<RszFactory>().CreateSpawnController($"Biorand_1F_{i}");
                 var spawnController = newGameObject.FindComponent<chainsaw.CharacterSpawnController>()!;
                 spawnController._SpawnCondition._CheckFlags.Add(new CheckFlagInfo()
                 {

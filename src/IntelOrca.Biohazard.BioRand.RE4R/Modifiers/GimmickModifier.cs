@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
@@ -209,7 +209,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             original.Area.Scene = original.Area.Scene
                 .RemoveGameObject(original.Guid)
-                .Add(GimmickTemplate
+                .Add(original.Area.Randomizer.GetService<GimmickTemplate>()
                     .Get(kind)
                     .Clone()
                     .WithGuid(original.Guid)
@@ -413,7 +413,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public Transform Transform
             {
                 get => new(GameObject);
-                set => GameObject = GameObject.AddOrUpdateComponent(value.ToComponent());
+                set => GameObject = GameObject.AddOrUpdateComponent(value.ToComponent(area.Randomizer.FileRepository));
             }
             public ImmutableDictionary<string, object> Properties => GetProperties();
 

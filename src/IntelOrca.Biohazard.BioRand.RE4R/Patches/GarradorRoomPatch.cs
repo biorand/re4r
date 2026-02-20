@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Numerics;
 using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
@@ -38,7 +38,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         var transform = new Transform(child);
                         transform.Position = new Vector3(152, transform.Position.Y, transform.Position.Z);
                         scene = scene.UpdateGameObject(
-                            child.AddOrUpdateComponent(transform.ToComponent()));
+                            child.AddOrUpdateComponent(transform.ToComponent(context)));
                     }
                 }
 

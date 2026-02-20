@@ -253,12 +253,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (placement.Condition == default && placement.Chapter == 0)
                     return gimmick;
 
+                var factory = randomizer.GetService<RszFactory>();
                 var repo = FileRepository.TypeRepository;
                 var paramObject = gimmick.FindGameObject("ParamObject");
                 if (paramObject == null)
                 {
-                    paramObject = RszFactory.CreateGameObject("ParamObject", "", [
-                        RszFactory.CreateTransform(),
+                    paramObject = factory.CreateGameObject("ParamObject", "", [
+                        factory .CreateTransform(),
                         repo.Create("chainsaw.ParamObject")
                             .Set("Enabled", true)]);
                 }
@@ -317,12 +318,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return gimmick.AddOrUpdateChild(paramObject);
             }
 
-            private static RszGameObject CloneGimmickFromTemplate(string kind, Rng rng)
+            private RszGameObject CloneGimmickFromTemplate(string kind, Rng rng)
             {
                 var map = new Dictionary<Guid, Guid>();
 
                 // Create new guids for all game objects
-                var root = GimmickTemplate
+                var root = randomizer.GetService<GimmickTemplate>()
                     .Get(kind)
                     .VisitGameObjects(gameObject =>
                     {

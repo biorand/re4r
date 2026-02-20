@@ -130,7 +130,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         Position = item.Position,
                         Eular = item.Eular
                     };
-                    gameObject = gameObject.AddOrUpdateComponent(transform.ToComponent());
+                    gameObject = gameObject.AddOrUpdateComponent(transform.ToComponent(randomizer.FileRepository));
 
                     var itemDrop = gameObject.FindComponent("chainsaw.DropItem")!;
                     itemDrop = itemDrop.Set("_ItemData.StageID", item.Stage);

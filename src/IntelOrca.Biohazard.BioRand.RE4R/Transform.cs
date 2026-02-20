@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Numerics;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Rsz;
@@ -25,11 +25,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public EulerAngles Eular
         {
-            get => Rotation.ToEuler();
+            readonly get => Rotation.ToEuler();
             set => Rotation = value.ToQuaternion();
         }
 
-        public Matrix4x4 Matrix
+        public readonly Matrix4x4 Matrix
         {
             get
             {
@@ -40,14 +40,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        public RszObjectNode ToComponent()
+        public readonly RszObjectNode ToComponent(IPatchContext context)
         {
-            return RszFactory.CreateTransform(Position, Rotation, Scale);
-        }
-
-        public RszGameObject UpdateGameObject(RszGameObject target)
-        {
-            return target.AddOrUpdateComponent(ToComponent());
+            return context.GetService<RszFactory>().CreateTransform(Position, Rotation, Scale);
         }
     }
 }

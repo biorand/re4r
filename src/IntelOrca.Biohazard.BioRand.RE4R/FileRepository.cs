@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.IO;
 using IntelOrca.Biohazard.REE.Package;
@@ -8,45 +8,25 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class FileRepository : IPatchContext, IDisposable
     {
-        private static RszTypeRepository? _rszRepository;
-
-        public static RszTypeRepository RszRepository
-        {
-            get
-            {
-                if (_rszRepository == null)
-                {
-                    var rszJson = EmbeddedData.GetFile("rszre4.json.gz");
-                    _rszRepository = RszRepositorySerializer.Default.FromJsonGz(rszJson);
-                }
-                return _rszRepository;
-            }
-        }
-
-        public RszTypeRepository TypeRepository => RszRepository;
-        public bool ExportingMod => false;
-
         private readonly ChainsawRandomizer? _randomizer;
+        private readonly RszTypeRepository? _typeRepository;
         private readonly PatchedPakFile? _inputPakFile;
         private readonly string? _inputGamePath;
         private ConcurrentDictionary<string, byte[]> _outputFiles = new(StringComparer.OrdinalIgnoreCase);
 
         public ChainsawRandomizer? Randomizer => _randomizer;
         public DynamicData DynamicData { get; } = new DynamicData(download: false);
+        public RszTypeRepository TypeRepository => _typeRepository ?? throw new Exception("No type repository set up");
+        public bool ExportingMod => false;
 
         public FileRepository()
         {
         }
 
-        public FileRepository(PatchedPakFile inputPakFile, DynamicData dynamicData)
-        {
-            _inputPakFile = inputPakFile;
-            DynamicData = dynamicData;
-        }
-
-        public FileRepository(ChainsawRandomizer randomizer, string inputGamePath, DynamicData dynamicData)
+        public FileRepository(ChainsawRandomizer randomizer, int gameVersion, string inputGamePath, DynamicData dynamicData)
         {
             _randomizer = randomizer;
+            _typeRepository = Re4rTypeRepository.FromVersion(gameVersion);
             if (inputGamePath.EndsWith(".pak", System.StringComparison.OrdinalIgnoreCase))
             {
                 _inputPakFile = new PatchedPakFile(inputGamePath);
@@ -128,5 +108,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             var randomizer = _randomizer;
             return randomizer == null ? defaultValue : randomizer.GetConfigOption(key, defaultValue);
         }
+
+        public T GetService<T>() => Randomizer!.GetService<T>();
     }
 }

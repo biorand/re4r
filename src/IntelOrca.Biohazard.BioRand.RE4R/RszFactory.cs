@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
@@ -8,11 +8,11 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal static class RszFactory
+    internal class RszFactory(ChainsawRandomizer randomizer)
     {
-        public static RszTypeRepository Repository = FileRepository.RszRepository;
+        public RszTypeRepository Repository => randomizer.FileRepository.TypeRepository;
 
-        public static RszGameObject CreateGameObject(string name, string prefab, ImmutableArray<RszObjectNode> components)
+        public RszGameObject CreateGameObject(string name, string prefab, ImmutableArray<RszObjectNode> components)
         {
             return new RszGameObject(
                 Guid.NewGuid(),
@@ -26,7 +26,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 []);
         }
 
-        public static RszObjectNode CreateTransform(Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null)
+        public RszObjectNode CreateTransform(Vector3? position = null, Quaternion? rotation = null, Vector3? scale = null)
         {
             return Repository.Create("via.Transform")
                 .Set("Position", position ?? Vector3.Zero)
@@ -34,7 +34,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 .Set("Scale", scale ?? Vector3.One);
         }
 
-        public static RszGameObject CreateSpawnController(string name)
+        public RszGameObject CreateSpawnController(string name)
         {
             var transform = CreateTransform();
             var characterSpawnControllerComponent = Repository
@@ -49,7 +49,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 [transform, characterSpawnControllerComponent]);
         }
 
-        public static RszGameObject CreateSpawnPointController(Guid guid, string name, float spawnDistanceMin, object[] enemies)
+        public RszGameObject CreateSpawnPointController(Guid guid, string name, float spawnDistanceMin, object[] enemies)
         {
             var transform = CreateTransform();
             var characterSpawnControllerComponent = Repository
@@ -76,13 +76,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 [transform, characterSpawnControllerComponent]);
         }
 
-        private static RszValueNode SerializeMatrix(Matrix4x4 mat4)
+        private RszValueNode SerializeMatrix(Matrix4x4 mat4)
         {
             var span = MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(ref mat4, 1));
             return new RszValueNode(RszFieldType.Mat4, span.ToArray());
         }
 
-        private static Matrix4x4 CreateMatrix(object o)
+        private Matrix4x4 CreateMatrix(object o)
         {
             if (o is Enemy e)
             {

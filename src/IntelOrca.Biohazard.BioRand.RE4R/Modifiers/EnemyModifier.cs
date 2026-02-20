@@ -702,8 +702,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var shouldLatch = rng.NextDouble() <= latchProbability;
 
             var contextId = area.Randomizer.FlagService.AllocateContextId(0, 0);
-            var transform = RszFactory.CreateTransform();
-            var spawnParam = FileRepository.RszRepository.Create("chainsaw.Ch1e0z0SpawnParam")
+            var transform = area.Randomizer.GetService<RszFactory>().CreateTransform();
+            var spawnParam = area.Randomizer.FileRepository.TypeRepository.Create("chainsaw.Ch1e0z0SpawnParam")
                 .Set("Enabled", true)
                 .Set("_StageID", stageId)
                 .Set("_SpawmRadius", 20.0f)
@@ -719,7 +719,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .Set("_CriticalResistRate", 0.25f)
                 .Set("_MontageID", 1106175613U)
                 .Set("_EnableGannardParent", shouldLatch);
-            var gameObject = RszFactory.CreateGameObject(name, "_Chainsaw/AppSystem/Prefab/ch1e0z0SpawnParam.pfb", [transform, spawnParam]);
+            var gameObject = area.Randomizer.GetService<RszFactory>().CreateGameObject(name, "_Chainsaw/AppSystem/Prefab/ch1e0z0SpawnParam.pfb", [transform, spawnParam]);
             return area.AddOrphanEnemy(gameObject);
         }
     }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -117,13 +117,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private class PatchContext(IPakFile vanilla, ModBuilder modBuilder) : IPatchContext
         {
-            public RszTypeRepository TypeRepository => FileRepository.RszRepository;
+            public RszTypeRepository TypeRepository => Re4rTypeRepository.FromVersion(5);
             public DynamicData DynamicData { get; } = new DynamicData(download: false);
 
             public byte[]? GetSupplementFile(string path) => EmbeddedData.GetFile(path);
             public byte[]? GetFile(string path) => modBuilder[path] ?? vanilla.GetEntryData(path);
             public void SetFile(string path, byte[] data) => modBuilder[path] = data;
             public T? GetConfigOption<T>(string key, T? defaultValue = default) => defaultValue;
+            public T GetService<T>() => throw new NotSupportedException();
             public bool ExportingMod => true;
         }
     }

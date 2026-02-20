@@ -219,7 +219,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var repo = area.Randomizer.FileRepository.TypeRepository;
             var contextId = area.Randomizer.FlagService.AllocateContextId(1, 1);
 
-            var gimmick = GimmickTemplate
+            var gimmick = area.Randomizer.GetService<GimmickTemplate>()
                 .Get("Biorand_FlagCheckSet")
                 .Clone()
                 .WithName(hier.Name);
@@ -237,7 +237,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var repo = area.Randomizer.FileRepository.TypeRepository;
             var contextId = area.Randomizer.FlagService.AllocateContextId(1, 1);
 
-            var gimmick = GimmickTemplate
+            var gimmick = area.Randomizer.GetService<GimmickTemplate>()
                 .Get("Biorand_AreaHit")
                 .Clone()
                 .WithName(hier.Name);
@@ -246,7 +246,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             {
                 Position = position
             };
-            gimmick = gimmick.AddOrUpdateComponent(transform.ToComponent());
+            gimmick = gimmick.AddOrUpdateComponent(transform.ToComponent(area.Randomizer.FileRepository));
 
             gimmick = gimmick.WithGimmickContextId(contextId);
 
