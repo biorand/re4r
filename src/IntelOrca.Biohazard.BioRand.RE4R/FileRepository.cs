@@ -23,10 +23,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
         }
 
-        public FileRepository(ChainsawRandomizer randomizer, int gameVersion, string inputGamePath, DynamicData dynamicData)
+        public FileRepository(ChainsawRandomizer randomizer, int gameVersion, string inputGamePaths, DynamicData dynamicData)
         {
             _randomizer = randomizer;
             _typeRepository = Re4rTypeRepository.FromVersion(gameVersion);
+
+            var inputGamePath = GetCorrectInputPath(inputGamePaths, gameVersion);
             if (inputGamePath.EndsWith(".pak", System.StringComparison.OrdinalIgnoreCase))
             {
                 _inputPakFile = new PatchedPakFile(inputGamePath);
@@ -35,6 +37,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 _inputGamePath = inputGamePath;
             }
+
+
             DynamicData = dynamicData;
         }
 
@@ -110,5 +114,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         }
 
         public T GetService<T>() => Randomizer!.GetService<T>();
+
+        private static string GetCorrectInputPath(string inputGamePath, int gameVersion)
+        {
+            var paths = inputGamePath.Split(Path.PathSeparator);
+            if (paths.Length <= 1)
+                return paths[0];
+
+            if (gameVersion == 5)
+                return paths[0];
+            return paths[1];
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.REE.Messages;
@@ -32,7 +32,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var nameToPath = GetNameToMsgFileMap(randomizer.FileRepository);
             var mappings = GetChosenMessages();
-            var filesToModify = mappings.Keys.GroupBy(x => nameToPath[x]).Select(x => x.Key).ToArray();
+            var filesToModify = mappings.Keys
+                .Where(nameToPath.ContainsKey)
+                .GroupBy(x => nameToPath[x])
+                .Select(x => x.Key)
+                .ToArray();
             foreach (var filePath in filesToModify)
             {
                 randomizer.FileRepository.ModifyMsgFile(filePath, msgFile =>
@@ -204,7 +208,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             "natives/stm/_chainsaw/message/dlc/ch_mes_dlc_1402.msg.22",
             "natives/stm/_chainsaw/message/dlc/ch_mes_dlc_2001.msg.22",
             "natives/stm/_chainsaw/message/dlc/ch_mes_dlc_3101.msg.22",
-            "natives/stm/_chainsaw/message/dlc/ch_mes_dlc_4001.msg.22",
             "natives/stm/_chainsaw/message/mes_develop_misc/ch_mes_develop_ao.msg.22",
             "natives/stm/_chainsaw/message/mes_develop_misc/ch_mes_develop_sys_map.msg.22",
             "natives/stm/_chainsaw/message/mes_main_accessory/ch_mes_main_accessory.msg.22",
