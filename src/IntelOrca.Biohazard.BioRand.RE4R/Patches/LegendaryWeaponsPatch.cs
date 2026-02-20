@@ -20,9 +20,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         Version = "1.0",
         Author = "MightKusKus, 7rayD")]
     [Order(10)]
-    internal class LegendaryWeaponsPatch(IPatchContext context) : IPatch
+
+    internal class LegendaryWeaponsPatch : IPatch
     {
-        private readonly WeaponBaseStats _baseStats = new(context.DynamicData);
+        private readonly IPatchContext context;
+        private readonly WeaponBaseStats _baseStats;
+        private readonly Campaign _campaign;
+
+        public LegendaryWeaponsPatch(IPatchContext context)
+        {
+            this.context = context;
+            _baseStats = new WeaponBaseStats(context.DynamicData);
+            var campaignConfig = context.GetConfigOption("campaign", "");
+            _campaign = campaignConfig == "Separate Ways" ? Campaign.Ada : Campaign.Leon;
+        }
 
         public void Apply()
         {
@@ -32,6 +43,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             {
                 ApplyWeapon(wpName);
             }
+        }
+
+        private string GetPath(string leonPath, string? adaPath = null)
+        {
+            if (_campaign == Campaign.Ada && adaPath != null)
+                return adaPath;
+            return leonPath;
         }
 
         private ImmutableArray<ImmutableDictionary<string, object>> GetSelection()
@@ -48,6 +66,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             var count = rng.Next(min, max + 1);
 
             var weapons = _baseStats.Weapons
+                .Where(x => CampaignCompatibility(x))
                 .Select(x => (Data: x, Weight: x["weight"] as int? ?? 0))
                 .Where(x => x.Weight > 0)
                 .ToList();
@@ -72,6 +91,28 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             return results
                 .OrderBy(x => x["id"])
                 .ToImmutableArray();
+        }
+
+        private bool CampaignCompatibility(ImmutableDictionary<string, object> weapon)
+        {
+
+            if (weapon.TryGetValue("gamemode", out var campaignValue))
+            {
+                var campaignStr = campaignValue?.ToString()?.Trim().ToLowerInvariant();
+                
+                if (string.IsNullOrWhiteSpace(campaignStr))
+                    return false;
+                
+                return campaignStr switch
+                {
+                    "leon" => _campaign == Campaign.Leon,
+                    "ada" => _campaign == Campaign.Ada,
+                    _ => false
+                };
+            }
+
+            // If no campaign field exists, exclude the weapon
+            return false;
         }
 
         private void ApplyWeapon(string name)

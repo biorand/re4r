@@ -32,6 +32,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         private const int GunpowderItemId = 117600000;
 
         private readonly ImmutableDictionary<string, object> _wpflamethrower;
+        private readonly Campaign _campaign;
 
         public IPatchContext FileRepository { get; }
 
@@ -39,6 +40,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         {
             FileRepository = context;
             _wpflamethrower = new WeaponBaseStats(context.DynamicData).Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
+            
+            // Determine campaign from config
+            var campaignConfig = context.GetConfigOption("campaign", "");
+            _campaign = campaignConfig == "Separate Ways" ? Campaign.Ada : Campaign.Leon;
         }
 
         public void Apply()
@@ -54,6 +59,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             FixSalazarCrash();
         }
 
+        private string GetPath(string leonPath, string? adaPath = null)
+        {
+            if (_campaign == Campaign.Ada && adaPath != null)
+                return adaPath;
+            return leonPath;
+        }
+
         private void AddMedia()
         {
             FileRepository.ApplyOverlay(FileRepository.GetSupplementFile("flamethrower.zip")!);
@@ -61,35 +73,37 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         private void UpdateStrings()
         {
-            SetStrings("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_caption.msg.22", new Dictionary<Guid, string>
+            var msgPath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_caption.msg.22";
+            
+            SetStrings(msgPath, new Dictionary<Guid, string>
             {
                 [new Guid("4f8a97ce-e2b6-40e0-81fd-53c61916e3e1")] = "A Small Canister of pressurized gas.",
                 [new Guid("669452fa-762e-407a-8702-c579593818ea")] = "Uses pressurized gas to produce intense flames.\nJust like that night in the jungle…"
             });
-            SetStrings("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_name.msg.22", new Dictionary<Guid, string>
+
+            msgPath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_name.msg.22";
+            
+            SetStrings(msgPath, new Dictionary<Guid, string>
             {
                 [new Guid("df3c0301-fa85-453f-91fe-1881c87a5140")] = "Flamethrower",
                 [new Guid("09d0ff48-9b95-4381-b854-53ad864a052b")] = "Fuel"
             });
-            SetStrings("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_wpcustom.msg.22", new Dictionary<Guid, string>
+            
+            msgPath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_wpcustom.msg.22";
+            
+            SetStrings(msgPath, new Dictionary<Guid, string>
             {
-                [new Guid("eded9293-c0ed-45f2-8224-bb9d3c677b72")] = "Increases Flame Range"
-            });
-            SetStrings("natives/stm/_chainsaw/message/mes_main_sys/ch_mes_main_sys_shop.msg.22", new Dictionary<Guid, string>
-            {
-                [new Guid("79ad9402-fb4b-42b0-8c98-5355812c931a")] = "Range"
-            });
-            SetStrings("natives/stm/_chainsaw/message/mes_main_sys/ch_mes_main_sys_shop.msg.22", new Dictionary<Guid, string>
-            {
-                [new Guid("db128948-0960-4147-814d-fec706a5c34a")] = "Penetration"
-            });
-            SetStrings("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_wpcustom.msg.22", new Dictionary<Guid, string>
-            {
-                [new Guid("876c8ba0-3637-4aff-a065-86254207705d")] = "Experimental fuel. 1.5X damage and increased burn rate."
-            });
-            SetStrings("natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_wpcustom.msg.22", new Dictionary<Guid, string>
-            {
+                [new Guid("eded9293-c0ed-45f2-8224-bb9d3c677b72")] = "Increases Flame Range",
+                [new Guid("876c8ba0-3637-4aff-a065-86254207705d")] = "Experimental fuel. 1.5X damage and increased burn rate.",
                 [new Guid("e8236563-0f8f-4d96-b662-d808852b48a7")] = "Increase damage 1.5X.\nReduce time to burn"
+            });
+            
+            msgPath = "natives/stm/_chainsaw/message/mes_main_sys/ch_mes_main_sys_shop.msg.22";
+            
+            SetStrings(msgPath, new Dictionary<Guid, string>
+            {
+                [new Guid("79ad9402-fb4b-42b0-8c98-5355812c931a")] = "Range",
+                [new Guid("db128948-0960-4147-814d-fec706a5c34a")] = "Penetration"
             });
         }
 
@@ -105,6 +119,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     .Set("_LifeInfo._WaterSufaceHit", true)
                     .Set("_AttackInfo._ColliderRadius", 0.15);
             });
+            
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/shell/bullet/wp4701/wp4701embershellinfo.user.2", root =>
             {
                 return root
@@ -112,6 +127,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     .Set("_AttackInfo._ColliderRadius", 1.0)
                     .Set("_LifeInfo._Time", 3);
             });
+            
             FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/shell/bullet/wp4701/wp4701shellgeneratoruserdata.user.2", root =>
             {
                 return root
@@ -123,7 +139,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             SetSoundTrgr("natives/stm/_chainsaw/sound/resource/trigger/weapon/snd_trgr_wp_4700.user.2", 3074067878, false, 2926154213);
             SetSoundTrgr("natives/stm/_chainsaw/sound/resource/trigger/weapon/snd_trgr_wp_4700.user.2", 686504397, false, 2926154213);
 
-            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/shell/bullet/bulletattackhituserdata.user.2", root =>
+            var bullethitPath = GetPath(
+            "natives/stm/_chainsaw/appsystem/shell/bullet/bulletattackhituserdata.user.2",
+            "natives/stm/_anotherorder/appsystem/shell/bullet/bulletattackhituserdata_ao.user.2");
+
+            FileRepository.ModifyUserFile(bullethitPath, root =>
             {
                 var hash4701 = (uint)MurMur3.HashData("wp4701");
                 var hashFloorEmber = (uint)2204850508;
@@ -156,7 +176,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 return root;
             });
 
-            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2", root =>
+            var itemDefPath = GetPath(
+                "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2",
+                "natives/stm/_anotherorder/appsystem/ui/userdata/itemdefinitionuserdata_ovr_ao.user.2");
+            
+            FileRepository.ModifyUserFile(itemDefPath, root =>
             {
                 var datas = (RszArrayNode)root["_Datas"];
                 for (var i = 0; i < datas.Length; i++)
@@ -237,7 +261,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         private void AddFuel()
         {
-            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2", root =>
+            var itemDefPath = GetPath(
+                "natives/stm/_chainsaw/appsystem/ui/userdata/itemdefinitionuserdata.user.2",
+                "natives/stm/_anotherorder/appsystem/ui/userdata/itemdefinitionuserdata_ao.user.2");
+            
+            FileRepository.ModifyUserFile(itemDefPath, root =>
             {
                 var datas = (RszArrayNode)root["_Datas"];
                 for (var i = 0; i < datas.Length; i++)
@@ -305,7 +333,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         private void UpdateCrafting()
         {
-            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/itemcraftsettinguserdata.user.2", root =>
+            var craftPath = GetPath(
+                "natives/stm/_chainsaw/appsystem/ui/userdata/itemcraftsettinguserdata.user.2",
+                "natives/stm/_anotherorder/appsystem/ui/userdata/itemcraftsettinguserdata_ao.user.2");
+            
+            FileRepository.ModifyUserFile(craftPath, root =>
             {
                 var datas = (RszArrayNode)root["_Datas"];
                 for (var i = 0; i < datas.Length; i++)
@@ -346,7 +378,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         private void UpdateShop()
         {
             // Add flamethrower to weapon shop category
-            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/ingameshoppurchasecategorysettinguserdata.user.2", root =>
+            var categoryPath = GetPath(
+                "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshoppurchasecategorysettinguserdata.user.2",
+                "natives/stm/_anotherorder/appsystem/ui/userdata/ingameshoppurchasecategorysettinguserdata_cp11.user.2");
+            
+            FileRepository.ModifyUserFile(categoryPath, root =>
             {
                 var userdata = RszSerializer.Deserialize<chainsaw.InGameShopPurchaseCategorySettingUserdata>(root)!;
                 var category1 = userdata._Settings.First(x => x._Category == 1);
@@ -359,7 +395,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             });
 
             // Add flamethrower and fuel to shop
-            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopitemsettinguserdata.user.2", root =>
+            var itemPath = GetPath(
+                "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopitemsettinguserdata.user.2",
+                "natives/stm/_anotherorder/appsystem/ui/userdata/ingameshopitemsettinguserdata_ao.user.2");
+            
+            FileRepository.ModifyUserFile(itemPath, root =>
             {
                 var datas = (RszArrayNode)root["_Datas"];
                 // Flamethrower
@@ -406,7 +446,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 return root;
             });
 
-            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopitemmodelsettinguserdata_2nd.user.2", root =>
+            var shopModelPath = GetPath(
+            "natives/stm/_chainsaw/appsystem/ui/userdata/ingameshopitemmodelsettinguserdata_2nd.user.2",
+            "natives/stm/_anotherorder/appsystem/ui/userdata/ingameshopitemmodelsettinguserdata_1st_ovr.user.2");
+
+            FileRepository.ModifyUserFile(shopModelPath, root =>
             {
                 var datas = (RszArrayNode)root["_Datas"];
                 datas = datas.Add(FileRepository.TypeRepository
@@ -436,7 +480,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             var flamethrowerShopParamPath = "natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_wp4701_00.pfb.17";
             FileRepository.SetFile(flamethrowerShopParamPath, flamethrowerShopParamData);
 
-            FileRepository.ModifyPfbFile("natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_sm70_509_00.pfb.17", scene =>
+            FileRepository.ModifyPfbFile(fuelShopParamPath, scene =>
             {
                 var gameObjectTarget = scene.Children.OfType<RszGameObject>().FirstOrDefault()!;
                 gameObjectTarget = gameObjectTarget.WithName("InGameShop_ItemModel_sm70_509_00");
@@ -444,7 +488,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 return scene;
             });
 
-            FileRepository.ModifyPfbFile("natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_sm70_509_00.pfb.17", scene =>
+            FileRepository.ModifyPfbFile(fuelShopParamPath, scene =>
             {
                 var gameObjectP1 = scene.Children.OfType<RszGameObject>().FirstOrDefault()!;
                 var gameObjectTarget = gameObjectP1.Children.OfType<RszGameObject>().FirstOrDefault()!;
@@ -459,7 +503,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 return scene;
             });
 
-            FileRepository.ModifyPfbFile("natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_sm70_509_00.pfb.17", scene =>
+            FileRepository.ModifyPfbFile(fuelShopParamPath, scene =>
             {
                 var gameObjectP1 = scene.Children.OfType<RszGameObject>().FirstOrDefault()!;
                 var gameObjectTarget = gameObjectP1.Children.OfType<RszGameObject>().FirstOrDefault()!;
@@ -473,7 +517,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 return scene;
             });
 
-            FileRepository.ModifyPfbFile("natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_wp4701_00.pfb.17", scene =>
+            FileRepository.ModifyPfbFile(flamethrowerShopParamPath, scene =>
             {
                 var gameObjectTarget = scene.Children.OfType<RszGameObject>().FirstOrDefault()!;
                 gameObjectTarget = gameObjectTarget.WithName("InGameShop_ItemModel_wp4701_00");
@@ -481,7 +525,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 return scene;
             });
 
-            FileRepository.ModifyPfbFile("natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_wp4701_00.pfb.17", scene =>
+            FileRepository.ModifyPfbFile(flamethrowerShopParamPath, scene =>
             {
                 var gameObjectP1 = scene.Children.OfType<RszGameObject>().FirstOrDefault()!;
                 var gameObjectTarget = gameObjectP1.Children.OfType<RszGameObject>().FirstOrDefault()!;
@@ -496,7 +540,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 return scene;
             });
 
-            FileRepository.ModifyPfbFile("natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_wp4701_00.pfb.17", scene =>
+            FileRepository.ModifyPfbFile(flamethrowerShopParamPath, scene =>
             {
                 var gameObjectP1 = scene.Children.OfType<RszGameObject>().FirstOrDefault()!;
                 var gameObjectTarget = gameObjectP1.Children.OfType<RszGameObject>().FirstOrDefault()!;
@@ -510,7 +554,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 return scene;
             });
 
-            FileRepository.ModifyPfbFile("natives/stm/_chainsaw/appsystem/prefab/gui/ingameshop/itemmodel/ingameshop_itemmodel_wp4701_00.pfb.17", scene =>
+            FileRepository.ModifyPfbFile(flamethrowerShopParamPath, scene =>
             {
                 var gameObjectP1 = scene.Children.OfType<RszGameObject>().FirstOrDefault()!;
                 var gameObjectTarget = gameObjectP1.Children.OfType<RszGameObject>().FirstOrDefault()!;
@@ -529,8 +573,58 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         private void UpdateWeaponData()
         {
+            if (_campaign == Campaign.Ada)
+            {
+                // Template from Leon's campaign file
+                var leonCatalogPath = "natives/stm/_chainsaw/appsystem/weapon/weaponcataloguserdata_2nd.user.2";
+                RszObjectNode? templateEntry = null;
+
+                FileRepository.ModifyUserFile(leonCatalogPath, root =>
+                {
+                    var dataTable = (RszArrayNode)root["_DataTable"];
+                    templateEntry = (RszObjectNode?)dataTable.FirstOrDefault(x => x.Get<int>("_WeaponID") == FlamethrowerWeaponId);
+                    return root;
+                });
+
+                // Apply to Ada's campaign file
+                FileRepository.ModifyUserFile("natives/stm/_anotherorder/appsystem/weapon/weaponcataloguserdata_ao.user.2", root =>
+                {
+                    var dataTable = (RszArrayNode)root["_DataTable"];
+
+                    var existingEntry = dataTable.FirstOrDefault(x => x.Get<int>("_WeaponID") == FlamethrowerWeaponId);
+                    if (existingEntry == null && templateEntry != null)
+                    {
+                        dataTable = dataTable.Add(templateEntry);
+                        root = root.SetField("_DataTable", dataTable);
+                    }
+
+                    return root;
+                });
+
+                // Fix weapon prefab animation for Ada campaign
+                FileRepository.ModifyPfbFile("natives/stm/_chainsaw/appsystem/prefab/weapon/wp4701.pfb.17", scene =>
+                {
+                    var gameObject = scene.Children.OfType<RszGameObject>().FirstOrDefault();
+                    if (gameObject == null)
+                        return scene;
+
+                    var component = gameObject.FindComponent("chainsaw.CharacterDynamicMotionBankAttacher");
+                    if (component == null)
+                        return scene;
+
+                    component = component.Set("_Datas[0]._ID", 380000);
+                    gameObject = gameObject.AddOrUpdateComponent(component);
+                    scene = scene.UpdateGameObject(gameObject);
+                    return scene;
+                });
+            }
+
             // Modifying the WeaponCustom file
-            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/weaponcustom/weaponcustomuserdata.user.2", root =>
+            var weaponCustomPath = GetPath(
+                "natives/stm/_chainsaw/appsystem/weaponcustom/weaponcustomuserdata.user.2",
+                "natives/stm/_anotherorder/appsystem/weaponcustom/weaponcustomuserdata_ao.user.2");
+            
+            FileRepository.ModifyUserFile(weaponCustomPath, root =>
             {
                 var userdata = RszSerializer.Deserialize<chainsaw.WeaponCustomUserdata>(root)!;
                 var stage = userdata._WeaponStages.First(x => x._WeaponID == FlamethrowerWeaponId);
@@ -616,7 +710,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 return (RszObjectNode)RszSerializer.Serialize(root.Type, userdata);
             });
 
-            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/weaponcustom/weaponcustomuserdata.user.2", root =>
+            FileRepository.ModifyUserFile(weaponCustomPath, root =>
             {
                 var weaponStages = (RszArrayNode)root["_WeaponStages"];
                 for (var i = 0; i < weaponStages.Length; i++)
@@ -638,7 +732,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             });
 
             // modify weapondetailcustom file
-            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2", root =>
+            var detailCustomPath = GetPath(
+                "natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2",
+                "natives/stm/_anotherorder/appsystem/weaponcustom/weapondetailcustomuserdata_ao.user.2");
+            
+            FileRepository.ModifyUserFile(detailCustomPath, root =>
             {
                 var userdata = RszSerializer.Deserialize<chainsaw.WeaponDetailCustomUserdata>(root)!;
                 var stage = userdata._WeaponDetailStages.First(x => x._WeaponID == FlamethrowerWeaponId);
@@ -724,7 +822,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 return (RszObjectNode)RszSerializer.Serialize(root.Type, userdata);
             });
 
-            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/weapon/weaponequipparamcataloguserdata.user.2", root =>
+            var weaponEquipPath = GetPath(
+                "natives/stm/_chainsaw/appsystem/weapon/weaponequipparamcataloguserdata.user.2",
+                "natives/stm/_anotherorder/appsystem/weapon/weaponequipparamcataloguserdata_ao.user.2");
+            
+            FileRepository.ModifyUserFile(weaponEquipPath, root =>
             {
                 var datas = (RszArrayNode)root["_DataTable"];
                 for (var i = 0; i < datas.Length; i++)
@@ -763,6 +865,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         private void UpdateCharacters()
         {
             string getBurnParamPath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}burnparamuserdata.user.2";
+            
             var characters = new[]
             {
                 "ch1b5z1", "ch1b7z0",
@@ -790,6 +893,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 {
                     // User data not there, add reference to it in main param file
                     var paramPath = $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}paramuserdata.user.2";
+                    
                     FileRepository.ModifyUserFile(paramPath, root =>
                     {
                         return root.SetField("_BurnParam", new RszUserDataNode(
@@ -802,7 +906,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             }
 
             // Change garrador burn ID ISSUE
-            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/character/ch1d0z0/userdata/ch1d0z0burnparamuserdata.user.2", root =>
+            var garradorburnPath = getBurnParamPath("ch1d0z0");
+            FileRepository.ModifyUserFile(garradorburnPath, root =>
             {
                 return root
                 .Set("_BurnEffectID", new RszValueNode(RszFieldType.Uint2, new byte[] { 7, 0, 0, 0, 0, 0, 0, 0 }))
@@ -811,6 +916,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
             // Inserting missing damage values for burn
             string getAttackHitPath(string ch) => $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}attackhituserdata.user.2";
+            
             var charactersDamage = new[]
             {
                 "ch1b5z1", "ch1b7z0","ch1c0z0",
@@ -1055,6 +1161,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             // VFX for Burn
             ///////////////////////////////////////
             string getMainVfxPrefab(string ch) => $"natives/stm/_chainsaw/vfx/provider/epv_character/epv_{ch}/epvc_0015_{ch}_0000.pfb.17";
+            
             var charactershort = new[]
             {
                 "chb5", "chb7", "chc0", "chc8", "chd2", "chd3", "chd4", 
@@ -1118,6 +1225,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         private void FixSalazarCrash()
         {
+            // Only fix for Leon's campaign
+            if (_campaign != Campaign.Leon)
+                return;
+                
             FileRepository.ModifyScnFile("natives/stm/_chainsaw/environment/scene/gimmick/st56/gimmick_st56_200.scn.20",
                 scene => scene.RemoveGameObject(new Guid("b9c3f5d1-a5df-44ce-80da-4024afb6e7b9")));
         }
