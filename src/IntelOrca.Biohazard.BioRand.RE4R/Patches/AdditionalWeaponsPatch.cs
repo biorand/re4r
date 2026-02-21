@@ -354,7 +354,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             var lb = (RszObjectNode)limitBreak[i];
                             if (lb.Get<int>("_LimitBreakCustomCategory") == 10)
                             {
-                                lb = lb.Set("_LimitBreakCustomCategory", 1); 
+                                lb = lb.Set("_LimitBreakCustomCategory", 1);
                                 limitBreak = limitBreak.SetItem(i, lb);
                             }
                         }
@@ -443,9 +443,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         var dataTable = root.Get<RszArrayNode>("_Datas");
                         if (dataTable.Any(x => x.Get<int>("_ItemId") == itemId))
                             return root;
-
-                        return root.Set("_Datas", dataTable.Add(sourceNode));
+                        if (info["attache case size"] is int)
+                        {
+                            var modifiedNode = sourceNode
+                            .Set("_WeaponDefineData._ItemSize", 10);
+                            return root.Set("_Datas", dataTable.Add(modifiedNode));
+                        }
+                        else
+                        {
+                            return root.Set("_Datas", dataTable.Add(sourceNode));
+                        }
                     });
+
 
                     if (wpid == 6102)
                     {
@@ -462,6 +471,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         });
                     }
                 }
+
 
                 void FixAttacheCase()
                 {
@@ -552,6 +562,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         return root.Set("_Settings", dataTable.Add(sourceNode));
                     });
                 }
+
             }
 
             void FixInGameShop()

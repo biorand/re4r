@@ -81,6 +81,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 #endif
 
                     var outputCount = recipe.Output.Count == 0 ? 1 : recipe.Output.Count;
+                    var uniqueSetting = recipe.OutputItemId == 112480000
+                        ? new ItemCraftGenerateNumUniqueSetting()
+                        {
+                            _ItemId = recipe.InputItemId0,
+                            _Durability = -1,
+                            _GenerateNum = recipe.OutputItemCount,
+                            _GenerateNumMin = recipe.OutputItemCount
+                        }
+                        : new ItemCraftGenerateNumUniqueSetting()
+                        {
+                            _ItemId = -1,
+                            _Durability = -1,
+                            _GenerateNum = -1,
+                            _GenerateNumMin = -1
+                        };
+
                     var newCraft = new ItemCraftRecipe()
                     {
                         _RecipeID = recipe.Id,
@@ -102,13 +118,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                     _ItemID = recipe.Output.Id,
                                     _GeneratedNumMin = recipe.Output.Count,
                                     _GeneratedNumMax = recipe.Output.Count,
-                                    _GenerateNumUniqueSetting = new ItemCraftGenerateNumUniqueSetting()
-                                    {
-                                        _ItemId = -1,
-                                        _Durability = -1,
-                                        _GenerateNum = -1,
-                                        _GenerateNumMin = -1
-                                    }
+                                    _GenerateNumUniqueSetting = uniqueSetting
                                 }
                             },
                             new ItemCraftResultSetting()
@@ -119,13 +129,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                                     _ItemID = recipe.Output.Id,
                                     _GeneratedNumMin = recipe.Output.Count,
                                     _GeneratedNumMax = recipe.Output.Count,
-                                    _GenerateNumUniqueSetting = new ItemCraftGenerateNumUniqueSetting()
-                                    {
-                                        _ItemId = -1,
-                                        _Durability = -1,
-                                        _GenerateNum = -1,
-                                        _GenerateNumMin = -1
-                                    }
+                                    _GenerateNumUniqueSetting = uniqueSetting
                                 }
                             }
                         ]

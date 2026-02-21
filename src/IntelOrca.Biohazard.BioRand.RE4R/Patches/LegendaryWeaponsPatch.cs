@@ -851,13 +851,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                                 for (int p = 0; p < paramList.Count; p++)
                                 {
                                     int paramType;
-                                    if ((individualData == "ReloadSpeed") && info["basereloadrounds"] is not int)
+                                    if ((individualData == "ReloadSpeed") && info["basereloadrounds"] is int && id != 6001)
                                     {
-                                        paramType = 1;
+                                        paramType = p;
                                     }
                                     else
                                     {
-                                        paramType = p;
+                                        paramType = 1;
                                     }
                                     var paramInstance = paramList[p]!;
                                     var paramValue = paramInstance.GetType().GetProperty($"_{individualData}")!;
