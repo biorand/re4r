@@ -7,129 +7,139 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
     internal class EnemyColliderPatch(IPatchContext context) : IPatch
     {
-        private readonly Dictionary<string, ColliderSettings> _colliderSettings = new()
-        {
-            ["ch1f2z0"] = new ColliderSettings
+        private readonly List<ColliderSettings> _colliderSettings =
+        [
+            new ColliderSettings
             {
-                BasePath = "_chainsaw",
+                CharacterId = "ch1f2z0",
+                BasePaths = ["_chainsaw"],
                 CharacterControllerRadius = 0.36f,
                 DefaultShapeRadius = 0.41f,
                 DefaultShapeHeight = 1.8f,
                 DefaultAdjustShapeRadius = 0.41f
             },
-            ["ch1d0z0"] = new ColliderSettings
+            new ColliderSettings
             {
-                BasePath = "_chainsaw",
+                CharacterId = "ch1d0z0",
+                BasePaths = ["_chainsaw", "_anotherorder"],
                 CharacterControllerRadius = 0.35f,
                 DefaultShapeRadius = 0.40f,
                 DefaultShapeHeight = 1.75f,
                 DefaultAdjustShapeRadius = 0.40f
             },
-            ["ch1d0z0"] = new ColliderSettings
+            new ColliderSettings
             {
-                BasePath = "_anotherorder",
+                CharacterId = "ch1d3z0",
+                BasePaths = ["_chainsaw"],
                 CharacterControllerRadius = 0.35f,
                 DefaultShapeRadius = 0.40f,
                 DefaultShapeHeight = 1.75f,
                 DefaultAdjustShapeRadius = 0.40f
             },
-            ["ch1d3z0"] = new ColliderSettings
+            new ColliderSettings
             {
-                BasePath = "_chainsaw",
+                CharacterId = "ch1b5z1",
+                BasePaths = ["_chainsaw"],
                 CharacterControllerRadius = 0.35f,
                 DefaultShapeRadius = 0.40f,
                 DefaultShapeHeight = 1.75f,
                 DefaultAdjustShapeRadius = 0.40f
             },
-            ["ch1b5z1"] = new ColliderSettings
+            new ColliderSettings
             {
-                BasePath = "_chainsaw",
+                CharacterId = "ch1d2z0",
+                BasePaths = ["_chainsaw"],
                 CharacterControllerRadius = 0.35f,
                 DefaultShapeRadius = 0.40f,
                 DefaultShapeHeight = 1.75f,
                 DefaultAdjustShapeRadius = 0.40f
             },
-            ["ch1d2z0"] = new ColliderSettings
+            new ColliderSettings
             {
-                BasePath = "_chainsaw",
-                CharacterControllerRadius = 0.35f,
-                DefaultShapeRadius = 0.40f,
-                DefaultShapeHeight = 1.75f,
-                DefaultAdjustShapeRadius = 0.40f
-            },
-            ["ch4fbz0"] = new ColliderSettings
-            {
-                BasePath = "_anotherorder",
+                CharacterId = "ch4fbz0",
+                BasePaths = ["_anotherorder"],
                 CharacterControllerRadius = 0.36f,
                 DefaultShapeRadius = 0.6f,
                 DefaultShapeHeight = 2.0f,
                 DefaultAdjustShapeRadius = 0.5f
             },
-            ["Ch1f4z1"] = new ColliderSettings
+            new ColliderSettings
             {
-                BasePath = "_chainsaw",
+                CharacterId = "Ch1f4z1",
+                BasePaths = ["_chainsaw"],
                 CharacterControllerRadius = 0.36f,
                 DefaultShapeRadius = 0.6f,
                 DefaultShapeHeight = 2.0f,
                 DefaultAdjustShapeRadius = 0.5f
             },
-            ["Ch1f7z0"] = new ColliderSettings
+            new ColliderSettings
             {
-                BasePath = "_chainsaw",
+                CharacterId = "Ch1f7z0",
+                BasePaths = ["_chainsaw"],
                 CharacterControllerRadius = 0.35f,
                 DefaultShapeRadius = 0.40f,
                 DefaultShapeHeight = 1.75f,
                 DefaultAdjustShapeRadius = 0.40f
             }
-        };
+        ];
 
         public void Apply()
         {
             var enemiesUnleashed = context.GetConfigOption<bool>("enemies-unleashed", false);
 
-            foreach (var (characterId, settings) in _colliderSettings)
+            foreach (var settings in _colliderSettings)
             {
-                // If enemies-unleashed is not true, only process ch4fbz0
-                if (!enemiesUnleashed && characterId != "ch4fbz0")
+                if (!enemiesUnleashed && settings.CharacterId != "ch4fbz0")
                     continue;
 
-                var path = $"natives/stm/{settings.BasePath}/appsystem/character/{characterId}/{characterId}_body.pfb.17";
-
-                context.ModifyPfbFile(path, scene =>
+                foreach (var basePath in settings.BasePaths)
                 {
-                    var gameObject = scene.Children.OfType<RszGameObject>().FirstOrDefault();
-                    if (gameObject == null)
+                    var path = $"natives/stm/{basePath}/appsystem/character/{settings.CharacterId}/{settings.CharacterId}_body.pfb.17";
+                    
+                    if (context.GetFile(path) == null)
+                    {
+                        path = $"natives/stm/{basePath}/appsystem/character/{settings.CharacterId}/{settings.CharacterId}_body_ao.pfb.17";
+                        if (context.GetFile(path) == null)
+                            continue;
+                    }
+
+                    context.ModifyPfbFile(path, scene =>
+                    {
+                        var gameObject = scene.Children.OfType<RszGameObject>().FirstOrDefault();
+                        if (gameObject == null)
+                            return scene;
+
+                        var characterController = gameObject.FindComponent("via.physics.CharacterController");
+                        if (characterController != null)
+                        {
+                            characterController = characterController.Set("Radius", settings.CharacterControllerRadius);
+                            gameObject = gameObject.AddOrUpdateComponent(characterController);
+                        }
+
+                        var characterControllerSupporter = gameObject.FindComponent("chainsaw.CharacterControllerSupporter");
+                        if (characterControllerSupporter != null)
+                        {
+                            characterControllerSupporter = characterControllerSupporter
+                                .Set("_DefaultShape._Radius", settings.DefaultShapeRadius)
+                                .Set("_DefaultShape._Height", settings.DefaultShapeHeight);
+
+                            characterControllerSupporter = characterControllerSupporter
+                                .Set("_DefaultAdjustShape._Radius", settings.DefaultAdjustShapeRadius);
+
+                            gameObject = gameObject.AddOrUpdateComponent(characterControllerSupporter);
+                        }
+
+                        scene = scene.UpdateGameObject(gameObject);
                         return scene;
-
-                    var characterController = gameObject.FindComponent("via.physics.CharacterController");
-                    if (characterController != null)
-                    {
-                        characterController = characterController.Set("Radius", settings.CharacterControllerRadius);
-                        gameObject = gameObject.AddOrUpdateComponent(characterController);
-                    }
-
-                    var characterControllerSupporter = gameObject.FindComponent("chainsaw.CharacterControllerSupporter");
-                    if (characterControllerSupporter != null)
-                    {
-                        characterControllerSupporter = characterControllerSupporter
-                            .Set("_DefaultShape._Radius", settings.DefaultShapeRadius)
-                            .Set("_DefaultShape._Height", settings.DefaultShapeHeight);
-
-                        characterControllerSupporter = characterControllerSupporter
-                            .Set("_DefaultAdjustShape._Radius", settings.DefaultAdjustShapeRadius);
-
-                        gameObject = gameObject.AddOrUpdateComponent(characterControllerSupporter);
-                    }
-
-                    scene = scene.UpdateGameObject(gameObject);
-                    return scene;
-                });
+                    });
+                }
             }
         }
 
         private class ColliderSettings
         {
-            public string BasePath { get; set; } = "_chainsaw";
+            public required string CharacterId { get; set; }
+            public required string[] BasePaths { get; set; }
             public float CharacterControllerRadius { get; set; }
             public float DefaultShapeRadius { get; set; }
             public float DefaultShapeHeight { get; set; }
