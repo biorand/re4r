@@ -25,9 +25,49 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 DefaultShapeHeight = 1.75f,
                 DefaultAdjustShapeRadius = 0.40f
             },
+            ["ch1d0z0"] = new ColliderSettings
+            {
+                BasePath = "_anotherorder",
+                CharacterControllerRadius = 0.35f,
+                DefaultShapeRadius = 0.40f,
+                DefaultShapeHeight = 1.75f,
+                DefaultAdjustShapeRadius = 0.40f
+            },
+            ["ch1d3z0"] = new ColliderSettings
+            {
+                BasePath = "_chainsaw",
+                CharacterControllerRadius = 0.35f,
+                DefaultShapeRadius = 0.40f,
+                DefaultShapeHeight = 1.75f,
+                DefaultAdjustShapeRadius = 0.40f
+            },
+            ["ch1b5z1"] = new ColliderSettings
+            {
+                BasePath = "_chainsaw",
+                CharacterControllerRadius = 0.35f,
+                DefaultShapeRadius = 0.40f,
+                DefaultShapeHeight = 1.75f,
+                DefaultAdjustShapeRadius = 0.40f
+            },
+            ["ch1d2z0"] = new ColliderSettings
+            {
+                BasePath = "_chainsaw",
+                CharacterControllerRadius = 0.35f,
+                DefaultShapeRadius = 0.40f,
+                DefaultShapeHeight = 1.75f,
+                DefaultAdjustShapeRadius = 0.40f
+            },
             ["ch4fbz0"] = new ColliderSettings
             {
                 BasePath = "_anotherorder",
+                CharacterControllerRadius = 0.36f,
+                DefaultShapeRadius = 0.6f,
+                DefaultShapeHeight = 2.0f,
+                DefaultAdjustShapeRadius = 0.5f
+            },
+            ["Ch1f4z1"] = new ColliderSettings
+            {
+                BasePath = "_chainsaw",
                 CharacterControllerRadius = 0.36f,
                 DefaultShapeRadius = 0.6f,
                 DefaultShapeHeight = 2.0f,

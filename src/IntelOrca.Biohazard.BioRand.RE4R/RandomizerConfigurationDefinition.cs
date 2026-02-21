@@ -1084,7 +1084,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = $"enemies-unleashed",
                 Label = "Enemies Unleashed",
-                Description = "Reduce the colliders for Verdugo and Garrador so they can move more freely. Yes, they will run through doors.",
+                Description = "Reduce the colliders for Verdugo, Garrador, dogs, Novi, Mendez so they can move more freely.",
                 Type = "switch",
                 Default = true
             });
