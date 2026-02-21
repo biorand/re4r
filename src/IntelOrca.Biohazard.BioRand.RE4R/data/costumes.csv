@@ -1,2 +1,2 @@
-SourceCharacter,SourceMontage,TargetCharacter,TargetMontage,Notes
-ch1c0z1,3218068109,ch1d1z1,3218068109,Zealot to chainsaw
+Key,FieldName,SourceCharacter,SourceMontage,TargetCharacter,TargetMontage,Notes
+chainsaw,_MontageID,ch1c0z1,3218068109,ch1d1z1,3218068109,Zealot to chainsaw

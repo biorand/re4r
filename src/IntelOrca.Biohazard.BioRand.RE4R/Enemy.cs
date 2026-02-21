@@ -24,7 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         }
 
         public Guid Guid => GameObject.Guid;
-        public EnemyKindDefinition Kind => Area.EnemyClassFactory.FindEnemyKind(MainComponent.Type.Name)!;
+        public EnemyKindDefinition Kind => Area.Randomizer.GetService<EnemyClassFactory>().FindEnemyKind(MainComponent.Type.Name)!;
 
         public Transform Transform
         {

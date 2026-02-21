@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -12,7 +12,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         public ChainsawRandomizer Randomizer { get; }
         public AreaDefinition Definition { get; }
-        public EnemyClassFactory EnemyClassFactory { get; }
         public string Path => Definition.Path;
         public string FileName => System.IO.Path.GetFileName(Path);
         public ScnFile.Builder ScnFile { get; }
@@ -54,11 +53,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public ImmutableArray<EnemySpawn> OrphanEnemies { get; private set; }
         public IEnumerable<EnemySpawn> Enemies => SpawnControllers.SelectMany(x => x.Enemies).Concat(OrphanEnemies);
 
-        public Area(ChainsawRandomizer randomizer, AreaDefinition definition, EnemyClassFactory enemyClassFactory)
+        public Area(ChainsawRandomizer randomizer, AreaDefinition definition)
         {
             Randomizer = randomizer;
             Definition = definition;
-            EnemyClassFactory = enemyClassFactory;
             ScnFile = randomizer.FileRepository.GetScnFile(definition.Path).ToBuilder(randomizer.FileRepository.TypeRepository);
             ItemSaveData = new DropItemSaveDataFile(randomizer.FileRepository, definition.DropItemSaveDataPath);
             GimmickSaveData = new GimmickSaveDataFile(randomizer.FileRepository, definition.GimmickSaveDataPath);
@@ -188,7 +186,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private RszObjectNode? GetMainEnemyComponent(RszGameObject gameObject)
         {
-            return gameObject.Components.FirstOrDefault(x => EnemyClassFactory.FindEnemyKind(x.Type.Name) != null);
+            return gameObject.Components.FirstOrDefault(x => Randomizer.GetService<EnemyClassFactory>().FindEnemyKind(x.Type.Name) != null);
         }
 
         public IEnumerable<RszGameObject> Items

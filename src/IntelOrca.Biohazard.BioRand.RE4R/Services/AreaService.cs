@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var areaRepo = AreaDefinitionRepository.GetRepository(campaign);
             Areas = areaRepo.All
                 .AsParallel()
-                .Select(d => new Area(randomizer, d, EnemyClassFactory.Default))
+                .Select(d => new Area(randomizer, d))
                 .OrderBy(x => x.Path)
                 .ToImmutableArray();
 

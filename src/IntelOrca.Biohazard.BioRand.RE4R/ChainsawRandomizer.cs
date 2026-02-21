@@ -11,9 +11,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class ChainsawRandomizer : IDisposable
     {
-        private string _inputGamePath;
+        private readonly string _inputGamePath;
         private FileRepository _fileRepository = new FileRepository();
-        private bool _supplementApplied;
         private ImmutableArray<Modifier> _modifiers = GetModifiers();
         private readonly Dictionary<Type, object> _services = [];
         private readonly Lock _servicesLock = new();
@@ -21,7 +20,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public int PakVersion => Version + 1;
         public RandomizerInput Input { get; }
-        public EnemyClassFactory EnemyClassFactory { get; }
         public IProgressReporter Reporter { get; }
         public FileRepository FileRepository => _fileRepository;
         public DynamicData DynamicData { get; }
@@ -34,9 +32,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public GimmickService GimmickService => GetService<GimmickService>();
         public FlagService FlagService => GetService<FlagService>();
 
-        public ChainsawRandomizer(EnemyClassFactory enemyClassFactory, RandomizerInput input, string inputGamePath, IProgressReporter reporter)
+        public ChainsawRandomizer(RandomizerInput input, string inputGamePath, IProgressReporter reporter)
         {
-            EnemyClassFactory = enemyClassFactory;
             Input = input;
             _inputGamePath = inputGamePath;
             Reporter = reporter;
@@ -161,12 +158,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         private void ApplySupplement()
         {
-            // Supplement files
-            if (!_supplementApplied)
-            {
-                _supplementApplied = true;
-                FileRepository.ApplyOverlay(EmbeddedData.GetFile("supplement.zip"));
-            }
+            FileRepository.ApplyOverlay(EmbeddedData.GetFile("supplement.zip"));
         }
 
         private void IterateModifiers(Action<string, Modifier> action)

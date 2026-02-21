@@ -15,10 +15,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private Rng.Table<int>? _parasiteRngTable;
         private ImmutableArray<EnemyClassDefinition> _allEnemyClasses;
 
-        private Dictionary<int, int> _stageEnemyCount = new();
-
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
+            var ecf = randomizer.GetService<EnemyClassFactory>();
             foreach (var area in randomizer.AreaService.Areas)
             {
                 var enemies = area.Enemies.ToArray();
@@ -28,20 +27,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 logger.Push(area.FileName);
                 foreach (var enemy in enemies)
                 {
-                    LogEnemy(enemy.Enemy, logger);
+                    LogEnemy(ecf, logger, enemy.Enemy);
                 }
                 logger.Pop();
             }
         }
 
-        private static void LogEnemy(Enemy enemy, RandomizerLogger logger)
+        private static void LogEnemy(EnemyClassFactory ecf, RandomizerLogger logger, Enemy enemy)
         {
             var weapons = "";
             foreach (var w in new[] { enemy.Weapon, enemy.SecondaryWeapon })
             {
                 if (w != 0)
                 {
-                    var ecf = EnemyClassFactory.Default;
                     var weaponDef = ecf.Weapons.FirstOrDefault(x => x.Id == w);
                     if (weaponDef != null)
                     {
@@ -112,7 +110,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var ammoOnlyAvailableWeapons = randomizer.GetConfigOption("enemy-drop-ammo-only-available-weapons", true);
 
             _uniqueHp = 1;
-            _allEnemyClasses = randomizer.EnemyClassFactory.GetClasses(randomizer);
+            _allEnemyClasses = randomizer.GetService<EnemyClassFactory>().GetClasses(randomizer);
 
             var rng = randomizer.GetRng("modifier/enemy");
             var areaByChapter = randomizer.AreaService.Areas
@@ -131,7 +129,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         RandomizeArea(randomizer, area, rng, logger);
                         logger.Pop();
                     }
-                    _stageEnemyCount.Clear();
                     logger.Pop();
                 }
                 logger.Pop();
@@ -627,15 +624,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
             }
         }
-
-        private bool IsEnemyRanged(ChainsawRandomizer randomizer, Enemy enemy)
-        {
-            var weaponDef = randomizer.EnemyClassFactory.Weapons.FirstOrDefault(x => x.Id == enemy.Weapon);
-            if (weaponDef != null)
-                return weaponDef.Ranged;
-            return false;
-        }
-
 
         private EnemyClassDefinition? GetRandomEnemyClass(
             ChainsawRandomizer randomizer,

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 using chainsaw;
@@ -128,7 +128,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Models
 
         private RszObjectNode? GetMainEnemyComponent(RszGameObject gameObject)
         {
-            return gameObject.Components.FirstOrDefault(x => Area.EnemyClassFactory.FindEnemyKind(x.Type.Name) != null);
+            return gameObject.Components.FirstOrDefault(x => Area.Randomizer.GetService<EnemyClassFactory>().FindEnemyKind(x.Type.Name) != null);
         }
 
         public override string ToString() => GameObject.Name;

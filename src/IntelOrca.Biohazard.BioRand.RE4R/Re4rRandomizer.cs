@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Text;
 using System.Threading;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
@@ -8,9 +8,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public class Re4rRandomizer(string inputGamePath, IProgressReporter reporter)
     {
+        private readonly static EnemyClassFactory _default = new();
+
         public static string BuildVersion => ChainsawRandomizerFactory.Default.GitHash;
-        public static RandomizerConfigurationDefinition ConfigurationDefinition => Re4rRandomizerConfigurationDefinition.Create(EnemyClassFactory.Default);
-        public static RandomizerConfiguration DefaultConfiguration => Re4rRandomizerConfigurationDefinition.Create(EnemyClassFactory.Default).GetDefault();
+        public static RandomizerConfigurationDefinition ConfigurationDefinition => Re4rRandomizerConfigurationDefinition.Create(_default);
+        public static RandomizerConfiguration DefaultConfiguration => Re4rRandomizerConfigurationDefinition.Create(_default).GetDefault();
 
         public RandomizerOutput Randomize(RandomizerInput input)
         {
@@ -21,8 +23,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
             try
             {
-                var enemyClassFactory = EnemyClassFactory.Create();
-                using var randomizer = new ChainsawRandomizer(enemyClassFactory, input, inputGamePath, reporter);
+                using var randomizer = new ChainsawRandomizer(input, inputGamePath, reporter);
                 return randomizer.Randomize();
             }
             finally

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
@@ -9,34 +9,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class EnemyClassFactory
     {
-        public static EnemyClassFactory Default { get; } = Create();
-
         public ImmutableArray<EnemyKindDefinition> EnemyKinds { get; }
         public ImmutableArray<WeaponDefinition> Weapons { get; }
         public ImmutableArray<EnemyClassDefinition> Classes { get; }
 
-        private EnemyClassFactory(
-            ImmutableArray<EnemyKindDefinition> enemyKinds,
-            ImmutableArray<WeaponDefinition> weapons,
-            ImmutableArray<EnemyClassDefinition> classes)
+        public EnemyClassFactory(ChainsawRandomizer randomizer) : this()
         {
-            EnemyKinds = enemyKinds;
-            Weapons = weapons;
-            Classes = classes;
         }
 
-        public EnemyKindDefinition? FindEnemyKind(string componentName)
-        {
-            return EnemyKinds.FirstOrDefault(x => componentName.Contains(x.ComponentName));
-        }
-
-        public EnemyClassDefinition Next(Rng rng)
-        {
-            var index = rng.Next(0, Classes.Length);
-            return Classes[index];
-        }
-
-        public static EnemyClassFactory Create()
+        public EnemyClassFactory()
         {
             var kindDefinitions = new List<EnemyKindDefinition>();
             var weaponDefinitions = new List<WeaponDefinition>();
@@ -147,10 +128,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     fields));
             }
 
-            return new EnemyClassFactory(
-                kindDefinitions.ToImmutableArray(),
-                weaponDefinitions.ToImmutableArray(),
-                classDefinitions.ToImmutableArray());
+
+            EnemyKinds = kindDefinitions.ToImmutableArray();
+            Weapons = weaponDefinitions.ToImmutableArray();
+            Classes = classDefinitions.ToImmutableArray();
+        }
+
+        public EnemyKindDefinition? FindEnemyKind(string componentName)
+        {
+            return EnemyKinds.FirstOrDefault(x => componentName.Contains(x.ComponentName));
         }
 
         public ImmutableArray<EnemyClassDefinition> GetClasses(ChainsawRandomizer randomizer)

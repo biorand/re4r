@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -94,7 +94,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             var spawn = this;
             var randomizer = Area.Randomizer;
-            var allEnemyClasses = randomizer.EnemyClassFactory.GetClasses(randomizer);
+            var allEnemyClasses = randomizer.GetService<EnemyClassFactory>().GetClasses(randomizer);
             var enemyClasses = allEnemyClasses;
             var keyToEnemyClass = enemyClasses.ToDictionary(x => x.Key);
 
