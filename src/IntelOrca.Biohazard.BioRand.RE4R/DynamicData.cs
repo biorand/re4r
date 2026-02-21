@@ -19,6 +19,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             [DynamicDataName.Events] = ("events.csv", 677674082),
             [DynamicDataName.Messages] = ("messages.csv", 257348148),
             [DynamicDataName.StageLimits] = ("stagelimits.csv", 962898699),
+            [DynamicDataName.Costumes] = ("costumes.csv", 429548846),
         }.ToImmutableDictionary();
 
         private readonly Dictionary<DynamicDataName, byte[]> _map = [];
@@ -56,6 +57,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
+        public T[] GetCsv<T>(DynamicDataName name) => Csv.Deserialize<T>(GetData(name)!);
+
         private static byte[] Download(string url)
         {
             using var httpClient = new HttpClient();
@@ -75,5 +78,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         Events,
         Messages,
         StageLimits,
+        Costumes,
     }
 }
