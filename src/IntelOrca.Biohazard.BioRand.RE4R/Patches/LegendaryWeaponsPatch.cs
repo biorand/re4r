@@ -69,6 +69,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 .Where(x => CampaignCompatibility(x))
                 .Select(x => (Data: x, Weight: x["weight"] as int? ?? 0))
                 .Where(x => x.Weight > 0)
+                .Where(x => x.Data["type"] as string == "legendary")
                 .ToList();
 
             while (weapons.Count > 0 && results.Count < count)
