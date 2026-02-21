@@ -342,7 +342,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
         private void SetDiscovery(DistributedItem dItem, ItemDiscovery discovery)
         {
-            if (discovery == ItemDiscovery.Shop)
+            if (dItem.Definition.Id == ItemIds.SentinelNine ||
+                dItem.Definition.Id == ItemIds.SkullShaker)
+            {
+                // DLC weapons don't seem to work unless you start with them
+                // or they are in rewards
+                discovery = ItemDiscovery.Reward;
+            }
+            else if (discovery == ItemDiscovery.Shop)
             {
                 // These kinds of items can't be shop items
                 if (dItem.Definition.Kind == ItemKinds.CasePerk)
