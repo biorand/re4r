@@ -424,6 +424,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 FixAttacheCase();
                 FixInGameShop();
                 FixInGameShopItemModelSettings();
+                FixCraftingForBolts();
 
 
                 void FixItemDefinition()
@@ -531,6 +532,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     }
                 }
 
+                void FixCraftingForBolts()
+                {
+                    if (wpid != 6102)
+                        return;
+
+                    var sourcePath = "natives/stm/_mercenaries/appsystem/ui/userdata/guiresourcesettinguserdata_craft_cp12.user.2";
+                    var sourceUserFile = context.GetUserFile(sourcePath);
+                    var sourceRoot = sourceUserFile.GetObjects(context.TypeRepository)[0];
+                    var sourceDataTable = sourceRoot.Get<RszArrayNode>("_Settings");
+                    var sourceNode = sourceDataTable.First(x => x.Get<int>("_ItemId") == 112480000);
+
+                    context.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/guiresource/guiresourcesettinguserdata_craft.user.2", root =>
+                    {
+                        var dataTable = root.Get<RszArrayNode>("_Settings");
+                        if (dataTable.Any(x => x.Get<int>("_ItemId") == 112480000))
+                            return root;
+
+                        return root.Set("_Settings", dataTable.Add(sourceNode));
+                    });
+                }
             }
 
             void FixInGameShop()

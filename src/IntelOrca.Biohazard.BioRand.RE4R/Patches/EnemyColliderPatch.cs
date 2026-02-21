@@ -72,13 +72,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 DefaultShapeRadius = 0.6f,
                 DefaultShapeHeight = 2.0f,
                 DefaultAdjustShapeRadius = 0.5f
+            },
+            ["Ch1f7z0"] = new ColliderSettings
+            {
+                BasePath = "_chainsaw",
+                CharacterControllerRadius = 0.35f,
+                DefaultShapeRadius = 0.40f,
+                DefaultShapeHeight = 1.75f,
+                DefaultAdjustShapeRadius = 0.40f
             }
         };
 
         public void Apply()
         {
             var enemiesUnleashed = context.GetConfigOption<bool>("enemies-unleashed", false);
-            
+
             foreach (var (characterId, settings) in _colliderSettings)
             {
                 // If enemies-unleashed is not true, only process ch4fbz0

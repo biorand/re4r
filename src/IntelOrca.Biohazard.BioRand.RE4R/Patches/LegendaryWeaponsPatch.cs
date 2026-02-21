@@ -1073,7 +1073,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                             }
                             else if (individualData == "ReloadSpeed")
                             {
-                                var reloadNum = info["basereloadrounds"] is int ? "_ReloadNums" : "_ReloadSpeedRates";
+                                var reloadNum = info["basereloadrounds"] is int && id != 6001 ? "_ReloadNums" : "_ReloadSpeedRates";
                                 string individualStageName = $"{reloadNum}";
                                 var individiualStageProperty = individualObject.GetType().GetProperty(individualStageName)!;
                                 var individualStagesList = (IList)individiualStageProperty.GetValue(individualObject)!;
