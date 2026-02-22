@@ -42,10 +42,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var enableGimmickModification = randomizer.GetConfigOption<bool>("ea-extra-gimmicks");
-            var hidingLockers = randomizer.GetConfigOption<double>("gimmicks-hiding-lockers");
-            var traps = randomizer.GetConfigOption<double>("gimmicks-traps");
-            var explodingContainers = randomizer.GetConfigOption<double>("gimmicks-exploding-containers");
+            var explodingContainerProbability = randomizer.GetConfigOption<double>("gimmicks-exploding-containers");
 
             var rng = randomizer.GetRng("modifier/gimmick");
             var randomItemSettings = new RandomItemSettings
@@ -63,12 +60,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 .SelectMany(area => area.Gimmicks.Select(gameObject => new Gimmick(area, gameObject.Guid, gimmickService.FromGuid(gameObject.Guid))))
                 .ToImmutableArray();
 
-            // Removal
-            if (enableGimmickModification)
+            // Removal of traps
+            var trapRatio = randomizer.GetConfigOption<double>("gimmicks-traps");
+            var trapGimmickKinds = new[] { GimmickKinds.BearTrap, GimmickKinds.TripWire };
+            if (randomizer.Campaign == Campaign.Leon && randomizer.GetConfigOption<bool>("random-events"))
             {
-                gimmicks = RemoveSomeGimmicks(gimmicks, rng, hidingLockers, GimmickKinds.HidingLocker);
-                gimmicks = RemoveSomeGimmicks(gimmicks, rng, traps, GimmickKinds.BearTrap, GimmickKinds.TripWire);
+                // Remove all traps for chapters where we have got random events
+                gimmicks = RemoveAllGimmicks(gimmicks, g => g.Area.Definition.Chapter <= 4 &&
+                    g.Placement?.Tags.Contains(GimmickTags.Always) != true &&
+                    trapGimmickKinds.Contains(g.Kind));
             }
+            gimmicks = RemoveSomeGimmicks(gimmicks, rng, trapRatio, trapGimmickKinds);
+
+            // Removal of gimmicks with remove tag
             gimmicks = RemoveCertainGimmicks(gimmicks);
 
             // Modification
@@ -86,17 +90,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     case GimmickKinds.WoodenBox:
                     case GimmickKinds.SmallWoodenBox:
                     case GimmickKinds.Vase:
-                        if (enableGimmickModification)
-                        {
-                            // Exclude wooden box and barrel in factory (no gun)
-                            if (g.Guid == new Guid("510ff2ca-9c59-445d-bdd1-aa7e9196fb54") ||
-                                g.Guid == new Guid("c333c9be-4eae-4f1f-8bc1-bcfc0a9c2bbf"))
-                                continue;
+                        // Exclude wooden box and barrel in factory (no gun)
+                        if (g.Guid == new Guid("510ff2ca-9c59-445d-bdd1-aa7e9196fb54") ||
+                            g.Guid == new Guid("c333c9be-4eae-4f1f-8bc1-bcfc0a9c2bbf"))
+                            continue;
 
-                            if (rng.NextProbability((int)Math.Round(Math.Clamp(explodingContainers, 0, 1) * 100)))
-                            {
-                                AddExplosion(g);
-                            }
+                        if (rng.NextProbability((int)Math.Round(Math.Clamp(explodingContainerProbability, 0, 1) * 100)))
+                        {
+                            AddExplosion(g);
                         }
                         break;
 
@@ -161,6 +162,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 g.Remove();
             }
             return gimmicks.RemoveRange(remove);
+        }
+
+        private static ImmutableArray<Gimmick> RemoveAllGimmicks(ImmutableArray<Gimmick> gimmicks, Func<Gimmick, bool> predicate)
+        {
+            var gimmicksToRemove = gimmicks.Where(predicate).ToArray();
+            foreach (var g in gimmicksToRemove)
+            {
+                g.Remove();
+            }
+            return gimmicks.Except(gimmicksToRemove).ToImmutableArray();
         }
 
         private static ImmutableArray<Gimmick> RemoveCertainGimmicks(ImmutableArray<Gimmick> gimmicks)

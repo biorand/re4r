@@ -21,59 +21,31 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             var rng = randomizer.GetRng("modifier/gimmickplace");
 
-            var bawk = randomizer.HasSpecialTouch("bawk");
-            var extraMerchants = randomizer.GetConfigOption("extra-merchants", true);
-            var enableGimmicks = randomizer.GetConfigOption("ea-extra-gimmicks", false);
-            var numBreakableContainers = randomizer.GetConfigOption<double>("gimmicks-breakable-containers", 1);
-
-            var factory = new GimmickFactory(randomizer);
-
-            if (!bawk)
+            if (!randomizer.HasSpecialTouch("bawk"))
                 placements = placements.RemoveAll(x => x.Kind == "bawk");
 
-            if (enableGimmicks)
+            if (!randomizer.GetConfigOption("extra-hiding-lockers", true))
             {
-                placements = TakeRandomGimmicks(placements, rng, numBreakableContainers, "Biorand_SmallWoodenBox", "Biorand_WoodenBox", "Biorand_WoodenBarrel", "Biorand_Vase");
-            }
-            else
-            {
-                var allowed = new[]
-                {
-                    "bawk",
-                    "Biorand_Merchant",
-                    "Biorand_MerchantTorch",
-                    "Biorand_Typewriter",
-                    "Biorand_TableDrawer"
-                };
                 placements = placements
-                    .Where(x => allowed.Contains(x.Kind))
+                    .Where(x => x.Vanilla || x.Kind != "Biorand_AshleyLocker")
                     .ToImmutableArray();
             }
 
-            if (!extraMerchants)
+            if (!randomizer.GetConfigOption("extra-merchants", true))
             {
                 placements = placements
-                    .Where(x => x.Kind != "Biorand_Merchant" && x.Kind != "Biorand_MerchantTorch")
+                    .Where(x => x.Vanilla || (x.Kind != "Biorand_Merchant" && x.Kind != "Biorand_MerchantTorch"))
                     .ToImmutableArray();
             }
 
+            var factory = new GimmickFactory(randomizer);
             foreach (var placement in placements)
             {
-                if (placement.Vanilla)
-                    continue;
-
-                factory.AddGimmick(rng, placement, logger);
+                if (!placement.Vanilla)
+                {
+                    factory.AddGimmick(rng, placement, logger);
+                }
             }
-        }
-
-        private static ImmutableArray<GimmickPlacement> TakeRandomGimmicks(ImmutableArray<GimmickPlacement> placements, Rng rng, double amount, params string[] kinds)
-        {
-            var maybe = placements.Where(x => !x.Tags.Contains(GimmickTags.Always)).ToArray();
-            var breakables = maybe.Where(x => kinds.Contains(x.Kind)).Shuffle(rng).ToArray();
-            var remove = breakables.Take((int)(Math.Clamp(1 - amount, 0, 1) * breakables.Length)).ToArray();
-            if (remove.Length == 0)
-                return placements;
-            return placements.Except(remove).ToImmutableArray();
         }
 
         private class GimmickFactory(ChainsawRandomizer randomizer)

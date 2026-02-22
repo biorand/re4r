@@ -159,6 +159,40 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Default = 8
             });
 
+            group = page.CreateGroup("");
+            group.Items.Add(new GroupItem()
+            {
+                Id = "extra-hiding-lockers",
+                Label = "Extra Hiding Lockers",
+                Description = "Whether to add additional lockers that Ashley can hide in.",
+                Type = "switch",
+                Default = true
+            });
+
+            group = page.CreateGroup("");
+            group.Items.Add(new GroupItem()
+            {
+                Id = "gimmicks-traps",
+                Label = "Traps",
+                Description = "The amount of bear traps, and trip wires in the randomizer. Random events override any nearby traps.",
+                Type = "percent",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 1
+            });
+            group.Items.Add(new GroupItem()
+            {
+                Id = "gimmicks-exploding-containers",
+                Label = "Exploding Containers",
+                Description = "The amount of breakable containers which explode.",
+                Type = "percent",
+                Min = 0,
+                Max = 1,
+                Step = 0.01,
+                Default = 1
+            });
+
             #endregion
 
             #region Merchant
@@ -1351,62 +1385,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                     });
                 }
             }
-
-            page = configDefinition.CreatePage("Gimmicks");
-            group = page.CreateGroup("");
-            group.Items.Add(new GroupItem()
-            {
-                Id = $"ea-extra-gimmicks",
-                Label = "Extra Gimmicks",
-                Description = "Add extra gimmicks to the game. Gimmicks are interactable objects, like boxes, barrels, trip wires, turrets etc.",
-                Type = "switch",
-                Default = false
-            });
-            group = page.CreateGroup("Gimmicks");
-            group.Items.Add(new GroupItem()
-            {
-                Id = "gimmicks-breakable-containers",
-                Label = "Breakable Containers",
-                Description = "The amount of extra wooden boxes, barrels, vases to place.",
-                Type = "percent",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 1
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = "gimmicks-hiding-lockers",
-                Label = "Hiding Lockers",
-                Description = "The amount of lockers that Ashley can hide in.",
-                Type = "percent",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 0.5
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = "gimmicks-traps",
-                Label = "Traps",
-                Description = "The amount of bear traps, and trip wires to place.",
-                Type = "percent",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 1
-            });
-            group.Items.Add(new GroupItem()
-            {
-                Id = "gimmicks-exploding-containers",
-                Label = "Exploding Containers",
-                Description = "The amount of breakable containers which explode.",
-                Type = "percent",
-                Min = 0,
-                Max = 1,
-                Step = 0.01,
-                Default = 1
-            });
 
             #endregion
 
