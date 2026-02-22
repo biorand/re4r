@@ -2,6 +2,7 @@ Campaign,Chapter,Guid,Description,Container,Stage,X,Y,Z,Pitch,Yaw,Roll,Tags,Incl
 Leon,-1,,[EXTRA] First cabin / barrel outside porch,,40502,-199.4,10.2,79.5,0,0,0,chapteronly,,,hunting.multi|porch
 Leon,1,,[EXTRA] First cabin / porch,,40502,-197.3,10.1,81,0,0,0,chapteronly,,,
 Leon,1,,[EXTRA] First cabin / first room / bed,,40510,-185.2,10.7,74,0,0,0,chapteronly,,,
+Leon,1,,[EXTRA] First cabin / upstairs / desk,,40510,-178,14.29,71.1,0,0,0,chapteronly,,,
 Leon,1,22f519ca-c70b-4dca-9516-a10d7789a2cd,Green Herb x1,,40200,0,0,0,0,0,0,chapteronly,,,
 Leon,2,a9dfcf94-947d-47c1-8d1c-7c11846fac86,Crystal Marble x1,,44110,0,0,0,0,0,0,chapteronly preserve,,,
 Leon,4,3902f4d3-d654-47fb-bbf7-f100d0d64072,Rhinoceros Beetle x1,,43400,0,0,0,0,0,0,chapteronly,,,

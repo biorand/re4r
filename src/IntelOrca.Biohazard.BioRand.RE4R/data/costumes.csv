@@ -1,2 +1,4 @@
 Key,FieldName,SourceCharacter,SourceMontage,TargetCharacter,TargetMontage,Notes
-chainsaw,_MontageID,ch1c0z1,3218068109,ch1d1z1,3218068109,Zealot to chainsaw
+chainsaw,_MontageID,ch1c0z1,3218068109,ch1d1z1,3218068109,Zealot to chainsaw (temp)
+chainsaw,_MontageID,ch1c0z0,2366387651,ch1d1z1,2366387651,Brute to chainsaw
+chainsaw,_MontageID,ch1b5z1,1106175613,ch1d1z1,1106175613,Mendez to chainsaw (doesn't work?)
