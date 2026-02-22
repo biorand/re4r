@@ -308,7 +308,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var valuableOrder = new[] { "boss", "multikey", "bawk", "ashley", "smallkey", "long", "key", "display", "chest" };
             foreach (var v in valuableOrder)
             {
-                if (v == "boss" || rng.NextProbability(75))
+                if (v == "boss" || rng.NextProbability(80))
                 {
                     index = items.FindIndex(x => x.Container == v);
                     if (index != -1)
