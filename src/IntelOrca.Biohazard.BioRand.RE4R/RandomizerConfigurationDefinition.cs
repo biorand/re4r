@@ -352,7 +352,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 #endif
 
             group = page.CreateGroup("");
-            group.Warning = "WIP Page. This page requires all Random Weapon options to be enabled in the Merchant page to function.";
+            group.Warning = "This page requires all Random Weapon options to be enabled in the Merchant page to function.";
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-power-scale-enabled",
@@ -365,7 +365,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = $"weapon-exclusive-scale-enabled",
                 Label = $"Enable Weapon Exclusive Scaling",
-                Description = "Enables weapon exclusive scaling from this page else default randomizer settings.",
+                Description = "Enables weapon exclusive scaling from this page otherwise default randomizer settings will be applied.",
                 Type = "switch",
                 Default = false
             });
@@ -373,7 +373,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = $"weapon-god-roll-enabled",
                 Label = $"Enable Weapon God Roll Scaling",
-                Description = "Enables weapon god roll scaling from this page else default randomizer settings.",
+                Description = "Enables weapon god roll scaling from this page otherwise default randomizer settings will be applied.",
                 Type = "switch",
                 Default = false
             });
@@ -381,7 +381,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = $"flamethrower-fps-balance",
                 Label = $"120 FPS Flamethrower Balance",
-                Description = "Rebalances the flamethrower fuel availability and max capacity based on FPS.",
+                Description = "Rebalances the flamethrower based on FPS.",
                 Type = "switch",
                 Default = false
             });
@@ -474,7 +474,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
 
             group = page.CreateGroup("God Roll Bonuses");
-            group.Warning = "If Enabled, these bonuses will be applied as an additional multiplier to the Max Level 5 stats for the weapon if it gets a god roll.";
+            group.Warning = "If God Roll Scaling is enabled, these bonuses will be applied as an additional multiplier to the Max stats of the weapon if it gets a god roll.";
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-god-roll-min",
@@ -497,7 +497,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             });
 
             group = page.CreateGroup($"Power Scaling Details");
-            group.Warning = "If Enabled, a value between the min and max will be rolled and applied to the weapon's vanilla base power for Level 1 and Level 5. Example: the vanilla SG base power = 1.0 thus it will have 1.2 power at level 1 if the level 1 multiplier rolls 1.2 and will have 2.5 power at level 5 if the level 5 multiplier rolls 2.5.";
+            group.Warning = "If Power Scaling is enabled, a value between the min and max will be rolled. This will be applied as a multiplier to the weapon's vanilla base power of Level 1 and the output becomes the new Level 1 and Level 5 stats. Example: Gun has Vanilla level 1 of 2.5 and the Level 1 multiplier rolls 3 and the level 5 multiplier rolls 5 then the weapons new stats will be 7.5 at level 1 and 12.5 at level 5";
 
             group = page.CreateGroup($"Knife Power Scaling");
             group.Items.Add(new GroupItem()

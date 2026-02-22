@@ -71,15 +71,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var craft = RszSerializer.Deserialize<ItemCraftSettingUserdata>(root)!;
                 foreach (var recipe in recipes)
                 {
-#if ENABLE_BETA_FEATURES
-                    if (recipe.InputItemId1 == ItemIds.AmmoFuel ||
-                        recipe.InputItemId2 == ItemIds.AmmoFuel ||
-                        recipe.OutputItemId == ItemIds.AmmoFuel)
-                    {
-                        continue;
-                    }
-#endif
-
                     var outputCount = recipe.Output.Count == 0 ? 1 : recipe.Output.Count;
                     var uniqueSetting = recipe.OutputItemId == 112480000
                         ? new ItemCraftGenerateNumUniqueSetting()
@@ -136,18 +127,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     };
 
                     craft._Datas.RemoveAll(x => x._RecipeID == recipe.Id);
-                    craft._RecipeIdOrders.Remove(recipe.Id);
-                    var lastExistingSameType = craft._Datas
-                        .FindLast(x => x._ResultSettings[0]._Result._ItemID == recipe.Output.Id);
-                    if (lastExistingSameType == null)
-                    {
-                        craft._RecipeIdOrders.Add(recipe.Id);
-                    }
-                    else
-                    {
-                        var insertIndex = craft._RecipeIdOrders.IndexOf(lastExistingSameType._RecipeID) + 1;
-                        craft._RecipeIdOrders.Insert(insertIndex, recipe.Id);
-                    }
                     craft._Datas.Add(newCraft);
                 }
                 return (RszObjectNode)RszSerializer.Serialize(root.Type, craft);
