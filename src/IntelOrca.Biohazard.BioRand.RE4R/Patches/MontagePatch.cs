@@ -31,16 +31,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 if (targetDataTable.Any(x => x.Get<uint>("_ID") == m.TargetMontage))
                     return root;
 
-                var sourceMontage = GetMontage(m.SourceCharacter, m.SourceMontage);
+                var sourceMontage = GetMontage(m.SourcePath, m.SourceCharacter, m.SourceMontage);
                 var targetMontage = sourceMontage.Set("_ID", m.TargetMontage);
                 return root.Set("_DataTable", root.Get<RszArrayNode>("_DataTable")
                     .Add(targetMontage));
             });
         }
 
-        private IRszNode GetMontage(string character, uint id)
+        private IRszNode GetMontage(string sourcePath, string character, uint id)
         {
-            var sourcePath = GetCostumeUserDataPath(character);
+            sourcePath = string.IsNullOrEmpty(sourcePath) ? GetCostumeUserDataPath(character) : sourcePath;
             var source = context.GetUserFile(sourcePath).GetObjects(context.TypeRepository)[0];
             var sourceArray = source.Get<RszArrayNode>("_DataTable");
             var sourceMontage = sourceArray.FirstOrDefault(x => x.Get<uint>("_ID") == id)
@@ -58,6 +58,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             public string Key { get; set; } = "";
             public string FieldName { get; set; } = "";
 
+            public string SourcePath { get; set; } = "";
             public string SourceCharacter { get; set; } = "";
             public uint SourceMontage { get; set; }
             public string TargetCharacter { get; set; } = "";
