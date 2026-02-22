@@ -958,7 +958,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Min = 1,
                 Max = 50,
                 Step = 1,
-                Default = 50
+                Default = 50,
+                Advanced = true
             });
             group.Items.Add(new GroupItem()
             {
@@ -970,7 +971,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Min = 1,
                 Max = 10,
                 Step = 1,
-                Default = 6
+                Default = 6,
+                Advanced = true
             });
 
 #if ENABLE_BETA_FEATURES
