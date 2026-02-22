@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
@@ -28,8 +29,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var numWavedEnemies = 0;
             foreach (var oldSpawn in allSpawns)
             {
-                if (numWavedEnemies >= maxWavedEnemies)
-                    break;
                 if (oldSpawn.IsOrphan || oldSpawn.EnemyPlacement.HasTag(EnemyTags.NoWave))
                     continue;
                 if (!string.IsNullOrEmpty(oldSpawn.EnemyPlacement.MiniBoss))
@@ -37,12 +36,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 if (!oldSpawn.HasSimpleController)
                     continue;
 
+                var forcedWaveCount = GetForcedWaveValue(oldSpawn);
+                if (forcedWaveCount == null && numWavedEnemies >= maxWavedEnemies)
+                    continue;
+
                 var area = oldSpawn.Area;
                 var scn = oldSpawn.Area.ScnFile;
                 var oldSpawnController = oldSpawn.SpawnController ?? throw new Exception("No spawn controller found");
                 var lastSpawn = oldSpawn;
                 var waveRng = randomizer.GetRng("modifier/enemywave/wave", oldSpawn.Guid);
-                var numWaves = waveRng.Next(minWaves, maxWaves + 1);
+                var numWaves = forcedWaveCount ?? waveRng.Next(minWaves, maxWaves + 1);
                 for (var i = 1; i < numWaves; i++)
                 {
                     var guid = $"{oldSpawn.Guid}_wave_${i}".GetGuidHash();
@@ -72,6 +75,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 numWavedEnemies++;
             }
+        }
+
+        private static readonly Regex g_waveRegex = new("^wave(\\d+)x$", RegexOptions.Compiled);
+
+        private static int? GetForcedWaveValue(EnemySpawn spawn)
+        {
+            foreach (var t in spawn.EnemyPlacement.Tags)
+            {
+                var m = g_waveRegex.Match(t);
+                if (m.Success)
+                {
+                    return int.Parse(m.Groups[1].Value);
+                }
+            }
+            return null;
         }
     }
 }
