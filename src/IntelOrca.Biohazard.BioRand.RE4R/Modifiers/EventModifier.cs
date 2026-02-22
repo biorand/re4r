@@ -19,6 +19,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (!randomizer.GetConfigOption<bool>("random-events"))
                 return;
 
+            if (!randomizer.GetConfigOption<bool>("random-enemies"))
+                throw new RandomizerUserException("Random enemies must be enabled for random events");
+            if (!randomizer.GetConfigOption<bool>("random-items"))
+                throw new RandomizerUserException("Random items must be enabled for random events");
+            if (!randomizer.GetConfigOption<bool>("ea-extra-gimmicks"))
+                throw new RandomizerUserException("Extra gimmicks must be enabled for random events");
+
             var piers = new List<PierPosition>();
 
             var eventTree = GetEventTree(randomizer);
