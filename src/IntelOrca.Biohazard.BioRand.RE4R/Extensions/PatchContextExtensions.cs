@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.IO.Compression;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
@@ -14,12 +14,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public static bool Exists(this IPatchContext context, string path) => context.GetFile(path) != null;
 
+        public static byte[] GetFileOrFail(this IPatchContext context, string path)
+        {
+            var data = context.GetFile(path) ?? throw new RandomizerUserException($"Unable to read '{path}'");
+            return data;
+        }
+
         public static PfbFile GetPfbFile(this IPatchContext context, string path)
         {
-            var data = context.GetFile(path);
-            return data == null
-                ? throw new Exception("Unable to read data file.")
-                : new PfbFile(17, data);
+            return new PfbFile(17, GetFileOrFail(context, path));
         }
 
         public static void ModifyPfbFile(this IPatchContext context, string path, Func<RszScene, RszScene> callback)
@@ -36,10 +39,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public static ScnFile GetScnFile(this IPatchContext context, string path)
         {
-            var data = context.GetFile(path);
-            return data == null
-                ? throw new Exception("Unable to read data file.")
-                : new ScnFile(20, data);
+            return new ScnFile(20, GetFileOrFail(context, path));
         }
 
         public static void ModifyScnFile(this IPatchContext context, string path, Func<RszScene, RszScene> callback)
@@ -56,10 +56,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public static UserFile GetUserFile(this IPatchContext context, string path)
         {
-            var data = context.GetFile(path);
-            return data == null
-                ? throw new Exception("Unable to read data file.")
-                : new UserFile(data);
+            return new UserFile(GetFileOrFail(context, path));
         }
 
         public static T DeserializeUserFile<T>(this IPatchContext context, string path)
@@ -97,7 +94,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public static MsgFile GetMsgFile(this IPatchContext context, string path)
         {
-            return new MsgFile(context.GetFile(path));
+            return new MsgFile(GetFileOrFail(context, path));
         }
 
         public static void SetMsgFile(this IPatchContext context, string path, MsgFile msg)
