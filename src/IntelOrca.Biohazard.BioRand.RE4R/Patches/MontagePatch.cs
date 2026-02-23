@@ -24,7 +24,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         private void Copy(MontageCopy m)
         {
-            var targetPath = GetCostumeUserDataPath(m.TargetCharacter);
+            var targetPath = string.IsNullOrEmpty(m.TargetPath) ? GetCostumeUserDataPath(m.TargetCharacter) : m.TargetPath;
             context.ModifyUserFile(targetPath, root =>
             {
                 var targetDataTable = root.Get<RszArrayNode>("_DataTable");
@@ -61,6 +61,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             public string SourcePath { get; set; } = "";
             public string SourceCharacter { get; set; } = "";
             public uint SourceMontage { get; set; }
+            public string TargetPath { get; set; } = "";
             public string TargetCharacter { get; set; } = "";
             public uint TargetMontage { get; set; }
         }
