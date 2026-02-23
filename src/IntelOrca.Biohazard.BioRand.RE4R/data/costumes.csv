@@ -1,4 +1,7 @@
-Key,FieldName,SourceCharacter,SourceMontage,TargetCharacter,TargetMontage,Notes
-chainsaw,_MontageID,ch1c0z1,3218068109,ch1d1z1,3218068109,Zealot to chainsaw (temp)
-chainsaw,_MontageID,ch1c0z0,2366387651,ch1d1z1,2366387651,Brute to chainsaw
-chainsaw,_MontageID,ch1b5z1,1106175613,ch1d1z1,1106175613,Mendez to chainsaw (doesn't work?)
+Key,FieldName,SourceCharacter,SourceMontage,TargetCharacter,TargetMontage,Notes,SourcePath,TargetPath
+chainsaw,_MontageID,ch1c0z0,2366387651,ch1d1z1,2366387651,Brute to chainsaw,,
+chainsaw,_MontageID,ch1c0z0,903504498,ch1d1z1,903504498,Chad Ganado to chainsaw,natives/stm/_anotherorder/appsystem/character/ch1c0z0/costume/ch1c0z0costumepresetuserdata_add_ao.user.2,
+chainsaw,_MontageID,ch1c0z2,302330860,ch1d1z1,302330860,Army Ganado to chainsaw,natives/stm/_anotherorder/appsystem/character/ch1c0z2/costume/ch1c0z2costumepresetuserdata_add_ao.user.2,
+chainsaw,_MontageID,ch1c0z0,302330860,ch1d1z1,302330861,Leon Ganado to chainsaw,natives/stm/_anotherorder/appsystem/character/ch1c0z0/costume/ch1c0z0costumepresetuserdata_add_ao.user.2,
+chainsaw,_MontageID,ch1c0z1,1579850443,ch1d1z1,1579850443,White cultist to chainsaw,,
+chainsaw_mad,_MontageID,ch2b200,4093610210,ch7k0z0,4093610210,Hunnigan to mad chainsaw,natives/stm/_chainsaw/appsystem/character/ch2b200/costume/ch2b200costumepresetuserdata.user.2,natives/stm/_mercenaries/appsystem/character/ch7k0z0/costume/ch7k0z0costumepresetuserdata.user.2

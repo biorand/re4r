@@ -39,7 +39,8 @@ firing will cause the next shot to deal:
 Partial armour piercing 
 Limb removal
 How is it 3.33 seconds and not 10? 
-You really going to trust a clown with maths?",,,,,,perk,
+You really going to trust a clown with maths?
+Don't use a scope to see reticle close!",,,,,,perk,
 exclusive description,1,Gamble Your Shots 7 Times Faster,,Increased chance to ignite foes,Learn how to Insert 5 Bullets into the magazine,Increased chance to ignite foes,Enchance your rounds with more stopping power,Learn how to Insert 5 Bullets into the magazine,,,Damage X 1.75,Power output tweaks increasing overall damage.,"Double the Shells, More Carnage.",Stop even the mightiest elephant.,BIGGER DOOOOOM! (Increased Damage),,,,Hard Boiled Eggs,,,,,The Clown blesses your honks giving them even more honk per a honk.,,,,,,,
 exclusive perk,1,Rate Of Fire 7x,,Critical Hit Rate 2x,Ammo Capacity 5x,Critical Hit Rate 2x,Stopping Power 3x,Ammo Capacity 5x,,,,Damage 1.5X,,,Increased Power 2X,,,,,,,,,Increase fully charged damage.,,,,,,,
 exclusive description,2,,,,,,Find Weakpoints of targets Easier,,,,,Infinite penetration.,,,MORE DOOOOOM! (Increased Capacity),,,,,,,,,The Clown blesses your balls making them 7 times bigger. ,,,,,,,
@@ -241,7 +242,7 @@ basecrit,,50,,25,4,25,4,,,,4,4,10,4,10,,0,,,,,,,0,,,,,,,
 basecritfit,,50,,25,4,25,4,,,,7,4,10,4,10,,0,,,,,,,1,,,,,,,
 basecritaround,,,,,,,,,,,,4,10,4,10,,,,,,,,,,,,,,,,
 basereloadspeed,,1.00,,1.00,2.50,1.00,1.00,,,,,1,1,1,1,,1.00,,,,,,,1,,,,,,,
-baserateoffire,,1.00,,1.19,1.00,1.19,0.80,,,,,3,2.5,2,2,,0.40,,,,,,,2,,,,,,,
+baserateoffire,,1.00,,1.19,1.00,1.20,0.80,,,,,3,2.5,2,2,,0.40,,,,,,,2,,,,,,,
 basereloadrounds,,,,,,,,,,,,1,2,1,2,,,,,,,,,,,,,,,,
 ammopershot,,1,,1,2,1,1,,,,,1,1,1,2,,1,,,,,,,,,,,,,,
 typeofshoot,,0,,0,0,0,1,,,,,,,,,,1,,,,,,,,,,,,,1,
