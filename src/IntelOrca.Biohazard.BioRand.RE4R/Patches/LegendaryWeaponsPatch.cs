@@ -863,6 +863,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                                     {
                                         paramType = p;
                                     }
+                                    else if (individualData == "Rapid")
+                                    {
+                                        paramType = (id == 4100 || id == 4400) ? 1 : 0;
+                                    }
                                     else
                                     {
                                         paramType = 1;
