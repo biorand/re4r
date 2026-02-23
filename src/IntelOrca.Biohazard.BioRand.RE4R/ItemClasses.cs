@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
@@ -23,9 +23,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public static ImmutableArray<string> StartingWeapons { get; } =
             [
                 None, Handgun, Shotgun, Smg, Magnum, Rifle, Bolt, Arrow,
-#if ENABLE_BETA_FEATURES
                 Flame
-#endif
             ];
     }
 }

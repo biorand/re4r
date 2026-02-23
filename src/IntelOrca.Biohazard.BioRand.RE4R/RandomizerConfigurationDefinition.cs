@@ -34,18 +34,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Options = ["Main Story", "Separate Ways"],
                 Default = "Main Story"
             });
-#if ENABLE_BETA_FEATURES
             group.Items.Add(new GroupItem()
             {
                 Id = $"start-chapter",
                 Label = "Start Chapter",
-                Description = "Which chapter to start on.",
+                Description = "Which chapter to start on. (Leon only)",
                 Type = "range",
                 Min = 1,
                 Max = 16,
                 Default = 1
             });
-#endif
             group.Items.Add(new GroupItem()
             {
                 Id = $"enable-autosave-pro",
@@ -54,7 +52,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
-#if ENABLE_BETA_FEATURES
             group.Items.Add(new GroupItem()
             {
                 Id = $"disable-radio-calls",
@@ -87,7 +84,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
-#endif
             group = page.CreateGroup("");
             group.Items.Add(new GroupItem()
             {
@@ -981,7 +977,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Advanced = true
             });
 
-#if ENABLE_BETA_FEATURES
             group = page.CreateGroup("Waves");
             group.Items.Add(new GroupItem()
             {
@@ -1027,7 +1022,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Step = 1,
                 Default = 1
             });
-#endif
 
             group = page.CreateGroup("Size");
             group.Items.Add(new GroupItem()
@@ -1099,7 +1093,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = false
             });
-#if ENABLE_BETA_FEATURES
             group.Items.Add(new GroupItem()
             {
                 Id = $"mendez-down-resistance",
@@ -1130,7 +1123,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "switch",
                 Default = true
             });
-#endif
 
             group = page.CreateGroup("Classes");
             foreach (var enemyClass in enemyClassFactory.Classes)

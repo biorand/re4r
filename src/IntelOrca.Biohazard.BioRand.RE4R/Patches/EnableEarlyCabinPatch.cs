@@ -1,5 +1,3 @@
-﻿#if ENABLE_BETA_FEATURES
-
 using System;
 using IntelOrca.Biohazard.REE.Rsz;
 
@@ -69,5 +67,3 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         }
     }
 }
-
-#endif

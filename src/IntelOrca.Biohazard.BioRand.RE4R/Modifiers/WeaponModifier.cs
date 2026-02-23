@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Data;
@@ -110,11 +110,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var weaponStatCollection = new WeaponStatCollection(mainFile, detailFile);
             foreach (var wp in weaponStatCollection.Weapons)
             {
-#if !ENABLE_BETA_FEATURES
-                if (wp.Id == 4701)
-                    continue;
-#endif
-
                 if (wp.ItemDefinition?.SupportsCampaign(randomizer.Campaign) != true)
                     continue;
 

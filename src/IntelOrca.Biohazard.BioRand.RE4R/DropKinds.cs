@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
@@ -82,9 +82,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             AmmoBolts,
             AmmoMines,
             AmmoArrows,
-#if ENABLE_BETA_FEATURES
             AmmoFuel,
-#endif
             Fas,
             Fish,
             Viper,
@@ -141,9 +139,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 AmmoBolts => CategoryAmmo,
                 AmmoMines => CategoryAmmo,
                 AmmoArrows => CategoryAmmo,
-#if ENABLE_BETA_FEATURES
                 AmmoFuel => CategoryAmmo,
-#endif
                 Fas => CategoryHealth,
                 Fish => CategoryHealth,
                 EggBrown => CategoryHealth,
@@ -185,9 +181,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 AmmoBolts => ItemIds.AmmoBolts,
                 AmmoMines => ItemIds.AmmoMines,
                 AmmoArrows => ItemIds.AmmoArrows,
-#if ENABLE_BETA_FEATURES
                 AmmoFuel => ItemIds.AmmoFuel,
-#endif
                 _ => null,
             };
         }
@@ -220,9 +214,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             AmmoBolts,
             AmmoMines,
             AmmoArrows,
-#if ENABLE_BETA_FEATURES
             AmmoFuel,
-#endif
             Fas,
             Fish,
             EggBrown,

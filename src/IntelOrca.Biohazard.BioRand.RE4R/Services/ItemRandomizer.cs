@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -160,12 +160,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 return _allowMercenariesItems;
             }
 
-#if !ENABLE_BETA_FEATURES
-            if (itemDefinition.Id == ItemIds.Flamethrower)
-            {
-                return false;
-            }
-#endif
             return true;
         }
 

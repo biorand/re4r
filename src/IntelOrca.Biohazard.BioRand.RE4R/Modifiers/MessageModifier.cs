@@ -9,7 +9,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-#if ENABLE_BETA_FEATURES
             foreach (var msgPath in g_msgPaths)
             {
                 logger.Push(msgPath);
@@ -22,7 +21,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 }
                 logger.Pop();
             }
-#endif
         }
 
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)

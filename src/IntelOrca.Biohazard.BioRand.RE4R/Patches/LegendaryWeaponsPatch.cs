@@ -1,4 +1,3 @@
-#if ENABLE_BETA_FEATURES
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -1618,4 +1617,3 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         }
     }
 }
-#endif

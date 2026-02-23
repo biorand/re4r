@@ -180,25 +180,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 new MerchantShopModifier(),
                 new WeaponModifier(),
                 new ItemModifier(),
-#if ENABLE_BETA_FEATURES
                 new EventModifier(),
                 new CampaignModifier(),
                 new FileModifier(),
-#endif
                 new GimmickPlaceModifier(),
                 new GimmickModifier(),
                 new DropItemPlaceModifier(),
                 new DropItemModifier(),
                 new EnemyPlaceModifier(),
                 new EnemyMultiplierModifier(),
-#if ENABLE_BETA_FEATURES
                 new EnemyWaveModifier(),
-#endif
                 new EnemyModifier(),
                 new FixesModifier(),
-#if ENABLE_BETA_FEATURES
                 new MessageModifier(),
-#endif
             }.ToImmutableArray();
         }
 
