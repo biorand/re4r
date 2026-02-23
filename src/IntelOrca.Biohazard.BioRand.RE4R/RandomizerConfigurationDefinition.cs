@@ -179,7 +179,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Min = 0,
                 Max = 1,
                 Step = 0.01,
-                Default = 1
+                Default = 0.10
             });
             group.Items.Add(new GroupItem()
             {
@@ -661,7 +661,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Type = "range",
                 Min = 0,
                 Max = 1_000,
-                Default = 50
+                Default = 75
             });
             group.Items.Add(new GroupItem()
             {
@@ -678,7 +678,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = "treasure-ratio-low",
                 Label = "Low",
-                Description = "Higher ratio will result in many smaller treasures.",
+                Description = "Higher value will result in a greater ratio of smaller treasures versus containers and large treasures." +
+                    "Small treasures are typically treasures with sub 10,000 pstas value.",
                 Category = new GroupItemCategory()
                 {
                     Label = "Low",
@@ -689,14 +690,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Min = 0,
                 Max = 1,
                 Step = 0.01,
-                Default = 0.8
+                Default = 0.7
             });
             group.Items.Add(new GroupItem()
             {
                 Id = "treasure-ratio-container",
                 Label = "Container",
-                Description = "Ratio of number of treasures that contain slots for other treasures. " +
-                    "Compatible treasures will be also placed to fit inside the treasure.",
+                Description = "Higher value will result in a greater ratio of treasures that contain slots for gems versus small and large treasures." +
+                    "Compatible gems will be also placed to fit inside the treasure.",
                 Category = new GroupItemCategory()
                 {
                     Label = "Container",
@@ -713,7 +714,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = "treasure-ratio-high",
                 Label = "High",
-                Description = "Higher ratio will result in fewer large treasures.",
+                Description = "Higher value will result in a greater ratio of large treasures versus containers and small treasures." +
+                    "Large treasures are typically treasures with greater than 10,000 pstas value.",
                 Category = new GroupItemCategory()
                 {
                     Label = "High",
@@ -731,8 +733,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = "treasure-slot-multiplier",
                 Label = "Slotted Treasure Multiplier",
-                Description = "The number of compatible treasures to place per slot. " +
-                    "E.g. 2 will place twice as many compatible treasures per container slot.",
+                Description = "The number of gems to place per slot in container type treasures. " +
+                    "E.g. 2 will place twice as many compatible gems per container slot.",
                 Type = "range",
                 Min = 0,
                 Max = 5,
@@ -778,7 +780,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = "treasure-reward-min",
                 Label = "Min. Treasure Merchant Rewards",
-                Description = "The minimum number of treasures to include as a merchant reward.",
+                Description = "The minimum number of treasures to include as a Merchant Spinel Reward.",
                 Type = "range",
                 Min = 0,
                 Max = 5,
@@ -789,7 +791,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = "treasure-reward-max",
                 Label = "Max. Treasure Merchant Rewards",
-                Description = "The maximum number of treasures to include as a merchant reward.",
+                Description = "The maximum number of treasures to include as a Merchant Spinel Reward.",
                 Type = "range",
                 Min = 0,
                 Max = 5,
