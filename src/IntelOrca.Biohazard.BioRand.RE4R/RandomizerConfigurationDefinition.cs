@@ -361,8 +361,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             //Weapon Page
             page = configDefinition.CreatePage("Weapon");
             page.Advanced = true;
-#if ENABLE_BETA_MODE
             group = page.CreateGroup("Legendary Weapons");
+#if ENABLE_BETA_MODE
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-legendary-quantity-min",
