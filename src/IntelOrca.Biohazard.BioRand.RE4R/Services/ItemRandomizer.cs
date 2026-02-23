@@ -248,8 +248,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     var ratio = settings.GetItemRatio(dropKind);
                     if (ratio > 0)
                     {
-                        if (_randomizer.Campaign == Campaign.Leon && dropKind == DropKinds.AmmoArrows)
-                            continue;
                         if (_randomizer.Campaign == Campaign.Ada && (dropKind == DropKinds.TokenSilver || dropKind == DropKinds.TokenGold))
                             continue;
 
