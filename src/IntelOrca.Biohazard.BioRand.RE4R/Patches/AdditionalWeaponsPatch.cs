@@ -446,7 +446,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         if (info["attache case size"] is int)
                         {
                             var modifiedNode = sourceNode
-                            .Set("_WeaponDefineData._ItemSize", 10);
+                            .Set("_WeaponDefineData._ItemSize", (int)info["attache case size"]);
                             return root.Set("_Datas", dataTable.Add(modifiedNode));
                         }
                         else
