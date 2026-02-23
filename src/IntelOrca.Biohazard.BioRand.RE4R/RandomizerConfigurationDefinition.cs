@@ -951,7 +951,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Description = "Duplicate enemies by this amount. Warning: high values can cause stability issues.",
                 Type = "range",
                 Min = 0.25,
-                Max = 10,
+                Max = 5,
                 Step = 0.05,
                 Default = 1
             });
