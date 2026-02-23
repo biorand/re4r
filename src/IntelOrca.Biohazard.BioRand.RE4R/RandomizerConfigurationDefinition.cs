@@ -361,7 +361,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             //Weapon Page
             page = configDefinition.CreatePage("Weapon");
             page.Advanced = true;
-#if ENABLE_BETA_FEATURES
+#if ENABLE_BETA_MODE
             group = page.CreateGroup("Legendary Weapons");
             group.Items.Add(new GroupItem()
             {
@@ -373,6 +373,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Max = 32,
                 Default = 0
             });
+#endif
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-legendary-quantity-max",
@@ -380,10 +381,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Description = "Maximum number of legendary weapons available to find.",
                 Type = "range",
                 Min = 0,
+#if ENABLE_BETA_MODE
                 Max = 32,
+#else
+                Max = 2,
+#endif
                 Default = 2
             });
-#endif
 
             group = page.CreateGroup("");
             group.Warning = "This page requires all Random Weapon options to be enabled in the Merchant page to function.";

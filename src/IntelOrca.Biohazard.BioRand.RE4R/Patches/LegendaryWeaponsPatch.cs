@@ -61,9 +61,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             var results = new List<ImmutableDictionary<string, object>>();
             var rng = randomizer.GetRng("weapons/legendary");
 
+#if ENABLE_BETA_MODE
             var min = context.GetConfigOption("weapon-legendary-quantity-min", 0);
+#else
+            var min = 0;
+#endif
             var max = context.GetConfigOption("weapon-legendary-quantity-max", 0);
+#if !ENABLE_BETA_MODE
             var count = rng.Next(min, max + 1);
+#else
+            var count = Math.Clamp(rng.NextOf(0, 0, 1, 1, 1, 1, 1, 1, 1, 2), 0, max);
+#endif
 
             var weapons = _baseStats.Weapons
                 .Where(x => CampaignCompatibility(x))
@@ -100,10 +108,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             if (weapon.TryGetValue("gamemode", out var campaignValue))
             {
                 var campaignStr = campaignValue?.ToString()?.Trim().ToLowerInvariant();
-                
+
                 if (string.IsNullOrWhiteSpace(campaignStr))
                     return false;
-                
+
                 return campaignStr switch
                 {
                     "leon" => _campaign == Campaign.Leon,
