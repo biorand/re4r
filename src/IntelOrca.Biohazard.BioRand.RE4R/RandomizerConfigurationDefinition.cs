@@ -190,7 +190,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Min = 0,
                 Max = 1,
                 Step = 0.01,
-                Default = 1
+                Default = 0
             });
 
             #endregion
