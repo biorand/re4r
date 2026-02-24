@@ -19,7 +19,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var maxChapter = randomizer.Campaign != Campaign.Ada ? 16 : 7;
             var startChapter = Math.Clamp(_randomizer.GetConfigOption("start-chapter", 1), minChapter, maxChapter);
 
-            Chapters = randomizer.Campaign != Campaign.Ada ? g_leonChapters : g_adaChapters;
+            Chapters = (randomizer.Campaign != Campaign.Ada ? g_leonChapters : g_adaChapters)
+                .Select(x => x.Clone())
+                .ToImmutableArray();
             EnabledChapters = Enumerable.Range(startChapter, maxChapter - startChapter + 1)
                 .Select(num => Chapters.First(x => x.Number == num))
                 .ToImmutableArray();
@@ -60,6 +62,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             public int StartStage { get; set; }
             public Vector3 StartPosition { get; set; }
             public EulerAngles StartEuler { get; set; }
+
+            public Chapter Clone()
+            {
+                return new Chapter(num, internalNumber, area, description, lengthMultiplier, id);
+            }
         }
 
         private readonly static ImmutableArray<Chapter> g_leonChapters = [
