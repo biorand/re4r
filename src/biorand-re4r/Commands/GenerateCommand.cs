@@ -223,7 +223,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 throw new Exception("Invalid response from server");
 
             var result = new RandomizerInput();
-            result.Seed = int.Parse(pathMatch.Groups[1].Value);
+            result.Seed = response.Seed;
             result.UserName = response.UserName ?? "USERNAME";
             result.ProfileName = response.ProfileName;
             result.ProfileAuthor = response.ProfileUserName;
