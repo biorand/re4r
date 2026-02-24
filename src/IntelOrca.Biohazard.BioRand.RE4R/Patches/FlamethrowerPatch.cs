@@ -334,34 +334,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 "natives/stm/_chainsaw/appsystem/ui/userdata/itemcraftsettinguserdata.user.2",
                 "natives/stm/_anotherorder/appsystem/ui/userdata/itemcraftsettinguserdata_ao.user.2");
 
-            FileRepository.ModifyUserFile(craftPath, root =>
-            {
-                var datas = (RszArrayNode)root["_Datas"];
-                for (var i = 0; i < datas.Length; i++)
-                {
-                    var data = datas[i];
-                    if (data.Get<int>("_RecipeID") == 29)
-                    {
-                        data = data
-                            .Set("_Category", 1)
-                            .Set("_ResultSettings[0]._Result._ItemID", FuelItemId)
-                            .Set("_ResultSettings[0]._Result._GeneratedNumMin", 300)
-                            .Set("_ResultSettings[0]._Result._GeneratedNumMax", 300)
-                            .Set("_ResultSettings[1]._Result._ItemID", FuelItemId)
-                            .Set("_ResultSettings[1]._Result._GeneratedNumMin", 300)
-                            .Set("_ResultSettings[1]._Result._GeneratedNumMax", 300)
-                            .Set("_RequiredItems[0]._ItemID", SmallResourceItemId)
-                            .Set("_RequiredItems[0]._RequiredNum", 1)
-                            .Set("_RequiredItems[1]._ItemID", GunpowderItemId)
-                            .Set("_RequiredItems[1]._RequiredNum", 5);
-                        root = root.SetField("_Datas", datas.SetItem(i, data));
-                        break;
-                    }
-                }
-                return root;
-            });
-
-            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/guiresource/guiresourcesettinguserdata_craft.user.2", root =>
+           FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/guiresource/guiresourcesettinguserdata_craft.user.2", root =>
             {
                 var settings = (RszArrayNode)root["_Settings"];
                 settings = settings.Add(FileRepository.TypeRepository
