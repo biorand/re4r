@@ -111,7 +111,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             _addMessage = (s) => wpMsg.Create(s).Guid;
 
             var weaponStatCollection = new WeaponStatCollection(mainFile, detailFile);
-            
+
             if (randomStats || randomUpgrades || randomPrices || randomExclusives)
             {
                 foreach (var wp in weaponStatCollection.Weapons)
@@ -140,7 +140,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     });
                 }
             }
-            
+
             weaponStatCollection.Apply();
 
             randomizer.FileRepository.SerializeUserFile(GetMainPath(randomizer), mainFile);
@@ -264,7 +264,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .Where(x => x is not IWeaponExclusive)
                     .Take(5 - exclusives.Length)
                     .ToList();
-                
+
                 wp.Modifiers = exclusives
                     .Concat(nonExclusiveModifiers)
                     .ToImmutableArray();
@@ -376,6 +376,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                     .DistinctBy(x => x.Kind)
                     .Where(x => kinds.Contains(x.Kind))
                     .ToArray();
+                if (chosenExclusives.Length == 0)
+                {
+                    chosenExclusives = wp.Modifiers.OfType<IWeaponExclusive>().ToArray();
+                }
                 wp.Modifiers = wp.Modifiers
                     .RemoveAll(x => x is IWeaponExclusive)
                     .AddRange(chosenExclusives);
