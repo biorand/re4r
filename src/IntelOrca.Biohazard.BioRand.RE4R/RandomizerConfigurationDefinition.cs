@@ -252,7 +252,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 Id = "random-weapon-upgrades",
                 Label = "Random Weapon Upgrades",
-                Description = "Let Biorand randomize the weapon upgrades.",
+                Description = "Let Biorand randomize the weapon upgrade paths.",
                 Type = "switch",
                 Default = true
             });

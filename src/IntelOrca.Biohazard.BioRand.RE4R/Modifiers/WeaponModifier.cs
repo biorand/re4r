@@ -95,8 +95,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var randomPrices = randomizer.GetConfigOption<bool>("random-weapon-upgrade-prices");
             var randomUpgrades = randomizer.GetConfigOption<bool>("random-weapon-upgrades");
             var randomExclusives = randomizer.GetConfigOption<bool>("random-weapon-exclusives");
-            if (!randomStats && !randomUpgrades && !randomPrices && !randomExclusives)
-                return;
+
+            if (randomUpgrades && !randomStats)
+            {
+                throw new RandomizerUserException("'Random Weapon Upgrades' requires 'Random Upgraded Weapon Stats' to be enabled.");
+            }
 
             var shopMsg = randomizer.FileRepository.GetMsgFile(ShopMsgPath).ToBuilder();
             var wpMsg = randomizer.FileRepository.GetMsgFile(WeaponCustomMsgPath).ToBuilder();
@@ -108,28 +111,36 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             _addMessage = (s) => wpMsg.Create(s).Guid;
 
             var weaponStatCollection = new WeaponStatCollection(mainFile, detailFile);
-            foreach (var wp in weaponStatCollection.Weapons)
+            
+            if (randomStats || randomUpgrades || randomPrices || randomExclusives)
             {
-                if (wp.ItemDefinition?.SupportsCampaign(randomizer.Campaign) != true)
-                    continue;
-
-                var restricted = randomizer.GetService<WeaponService>().IsRestricted(wp.Id);
-                if (restricted)
-                    continue;
-
-                LogWeaponChanges(wp, logger, () =>
+                foreach (var wp in weaponStatCollection.Weapons)
                 {
-                    if (randomExclusives)
+                    if (wp.ItemDefinition?.SupportsCampaign(randomizer.Campaign) != true)
+                        continue;
+
+                    var restricted = randomizer.GetService<WeaponService>().IsRestricted(wp.Id);
+                    if (restricted)
+                        continue;
+
+                    LogWeaponChanges(wp, logger, () =>
                     {
-                        RandomizeExclusives(randomizer, wp, valueRng, randomUpgrades);
-                    }
-                    RandomizeStats(randomizer, wp, valueRng, randomUpgrades);
-                    if (randomPrices)
-                    {
-                        RandomizePrices(rng, wp, randomPrices);
-                    }
-                });
+                        if (randomExclusives)
+                        {
+                            RandomizeExclusives(randomizer, wp, valueRng, randomUpgrades);
+                        }
+                        if (randomStats)
+                        {
+                            RandomizeStats(randomizer, wp, valueRng, randomUpgrades);
+                        }
+                        if (randomPrices)
+                        {
+                            RandomizePrices(rng, wp, randomPrices);
+                        }
+                    });
+                }
             }
+            
             weaponStatCollection.Apply();
 
             randomizer.FileRepository.SerializeUserFile(GetMainPath(randomizer), mainFile);
@@ -137,7 +148,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             randomizer.FileRepository.SetMsgFile(WeaponCustomMsgPath, wpMsg.Build());
             randomizer.FileRepository.SetMsgFile(ShopMsgPath, shopMsg.Build());
 
-            UpdateBaseStats(randomizer);
+            if (randomStats)
+            {
+                UpdateBaseStats(randomizer);
+            }
             UpdateUnlocks(randomizer, weaponStatCollection);
         }
 
@@ -193,16 +207,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 RandomizeAmmoCapacity(wp, ammoCapacity);
             }
 
-            if (!exclusives.Any(x => x.Kind == WeaponUpgradeKind.CriticalRate) &&
-                RandomizeFromRanges(randomizer, rng, wp, WeaponUpgradePath.CriticalRate, 1) is StatRange criticalRate)
+            if (randomUpgrades)
             {
-                RandomizeCriticalRate(wp, criticalRate);
-            }
+                if (!exclusives.Any(x => x.Kind == WeaponUpgradeKind.CriticalRate) &&
+                    RandomizeFromRanges(randomizer, rng, wp, WeaponUpgradePath.CriticalRate, 1) is StatRange criticalRate)
+                {
+                    RandomizeCriticalRate(wp, criticalRate);
+                }
 
-            if (!exclusives.Any(x => x.Kind == WeaponUpgradeKind.Penetration) &&
-                RandomizeFromRanges(randomizer, rng, wp, WeaponUpgradePath.Penetration, 1) is StatRange penetration)
-            {
-                RandomizePenetration(wp, penetration);
+                if (!exclusives.Any(x => x.Kind == WeaponUpgradeKind.Penetration) &&
+                    RandomizeFromRanges(randomizer, rng, wp, WeaponUpgradePath.Penetration, 1) is StatRange penetration)
+                {
+                    RandomizePenetration(wp, penetration);
+                }
             }
 
             switch (GetReloadSubKind(rng, wp, randomUpgrades))
@@ -243,8 +260,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
             else
             {
-                wp.Modifiers = wp.Modifiers
-                    .Take(5)
+                var nonExclusiveModifiers = wp.Modifiers
+                    .Where(x => x is not IWeaponExclusive)
+                    .Take(5 - exclusives.Length)
+                    .ToList();
+                
+                wp.Modifiers = exclusives
+                    .Concat(nonExclusiveModifiers)
                     .ToImmutableArray();
             }
         }
