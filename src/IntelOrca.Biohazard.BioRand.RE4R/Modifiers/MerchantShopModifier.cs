@@ -202,8 +202,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
             private void InitializeShop()
             {
+                const int CategoryLowPower = 0;
+                const int CategoryHighPower = 1;
+                const int CategoryMisc = 3;
+
                 // Add missing shop items
-                AddItemToCategory(ItemIds.SentinelNine, 1);
+                AddItemToCategory(ItemIds.SentinelNine, CategoryLowPower);
                 shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
                 {
                     _ItemId = ItemIds.SentinelNine,
@@ -219,7 +223,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             }
                     ]
                 });
-                AddItemToCategory(ItemIds.SkullShaker, 1);
+                AddItemToCategory(ItemIds.SkullShaker, CategoryHighPower);
                 shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
                 {
                     _ItemId = ItemIds.SkullShaker,
@@ -238,7 +242,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 
                 if (randomizer.Campaign == Campaign.Leon)
                 {
-                    AddItemToCategory(ItemIds.SWSawedOffW870, 1);
+                    AddItemToCategory(ItemIds.SWSawedOffW870, CategoryHighPower);
                     shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
                     {
                         _ItemId = ItemIds.SWSawedOffW870,
@@ -254,7 +258,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             }
                         ]
                     });
-                    AddItemToCategory(ItemIds.XM96E1, 0);
+                    AddItemToCategory(ItemIds.XM96E1, CategoryLowPower);
                     shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
                     {
                         _ItemId = ItemIds.XM96E1,
@@ -270,7 +274,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             }
                         ]
                     });
-                    AddItemToCategory(ItemIds.SWBlastCrossbow, 1);
+                    AddItemToCategory(ItemIds.SWBlastCrossbow, CategoryHighPower);
                     shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
                     {
                         _ItemId = ItemIds.SWBlastCrossbow,
@@ -286,10 +290,26 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                             }
                         ]
                     });
+                    AddItemToCategory(ItemIds.AmmoArrows, CategoryMisc);
+                    shop.Items._Datas.Add(new chainsaw.InGameShopItemSettingUserdata.Data()
+                    {
+                        _ItemId = ItemIds.AmmoArrows,
+                        _PriceSettings = [
+                            new chainsaw.gui.shop.ItemPriceSetting()
+                            {
+                                _Difficulty = 20,
+                                _Price = new chainsaw.gui.shop.ItemPrice()
+                                {
+                                    _PurchasePrice = 2000,
+                                    _SellingPrice = 1000,
+                                }
+                            }
+                        ]
+                    });
                 }
                 else
                 {
-                    AddItemToCategory(ItemIds.SWChicagoSweeper, 0);
+                    AddItemToCategory(ItemIds.SWChicagoSweeper, CategoryLowPower);
                 }
 
                 // All shop items should have one price for all difficulties
