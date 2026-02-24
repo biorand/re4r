@@ -57,7 +57,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 var endFlags = new List<Guid>();
 
                 var campaignService = randomizer.GetService<CampaignService>();
-                if (!campaignService.HasChapter(chapter))
+                if (chapter != 0 && !campaignService.HasChapter(chapter))
                     return;
 
                 // Process triggers
