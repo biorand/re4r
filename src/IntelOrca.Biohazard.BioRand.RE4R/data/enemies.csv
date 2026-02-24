@@ -28,16 +28,16 @@ Leon,cd91a02f-8b2a-853d-4ecb-8d59389eb6bd,1,[EXTRA] PATH TO SIEGE // After Ruine
 Leon,75152fe5-89b9-ecce-4c4d-6eb76be6ac98,1,[EXTRA] PATH TO SIEGE // The Drawer Guardian,40504,-124,7,35,0,0,0,35882cb7-d15a-4ea9-b44b-8329e14b5309,,,,,fodder elite,
 Leon,da73460d-62b6-4dc2-9882-1183bba45389,1,chainsaw   Emerald x1,40200,0,0,0,0,0,0,,,,,noduplicate horde essential,,
 Leon,d47e2d46-cd1f-41b4-8f5e-9c58183540ee,1,chainsaw   Emerald x1,40200,0,0,0,0,0,0,,,,,noduplicate horde essential,,
-Leon,0c2ca06f-f6ac-4cc2-8405-12399fd2db4b,1,villager   * // Pail Carrier,40200,0,0,0,0,0,0,,,,,,,boss
-Leon,4a59a26f-da75-4f63-b2f3-e5b61f2658fa,1,villager  pitchfork * // Guarding Front of Shotgun House,40200,0,0,0,0,0,0,,,,,,,
-Leon,66c6e4ae-2c19-4552-9fe0-b89ecd0e0ea6,1,villager   * // Guarding Path to Farm,40200,0,0,0,0,0,0,,,,,,,
-Leon,87827167-575d-4f83-bba2-8c3b525332f5,1,villager  pitchfork * // Westside Hay Mover,40200,0,0,0,0,0,0,,,,,lockweapon,,
-Leon,f078d716-0fd8-4b3f-90d5-9ededc3ff195,1,villager   * // Granny Patrol,40200,0,0,0,0,0,0,,,,,,,boss
-Leon,bb879336-1b47-492b-8dd7-48c41d620453,1,villager  hatchet * // Outside Shotgun house Window,40200,0,0,0,0,0,0,,,,,,,
-Leon,bb1e5c3d-13d8-4a4b-b49d-cb8ba9c25012,1,villager  hatchet * // Bonfire Left,40200,0,0,0,0,0,0,,,,,,,boss
-Leon,75a68531-8cb0-476c-9909-5bd3cac1310c,1,villager   * // Firestarter,40200,0,0,0,0,0,0,,,,,,,
-Leon,7a5c62b8-00c8-4fb2-9a02-6e806c38f7b4,1,villager   * // Guarding Fence,40200,0,0,0,0,0,0,,,,,,,
-Leon,f4497266-8763-425c-b543-331dbdbfe44d,1,villager  hatchet * // Between Shotgun House and small Key Hut,40200,0,0,0,0,0,0,,,,,,,
+Leon,0c2ca06f-f6ac-4cc2-8405-12399fd2db4b,1,villager   * // Pail Carrier,40200,0,0,0,0,0,0,,,,,,,boss garrador*
+Leon,4a59a26f-da75-4f63-b2f3-e5b61f2658fa,1,villager  pitchfork * // Guarding Front of Shotgun House,40200,0,0,0,0,0,0,,,,,,,garrador*
+Leon,66c6e4ae-2c19-4552-9fe0-b89ecd0e0ea6,1,villager   * // Guarding Path to Farm,40200,0,0,0,0,0,0,,,,,,,garrador*
+Leon,87827167-575d-4f83-bba2-8c3b525332f5,1,villager  pitchfork * // Westside Hay Mover,40200,0,0,0,0,0,0,,,,,lockweapon,,garrador*
+Leon,f078d716-0fd8-4b3f-90d5-9ededc3ff195,1,villager   * // Granny Patrol,40200,0,0,0,0,0,0,,,,,,,boss garrador*
+Leon,bb879336-1b47-492b-8dd7-48c41d620453,1,villager  hatchet * // Outside Shotgun house Window,40200,0,0,0,0,0,0,,,,,,,garrador*
+Leon,bb1e5c3d-13d8-4a4b-b49d-cb8ba9c25012,1,villager  hatchet * // Bonfire Left,40200,0,0,0,0,0,0,,,,,,,boss garrador*
+Leon,75a68531-8cb0-476c-9909-5bd3cac1310c,1,villager   * // Firestarter,40200,0,0,0,0,0,0,,,,,,,garrador*
+Leon,7a5c62b8-00c8-4fb2-9a02-6e806c38f7b4,1,villager   * // Guarding Fence,40200,0,0,0,0,0,0,,,,,,,garrador*
+Leon,f4497266-8763-425c-b543-331dbdbfe44d,1,villager  hatchet * // Between Shotgun House and small Key Hut,40200,0,0,0,0,0,0,,,,,,,garrador*
 Leon,cba7d4c3-1780-4127-9d90-17645db43af2,1,villager  hatchet *,40200,0,0,0,0,0,0,,,,,,,
 Leon,cf0a04a2-e1b9-4ffc-b6dc-034192f04807,1,villager  hatchet *,40200,0,0,0,0,0,0,,,,,,,
 Leon,47a9c9e5-4f3a-4ea3-bd30-f66201b3a4ed,1,villager  shovel *,40200,0,0,0,0,0,0,,,,,,,
@@ -1462,23 +1462,23 @@ Leon,8f24519a-7e22-4c38-ac0b-89e058d0d714,13,regenerador   .,61302,0,0,0,0,0,0,,
 Leon,26f2ba68-b6fb-4d7b-963d-4aa19a07cddd,13,regenerador   Ruby x1,61402,0,0,0,0,0,0,,,,,,regenerador iron_maiden super_iron_maiden,
 Leon,6f4a9b4a-51c5-4081-9b92-965c9dd973c5,13,regenerador   .,61402,0,0,0,0,0,0,,,,,,regenerador iron_maiden super_iron_maiden,
 Leon,4d5cac28-3b75-40d4-b0f8-98cc68277500,13,regenerador   Sapphire x1,61305,0,0,0,0,0,0,,,,,,regenerador iron_maiden super_iron_maiden,
-Leon,ec73c258-19b5-4534-9010-63b93c5dd899,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate nowave,,krauser_1 krauser_2 mendez_chase pesanta u3
-Leon,69cfa597-7291-4a75-96eb-9dd5ad7e38a8,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,79ca4b25-ea22-4c4d-a655-c09cb9ec5958,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,16e55d3b-6238-40b2-91f2-75bdf1c3897a,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,55569dbd-db47-4292-8aa9-c0049159857a,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,121a6619-6891-4474-994a-a269b157216c,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate nowave,,krauser_1 krauser_2 mendez_chase pesanta u3
-Leon,2d5ee37e-c51b-4c64-8c9e-1e4fe7e53b58,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,76bd56c7-87e5-413d-808b-d8e875ff087e,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,8ff22883-d0d7-404f-be44-2589c91752cf,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,f581dd02-fd89-40c6-996b-bd0f34636160,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,b99b7a23-8d20-46a5-9b8a-0bf90cca90ef,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate nowave,,krauser_1 krauser_2 mendez_chase pesanta u3
-Leon,5983fbf6-04a0-4560-9e31-3e31628898b1,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,8023c600-8523-4b04-90c4-61671196ca1c,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,8c5de483-1194-4d50-9e9f-53065809d760,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,290c3ebf-408f-4513-84dc-bcec52cdad76,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
-Leon,be280715-78e6-4cd7-8f28-09ec50608c7d,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate nowave,,krauser_1 krauser_2 mendez_chase pesanta u3
-Leon,1e97a1e6-76fd-42d7-85a4-4b405c2dfaa4,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,
+Leon,ec73c258-19b5-4534-9010-63b93c5dd899,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate nowave,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,69cfa597-7291-4a75-96eb-9dd5ad7e38a8,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,79ca4b25-ea22-4c4d-a655-c09cb9ec5958,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,16e55d3b-6238-40b2-91f2-75bdf1c3897a,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,55569dbd-db47-4292-8aa9-c0049159857a,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,121a6619-6891-4474-994a-a269b157216c,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate nowave,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,2d5ee37e-c51b-4c64-8c9e-1e4fe7e53b58,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,76bd56c7-87e5-413d-808b-d8e875ff087e,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,8ff22883-d0d7-404f-be44-2589c91752cf,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,f581dd02-fd89-40c6-996b-bd0f34636160,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,b99b7a23-8d20-46a5-9b8a-0bf90cca90ef,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate nowave,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,5983fbf6-04a0-4560-9e31-3e31628898b1,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,8023c600-8523-4b04-90c4-61671196ca1c,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,8c5de483-1194-4d50-9e9f-53065809d760,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,290c3ebf-408f-4513-84dc-bcec52cdad76,13,regenerador   Ruby x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,be280715-78e6-4cd7-8f28-09ec50608c7d,13,regenerador   Wrench x1,61201,0,0,0,0,0,0,,,,,noduplicate nowave,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
+Leon,1e97a1e6-76fd-42d7-85a4-4b405c2dfaa4,13,regenerador   Alexandrite x1,61201,0,0,0,0,0,0,,,,,noduplicate,,krauser_1* krauser_2* mendez_chase* pesanta* u3*
 Leon,f9113bbf-fee8-4854-9c1b-54afb50dde0a,13,soldier   Pesetas x500,61500,0,0,0,0,0,0,,,,,,small,
 Leon,43853325-2ccc-4964-a4d6-913accf33a4c,13,viper   Viper x1,61106,0,0,0,0,0,0,,,,,noduplicate,,
 Leon,,14,[EXTRA],62100,59,12,-103,0,0,0,43b7db1e-f2bf-467a-8c3e-21463998cdcf,10731e4c-08c9-42c3-9dc8-e1fabe549a08,,,,,ashleyunsafe
@@ -1979,11 +1979,11 @@ Leon,,-1,[EXTRA] Extra Spawn Porch Keyholder Guardian,40502,-209.4,8.9,79.2,0,54
 Leon,,-1,[EXTRA] Extra Spawn Bait to Porch,40510,-193.6,10,71.1,0,84.8,0,,,,01_Village.CP1.StartVanilla.Event.CP101_HuntingCabin.HardEvent.PorchKeyHunt,noduplicate nowave,fodder,
 Leon,,-1,[EXTRA] Extra Spawn Coming from Window,40510,-176.5,13.5,67.5,0,-177,0,,,,01_Village.CP1.StartVanilla.Event.CP102_PathVillage.WindowClimbers,aggroed noduplicate,climber,
 Leon,,-1,[EXTRA] Extra Spawn Coming from Window,40510,-178,13.5,67.5,0,-177,0,,,,01_Village.CP1.StartVanilla.Event.CP102_PathVillage.WindowClimbers,aggroed noduplicate,climber,
-Leon,,-1,[EXTRA] Extra Spawn Coming from Merchant,40502,-177,9.7,63.9,0,174.7,0,,,,01_Village.CP1.StartVanilla.Event.CP102_PathVillage.Ambush,aggroed nowave,small,
-Leon,,-1,[EXTRA] Extra Spawn Coming from Merchant,40502,-178,9.7,63.9,0,174.7,0,,,,01_Village.CP1.StartVanilla.Event.CP102_PathVillage.Ambush,aggroed nowave,small,
+Leon,,-1,[EXTRA] Extra Spawn Coming from Merchant,40502,-177,9.7,63.9,0,174.7,0,,,,01_Village.CP1.StartVanilla.Event.CP102_PathVillage.Ambush,aggroed noduplicate nowave,small,
+Leon,,-1,[EXTRA] Extra Spawn Coming from Merchant,40502,-178,9.7,63.9,0,174.7,0,,,,01_Village.CP1.StartVanilla.Event.CP102_PathVillage.Ambush,aggroed noduplicate nowave,small,
 Leon,,-1,[EXTRA] Extra Spawn Bridge Novi Ambush,40504,-154.5,10,48.7,0,-9,0,,,,01_Village.CP1.StartVanilla.Event.CP102_PathVillage.Bridge,aggroed nowave noduplicate,novistador,
 Leon,,-1,[EXTRA] Extra Spawn Bridge Novi Ambush,40504,-156,9.4,60,0,165,0,,,,01_Village.CP1.StartVanilla.Event.CP102_PathVillage.Bridge,aggroed nowave noduplicate,novistador,
-Leon,,-1,[EXTRA] Extra Spawn Door Ambush,40504,-133,7.4,55.8,0,146.5,0,,,,01_Village.CP1.StartVanilla.Event.CP102_PathVillage.Door1,aggroed nowave guardian,dog,
+Leon,,-1,[EXTRA] Extra Spawn Door Ambush,40504,-133,7.4,55.8,0,146.5,0,,,,01_Village.CP1.StartVanilla.Event.CP102_PathVillage.Door1,aggroed nowave guardian,arana,
 Leon,,-1,[EXTRA] Extra Spawn Door2 Ambush,40530,-115.5,10,53.7,0,99,0,,,,01_Village.CP1.StartVanilla.Event.CP102_PathVillage.Door2,aggroed nowave,arana,
 Leon,,-1,[EXTRA] Extra Spawn Door2 Ambush,40530,-115.2,10,56.8,0,99,0,,,,01_Village.CP1.StartVanilla.Event.CP102_PathVillage.Door2,aggroed nowave,arana,
 Leon,,-1,[EXTRA] Extra Spawn Wall climb ambush,40530,-109.29,7.26,55.2,0,110,0,,,,01_Village.CP1.StartVanilla.Level.CP101_PathVillage.OvertheWall|EnemySpawns,aggroed,Small,
@@ -2020,40 +2020,40 @@ Leon,,-1,[EXTRA] MendezHouse Ambush Hex Guardian,44110,12.4,12.86,104.71,0,164,0
 Leon,,-1,[EXTRA] MendezHouse Ambush Fodder,44110,2.76,8.88,96.07,0,-19,0,,,,01_Village.CP2.StartVanilla.Level.CP201_DynamiteValley.HexShuffle|WayBack,aggroed nowave,fodder,
 Leon,,-1,[EXTRA] MendezHouse Ambush Fodder,44101,17.27,8.8,99.47,0,-104,0,,,,01_Village.CP2.StartVanilla.Level.CP201_DynamiteValley.HexShuffle|WayBack,aggroed nowave,small,
 Leon,,-1,[EXTRA] Valley Marble Guardian,44400,65.06,-7.74,225.92,0,36,0,,,battle.dynamitehex,01_Village.CP2.StartVanilla.Level.CP201_DynamiteValley.HexShuffle|Marble,noduplicate nowave,brute brute_hammer brute_jj chainsaw regenerador chainsaw_mad gold-armadura krauser_1,noitem*
-Leon,,-1,[EXTRA] Mendez House Ambusher,44101,16,8.9,99.3,0,-106.3,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Ambush,,,
-Leon,,-1,[EXTRA] Mendez House Ambusher,44110,11.6,8.9,106.3,0,-180,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Ambush,,,
-Leon,,-1,[EXTRA] Mendez House Ambusher,44110,1.2,8.9,105.8,0,152.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Ambush,,,
-Leon,,-1,[EXTRA] Mendez House guard,44101,-11.4,8.1,91.6,0,70.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Guard,,,
-Leon,,-1,[EXTRA] Mendez House guard,44101,-12.4,8.1,94.2,0,70.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Guard,,,
-Leon,,-1,[EXTRA] Mendez House guard,44101,-6.8,8.7,105.4,0,-111.7,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Guard,,,
-Leon,,-1,[EXTRA] Mendez House dog stare,44101,2.2,8.8,90.3,0,106.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Dogstare,,,
-Leon,,-1,[EXTRA] Mendez House dog stare,44101,2.2,8.8,89,0,77.9,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Dogstare,,,
-Leon,,-1,[EXTRA] Mendez House dog stare,44101,3,8.8,88,0,106.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_MendezHouse.Dogstare,,,
-Leon,,-1,[EXTRA] Mendez connector (behind),44101,-15.5,7.9,91.1,0,-137,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Ambush,aggroed,,boss
-Leon,,-1,[EXTRA] Mendez connector (behind),44101,-15.5,7.9,91.1,0,-137,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Ambush,aggroed,,boss
-Leon,,-1,[EXTRA] Mendez connector (boss),44100,-10.8,2.8,36.7,0,0,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Ambush,noduplicate nowave guardian,elite,dog*
-Leon,,-1,[EXTRA] Mendez connector (ahead),44100,-11.4,2.8,40.6,0,-23.3,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Ambush,aggroed,,boss
-Leon,,-1,[EXTRA] Mendez connector (ahead),44100,-11.4,2.8,40.6,0,-23.3,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Ambush,aggroed,,boss
-Leon,,-1,[EXTRA] Mendez Behind,44100,-15.5,7.9,91.1,0,-137,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Mendez,noduplicate aggroed,mendez_chase,
-Leon,,-1,[EXTRA] Cave Bugs,44100,-18.1,4.9,74.1,0,-21.7,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Bugs,noduplicate,novistador,
-Leon,,-1,[EXTRA] Cave Bugs,44100,-17.5,4.9,66.9,0,-62.1,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Bugs,noduplicate,novistador,
-Leon,,-1,[EXTRA] Cave Bugs,44100,-23.5,8.3,60.9,0,62.7,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Bugs,noduplicate,novistador,
-Leon,,-1,[EXTRA] Cave Bugs,44100,-16,4,47,0,-53,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Bugs,aggroed noduplicate,arana,
-Leon,,-1,[EXTRA] Cave Bugs,44100,-17,4,46,0,-51,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Bugs,aggroed noduplicate,arana,
-Leon,,-1,[EXTRA] Garrador Sandwich,44100,-15.4,12,91.2,0,-145,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Garrador|Ambush,aggroed noduplicate,garrador,
-Leon,,-1,[EXTRA] Garrador knight,44100,-16.3,4.9,69.7,0,-19.1,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Garrador|Ambush,noduplicate,garrador,
-Leon,,-1,[EXTRA] Garrador Sandwich,44100,-17.6,4.9,66.2,0,-61.8,0,,,,01_Village.CP3.StartVanilla.Event.CP302_MendezConnector.Garrador|SecondSpawn,aggroed noduplicate,garrador,
-Leon,,-1,,40200,21.79,-5.55,6.54,0,-25,0,,,,01_Village.CP3.StartVanilla.Event.CP303_VillageSquare.Ambush_0,aggroed noduplicate,small,
-Leon,,-1,,40200,25.28,-5.04,2.95,0,-35,0,,,,01_Village.CP3.StartVanilla.Event.CP303_VillageSquare.Ambush_0,aggroed,fodder,
-Leon,,-1,[EXTRA] Ambush that spawns in town hall,40212,25.7,1,2.6,0,70.8,0,,,,01_Village.CP3.StartVanilla.Event.CP303_VillageSquare.Ambush_1,aggroed nowave guardian,small,big dog*
-Leon,,-1,[EXTRA] Ambush that spawns in town hall,40212,25.7,1,2.6,0,70.8,0,,,,01_Village.CP3.StartVanilla.Event.CP303_VillageSquare.Ambush_1,aggroed nowave,fodder,big dog*
-Leon,,-1,[EXTRA] Outside spawns in town hall,40213,31.67,1.01,19.54,0,178,0,,,,01_Village.CP3.StartVanilla.Event.CP303_VillageSquare.Ambush_1,aggroed nowave,small,
-Leon,,-1,[EXTRA] Outside that spawns in town hall,40200,21.3,1.03,0.82,0,75,0,,,,01_Village.CP3.StartVanilla.Event.CP303_VillageSquare.Ambush_1,aggroed nowave,small,
-Leon,,-1,[EXTRA] Church Backtrack Guardian,45200,92.8,10.03,87.96,0,-136,0,,,,01_Village.CP3.StartVanilla.Event.CP304_GraveyardChurch.Arena,guardian noduplicate nowave,,dog*
-Leon,,-1,[Guardian] Quarry Arena Guardian,45302,173.27,7.95,139.66,0,127,0,,,,01_Village.CP3.StartVanilla.Event.CP305_Quarry.Arena,aggroed noduplicate nowave guardian,mendez_2 krauser_1 krauser_2 verdugo chainsaw_mad super_iron_maiden,
-Leon,,-1,[Guardian] Quarry Arena Guardian,45302,166.77,15.54,141.4,0,102,0,,,,01_Village.CP3.StartVanilla.Event.CP305_Quarry.WallArena|Event,aggroed noduplicate nowave guardian,mendez_2 krauser_1 krauser_2 chainsaw_mad super_iron_maiden,
-Leon,,-1,[Event] Quarry Arena Extra,45302,174.47,7.95,144.28,0,164,0,,,,01_Village.CP3.StartVanilla.Event.CP305_Quarry.WallArena|Event,aggroed nowave,fodder,
-Leon,,-1,[Event] Quarry Arena Extra,45302,174.76,8,128.31,0,54,0,,,,01_Village.CP3.StartVanilla.Event.CP305_Quarry.WallArena|Event,aggroed nowave,fodder,
+Leon,,-1,[EXTRA] Mendez House Ambusher,44101,16,8.9,99.3,0,-106.3,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.HouseAmbush,,,
+Leon,,-1,[EXTRA] Mendez House Ambusher,44110,11.6,8.9,106.3,0,-180,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.HouseAmbush,,,
+Leon,,-1,[EXTRA] Mendez House Ambusher,44110,1.2,8.9,105.8,0,152.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.HouseAmbush,,,
+Leon,,-1,[EXTRA] Mendez House guard,44101,-11.4,8.1,91.6,0,70.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.HouseGuard,,,
+Leon,,-1,[EXTRA] Mendez House guard,44101,-12.4,8.1,94.2,0,70.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.HouseGuard,,,
+Leon,,-1,[EXTRA] Mendez House guard,44101,-6.8,8.7,105.4,0,-111.7,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.HouseGuard,,,
+Leon,,-1,[EXTRA] Mendez House dog stare,44101,2.2,8.8,90.3,0,106.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.HouseDogstare,,,
+Leon,,-1,[EXTRA] Mendez House dog stare,44101,2.2,8.8,89,0,77.9,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.HouseDogstare,,,
+Leon,,-1,[EXTRA] Mendez House dog stare,44101,3,8.8,88,0,106.6,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.HouseDogstare,,,
+Leon,,-1,[EXTRA] Mendez connector (behind),44101,-15.5,7.9,91.1,0,-137,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorAmbush,aggroed,,boss
+Leon,,-1,[EXTRA] Mendez connector (behind),44101,-15.5,7.9,91.1,0,-137,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorAmbush,aggroed,,boss
+Leon,,-1,[EXTRA] Mendez connector (boss),44100,-10.8,2.8,36.7,0,0,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorAmbush,noduplicate nowave guardian,elite,dog*
+Leon,,-1,[EXTRA] Mendez connector (ahead),44100,-11.4,2.8,40.6,0,-23.3,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorAmbush,aggroed,,boss
+Leon,,-1,[EXTRA] Mendez connector (ahead),44100,-11.4,2.8,40.6,0,-23.3,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorAmbush,aggroed,,boss
+Leon,,-1,[EXTRA] Mendez Behind,44100,-15.5,7.9,91.1,0,-137,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorMendez,noduplicate aggroed,mendez_chase,
+Leon,,-1,[EXTRA] Cave Bugs,44100,-18.1,4.9,74.1,0,-21.7,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorBugs,noduplicate,novistador,
+Leon,,-1,[EXTRA] Cave Bugs,44100,-17.5,4.9,66.9,0,-62.1,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorBugs,noduplicate,novistador,
+Leon,,-1,[EXTRA] Cave Bugs,44100,-23.5,8.3,60.9,0,62.7,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorBugs,noduplicate,novistador,
+Leon,,-1,[EXTRA] Cave Bugs,44100,-16,4,47,0,-53,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorBugs,aggroed noduplicate,arana,
+Leon,,-1,[EXTRA] Cave Bugs,44100,-17,4,46,0,-51,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorBugs,aggroed noduplicate,arana,
+Leon,,-1,[EXTRA] Garrador Sandwich,44100,-15.4,12,91.2,0,-145,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorGarrador|Ambush,aggroed noduplicate,garrador,
+Leon,,-1,[EXTRA] Garrador knight,44100,-16.3,4.9,69.7,0,-19.1,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorGarrador|Ambush,noduplicate,garrador,
+Leon,,-1,[EXTRA] Garrador Sandwich,44100,-17.6,4.9,66.2,0,-61.8,0,,,,01_Village.CP3.StartVanilla.Event.CP301_Mendez.ConnectorGarrador|SecondSpawn,aggroed noduplicate,garrador,
+Leon,,-1,,40200,21.79,-5.55,6.54,0,-25,0,,,,01_Village.CP3.StartVanilla.Event.CP302_VillageSquare.Ambush_0,aggroed noduplicate,small,
+Leon,,-1,,40200,25.28,-5.04,2.95,0,-35,0,,,,01_Village.CP3.StartVanilla.Event.CP302_VillageSquare.Ambush_0,aggroed,fodder,
+Leon,,-1,[EXTRA] Ambush that spawns in town hall,40212,25.7,1,2.6,0,70.8,0,,,,01_Village.CP3.StartVanilla.Event.CP302_VillageSquare.Ambush_1,aggroed nowave guardian,small,big dog*
+Leon,,-1,[EXTRA] Ambush that spawns in town hall,40212,25.7,1,2.6,0,70.8,0,,,,01_Village.CP3.StartVanilla.Event.CP302_VillageSquare.Ambush_1,aggroed nowave,fodder,big dog*
+Leon,,-1,[EXTRA] Outside spawns in town hall,40213,31.67,1.01,19.54,0,178,0,,,,01_Village.CP3.StartVanilla.Event.CP302_VillageSquare.Ambush_1,aggroed nowave,small,
+Leon,,-1,[EXTRA] Outside that spawns in town hall,40200,21.3,1.03,0.82,0,75,0,,,,01_Village.CP3.StartVanilla.Event.CP302_VillageSquare.Ambush_1,aggroed nowave,small,
+Leon,,-1,[EXTRA] Church Backtrack Guardian,45200,92.8,10.03,87.96,0,-136,0,,,,01_Village.CP3.StartVanilla.Event.CP303_GraveyardChurch.Arena,guardian noduplicate nowave,,dog*
+Leon,,-1,[Guardian] Quarry Arena Guardian,45302,173.27,7.95,139.66,0,127,0,,,,01_Village.CP3.StartVanilla.Event.CP304_Quarry.Arena,aggroed noduplicate nowave guardian,mendez_2 krauser_1 krauser_2 verdugo chainsaw_mad super_iron_maiden,
+Leon,,-1,[Guardian] Quarry Arena Guardian,45302,166.77,15.54,141.4,0,102,0,,,,01_Village.CP3.StartVanilla.Event.CP304_Quarry.WallArena|Event,aggroed noduplicate nowave guardian,mendez_2 krauser_1 krauser_2 chainsaw_mad super_iron_maiden,
+Leon,,-1,[Event] Quarry Arena Extra,45302,174.47,7.95,144.28,0,164,0,,,,01_Village.CP3.StartVanilla.Event.CP304_Quarry.WallArena|Event,aggroed nowave,fodder,
+Leon,,-1,[Event] Quarry Arena Extra,45302,174.76,8,128.31,0,54,0,,,,01_Village.CP3.StartVanilla.Event.CP304_Quarry.WallArena|Event,aggroed nowave,fodder,
 Leon,,-1,[Guardian] Fish Farm Arena,45400,141.18,-5.66,48.64,0,-18,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerPath.FishFarmFuel.Arena_0|Arena,guardian noduplicate nowave,elite,
 Leon,,-1,[Guardian] Fish Farm Arena,45400,134.89,-6.07,61.79,0,144,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.TowerPath.FishFarmFuel.Arena_1,guardian noduplicate nowave,elite,
 Leon,,-1,[Guardian] Fish Farm Arena,45400,141.18,-5.66,48.64,0,-18,0,,,,01_Village.CP3.StartVanilla.Level.CP302_BridgetoQuarry.NoLadder.FishFarmFuel.Arena_0|Arena,guardian noduplicate nowave,elite,
