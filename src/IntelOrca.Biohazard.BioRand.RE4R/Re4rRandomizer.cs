@@ -6,13 +6,12 @@ using IntelOrca.Biohazard.REE.Package;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    public class Re4rRandomizer(string inputGamePath, IProgressReporter reporter)
+    public class Re4rRandomizer(string inputGamePath, bool beta, IProgressReporter reporter)
     {
         private readonly static EnemyClassFactory _default = new();
 
         public static string BuildVersion => ChainsawRandomizerFactory.Default.GitHash;
-        public static RandomizerConfigurationDefinition ConfigurationDefinition => Re4rRandomizerConfigurationDefinition.Create(_default);
-        public static RandomizerConfiguration DefaultConfiguration => Re4rRandomizerConfigurationDefinition.Create(_default).GetDefault();
+        public RandomizerConfigurationDefinition ConfigurationDefinition => Re4rRandomizerConfigurationDefinition.Create(_default, beta);
 
         public RandomizerOutput Randomize(RandomizerInput input)
         {
@@ -23,7 +22,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
             try
             {
-                using var randomizer = new ChainsawRandomizer(input, inputGamePath, reporter);
+                using var randomizer = new ChainsawRandomizer(input, inputGamePath, beta, reporter);
                 return randomizer.Randomize();
             }
             finally

@@ -49,8 +49,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
         private class RandomizerAgentHandler(string gameInputPath, bool beta) : IRandomizerAgentHandler
         {
             public string BuildVersion => Re4rRandomizer.BuildVersion;
-            public RandomizerConfigurationDefinition ConfigurationDefinition => Re4rRandomizer.ConfigurationDefinition;
-            public RandomizerConfiguration DefaultConfiguration => Re4rRandomizer.DefaultConfiguration;
+            public RandomizerConfigurationDefinition ConfigurationDefinition => Create().ConfigurationDefinition;
+            public RandomizerConfiguration DefaultConfiguration => ConfigurationDefinition.GetDefault();
 
             public Task<bool> CanGenerateAsync(RandomizerAgent.QueueResponseItem queueItem)
             {
@@ -83,8 +83,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 config["username"] = userName;
                 config["special"] = string.Join(",", specials);
 
-                var randomizer = new Re4rRandomizer(gameInputPath, new EmptyReporter());
-                return Task.FromResult(randomizer.Randomize(input));
+                return Task.FromResult(Create().Randomize(input));
+            }
+
+            private Re4rRandomizer Create()
+            {
+                return new Re4rRandomizer(gameInputPath, beta, new EmptyReporter());
             }
 
             public void LogInfo(string message) => AnsiConsole.MarkupLine($"[gray]{Timestamp} {message}[/]");

@@ -6,7 +6,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal static class Re4rRandomizerConfigurationDefinition
     {
-        public static RandomizerConfigurationDefinition Create(EnemyClassFactory enemyClassFactory)
+        public static RandomizerConfigurationDefinition Create(EnemyClassFactory enemyClassFactory, bool beta)
         {
             var configDefinition = new RandomizerConfigurationDefinition();
 
@@ -355,22 +355,22 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             #region Weapon
 
-            //Weapon Page
             page = configDefinition.CreatePage("Weapon");
             page.Advanced = true;
             group = page.CreateGroup("Legendary Weapons");
-#if ENABLE_BETA_MODE
-            group.Items.Add(new GroupItem()
+            if (beta)
             {
-                Id = $"weapon-legendary-quantity-min",
-                Label = $"Min. Quantity of Legendary Weapons",
-                Description = "Minimum number of legendary weapons available to find.",
-                Type = "range",
-                Min = 0,
-                Max = 32,
-                Default = 0
-            });
-#endif
+                group.Items.Add(new GroupItem()
+                {
+                    Id = $"weapon-legendary-quantity-min",
+                    Label = $"Min. Quantity of Legendary Weapons",
+                    Description = "Minimum number of legendary weapons available to find.",
+                    Type = "range",
+                    Min = 0,
+                    Max = 32,
+                    Default = 0
+                });
+            }
             group.Items.Add(new GroupItem()
             {
                 Id = $"weapon-legendary-quantity-max",
@@ -378,11 +378,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Description = "Maximum number of legendary weapons available to find.",
                 Type = "range",
                 Min = 0,
-#if ENABLE_BETA_MODE
-                Max = 32,
-#else
-                Max = 2,
-#endif
+                Max = beta ? 32 : 2,
                 Default = 2
             });
 
@@ -1395,16 +1391,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             page.Advanced = true;
             group = page.CreateGroup("");
             group.Warning = "These options are only for testing / debugging the randomizer.";
-#if ENABLE_BETA_FEATURES
-            group.Items.Add(new GroupItem()
+            if (beta)
             {
-                Id = "debug-download-data",
-                Label = "Download Data",
-                Description = "Download latest spreadsheet data before generating the randomizer.",
-                Type = "switch",
-                Default = false
-            });
-#endif
+                group.Items.Add(new GroupItem()
+                {
+                    Id = "debug-download-data",
+                    Label = "Download Data",
+                    Description = "Download latest spreadsheet data before generating the randomizer.",
+                    Type = "switch",
+                    Default = false
+                });
+            }
             group.Items.Add(new GroupItem()
             {
                 Id = $"enable-special",

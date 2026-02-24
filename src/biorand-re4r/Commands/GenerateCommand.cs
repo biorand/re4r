@@ -55,7 +55,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
                 reporter.RunTask("Killing re4.exe", () => KillRe4());
             }
 
-            var randomizer = new Re4rRandomizer(settings.InputPath ?? "", reporter);
+            var randomizer = new Re4rRandomizer(settings.InputPath ?? "", true, reporter);
             RandomizerInput input;
             if (settings.Url is string url)
             {

@@ -18,6 +18,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly Lock _servicesLock = new();
         private readonly Dictionary<string, string> _logFiles = [];
 
+        public bool Beta { get; }
         public int PakVersion => Version + 1;
         public RandomizerInput Input { get; }
         public IProgressReporter Reporter { get; }
@@ -32,18 +33,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public GimmickService GimmickService => GetService<GimmickService>();
         public FlagService FlagService => GetService<FlagService>();
 
-        public ChainsawRandomizer(RandomizerInput input, string inputGamePath, IProgressReporter reporter)
+        public ChainsawRandomizer(RandomizerInput input, string inputGamePath, bool beta, IProgressReporter reporter)
         {
             Input = input;
             _inputGamePath = inputGamePath;
+            Beta = beta;
             Reporter = reporter;
-            DynamicData = new DynamicData(
-#if ENABLE_BETA_FEATURES
-                Input.Configuration.GetValueOrDefault<bool>("debug-download-data")
-#else
-                false
-#endif
-            );
+            DynamicData = new DynamicData(download: beta && Input.Configuration.GetValueOrDefault<bool>("debug-download-data"));
         }
 
         public void Dispose()
