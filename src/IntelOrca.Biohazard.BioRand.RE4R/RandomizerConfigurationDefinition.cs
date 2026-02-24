@@ -14,6 +14,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             var page = configDefinition.CreatePage("General");
             var group = page.CreateGroup("");
+            group.Label = "The Separate Ways DLC is currently required for the randomizer to function correctly.";
             group.Items.Add(new GroupItem()
             {
                 Id = "game-version",
