@@ -15,8 +15,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 return;
 
             var flagService = randomizer.FlagService;
-            var minWaves = Math.Clamp(randomizer.GetConfigOption("enemy-waves-min", 2), 2, 50);
-            var maxWaves = Math.Clamp(randomizer.GetConfigOption("enemy-waves-max", 2), minWaves, 50);
+            var minWaves = Math.Clamp(randomizer.GetConfigOption("enemy-waves-min", 2), 2, 25);
+            var maxWaves = Math.Clamp(randomizer.GetConfigOption("enemy-waves-max", 2), minWaves, 25);
             var waveDistance = Math.Clamp(randomizer.GetConfigOption<float>("enemy-waves-distance", 10), 1, 100);
 
             var waveProbability = Math.Clamp(randomizer.GetConfigOption<float>("enemy-waves-probability", 1), 0, 1);

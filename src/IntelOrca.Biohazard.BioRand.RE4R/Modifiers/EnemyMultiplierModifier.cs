@@ -10,7 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
     {
         public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
         {
-            var multiplier = randomizer.GetConfigOption<double>("enemy-multiplier", 1);
+            var multiplier = Math.Clamp(randomizer.GetConfigOption<double>("enemy-multiplier", 1), 1, 5);
             if (multiplier == 1)
                 return;
 
