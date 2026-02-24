@@ -345,9 +345,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             if (dItem.Definition.Id == ItemIds.SentinelNine ||
                 dItem.Definition.Id == ItemIds.SkullShaker)
             {
-                // DLC weapons don't seem to work unless you start with them
-                // or they are in rewards
-                discovery = ItemDiscovery.Reward;
+                if (discovery != ItemDiscovery.Start)
+                {
+                    // DLC weapons don't seem to work unless you start with them
+                    // or they are in rewards
+                    discovery = ItemDiscovery.Reward;
+                }
             }
             else if (discovery == ItemDiscovery.Shop)
             {
