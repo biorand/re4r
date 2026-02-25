@@ -1,36 +1,36 @@
 Campaign,Chapter,Stage,Damp,HardLimit,Notes
-Leon,1,40500,0.75,80,Pre Village + Hunters Cabin
+Leon,1,40500,0.80,80,Pre Village + Hunters Cabin
 ,,40501,,,
 ,,40502,,,
 ,,40504,,,
 ,,40505,,,
 ,,40510,,,
-Leon,1,40200,0.50,200,Village fight
+Leon,1,40200,0.80,200,Village fight
 ,,40210,,,
 ,,40211,,,
-Leon,1,43300,0.50,80,
+Leon,1,43300,0.80,80,
 ,,43310,,,
 ,,43301,,,
-,1,43302,0.50,80,Rock Explosion to Lakeside cabin
+,1,43302,0.80,80,Rock Explosion to Lakeside cabin
 ,,43303,,,
 ,,43400,,,
 ,,43410,,,
-Leon,2,44410,0.50,80,Dynamite Valley
+Leon,2,44410,0.80,80,Dynamite Valley
 ,,44210,,,
 ,,44200,,,
 ,,44300,,,
 ,,44400,,,
-Leon,2,44201,0.75,80,Mendez house
+Leon,2,44201,0.80,80,Mendez house
 ,,44101,,,
 ,,44110,,,
-Leon,3,44102,0.60,80,Return to village from Mendez house
+Leon,3,44102,0.80,80,Return to village from Mendez house
 ,,44100,,,
 ,,40200,,,
 ,,40210,,,
 ,,40211,,,
 ,,40212,,,
 ,,40213,,,
-,3,45100,0.60,80,Church
+,3,45100,0.80,80,Church
 ,,45200,,,
 ,,45210,,,
 ,,45401,,,
@@ -38,56 +38,56 @@ Leon,3,44102,0.60,80,Return to village from Mendez house
 ,,45301,,,
 ,,45302,,,
 ,,45303,,,
-,3,46210,0.60,80,Fishing Village
+,3,46210,0.80,80,Fishing Village
 ,,45500,,,
 ,,45510,,,
 ,,45400,,,
 ,,45410,,,
 ,,46900,,,
-Leon,4,43400,0.60,80,Lake
+Leon,4,43400,0.80,80,Lake
 ,,43500,,,
 ,,46100,,,
 ,,46110,,,
 ,,46111,,,
 ,,46200,,,
 ,,46201,,,
-,4,45200,0.75,80,Merchant Dock to Church
+,4,45200,0.80,80,Merchant Dock to Church
 ,,45300,,,
 ,,45301,,,
 ,,45302,,,
 ,,45401,,,
-Leon,5,40200,0.00,70,Church to Cabin
+Leon,5,40200,0.60,70,Church to Cabin
 ,,40210,,,
 ,,43300,,,
 ,,43301,,,
 ,,43310,,,
-Leon,5,44101,0.75,80,Mendez House Outside
+Leon,5,44101,0.80,80,Mendez House Outside
 ,,44110,,,Mendez House Inside
-Leon,5,45200,0.75,80,
+Leon,5,45200,0.80,80,
 ,,45210,,,
 ,,45401,,,
-Leon,5,43311,0.75,80,
-Leon,6,47100,0.75,80,
+Leon,5,43311,0.80,80,
+Leon,6,47100,0.80,80,
 ,,47101,,,
 ,,47102,,,
 ,,47200,,,
 ,,47201,,,
-Leon,6,47300,0.75,80,
+Leon,6,47300,0.80,80,
 ,,47400,,,
 ,,47410,,,
-Leon,7,50100,0.75,80,Merchant to Catapult start
+Leon,7,50100,0.80,80,Merchant to Catapult start
 ,,50200,,,
 ,,50201,,,
-Leon,7,50202,0.75,80,Catapult start till main hall
+Leon,7,50202,0.80,80,Catapult start till main hall
 ,,50300,,,
 ,,50301,,,
-Leon,7,50400,0.75,80,Main hall
+Leon,7,50400,0.80,80,Main hall
 ,,50401,,,
-Leon,7,50500,0.75,80,Garrador hole
+Leon,7,50500,0.80,80,Garrador hole
 ,,50501,,,
-Leon,7,50600,0.75,80,Waterhall
+Leon,7,50600,0.80,80,Waterhall
 ,,50601,,,
-Leon,8,51101,0.75,80,
+Leon,8,51101,0.80,80,
 ,,51400,,,
 ,,51403,,,
 ,,51404,,,
@@ -96,23 +96,23 @@ Leon,8,51101,0.75,80,
 ,,51502,,,
 ,,51503,,,
 ,,51504,,,
-Leon,8,51600,0.50,80,
+Leon,8,51600,0.80,80,
 ,,51610,,,
 ,,51611,,,
 ,,51612,,,
-Leon,8,51202,0.75,80,
+Leon,8,51202,0.80,80,
 ,,51200,,,
-Leon,9,51201,0.75,80,Maze
+Leon,9,51201,0.80,80,Maze
 ,,51200,,,
-Leon,9,52100,0.75,100,Main Hall + Armory + Dinning Hall + Gallery room
+Leon,9,52100,0.80,100,Main Hall + Armory + Dinning Hall + Gallery room
 ,,52101,,,
 ,,52300,,,
 ,,52401,,,
 ,,52203,,,
 ,,52204,,,
 ,,52202,,,
-Leon,10,54100,0.75,80,Ballroom
+Leon,10,54100,0.80,80,Ballroom
 ,,54200,,,
-Leon,10,54300,0.50,80,Garrador Room
-Leon,10,54400,0.75,80,
+Leon,10,54300,0.80,80,Garrador Room
+Leon,10,54400,0.80,80,
 ,,54402,,,
