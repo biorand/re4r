@@ -403,6 +403,34 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         sourceNode = sourceNode.Set("_WeaponDetailCustom", weaponDetailCustom);
                     }
 
+                    if (wpid == 6300)
+                    {
+                        sourceNode = sourceNode.Set("_WeaponID", wpid);
+
+                        var weaponDetailCustom = sourceNode.Get<RszObjectNode>("_WeaponDetailCustom");
+                        var individualCustoms = weaponDetailCustom.Get<RszArrayNode>("_IndividualCustoms");
+
+                        if (individualCustoms.Length > 1)
+                        {
+                            var rapidCustom = individualCustoms[1];
+                            var rapid = rapidCustom.Get<RszObjectNode>("_Rapid");
+                            var rapidSpeed = rapid.Get<RszArrayNode>("_RapidSpeed");
+
+                            rapidSpeed = rapidSpeed
+                                .SetItem(0, 2.2f)
+                                .SetItem(1, 2.0f)
+                                .SetItem(2, 1.8f)
+                                .SetItem(3, 1.6f)
+                                .SetItem(4, 1.4f);
+
+                            rapid = rapid.Set("_RapidSpeed", rapidSpeed);
+                            rapidCustom = rapidCustom.Set("_Rapid", rapid);
+                            individualCustoms = individualCustoms.SetItem(1, rapidCustom);
+                            weaponDetailCustom = weaponDetailCustom.Set("_IndividualCustoms", individualCustoms);
+                            sourceNode = sourceNode.Set("_WeaponDetailCustom", weaponDetailCustom);
+                        }
+                    }
+
                     var path = campaign == Campaign.Leon ?
                         "natives/stm/_chainsaw/appsystem/weaponcustom/weapondetailcustomuserdata.user.2" :
                         "natives/stm/_anotherorder/appsystem/weaponcustom/weapondetailcustomuserdata_ao.user.2";
