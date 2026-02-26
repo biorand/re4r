@@ -733,8 +733,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var infoMultiplier = float.Parse(levels[0].Info) / levels[0].Speed;
             for (var i = 0; i < 5; i++)
             {
-                var value = MathF.Round(levels[0].Speed * sr.Values[i], 2);
-                var pumpValue = MathF.Round(levels[0].Speed * sr.Values[4 - i], 2);
+                var value = isPump ? levels[i].Speed : MathF.Round(levels[0].Speed * sr.Values[i], 2);
+                var pumpValue = MathF.Round(levels[0].PumpSpeed / sr.Values[i], 2);
                 var info = (levels[0].Speed + levels[0].Speed - levels[i].Speed) * infoMultiplier;
                 levels[i] = fireRate.Levels[i] with
                 {
