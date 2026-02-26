@@ -7,7 +7,7 @@ Leon,afc35303-7d98-4615-ad30-ac0c99e2e709,1,villager  hatchet * // Patrol Ganado
 Leon,7627dd62-89c8-4964-ac6e-0df675e2ad10,1,villager  hatchet *,40504,0,0,0,0,0,0,,,,,,,boss colmillos
 Leon,ed0cf043-e107-480c-a3c1-58877a84f22f,1,villager  hoe * // LEDGE REINFORCEMENT,40504,0,0,0,0,0,0,,,,,,climber*,
 Leon,444f5d9b-4b54-4c44-8d66-2557f501407a,1,villager  pitchfork *,40504,0,0,0,0,0,0,,,,,,,boss
-Leon,4ab9f0a3-891e-441e-a1d6-3de1028fda1a,1,villager  hatchet *,40505,0,0,0,0,0,0,,,,,,,boss
+Leon,4ab9f0a3-891e-441e-a1d6-3de1028fda1a,1,villager  hatchet *,40505,0,0,0,0,0,0,,,,,,,boss* dog*
 Leon,07d41ff3-1ec6-d325-466c-6fd249922e51,1,[EXTRA] OPENER // Flank Right of Sign,40501,-255,6,50,0,0,0,,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,,,,,boss*
 Leon,caa655c1-7de3-82e4-45cc-94769362c824,1,[EXTRA] OPENER // Behind Wire Fence,40501,-240,6,54,0,0,0,,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,,,,,boss*
 Leon,,1,[EXTRA] HUNTERS CABIN PORCH (AFTER GO INTO HOUSE),40502,-192,10,91,0,-90,0,8d40f8b4-b56d-4588-b71a-5a5e1c40d20d,b3bee246-d762-4244-bdb8-c7db24764ae8,,,,,boss
@@ -28,16 +28,16 @@ Leon,cd91a02f-8b2a-853d-4ecb-8d59389eb6bd,1,[EXTRA] PATH TO SIEGE // After Ruine
 Leon,75152fe5-89b9-ecce-4c4d-6eb76be6ac98,1,[EXTRA] PATH TO SIEGE // The Drawer Guardian,40504,-124,7,35,0,0,0,35882cb7-d15a-4ea9-b44b-8329e14b5309,,,,,fodder elite,
 Leon,da73460d-62b6-4dc2-9882-1183bba45389,1,chainsaw   Emerald x1,40200,0,0,0,0,0,0,,,,,noduplicate horde essential,,
 Leon,d47e2d46-cd1f-41b4-8f5e-9c58183540ee,1,chainsaw   Emerald x1,40200,0,0,0,0,0,0,,,,,noduplicate horde essential,,
-Leon,0c2ca06f-f6ac-4cc2-8405-12399fd2db4b,1,villager   * // Pail Carrier,40200,0,0,0,0,0,0,,,,,,,boss garrador*
-Leon,4a59a26f-da75-4f63-b2f3-e5b61f2658fa,1,villager  pitchfork * // Guarding Front of Shotgun House,40200,0,0,0,0,0,0,,,,,,,garrador*
-Leon,66c6e4ae-2c19-4552-9fe0-b89ecd0e0ea6,1,villager   * // Guarding Path to Farm,40200,0,0,0,0,0,0,,,,,,,garrador*
-Leon,87827167-575d-4f83-bba2-8c3b525332f5,1,villager  pitchfork * // Westside Hay Mover,40200,0,0,0,0,0,0,,,,,lockweapon,,garrador*
-Leon,f078d716-0fd8-4b3f-90d5-9ededc3ff195,1,villager   * // Granny Patrol,40200,0,0,0,0,0,0,,,,,,,boss garrador*
-Leon,bb879336-1b47-492b-8dd7-48c41d620453,1,villager  hatchet * // Outside Shotgun house Window,40200,0,0,0,0,0,0,,,,,,,garrador*
-Leon,bb1e5c3d-13d8-4a4b-b49d-cb8ba9c25012,1,villager  hatchet * // Bonfire Left,40200,0,0,0,0,0,0,,,,,,,boss garrador*
-Leon,75a68531-8cb0-476c-9909-5bd3cac1310c,1,villager   * // Firestarter,40200,0,0,0,0,0,0,,,,,,,garrador*
-Leon,7a5c62b8-00c8-4fb2-9a02-6e806c38f7b4,1,villager   * // Guarding Fence,40200,0,0,0,0,0,0,,,,,,,garrador*
-Leon,f4497266-8763-425c-b543-331dbdbfe44d,1,villager  hatchet * // Between Shotgun House and small Key Hut,40200,0,0,0,0,0,0,,,,,,,garrador*
+Leon,0c2ca06f-f6ac-4cc2-8405-12399fd2db4b,1,villager   * // Pail Carrier,40200,0,0,0,0,0,0,,,,,,,boss garrador* arana*
+Leon,4a59a26f-da75-4f63-b2f3-e5b61f2658fa,1,villager  pitchfork * // Guarding Front of Shotgun House,40200,0,0,0,0,0,0,,,,,,,garrador* arana*
+Leon,66c6e4ae-2c19-4552-9fe0-b89ecd0e0ea6,1,villager   * // Guarding Path to Farm,40200,0,0,0,0,0,0,,,,,,,garrador* arana*
+Leon,87827167-575d-4f83-bba2-8c3b525332f5,1,villager  pitchfork * // Westside Hay Mover,40200,0,0,0,0,0,0,,,,,lockweapon,,garrador* arana*
+Leon,f078d716-0fd8-4b3f-90d5-9ededc3ff195,1,villager   * // Granny Patrol,40200,0,0,0,0,0,0,,,,,,,boss garrador* arana*
+Leon,bb879336-1b47-492b-8dd7-48c41d620453,1,villager  hatchet * // Outside Shotgun house Window,40200,0,0,0,0,0,0,,,,,,,garrador* arana*
+Leon,bb1e5c3d-13d8-4a4b-b49d-cb8ba9c25012,1,villager  hatchet * // Bonfire Left,40200,0,0,0,0,0,0,,,,,,,boss garrador* arana*
+Leon,75a68531-8cb0-476c-9909-5bd3cac1310c,1,villager   * // Firestarter,40200,0,0,0,0,0,0,,,,,,,garrador* arana*
+Leon,7a5c62b8-00c8-4fb2-9a02-6e806c38f7b4,1,villager   * // Guarding Fence,40200,0,0,0,0,0,0,,,,,,,garrador* arana*
+Leon,f4497266-8763-425c-b543-331dbdbfe44d,1,villager  hatchet * // Between Shotgun House and small Key Hut,40200,0,0,0,0,0,0,,,,,,,garrador* arana*
 Leon,cba7d4c3-1780-4127-9d90-17645db43af2,1,villager  hatchet *,40200,0,0,0,0,0,0,,,,,,,
 Leon,cf0a04a2-e1b9-4ffc-b6dc-034192f04807,1,villager  hatchet *,40200,0,0,0,0,0,0,,,,,,,
 Leon,47a9c9e5-4f3a-4ea3-bd30-f66201b3a4ed,1,villager  shovel *,40200,0,0,0,0,0,0,,,,,,,
@@ -120,7 +120,7 @@ Leon,cb4b8afb-fbf4-4565-bff1-b8d663ef9594,1,villager  hatchet * // Dynamite Hous
 Leon,10ebbec3-879d-4115-98fa-bb92fa5d3cc3,1,villager  hatchet * // Under Birds Nest,43400,0,0,0,0,0,0,,,,,,fodder elite boss,
 Leon,616362e3-482e-49ed-bcb1-11eb72ee114a,1,villager  dynamite * // Dynamite Thrower by Luis House,43400,0,0,0,0,0,0,,,,,,fodder elite boss,
 Leon,ac45380d-9056-455f-9057-1a50e96b1eae,1,villager  pitchfork * // Pier Guardian,43400,0,0,0,0,0,0,,,,,,elite boss,
-Leon,53103451-d99a-48b4-a487-058857b4e5b7,1,villager  hoe * // Porch Guardian,43410,0,0,0,0,0,0,,,,,,fodder elite,
+Leon,53103451-d99a-48b4-a487-058857b4e5b7,1,villager  hoe * // Porch Guardian,43410,0,0,0,0,0,0,,,,,,small,
 Leon,58367a3d-d456-44ef-8aab-e481393ec3fb,1,villager  hatchet * // Trapdoor guy,43410,0,0,0,0,0,0,,,,,,,boss colmillos super-colmillos arana
 Leon,8a7b4245-b96a-bf68-4c75-778aea239fb3,1,[EXTRA] FARM // Left of Ch5 Cabin Far,43301,47,5,-171,0,0,0,dd9080b0-2a6e-4051-ab11-240d6add1c7d,235d453d-6e24-41d4-be5f-a929971e439e,,,,fodder elite boss,
 Leon,9b2496c5-7ef9-8dfd-4b98-f739ba539166,1,[EXTRA] FARM // Left of Ch5 Cabin Near,43301,39,4,-164,0,0,0,dd9080b0-2a6e-4051-ab11-240d6add1c7d,235d453d-6e24-41d4-be5f-a929971e439e,,,,fodder elite boss,
@@ -162,42 +162,42 @@ Leon,4f0940a5-66cc-4866-ada8-271a7ea83f74,2,villager   *,44400,0,0,0,0,0,0,,,,,,
 Leon,28e02bee-815f-4c2a-959a-45bdfc9bdc6a,2,villager  dynamite *,44400,0,0,0,0,0,0,,,,,,small,
 Leon,03625e3c-16cb-4abf-b52d-6a66dec3f86b,2,villager   *,44400,0,0,0,0,0,0,,,,,,small,
 Leon,2a93f207-3a81-4503-88d2-f1f0d4987754,2,villager  machete *,44400,0,0,0,0,0,0,,,,,,small,
-Leon,363a704a-6e33-4d4a-8ec1-6c64d4aeae6c,2,villager  hatchet * // Guy in the Sky,44400,0,0,0,0,0,0,,,,,ranged horde,,
+Leon,363a704a-6e33-4d4a-8ec1-6c64d4aeae6c,2,villager  hatchet * // Guy in the Sky,44400,0,0,0,0,0,0,,,,,ranged* horde*,,
 Leon,30d11b67-d545-4eb0-a5d2-8563d2cc2b5e,2,villager  hoe *,44400,0,0,0,0,0,0,,,,,,fodder elite,
-Leon,980885df-eaf7-42e4-9ec5-1944bf49870e,2,villager   * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber,
-Leon,d1c3128c-ac1b-4179-9c97-9c27719bdf55,2,villager  dynamite * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber,
-Leon,48d142d1-015c-444e-a9a6-295fab788789,2,villager  pitchfork * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber,
-Leon,08f9d8f5-a37e-45f8-bf52-20c1c5137254,2,villager  dynamite * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber,
-Leon,509e2bfc-a268-491e-a7f3-0b4e2e0ca339,2,villager  pitchfork * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber,
+Leon,980885df-eaf7-42e4-9ec5-1944bf49870e,2,villager   * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber*,
+Leon,d1c3128c-ac1b-4179-9c97-9c27719bdf55,2,villager  dynamite * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber*,
+Leon,48d142d1-015c-444e-a9a6-295fab788789,2,villager  pitchfork * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber*,
+Leon,08f9d8f5-a37e-45f8-bf52-20c1c5137254,2,villager  dynamite * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber*,
+Leon,509e2bfc-a268-491e-a7f3-0b4e2e0ca339,2,villager  pitchfork * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber*,
 Leon,fc4dde48-81e4-414e-b368-7976372557da,2,villager  hoe * // Rooftop Walkway Patrol,44400,0,0,0,0,0,0,,,,,,small,
-Leon,1f9648ce-60d3-4052-b6fa-08dc07622986,2,villager  hatchet * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber,
-Leon,21113631-623e-45a7-a0cd-ab504b413f6c,2,villager   *,44300,0,0,0,0,0,0,,,,,,,
+Leon,1f9648ce-60d3-4052-b6fa-08dc07622986,2,villager  hatchet * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber*,
+Leon,21113631-623e-45a7-a0cd-ab504b413f6c,2,villager   * [REINFORCEMENTS],44300,0,0,0,0,0,0,,,,,,climber*,
 Leon,6fdfe0fd-7eb0-42c4-b462-06257e03b2cb,2,villager  dynamite *,44400,0,0,0,0,0,0,,,,,,small,
 Leon,7508b413-afa4-47f6-823d-d4fa02572338,2,villager  hatchet *,44400,0,0,0,0,0,0,,,,,,small,
 Leon,699a1ba2-047b-47ed-bea5-e5e0e3d4535d,2,villager  machete *,44400,0,0,0,0,0,0,,,,,,small,
 Leon,590f52e3-e5ad-40a1-9e28-ab7d4586eef2,2,villager   *,44400,0,0,0,0,0,0,,,,,,,
 Leon,ee1bd602-aa46-46f7-ad22-24aed31f120f,2,villager  pitchfork *,44400,0,0,0,0,0,0,,,,,,,
-Leon,71208a54-b051-420e-8e56-ab855a261f55,2,villager  hoe * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber,
-Leon,316ed38c-299f-4950-9f26-bba47945d386,2,villager  hatchet * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber,
-Leon,1b988be8-0484-4d69-99ef-0c8eaaaf9864,2,villager   * [REINFORCEMENTS],44300,0,0,0,0,0,0,,,,,,climber,
+Leon,71208a54-b051-420e-8e56-ab855a261f55,2,villager  hoe * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber*,
+Leon,316ed38c-299f-4950-9f26-bba47945d386,2,villager  hatchet * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber*,
+Leon,1b988be8-0484-4d69-99ef-0c8eaaaf9864,2,villager   * [REINFORCEMENTS],44300,0,0,0,0,0,0,,,,,,climber*,
 Leon,53f2b8b0-4226-45bf-86d0-62ca0188e9c0,2,villager  dynamite *,44400,0,0,0,0,0,0,,,,,ranged,,
 Leon,1c51f46d-84b7-484d-a1d9-2827c017b948,2,villager  hoe *,44400,0,0,0,0,0,0,,,,,,small,
 Leon,a8eb757d-039d-462a-a969-6f6c31611bbf,2,villager  machete *,44400,0,0,0,0,0,0,,,,,,small,
 Leon,43e3d8fe-6930-46d4-8a72-b2161db1e24e,2,villager  hoe *,44400,0,0,0,0,0,0,,,,,,small,
-Leon,ff5b7a7c-a923-45d6-a9d5-8ddd1dcca7a8,2,villager  hatchet * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber,
+Leon,ff5b7a7c-a923-45d6-a9d5-8ddd1dcca7a8,2,villager  hatchet * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber*,
 Leon,96cf48dc-3c47-48b3-b2d8-8f7c7bf05663,2,villager  machete *,44400,0,0,0,0,0,0,,,,,,,
-Leon,c66eb36a-6403-4d3d-9103-b425c6d90b3a,2,villager  hoe *,44400,0,0,0,0,0,0,,,,,,,
-Leon,99293c5c-9327-4041-82d5-fd66eb02832d,2,villager  hatchet * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber,
-Leon,d3534a47-db26-43f6-b779-bb7c71985faf,2,villager   * [REINFORCEMENTS],44300,0,0,0,0,0,0,,,,,,climber,
+Leon,c66eb36a-6403-4d3d-9103-b425c6d90b3a,2,villager  hoe * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber*,
+Leon,99293c5c-9327-4041-82d5-fd66eb02832d,2,villager  hatchet * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber*,
+Leon,d3534a47-db26-43f6-b779-bb7c71985faf,2,villager   * [REINFORCEMENTS],44300,0,0,0,0,0,0,,,,,,climber*,
 Leon,d6a83d8e-6d60-4a9b-9e2e-9331c9513e4c,2,villager  dynamite *,44300,0,0,0,0,0,0,,,,,,small,
 Leon,63f13dd8-b733-4aef-922e-96c883885203,2,villager  pitchfork * // House Ambush,44400,0,0,0,0,0,0,,,,,,,boss
 Leon,4df7c74c-2080-46ce-972d-4c99aa14944f,2,villager  hatchet *,44300,0,0,0,0,0,0,,,,,,,
 Leon,21a89877-967e-4d2f-ab4e-33e1709df9b7,2,villager   *,44300,0,0,0,0,0,0,,,,,,,
 Leon,cdc2737d-c327-41b7-8084-381e018f097b,2,villager  dynamite *,44300,0,0,0,0,0,0,,,,,,,
 Leon,5118b572-33fe-4f28-9a19-d471c80a1b18,2,villager  pitchfork *,44400,0,0,0,0,0,0,,,,,,,
-Leon,fad130e4-04ea-4b7a-9e4c-74dd068321d3,2,villager  hoe * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber,
+Leon,fad130e4-04ea-4b7a-9e4c-74dd068321d3,2,villager  hoe * [REINFORCEMENTS],44400,0,0,0,0,0,0,,,,,,climber*,
 Leon,4d8b60c3-10e2-4abc-934e-65ed991621e2,2,villager  hatchet *,44400,0,0,0,0,0,0,,,,,,small,
-Leon,57eca65e-a76c-4b99-ae6a-0fab657b0dbf,2,villager   * [REINFORCEMENTS],44300,0,0,0,0,0,0,,,,,,climber,
+Leon,57eca65e-a76c-4b99-ae6a-0fab657b0dbf,2,villager   * [REINFORCEMENTS],44300,0,0,0,0,0,0,,,,,,climber*,
 Leon,7423cc0d-e3c7-4834-9476-66f884083aab,2,wolf   *,44101,0,0,0,0,0,0,,,,,,,boss
 Leon,9ba72079-f207-4888-a816-02c0e49d363d,3,villager   .,44100,0,0,0,0,0,0,,,,,,,
 Leon,852257ef-8bda-420d-b307-d877f13ce14b,3,villager   *,40200,0,0,0,0,0,0,,,,,,,
