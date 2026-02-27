@@ -94,7 +94,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             var spawn = this;
             var randomizer = Area.Randomizer;
-            var allEnemyClasses = randomizer.GetService<EnemyClassFactory>().GetClasses(randomizer);
+            var enemyClassFactory = randomizer.GetService<EnemyClassFactory>();
+            var allEnemyClasses = enemyClassFactory.Classes;
+            var userEnemyClasses = enemyClassFactory.UserChosenClasses;
             var enemyClasses = allEnemyClasses;
             var keyToEnemyClass = enemyClasses.ToDictionary(x => x.Key);
 
@@ -120,6 +122,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 enemyClasses = enemyClasses.RemoveAll(x => x.Key == "pig");
             }
+
+            // Remove all user excluded classes
+            enemyClasses = enemyClasses
+                .Intersect(userEnemyClasses)
+                .ToImmutableArray();
 
             // Set possible classes
             spawn.ClassPool = enemyClasses;

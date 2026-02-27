@@ -9,12 +9,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class EnemyClassFactory
     {
+        private readonly ChainsawRandomizer? _randomizer;
+
         public ImmutableArray<EnemyKindDefinition> EnemyKinds { get; }
         public ImmutableArray<WeaponDefinition> Weapons { get; }
         public ImmutableArray<EnemyClassDefinition> Classes { get; }
 
         public EnemyClassFactory(ChainsawRandomizer randomizer) : this()
         {
+            _randomizer = randomizer;
         }
 
         public EnemyClassFactory()
@@ -139,11 +142,19 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return EnemyKinds.FirstOrDefault(x => componentName.Contains(x.ComponentName));
         }
 
-        public ImmutableArray<EnemyClassDefinition> GetClasses(ChainsawRandomizer randomizer)
+        public ImmutableArray<EnemyClassDefinition> UserChosenClasses
         {
-            return Classes
-                .Where(x => GetClassRatio(randomizer, x) > 0)
-                .ToImmutableArray();
+            get
+            {
+                var classes = Classes;
+                if (_randomizer != null)
+                {
+                    classes = classes
+                        .Where(x => GetClassRatio(_randomizer, x) > 0)
+                        .ToImmutableArray();
+                }
+                return classes;
+            }
         }
 
         private static double GetClassRatio(ChainsawRandomizer randomizer, EnemyClassDefinition ecd)

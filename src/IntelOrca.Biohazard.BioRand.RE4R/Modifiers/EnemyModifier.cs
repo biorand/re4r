@@ -110,7 +110,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var ammoOnlyAvailableWeapons = randomizer.GetConfigOption("enemy-drop-ammo-only-available-weapons", true);
 
             _uniqueHp = 1;
-            _allEnemyClasses = randomizer.GetService<EnemyClassFactory>().GetClasses(randomizer);
+            _allEnemyClasses = randomizer.GetService<EnemyClassFactory>().UserChosenClasses;
 
             var rng = randomizer.GetRng("modifier/enemy");
             var areaByChapter = randomizer.AreaService.Areas
