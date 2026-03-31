@@ -7,6 +7,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     {
         private static RszTypeRepository? _v4;
         private static RszTypeRepository? _v5;
+        private static RszTypeRepository? _v6;
 
         public static RszTypeRepository FromVersion(int gameVersion)
         {
@@ -19,6 +20,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             {
                 _v5 ??= Load(gameVersion);
                 return _v5;
+            }
+            else if (gameVersion == 6)
+            {
+                _v6 ??= Load(gameVersion);
+                return _v6;
             }
             else
             {

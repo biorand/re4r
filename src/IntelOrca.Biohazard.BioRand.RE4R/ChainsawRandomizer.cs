@@ -241,8 +241,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         {
             get
             {
-                var gameVersionString = GetConfigOption("game-version", "3 Feb 2026");
-                if (gameVersionString == "3 Feb 2026")
+                var gameVersionString = GetConfigOption("game-version", "31 Mar 2026");
+                if (gameVersionString == "31 Mar 2026")
+                {
+                    return 6;
+                }
+                else if (gameVersionString == "3 Feb 2026")
                 {
                     return 5;
                 }

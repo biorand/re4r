@@ -21,8 +21,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 Label = "Game Version",
                 Description = "What version of the game to generate for.",
                 Type = "dropdown",
-                Options = ["4 Mar 2025", "3 Feb 2026"],
-                Default = "3 Feb 2026"
+                Options = ["4 Mar 2025", "3 Feb 2026", "31 Mar 2026"],
+                Default = "31 Mar 2026"
             });
 
             group = page.CreateGroup("");

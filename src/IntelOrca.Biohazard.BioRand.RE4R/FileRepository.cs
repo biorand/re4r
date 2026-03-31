@@ -121,9 +121,11 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             if (paths.Length <= 1)
                 return paths[0];
 
-            if (gameVersion == 5)
+            if (gameVersion == 6)
                 return paths[0];
-            return paths[1];
+            if (gameVersion == 5)
+                return paths[1];
+            return paths[2];
         }
     }
 }
