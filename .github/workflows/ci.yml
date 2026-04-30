@@ -10,11 +10,11 @@ jobs:
       with:
         submodules: true
     - name: Restore
-      run: dotnet restore src/biorand-re4r
+      run: dotnet restore src/biorand-re9
     - name: Build
-      run: dotnet publish src/biorand-re4r -c release -r win-x64 -o out -p:PublishSingleFile=true
+      run: dotnet publish src/biorand-re9 -c release -r win-x64 -o out -p:PublishSingleFile=true
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: biorand4
-        path: out/biorand-re4r.exe
+        path: out/biorand-re9.exe
