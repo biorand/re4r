@@ -8,7 +8,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         Description = "Changes Del Lago to Del Orca.",
         Version = "1.0",
         Author = "MightKusKus")]
-    internal class DelOrcaPatch(IPatchContext context) : IPatch
+    internal class DelOrcaPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

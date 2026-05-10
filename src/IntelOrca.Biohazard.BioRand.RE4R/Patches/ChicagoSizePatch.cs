@@ -2,7 +2,7 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class ChicagoSizePatch(IPatchContext context) : IPatch
+    internal class ChicagoSizePatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

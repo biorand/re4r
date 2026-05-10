@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using IntelOrca.Biohazard.BioRand.RE4R;
-
 namespace IntelOrca.Biohazard.BioRand
 {
     public static class RandomExtensions
@@ -14,17 +12,17 @@ namespace IntelOrca.Biohazard.BioRand
             return items.ElementAt(index);
         }
 
-        public static T[] Shuffle<T>(this IEnumerable<T> items, Rng rng)
+        public static T NextOf8020<T>(this Rng rng, params T[] values)
         {
-            var array = items.ToArray();
-            for (int i = 0; i < array.Length - 1; i++)
+            for (var i = 0; i < values.Length - 1; i++)
             {
-                var ri = rng.Next(i, array.Length);
-                var tmp = array[ri];
-                array[ri] = array[i];
-                array[i] = tmp;
+                if (rng.NextProbability(80))
+                {
+                    return values[i];
+                }
             }
-            return array;
+            return values[^1];
         }
+
     }
 }

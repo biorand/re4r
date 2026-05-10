@@ -5,8 +5,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="IntelOrca.Biohazard.REE" Version="1.3.2" />
-    <PackageReference Include="IntelOrca.Biohazard.BioRand.Common" Version="1.4.0" />
+    <PackageReference Include="IntelOrca.Biohazard.REE" Version="1.4.2" />
+    <PackageReference Include="IntelOrca.Biohazard.BioRand.Common" Version="1.5.6" />
+    <PackageReference Include="IntelOrca.Biohazard.BioRand.REE" Version="1.5.6" />
     <PackageReference Include="RectangleBinPacking" Version="1.0.2" />
   </ItemGroup>
   <ItemGroup>

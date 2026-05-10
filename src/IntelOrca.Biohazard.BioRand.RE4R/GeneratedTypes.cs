@@ -1,7 +1,7 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
 using IntelOrca.Biohazard.REE.Rsz;
-using IntelOrca.Biohazard.REE.Rsz.Native;
+using Range = via.Range;
 
 namespace chainsaw
 {

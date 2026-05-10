@@ -5,11 +5,11 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class MontagePatch(IPatchContext context) : IPatch
+    internal class MontagePatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {
-            var operations = context.DynamicData
+            var operations = context.GetDynamicData()
                 .GetCsv<MontageCopy>(DynamicDataName.Costumes)
                 .Where(x => !string.IsNullOrEmpty(x.Key))
                 .ToImmutableArray();

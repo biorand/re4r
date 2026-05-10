@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
+using IntelOrca.Biohazard.BioRand.Extensions;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
@@ -252,7 +252,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             public string FailReason { get; init; } = "";
         }
 
-        private class ConsoleReporter() : IProgressReporter
+        private class ConsoleReporter() : IRandomizerProgress
         {
             public void RunTask(string text, Action cb)
             {

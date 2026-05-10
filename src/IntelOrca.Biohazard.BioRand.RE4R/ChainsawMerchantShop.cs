@@ -28,7 +28,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         public chainsaw.InGameShopRewardSettingUserdata Rewards => _rewardSettings;
         public chainsaw.InGameShopPurchaseCategorySettingUserdata Categories => _categorySettings;
 
-        private ChainsawMerchantShop(FileRepository fileRepository, Campaign campaign)
+        private ChainsawMerchantShop(IReeRandomizerContext context, Campaign campaign)
         {
             _campaign = campaign;
             if (campaign == Campaign.Leon)
@@ -45,20 +45,20 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 _rewardSettingsPath = RewardSettingsPathAda;
                 _categorySettingsPath = CategorySettingsPathAda;
             }
-            _itemSettings = fileRepository.DeserializeUserFile<chainsaw.InGameShopItemSettingUserdata>(_itemSettingsPath);
-            _stockAdditionSettings = fileRepository.DeserializeUserFile<chainsaw.InGameShopStockAdditionSettingUserdata>(_stockAdditionSettingsPath);
-            _rewardSettings = fileRepository.DeserializeUserFile<chainsaw.InGameShopRewardSettingUserdata>(_rewardSettingsPath);
-            _categorySettings = fileRepository.DeserializeUserFile<chainsaw.InGameShopPurchaseCategorySettingUserdata>(_categorySettingsPath);
+            _itemSettings = context.DeserializeUserFile<chainsaw.InGameShopItemSettingUserdata>(_itemSettingsPath);
+            _stockAdditionSettings = context.DeserializeUserFile<chainsaw.InGameShopStockAdditionSettingUserdata>(_stockAdditionSettingsPath);
+            _rewardSettings = context.DeserializeUserFile<chainsaw.InGameShopRewardSettingUserdata>(_rewardSettingsPath);
+            _categorySettings = context.DeserializeUserFile<chainsaw.InGameShopPurchaseCategorySettingUserdata>(_categorySettingsPath);
         }
 
-        public static ChainsawMerchantShop FromData(FileRepository fileRepository, Campaign campaign) => new ChainsawMerchantShop(fileRepository, campaign);
+        public static ChainsawMerchantShop FromData(IReeRandomizerContext context, Campaign campaign) => new ChainsawMerchantShop(context, campaign);
 
-        public void Save(FileRepository fileRepository)
+        public void Save(IReeRandomizerContext context)
         {
-            fileRepository.SerializeUserFile(_itemSettingsPath, _itemSettings);
-            fileRepository.SerializeUserFile(_stockAdditionSettingsPath, _stockAdditionSettings);
-            fileRepository.SerializeUserFile(_rewardSettingsPath, _rewardSettings);
-            fileRepository.SerializeUserFile(_categorySettingsPath, _categorySettings);
+            context.SerializeUserFile(_itemSettingsPath, _itemSettings);
+            context.SerializeUserFile(_stockAdditionSettingsPath, _stockAdditionSettings);
+            context.SerializeUserFile(_rewardSettingsPath, _rewardSettings);
+            context.SerializeUserFile(_categorySettingsPath, _categorySettings);
         }
 
         public void ClearRewards()

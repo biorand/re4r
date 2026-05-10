@@ -6,7 +6,7 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class GarradorRoomPatch(IPatchContext context) : IPatch
+    internal class GarradorRoomPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

@@ -8,7 +8,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal sealed class GimmickPlacement
     {
-        [Key]
+        [RowNumber]
         public int Row { get; set; }
         public string Kind { get; set; } = "";
         public Guid Guid { get; set; }

@@ -9,7 +9,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         Description = "Disables the case opening event at the start of chapter 2.",
         Version = "1.0",
         Author = "404runnotfound")]
-    internal class DisableCaseOpenPatch(IPatchContext context) : IPatch
+    internal class DisableCaseOpenPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

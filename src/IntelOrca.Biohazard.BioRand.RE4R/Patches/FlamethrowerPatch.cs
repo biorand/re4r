@@ -31,12 +31,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         private readonly ImmutableDictionary<string, object> _wpflamethrower;
         private readonly Campaign _campaign;
 
-        public IPatchContext FileRepository { get; }
+        public IReeRandomizerContext FileRepository { get; }
 
-        public FlamethrowerPatch(IPatchContext context)
+        public FlamethrowerPatch(IReeRandomizerContext context)
         {
             FileRepository = context;
-            _wpflamethrower = new WeaponBaseStats(context.DynamicData).Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
+            _wpflamethrower = new WeaponBaseStats(context.GetDynamicData()).Weapons.First(x => x["id"].Equals(FlamethrowerWeaponId));
 
             // Determine campaign from config
             var campaignConfig = context.GetConfigOption("campaign", "");
@@ -859,7 +859,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in characters)
             {
                 var burnParamPath = getBurnParamPath(ch);
-                if (FileRepository.GetFile(burnParamPath) == null)
+                if (FileRepository.TryGetFile(burnParamPath) == null)
                 {
                     // User data not there, add reference to it in main param file
                     var paramPath = $"natives/stm/_chainsaw/appsystem/character/{ch}/userdata/{ch}paramuserdata.user.2";
@@ -906,7 +906,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactersDamage)
             {
                 var AttackHitPath = getAttackHitPath(ch);
-                if (FileRepository.GetFile(AttackHitPath) != null)
+                if (FileRepository.TryGetFile(AttackHitPath) != null)
                 {
                     FileRepository.ModifyUserFile(AttackHitPath, root =>
                     {
@@ -934,7 +934,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactersDamage)
             {
                 var AttackHitPath = getAttackHitPath(ch);
-                if (FileRepository.GetFile(AttackHitPath) != null)
+                if (FileRepository.TryGetFile(AttackHitPath) != null)
                 {
                     FileRepository.ModifyUserFile(AttackHitPath, root =>
                     {
@@ -1019,7 +1019,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactersDamage)
             {
                 var weaponDamagePath = getWeaponDamagePath(ch);
-                if (FileRepository.GetFile(weaponDamagePath) != null)
+                if (FileRepository.TryGetFile(weaponDamagePath) != null)
                 {
                     FileRepository.ModifyUserFile(weaponDamagePath, root =>
                     {
@@ -1047,7 +1047,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactersDamage)
             {
                 var weaponDamagePath = getEnhancedWeaponDamagePath(ch);
-                if (FileRepository.GetFile(weaponDamagePath) != null)
+                if (FileRepository.TryGetFile(weaponDamagePath) != null)
                 {
                     FileRepository.ModifyUserFile(weaponDamagePath, root =>
                     {
@@ -1076,7 +1076,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactersDamage)
             {
                 var weaponDamagePath = getWeaponHeadDamagePath(ch);
-                if (FileRepository.GetFile(weaponDamagePath) != null)
+                if (FileRepository.TryGetFile(weaponDamagePath) != null)
                 {
                     FileRepository.ModifyUserFile(weaponDamagePath, root =>
                     {
@@ -1104,7 +1104,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactersDamage)
             {
                 var weaponDamagePath = getEnhancedWeaponHeadDamagePath(ch);
-                if (FileRepository.GetFile(weaponDamagePath) != null)
+                if (FileRepository.TryGetFile(weaponDamagePath) != null)
                 {
                     FileRepository.ModifyUserFile(weaponDamagePath, root =>
                     {
@@ -1145,7 +1145,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             foreach (var ch in charactershort)
             {
                 var MainVfxPrefabPath = getMainVfxPrefab(ch);
-                if (FileRepository.GetFile(MainVfxPrefabPath) != null)
+                if (FileRepository.TryGetFile(MainVfxPrefabPath) != null)
                 {
                     FileRepository.ModifyPfbFile(MainVfxPrefabPath, scene =>
                     {

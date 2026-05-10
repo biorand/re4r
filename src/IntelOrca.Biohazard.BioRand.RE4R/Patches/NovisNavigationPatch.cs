@@ -8,7 +8,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         Description = "Fixes novistador navigation.",
         Version = "1.0",
         Author = "IntelOrca")]
-    internal class NovisNavigationPatch(IPatchContext context) : IPatch
+    internal class NovisNavigationPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

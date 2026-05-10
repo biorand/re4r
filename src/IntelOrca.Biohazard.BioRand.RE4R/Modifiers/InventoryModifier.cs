@@ -3,12 +3,14 @@ using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.Inventory)]
     internal class InventoryModifier : Modifier
     {
         private ChainsawPlayerInventory? _inventory;
 
-        public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void LogState(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             _inventory ??= ChainsawPlayerInventory.FromData(randomizer.FileRepository, randomizer.Campaign);
             var inventory = _inventory;
 
@@ -28,8 +30,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             _inventory ??= ChainsawPlayerInventory.FromData(randomizer.FileRepository, randomizer.Campaign);
             var inventory = _inventory;
 
@@ -108,7 +111,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             };
 
             var itemRandomizer = randomizer.ItemRandomizer;
-            var bag = new EndlessBag<string>(rng, randomKinds);
+            var bag = new ShufflingBag<string>(rng, randomKinds);
             for (var i = 0; i < count; i++)
             {
                 var kind = bag.Next();

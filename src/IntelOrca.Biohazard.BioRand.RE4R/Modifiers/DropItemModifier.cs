@@ -7,48 +7,16 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.DropItem)]
     internal class DropItemModifier : Modifier
     {
-        public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void LogState(IReeRandomizerContext context, RandomizerLogger logger)
         {
-            var areaService = randomizer.AreaService;
-            foreach (var area in areaService.Areas)
-            {
-                var items = area.Items.ToArray();
-                if (items.Length == 0)
-                    continue;
-
-                logger.Push($"{area.FileName}");
-                foreach (var go in items)
-                {
-                    var dropItem = go.FindComponent("chainsaw.DropItem");
-                    if (dropItem == null)
-                        continue;
-
-                    var stage = dropItem.Get<int>("_ItemData.StageID");
-                    var itemId = dropItem.Get<int>("_ItemData.ItemID");
-                    var itemCount = dropItem.Get<int>("_ItemData.Count");
-                    // dropItem.Get<int>("_ItemData.AmmoItemID");
-                    // dropItem.Get<int>("_ItemData.AmmoCount");
-
-                    var contextId = dropItem.Get<chainsaw.ContextID>("_ID");
-                    var position = new Transform(go).Position;
-                    var item = new Item(itemId, itemCount);
-                    logger.LogLine(
-                        go.Guid,
-                        item,
-                        stage,
-                        position.X.ToString("0.0"),
-                        position.Y.ToString("0.0"),
-                        position.Z.ToString("0.0"),
-                        contextId);
-                }
-                logger.Pop();
-            }
         }
 
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             if (!randomizer.GetConfigOption<bool>("random-items"))
                 return;
 

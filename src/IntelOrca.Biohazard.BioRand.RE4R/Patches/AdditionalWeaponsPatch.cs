@@ -14,9 +14,9 @@ using IntelOrca.Biohazard.REE.Rsz;
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
     [Order(10)]
-    internal class AdditionalWeaponsPatch(IPatchContext context) : IPatch
+    internal class AdditionalWeaponsPatch(IReeRandomizerContext context) : IPatch
     {
-        private readonly WeaponBaseStats _baseStats = new(context.DynamicData);
+        private readonly WeaponBaseStats _baseStats = new(context.GetDynamicData());
 
         public void Apply()
         {
@@ -30,7 +30,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         private ImmutableArray<ImmutableDictionary<string, object>> GetSelection()
         {
-            var randomizer = (context as FileRepository)?.Randomizer;
+            var randomizer = context as ChainsawRandomizer;
             if (randomizer == null)
                 return [];
 
@@ -59,7 +59,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         private void ApplyWeapon(string name)
         {
-            var randomizer = (context as FileRepository)?.Randomizer;
+            var randomizer = context as ChainsawRandomizer;
             var campaign = randomizer?.Campaign ?? Campaign.Leon;
 
             var info = _baseStats.Weapons.First(x => (string)x["name"] == name);
@@ -747,14 +747,13 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         return root.Set("_Settings", dataTable.Add(sourceNode2));
                     });
 
-                    var fileRepository = (context as FileRepository)!;
                     var itemMessagePath = "natives/stm/_chainsaw/appsystem/ui/userdata/itemmessageidsettinguserdata.user.2";
                     var itemCaptionPath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_caption.msg.22";
                     var itemNamePath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_item_name.msg.22";
 
-                    var itemMessage = fileRepository.DeserializeUserFile<chainsaw.ItemMessageIdSettingUserdata>(itemMessagePath);
-                    var itemCaption = fileRepository.GetMsgFile(itemCaptionPath).ToBuilder();
-                    var itemName = fileRepository.GetMsgFile(itemNamePath).ToBuilder();
+                    var itemMessage = context.DeserializeUserFile<chainsaw.ItemMessageIdSettingUserdata>(itemMessagePath);
+                    var itemCaption = context.GetMsgFile(itemCaptionPath).ToBuilder();
+                    var itemName = context.GetMsgFile(itemNamePath).ToBuilder();
 
                     var sm70300 = itemMessage._Settings.FirstOrDefault(x => x._ItemId == 112480000);
                     if (sm70300 != null)
@@ -763,9 +762,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                         sm70300._CaptionMsgId = itemCaption.Create("Explosive arrows that have a large blast radius.\r\nFitted with handmade explosives,\r\ntheir destructive power is tremendous.").Guid;
                     }
 
-                    fileRepository.SerializeUserFile(itemMessagePath, itemMessage);
-                    fileRepository.SetMsgFile(itemCaptionPath, itemCaption.Build());
-                    fileRepository.SetMsgFile(itemNamePath, itemName.Build());
+                    context.SerializeUserFile(itemMessagePath, itemMessage);
+                    context.SetMsgFile(itemCaptionPath, itemCaption.Build());
+                    context.SetMsgFile(itemNamePath, itemName.Build());
                 }
             }
 

@@ -8,7 +8,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         Description = "Makes the bolt thrower fully automatic.",
         Version = "1.0",
         Author = "MightKusKus")]
-    internal class AutoBoltThrowerPatch(IPatchContext context) : IPatch
+    internal class AutoBoltThrowerPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

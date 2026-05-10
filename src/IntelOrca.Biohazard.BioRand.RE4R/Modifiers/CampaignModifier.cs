@@ -5,10 +5,12 @@ using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.Campaign)]
     internal class CampaignModifier : Modifier
     {
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             // Ada currently unsupported
             if (randomizer.Campaign != Campaign.Leon)
                 return;

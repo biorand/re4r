@@ -7,10 +7,12 @@ using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.EnemyWave)]
     internal class EnemyWaveModifier : Modifier
     {
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             if (!randomizer.GetConfigOption<bool>("random-enemies"))
                 return;
 

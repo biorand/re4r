@@ -11,7 +11,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         Description = "Removes all radio calls from the game.",
         Version = "1.0",
         Author = "AfkKun")]
-    internal class RemoveRadioCallsPatch(IPatchContext context) : IPatch
+    internal class RemoveRadioCallsPatch(IReeRandomizerContext context) : IPatch
     {
         private static readonly ImmutableArray<(string, Guid, Guid)> _mainEntries = [
             //Radiomsg 1+2

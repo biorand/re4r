@@ -10,7 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
     /// from mercenaries to both Leon and Ada's campaign.
     /// </summary>
     /// <param name="context"></param>
-    internal class MissingEnemiesPatch(IPatchContext context) : IPatch
+    internal class MissingEnemiesPatch(IReeRandomizerContext context) : IPatch
     {
         private static readonly ImmutableArray<EnemyCatalogInfo> EnemyInfo = [
             new EnemyCatalogInfo("colmillos", Campaign.Leon, 200004, "ch1d2z0", 8),

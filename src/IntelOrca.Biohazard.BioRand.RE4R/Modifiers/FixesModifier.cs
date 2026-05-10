@@ -9,10 +9,12 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.Fixes)]
     internal class FixesModifier : Modifier
     {
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             // Once
             SetBuyHoldTime(randomizer, logger);
 

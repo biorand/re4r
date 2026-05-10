@@ -1421,7 +1421,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
             #endregion
 
-            var defaultProfileBytes = ChainsawRandomizerFactory.GetDefaultProfile();
+            var defaultProfileBytes = EmbeddedData.GetFile("default-profile.json");
             var defaultProfileJson = Encoding.UTF8.GetString(defaultProfileBytes);
             var defaultProfile = RandomizerConfiguration.FromJson(defaultProfileJson);
             foreach (var item in configDefinition.AllItems)

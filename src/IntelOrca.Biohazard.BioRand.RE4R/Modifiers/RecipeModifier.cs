@@ -5,6 +5,7 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.Recipe)]
     internal class RecipeModifier : Modifier
     {
         private static string GetPath(Campaign campaign)
@@ -14,8 +15,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 : "natives/stm/_anotherorder/appsystem/ui/userdata/itemcraftsettinguserdata_ao.user.2";
         }
 
-        public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void LogState(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             var path = GetPath(randomizer.Campaign);
             var fileRepository = randomizer.FileRepository;
             var userFile = fileRepository.DeserializeUserFile<ItemCraftSettingUserdata>(path);
@@ -56,8 +58,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             if (!randomizer.GetConfigOption<bool>("inventory-additional-recipes"))
                 return;
 

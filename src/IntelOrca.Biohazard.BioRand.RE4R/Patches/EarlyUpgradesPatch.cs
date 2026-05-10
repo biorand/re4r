@@ -8,7 +8,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         Description = "Allows weapons to be fully upgraded on all difficulties from the very start.",
         Version = "1.0",
         Author = "IntelOrca")]
-    internal class EarlyUpgradesPatch(IPatchContext context) : IPatch
+    internal class EarlyUpgradesPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

@@ -5,7 +5,7 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class LightingPatch(IPatchContext context) : IPatch
+    internal class LightingPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

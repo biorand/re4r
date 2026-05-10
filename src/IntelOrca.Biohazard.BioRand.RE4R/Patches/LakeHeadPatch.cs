@@ -4,7 +4,7 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class LakeHeadPatch(IPatchContext context) : IPatch
+    internal class LakeHeadPatch(IReeRandomizerContext context) : IPatch
     {
         private static readonly Guid TrueFlag = new("84cd36d0-faff-4069-ae26-cc30b38c01d8");
 

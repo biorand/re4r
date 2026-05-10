@@ -2,10 +2,12 @@
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.Item)]
     internal class ItemModifier : Modifier
     {
-        public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void LogState(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             var itemData = ChainsawItemData.FromRandomizer(randomizer);
             foreach (var item in itemData.Definitions)
             {
@@ -21,8 +23,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             var itemData = ChainsawItemData.FromRandomizer(randomizer);
             foreach (var item in itemData.Definitions)
             {

@@ -7,12 +7,14 @@ using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.MerchantShop)]
     internal class MerchantShopModifier : Modifier
     {
         private ChainsawMerchantShop? _shop;
 
-        public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void LogState(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             _shop = ChainsawMerchantShop.FromData(randomizer.FileRepository, randomizer.Campaign);
             var shop = _shop;
             var itemRepo = ItemDefinitionRepository.Default;
@@ -121,8 +123,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             if (!randomizer.GetConfigOption<bool>("random-merchant"))
                 return;
 

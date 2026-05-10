@@ -6,6 +6,7 @@ using chainsaw;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.CasePerk)]
     internal class CasePerkModifier : Modifier
     {
         private static string[] _leonPaths = [
@@ -34,8 +35,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         ];
         private static int[] _startingCases = [124176000, 124192000, 124193600];
 
-        public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void LogState(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             var casePerks = new CasePerks(randomizer.DynamicData);
             var itemRepo = ItemDefinitionRepository.Default;
             var userDataPaths = randomizer.Campaign == Campaign.Leon ? _leonPaths : _adaPaths;
@@ -62,8 +64,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             var rng = randomizer.GetRng("modifier/caseperk");
             if (!randomizer.GetConfigOption<bool>("random-case-perks"))
                 return;

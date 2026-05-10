@@ -1,29 +1,27 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using IntelOrca.Biohazard.BioRand.RE4R;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
-namespace IntelOrca.Biohazard.BioRand
+namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal class EndlessBag<T>
+    internal class ShufflingBag<T>
     {
-        private readonly Rng _rng = new Rng();
-        private readonly List<T> _allItems = new List<T>();
-        private readonly Queue<T> _items = new Queue<T>();
+        private readonly Rng _rng = new();
+        private readonly List<T> _allItems = [];
+        private readonly Queue<T> _items = new();
 
         public int Count => _allItems.Count;
 
-        public EndlessBag()
+        public ShufflingBag()
         {
         }
 
-        public EndlessBag(Rng rng)
+        public ShufflingBag(Rng rng)
         {
             _rng = rng;
         }
 
-        public EndlessBag(Rng rng, IEnumerable<T> items)
+        public ShufflingBag(Rng rng, IEnumerable<T> items)
         {
             _rng = rng;
             _allItems.AddRange(items);

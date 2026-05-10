@@ -7,10 +7,12 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.EnemyPlace)]
     internal class EnemyPlaceModifier : Modifier
     {
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             var extraEnemiesPercent = randomizer.GetConfigOption("extra-enemy-amount", 0.5);
             var extraEnemiesToPlace = GetExtraEnemiesToPlace(randomizer, extraEnemiesPercent)
                 .GroupBy(x => FindBestAreaForEnemy(randomizer, x)!)

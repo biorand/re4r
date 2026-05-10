@@ -8,10 +8,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private chainsaw.DropItemSaveDataTable _table = new();
         private bool _dirty;
 
-        public IPatchContext Context { get; }
+        public IReeRandomizerContext Context { get; }
         public string Path { get; }
 
-        public DropItemSaveDataFile(IPatchContext context, string path)
+        public DropItemSaveDataFile(IReeRandomizerContext context, string path)
         {
             Context = context;
             Path = path;

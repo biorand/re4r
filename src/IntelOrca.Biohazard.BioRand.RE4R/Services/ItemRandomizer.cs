@@ -11,7 +11,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
         private readonly bool _allowBonusItems;
         private readonly bool _allowDlcItems;
         private readonly bool _allowMercenariesItems;
-        private readonly Dictionary<RandomItemSettings, EndlessBag<string>> _generalDrops = new();
+        private readonly Dictionary<RandomItemSettings, ShufflingBag<string>> _generalDrops = new();
         private readonly HashSet<int> _throwAway = new HashSet<int>();
         private bool _excludeWeapons;
 
@@ -238,7 +238,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             return GetRandomDrop(rng, kind, settings);
         }
 
-        public EndlessBag<string> CreateGeneralItemPool(RandomItemSettings settings, Rng rng)
+        public ShufflingBag<string> CreateGeneralItemPool(RandomItemSettings settings, Rng rng)
         {
             if (!_generalDrops.TryGetValue(settings, out var result))
             {
@@ -256,7 +256,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 }
 
                 if (ratios.Count == 0)
-                    return new EndlessBag<string>(rng, [DropKinds.None]);
+                    return new ShufflingBag<string>(rng, [DropKinds.None]);
 
                 var smallestRatio = ratios.Min(x => x.Value);
                 foreach (var k in ratios.Keys)
@@ -272,7 +272,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                         pool.Add(kvp.Key);
                     }
                 }
-                result = new EndlessBag<string>(rng, pool);
+                result = new ShufflingBag<string>(rng, pool);
                 _generalDrops[settings] = result;
             }
             return result;

@@ -10,7 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
     [DebuggerDisplay("{GuidOrAuto}")]
     internal class ItemPlacement
     {
-        [Key]
+        [RowNumber]
         public int Row { get; set; }
         public Campaign Campaign { get; set; }
         public int Chapter { get; set; }

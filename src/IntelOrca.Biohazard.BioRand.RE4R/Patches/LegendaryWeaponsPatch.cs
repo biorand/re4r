@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Cryptography;
 using IntelOrca.Biohazard.REE.Rsz;
-using Range = IntelOrca.Biohazard.REE.Rsz.Native.Range;
+using Range = via.Range;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
@@ -22,14 +22,14 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
     internal class LegendaryWeaponsPatch : IPatch
     {
-        private readonly IPatchContext context;
+        private readonly IReeRandomizerContext context;
         private readonly WeaponBaseStats _baseStats;
         private readonly Campaign _campaign;
 
-        public LegendaryWeaponsPatch(IPatchContext context)
+        public LegendaryWeaponsPatch(IReeRandomizerContext context)
         {
             this.context = context;
-            _baseStats = new WeaponBaseStats(context.DynamicData);
+            _baseStats = new WeaponBaseStats(context.GetDynamicData());
             var campaignConfig = context.GetConfigOption("campaign", "");
             _campaign = campaignConfig == "Separate Ways" ? Campaign.Ada : Campaign.Leon;
         }
@@ -53,7 +53,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 
         private ImmutableArray<ImmutableDictionary<string, object>> GetSelection()
         {
-            var randomizer = (context as FileRepository)?.Randomizer;
+            var randomizer = context as ChainsawRandomizer;
             if (randomizer == null)
                 return [];
 
@@ -1238,7 +1238,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     foreach (var ch in charactersDamage)
                     {
                         var weaponDamagePath = getWeaponDamagePath(ch);
-                        if (context.GetFile(weaponDamagePath) != null)
+                        if (context.TryGetFile(weaponDamagePath) != null)
                         {
                             context.ModifyUserFile(weaponDamagePath, root =>
                             {
@@ -1277,7 +1277,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     foreach (var ch in charactersDamage)
                     {
                         var weaponDamagePath = getWeaponDamagedefaultPath(ch);
-                        if (context.GetFile(weaponDamagePath) != null)
+                        if (context.TryGetFile(weaponDamagePath) != null)
                         {
                             context.ModifyUserFile(weaponDamagePath, root =>
                             {
@@ -1316,7 +1316,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     foreach (var ch in charactersDamage)
                     {
                         var weaponDamagePath = getEnhancedWeaponDamagePath(ch);
-                        if (context.GetFile(weaponDamagePath) != null)
+                        if (context.TryGetFile(weaponDamagePath) != null)
                         {
                             context.ModifyUserFile(weaponDamagePath, root =>
                             {
@@ -1360,7 +1360,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     foreach (var ch in charactersDamage)
                     {
                         var weaponDamagePath = getWeaponHeadDamagePath(ch);
-                        if (context.GetFile(weaponDamagePath) != null)
+                        if (context.TryGetFile(weaponDamagePath) != null)
                         {
                             context.ModifyUserFile(weaponDamagePath, root =>
                             {
@@ -1399,7 +1399,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                     foreach (var ch in charactersDamage)
                     {
                         var weaponDamagePath = getEnhancedWeaponHeadDamagePath(ch);
-                        if (context.GetFile(weaponDamagePath) != null)
+                        if (context.TryGetFile(weaponDamagePath) != null)
                         {
                             context.ModifyUserFile(weaponDamagePath, root =>
                             {
@@ -1461,7 +1461,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 var legendaryPrgPath = $"natives/stm/_chainsaw/vfx/provider/epv_weapon/epv_wp{id:0000}/epvs_0015_wp{id:0000}_legendary_prg_0000.pfb.17";
 
                 // First, copy the template to the new location
-                var legendaryPrgTemplateData = context.GetFile(legendaryPrgTemplatePath);
+                var legendaryPrgTemplateData = context.TryGetFile(legendaryPrgTemplatePath);
                 if (legendaryPrgTemplateData != null)
                 {
                     context.SetFile(legendaryPrgPath, legendaryPrgTemplateData);
@@ -1504,7 +1504,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 });
 
                 // grab template and modify the template container file
-                var templateData = context.GetFile(templateNativePath);
+                var templateData = context.TryGetFile(templateNativePath);
                 if (templateData != null)
                 {
                     context.SetFile(vfxNativePath, templateData);

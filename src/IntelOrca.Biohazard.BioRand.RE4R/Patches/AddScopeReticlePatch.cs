@@ -2,12 +2,12 @@
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class AddScopeReticlePatch(IPatchContext context) : IPatch
+    internal class AddScopeReticlePatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {
             var path = "natives/stm/_chainsaw/ui/ui2000/gui/cs_ui2040.gui.540034";
-            var data = context.GetFile(path);
+            var data = context.TryGetFile(path);
             if (data == null)
                 return;
 

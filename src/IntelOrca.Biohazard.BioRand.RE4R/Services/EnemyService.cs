@@ -50,7 +50,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
     internal class EnemyPlacement
     {
         // Set from CSV:
-        [Key]
+        [RowNumber]
         public int Row { get; set; }
         public Campaign Campaign { get; set; }
         public Guid Guid { get; set; }

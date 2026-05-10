@@ -5,10 +5,12 @@ using IntelOrca.Biohazard.REE.Messages;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.Message)]
     internal class MessageModifier : Modifier
     {
-        public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void LogState(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             foreach (var msgPath in g_msgPaths)
             {
                 logger.Push(msgPath);
@@ -23,8 +25,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             if (!randomizer.GetConfigOption("randomized-messages", false))
                 return;
 
@@ -115,7 +118,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             public string English { get; set; } = "";
         }
 
-        private static Dictionary<string, string> GetNameToMsgFileMap(IPatchContext context)
+        private static Dictionary<string, string> GetNameToMsgFileMap(IReeRandomizerContext context)
         {
             var result = new Dictionary<string, string>();
             foreach (var msgPath in g_msgPaths)

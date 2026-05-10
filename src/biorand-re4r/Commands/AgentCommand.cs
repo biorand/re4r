@@ -97,7 +97,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Commands
             private static string Timestamp => DateTime.Now.ToString("[[yyyy-MM-dd HH:mm]]");
         }
 
-        private class EmptyReporter : IProgressReporter
+        private class EmptyReporter : IRandomizerProgress
         {
             public void RunTask(string text, Action cb)
             {

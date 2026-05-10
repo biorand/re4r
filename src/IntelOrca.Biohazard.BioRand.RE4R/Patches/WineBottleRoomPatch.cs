@@ -13,7 +13,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
     /// activate. Also removes the wooden boards as normal enemies can't break through those.
     /// </summary>
     /// <param name="context"></param>
-    internal class WineBottleRoomPatch(IPatchContext context) : IPatch
+    internal class WineBottleRoomPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

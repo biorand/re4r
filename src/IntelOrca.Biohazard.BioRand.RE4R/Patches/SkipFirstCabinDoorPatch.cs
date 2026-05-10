@@ -10,7 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         Description = "Turns the first cabin door into a normal door that isn't slow to open.",
         Version = "1.0",
         Author = "IntelOrca")]
-    internal class SkipFirstCabinDoorPatch(IPatchContext context) : IPatch
+    internal class SkipFirstCabinDoorPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

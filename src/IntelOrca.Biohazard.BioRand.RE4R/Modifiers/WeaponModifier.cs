@@ -13,6 +13,7 @@ using static IntelOrca.Biohazard.BioRand.RE4R.Modifiers.WeaponModifier;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.Weapon)]
     internal partial class WeaponModifier : Modifier
     {
         private const string WeaponCustomMsgPath = "natives/stm/_chainsaw/message/mes_main_item/ch_mes_main_wpcustom.msg.22";
@@ -36,8 +37,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 "natives/stm/_anotherorder/appsystem/weaponcustom/weapondetailcustomuserdata_ao.user.2";
         }
 
-        public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void LogState(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             _weaponStatTable ??= new WeaponStatTable(randomizer.DynamicData);
 
             var mainFile = randomizer.FileRepository.DeserializeUserFile<WeaponCustomUserdata>(GetMainPath(randomizer));
@@ -83,8 +85,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             }
         }
 
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             _baseStats.Clear();
 
             var rng = randomizer.GetRng("modifier/weapon");

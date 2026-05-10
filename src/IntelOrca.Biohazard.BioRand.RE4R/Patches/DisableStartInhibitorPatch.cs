@@ -3,7 +3,7 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class DisableStartInhibitorPatch(IPatchContext context) : IPatch
+    internal class DisableStartInhibitorPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

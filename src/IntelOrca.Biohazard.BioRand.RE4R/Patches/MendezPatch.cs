@@ -2,7 +2,7 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class MendezPatch(IPatchContext context) : IPatch
+    internal class MendezPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

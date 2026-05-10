@@ -10,7 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         Description = "Allows laser sight to be attached to all handguns.",
         Version = "1.0",
         Author = "IntelOrca")]
-    internal class LaserSightPatch(IPatchContext context) : IPatch
+    internal class LaserSightPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

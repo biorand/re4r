@@ -7,18 +7,28 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 {
-    internal class AreaService(ChainsawRandomizer randomizer)
+    internal class AreaService
     {
+        private readonly ChainsawRandomizer _randomizer;
         private readonly Dictionary<Guid, Area> _guidToArea = [];
+        private bool _loaded;
 
         public ImmutableArray<Area> Areas { get; private set; } = [];
 
+        public AreaService(ChainsawRandomizer randomizer)
+        {
+            _randomizer = randomizer;
+            LoadAreas(randomizer.Campaign);
+        }
+
         public void LoadAreas(Campaign campaign)
         {
+            if (_loaded)
+                return;
+
             var areaRepo = AreaDefinitionRepository.GetRepository(campaign);
             Areas = areaRepo.All
-                .AsParallel()
-                .Select(d => new Area(randomizer, d))
+                .Select(d => new Area(_randomizer, d))
                 .OrderBy(x => x.Path, StringComparer.Ordinal)
                 .ToImmutableArray();
 
@@ -30,6 +40,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     _guidToArea[gameObject.Guid] = area;
                 });
             }
+            _loaded = true;
         }
 
         public Area? FindAreaContainingGameObject(Guid guid)
@@ -68,8 +79,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             }
         }
 
-        public void Save(RandomizerLogger process)
+        public void Save()
         {
+            if (!_loaded)
+                return;
             Parallel.ForEach(Areas, area => area.Save());
         }
     }

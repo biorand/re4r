@@ -8,12 +8,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal sealed class ChainsawItemData
     {
-        private readonly FileRepository _fileRepository;
+        private readonly IReeRandomizerContext _context;
         private readonly (string Path, ItemDefinitionUserData Data)[] _itemDefinitions;
 
-        private ChainsawItemData(FileRepository repository, (string, ItemDefinitionUserData)[] itemDefinitions)
+        private ChainsawItemData(IReeRandomizerContext context, (string, ItemDefinitionUserData)[] itemDefinitions)
         {
-            _fileRepository = repository;
+            _context = context;
             _itemDefinitions = itemDefinitions;
         }
 
@@ -35,18 +35,18 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 files.Add("natives/stm/_anotherorder/appsystem/ui/userdata/itemdefinitionuserdata_ovr_ao.user.2");
             }
 
-            var fileRepository = randomizer.FileRepository;
+            var context = (IReeRandomizerContext)randomizer;
             var itemDefinitions = files
-                .Select(x => (x, fileRepository.DeserializeUserFile<ItemDefinitionUserData>(x)))
+                .Select(x => (x, context.DeserializeUserFile<ItemDefinitionUserData>(x)))
                 .ToArray();
-            return new ChainsawItemData(fileRepository, itemDefinitions);
+            return new ChainsawItemData(context, itemDefinitions);
         }
 
         public void Save()
         {
             for (var i = 0; i < _itemDefinitions.Length; i++)
             {
-                _fileRepository.SerializeUserFile(_itemDefinitions[i].Path, _itemDefinitions[i].Data);
+                _context.SerializeUserFile(_itemDefinitions[i].Path, _itemDefinitions[i].Data);
             }
         }
 

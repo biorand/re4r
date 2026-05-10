@@ -10,10 +10,12 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.GimmickPlace)]
     internal class GimmickPlaceModifier : Modifier
     {
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             var gimmicks = randomizer.DynamicData.GetData(DynamicDataName.Gimmicks) ?? throw new Exception("Failed to get gimmick data");
             var placements = randomizer.GimmickService.GimmickPlacements
                 .Where(x => x.Campaign == randomizer.Campaign && x.Chapter != -1)
@@ -52,7 +54,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         {
             private readonly Dictionary<int, Area> _stageToArea = new();
 
-            public FileRepository FileRepository => randomizer.FileRepository;
+            public IReeRandomizerContext FileRepository => randomizer;
 
             private Area GetScnForStage(int stage)
             {

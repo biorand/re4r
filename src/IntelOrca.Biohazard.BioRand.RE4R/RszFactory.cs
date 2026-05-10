@@ -10,7 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class RszFactory(ChainsawRandomizer randomizer)
     {
-        public RszTypeRepository Repository => randomizer.FileRepository.TypeRepository;
+        public RszTypeRepository Repository => randomizer.TypeRepository;
 
         public RszGameObject CreateGameObject(string name, string prefab, ImmutableArray<RszObjectNode> components)
         {

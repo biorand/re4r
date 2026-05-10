@@ -8,6 +8,7 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.Enemy)]
     internal class EnemyModifier : Modifier
     {
         private int _uniqueHp;
@@ -15,22 +16,8 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         private Rng.Table<int>? _parasiteRngTable;
         private ImmutableArray<EnemyClassDefinition> _allEnemyClasses;
 
-        public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void LogState(IReeRandomizerContext context, RandomizerLogger logger)
         {
-            var ecf = randomizer.GetService<EnemyClassFactory>();
-            foreach (var area in randomizer.AreaService.Areas)
-            {
-                var enemies = area.Enemies.ToArray();
-                if (enemies.Length == 0)
-                    continue;
-
-                logger.Push(area.FileName);
-                foreach (var enemy in enemies)
-                {
-                    LogEnemy(ecf, logger, enemy.Enemy);
-                }
-                logger.Pop();
-            }
         }
 
         private static void LogEnemy(EnemyClassFactory ecf, RandomizerLogger logger, Enemy enemy)
@@ -97,8 +84,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 itemDrop);
         }
 
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             var randomItemSettings = new RandomItemSettings
             {
                 ItemRatioKeyFunc = (dropKind) => randomizer.GetConfigOption<double>($"enemy-drop-ratio-{dropKind}"),

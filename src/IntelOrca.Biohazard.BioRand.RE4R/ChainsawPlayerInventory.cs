@@ -16,7 +16,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
         private readonly chainsaw.InventoryCatalogUserData _root;
         private readonly int _index;
 
-        private ChainsawPlayerInventory(IPatchContext context, string path, UserFile inventoryCatalog, int index)
+        private ChainsawPlayerInventory(IReeRandomizerContext context, string path, UserFile inventoryCatalog, int index)
         {
             _path = path;
             _inventoryCatalog = inventoryCatalog.ToBuilder(context.TypeRepository);
@@ -24,21 +24,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             _index = index;
         }
 
-        public static ChainsawPlayerInventory FromData(FileRepository fileRepository, Campaign campaign)
+        public static ChainsawPlayerInventory FromData(IReeRandomizerContext context, Campaign campaign)
         {
             var path = campaign == Campaign.Leon
                 ? InventoryCatalogPathLeon
                 : InventoryCatalogPathAda;
-            var inventoryCatalog = fileRepository.GetUserFile(path);
+            var inventoryCatalog = context.GetUserFile(path);
             var index = campaign == Campaign.Leon ? 0 : 1;
-            return new ChainsawPlayerInventory(fileRepository, path, inventoryCatalog, index);
+            return new ChainsawPlayerInventory(context, path, inventoryCatalog, index);
         }
 
-        public void Save(FileRepository fileRepository)
+        public void Save(IReeRandomizerContext context)
         {
             var rszType = _inventoryCatalog.Objects[0].Type;
             _inventoryCatalog.Objects = [(RszObjectNode)RszSerializer.Serialize(rszType, _root)];
-            fileRepository.SetUserFile(_path, _inventoryCatalog.Build());
+            context.SetUserFile(_path, _inventoryCatalog.Build());
         }
 
         public void ClearItems()

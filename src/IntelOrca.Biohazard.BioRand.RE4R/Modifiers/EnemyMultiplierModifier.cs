@@ -6,10 +6,12 @@ using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.EnemyMultiplier)]
     internal class EnemyMultiplierModifier : Modifier
     {
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             var multiplier = Math.Clamp(randomizer.GetConfigOption<double>("enemy-multiplier", 1), 1, 5);
             if (multiplier == 1)
                 return;
@@ -65,7 +67,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (delta >= 0)
             {
                 var rng = randomizer.GetRng("modifier/enemymultiplier/pick");
-                var bag = new EndlessBag<EnemySpawn>(rng, filteredSpawns);
+                var bag = new ShufflingBag<EnemySpawn>(rng, filteredSpawns);
                 for (var i = 0; i < delta; i++)
                 {
                     var enemyToDuplicate = bag.Next();

@@ -60,7 +60,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        private static void ApplyPatch(Type type, ChainsawRandomizer? randomizer, IPatchContext context)
+        private static void ApplyPatch(Type type, ChainsawRandomizer? randomizer, IReeRandomizerContext context)
         {
             var ctors = type.GetConstructors();
             if (ctors.Length > 1)
@@ -75,7 +75,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
                 {
                     ctorArguments[i] = randomizer;
                 }
-                if (ctorParameters[i].ParameterType == typeof(IPatchContext))
+                if (ctorParameters[i].ParameterType == typeof(IReeRandomizerContext))
                 {
                     ctorArguments[i] = context;
                 }
@@ -107,7 +107,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             return modBuilder;
         }
 
-        internal static void ApplyAll(ChainsawRandomizer? randomizer, IPatchContext context)
+        internal static void ApplyAll(ChainsawRandomizer? randomizer, IReeRandomizerContext context)
         {
             foreach (var patchType in PatchTypes)
             {
@@ -115,16 +115,21 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        private class PatchContext(IPakFile vanilla, ModBuilder modBuilder) : IPatchContext
+        private class PatchContext(IPakFile vanilla, ModBuilder modBuilder) : IReeRandomizerContext
         {
+            private static readonly Re4rRandomizer s_randomizer = new();
+
+            public IReeRandomizer Randomizer => s_randomizer;
+            public PakList PakList => s_randomizer.PakList;
             public RszTypeRepository TypeRepository => Re4rTypeRepository.FromVersion(5);
             public DynamicData DynamicData { get; } = new DynamicData(download: false);
 
             public byte[]? GetSupplementFile(string path) => EmbeddedData.GetFile(path);
-            public byte[]? GetFile(string path) => modBuilder[path] ?? vanilla.GetEntryData(path);
+            public byte[]? TryGetFile(string path) => modBuilder[path] ?? vanilla.GetEntryData(path);
             public void SetFile(string path, byte[] data) => modBuilder[path] = data;
             public T? GetConfigOption<T>(string key, T? defaultValue = default) => defaultValue;
             public T GetService<T>() => throw new NotSupportedException();
+            public Rng GetRng(params object[] key) => new();
             public bool ExportingMod => true;
         }
     }

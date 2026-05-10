@@ -10,7 +10,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
         Description = "Skips the whole Ashley section.",
         Version = "1.0",
         Author = "IntelOrca")]
-    internal class SkipAshleyPatch(IPatchContext context) : IPatch
+    internal class SkipAshleyPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

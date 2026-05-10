@@ -4,7 +4,7 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class CorpseDisposalPatch(IPatchContext context) : IPatch
+    internal class CorpseDisposalPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

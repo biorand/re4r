@@ -4,7 +4,7 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class CraftWindowPatch(IPatchContext context) : IPatch
+    internal class CraftWindowPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {

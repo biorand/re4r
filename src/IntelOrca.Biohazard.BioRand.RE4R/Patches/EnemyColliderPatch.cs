@@ -5,7 +5,7 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class EnemyColliderPatch(IPatchContext context) : IPatch
+    internal class EnemyColliderPatch(IReeRandomizerContext context) : IPatch
     {
         private readonly List<ColliderSettings> _colliderSettings =
         [
@@ -96,10 +96,10 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 {
                     var path = $"natives/stm/{basePath}/appsystem/character/{settings.CharacterId}/{settings.CharacterId}_body.pfb.17";
                     
-                    if (context.GetFile(path) == null)
+                    if (context.TryGetFile(path) == null)
                     {
                         path = $"natives/stm/{basePath}/appsystem/character/{settings.CharacterId}/{settings.CharacterId}_body_ao.pfb.17";
-                        if (context.GetFile(path) == null)
+                        if (context.TryGetFile(path) == null)
                             continue;
                     }
 

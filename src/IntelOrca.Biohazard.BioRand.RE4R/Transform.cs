@@ -40,7 +40,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             }
         }
 
-        public readonly RszObjectNode ToComponent(IPatchContext context)
+        public readonly RszObjectNode ToComponent(IReeRandomizerContext context)
         {
             return context.GetService<RszFactory>().CreateTransform(Position, Rotation, Scale);
         }

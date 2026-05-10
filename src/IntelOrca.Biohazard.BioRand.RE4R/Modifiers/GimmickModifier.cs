@@ -12,36 +12,16 @@ using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {
+    [Order(ModifierOrders.Gimmick)]
     internal class GimmickModifier : Modifier
     {
-        public override void LogState(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void LogState(IReeRandomizerContext context, RandomizerLogger logger)
         {
-            foreach (var area in randomizer.AreaService.Areas)
-            {
-                var gimmicks = area.Gimmicks.ToArray();
-                if (gimmicks.Length == 0)
-                    continue;
-
-                logger.Push(area.FileName);
-                foreach (var gameObject in gimmicks)
-                {
-                    var gimmick = new Gimmick(area, gameObject.Guid, null);
-                    var position = gimmick.Transform.Position;
-                    logger.LogLine(
-                        gimmick.Guid,
-                        gimmick.ContextId,
-                        gimmick.Name,
-                        gimmick.Kind,
-                        position.X.ToString("0.0"),
-                        position.Y.ToString("0.0"),
-                        position.Z.ToString("0.0"));
-                }
-                logger.Pop();
-            }
         }
 
-        public override void Apply(ChainsawRandomizer randomizer, RandomizerLogger logger)
+        public override void Apply(IReeRandomizerContext context, RandomizerLogger logger)
         {
+            var randomizer = (ChainsawRandomizer)context;
             var explodingContainerProbability = randomizer.GetConfigOption<double>("gimmicks-exploding-containers");
 
             var rng = randomizer.GetRng("modifier/gimmick");
@@ -408,11 +388,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
         [DebuggerDisplay("{Name}")]
         private class Gimmick(Area area, Guid guid, GimmickPlacement? placement)
         {
+            private RszGameObject _gameObject = area.Scene.FindGameObject(guid) ?? throw new Exception("Game object not found");
+
             public Area Area => area;
             public RszGameObject GameObject
             {
-                get => area.Scene.FindGameObject(guid) ?? throw new Exception("Game object not found");
-                set => Area.Scene = Area.Scene.UpdateGameObject(value);
+                get => _gameObject;
+                set
+                {
+                    _gameObject = value;
+                    Area.Scene = Area.Scene.UpdateGameObject(value);
+                }
             }
             public GimmickPlacement? Placement => placement;
 

@@ -6,7 +6,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class GimmickSaveDataFile
     {
-        public IPatchContext Context { get; }
+        public IReeRandomizerContext Context { get; }
         public string Path { get; }
 
         private readonly UserFile.Builder _userFileBuilder;
@@ -18,12 +18,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
             set => _userFileBuilder.Objects = [value];
         }
 
-        public GimmickSaveDataFile(IPatchContext context, string path)
+        public GimmickSaveDataFile(IReeRandomizerContext context, string path)
         {
             Context = context;
             Path = path;
 
-            var data = context.GetFile(path);
+            var data = context.TryGetFile(path);
             if (data == null)
             {
                 // Use an empty savedata file as a base

@@ -43,12 +43,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             _flagSets[guid] = value;
         }
 
-        public void Save(RandomizerLogger logger)
+        public void Save()
         {
             const string variableTablePath = "natives/stm/_chainsaw/leveldesign/scenario/scenarioflag/tabledefine.user.2";
             const string globalVariablesPath = "natives/stm/_authoring/appsystem/globalvariables/globalvariables.uvar.3";
 
-            var fileRepository = randomizer.FileRepository;
+            var fileRepository = randomizer;
 
             // uvar
             var uvarBytes = fileRepository.GetFile(globalVariablesPath) ?? throw new Exception();

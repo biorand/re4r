@@ -2,7 +2,7 @@
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
-    internal class ArmaduraPatch(IPatchContext context) : IPatch
+    internal class ArmaduraPatch(IReeRandomizerContext context) : IPatch
     {
         public void Apply()
         {
