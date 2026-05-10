@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using chainsaw;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using static chainsaw.ShellBaseAttackInfo;
 using static chainsaw.WeaponCustomUserdata;
 using static chainsaw.WeaponDetailCustomUserdata;

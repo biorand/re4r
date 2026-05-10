@@ -1,6 +1,5 @@
 using System.Collections.Immutable;
 using System.Linq;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {

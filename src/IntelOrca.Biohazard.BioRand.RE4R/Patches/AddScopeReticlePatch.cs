@@ -24,6 +24,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
             context.SetFile(path, data);
         }
 
-        private static void Set(byte[] data, int offset, byte[] source) => Array.Copy(source, 0, data, offset, source.Length);   
+        private static void Set(byte[] data, int offset, byte[] source) => Array.Copy(source, 0, data, offset, source.Length);
     }
 }

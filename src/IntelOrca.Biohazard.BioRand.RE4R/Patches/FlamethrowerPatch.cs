@@ -334,15 +334,15 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 "natives/stm/_chainsaw/appsystem/ui/userdata/itemcraftsettinguserdata.user.2",
                 "natives/stm/_anotherorder/appsystem/ui/userdata/itemcraftsettinguserdata_ao.user.2");
 
-           FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/guiresource/guiresourcesettinguserdata_craft.user.2", root =>
-            {
-                var settings = (RszArrayNode)root["_Settings"];
-                settings = settings.Add(FileRepository.TypeRepository
-                    .Create("chainsaw.GuiResourceSetting_Craft")
-                        .Set("_ItemId", FuelItemId)
-                        .Set("_Prefab.Path", new RszResourceNode("_Chainsaw/AppSystem/Prefab/Gui/AttacheCase/ItemModel/CraftItemModel_sm70_509.pfb")));
-                return root.SetField("_Settings", settings);
-            });
+            FileRepository.ModifyUserFile("natives/stm/_chainsaw/appsystem/ui/userdata/guiresource/guiresourcesettinguserdata_craft.user.2", root =>
+             {
+                 var settings = (RszArrayNode)root["_Settings"];
+                 settings = settings.Add(FileRepository.TypeRepository
+                     .Create("chainsaw.GuiResourceSetting_Craft")
+                         .Set("_ItemId", FuelItemId)
+                         .Set("_Prefab.Path", new RszResourceNode("_Chainsaw/AppSystem/Prefab/Gui/AttacheCase/ItemModel/CraftItemModel_sm70_509.pfb")));
+                 return root.SetField("_Settings", settings);
+             });
         }
 
         private void UpdateShop()

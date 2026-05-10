@@ -4,7 +4,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
 using chainsaw;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Rsz;
 

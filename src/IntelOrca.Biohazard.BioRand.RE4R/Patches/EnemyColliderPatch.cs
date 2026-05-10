@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
@@ -95,7 +94,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
                 foreach (var basePath in settings.BasePaths)
                 {
                     var path = $"natives/stm/{basePath}/appsystem/character/{settings.CharacterId}/{settings.CharacterId}_body.pfb.17";
-                    
+
                     if (context.TryGetFile(path) == null)
                     {
                         path = $"natives/stm/{basePath}/appsystem/character/{settings.CharacterId}/{settings.CharacterId}_body_ao.pfb.17";

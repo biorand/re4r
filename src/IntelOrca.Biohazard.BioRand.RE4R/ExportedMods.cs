@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
-using IntelOrca.Biohazard.BioRand.RE4R.Patches;
 using IntelOrca.Biohazard.REE;
 using IntelOrca.Biohazard.REE.Package;
 using IntelOrca.Biohazard.REE.Rsz;

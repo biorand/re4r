@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using chainsaw;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Cryptography;
 using IntelOrca.Biohazard.REE.Variables;
 

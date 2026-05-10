@@ -5,7 +5,6 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using chainsaw;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE.Messages;
 using IntelOrca.Biohazard.REE.Rsz;

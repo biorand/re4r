@@ -1,5 +1,4 @@
 using System.Text;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using static IntelOrca.Biohazard.BioRand.RandomizerConfigurationDefinition;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R

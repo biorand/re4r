@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 {

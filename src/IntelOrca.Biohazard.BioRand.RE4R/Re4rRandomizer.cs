@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.REE.Package;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
