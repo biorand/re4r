@@ -2,19 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 {
     internal class ValuableDistributor(ChainsawRandomizer randomizer)
     {
         private readonly List<DistributedItem> _distributedItems = new();
-        private bool _isInitialized;
 
-        public void Setup(ItemRandomizer itemRandomizer, Rng rng, RandomizerLogger? logger = null)
+        public void Setup(RandomizerLogger logger)
         {
-            if (_isInitialized)
-                return;
+            var itemRandomizer = randomizer.GetService<ItemRandomizer>();
+            var rng = randomizer.GetRng("service/valuabledistributor");
 
             AssumeStartingItems(itemRandomizer);
             RandomizeTreasures(itemRandomizer, rng);
@@ -22,11 +20,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             RandomizeChapters(itemRandomizer, rng);
             foreach (var kind in _kinds)
                 RandomizeDiscovery(kind, rng);
-            if (logger != null)
-            {
-                LogDistribution(logger);
-            }
-            _isInitialized = true;
+            LogDistribution(logger);
         }
 
         private static void AssumeStartingItems(ItemRandomizer itemRandomizer)
@@ -59,7 +53,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                 randomizer.GetConfigOption<int>("treasure-reward-min"),
                 randomizer.GetConfigOption<int>("treasure-reward-max") + 1),
                 0, 5);
-            var rewardBag = new ShufflingBag<int>(rng, Enumerable.Range(1, 16));
+            var rewardBag = new EndlessBag<int>(rng, Enumerable.Range(1, 16));
             var chapterRewards = rewardBag.Next(numRewards).Order().ToQueue();
 
             var distributionEnemies = randomizer.GetConfigOption<double>("treasure-distribution-enemies", 0.75);
@@ -139,7 +133,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 
                 if (itemDefinition.Slots.Length > 0)
                 {
-                    var slotBag = new ShufflingBag<string>(rng, itemDefinition.Slots);
+                    var slotBag = new EndlessBag<string>(rng, itemDefinition.Slots);
                     var slotCount = (int)Math.Ceiling(slotMultiplier * itemDefinition.Slots.Length);
                     for (var i = 0; i < slotCount; i++)
                     {
@@ -212,17 +206,17 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             var numCharms = randomizer.GetConfigOption("valuable-limit-charm", 0);
             var numSmallKeysPerBag = 6;
 
-            var bagEarly = new ShufflingBag<int>(rng, [1, 2, 3, 4]);
-            var bagMiddle = new ShufflingBag<int>(rng, [5, 6, 7, 8, 9, 10, 11]);
-            var bagMiddleLate = new ShufflingBag<int>(rng, [5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
-            var bagAll = new ShufflingBag<int>(rng, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+            var bagEarly = new EndlessBag<int>(rng, [1, 2, 3, 4]);
+            var bagMiddle = new EndlessBag<int>(rng, [5, 6, 7, 8, 9, 10, 11]);
+            var bagMiddleLate = new EndlessBag<int>(rng, [5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+            var bagAll = new EndlessBag<int>(rng, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
             if (randomizer.Campaign == Campaign.Ada)
             {
                 numSmallKeysPerBag = 3;
-                bagEarly = new ShufflingBag<int>(rng, [1, 2, 3]);
-                bagMiddle = new ShufflingBag<int>(rng, [4, 5]);
-                bagMiddleLate = new ShufflingBag<int>(rng, [4, 5, 6, 7]);
-                bagAll = new ShufflingBag<int>(rng, [1, 2, 3, 4, 5, 6, 7]);
+                bagEarly = new EndlessBag<int>(rng, [1, 2, 3]);
+                bagMiddle = new EndlessBag<int>(rng, [4, 5]);
+                bagMiddleLate = new EndlessBag<int>(rng, [4, 5, 6, 7]);
+                bagAll = new EndlessBag<int>(rng, [1, 2, 3, 4, 5, 6, 7]);
             }
 
             foreach (var kind in _kinds)
@@ -249,7 +243,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                             ? [16, 16, 16, 16]
                             : [7, 7, 7, 7];
                     var chapters = new List<int>();
-                    var endlessBag = new ShufflingBag<int>(rng);
+                    var endlessBag = new EndlessBag<int>(rng);
                     for (var i = 0; i < chapterMax.Length; i++)
                     {
                         var lastChapterMax = i == 0 ? 0 : chapterMax[i - 1];

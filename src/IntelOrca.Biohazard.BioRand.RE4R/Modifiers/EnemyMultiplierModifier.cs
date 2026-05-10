@@ -67,7 +67,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             if (delta >= 0)
             {
                 var rng = randomizer.GetRng("modifier/enemymultiplier/pick");
-                var bag = new ShufflingBag<EnemySpawn>(rng, filteredSpawns);
+                var bag = new EndlessBag<EnemySpawn>(rng, filteredSpawns);
                 for (var i = 0; i < delta; i++)
                 {
                     var enemyToDuplicate = bag.Next();

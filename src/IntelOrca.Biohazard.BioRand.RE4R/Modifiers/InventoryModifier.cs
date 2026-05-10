@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
@@ -85,7 +85,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                 {
                     (width, height) = (height, width);
                 }
-                logger.LogLine($"Add item {item.Item} ({item.STRUCT_SlotIndex_Column}, {item.STRUCT_SlotIndex_Row}) ({width}x{height}) Rotation = {item.CurrDirection}");
+
+                var itemName = ItemDefinitionRepository.Default.GetName(item.Item._ItemId);
+                logger.LogLine($"Add item {itemName} ({item.STRUCT_SlotIndex_Column}, {item.STRUCT_SlotIndex_Row}) ({width}x{height}) Rotation = {item.CurrDirection}");
             }
         }
 
@@ -111,7 +113,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             };
 
             var itemRandomizer = randomizer.ItemRandomizer;
-            var bag = new ShufflingBag<string>(rng, randomKinds);
+            var bag = new EndlessBag<string>(rng, randomKinds);
             for (var i = 0; i < count; i++)
             {
                 var kind = bag.Next();

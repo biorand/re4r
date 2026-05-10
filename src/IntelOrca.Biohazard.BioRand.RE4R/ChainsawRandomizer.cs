@@ -1,8 +1,6 @@
 using System.Linq;
-using IntelOrca.Biohazard.BioRand.RE4R.Modifiers;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
 using IntelOrca.Biohazard.REE;
-using IntelOrca.Biohazard.REE.Package;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
@@ -62,11 +60,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
               <li>Alter the enemy sliders slightly or reduce the number temporarily. This will reshuffle the enemies. Reload from last checkpoint and try again.</li> <li>As a last resort, change your seed, and reload from last checkpoint.</li>
             </ol>
             """;
-
-        public void EnsureValuableDistribution()
-        {
-            ValuableDistributor.Setup(ItemRandomizer, GetRng("service/valuabledistributor"));
-        }
 
         bool IReeRandomizerContext.ExportingMod => false;
 

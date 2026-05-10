@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
-    internal class ShufflingBag<T>
+    internal class EndlessBag<T>
     {
         private readonly Rng _rng = new();
         private readonly List<T> _allItems = [];
@@ -12,16 +12,16 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 
         public int Count => _allItems.Count;
 
-        public ShufflingBag()
+        public EndlessBag()
         {
         }
 
-        public ShufflingBag(Rng rng)
+        public EndlessBag(Rng rng)
         {
             _rng = rng;
         }
 
-        public ShufflingBag(Rng rng, IEnumerable<T> items)
+        public EndlessBag(Rng rng, IEnumerable<T> items)
         {
             _rng = rng;
             _allItems.AddRange(items);

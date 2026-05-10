@@ -2,6 +2,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal static class ModifierOrders
     {
+        public const int Valuable = 50;
         public const int CasePerk = 100;
         public const int Inventory = 200;
         public const int Recipe = 300;
