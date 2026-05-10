@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
+using IntelOrca.Biohazard.BioRand.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {

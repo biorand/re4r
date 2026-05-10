@@ -1,4 +1,4 @@
-﻿namespace IntelOrca.Biohazard.BioRand.RE4R
+namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     public class EnemyKindDefinition(string key, string componentName, string prefab, bool closed, bool noItemDrop)
     {

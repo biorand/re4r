@@ -1,5 +1,8 @@
 using System;
 using System.Linq;
+using IntelOrca.Biohazard.BioRand.Extensions;
+using IntelOrca.Biohazard.BioRand.REE;
+using IntelOrca.Biohazard.BioRand.REE.Extensions;
 using IntelOrca.Biohazard.REE.Rsz;
 using RectangleBinPacking;
 

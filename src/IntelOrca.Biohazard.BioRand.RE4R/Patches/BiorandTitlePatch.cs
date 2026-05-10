@@ -1,4 +1,6 @@
-﻿namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
+using IntelOrca.Biohazard.BioRand.REE;
+using IntelOrca.Biohazard.BioRand.REE.Extensions;
+namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {
     /// <summary>
     /// Changes the title screen logo from RESIDENT EVIL/BIOHAZARD 4 to BIORAND.

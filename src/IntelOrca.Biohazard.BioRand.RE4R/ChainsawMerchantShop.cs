@@ -1,4 +1,6 @@
-﻿namespace IntelOrca.Biohazard.BioRand.RE4R
+using IntelOrca.Biohazard.BioRand.REE;
+using IntelOrca.Biohazard.BioRand.REE.Extensions;
+namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal class ChainsawMerchantShop
     {

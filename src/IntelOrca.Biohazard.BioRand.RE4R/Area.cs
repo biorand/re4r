@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Models;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
+using IntelOrca.Biohazard.BioRand.REE.Extensions;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R

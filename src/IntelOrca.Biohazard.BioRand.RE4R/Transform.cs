@@ -1,5 +1,7 @@
 using System;
 using System.Numerics;
+using IntelOrca.Biohazard.BioRand.Extensions;
+using IntelOrca.Biohazard.BioRand.REE;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R

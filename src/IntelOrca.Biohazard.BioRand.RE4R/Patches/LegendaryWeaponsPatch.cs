@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
+using IntelOrca.Biohazard.BioRand.REE;
+using IntelOrca.Biohazard.BioRand.REE.Extensions;
 using IntelOrca.Biohazard.REE.Cryptography;
 using IntelOrca.Biohazard.REE.Rsz;
 using Range = via.Range;

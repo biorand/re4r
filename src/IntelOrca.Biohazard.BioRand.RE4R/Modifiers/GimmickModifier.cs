@@ -5,7 +5,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using chainsaw;
+using IntelOrca.Biohazard.BioRand.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
+using IntelOrca.Biohazard.BioRand.REE;
 using IntelOrca.Biohazard.REE.Cryptography;
 using IntelOrca.Biohazard.REE.Rsz;
 

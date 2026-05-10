@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using IntelOrca.Biohazard.BioRand.REE;
+using IntelOrca.Biohazard.BioRand.REE.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {

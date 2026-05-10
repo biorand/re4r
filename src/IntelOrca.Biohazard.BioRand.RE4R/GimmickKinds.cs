@@ -1,4 +1,4 @@
-﻿namespace IntelOrca.Biohazard.BioRand.RE4R
+namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal static class GimmickKinds
     {

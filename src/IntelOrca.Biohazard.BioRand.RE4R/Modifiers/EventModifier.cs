@@ -5,9 +5,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using chainsaw;
+using IntelOrca.Biohazard.BioRand.Extensions;
 using IntelOrca.Biohazard.BioRand.Graphing;
 using IntelOrca.Biohazard.BioRand.RE4R.Extensions;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
+using IntelOrca.Biohazard.BioRand.REE;
+using IntelOrca.Biohazard.BioRand.REE.Extensions;
 using IntelOrca.Biohazard.REE.Rsz;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers

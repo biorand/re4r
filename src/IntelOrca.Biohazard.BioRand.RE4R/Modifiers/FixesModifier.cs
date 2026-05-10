@@ -4,6 +4,8 @@ using System.Linq;
 using System.Numerics;
 using chainsaw;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
+using IntelOrca.Biohazard.BioRand.REE;
+using IntelOrca.Biohazard.BioRand.REE.Extensions;
 using IntelOrca.Biohazard.REE.Messages;
 using IntelOrca.Biohazard.REE.Rsz;
 

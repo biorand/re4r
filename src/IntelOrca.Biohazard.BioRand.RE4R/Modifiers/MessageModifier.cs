@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using IntelOrca.Biohazard.BioRand.REE;
+using IntelOrca.Biohazard.BioRand.REE.Extensions;
 using IntelOrca.Biohazard.REE.Messages;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers

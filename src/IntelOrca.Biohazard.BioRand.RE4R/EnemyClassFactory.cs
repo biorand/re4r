@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using IntelOrca.Biohazard.BioRand.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {

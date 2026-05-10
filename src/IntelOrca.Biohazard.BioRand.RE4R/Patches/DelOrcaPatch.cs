@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using IntelOrca.Biohazard.BioRand.REE;
+using IntelOrca.Biohazard.BioRand.REE.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using IntelOrca.Biohazard.BioRand.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Services
 {

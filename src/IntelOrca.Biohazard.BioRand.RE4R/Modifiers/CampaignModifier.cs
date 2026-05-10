@@ -2,6 +2,8 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
+using IntelOrca.Biohazard.BioRand.REE;
+using IntelOrca.Biohazard.BioRand.REE.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
 {

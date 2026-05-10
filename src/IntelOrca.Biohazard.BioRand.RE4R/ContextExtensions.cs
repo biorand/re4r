@@ -1,3 +1,4 @@
+using IntelOrca.Biohazard.BioRand.REE;
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {
     internal static class ContextExtensions

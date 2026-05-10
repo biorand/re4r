@@ -1,4 +1,6 @@
-﻿using System.Linq;
+using System.Linq;
+using IntelOrca.Biohazard.BioRand.REE;
+using IntelOrca.Biohazard.BioRand.REE.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R.Patches
 {

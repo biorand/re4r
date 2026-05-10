@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Numerics;
+using IntelOrca.Biohazard.BioRand.Extensions;
 
 namespace IntelOrca.Biohazard.BioRand.RE4R
 {

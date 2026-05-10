@@ -1,5 +1,7 @@
 using System.Linq;
 using IntelOrca.Biohazard.BioRand.RE4R.Services;
+using IntelOrca.Biohazard.BioRand.REE;
+using IntelOrca.Biohazard.BioRand.REE.Extensions;
 using IntelOrca.Biohazard.REE;
 using IntelOrca.Biohazard.REE.Rsz;
 
