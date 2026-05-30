@@ -333,6 +333,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             logger.Push($"Chapter {chapter.Number}");
             foreach (var spawn in chapterSpawns)
             {
+                if (spawn.EnemyPlacement.HasTag(EnemyTags.Preserve))
+                    continue;
+
                 RandomizeHealth(randomizer, spawn, windowStart, windowEnd, rng, logger);
             }
             logger.Pop();
@@ -409,6 +412,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var max = Math.Clamp(randomizer.GetConfigOption("enemy-scale-max", 2.00f), 0.1f, 10.0f);
             foreach (var spawn in spawns)
             {
+                if (spawn.EnemyPlacement.HasTag(EnemyTags.Preserve))
+                    continue;
+
                 if (Bosses.IsBoss(spawn.Guid))
                     continue;
 
@@ -480,6 +486,9 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var classQueue = new Queue<EnemyClassDefinition>();
             foreach (var spawn in orderedSpawns)
             {
+                if (spawn.EnemyPlacement.HasTag(EnemyTags.Preserve))
+                    continue;
+
                 if (classList.Count >= enemyVariety)
                 {
                     // Variety limit hit, reduce class pool
