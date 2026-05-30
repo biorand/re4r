@@ -62,6 +62,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
                         .Where(x => x.Definition.Kind == AreaKind.Gimmicks)
                         .Where(x => x.Definition.Location == (stage / 1000))
                         .OrderBy(x => Math.Abs((x.Definition.Stage ?? 0) - stage))
+                        .ThenBy(x => x.Path, StringComparer.Ordinal)
                         .First();
                 }
                 return area;

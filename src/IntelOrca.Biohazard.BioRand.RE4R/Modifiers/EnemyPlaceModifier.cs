@@ -77,6 +77,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             var result = randomizer.AreaService.Areas
                 .Where(x => IsAreaCompatible(x, placement))
                 .OrderBy(x => GetOrder(x, placement))
+                .ThenBy(x => x.Path, StringComparer.Ordinal)
                 .FirstOrDefault();
             return result;
 

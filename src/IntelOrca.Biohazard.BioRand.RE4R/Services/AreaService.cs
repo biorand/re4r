@@ -19,7 +19,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
             Areas = areaRepo.All
                 .AsParallel()
                 .Select(d => new Area(randomizer, d))
-                .OrderBy(x => x.Path)
+                .OrderBy(x => x.Path, StringComparer.Ordinal)
                 .ToImmutableArray();
 
             // Map initial guids
@@ -63,6 +63,7 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Services
                     .Where(x => x.Definition.Kind == kind)
                     .Where(x => x.Definition.Location == (stage / 1000))
                     .OrderBy(x => Math.Abs((x.Definition.Stage ?? 0) - stage))
+                    .ThenBy(x => x.Path, StringComparer.Ordinal)
                     .First();
             }
         }
