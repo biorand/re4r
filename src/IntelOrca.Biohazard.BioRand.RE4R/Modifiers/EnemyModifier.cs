@@ -333,9 +333,6 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             logger.Push($"Chapter {chapter.Number}");
             foreach (var spawn in chapterSpawns)
             {
-                if (spawn.EnemyPlacement.HasTag(EnemyTags.Preserve))
-                    continue;
-
                 RandomizeHealth(randomizer, spawn, windowStart, windowEnd, rng, logger);
             }
             logger.Pop();
@@ -487,7 +484,12 @@ namespace IntelOrca.Biohazard.BioRand.RE4R.Modifiers
             foreach (var spawn in orderedSpawns)
             {
                 if (spawn.EnemyPlacement.HasTag(EnemyTags.Preserve))
+                {
+                    var originalKindKey = spawn.OriginalEnemy.Kind.Key;
+                    spawn.ChosenClass = randomizer.GetService<EnemyClassFactory>().Classes
+                        .FirstOrDefault(c => c.Kind.Key == originalKindKey);
                     continue;
+                }
 
                 if (classList.Count >= enemyVariety)
                 {
