@@ -1,0 +1,18 @@
+# Deployment for hostorca: describes the service, not the instance.
+#
+# The agent connects to a BioRand API and waits for randomizers to generate.
+# The endpoint, API key, input data files and the beta flag are instance
+# values: they arrive from the environment, never from this file.
+services:
+  agent:
+    build:
+      dockerfile: Dockerfile
+    command: sh -c 'exec biorand-re4r agent "$$AGENT_ENDPOINT" -k "$$AGENT_KEY" -i "$$AGENT_DATA" $$AGENT_BETA'
+    environment:
+      AGENT_ENDPOINT: ${AGENT_ENDPOINT}
+      AGENT_KEY: ${AGENT_KEY}
+      AGENT_DATA: ${AGENT_DATA}
+      AGENT_BETA: ${AGENT_BETA:-}
+    volumes:
+      - ./.biorand:/root/.biorand
+    restart: unless-stopped
